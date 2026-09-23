@@ -10,3 +10,4 @@ description = "Spell: guaranteed steal of one loose card from a nearby collector
 category = 3
 source = 3
 sell_value = 25
+shop_price = 30

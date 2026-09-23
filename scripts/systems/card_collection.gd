@@ -7,6 +7,8 @@ enum State { LOOSE, BOUND, EXPOSED }
 
 ## Loose and exposed cards can be stolen; bound cards cannot.
 const STEALABLE: Array[State] = [State.LOOSE, State.EXPOSED]
+## Spell steals only take loose cards.
+const LOOSE_ONLY: Array[State] = [State.LOOSE]
 
 var owner_id: StringName
 ## card id -> PackedInt32Array indexed by State

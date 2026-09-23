@@ -10,3 +10,4 @@ description = "Temporary buff: restores health instantly. Consumed on use."
 category = 1
 source = 3
 sell_value = 15
+shop_price = 15

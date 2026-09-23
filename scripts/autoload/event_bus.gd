@@ -11,3 +11,10 @@ signal gate_opened(gate_id: StringName, by: StringName)
 ## Public tracker: collector id -> number of final-set cards held (counts only).
 signal tracker_changed(counts: Dictionary)
 signal currency_changed(amount: int)
+signal card_locked(collector: StringName, card_id: StringName, seconds: float)
+signal spell_cast(caster: StringName, spell_id: StringName, target: StringName)
+signal safe_zone_changed(collector: StringName, inside: bool)
+## Short player-facing message for the HUD.
+signal notify(text: String)
+## A menu opened or closed; the player ignores gameplay input while any is open.
+signal menus_changed(open_count: int)

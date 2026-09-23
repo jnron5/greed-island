@@ -4,7 +4,7 @@ Usage: python scripts/tools/import_pixellab_character.py <zip> <out_dir res-rela
   e.g. python scripts/tools/import_pixellab_character.py player.zip assets/sprites/player player idle=5 run=12
 
 Each animation becomes <name>_<anim>.png: one row per direction (DIRS order), one column per frame.
-The SpriteFrames .tres names animations "<anim>_<direction>" (e.g. run_south_east), which is
+Missing idle animations fall back to the still rotations. The SpriteFrames .tres names animations "<anim>_<direction>" (e.g. run_south_east), which is
 what scripts/characters/player.gd plays. Frames are cropped to a shared box so feet line up.
 """
 import io, sys, zipfile, os
@@ -27,6 +27,11 @@ def main():
             if not files:
                 raise SystemExit(f"missing {anim}/{d}")
             frames[anim][d] = [Image.open(io.BytesIO(z.read(f))).convert("RGBA") for f in files]
+    if "idle" not in frames:
+        # No idle animation generated: use the still rotations as 1-frame idles.
+        frames["idle"] = {d: [Image.open(io.BytesIO(z.read(next(n for n in names if n.endswith(f"/rotations/{d}.png"))))).convert("RGBA")]
+                          for d in DIRS}
+        anims = sorted(frames)
 
     # Shared crop box across every frame, padded by 1px, so all cells are identical in size.
     boxes = [im.getbbox() for a in frames.values() for fs in a.values() for im in fs if im.getbbox()]

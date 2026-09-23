@@ -21,6 +21,8 @@ enum Source { LOOSE, MONSTER, BOSS, SHOP, QUEST }
 ## How many copies one collector needs in the final set.
 @export var final_set_count := 1
 @export var sell_value := 0
+## Price at a town merchant; 0 means not sold in shops.
+@export var shop_price := 0
 @export var icon: Texture2D
 
 @export_group("Supply")

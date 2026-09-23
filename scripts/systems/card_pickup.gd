@@ -9,6 +9,7 @@ var _time := randf() * TAU
 
 
 func _ready() -> void:
+	add_to_group(&"card_pickups")
 	body_entered.connect(_on_body_entered)
 
 

@@ -10,3 +10,4 @@ description = "Spell: one card can't be stolen for a short time."
 category = 3
 source = 3
 sell_value = 20
+shop_price = 20

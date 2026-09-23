@@ -1,6 +1,6 @@
 class_name Player
 extends CharacterBody2D
-## Top-down 8-directional player: move, dash, sword swing, pistol shot.
+## Top-down 8-directional player: move, dash, sword swing, pistol shot, quick-cast spell.
 ## Animations are named "<action>_<direction>", e.g. "run_south_east".
 
 signal health_changed(current: int, maximum: int)
@@ -49,6 +49,7 @@ var _dash_dir := Vector2.ZERO
 
 func _ready() -> void:
 	add_to_group(&"player")
+	add_to_group(&"collectors")
 	health = max_health
 	sword_hitbox.damage = sword_damage
 	sword_hitbox.source_id = collector_id
@@ -84,6 +85,9 @@ func _physics_process(delta: float) -> void:
 
 
 func _process_move() -> void:
+	if GameState.menus_open > 0:
+		velocity = Vector2.ZERO
+		return
 	var input := Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
 	velocity = input * move_speed
 	if input != Vector2.ZERO:
@@ -100,6 +104,8 @@ func _process_move() -> void:
 		_enter(State.SWORD)
 	elif Input.is_action_just_pressed(&"pistol") and _pistol_cd <= 0.0:
 		_fire_pistol()
+	elif Input.is_action_just_pressed(&"spell"):
+		CardSpells.cast_pickpocket(self)
 
 
 func _fire_pistol() -> void:
@@ -143,7 +149,12 @@ func heal(amount: int) -> void:
 
 
 func facing_name() -> String:
-	return DIRECTIONS[wrapi(roundi(facing.angle() / (PI / 4.0)), 0, 8)]
+	return direction_name(facing)
+
+
+## 8-way animation suffix for a direction vector ("south_east", ...).
+static func direction_name(dir: Vector2) -> String:
+	return DIRECTIONS[wrapi(roundi(dir.angle() / (PI / 4.0)), 0, 8)]
 
 
 func _update_animation() -> void:

@@ -4,6 +4,12 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2_hud"]
 [ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="3_pick"]
 [ext_resource type="PackedScene" path="res://scenes/characters/training_dummy.tscn" id="4_dummy"]
+[ext_resource type="PackedScene" path="res://scenes/characters/rival.tscn" id="5_rival"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/rivals/runner/runner_frames.tres" id="6_runner"]
+[ext_resource type="PackedScene" path="res://scenes/systems/merchant.tscn" id="7_merchant"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="9_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="10_shop"]
 
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(840, 40)
@@ -20,6 +26,9 @@ size = Vector2(200, 40)
 [sub_resource type="RectangleShape2D" id="Rail"]
 size = Vector2(10, 130)
 
+[sub_resource type="RectangleShape2D" id="Town"]
+size = Vector2(600, 430)
+
 [sub_resource type="RectangleShape2D" id="Fountain"]
 size = Vector2(40, 24)
 
@@ -35,8 +44,17 @@ offset_bottom = 300.0
 mouse_filter = 2
 color = Color(0.86, 0.78, 0.62, 1)
 
-[node name="Plaza" type="ColorRect" parent="."]
+[node name="TownPaving" type="ColorRect" parent="."]
 z_index = -9
+offset_left = -300.0
+offset_top = -260.0
+offset_right = 300.0
+offset_bottom = 170.0
+mouse_filter = 2
+color = Color(0.9, 0.86, 0.76, 1)
+
+[node name="Plaza" type="ColorRect" parent="."]
+z_index = -8
 offset_left = -90.0
 offset_top = -70.0
 offset_right = 90.0
@@ -155,7 +173,35 @@ position = Vector2(-160, 70)
 [node name="TrainingDummy3" parent="." instance=ExtResource("4_dummy")]
 position = Vector2(-230, 90)
 
+[node name="SafeZone" type="Area2D" parent="."]
+position = Vector2(0, -45)
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+shape = SubResource("Town")
+
+[node name="Merchant" parent="." instance=ExtResource("7_merchant")]
+position = Vector2(130, 40)
+
+[node name="RunnerHome" type="Marker2D" parent="."]
+position = Vector2(-250, -200)
+
+[node name="Runner" parent="." node_paths=PackedStringArray("home") instance=ExtResource("5_rival")]
+position = Vector2(-250, -200)
+collector_id = &"runner"
+sprite_frames = ExtResource("6_runner")
+move_speed = 95.0
+carry_limit = 2
+home = NodePath("../RunnerHome")
+
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector2(0, 40)
 
 [node name="HUD" parent="." instance=ExtResource("2_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("9_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("10_shop")]
