@@ -11,6 +11,8 @@ const STARTING_GOLD := 60
 const FIELD_BIND_TIME := 1.5
 ## How long a Lockbox Seal protects one card.
 const LOCKBOX_SECONDS := 90.0
+## A robbed collector can't be robbed again (by any method) for this long.
+const GRACE_SECONDS := 15.0
 
 var active_rivals: Array[StringName] = []
 var collections: Dictionary[StringName, CardCollection] = {}
@@ -26,6 +28,8 @@ var menus_open := 0
 var _safe_zones: Dictionary[StringName, int] = {}
 ## collector -> { card id -> lock expiry in msec }. A lock protects one copy.
 var _locks: Dictionary[StringName, Dictionary] = {}
+## collector -> msec when they were last robbed (grace period)
+var _robbed_at: Dictionary[StringName, int] = {}
 
 
 func _ready() -> void:
@@ -40,6 +44,7 @@ func new_game(rivals: Array[StringName]) -> void:
 		collections[id] = CardCollection.new(id)
 	currency = STARTING_GOLD
 	_locks.clear()
+	_robbed_at.clear()
 	quest_flags.clear()
 	opened_gates.clear()
 	world_supply.clear()
@@ -94,16 +99,19 @@ func rebind_card(collector: StringName, card_id: StringName) -> bool:
 
 
 ## Moves one stealable copy from victim to thief (arrives loose). Bound and
-## lockbox-protected copies are safe. `states` narrows what the method can take.
+## lockbox-protected copies are safe, and so is anyone inside their grace period.
+## `states` narrows what the method can take.
 func steal_card(thief: StringName, victim: StringName, card_id: StringName, method: StringName,
 		states: Array[CardCollection.State] = CardCollection.STEALABLE) -> bool:
 	var from := collection(victim)
 	var to := collection(thief)
-	if from == null or to == null or thief == victim or stealable_copies(victim, card_id, states) == 0:
+	if from == null or to == null or thief == victim or grace_left(victim) > 0.0 \
+			or stealable_copies(victim, card_id, states) == 0:
 		return false
 	for state in states:
 		if from.remove(card_id, state):
 			to.add(card_id, CardCollection.State.LOOSE)
+			_robbed_at[victim] = Time.get_ticks_msec()
 			EventBus.card_stolen.emit(thief, victim, card_id, method)
 			_emit_tracker()
 			return true
@@ -177,6 +185,18 @@ func is_locked(collector: StringName, card_id: StringName) -> bool:
 func lock_time_left(collector: StringName, card_id: StringName) -> float:
 	var expiry: int = _locks.get(collector, {}).get(card_id, 0)
 	return maxf((expiry - Time.get_ticks_msec()) / 1000.0, 0.0)
+
+
+## Seconds until `collector` can be robbed again.
+func grace_left(collector: StringName) -> float:
+	if not _robbed_at.has(collector):
+		return 0.0
+	return maxf(GRACE_SECONDS - (Time.get_ticks_msec() - _robbed_at[collector]) / 1000.0, 0.0)
+
+
+## Ends a grace period early (tests and debugging).
+func clear_grace(collector: StringName) -> void:
+	_robbed_at.erase(collector)
 
 
 func buy_card(collector: StringName, card_id: StringName) -> bool:

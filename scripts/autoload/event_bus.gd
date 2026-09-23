@@ -13,6 +13,8 @@ signal tracker_changed(counts: Dictionary)
 signal currency_changed(amount: int)
 signal card_locked(collector: StringName, card_id: StringName, seconds: float)
 signal spell_cast(caster: StringName, spell_id: StringName, target: StringName)
+## A stealth attempt was caught (the victim noticed).
+signal stealth_failed(thief: StringName, victim: StringName)
 signal safe_zone_changed(collector: StringName, inside: bool)
 ## Short player-facing message for the HUD.
 signal notify(text: String)

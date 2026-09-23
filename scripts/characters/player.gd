@@ -1,6 +1,7 @@
 class_name Player
 extends CharacterBody2D
-## Top-down 8-directional player: move, dash, sword swing, pistol shot, quick-cast spell.
+## Top-down 8-directional player: move, dash, sword swing, pistol shot, quick-cast
+## spell, and stealth steals (interact next to a rival).
 ## Animations are named "<action>_<direction>", e.g. "run_south_east".
 
 signal health_changed(current: int, maximum: int)
@@ -30,6 +31,8 @@ const DIRECTIONS: Array[String] = [
 @export_group("Health")
 @export var max_health := 6
 @export var hurt_invulnerability := 0.6
+@export_group("Stealth")
+@export var steal_cooldown := 1.0
 
 var facing := Vector2.DOWN
 var health := 0
@@ -39,6 +42,7 @@ var _state_time := 0.0
 var _dash_cd := 0.0
 var _pistol_cd := 0.0
 var _dash_dir := Vector2.ZERO
+var _steal_cd := 0.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var sword_pivot: Node2D = $SwordPivot
@@ -62,6 +66,7 @@ func _physics_process(delta: float) -> void:
 	_state_time += delta
 	_dash_cd -= delta
 	_pistol_cd -= delta
+	_steal_cd -= delta
 
 	match _state:
 		State.MOVE:
@@ -106,6 +111,38 @@ func _process_move() -> void:
 		_fire_pistol()
 	elif Input.is_action_just_pressed(&"spell"):
 		CardSpells.cast_pickpocket(self)
+	elif Input.is_action_just_pressed(&"interact") and _steal_cd <= 0.0:
+		_try_stealth_steal()
+
+
+func _try_stealth_steal() -> void:
+	var target := stealth_target()
+	if target == null:
+		return  # Nothing to lift here; interact belongs to whatever else is nearby.
+	_steal_cd = steal_cooldown
+	var result := Stealth.attempt(self, target)
+	if not result.ok and result.reason != "Caught":
+		EventBus.notify.emit(result.reason)
+
+
+## Nearest rival within stealth range, or null.
+func stealth_target() -> Node2D:
+	for node in CardSpells.collectors_in_range(self, Stealth.STEAL_RANGE):
+		if node is Rival:
+			return node
+	return null
+
+
+## How loud the player is, for rival awareness: still < running < dashing.
+func noise() -> float:
+	match _state:
+		State.DEAD:
+			return 0.0
+		State.DASH:
+			return 1.8
+		State.SWORD:
+			return 1.5
+	return 1.0 if velocity.length() > 1.0 else 0.4
 
 
 func _fire_pistol() -> void:

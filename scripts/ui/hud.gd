@@ -19,6 +19,7 @@ func _ready() -> void:
 	EventBus.currency_changed.connect(func(amount: int) -> void: currency_label.text = "%d gold" % amount)
 	EventBus.card_added.connect(_on_card_added)
 	EventBus.card_stolen.connect(_on_card_stolen)
+	EventBus.stealth_failed.connect(_on_stealth_failed)
 	EventBus.notify.connect(_toast)
 	EventBus.card_added.connect(_update_spells.unbind(2))
 	EventBus.card_consumed.connect(_update_spells.unbind(3))
@@ -50,11 +51,22 @@ func _on_card_added(collector: StringName, card_id: StringName) -> void:
 		_toast("Picked up: %s" % _card_name(card_id))
 
 
-func _on_card_stolen(thief: StringName, victim: StringName, card_id: StringName, _method: StringName) -> void:
+func _on_card_stolen(thief: StringName, victim: StringName, card_id: StringName, method: StringName) -> void:
 	if thief == GameState.PLAYER:
-		_toast("Pickpocketed %s from the %s!" % [_card_name(card_id), NAMES.get(victim, String(victim))])
+		var verb := "Lifted %s from the %s unnoticed" if method == &"stealth" else "Pickpocketed %s from the %s!"
+		_toast(verb % [_card_name(card_id), NAMES.get(victim, String(victim))])
 	elif victim == GameState.PLAYER:
-		_toast("The %s stole your %s!" % [NAMES.get(thief, String(thief)), _card_name(card_id)])
+		if method == &"stealth":
+			_toast("Your satchel feels lighter...")  # Quiet: you don't see who or what.
+		else:
+			_toast("The %s stole your %s!" % [NAMES.get(thief, String(thief)), _card_name(card_id)])
+
+
+func _on_stealth_failed(thief: StringName, victim: StringName) -> void:
+	if thief == GameState.PLAYER:
+		_toast("The %s caught you! It's on alert." % NAMES.get(victim, String(victim)))
+	elif victim == GameState.PLAYER:
+		_toast("You caught the %s reaching for your cards!" % NAMES.get(thief, String(thief)))
 
 
 func _update_spells() -> void:

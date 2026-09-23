@@ -44,6 +44,8 @@ func _run() -> void:
 	_check("tracker after", gs.tracker_counts()[R] == 1 and gs.tracker_counts()[P] == 1)
 	_check("no whisper, no cast", CardSpells.cast_pickpocket(player) == &"")
 
+	_check("victim is in grace", gs.grace_left(R) > 0.0)
+	gs.clear_grace(R)
 	gs.add_loose_card(P, CardSpells.PICKPOCKET)
 	_check("bound cards can't be pickpocketed", CardSpells.cast_pickpocket(player) == &"")
 	_check("failed cast keeps the whisper", gs.collection(P).count(CardSpells.PICKPOCKET) == 1)

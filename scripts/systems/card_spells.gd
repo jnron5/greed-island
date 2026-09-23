@@ -26,12 +26,21 @@ static func cast_pickpocket(caster: Node2D) -> StringName:
 		_tell(caster_id, "No collector in range")
 		return &""
 	var target: Node2D = null
+	var in_grace := 0.0
 	for node in in_range:
-		if not GameState.stealable_card_ids(node.get(&"collector_id"), CardCollection.LOOSE_ONLY).is_empty():
-			target = node
-			break
+		var id: StringName = node.get(&"collector_id")
+		if GameState.stealable_card_ids(id, CardCollection.LOOSE_ONLY).is_empty():
+			continue
+		if GameState.grace_left(id) > 0.0:
+			in_grace = maxf(in_grace, GameState.grace_left(id))
+			continue
+		target = node
+		break
 	if target == null:
-		_tell(caster_id, "Nobody nearby is carrying loose cards")
+		if in_grace > 0.0:
+			_tell(caster_id, "They were just robbed. Wait %ds" % ceili(in_grace))
+		else:
+			_tell(caster_id, "Nobody nearby is carrying loose cards")
 		return &""
 
 	var target_id: StringName = target.get(&"collector_id")
