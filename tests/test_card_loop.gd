@@ -15,6 +15,7 @@ func _ready() -> void:
 
 
 func _run() -> void:
+	RivalDirector.enabled = false  # Keep rivals where the test puts them.
 	var gs := GameState
 	var root := get_tree().root
 	gs.new_game(gs.DEFAULT_RIVALS)

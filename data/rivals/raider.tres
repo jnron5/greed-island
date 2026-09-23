@@ -16,3 +16,6 @@ steal_urge = 0.15
 max_health = 7
 hunts = true
 attack_damage = 1
+travel_style = 1
+pays_gates = false
+think_seconds = 8.0

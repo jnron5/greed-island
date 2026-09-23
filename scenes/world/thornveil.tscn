@@ -42,11 +42,24 @@ offset_bottom = 130.0
 mouse_filter = 2
 color = Color(0.5, 0.44, 0.32, 1)
 
+[node name="NorthPath" type="ColorRect" parent="."]
+z_index = -9
+offset_left = -24.0
+offset_top = -850.0
+offset_right = 24.0
+offset_bottom = -700.0
+mouse_filter = 2
+color = Color(0.5, 0.44, 0.32, 1)
+
 [node name="Walls" type="StaticBody2D" parent="."]
 
-[node name="North" type="CollisionShape2D" parent="Walls"]
-position = Vector2(0, -820)
-shape = SubResource("Wall_h")
+[node name="NorthWest" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-272, -820)
+shape = SubResource("South_half")
+
+[node name="NorthEast" type="CollisionShape2D" parent="Walls"]
+position = Vector2(272, -820)
+shape = SubResource("South_half")
 
 [node name="West" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-520, -350)
@@ -68,6 +81,14 @@ shape = SubResource("South_half")
 
 [node name="from_kalmora" type="Marker2D" parent="Spawns"]
 position = Vector2(0, 60)
+
+[node name="from_sorenda" type="Marker2D" parent="Spawns"]
+position = Vector2(0, -760)
+
+[node name="ToSorenda" parent="." instance=ExtResource("9_exit")]
+position = Vector2(0, -830)
+target_scene = "res://scenes/world/sorenda.tscn"
+target_spawn = &"from_thornveil"
 
 [node name="ToKalmora" parent="." instance=ExtResource("9_exit")]
 position = Vector2(0, 125)
@@ -109,10 +130,6 @@ radius = 18.0
 [node name="Tree9" parent="." instance=ExtResource("6_tree")]
 position = Vector2(-382, -316)
 radius = 18.0
-
-[node name="Tree10" parent="." instance=ExtResource("6_tree")]
-position = Vector2(-42, -689)
-radius = 20.0
 
 [node name="Tree11" parent="." instance=ExtResource("6_tree")]
 position = Vector2(-224, -668)

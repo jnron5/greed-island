@@ -21,6 +21,9 @@ func _ready() -> void:
 	EventBus.card_stolen.connect(_on_card_stolen)
 	EventBus.stealth_failed.connect(_on_stealth_failed)
 	EventBus.combat_won.connect(_on_combat_won)
+	EventBus.gate_opened.connect(_on_gate_opened)
+	RivalDirector.rival_departed.connect(_on_rival_departed)
+	RivalDirector.rival_arrived.connect(_on_rival_arrived)
 	EventBus.notify.connect(_toast)
 	EventBus.card_added.connect(_update_spells.unbind(2))
 	EventBus.card_consumed.connect(_update_spells.unbind(3))
@@ -72,6 +75,22 @@ func _on_combat_won(winner: StringName, loser: StringName, card_id: StringName) 
 		_toast("You beat the %s%s!" % [NAMES.get(loser, String(loser)), prize])
 	elif loser == GameState.PLAYER:
 		_toast("The %s beat you%s!" % [NAMES.get(winner, String(winner)), prize])
+
+
+func _on_gate_opened(gate_id: StringName, by: StringName) -> void:
+	if by != GameState.PLAYER:
+		var gate := CardDatabase.get_gate(gate_id)
+		_toast("The %s paid to open the %s" % [NAMES.get(by, String(by)), gate.display_name if gate else "gate"])
+
+
+func _on_rival_departed(id: StringName, from_zone: String, to_zone: String) -> void:
+	if from_zone == RivalDirector.player_zone():
+		_toast("The %s headed for %s" % [NAMES.get(id, String(id)), WorldMap.zone_name(to_zone)])
+
+
+func _on_rival_arrived(id: StringName, zone: String) -> void:
+	if zone == RivalDirector.player_zone():
+		_toast("The %s arrived in %s" % [NAMES.get(id, String(id)), WorldMap.zone_name(zone)])
 
 
 func _on_stealth_failed(thief: StringName, victim: StringName) -> void:

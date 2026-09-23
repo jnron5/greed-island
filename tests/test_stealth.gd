@@ -14,6 +14,7 @@ func _ready() -> void:
 
 
 func _run() -> void:
+	RivalDirector.enabled = false  # Keep rivals where the test puts them.
 	GameState.new_game(GameState.DEFAULT_RIVALS)
 	var player: Player = load("res://scenes/characters/player.tscn").instantiate()
 	var runner: Rival = load("res://scenes/characters/rival.tscn").instantiate()

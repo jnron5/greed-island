@@ -45,7 +45,12 @@ func _is_hand_placed() -> bool:
 
 
 func _persist_key() -> String:
-	return "%s:%s" % [owner.scene_file_path, owner.get_path_to(self)]
+	return persist_key(owner.scene_file_path, String(owner.get_path_to(self)))
+
+
+## Shared with WorldMap, which reads pickups straight from scene files.
+static func persist_key(scene_path: String, node_path: String) -> String:
+	return "%s:%s" % [scene_path, node_path]
 
 
 func _draw() -> void:

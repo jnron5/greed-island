@@ -1,8 +1,8 @@
 extends Node
 ## End-to-end respawn test across real zone changes:
-## Thornveil spawns the Raider -> beaten Raider moves to Kalmora ->
-## the player dies to a monster -> wakes in Kalmora (nearest town), where the
-## Raider now is, with the dropped card left behind in Thornveil.
+## Thornveil spawns the Raider -> beaten at its camp (deep north) it wakes in
+## Sorenda -> the player dies to a monster near the south edge -> wakes in
+## Kalmora (the nearest town from there), with the dropped card left in Thornveil.
 ## Run: godot --headless --path . res://tests/test_respawn_flow.tscn
 
 var _failures := 0
@@ -15,6 +15,7 @@ func _ready() -> void:
 
 
 func _run() -> void:
+	RivalDirector.enabled = false  # Keep rivals where the test puts them.
 	GameState.new_game(GameState.DEFAULT_RIVALS)
 	get_tree().change_scene_to_file(WorldMap.THORNVEIL)
 	await _frames(3)
@@ -32,11 +33,11 @@ func _run() -> void:
 		raider._on_hurt(_hit(forest, &"player", 1))
 	await get_tree().create_timer(raider.down_time + 0.2).timeout
 	_check("beaten Raider left Thornveil", not is_instance_valid(raider))
-	_check("Raider is now in Kalmora", GameState.rival_locations[&"raider"].zone == WorldMap.KALMORA)
+	_check("Raider woke in Sorenda (nearest to its camp)", GameState.rival_locations[&"raider"].zone == WorldMap.SORENDA)
 
 	# The player falls to a monster while carrying a loose card.
 	GameState.add_loose_card(GameState.PLAYER, &"bark_rune")
-	player.global_position = Vector2(100, -300)
+	player.global_position = Vector2(80, 40)
 	player._on_hurt(_hit(forest, Combat.MONSTER, 99))
 	await get_tree().create_timer(player.down_time + 0.4).timeout
 	await _frames(3)
@@ -47,7 +48,7 @@ func _run() -> void:
 		and new_player.health == new_player.max_health)
 	_check("dropped card stays in Thornveil", GameState.zone_drops.get(WorldMap.THORNVEIL, []).size() == 1
 		and GameState.collection(GameState.PLAYER).count(&"bark_rune") == 0)
-	_check("Raider waiting in Kalmora", _rival(town, &"raider") != null)
+	_check("Raider is not in Kalmora", _rival(town, &"raider") == null)
 	_check("Runner still in Kalmora", _rival(town, &"runner") != null)
 
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)

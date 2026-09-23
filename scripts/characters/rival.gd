@@ -7,10 +7,12 @@ extends CharacterBody2D
 ## chase whoever leads the race and fight for their cards, others flee when hit.
 ## Losing a fight hands one loose/exposed card to the winner, and the loser wakes
 ## up in the nearest town (which becomes its home). Zones spawn rivals from their
-## RivalProfile and GameState.rival_locations. (Hunt boss comes later.)
+## RivalProfile and GameState.rival_locations. When a zone has nothing left for
+## it (or its hands are full and there's no home here), it asks RivalDirector
+## where to go and walks out through the exit. (Hunt boss comes later.)
 ## Carried cards stay Loose until bound at home, and that is the window the player exploits.
 
-enum State { IDLE, SEEK, RETURN, BIND, SNEAK, HUNT, WINDUP, STRIKE, DOWN }
+enum State { IDLE, SEEK, RETURN, BIND, SNEAK, HUNT, WINDUP, STRIKE, DOWN, LEAVE }
 
 const IDLE_FALLBACK: Array[String] = ["idle"]
 
@@ -61,6 +63,9 @@ var _sprite_offset_y := -26.0
 ## Set when this rival left for another zone, so leaving the tree doesn't
 ## overwrite its new location.
 var _relocated := false
+## WorldMap edge this rival is walking out by (LEAVE state).
+var _exit_edge: Dictionary = {}
+const LEAVE_TIMEOUT := 25.0
 ## Draws the sight cone on the ground layer, under every character.
 var _cone := Node2D.new()
 
@@ -166,7 +171,11 @@ func _physics_process(delta: float) -> void:
 		State.SEEK:
 			_process_seek()
 		State.RETURN:
-			var home_pos := home.global_position if home else global_position
+			if home == null:
+				# Nowhere to bind in this zone: head for a town instead.
+				_try_leave(State.BIND)
+				return
+			var home_pos := home.global_position
 			if global_position.distance_to(home_pos) < 6.0:
 				_fleeing = false
 				_enter(State.BIND)
@@ -190,6 +199,17 @@ func _physics_process(delta: float) -> void:
 				attack_shape.set_deferred(&"disabled", true)
 				_attack_cd = attack_cooldown
 				_enter(State.HUNT)
+		State.LEAVE:
+			var exit_pos: Vector2 = _exit_edge.exit
+			if position.distance_to(exit_pos) < 12.0:
+				_relocated = true
+				RivalDirector.depart(self, _exit_edge)
+				queue_free()
+				return
+			if _state_time > LEAVE_TIMEOUT:
+				_enter(State.SEEK)  # Couldn't get there (blocked); rethink.
+			else:
+				_steer_toward(get_parent().to_global(exit_pos) if get_parent() is Node2D else exit_pos, delta)
 		State.DOWN:
 			velocity = velocity.move_toward(Vector2.ZERO, 400.0 * delta)
 			if _state_time >= down_time:
@@ -222,9 +242,21 @@ func _process_seek() -> void:
 			return
 		_target = _find_nearest_pickup()
 		if _target == null:
-			_enter(State.RETURN if carried_count() > 0 else State.IDLE)
+			if carried_count() > 0:
+				_enter(State.RETURN)
+			else:
+				_try_leave(State.IDLE)
 			return
 	_steer_toward(_target.global_position, get_physics_process_delta_time())
+
+
+## Asks the director whether to move on; walks to the exit if so, else `fallback`.
+func _try_leave(fallback: State) -> void:
+	_exit_edge = RivalDirector.plan_departure(self)
+	if _exit_edge.is_empty():
+		_enter(fallback)
+	else:
+		_enter(State.LEAVE)
 
 
 ## Binds one loose card per bind_time; instant when home is in a safe zone.

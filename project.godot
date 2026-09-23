@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 EventBus="*res://scripts/autoload/event_bus.gd"
 CardDatabase="*res://scripts/autoload/card_database.gd"
 GameState="*res://scripts/autoload/game_state.gd"
+RivalDirector="*res://scripts/autoload/rival_director.gd"
 
 [display]
 

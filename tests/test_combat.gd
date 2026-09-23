@@ -16,6 +16,7 @@ func _ready() -> void:
 
 
 func _run() -> void:
+	RivalDirector.enabled = false  # Keep rivals where the test puts them.
 	GameState.new_game(GameState.DEFAULT_RIVALS)
 
 	_check("monster hits player", Combat.can_damage(Combat.MONSTER, P))
@@ -63,15 +64,18 @@ func _run() -> void:
 	_check("beaten rival hands over a card", GameState.collection(P).count(&"tide_bell") == tide_before + 1)
 	_check("beaten rival is down and untouchable", runner.hurtbox.invulnerable)
 
-	# Beaten rivals wake in the nearest town. From deep in Thornveil that's Kalmora,
-	# a different zone, so the rival leaves this one.
-	_check("nearest town to Thornveil is Kalmora",
-		WorldMap.nearest_town(WorldMap.THORNVEIL, Vector2(0, -700)) == WorldMap.KALMORA)
+	# Beaten rivals wake in the nearest town. Deep in Thornveil that's Sorenda,
+	# near its south edge it's Kalmora; either way the rival leaves this zone.
+	_check("nearest town from deep Thornveil is Sorenda",
+		WorldMap.nearest_town(WorldMap.THORNVEIL, Vector2(0, -700)) == WorldMap.SORENDA)
+	_check("nearest town from Thornveil's south edge is Kalmora",
+		WorldMap.nearest_town(WorldMap.THORNVEIL, Vector2(0, 60)) == WorldMap.KALMORA)
 	GameState.move_rival(R, WorldMap.THORNVEIL, Vector2(0, -600))
+	runner.position = Vector2(0, -600)
 	runner.respawn_in_nearest_town()
 	await get_tree().process_frame
 	var loc: Dictionary = GameState.rival_locations[R]
-	_check("rival relocated to Kalmora", loc.zone == WorldMap.KALMORA and loc.position == null)
+	_check("rival relocated to Sorenda", loc.zone == WorldMap.SORENDA and loc.position == null)
 	_check("rival left the zone it fell in", not is_instance_valid(runner))
 
 	# Player: beaten by the Raider, loses a card, heads for the nearest town.

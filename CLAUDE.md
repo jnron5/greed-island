@@ -68,6 +68,7 @@ All **three archetypes are built**; at the start of a playthrough, the **player 
 - **No denial play** — rivals only boss-hunt when they genuinely need the card; a leading rival never snipes a boss purely to deny the player.
 - **Difficulty tuning** — via rival speed/aggression, never by giving them extra cards.
 - Rival state machine: find card → carry → return home, plus a **hunt boss** behavior when a rival needs a rare and a boss with remaining kills is the fastest path.
+- **Zone travel (implemented):** rivals move between zones along `WorldMap.EDGES`, paying gate cards like the player (the Raider won't pay). In the player's zone they're `Rival` nodes that walk to the exit; elsewhere `RivalDirector` simulates them coarsely (collecting the zone's real remaining pickups, farming monster drops in the field, binding in towns). Styles: Runner = explorer (goes where cards are left), Raider = hunter (follows a player carrying cards, farms the field), Hoarder = homebody (stays in towns).
 
 ## Combat system
 

@@ -78,6 +78,8 @@ func new_game(rivals: Array[StringName]) -> void:
 			world_supply[card.id] = card.max_possible_copies()
 	_emit_tracker()
 	EventBus.currency_changed.emit(currency)
+	if has_node(^"/root/RivalDirector"):
+		get_node(^"/root/RivalDirector").reset()
 
 
 func collectors() -> Array[StringName]:
