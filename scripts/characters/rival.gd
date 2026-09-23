@@ -3,10 +3,14 @@ extends CharacterBody2D
 ## AI collector racing the player. First-slice state machine:
 ## find card -> carry -> return home -> bind, plus stealth: an Awareness meter
 ## watching the player, fleeing home when alerted, and sneaking up behind the
-## player to lift a loose card. (Hunt boss comes later.)
+## player to lift a loose card. Combat: rivals have health; hunters (Raider)
+## chase whoever leads the race and fight for their cards, others flee when hit.
+## Losing a fight hands one loose/exposed card to the winner. (Hunt boss comes later.)
 ## Carried cards stay Loose until bound at home, and that is the window the player exploits.
 
-enum State { IDLE, SEEK, RETURN, BIND, SNEAK }
+enum State { IDLE, SEEK, RETURN, BIND, SNEAK, HUNT, WINDUP, STRIKE, DOWN }
+
+const IDLE_FALLBACK: Array[String] = ["idle"]
 
 @export var collector_id: StringName = &"runner"
 @export var sprite_frames: SpriteFrames
@@ -24,6 +28,16 @@ enum State { IDLE, SEEK, RETURN, BIND, SNEAK }
 @export var sneak_notice_radius := 110.0
 @export var sneak_timeout := 5.0
 @export var flee_speed_multiplier := 1.3
+@export_group("Combat")
+@export var max_health := 5
+## Hunters go after the race leader and fight for cards (Raider); others flee when hit.
+@export var hunts := false
+@export var hunt_radius := 220.0
+@export var attack_damage := 1
+@export var attack_range := 28.0
+@export var attack_windup := 0.3
+@export var attack_cooldown := 0.9
+@export var down_time := 1.5
 
 var facing := Vector2.DOWN
 
@@ -36,11 +50,19 @@ var _detour_dir := Vector2.ZERO
 var _last_position := Vector2.ZERO
 var _sneak_cd := 5.0
 var _fleeing := false
+var health := 0
+var _foe: Node2D
+var _attack_cd := 0.0
+var _hunt_check := 0.0
+var _flash := 0.0
 ## Draws the sight cone on the ground layer, under every character.
 var _cone := Node2D.new()
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var awareness: Awareness = $Awareness
+@onready var hurtbox: Hurtbox = $Hurtbox
+@onready var attack_hitbox: Hitbox = $AttackHitbox
+@onready var attack_shape: CollisionShape2D = $AttackHitbox/CollisionShape2D
 
 
 func _ready() -> void:
@@ -58,11 +80,22 @@ func _ready() -> void:
 	_cone.draw.connect(_draw_sight_cone)
 	awareness.level_changed.connect(_on_awareness_changed)
 	EventBus.stealth_failed.connect(_on_stealth_failed)
+	health = max_health
+	hurtbox.owner_id = collector_id
+	hurtbox.hurt.connect(_on_hurt)
+	attack_hitbox.source_id = collector_id
+	attack_hitbox.damage = attack_damage
+	attack_shape.disabled = true
 
 
 func _physics_process(delta: float) -> void:
 	_state_time += delta
 	_sneak_cd -= delta
+	_attack_cd -= delta
+	_hunt_check -= delta
+	if _flash > 0.0:
+		_flash -= delta
+		sprite.modulate = Color(3, 3, 3) if _flash > 0.0 else Color.WHITE
 	var player := _player()
 	awareness.facing = facing
 	awareness.update(delta, player)
@@ -86,9 +119,36 @@ func _physics_process(delta: float) -> void:
 			_process_bind()
 		State.SNEAK:
 			_process_sneak(player, delta)
+		State.HUNT:
+			_process_hunt(delta)
+		State.WINDUP:
+			velocity = Vector2.ZERO
+			if _state_time >= attack_windup:
+				attack_shape.set_deferred(&"disabled", false)
+				_enter(State.STRIKE)
+		State.STRIKE:
+			velocity = facing * move_speed * 1.6
+			if _state_time >= 0.14:
+				attack_shape.set_deferred(&"disabled", true)
+				_attack_cd = attack_cooldown
+				_enter(State.HUNT)
+		State.DOWN:
+			velocity = velocity.move_toward(Vector2.ZERO, 400.0 * delta)
+			if _state_time >= down_time:
+				sprite.rotation = 0.0
+				health = max_health
+				hurtbox.invulnerable = false
+				_fleeing = carried_count() > 0
+				_enter(State.RETURN if _fleeing else State.IDLE)
 
 	if _state in [State.IDLE, State.SEEK]:
-		_consider_sneaking(player)
+		if hunts and _hunt_check <= 0.0:
+			_hunt_check = 1.0
+			_foe = _pick_hunt_target()
+			if _foe:
+				_enter(State.HUNT)
+		if _state != State.HUNT:
+			_consider_sneaking(player)
 	if _fleeing:
 		velocity *= flee_speed_multiplier
 	elif awareness.level == Awareness.Level.SUSPICIOUS and _state != State.SNEAK:
@@ -155,9 +215,87 @@ func _process_sneak(player: Node2D, delta: float) -> void:
 	_steer_toward(behind, delta)
 
 
+## Hunters: pick the collector leading the race (pressure on the leader) among
+## those nearby, outside towns, not in grace, and carrying something to take.
+func _pick_hunt_target() -> Node2D:
+	if GameState.is_in_safe_zone(collector_id):
+		return null
+	var counts := GameState.tracker_counts()
+	var best: Node2D = null
+	var best_score := -INF
+	for node in get_tree().get_nodes_in_group(&"collectors"):
+		var n := node as Node2D
+		if n == self or not _huntable(n):
+			continue
+		var id: StringName = n.get(&"collector_id")
+		# Leader first; distance only breaks ties.
+		var score: float = counts.get(id, 0) * 1000.0 - global_position.distance_to(n.global_position)
+		if score > best_score:
+			best = n
+			best_score = score
+	return best
+
+
+func _huntable(n: Node2D) -> bool:
+	if not is_instance_valid(n) or not n.is_inside_tree():
+		return false
+	var id: StringName = n.get(&"collector_id")
+	return global_position.distance_to(n.global_position) <= hunt_radius \
+		and Combat.can_damage(collector_id, id) \
+		and GameState.grace_left(id) <= 0.0 \
+		and not GameState.stealable_card_ids(id).is_empty()
+
+
+func _process_hunt(delta: float) -> void:
+	if not _huntable(_foe):
+		_foe = null
+		_enter(State.RETURN if carried_count() > 0 else State.SEEK)
+		return
+	var dist := global_position.distance_to(_foe.global_position)
+	if dist <= attack_range and _attack_cd <= 0.0:
+		facing = global_position.direction_to(_foe.global_position)
+		_enter(State.WINDUP)
+	elif dist > attack_range * 0.7:
+		_steer_toward(_foe.global_position, delta)
+	else:
+		velocity = Vector2.ZERO
+
+
+func _on_hurt(hitbox: Hitbox) -> void:
+	if _state == State.DOWN:
+		return
+	health -= hitbox.damage
+	_flash = 0.08
+	Combat.pop_number(get_parent(), global_position, hitbox.damage)
+	velocity = hitbox.global_position.direction_to(global_position) * hitbox.knockback
+	awareness.alarm()
+	attack_shape.set_deferred(&"disabled", true)
+	var attacker := _collector_node(hitbox.source_id)
+	if health <= 0:
+		_enter(State.DOWN)
+		sprite.rotation = PI / 2.0
+		hurtbox.invulnerable = true
+		Combat.resolve_defeat(hitbox.source_id, collector_id)  # No-op unless beaten by a collector.
+		return
+	if hunts and attacker:
+		_foe = attacker  # Fight back.
+		_enter(State.HUNT)
+	elif not hunts:
+		_fleeing = true
+		_enter(State.RETURN)
+
+
+func _collector_node(id: StringName) -> Node2D:
+	for node in get_tree().get_nodes_in_group(&"collectors"):
+		if node.get(&"collector_id") == id:
+			return node
+	return null
+
+
 func _on_awareness_changed(level: Awareness.Level) -> void:
 	# Alerted while carrying: run home and bind before anyone gets another try.
-	if level == Awareness.Level.ALERT and carried_count() > 0 and _state != State.BIND:
+	if level == Awareness.Level.ALERT and carried_count() > 0 \
+			and _state not in [State.BIND, State.DOWN, State.HUNT, State.WINDUP, State.STRIKE]:
 		_fleeing = true
 		_enter(State.RETURN)
 
@@ -222,21 +360,21 @@ func _update_facing(player: Node2D, delta: float) -> void:
 	if awareness.level == Awareness.Level.SUSPICIOUS and player and awareness.value > 55.0:
 		var to_player := global_position.direction_to(player.global_position)
 		facing = Vector2.from_angle(rotate_toward(facing.angle(), to_player.angle(), 1.5 * delta))
-	elif velocity.length() > 1.0:
+	elif _state == State.WINDUP and is_instance_valid(_foe):
+		facing = global_position.direction_to(_foe.global_position)
+	elif velocity.length() > 1.0 and _state not in [State.STRIKE, State.DOWN]:
 		facing = velocity.normalized()
 
 
 func _update_animation() -> void:
 	if sprite.sprite_frames == null:
 		return
-	var dir := Player.direction_name(facing)
 	var action := "run" if velocity.length() > 1.0 else "idle"
-	for candidate in [action, "idle"]:
-		var anim := StringName("%s_%s" % [candidate, dir])
-		if sprite.sprite_frames.has_animation(anim):
-			if sprite.animation != anim:
-				sprite.play(anim)
-			return
+	if _state in [State.WINDUP, State.STRIKE]:
+		action = "attack"
+	var anim := Player.pick_animation(sprite.sprite_frames, action, facing, IDLE_FALLBACK)
+	if anim != &"" and sprite.animation != anim:
+		sprite.play(anim)
 
 
 func _draw() -> void:
@@ -249,6 +387,11 @@ func _draw() -> void:
 		draw_rect(Rect2(x - 2, -65, 4, 6), Color(0.95, 0.85, 0.45))
 	_draw_awareness_marker()
 	_draw_steal_prompt()
+	if health < max_health and _state != State.DOWN:
+		draw_rect(Rect2(-10, -58, 20, 3), Color(0, 0, 0, 0.6))
+		draw_rect(Rect2(-9, -57, 18.0 * health / max_health, 1), Color(0.9, 0.3, 0.25))
+	if _state == State.WINDUP:
+		draw_arc(facing * attack_range * 0.7 + Vector2(0, -10), 9.0, 0, TAU, 16, Color(1, 0.3, 0.2, 0.7), 1.5)
 
 
 func _draw_sight_cone() -> void:

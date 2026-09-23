@@ -75,11 +75,22 @@ func _run() -> void:
 	_check("player robbed from behind: 60%", is_equal_approx(Stealth.success_chance(runner, player), Stealth.PLAYER_BEHIND))
 	player.facing = Vector2.UP
 	_check("player facing the thief: 12%", is_equal_approx(Stealth.success_chance(runner, player), Stealth.PLAYER_FACING))
+	# The player may hold several loose cards by now; whichever is lifted must move over.
+	var player_before := _total(P)
+	var runner_before := _total(R)
 	result = Stealth.attempt(runner, player, 0.0)
-	_check("runner lifts from player", result.ok and GameState.collection(R).count(&"gull_feather") == 1)
+	_check("runner lifts from player", result.ok and _total(P) == player_before - 1 and _total(R) == runner_before + 1)
 
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)
+
+
+func _total(collector: StringName) -> int:
+	var col := GameState.collection(collector)
+	var n := 0
+	for id in col.card_ids():
+		n += col.count(id)
+	return n
 
 
 func _tick(aw: Awareness, target: Node2D, seconds: float) -> void:

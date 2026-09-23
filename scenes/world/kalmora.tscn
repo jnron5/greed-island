@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2_hud"]
@@ -10,6 +10,9 @@
 [ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
 [ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="9_binder"]
 [ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="10_shop"]
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="11_zone"]
+[ext_resource type="PackedScene" path="res://scenes/systems/card_gate.tscn" id="12_gate"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="13_exit"]
 
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(840, 40)
@@ -26,6 +29,12 @@ size = Vector2(200, 40)
 [sub_resource type="RectangleShape2D" id="Rail"]
 size = Vector2(10, 130)
 
+[sub_resource type="RectangleShape2D" id="North_half"]
+size = Vector2(396, 40)
+
+[sub_resource type="RectangleShape2D" id="Path_side"]
+size = Vector2(10, 50)
+
 [sub_resource type="RectangleShape2D" id="Town"]
 size = Vector2(600, 430)
 
@@ -34,6 +43,8 @@ size = Vector2(40, 24)
 
 [node name="Kalmora" type="Node2D"]
 y_sort_enabled = true
+script = ExtResource("11_zone")
+display_name = "Kalmora, Port of Beginnings"
 
 [node name="Ground" type="ColorRect" parent="."]
 z_index = -10
@@ -43,6 +54,15 @@ offset_right = 400.0
 offset_bottom = 300.0
 mouse_filter = 2
 color = Color(0.86, 0.78, 0.62, 1)
+
+[node name="NorthPath" type="ColorRect" parent="."]
+z_index = -10
+offset_left = -24.0
+offset_top = -370.0
+offset_right = 24.0
+offset_bottom = -300.0
+mouse_filter = 2
+color = Color(0.7, 0.62, 0.45, 1)
 
 [node name="TownPaving" type="ColorRect" parent="."]
 z_index = -9
@@ -82,9 +102,21 @@ color = Color(0.55, 0.38, 0.22, 1)
 
 [node name="Walls" type="StaticBody2D" parent="."]
 
-[node name="North" type="CollisionShape2D" parent="Walls"]
-position = Vector2(0, -320)
-shape = SubResource("Wall_h")
+[node name="NorthWest" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-222, -320)
+shape = SubResource("North_half")
+
+[node name="NorthEast" type="CollisionShape2D" parent="Walls"]
+position = Vector2(222, -320)
+shape = SubResource("North_half")
+
+[node name="PathWest" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-29, -345)
+shape = SubResource("Path_side")
+
+[node name="PathEast" type="CollisionShape2D" parent="Walls"]
+position = Vector2(29, -345)
+shape = SubResource("Path_side")
 
 [node name="SeaWest" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-120, 225)
@@ -172,6 +204,27 @@ position = Vector2(-160, 70)
 
 [node name="TrainingDummy3" parent="." instance=ExtResource("4_dummy")]
 position = Vector2(-230, 90)
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="town" type="Marker2D" parent="Spawns"]
+position = Vector2(0, 40)
+
+[node name="from_thornveil" type="Marker2D" parent="Spawns"]
+position = Vector2(0, -270)
+
+[node name="NorthGate" parent="." instance=ExtResource("12_gate")]
+position = Vector2(0, -305)
+gate_id = &"kalmora_north_gate"
+
+[node name="ToThornveil" parent="." instance=ExtResource("13_exit")]
+position = Vector2(0, -360)
+target_scene = "res://scenes/world/thornveil.tscn"
+target_spawn = &"from_kalmora"
+
+[node name="Card_salt_compass_2" parent="." instance=ExtResource("3_pick")]
+position = Vector2(-180, 120)
+card_id = &"salt_compass"
 
 [node name="SafeZone" type="Area2D" parent="."]
 position = Vector2(0, -45)

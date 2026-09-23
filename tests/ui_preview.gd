@@ -1,12 +1,16 @@
 extends Node
 ## Loads Kalmora with a stocked binder and opens a menu, for screenshots:
 ## godot --path . --write-movie out.png --quit-after 30 res://tests/ui_preview.tscn
-## Set `menu` to "binder", "shop", or "stealth" (player sneaking up on the Runner).
+## Set `menu` to "binder", "shop", "stealth" (player sneaking up on the Runner),
+## or "combat" (Thornveil: player with loose cards near a Briar Hound and the Raider).
 
 @export var menu := "binder"
 
 
 func _ready() -> void:
+	if menu == "combat":
+		_combat_preview()
+		return
 	var town: Node = load("res://scenes/world/kalmora.tscn").instantiate()
 	add_child(town)
 	await get_tree().process_frame
@@ -34,3 +38,14 @@ func _ready() -> void:
 		(town.get_node("ShopPanel") as ShopPanel).open_with([&"pickpockets_whisper", &"lockbox_seal", &"second_wind"])
 	else:
 		(town.get_node("Binder") as Binder).open()
+
+
+func _combat_preview() -> void:
+	var forest: Node = load("res://scenes/world/thornveil.tscn").instantiate()
+	add_child(forest)
+	await get_tree().process_frame
+	GameState.add_loose_card(GameState.PLAYER, &"harbor_lantern")
+	GameState.add_loose_card(GameState.PLAYER, &"coral_coin")
+	var player := forest.get_node("Player") as Player
+	player.global_position = Vector2(-190, -170)
+	(forest.get_node("Raider") as Node2D).global_position = Vector2(-110, -240)

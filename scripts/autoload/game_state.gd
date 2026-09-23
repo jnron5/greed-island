@@ -30,6 +30,16 @@ var _safe_zones: Dictionary[StringName, int] = {}
 var _locks: Dictionary[StringName, Dictionary] = {}
 ## collector -> msec when they were last robbed (grace period)
 var _robbed_at: Dictionary[StringName, int] = {}
+## Spawn marker name the next zone should place the player at (&"" = scene default).
+var pending_spawn: StringName
+## Message for the HUD to show once the next zone loads (e.g. after fainting).
+var pending_notice := ""
+## Hand-placed pickups already taken ("scene path:node path"), so they don't
+## come back when a zone reloads.
+var collected_pickups: Dictionary[String, bool] = {}
+## Cards dropped on the ground (e.g. when fainting), per zone scene path:
+## Array of { "card_id": StringName, "position": Vector2 }.
+var zone_drops: Dictionary[String, Array] = {}
 
 
 func _ready() -> void:
@@ -45,6 +55,9 @@ func new_game(rivals: Array[StringName]) -> void:
 	currency = STARTING_GOLD
 	_locks.clear()
 	_robbed_at.clear()
+	collected_pickups.clear()
+	zone_drops.clear()
+	pending_spawn = &""
 	quest_flags.clear()
 	opened_gates.clear()
 	world_supply.clear()
@@ -130,6 +143,17 @@ func consume_card(collector: StringName, card_id: StringName, reason: StringName
 			_emit_tracker()
 			return true
 	return false
+
+
+## Removes one loose copy without consuming it (it goes back on the ground, so
+## world supply is unchanged). The caller places the pickup.
+func drop_card(collector: StringName, card_id: StringName) -> bool:
+	var col := collection(collector)
+	if col == null or not col.remove(card_id, CardCollection.State.LOOSE):
+		return false
+	EventBus.card_consumed.emit(collector, card_id, &"dropped")
+	_emit_tracker()
+	return true
 
 
 ## Sells one copy. Sold cards leave the world for good (not recycled via the merchant).
@@ -220,6 +244,26 @@ func is_in_safe_zone(collector: StringName) -> bool:
 ## Seconds to bind one card right now: instant in towns, slower in the field.
 func bind_time(collector: StringName) -> float:
 	return 0.0 if is_in_safe_zone(collector) else FIELD_BIND_TIME
+
+
+## Called when a zone scene loads: presence in the old zone's areas is gone.
+func reset_zone_presence() -> void:
+	_safe_zones.clear()
+	menus_open = 0
+
+
+func add_zone_drop(zone: String, card_id: StringName, pos: Vector2) -> void:
+	if not zone_drops.has(zone):
+		zone_drops[zone] = []
+	zone_drops[zone].append({ "card_id": card_id, "position": pos })
+
+
+func remove_zone_drop(zone: String, card_id: StringName, pos: Vector2) -> void:
+	var drops: Array = zone_drops.get(zone, [])
+	for i in drops.size():
+		if drops[i].card_id == card_id and drops[i].position.is_equal_approx(pos):
+			drops.remove_at(i)
+			return
 
 
 func push_menu() -> void:

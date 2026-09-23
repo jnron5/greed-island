@@ -20,6 +20,8 @@ func _ready() -> void:
 	EventBus.card_added.connect(_on_card_added)
 	EventBus.card_stolen.connect(_on_card_stolen)
 	EventBus.stealth_failed.connect(_on_stealth_failed)
+	EventBus.combat_won.connect(_on_combat_won)
+	EventBus.player_fainted.connect(_on_player_fainted)
 	EventBus.notify.connect(_toast)
 	EventBus.card_added.connect(_update_spells.unbind(2))
 	EventBus.card_consumed.connect(_update_spells.unbind(3))
@@ -28,6 +30,9 @@ func _ready() -> void:
 	_on_tracker_changed(GameState.tracker_counts())
 	currency_label.text = "%d gold" % GameState.currency
 	toast_label.text = ""
+	if GameState.pending_notice != "":
+		_toast.call_deferred(GameState.pending_notice)
+		GameState.pending_notice = ""
 	var player := get_tree().get_first_node_in_group(&"player") as Player
 	if player:
 		player.health_changed.connect(_on_health_changed)
@@ -60,6 +65,19 @@ func _on_card_stolen(thief: StringName, victim: StringName, card_id: StringName,
 			_toast("Your satchel feels lighter...")  # Quiet: you don't see who or what.
 		else:
 			_toast("The %s stole your %s!" % [NAMES.get(thief, String(thief)), _card_name(card_id)])
+
+
+func _on_combat_won(winner: StringName, loser: StringName, card_id: StringName) -> void:
+	var prize := " and took %s" % _card_name(card_id) if card_id != &"" else ""
+	if winner == GameState.PLAYER:
+		_toast("You beat the %s%s!" % [NAMES.get(loser, String(loser)), prize])
+	elif loser == GameState.PLAYER:
+		_toast("The %s beat you%s!" % [NAMES.get(winner, String(winner)), prize])
+
+
+func _on_player_fainted(dropped: StringName) -> void:
+	# Shown after waking in town, so it lives on past the scene change.
+	GameState.pending_notice = "You fainted and woke in town." 		+ (" You dropped %s where you fell." % _card_name(dropped) if dropped != &"" else "")
 
 
 func _on_stealth_failed(thief: StringName, victim: StringName) -> void:

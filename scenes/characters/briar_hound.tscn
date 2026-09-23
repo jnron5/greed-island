@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/monster.gd" id="1_monster"]
+[ext_resource type="Script" path="res://scripts/systems/hurtbox.gd" id="2_hurt"]
+[ext_resource type="Script" path="res://scripts/systems/hitbox.gd" id="3_hit"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_feet"]
+radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(36, 22)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bite"]
+radius = 11.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_none"]
+
+[node name="BriarHound" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 1
+motion_mode = 1
+script = ExtResource("1_monster")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_none")
+offset = Vector2(0, -24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_feet")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 192
+monitorable = false
+script = ExtResource("2_hurt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_bite")
+disabled = true

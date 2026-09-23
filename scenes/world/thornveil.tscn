@@ -1,0 +1,274 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="5_pick"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/tree.tscn" id="6_tree"]
+[ext_resource type="PackedScene" path="res://scenes/characters/briar_hound.tscn" id="7_hound"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/monsters/briar_hound/briar_hound_frames.tres" id="8_hound_frames"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="9_exit"]
+[ext_resource type="PackedScene" path="res://scenes/characters/rival.tscn" id="10_rival"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/rivals/raider/raider_frames.tres" id="11_raider"]
+
+[sub_resource type="RectangleShape2D" id="Wall_h"]
+size = Vector2(1040, 40)
+
+[sub_resource type="RectangleShape2D" id="Wall_v"]
+size = Vector2(40, 920)
+
+[sub_resource type="RectangleShape2D" id="South_half"]
+size = Vector2(496, 40)
+
+[node name="Thornveil" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Thornveil Forest"
+
+[node name="Ground" type="ColorRect" parent="."]
+z_index = -10
+offset_left = -500.0
+offset_top = -800.0
+offset_right = 500.0
+offset_bottom = 100.0
+mouse_filter = 2
+color = Color(0.36, 0.5, 0.3, 1)
+
+[node name="Path" type="ColorRect" parent="."]
+z_index = -9
+offset_left = -24.0
+offset_top = -140.0
+offset_right = 24.0
+offset_bottom = 130.0
+mouse_filter = 2
+color = Color(0.5, 0.44, 0.32, 1)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="North" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, -820)
+shape = SubResource("Wall_h")
+
+[node name="West" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-520, -350)
+shape = SubResource("Wall_v")
+
+[node name="East" type="CollisionShape2D" parent="Walls"]
+position = Vector2(520, -350)
+shape = SubResource("Wall_v")
+
+[node name="SouthWest" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-272, 120)
+shape = SubResource("South_half")
+
+[node name="SouthEast" type="CollisionShape2D" parent="Walls"]
+position = Vector2(272, 120)
+shape = SubResource("South_half")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="from_kalmora" type="Marker2D" parent="Spawns"]
+position = Vector2(0, 60)
+
+[node name="ToKalmora" parent="." instance=ExtResource("9_exit")]
+position = Vector2(0, 125)
+target_scene = "res://scenes/world/kalmora.tscn"
+target_spawn = &"from_thornveil"
+
+[node name="Tree1" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-139, -606)
+radius = 18.0
+
+[node name="Tree2" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-66, -94)
+radius = 16.0
+
+[node name="Tree3" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-421, -686)
+radius = 20.0
+
+[node name="Tree4" parent="." instance=ExtResource("6_tree")]
+position = Vector2(370, -212)
+radius = 20.0
+
+[node name="Tree5" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-374, -386)
+radius = 14.0
+
+[node name="Tree6" parent="." instance=ExtResource("6_tree")]
+position = Vector2(126, -701)
+radius = 14.0
+
+[node name="Tree7" parent="." instance=ExtResource("6_tree")]
+position = Vector2(461, -241)
+radius = 18.0
+
+[node name="Tree8" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-251, -722)
+radius = 18.0
+
+[node name="Tree9" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-382, -316)
+radius = 18.0
+
+[node name="Tree10" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-42, -689)
+radius = 20.0
+
+[node name="Tree11" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-224, -668)
+radius = 20.0
+
+[node name="Tree12" parent="." instance=ExtResource("6_tree")]
+position = Vector2(94, -326)
+radius = 14.0
+
+[node name="Tree13" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-410, -181)
+radius = 14.0
+
+[node name="Tree14" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-344, -532)
+radius = 18.0
+
+[node name="Tree15" parent="." instance=ExtResource("6_tree")]
+position = Vector2(175, -118)
+radius = 20.0
+
+[node name="Tree16" parent="." instance=ExtResource("6_tree")]
+position = Vector2(120, -161)
+radius = 14.0
+
+[node name="Tree17" parent="." instance=ExtResource("6_tree")]
+position = Vector2(100, -624)
+radius = 14.0
+
+[node name="Tree18" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-174, -331)
+radius = 18.0
+
+[node name="Tree19" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-323, -207)
+radius = 20.0
+
+[node name="Tree20" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-155, -187)
+radius = 18.0
+
+[node name="Tree21" parent="." instance=ExtResource("6_tree")]
+position = Vector2(365, -62)
+radius = 20.0
+
+[node name="Tree22" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-285, -655)
+radius = 18.0
+
+[node name="Tree23" parent="." instance=ExtResource("6_tree")]
+position = Vector2(184, -568)
+radius = 14.0
+
+[node name="Tree24" parent="." instance=ExtResource("6_tree")]
+position = Vector2(90, -31)
+radius = 20.0
+
+[node name="Tree25" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-260, -252)
+radius = 18.0
+
+[node name="Tree26" parent="." instance=ExtResource("6_tree")]
+position = Vector2(226, -216)
+radius = 16.0
+
+[node name="Tree27" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-100, -454)
+radius = 14.0
+
+[node name="Tree28" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-216, -576)
+radius = 20.0
+
+[node name="Tree29" parent="." instance=ExtResource("6_tree")]
+position = Vector2(245, 38)
+radius = 14.0
+
+[node name="Tree30" parent="." instance=ExtResource("6_tree")]
+position = Vector2(118, -453)
+radius = 16.0
+
+[node name="Tree31" parent="." instance=ExtResource("6_tree")]
+position = Vector2(67, -254)
+radius = 18.0
+
+[node name="Tree32" parent="." instance=ExtResource("6_tree")]
+position = Vector2(426, -409)
+radius = 16.0
+
+[node name="Tree33" parent="." instance=ExtResource("6_tree")]
+position = Vector2(276, -301)
+radius = 16.0
+
+[node name="Tree34" parent="." instance=ExtResource("6_tree")]
+position = Vector2(-302, 15)
+radius = 20.0
+
+[node name="Card_bark_rune" parent="." instance=ExtResource("5_pick")]
+position = Vector2(140, -120)
+card_id = &"bark_rune"
+
+[node name="Card_fern_sigil" parent="." instance=ExtResource("5_pick")]
+position = Vector2(-260, -330)
+card_id = &"fern_sigil"
+
+[node name="Card_owl_quill" parent="." instance=ExtResource("5_pick")]
+position = Vector2(330, -380)
+card_id = &"owl_quill"
+
+[node name="Card_elderwood_heart" parent="." instance=ExtResource("5_pick")]
+position = Vector2(440, -740)
+card_id = &"elderwood_heart"
+
+[node name="BriarHound1" parent="." instance=ExtResource("7_hound")]
+position = Vector2(-220, -200)
+sprite_frames = ExtResource("8_hound_frames")
+
+[node name="BriarHound2" parent="." instance=ExtResource("7_hound")]
+position = Vector2(200, -260)
+sprite_frames = ExtResource("8_hound_frames")
+
+[node name="BriarHound3" parent="." instance=ExtResource("7_hound")]
+position = Vector2(-60, -420)
+sprite_frames = ExtResource("8_hound_frames")
+
+[node name="BriarHound4" parent="." instance=ExtResource("7_hound")]
+position = Vector2(280, -560)
+sprite_frames = ExtResource("8_hound_frames")
+
+[node name="BriarHound5" parent="." instance=ExtResource("7_hound")]
+position = Vector2(-320, -620)
+sprite_frames = ExtResource("8_hound_frames")
+
+[node name="RaiderCamp" type="Marker2D" parent="."]
+position = Vector2(-380, -720)
+
+[node name="Raider" parent="." node_paths=PackedStringArray("home") instance=ExtResource("10_rival")]
+position = Vector2(-380, -720)
+collector_id = &"raider"
+sprite_frames = ExtResource("11_raider")
+move_speed = 100.0
+carry_limit = 3
+home = NodePath("../RaiderCamp")
+steal_urge = 0.15
+max_health = 7
+hunts = true
+attack_damage = 1
+
+[node name="AnimatedSprite2D" parent="Raider"]
+offset = Vector2(0, -28)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(0, 60)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]

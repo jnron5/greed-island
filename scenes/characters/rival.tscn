@@ -1,10 +1,19 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/rival.gd" id="1_rival"]
 [ext_resource type="Script" path="res://scripts/systems/awareness.gd" id="2_aware"]
+[ext_resource type="Script" path="res://scripts/systems/hurtbox.gd" id="3_hurt"]
+[ext_resource type="Script" path="res://scripts/systems/hitbox.gd" id="4_hit"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_feet"]
 radius = 5.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hurt"]
+radius = 8.0
+height = 36.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_strike"]
+radius = 12.0
 
 [node name="Rival" type="CharacterBody2D"]
 collision_layer = 4
@@ -21,3 +30,24 @@ shape = SubResource("CircleShape2D_feet")
 
 [node name="Awareness" type="Node" parent="."]
 script = ExtResource("2_aware")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 192
+monitorable = false
+script = ExtResource("3_hurt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -22)
+shape = SubResource("CapsuleShape2D_hurt")
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 0
+monitoring = false
+script = ExtResource("4_hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+position = Vector2(0, -14)
+shape = SubResource("CircleShape2D_strike")
+disabled = true

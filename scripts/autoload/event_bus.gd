@@ -15,6 +15,10 @@ signal card_locked(collector: StringName, card_id: StringName, seconds: float)
 signal spell_cast(caster: StringName, spell_id: StringName, target: StringName)
 ## A stealth attempt was caught (the victim noticed).
 signal stealth_failed(thief: StringName, victim: StringName)
+## A fight between collectors ended; `card_id` is what the winner took (&"" if nothing).
+signal combat_won(winner: StringName, loser: StringName, card_id: StringName)
+## The player went down to a monster and woke up in town.
+signal player_fainted(dropped_card: StringName)
 signal safe_zone_changed(collector: StringName, inside: bool)
 ## Short player-facing message for the HUD.
 signal notify(text: String)

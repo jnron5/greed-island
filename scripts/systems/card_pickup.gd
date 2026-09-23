@@ -2,13 +2,21 @@ class_name CardPickup
 extends Area2D
 ## A loose card lying in the world. Any collector body (player or rival) with a
 ## `collector_id` property picks it up on touch; it arrives in the Loose state.
+## Hand-placed pickups are remembered once taken so they don't return when the
+## zone reloads; dropped cards are tracked per zone in GameState.zone_drops.
 
 @export var card_id: StringName
+
+## Set for cards dropped at runtime that should persist in their zone.
+var zone_drop_of: String
 
 var _time := randf() * TAU
 
 
 func _ready() -> void:
+	if _is_hand_placed() and GameState.collected_pickups.has(_persist_key()):
+		queue_free()
+		return
 	add_to_group(&"card_pickups")
 	body_entered.connect(_on_body_entered)
 
@@ -20,8 +28,22 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	var collector: Variant = body.get(&"collector_id")
-	if collector is StringName and GameState.add_loose_card(collector, card_id):
-		queue_free()
+	if not (collector is StringName) or not GameState.add_loose_card(collector, card_id):
+		return
+	if _is_hand_placed():
+		GameState.collected_pickups[_persist_key()] = true
+	elif zone_drop_of != "":
+		GameState.remove_zone_drop(zone_drop_of, card_id, position)
+	queue_free()
+
+
+## Placed in the editor (owned by a saved scene) rather than spawned by code.
+func _is_hand_placed() -> bool:
+	return owner != null and owner.scene_file_path != ""
+
+
+func _persist_key() -> String:
+	return "%s:%s" % [owner.scene_file_path, owner.get_path_to(self)]
 
 
 func _draw() -> void:

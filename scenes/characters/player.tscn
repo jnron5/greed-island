@@ -27,7 +27,7 @@ projectile_scene = ExtResource("4_proj")
 sprite_frames = ExtResource("5_frames")
 animation = &"idle_south"
 autoplay = "idle_south"
-offset = Vector2(0, -27)
+offset = Vector2(0, -28)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -3)

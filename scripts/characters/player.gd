@@ -2,12 +2,14 @@ class_name Player
 extends CharacterBody2D
 ## Top-down 8-directional player: move, dash, sword swing, pistol shot, quick-cast
 ## spell, and stealth steals (interact next to a rival).
+## Losing a fight to a rival costs a loose/exposed card; fainting to monsters
+## drops a loose card where you fell and wakes you in town.
 ## Animations are named "<action>_<direction>", e.g. "run_south_east".
 
 signal health_changed(current: int, maximum: int)
 signal died
 
-enum State { MOVE, DASH, SWORD, DEAD }
+enum State { MOVE, DASH, SWORD, SHOOT, DOWN, DEAD }
 
 ## Indexed by facing angle in 45° steps, starting at east and turning clockwise.
 const DIRECTIONS: Array[String] = [
@@ -31,6 +33,11 @@ const DIRECTIONS: Array[String] = [
 @export_group("Health")
 @export var max_health := 6
 @export var hurt_invulnerability := 0.6
+## Time spent knocked down after losing a fight to a rival.
+@export var down_time := 1.5
+## Where you wake up after fainting to a monster.
+@export_file("*.tscn") var respawn_scene := "res://scenes/world/kalmora.tscn"
+@export var respawn_spawn: StringName = &"town"
 @export_group("Stealth")
 @export var steal_cooldown := 1.0
 
@@ -43,6 +50,7 @@ var _dash_cd := 0.0
 var _pistol_cd := 0.0
 var _dash_dir := Vector2.ZERO
 var _steal_cd := 0.0
+var _slash := Node2D.new()
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var sword_pivot: Node2D = $SwordPivot
@@ -58,7 +66,11 @@ func _ready() -> void:
 	sword_hitbox.damage = sword_damage
 	sword_hitbox.source_id = collector_id
 	sword_shape.disabled = true
+	hurtbox.owner_id = collector_id
 	hurtbox.hurt.connect(_on_hurt)
+	_slash.z_index = 1
+	sword_pivot.add_child(_slash)
+	_slash.draw.connect(_draw_slash)
 	health_changed.emit(health, max_health)
 
 
@@ -82,6 +94,17 @@ func _physics_process(delta: float) -> void:
 				sword_shape.set_deferred(&"disabled", true)
 			if _state_time >= sword_active_time + sword_recovery:
 				_enter(State.MOVE)
+			_slash.queue_redraw()
+		State.SHOOT:
+			velocity = Vector2.ZERO
+			if _state_time >= 0.18:
+				_enter(State.MOVE)
+		State.DOWN:
+			velocity = velocity.move_toward(Vector2.ZERO, 400.0 * delta)
+			if _state_time >= down_time:
+				sprite.rotation = 0.0
+				_enter(State.MOVE)
+				_set_invulnerable_for(2.0)
 		State.DEAD:
 			velocity = Vector2.ZERO
 
@@ -155,28 +178,72 @@ func _fire_pistol() -> void:
 	shot.source_id = collector_id
 	shot.global_position = global_position + Vector2(0, -18) + facing * 10.0
 	get_parent().add_child(shot)
+	_enter(State.SHOOT)
 
 
 func _enter(state: State) -> void:
 	_state = state
 	_state_time = 0.0
+	if state != State.SWORD:
+		_slash.queue_redraw()
 
 
 func _on_hurt(hitbox: Hitbox) -> void:
-	if _state == State.DEAD:
+	if _state in [State.DEAD, State.DOWN]:
 		return
 	health = maxi(health - hitbox.damage, 0)
 	health_changed.emit(health, max_health)
-	velocity = (global_position - hitbox.global_position).normalized() * hitbox.knockback
+	Combat.pop_number(get_parent(), global_position, hitbox.damage, Color(1, 0.45, 0.4))
+	velocity = hitbox.global_position.direction_to(global_position) * hitbox.knockback
 	if health == 0:
-		_enter(State.DEAD)
-		died.emit()
+		if Combat.is_collector(hitbox.source_id):
+			_knocked_down(hitbox.source_id)
+		else:
+			_faint()
 		return
-	hurtbox.invulnerable = true
 	sprite.modulate = Color(1, 0.5, 0.5)
-	await get_tree().create_timer(hurt_invulnerability).timeout
+	await _set_invulnerable_for(hurt_invulnerability)
 	sprite.modulate = Color.WHITE
-	if _state != State.DASH:
+
+
+## Lost a fight to a rival: they take a card, you get back up.
+func _knocked_down(winner_id: StringName) -> void:
+	_enter(State.DOWN)
+	sprite.rotation = PI / 2.0
+	sword_shape.set_deferred(&"disabled", true)
+	Combat.resolve_defeat(winner_id, collector_id)
+	health = max_health
+	health_changed.emit(health, max_health)
+
+
+## Beaten by monsters: drop a loose card where you fell and wake up in town.
+func _faint() -> void:
+	_enter(State.DEAD)
+	died.emit()
+	var dropped: StringName = &""
+	var loose := GameState.stealable_card_ids(collector_id, CardCollection.LOOSE_ONLY)
+	var zone := Zone.current(get_tree())
+	if not loose.is_empty() and zone:
+		dropped = loose.pick_random()
+		if GameState.drop_card(collector_id, dropped):
+			zone.drop_card(dropped, global_position)
+		else:
+			dropped = &""
+	EventBus.player_fainted.emit(dropped)
+	var tween := create_tween()
+	tween.tween_property(sprite, "modulate:a", 0.0, 0.8)
+	tween.tween_callback(_wake_in_town)
+
+
+func _wake_in_town() -> void:
+	GameState.pending_spawn = respawn_spawn
+	get_tree().change_scene_to_file(respawn_scene)
+
+
+func _set_invulnerable_for(seconds: float) -> void:
+	hurtbox.invulnerable = true
+	await get_tree().create_timer(seconds).timeout
+	if _state != State.DASH and is_inside_tree():
 		hurtbox.invulnerable = false
 
 
@@ -194,6 +261,24 @@ static func direction_name(dir: Vector2) -> String:
 	return DIRECTIONS[wrapi(roundi(dir.angle() / (PI / 4.0)), 0, 8)]
 
 
+## Picks "<action>_<dir>" from `frames`, falling back to the nearest cardinal
+## direction (for actions only drawn in 4 directions), then to `fallback` actions.
+## Returns &"" if nothing fits.
+static func pick_animation(frames: SpriteFrames, action: String, dir: Vector2, fallback: Array[String]) -> StringName:
+	var name := direction_name(dir)
+	var cardinals: Array[String] = [name]
+	if "_" in name:
+		# Diagonal: try the closer of its two cardinal halves first.
+		var halves := name.split("_")
+		cardinals.append_array([halves[1], halves[0]] if absf(dir.x) > absf(dir.y) else [halves[0], halves[1]])
+	for candidate: String in [action] + fallback:
+		for d in cardinals:
+			var anim := StringName("%s_%s" % [candidate, d])
+			if frames.has_animation(anim):
+				return anim
+	return &""
+
+
 func _update_animation() -> void:
 	var action := "idle"
 	match _state:
@@ -203,6 +288,10 @@ func _update_animation() -> void:
 			action = "dash"
 		State.SWORD:
 			action = "sword"
+		State.SHOOT:
+			action = "pistol"
+		State.DOWN, State.DEAD:
+			action = "idle"
 	_play(action)
 
 
@@ -210,10 +299,17 @@ func _update_animation() -> void:
 func _play(action: String) -> void:
 	if sprite.sprite_frames == null:
 		return
-	var dir := facing_name()
-	for candidate in [action, "run" if action == "dash" else "idle"]:
-		var anim := StringName("%s_%s" % [candidate, dir])
-		if sprite.sprite_frames.has_animation(anim):
-			if sprite.animation != anim:
-				sprite.play(anim)
-			return
+	var fallback: Array[String] = ["run" if action == "dash" else "idle", "idle"]
+	var anim := pick_animation(sprite.sprite_frames, action, facing, fallback)
+	if anim != &"" and sprite.animation != anim:
+		sprite.play(anim)
+
+
+## Sword arc effect while the swing is active.
+func _draw_slash() -> void:
+	if _state != State.SWORD or _state_time > sword_active_time + 0.05:
+		return
+	var t := clampf(_state_time / sword_active_time, 0.0, 1.0)
+	var sweep := lerpf(-1.1, 1.1, t)
+	_slash.draw_arc(Vector2.ZERO, 20.0, -1.1, sweep, 12, Color(1, 1, 0.9, 0.9), 3.0)
+	_slash.draw_arc(Vector2.ZERO, 16.0, -1.1, sweep, 12, Color(1, 0.95, 0.7, 0.4), 2.0)
