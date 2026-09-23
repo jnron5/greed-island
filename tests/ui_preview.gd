@@ -22,7 +22,7 @@ func _ready() -> void:
 	GameState.expose_card(GameState.PLAYER, &"tide_bell")
 	CardSpells.use_lockbox(GameState.PLAYER, &"sunken_crown_shard")
 	if menu == "stealth":
-		var runner := town.get_node("Runner") as Rival
+		var runner := _rival(town, &"runner")
 		var player := town.get_node("Player") as Player
 		runner.set_physics_process(false)
 		runner.global_position = Vector2(-120, 60)
@@ -48,4 +48,11 @@ func _combat_preview() -> void:
 	GameState.add_loose_card(GameState.PLAYER, &"coral_coin")
 	var player := forest.get_node("Player") as Player
 	player.global_position = Vector2(-190, -170)
-	(forest.get_node("Raider") as Node2D).global_position = Vector2(-110, -240)
+	_rival(forest, &"raider").global_position = Vector2(-110, -240)
+
+
+func _rival(zone: Node, id: StringName) -> Rival:
+	for node in zone.get_children():
+		if node is Rival and node.collector_id == id:
+			return node
+	return null

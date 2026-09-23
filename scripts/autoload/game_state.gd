@@ -13,6 +13,7 @@ const FIELD_BIND_TIME := 1.5
 const LOCKBOX_SECONDS := 90.0
 ## A robbed collector can't be robbed again (by any method) for this long.
 const GRACE_SECONDS := 15.0
+const RIVAL_PROFILE_DIR := "res://data/rivals/"
 
 var active_rivals: Array[StringName] = []
 var collections: Dictionary[StringName, CardCollection] = {}
@@ -34,6 +35,10 @@ var _robbed_at: Dictionary[StringName, int] = {}
 var pending_spawn: StringName
 ## Message for the HUD to show once the next zone loads (e.g. after fainting).
 var pending_notice := ""
+## Where each active rival is: { "zone": scene path, "position": Vector2 or null }.
+## null position = appear at the zone's RivalSpots/<id> marker.
+var rival_locations: Dictionary[StringName, Dictionary] = {}
+var _rival_profiles: Dictionary[StringName, RivalProfile] = {}
 ## Hand-placed pickups already taken ("scene path:node path"), so they don't
 ## come back when a zone reloads.
 var collected_pickups: Dictionary[String, bool] = {}
@@ -43,6 +48,9 @@ var zone_drops: Dictionary[String, Array] = {}
 
 
 func _ready() -> void:
+	for res in CardDatabase.load_all(RIVAL_PROFILE_DIR):
+		if res is RivalProfile:
+			_rival_profiles[res.id] = res
 	new_game(DEFAULT_RIVALS)
 
 
@@ -58,6 +66,10 @@ func new_game(rivals: Array[StringName]) -> void:
 	collected_pickups.clear()
 	zone_drops.clear()
 	pending_spawn = &""
+	rival_locations.clear()
+	for id in active_rivals:
+		var profile := rival_profile(id)
+		rival_locations[id] = { "zone": profile.start_zone if profile else WorldMap.KALMORA, "position": null }
 	quest_flags.clear()
 	opened_gates.clear()
 	world_supply.clear()
@@ -244,6 +256,15 @@ func is_in_safe_zone(collector: StringName) -> bool:
 ## Seconds to bind one card right now: instant in towns, slower in the field.
 func bind_time(collector: StringName) -> float:
 	return 0.0 if is_in_safe_zone(collector) else FIELD_BIND_TIME
+
+
+func rival_profile(id: StringName) -> RivalProfile:
+	return _rival_profiles.get(id)
+
+
+## Sends a rival to `zone`. With no position it appears at that zone's RivalSpots/<id>.
+func move_rival(id: StringName, zone: String, pos: Variant = null) -> void:
+	rival_locations[id] = { "zone": zone, "position": pos }
 
 
 ## Called when a zone scene loads: presence in the old zone's areas is gone.

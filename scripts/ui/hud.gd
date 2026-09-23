@@ -21,7 +21,6 @@ func _ready() -> void:
 	EventBus.card_stolen.connect(_on_card_stolen)
 	EventBus.stealth_failed.connect(_on_stealth_failed)
 	EventBus.combat_won.connect(_on_combat_won)
-	EventBus.player_fainted.connect(_on_player_fainted)
 	EventBus.notify.connect(_toast)
 	EventBus.card_added.connect(_update_spells.unbind(2))
 	EventBus.card_consumed.connect(_update_spells.unbind(3))
@@ -73,11 +72,6 @@ func _on_combat_won(winner: StringName, loser: StringName, card_id: StringName) 
 		_toast("You beat the %s%s!" % [NAMES.get(loser, String(loser)), prize])
 	elif loser == GameState.PLAYER:
 		_toast("The %s beat you%s!" % [NAMES.get(winner, String(winner)), prize])
-
-
-func _on_player_fainted(dropped: StringName) -> void:
-	# Shown after waking in town, so it lives on past the scene change.
-	GameState.pending_notice = "You fainted and woke in town." 		+ (" You dropped %s where you fell." % _card_name(dropped) if dropped != &"" else "")
 
 
 func _on_stealth_failed(thief: StringName, victim: StringName) -> void:

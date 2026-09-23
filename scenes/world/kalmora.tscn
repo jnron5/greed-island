@@ -4,8 +4,6 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2_hud"]
 [ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="3_pick"]
 [ext_resource type="PackedScene" path="res://scenes/characters/training_dummy.tscn" id="4_dummy"]
-[ext_resource type="PackedScene" path="res://scenes/characters/rival.tscn" id="5_rival"]
-[ext_resource type="SpriteFrames" path="res://assets/sprites/rivals/runner/runner_frames.tres" id="6_runner"]
 [ext_resource type="PackedScene" path="res://scenes/systems/merchant.tscn" id="7_merchant"]
 [ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
 [ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="9_binder"]
@@ -239,16 +237,16 @@ shape = SubResource("Town")
 [node name="Merchant" parent="." instance=ExtResource("7_merchant")]
 position = Vector2(130, 40)
 
-[node name="RunnerHome" type="Marker2D" parent="."]
+[node name="RivalSpots" type="Node2D" parent="."]
+
+[node name="runner" type="Marker2D" parent="RivalSpots"]
 position = Vector2(-250, -200)
 
-[node name="Runner" parent="." node_paths=PackedStringArray("home") instance=ExtResource("5_rival")]
-position = Vector2(-250, -200)
-collector_id = &"runner"
-sprite_frames = ExtResource("6_runner")
-move_speed = 95.0
-carry_limit = 2
-home = NodePath("../RunnerHome")
+[node name="raider" type="Marker2D" parent="RivalSpots"]
+position = Vector2(260, -210)
+
+[node name="hoarder" type="Marker2D" parent="RivalSpots"]
+position = Vector2(-60, -235)
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector2(0, 40)

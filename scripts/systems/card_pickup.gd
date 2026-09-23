@@ -28,7 +28,9 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	var collector: Variant = body.get(&"collector_id")
-	if not (collector is StringName) or not GameState.add_loose_card(collector, card_id):
+	if not (collector is StringName) or (body.has_method(&"can_pick_up") and not body.can_pick_up()):
+		return
+	if not GameState.add_loose_card(collector, card_id):
 		return
 	if _is_hand_placed():
 		GameState.collected_pickups[_persist_key()] = true

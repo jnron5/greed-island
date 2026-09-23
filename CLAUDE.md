@@ -78,6 +78,8 @@ Real-time top-down action combat (not a turn-based duel). The player always has:
 
 One moveset serves monster fights, boss fights, and rival confrontations.
 
+**Defeat → nearest town.** When the player or a rival drops to 0 HP (to anyone), they wake up in the nearest town (`WorldMap.nearest_town`; register every new zone/town in `scripts/world/world_map.gd`). Penalties still apply first: a collector who wins the fight takes one loose/exposed card; falling to monsters drops one loose card where you fell. A rival's home for binding becomes the town it woke in.
+
 ### Regular monsters
 Roam zones (tougher variants in later/harder zones). Drop **common** cards on kill (same pool as loose pickups). **Respawn after a cooldown** — this is what lets common `copies_in_world` be treated as "loose pickups + respawning drops" rather than a fixed count.
 

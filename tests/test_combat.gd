@@ -1,6 +1,7 @@
 extends Node
 ## Headless test of combat rules: who can hurt whom, towns, combat steals,
-## monster death drops, rival and player defeats, dropping cards, card gates.
+## monster death drops, rival and player defeats (respawning in the nearest town),
+## dropping cards, card gates.
 ## Run: godot --headless --path . res://tests/test_combat.tscn
 
 const P := &"player"
@@ -62,7 +63,18 @@ func _run() -> void:
 	_check("beaten rival hands over a card", GameState.collection(P).count(&"tide_bell") == tide_before + 1)
 	_check("beaten rival is down and untouchable", runner.hurtbox.invulnerable)
 
-	# Player: beaten by the Raider, loses a card, gets back up at full health.
+	# Beaten rivals wake in the nearest town. From deep in Thornveil that's Kalmora,
+	# a different zone, so the rival leaves this one.
+	_check("nearest town to Thornveil is Kalmora",
+		WorldMap.nearest_town(WorldMap.THORNVEIL, Vector2(0, -700)) == WorldMap.KALMORA)
+	GameState.move_rival(R, WorldMap.THORNVEIL, Vector2(0, -600))
+	runner.respawn_in_nearest_town()
+	await get_tree().process_frame
+	var loc: Dictionary = GameState.rival_locations[R]
+	_check("rival relocated to Kalmora", loc.zone == WorldMap.KALMORA and loc.position == null)
+	_check("rival left the zone it fell in", not is_instance_valid(runner))
+
+	# Player: beaten by the Raider, loses a card, heads for the nearest town.
 	var player: Player = load("res://scenes/characters/player.tscn").instantiate()
 	add_child(player)
 	await get_tree().process_frame
@@ -70,7 +82,9 @@ func _run() -> void:
 	GameState.add_loose_card(P, &"gull_feather")
 	player._on_hurt(_hit(RAIDER, 99))
 	_check("raider took a card from the player", GameState.collection(RAIDER).card_ids().size() == 1)
-	_check("player back to full health", player.health == player.max_health)
+	_check("player is down", player.health == 0 and player.hurtbox.invulnerable)
+	_check("player will wake in Kalmora", "The Raider beat you" in GameState.pending_notice
+		and "woke in Kalmora" in GameState.pending_notice)
 
 	# Dropping a card doesn't touch world supply (it's still out there).
 	GameState.add_loose_card(P, &"harbor_lantern")

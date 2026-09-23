@@ -5,7 +5,9 @@ extends CharacterBody2D
 ## watching the player, fleeing home when alerted, and sneaking up behind the
 ## player to lift a loose card. Combat: rivals have health; hunters (Raider)
 ## chase whoever leads the race and fight for their cards, others flee when hit.
-## Losing a fight hands one loose/exposed card to the winner. (Hunt boss comes later.)
+## Losing a fight hands one loose/exposed card to the winner, and the loser wakes
+## up in the nearest town (which becomes its home). Zones spawn rivals from their
+## RivalProfile and GameState.rival_locations. (Hunt boss comes later.)
 ## Carried cards stay Loose until bound at home, and that is the window the player exploits.
 
 enum State { IDLE, SEEK, RETURN, BIND, SNEAK, HUNT, WINDUP, STRIKE, DOWN }
@@ -55,6 +57,10 @@ var _foe: Node2D
 var _attack_cd := 0.0
 var _hunt_check := 0.0
 var _flash := 0.0
+var _sprite_offset_y := -26.0
+## Set when this rival left for another zone, so leaving the tree doesn't
+## overwrite its new location.
+var _relocated := false
 ## Draws the sight cone on the ground layer, under every character.
 var _cone := Node2D.new()
 
@@ -74,6 +80,7 @@ func _ready() -> void:
 	add_to_group(&"rivals")
 	if sprite_frames:
 		sprite.sprite_frames = sprite_frames
+	sprite.offset.y = _sprite_offset_y
 	_last_position = global_position
 	_cone.z_index = -5
 	add_child(_cone)
@@ -86,6 +93,57 @@ func _ready() -> void:
 	attack_hitbox.source_id = collector_id
 	attack_hitbox.damage = attack_damage
 	attack_shape.disabled = true
+
+
+func _exit_tree() -> void:
+	# Leaving the zone (scene change): remember where we were.
+	if not _relocated and GameState.rival_locations.has(collector_id):
+		GameState.rival_locations[collector_id].position = position
+
+
+## Down rivals don't grab cards.
+func can_pick_up() -> bool:
+	return _state != State.DOWN
+
+
+func apply_profile(profile: RivalProfile) -> void:
+	collector_id = profile.id
+	sprite_frames = profile.sprite_frames
+	_sprite_offset_y = profile.sprite_offset_y
+	move_speed = profile.move_speed
+	carry_limit = profile.carry_limit
+	steal_urge = profile.steal_urge
+	max_health = profile.max_health
+	hunts = profile.hunts
+	attack_damage = profile.attack_damage
+
+
+## Out of the fight: wake up in the nearest town, which becomes home for binding.
+## If that town is another zone, the rival leaves this one and appears there.
+func respawn_in_nearest_town() -> void:
+	var here: String = GameState.rival_locations.get(collector_id, {}).get("zone", WorldMap.KALMORA)
+	var town := WorldMap.nearest_town(here, position)
+	GameState.move_rival(collector_id, town)
+	var zone := get_parent() as Zone
+	if zone and zone.scene_file_path == town:
+		var spot := zone.rival_spot(collector_id)
+		if spot:
+			position = spot.position
+			home = spot
+		_revive()
+	else:
+		_relocated = true
+		queue_free()
+
+
+func _revive() -> void:
+	health = max_health
+	sprite.rotation = 0.0
+	hurtbox.invulnerable = false
+	_fleeing = false
+	_foe = null
+	_last_position = global_position
+	_enter(State.IDLE)
 
 
 func _physics_process(delta: float) -> void:
@@ -135,11 +193,8 @@ func _physics_process(delta: float) -> void:
 		State.DOWN:
 			velocity = velocity.move_toward(Vector2.ZERO, 400.0 * delta)
 			if _state_time >= down_time:
-				sprite.rotation = 0.0
-				health = max_health
-				hurtbox.invulnerable = false
-				_fleeing = carried_count() > 0
-				_enter(State.RETURN if _fleeing else State.IDLE)
+				respawn_in_nearest_town()
+				return
 
 	if _state in [State.IDLE, State.SEEK]:
 		if hunts and _hunt_check <= 0.0:
@@ -236,8 +291,9 @@ func _pick_hunt_target() -> Node2D:
 	return best
 
 
-func _huntable(n: Node2D) -> bool:
-	if not is_instance_valid(n) or not n.is_inside_tree():
+## Untyped on purpose: the foe may have been freed (e.g. the player changed zones).
+func _huntable(n: Variant) -> bool:
+	if not is_instance_valid(n) or not (n is Node2D) or not n.is_inside_tree():
 		return false
 	var id: StringName = n.get(&"collector_id")
 	return global_position.distance_to(n.global_position) <= hunt_radius \

@@ -2,14 +2,14 @@ class_name Player
 extends CharacterBody2D
 ## Top-down 8-directional player: move, dash, sword swing, pistol shot, quick-cast
 ## spell, and stealth steals (interact next to a rival).
-## Losing a fight to a rival costs a loose/exposed card; fainting to monsters
-## drops a loose card where you fell and wakes you in town.
+## Going down to 0 HP wakes you in the nearest town. A rival who beat you takes a
+## loose/exposed card; monsters make you drop a loose card where you fell.
 ## Animations are named "<action>_<direction>", e.g. "run_south_east".
 
 signal health_changed(current: int, maximum: int)
 signal died
 
-enum State { MOVE, DASH, SWORD, SHOOT, DOWN, DEAD }
+enum State { MOVE, DASH, SWORD, SHOOT, DEAD }
 
 ## Indexed by facing angle in 45° steps, starting at east and turning clockwise.
 const DIRECTIONS: Array[String] = [
@@ -33,11 +33,8 @@ const DIRECTIONS: Array[String] = [
 @export_group("Health")
 @export var max_health := 6
 @export var hurt_invulnerability := 0.6
-## Time spent knocked down after losing a fight to a rival.
-@export var down_time := 1.5
-## Where you wake up after fainting to a monster.
-@export_file("*.tscn") var respawn_scene := "res://scenes/world/kalmora.tscn"
-@export var respawn_spawn: StringName = &"town"
+## How long the fall lasts before waking in town.
+@export var down_time := 1.2
 @export_group("Stealth")
 @export var steal_cooldown := 1.0
 
@@ -99,14 +96,8 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 			if _state_time >= 0.18:
 				_enter(State.MOVE)
-		State.DOWN:
-			velocity = velocity.move_toward(Vector2.ZERO, 400.0 * delta)
-			if _state_time >= down_time:
-				sprite.rotation = 0.0
-				_enter(State.MOVE)
-				_set_invulnerable_for(2.0)
 		State.DEAD:
-			velocity = Vector2.ZERO
+			velocity = velocity.move_toward(Vector2.ZERO, 400.0 * delta)
 
 	move_and_slide()
 	_update_animation()
@@ -189,55 +180,66 @@ func _enter(state: State) -> void:
 
 
 func _on_hurt(hitbox: Hitbox) -> void:
-	if _state in [State.DEAD, State.DOWN]:
+	if _state == State.DEAD:
 		return
 	health = maxi(health - hitbox.damage, 0)
 	health_changed.emit(health, max_health)
 	Combat.pop_number(get_parent(), global_position, hitbox.damage, Color(1, 0.45, 0.4))
 	velocity = hitbox.global_position.direction_to(global_position) * hitbox.knockback
 	if health == 0:
-		if Combat.is_collector(hitbox.source_id):
-			_knocked_down(hitbox.source_id)
-		else:
-			_faint()
+		_die(hitbox.source_id)
 		return
 	sprite.modulate = Color(1, 0.5, 0.5)
 	await _set_invulnerable_for(hurt_invulnerability)
 	sprite.modulate = Color.WHITE
 
 
-## Lost a fight to a rival: they take a card, you get back up.
-func _knocked_down(winner_id: StringName) -> void:
-	_enter(State.DOWN)
-	sprite.rotation = PI / 2.0
-	sword_shape.set_deferred(&"disabled", true)
-	Combat.resolve_defeat(winner_id, collector_id)
-	health = max_health
-	health_changed.emit(health, max_health)
-
-
-## Beaten by monsters: drop a loose card where you fell and wake up in town.
-func _faint() -> void:
+## Out of the fight. A rival who beat you takes a loose/exposed card; monsters
+## make you drop a loose card where you fell. Either way you wake in the nearest town.
+func _die(killer_id: StringName) -> void:
 	_enter(State.DEAD)
 	died.emit()
-	var dropped: StringName = &""
-	var loose := GameState.stealable_card_ids(collector_id, CardCollection.LOOSE_ONLY)
+	sprite.rotation = PI / 2.0
+	sword_shape.set_deferred(&"disabled", true)
+	hurtbox.invulnerable = true
 	var zone := Zone.current(get_tree())
-	if not loose.is_empty() and zone:
-		dropped = loose.pick_random()
-		if GameState.drop_card(collector_id, dropped):
-			zone.drop_card(dropped, global_position)
-		else:
-			dropped = &""
-	EventBus.player_fainted.emit(dropped)
+	var town := WorldMap.nearest_town(zone.scene_file_path if zone else "", position)
+	var outcome := ""
+	if Combat.is_collector(killer_id):
+		var taken := Combat.resolve_defeat(killer_id, collector_id)
+		var profile := GameState.rival_profile(killer_id)
+		var who := profile.display_name if profile else "rival"
+		outcome = "The %s beat you" % who
+		if taken != &"":
+			outcome += " and took your %s" % CardDatabase.get_card(taken).display_name
+	else:
+		outcome = "You fainted"
+		var dropped := _drop_a_loose_card(zone)
+		if dropped != &"":
+			outcome += " and dropped %s where you fell" % CardDatabase.get_card(dropped).display_name
+		EventBus.player_fainted.emit(dropped)
+	GameState.pending_notice = "%s. You woke in %s." % [outcome, WorldMap.town_name(town)]
 	var tween := create_tween()
-	tween.tween_property(sprite, "modulate:a", 0.0, 0.8)
-	tween.tween_callback(_wake_in_town)
+	tween.tween_interval(down_time * 0.4)
+	tween.tween_property(sprite, "modulate:a", 0.0, down_time * 0.6)
+	tween.tween_callback(_wake_in.bind(town))
 
 
-func _wake_in_town() -> void:
-	GameState.pending_spawn = respawn_spawn
-	get_tree().change_scene_to_file(respawn_scene)
+## Leaves one random loose card on the ground here (it stays in this zone).
+func _drop_a_loose_card(zone: Zone) -> StringName:
+	var loose := GameState.stealable_card_ids(collector_id, CardCollection.LOOSE_ONLY)
+	if loose.is_empty() or zone == null:
+		return &""
+	var card_id: StringName = loose.pick_random()
+	if not GameState.drop_card(collector_id, card_id):
+		return &""
+	zone.drop_card(card_id, position)
+	return card_id
+
+
+func _wake_in(town: String) -> void:
+	GameState.pending_spawn = WorldMap.town_spawn(town)
+	get_tree().change_scene_to_file(town)
 
 
 func _set_invulnerable_for(seconds: float) -> void:
@@ -245,6 +247,11 @@ func _set_invulnerable_for(seconds: float) -> void:
 	await get_tree().create_timer(seconds).timeout
 	if _state != State.DASH and is_inside_tree():
 		hurtbox.invulnerable = false
+
+
+## Down players don't grab cards (including the one they just dropped).
+func can_pick_up() -> bool:
+	return _state != State.DEAD
 
 
 func heal(amount: int) -> void:
@@ -290,7 +297,7 @@ func _update_animation() -> void:
 			action = "sword"
 		State.SHOOT:
 			action = "pistol"
-		State.DOWN, State.DEAD:
+		State.DEAD:
 			action = "idle"
 	_play(action)
 

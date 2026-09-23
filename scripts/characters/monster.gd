@@ -136,8 +136,9 @@ func _find_target() -> Node2D:
 	return best
 
 
-func _valid_target(n: Node2D) -> bool:
-	if not is_instance_valid(n) or not n.is_inside_tree():
+## Untyped on purpose: the target may have been freed (e.g. a rival that left the zone).
+func _valid_target(n: Variant) -> bool:
+	if not is_instance_valid(n) or not (n is Node2D) or not n.is_inside_tree():
 		return false
 	var id: Variant = n.get(&"collector_id")
 	if not (id is StringName) or GameState.is_in_safe_zone(id):

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="RivalProfile" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/rival_profile.gd" id="1_profile"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/rivals/raider/raider_frames.tres" id="2_frames"]
+
+[resource]
+script = ExtResource("1_profile")
+id = &"raider"
+display_name = "Raider"
+sprite_frames = ExtResource("2_frames")
+sprite_offset_y = -28.0
+start_zone = "res://scenes/world/thornveil.tscn"
+move_speed = 100.0
+carry_limit = 3
+steal_urge = 0.15
+max_health = 7
+hunts = true
+attack_damage = 1

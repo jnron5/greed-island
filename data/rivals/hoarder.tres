@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="RivalProfile" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/rival_profile.gd" id="1_profile"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/rivals/hoarder/hoarder_frames.tres" id="2_frames"]
+
+[resource]
+script = ExtResource("1_profile")
+id = &"hoarder"
+display_name = "Hoarder"
+sprite_frames = ExtResource("2_frames")
+sprite_offset_y = -25.0
+start_zone = "res://scenes/world/kalmora.tscn"
+move_speed = 80.0
+carry_limit = 5
+steal_urge = 0.1
+max_health = 8
+hunts = false
+attack_damage = 1

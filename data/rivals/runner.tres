@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="RivalProfile" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/rival_profile.gd" id="1_profile"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/rivals/runner/runner_frames.tres" id="2_frames"]
+
+[resource]
+script = ExtResource("1_profile")
+id = &"runner"
+display_name = "Runner"
+sprite_frames = ExtResource("2_frames")
+sprite_offset_y = -26.0
+start_zone = "res://scenes/world/kalmora.tscn"
+move_speed = 95.0
+carry_limit = 2
+steal_urge = 0.35
+max_health = 5
+hunts = false
+attack_damage = 1

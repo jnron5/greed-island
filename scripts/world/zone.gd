@@ -1,10 +1,14 @@
 class_name Zone
 extends Node2D
 ## Root of a town/zone scene. Places the player at the requested spawn marker
-## (a child of "Spawns") and restores cards that were dropped here earlier.
+## (a child of "Spawns"), restores cards that were dropped here earlier, and
+## spawns whichever rivals GameState says are in this zone. Rivals appear at
+## "RivalSpots/<id>" (also their home for binding) unless they left from
+## somewhere else here last time.
 
 @export var display_name := ""
 @export var pickup_scene: PackedScene = preload("res://scenes/systems/card_pickup.tscn")
+@export var rival_scene: PackedScene = preload("res://scenes/characters/rival.tscn")
 
 
 func _enter_tree() -> void:
@@ -23,6 +27,9 @@ func _ready() -> void:
 	GameState.pending_spawn = &""
 	for drop: Dictionary in GameState.zone_drops.get(scene_file_path, []):
 		_spawn_drop(drop.card_id, drop.position)
+	for id in GameState.active_rivals:
+		if GameState.rival_locations.get(id, {}).get("zone") == scene_file_path:
+			spawn_rival(id)
 	if display_name != "":
 		EventBus.notify.emit(display_name)
 
@@ -31,6 +38,25 @@ func _ready() -> void:
 func drop_card(card_id: StringName, pos: Vector2) -> void:
 	GameState.add_zone_drop(scene_file_path, card_id, pos)
 	_spawn_drop(card_id, pos)
+
+
+## Adds rival `id` to this zone at its saved position (or its RivalSpots marker).
+func spawn_rival(id: StringName) -> Rival:
+	var profile := GameState.rival_profile(id)
+	if profile == null:
+		return null
+	var rival := rival_scene.instantiate() as Rival
+	rival.apply_profile(profile)
+	rival.home = rival_spot(id)
+	var saved: Variant = GameState.rival_locations[id].get("position")
+	rival.position = saved if saved is Vector2 else (rival.home.position if rival.home else Vector2.ZERO)
+	add_child(rival)
+	return rival
+
+
+## This zone's marker for rival `id`: where it appears and binds its cards.
+func rival_spot(id: StringName) -> Marker2D:
+	return get_node_or_null(NodePath("RivalSpots/%s" % id)) as Marker2D
 
 
 func _spawn_drop(card_id: StringName, pos: Vector2) -> void:
