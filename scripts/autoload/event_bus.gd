@@ -19,6 +19,12 @@ signal stealth_failed(thief: StringName, victim: StringName)
 signal combat_won(winner: StringName, loser: StringName, card_id: StringName)
 ## The player went down to a monster and woke up in town.
 signal player_fainted(dropped_card: StringName)
+## A boss went down; `killer` is whoever landed the last hit (or a monster id).
+signal boss_defeated(boss_id: StringName, killer: StringName)
+## A boss became killable again (gate-based respawn).
+signal boss_returned(boss_id: StringName, gate_id: StringName)
+## Boss health bar: shown while a fight is on, hidden when `shown` is false.
+signal boss_bar(boss_name: String, current: int, maximum: int, shown: bool)
 signal safe_zone_changed(collector: StringName, inside: bool)
 ## Short player-facing message for the HUD.
 signal notify(text: String)

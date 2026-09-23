@@ -9,6 +9,9 @@ extends Node
 ##   along WorldMap edges (paying gate cards like anyone else).
 ## - Crossing between zones takes TRAVEL_SECONDS; a rival in transit is in no zone.
 ##   When it arrives in the player's zone it walks in through the entrance.
+## - Hunters (Raider) go after a boss when it's alive and they still lack one of
+##   its final-set cards (never just to deny the player). Off-screen that's a
+##   risky roll: win and take the drops, lose and wake in the nearest town.
 
 signal rival_departed(id: StringName, from_zone: String, to_zone: String)
 signal rival_arrived(id: StringName, zone: String)
@@ -17,6 +20,8 @@ const TICK := 1.0
 const TRAVEL_SECONDS := 12.0
 ## Off-screen chance per action of taking a monster drop in a field zone.
 const FARM_CHANCE := 0.5
+## Off-screen chance per attempt that a hunter beats a boss.
+const BOSS_WIN_CHANCE := 0.2
 
 ## Tests switch this off to keep rivals where they put them.
 var enabled := true
@@ -69,6 +74,10 @@ func tick_rival(id: StringName, dt: float) -> void:
 func act_offscreen(id: StringName, zone: String) -> void:
 	if WorldMap.is_town(zone):
 		bind_all(id)
+	var boss := wanted_boss(id, zone)
+	if boss and boss.zone == zone:
+		fight_boss_offscreen(id, boss)
+		return
 	var destination := choose_destination(id, zone)
 	if destination != zone:
 		var edge := WorldMap.next_hop(zone, destination, id, GameState.rival_profile(id).pays_gates)
@@ -90,6 +99,11 @@ func choose_destination(id: StringName, zone: String) -> String:
 	# Full hands: get to a town to bind (every style).
 	if carrying >= profile.carry_limit and not WorldMap.is_town(zone):
 		return _nearest_reachable_town(id, zone, pays)
+
+	# Hunt a boss for a card we still need.
+	var boss := wanted_boss(id, zone)
+	if boss:
+		return boss.zone
 
 	match profile.travel_style:
 		RivalProfile.TravelStyle.HUNTER:
@@ -122,6 +136,42 @@ func choose_destination(id: StringName, zone: String) -> String:
 				if not WorldMap.remaining_pickups(other).is_empty():
 					return other
 			return zone
+
+
+## A boss rival `id` should go after from `zone`: it hunts, the boss is alive,
+## the rival still lacks one of its final-set cards, and it can get there.
+func wanted_boss(id: StringName, zone: String) -> BossData:
+	var profile := GameState.rival_profile(id)
+	if profile == null or not profile.hunts:
+		return null
+	for boss in GameState.all_bosses():
+		if not GameState.is_boss_alive(boss.id) or not _needs_any(id, boss.drop_card_ids):
+			continue
+		if boss.zone == zone or not WorldMap.next_hop(zone, boss.zone, id, profile.pays_gates).is_empty():
+			return boss
+	return null
+
+
+## Off-screen boss fight. `roll` in [0, 1) forces the outcome (tests); < 0 = random.
+func fight_boss_offscreen(id: StringName, boss: BossData, roll := -1.0) -> bool:
+	if roll < 0.0:
+		roll = randf()
+	if roll < BOSS_WIN_CHANCE and GameState.kill_boss(boss.id, id):
+		for card in boss.drop_card_ids:
+			GameState.add_loose_card(id, card)
+		return true
+	# Beaten: wake in the nearest town like anyone else.
+	GameState.move_rival(id, WorldMap.nearest_town(boss.zone, Vector2.ZERO))
+	return false
+
+
+func _needs_any(id: StringName, cards: Array[StringName]) -> bool:
+	var col := GameState.collection(id)
+	for card_id in cards:
+		var card := CardDatabase.get_card(card_id)
+		if card and card.is_final_set_member and col.count(card_id) < card.final_set_count:
+			return true
+	return false
 
 
 ## On-screen rivals: the edge to leave by, or {} to stay. Pays the gate if it

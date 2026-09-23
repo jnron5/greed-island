@@ -14,6 +14,7 @@ extends RefCounted
 const COMPETITORS := 3
 const CARD_DIR := "res://data/cards/"
 const GATE_DIR := "res://data/gates/"
+const BOSS_DIR := "res://data/bosses/"
 
 
 static func run() -> Dictionary:
@@ -71,6 +72,26 @@ static func run() -> Dictionary:
 			lines.append("  ok   %-24s supply %d >= demand %d" % [id, supply, need])
 		if card.source == CardData.Source.BOSS and not (card.boss_kill_cap >= 3 and card.boss_kill_cap <= 4):
 			warnings.append("'%s' boss kill cap is %d (design target 3-4)" % [id, card.boss_kill_cap])
+
+	# Bosses: kills beyond the first need respawn gates, and the drops must be
+	# boss cards whose kill cap matches (that's what their supply is computed from).
+	for file in ResourceLoader.list_directory(BOSS_DIR):
+		var boss := load(BOSS_DIR + file) as BossData if file.ends_with(".tres") else null
+		if boss == null:
+			continue
+		var respawn_gates := 0
+		for gate in gates:
+			if gate.respawns_boss == boss.id:
+				respawn_gates += 1
+		if respawn_gates + 1 < boss.kill_cap:
+			warnings.append("Boss '%s' has kill cap %d but only %d respawn gate(s): at most %d kills possible"
+				% [boss.id, boss.kill_cap, respawn_gates, respawn_gates + 1])
+		for drop in boss.drop_card_ids:
+			var card := cards.get(drop) as CardData
+			if card == null:
+				errors.append("Boss '%s' drops unknown card '%s'" % [boss.id, drop])
+			elif card.source != CardData.Source.BOSS or card.boss_kill_cap != boss.kill_cap:
+				errors.append("Boss '%s' drop '%s' should be a BOSS card with kill cap %d" % [boss.id, drop, boss.kill_cap])
 
 	return {
 		"cards": cards.size(),

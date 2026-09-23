@@ -9,3 +9,4 @@ display_name = "Moss Bridge"
 zone = &"thornveil"
 cost_card_id = &"moss_lantern"
 cost_amount = 1
+respawns_boss = &"canopy_warden"

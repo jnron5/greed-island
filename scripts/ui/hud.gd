@@ -12,6 +12,9 @@ const NAMES: Dictionary[StringName, String] = {
 @onready var spell_label: Label = %SpellLabel
 
 var _toast_tween: Tween
+var _boss_bar: Control
+var _boss_fill: ColorRect
+var _boss_label: Label
 
 
 func _ready() -> void:
@@ -22,6 +25,9 @@ func _ready() -> void:
 	EventBus.stealth_failed.connect(_on_stealth_failed)
 	EventBus.combat_won.connect(_on_combat_won)
 	EventBus.gate_opened.connect(_on_gate_opened)
+	EventBus.boss_bar.connect(_on_boss_bar)
+	EventBus.boss_returned.connect(_on_boss_returned)
+	_build_boss_bar()
 	RivalDirector.rival_departed.connect(_on_rival_departed)
 	RivalDirector.rival_arrived.connect(_on_rival_arrived)
 	EventBus.notify.connect(_toast)
@@ -75,6 +81,48 @@ func _on_combat_won(winner: StringName, loser: StringName, card_id: StringName) 
 		_toast("You beat the %s%s!" % [NAMES.get(loser, String(loser)), prize])
 	elif loser == GameState.PLAYER:
 		_toast("The %s beat you%s!" % [NAMES.get(winner, String(winner)), prize])
+
+
+## Boss name and health across the top of the screen while a fight is on.
+func _build_boss_bar() -> void:
+	_boss_bar = Control.new()
+	_boss_bar.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_boss_bar.position = Vector2(-110, 8)
+	_boss_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_boss_bar.visible = false
+	$Root.add_child(_boss_bar)
+	_boss_label = Label.new()
+	_boss_label.add_theme_font_size_override("font_size", 10)
+	_boss_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_boss_label.add_theme_constant_override("outline_size", 4)
+	_boss_label.size = Vector2(220, 14)
+	_boss_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_boss_bar.add_child(_boss_label)
+	var back := ColorRect.new()
+	back.color = Color(0, 0, 0, 0.7)
+	back.position = Vector2(0, 16)
+	back.size = Vector2(220, 6)
+	_boss_bar.add_child(back)
+	_boss_fill = ColorRect.new()
+	_boss_fill.color = Color(0.45, 0.8, 0.35)
+	_boss_fill.position = Vector2(1, 17)
+	_boss_fill.size = Vector2(218, 4)
+	_boss_bar.add_child(_boss_fill)
+
+
+func _on_boss_bar(boss_name: String, current: int, maximum: int, shown: bool) -> void:
+	_boss_bar.visible = shown
+	_boss_label.text = boss_name
+	var frac := float(current) / maximum if maximum > 0 else 0.0
+	_boss_fill.size.x = 218.0 * frac
+	_boss_fill.color = Color(0.9, 0.35, 0.25) if frac <= 0.5 else Color(0.45, 0.8, 0.35)
+
+
+func _on_boss_returned(boss_id: StringName, gate_id: StringName) -> void:
+	var boss := GameState.boss_data(boss_id)
+	var gate := CardDatabase.get_gate(gate_id)
+	if boss and gate:
+		_toast("Opening the %s stirred something... the %s has returned." % [gate.display_name, boss.display_name])
 
 
 func _on_gate_opened(gate_id: StringName, by: StringName) -> void:

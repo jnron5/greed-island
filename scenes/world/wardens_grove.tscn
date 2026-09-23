@@ -1,0 +1,309 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/tree.tscn" id="5_tree"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/great_tree.tscn" id="6_great"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="PackedScene" path="res://scenes/characters/canopy_warden.tscn" id="8_boss"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/bosses/canopy_warden/canopy_warden_frames.tres" id="9_boss_frames"]
+
+[sub_resource type="RectangleShape2D" id="Wall_h"]
+size = Vector2(1000, 40)
+
+[sub_resource type="RectangleShape2D" id="Wall_v_half"]
+size = Vector2(40, 336)
+
+[sub_resource type="RectangleShape2D" id="Wall_v"]
+size = Vector2(40, 760)
+
+[sub_resource type="RectangleShape2D" id="Entrance_end"]
+size = Vector2(20, 60)
+
+[node name="WardensGrove" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Warden's Grove"
+
+[node name="Shade" type="CanvasModulate" parent="."]
+color = Color(0.78, 0.88, 0.8, 1)
+
+[node name="Ground" type="ColorRect" parent="."]
+z_index = -10
+offset_left = -480.0
+offset_top = -360.0
+offset_right = 480.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(0.22, 0.33, 0.2, 1)
+
+[node name="Clearing" type="Polygon2D" parent="."]
+z_index = -9
+color = Color(0.36, 0.47, 0.3, 1)
+polygon = PackedVector2Array(330, 0, 324, 49, 305, 96, 274, 139, 233, 177, 183, 208, 126, 231, 64, 245, 0, 250, -64, 245, -126, 231, -183, 208, -233, 177, -274, 139, -305, 96, -324, 49, -330, 0, -324, -49, -305, -96, -274, -139, -233, -177, -183, -208, -126, -231, -64, -245, -0, -250, 64, -245, 126, -231, 183, -208, 233, -177, 274, -139, 305, -96, 324, -49)
+
+[node name="Path" type="ColorRect" parent="."]
+z_index = -9
+offset_left = -500.0
+offset_top = -24.0
+offset_right = -300.0
+offset_bottom = 24.0
+mouse_filter = 2
+color = Color(0.45, 0.4, 0.3, 1)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="North" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, -380)
+shape = SubResource("Wall_h")
+
+[node name="South" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, 380)
+shape = SubResource("Wall_h")
+
+[node name="East" type="CollisionShape2D" parent="Walls"]
+position = Vector2(500, 0)
+shape = SubResource("Wall_v")
+
+[node name="WestTop" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-500, -192)
+shape = SubResource("Wall_v_half")
+
+[node name="WestBottom" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-500, 192)
+shape = SubResource("Wall_v_half")
+
+[node name="EntranceEnd" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-530, 0)
+shape = SubResource("Entrance_end")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="from_thornveil" type="Marker2D" parent="Spawns"]
+position = Vector2(-400, 0)
+
+[node name="ToThornveil" parent="." instance=ExtResource("7_exit")]
+position = Vector2(-495, 0)
+rotation = 1.5708
+target_scene = "res://scenes/world/thornveil.tscn"
+target_spawn = &"from_grove"
+
+[node name="CanopyWarden" parent="." instance=ExtResource("8_boss")]
+position = Vector2(60, 0)
+sprite_frames = ExtResource("9_boss_frames")
+
+[node name="GreatTree1" parent="." instance=ExtResource("6_great")]
+position = Vector2(447, 0)
+
+[node name="GreatTree2" parent="." instance=ExtResource("6_great")]
+position = Vector2(430, 91)
+
+[node name="GreatTree3" parent="." instance=ExtResource("6_great")]
+position = Vector2(375, 174)
+
+[node name="GreatTree4" parent="." instance=ExtResource("6_great")]
+position = Vector2(272, 226)
+
+[node name="GreatTree5" parent="." instance=ExtResource("6_great")]
+position = Vector2(181, 285)
+
+[node name="GreatTree6" parent="." instance=ExtResource("6_great")]
+position = Vector2(61, 305)
+
+[node name="GreatTree7" parent="." instance=ExtResource("6_great")]
+position = Vector2(-62, 308)
+
+[node name="GreatTree8" parent="." instance=ExtResource("6_great")]
+position = Vector2(-173, 273)
+
+[node name="GreatTree9" parent="." instance=ExtResource("6_great")]
+position = Vector2(-275, 228)
+
+[node name="GreatTree10" parent="." instance=ExtResource("6_great")]
+position = Vector2(-361, 167)
+
+[node name="GreatTree11" parent="." instance=ExtResource("6_great")]
+position = Vector2(-354, -164)
+
+[node name="GreatTree12" parent="." instance=ExtResource("6_great")]
+position = Vector2(-281, -234)
+
+[node name="GreatTree13" parent="." instance=ExtResource("6_great")]
+position = Vector2(-172, -271)
+
+[node name="GreatTree14" parent="." instance=ExtResource("6_great")]
+position = Vector2(-59, -296)
+
+[node name="GreatTree15" parent="." instance=ExtResource("6_great")]
+position = Vector2(62, -313)
+
+[node name="GreatTree16" parent="." instance=ExtResource("6_great")]
+position = Vector2(178, -281)
+
+[node name="GreatTree17" parent="." instance=ExtResource("6_great")]
+position = Vector2(283, -235)
+
+[node name="GreatTree18" parent="." instance=ExtResource("6_great")]
+position = Vector2(370, -171)
+
+[node name="GreatTree19" parent="." instance=ExtResource("6_great")]
+position = Vector2(409, -86)
+
+[node name="Tree1" parent="." instance=ExtResource("5_tree")]
+position = Vector2(331, -314)
+radius = 20.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree2" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-353, -266)
+radius = 16.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree3" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-431, 231)
+radius = 16.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree4" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-361, 284)
+radius = 20.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree5" parent="." instance=ExtResource("5_tree")]
+position = Vector2(470, 256)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree6" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-436, -293)
+radius = 20.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree7" parent="." instance=ExtResource("5_tree")]
+position = Vector2(233, -337)
+radius = 16.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree8" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-243, -292)
+radius = 16.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree9" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-116, -334)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree10" parent="." instance=ExtResource("5_tree")]
+position = Vector2(452, -338)
+radius = 16.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree11" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-359, -325)
+radius = 16.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree12" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-262, 347)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree13" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-440, -173)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree14" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-172, 347)
+radius = 20.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree15" parent="." instance=ExtResource("5_tree")]
+position = Vector2(438, 333)
+radius = 16.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree16" parent="." instance=ExtResource("5_tree")]
+position = Vector2(356, -269)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree17" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-429, -227)
+radius = 20.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree18" parent="." instance=ExtResource("5_tree")]
+position = Vector2(463, -164)
+radius = 20.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree19" parent="." instance=ExtResource("5_tree")]
+position = Vector2(155, 349)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree20" parent="." instance=ExtResource("5_tree")]
+position = Vector2(306, 316)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree21" parent="." instance=ExtResource("5_tree")]
+position = Vector2(363, 272)
+radius = 16.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree22" parent="." instance=ExtResource("5_tree")]
+position = Vector2(390, -347)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree23" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-112, 337)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree24" parent="." instance=ExtResource("5_tree")]
+position = Vector2(255, 334)
+radius = 16.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree25" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-452, 182)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree26" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-398, 322)
+radius = 20.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree27" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-204, -350)
+radius = 20.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree28" parent="." instance=ExtResource("5_tree")]
+position = Vector2(181, -332)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree29" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-327, 247)
+radius = 18.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Tree30" parent="." instance=ExtResource("5_tree")]
+position = Vector2(-372, -217)
+radius = 20.0
+tint = Color(0.16, 0.32, 0.18, 1)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(-400, 0)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]

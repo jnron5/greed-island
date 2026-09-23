@@ -219,7 +219,9 @@ func _physics_process(delta: float) -> void:
 	if _state in [State.IDLE, State.SEEK]:
 		if hunts and _hunt_check <= 0.0:
 			_hunt_check = 1.0
-			_foe = _pick_hunt_target()
+			_foe = _boss_to_hunt()
+			if _foe == null:
+				_foe = _pick_hunt_target()
 			if _foe:
 				_enter(State.HUNT)
 		if _state != State.HUNT:
@@ -323,10 +325,23 @@ func _pick_hunt_target() -> Node2D:
 	return best
 
 
+## The boss in this zone, if the director says we're here for its cards.
+func _boss_to_hunt() -> Node2D:
+	var wanted := RivalDirector.wanted_boss(collector_id, RivalDirector.player_zone())
+	if wanted == null:
+		return null
+	for node in get_tree().get_nodes_in_group(&"bosses"):
+		if node is Boss and node.boss_id == wanted.id and not node.is_dead():
+			return node
+	return null
+
+
 ## Untyped on purpose: the foe may have been freed (e.g. the player changed zones).
 func _huntable(n: Variant) -> bool:
 	if not is_instance_valid(n) or not (n is Node2D) or not n.is_inside_tree():
 		return false
+	if n is Boss:
+		return not n.is_dead()
 	var id: StringName = n.get(&"collector_id")
 	return global_position.distance_to(n.global_position) <= hunt_radius \
 		and Combat.can_damage(collector_id, id) \
@@ -338,6 +353,10 @@ func _process_hunt(delta: float) -> void:
 	if not _huntable(_foe):
 		_foe = null
 		_enter(State.RETURN if carried_count() > 0 else State.SEEK)
+		return
+	if _foe is Boss and not _foe.is_vulnerable():
+		# It's up in the canopy: keep clear of the landing and wait.
+		velocity = Vector2.ZERO
 		return
 	var dist := global_position.distance_to(_foe.global_position)
 	if dist <= attack_range and _attack_cd <= 0.0:

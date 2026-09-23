@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BossData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/boss_data.gd" id="1_boss"]
+
+[resource]
+script = ExtResource("1_boss")
+id = &"canopy_warden"
+display_name = "Canopy Warden"
+zone = "res://scenes/world/wardens_grove.tscn"
+kill_cap = 4
+drop_card_ids = Array[StringName]([&"warden_mask", &"canopy_eye", &"verdant_crest"])

@@ -12,6 +12,7 @@ extends RefCounted
 const KALMORA := "res://scenes/world/kalmora.tscn"
 const THORNVEIL := "res://scenes/world/thornveil.tscn"
 const SORENDA := "res://scenes/world/sorenda.tscn"
+const WARDENS_GROVE := "res://scenes/world/wardens_grove.tscn"
 
 const PICKUP_SCENE := "res://scenes/systems/card_pickup.tscn"
 
@@ -21,6 +22,7 @@ const ZONES := {
 	THORNVEIL: { "name": "Thornveil Forest", "origin": Vector2(0, -485),
 		"monster_drops": [&"thorn_sprig", &"moss_lantern", &"veyra_reed", &"hollow_acorn"] },
 	SORENDA: { "name": "Sorenda", "origin": Vector2(0, -1490), "monster_drops": [] },
+	WARDENS_GROVE: { "name": "Warden's Grove", "origin": Vector2(1030, -885), "monster_drops": [] },
 }
 
 ## Town scene -> { spawn marker (under "Spawns") people wake at, its local position }
@@ -41,6 +43,10 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(0, 120), "gate": &"" },
 	{ "from": SORENDA, "to": THORNVEIL, "exit": Vector2(0, 175), "spawn": &"from_sorenda",
 		"entry": Vector2(0, -760), "gate": &"" },
+	{ "from": THORNVEIL, "to": WARDENS_GROVE, "exit": Vector2(535, -400), "spawn": &"from_thornveil",
+		"entry": Vector2(-400, 0), "gate": &"" },
+	{ "from": WARDENS_GROVE, "to": THORNVEIL, "exit": Vector2(-495, 0), "spawn": &"from_grove",
+		"entry": Vector2(460, -400), "gate": &"" },
 ]
 
 static var _pickup_cache: Dictionary = {}

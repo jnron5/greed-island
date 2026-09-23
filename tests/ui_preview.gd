@@ -2,7 +2,8 @@ extends Node
 ## Loads Kalmora with a stocked binder and opens a menu, for screenshots:
 ## godot --path . --write-movie out.png --quit-after 30 res://tests/ui_preview.tscn
 ## Set `menu` to "binder", "shop", "stealth" (player sneaking up on the Runner),
-## or "combat" (Thornveil: player with loose cards near a Briar Hound and the Raider).
+## "combat" (Thornveil: player with loose cards near a Briar Hound and the Raider),
+## or "boss" (Warden's Grove: the player walks into the Canopy Warden's clearing).
 
 @export var menu := "binder"
 
@@ -10,6 +11,13 @@ extends Node
 func _ready() -> void:
 	if menu == "combat":
 		_combat_preview()
+		return
+	if menu == "boss":
+		RivalDirector.enabled = false
+		var grove: Node = load("res://scenes/world/wardens_grove.tscn").instantiate()
+		add_child(grove)
+		await get_tree().process_frame
+		(grove.get_node("Player") as Player).global_position = Vector2(-120, 30)
 		return
 	var town: Node = load("res://scenes/world/kalmora.tscn").instantiate()
 	add_child(town)

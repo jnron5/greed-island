@@ -14,6 +14,7 @@ const LOCKBOX_SECONDS := 90.0
 ## A robbed collector can't be robbed again (by any method) for this long.
 const GRACE_SECONDS := 15.0
 const RIVAL_PROFILE_DIR := "res://data/rivals/"
+const BOSS_DIR := "res://data/bosses/"
 
 var active_rivals: Array[StringName] = []
 var collections: Dictionary[StringName, CardCollection] = {}
@@ -39,6 +40,10 @@ var pending_notice := ""
 ## null position = appear at the zone's RivalSpots/<id> marker.
 var rival_locations: Dictionary[StringName, Dictionary] = {}
 var _rival_profiles: Dictionary[StringName, RivalProfile] = {}
+## boss id -> { "kills": int, "alive": bool }. Bosses start alive; after a kill
+## they only return when a gate naming them in respawns_boss opens.
+var bosses: Dictionary[StringName, Dictionary] = {}
+var _boss_data: Dictionary[StringName, BossData] = {}
 ## Hand-placed pickups already taken ("scene path:node path"), so they don't
 ## come back when a zone reloads.
 var collected_pickups: Dictionary[String, bool] = {}
@@ -51,6 +56,9 @@ func _ready() -> void:
 	for res in CardDatabase.load_all(RIVAL_PROFILE_DIR):
 		if res is RivalProfile:
 			_rival_profiles[res.id] = res
+	for res in CardDatabase.load_all(BOSS_DIR):
+		if res is BossData:
+			_boss_data[res.id] = res
 	new_game(DEFAULT_RIVALS)
 
 
@@ -67,6 +75,9 @@ func new_game(rivals: Array[StringName]) -> void:
 	zone_drops.clear()
 	pending_spawn = &""
 	rival_locations.clear()
+	bosses.clear()
+	for id in _boss_data:
+		bosses[id] = { "kills": 0, "alive": true }
 	for id in active_rivals:
 		var profile := rival_profile(id)
 		rival_locations[id] = { "zone": profile.start_zone if profile else WorldMap.KALMORA, "position": null }
@@ -260,6 +271,41 @@ func bind_time(collector: StringName) -> float:
 	return 0.0 if is_in_safe_zone(collector) else FIELD_BIND_TIME
 
 
+func boss_data(id: StringName) -> BossData:
+	return _boss_data.get(id)
+
+
+func all_bosses() -> Array[BossData]:
+	var out: Array[BossData] = []
+	out.assign(_boss_data.values())
+	return out
+
+
+func is_boss_alive(id: StringName) -> bool:
+	return bosses.get(id, {}).get("alive", false)
+
+
+func boss_kills_left(id: StringName) -> int:
+	var data := boss_data(id)
+	return data.kill_cap - bosses.get(id, {}).get("kills", 0) if data else 0
+
+
+## Records a boss kill. Returns false if it wasn't alive (already dead).
+func kill_boss(id: StringName, killer: StringName) -> bool:
+	if not is_boss_alive(id):
+		return false
+	bosses[id].kills += 1
+	bosses[id].alive = false
+	EventBus.boss_defeated.emit(id, killer)
+	return true
+
+
+func _respawn_boss(id: StringName, gate_id: StringName) -> void:
+	if bosses.has(id) and not bosses[id].alive and boss_kills_left(id) > 0:
+		bosses[id].alive = true
+		EventBus.boss_returned.emit(id, gate_id)
+
+
 func rival_profile(id: StringName) -> RivalProfile:
 	return _rival_profiles.get(id)
 
@@ -310,6 +356,8 @@ func open_gate(gate_id: StringName, by: StringName) -> bool:
 		consume_card(by, gate.cost_card_id, &"gate")
 	opened_gates[gate_id] = by
 	EventBus.gate_opened.emit(gate_id, by)
+	if gate.respawns_boss != &"":
+		_respawn_boss(gate.respawns_boss, gate_id)
 	return true
 
 

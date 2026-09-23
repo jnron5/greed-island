@@ -1,0 +1,80 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/boss.gd" id="1_boss"]
+[ext_resource type="Script" path="res://scripts/systems/hurtbox.gd" id="2_hurt"]
+[ext_resource type="Script" path="res://scripts/systems/hitbox.gd" id="3_hit"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_feet"]
+radius = 12.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hurt"]
+radius = 22.0
+height = 110.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_slam"]
+radius = 42.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_swipe"]
+radius = 30.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lash"]
+size = Vector2(170, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_none"]
+
+[node name="CanopyWarden" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 1
+motion_mode = 1
+script = ExtResource("1_boss")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_none")
+offset = Vector2(0, -71)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_feet")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 192
+monitorable = false
+script = ExtResource("2_hurt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -60)
+shape = SubResource("CapsuleShape2D_hurt")
+
+[node name="SlamHitbox" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_hit")
+knockback = 220.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlamHitbox"]
+shape = SubResource("CircleShape2D_slam")
+disabled = true
+
+[node name="SwipeHitbox" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_hit")
+knockback = 180.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwipeHitbox"]
+shape = SubResource("CircleShape2D_swipe")
+disabled = true
+
+[node name="LashHitbox" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_hit")
+knockback = 140.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LashHitbox"]
+shape = SubResource("RectangleShape2D_lash")
+disabled = true

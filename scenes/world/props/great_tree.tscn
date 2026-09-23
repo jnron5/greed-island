@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/great_tree.png" id="1_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_trunk"]
+radius = 12.0
+
+[node name="GreatTree" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -61)
+texture = ExtResource("1_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_trunk")

@@ -85,7 +85,7 @@ One moveset serves monster fights, boss fights, and rival confrontations.
 Roam zones (tougher variants in later/harder zones). Drop **common** cards on kill (same pool as loose pickups). **Respawn after a cooldown** — this is what lets common `copies_in_world` be treated as "loose pickups + respawning drops" rather than a fixed count.
 
 ### Boss monsters
-One (or more) per zone, guarding tough gates/optional areas. Drop **rare** cards. **Killable a limited number of times per playthrough (3-4 total)**, then that source is gone for the rest of the game. **Respawn is gate-based** (not real-time, not zone-entry) — a boss becomes killable again once a specific gate is opened. This paces scarcity against actual player/rival progress rather than raw playtime.
+One (or more) per zone, guarding tough gates/optional areas. Drop **rare** cards. *(Implemented: the Canopy Warden in Warden's Grove, east of Thornveil — `BossData` in `data/bosses/`, `scripts/characters/boss.gd`. Canopy → telegraphed drop → grounded swipes/lashes → climbs back; each kill drops one of each of its 3 cards; respawn gates are those whose GateData.respawns_boss names it — keep respawn gates ≥ kill cap − 1, the validator warns otherwise. Hunter rivals go for a boss before following the player, but only while they lack one of its final-set cards.)* **Killable a limited number of times per playthrough (3-4 total)**, then that source is gone for the rest of the game. **Respawn is gate-based** (not real-time, not zone-entry) — a boss becomes killable again once a specific gate is opened. This paces scarcity against actual player/rival progress rather than raw playtime.
 
 ## World map — Virelia Isle
 

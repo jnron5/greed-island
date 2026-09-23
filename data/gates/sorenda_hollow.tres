@@ -10,3 +10,4 @@ zone = &"sorenda"
 cost_card_id = &"hollow_acorn"
 cost_amount = 1
 has_alternate_route = true
+respawns_boss = &"canopy_warden"

@@ -16,6 +16,15 @@ size = Vector2(1040, 40)
 [sub_resource type="RectangleShape2D" id="Wall_v"]
 size = Vector2(40, 920)
 
+[sub_resource type="RectangleShape2D" id="East_top"]
+size = Vector2(40, 386)
+
+[sub_resource type="RectangleShape2D" id="East_bottom"]
+size = Vector2(40, 486)
+
+[sub_resource type="RectangleShape2D" id="East_end"]
+size = Vector2(20, 60)
+
 [sub_resource type="RectangleShape2D" id="South_half"]
 size = Vector2(496, 40)
 
@@ -51,6 +60,15 @@ offset_bottom = -700.0
 mouse_filter = 2
 color = Color(0.5, 0.44, 0.32, 1)
 
+[node name="EastPath" type="ColorRect" parent="."]
+z_index = -9
+offset_left = 440.0
+offset_top = -424.0
+offset_right = 560.0
+offset_bottom = -376.0
+mouse_filter = 2
+color = Color(0.5, 0.44, 0.32, 1)
+
 [node name="Walls" type="StaticBody2D" parent="."]
 
 [node name="NorthWest" type="CollisionShape2D" parent="Walls"]
@@ -65,9 +83,17 @@ shape = SubResource("South_half")
 position = Vector2(-520, -350)
 shape = SubResource("Wall_v")
 
-[node name="East" type="CollisionShape2D" parent="Walls"]
-position = Vector2(520, -350)
-shape = SubResource("Wall_v")
+[node name="EastTop" type="CollisionShape2D" parent="Walls"]
+position = Vector2(520, -617)
+shape = SubResource("East_top")
+
+[node name="EastBottom" type="CollisionShape2D" parent="Walls"]
+position = Vector2(520, -133)
+shape = SubResource("East_bottom")
+
+[node name="EastPathEnd" type="CollisionShape2D" parent="Walls"]
+position = Vector2(560, -400)
+shape = SubResource("East_end")
 
 [node name="SouthWest" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-272, 120)
@@ -88,6 +114,15 @@ position = Vector2(0, -760)
 [node name="ToSorenda" parent="." instance=ExtResource("9_exit")]
 position = Vector2(0, -830)
 target_scene = "res://scenes/world/sorenda.tscn"
+target_spawn = &"from_thornveil"
+
+[node name="from_grove" type="Marker2D" parent="Spawns"]
+position = Vector2(460, -400)
+
+[node name="ToGrove" parent="." instance=ExtResource("9_exit")]
+position = Vector2(535, -400)
+rotation = 1.5708
+target_scene = "res://scenes/world/wardens_grove.tscn"
 target_spawn = &"from_thornveil"
 
 [node name="ToKalmora" parent="." instance=ExtResource("9_exit")]
@@ -214,10 +249,6 @@ radius = 16.0
 [node name="Tree31" parent="." instance=ExtResource("6_tree")]
 position = Vector2(67, -254)
 radius = 18.0
-
-[node name="Tree32" parent="." instance=ExtResource("6_tree")]
-position = Vector2(426, -409)
-radius = 16.0
 
 [node name="Tree33" parent="." instance=ExtResource("6_tree")]
 position = Vector2(276, -301)

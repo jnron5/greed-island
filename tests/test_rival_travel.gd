@@ -76,6 +76,10 @@ func _run() -> void:
 	_check("idle Raider leaves town to hunt monsters in the field",
 		not WorldMap.is_town(RivalDirector.choose_destination(RAIDER, WorldMap.SORENDA)))
 	GameState.add_loose_card(GameState.PLAYER, &"fern_sigil")
+	# A boss it still needs cards from comes first; with the Warden gone, it follows the player.
+	_check("a needed boss outranks following the player",
+		RivalDirector.choose_destination(RAIDER, WorldMap.SORENDA) == WorldMap.WARDENS_GROVE)
+	GameState.kill_boss(&"canopy_warden", GameState.PLAYER)
 	_check("Raider goes after a player carrying cards", RivalDirector.choose_destination(RAIDER, WorldMap.SORENDA) == WorldMap.THORNVEIL)
 
 	# --- On-screen: a fresh game, Kalmora picked clean except what the Runner holds.
