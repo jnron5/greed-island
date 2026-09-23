@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="GateData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gate_data.gd" id="1_gate"]
+
+[resource]
+script = ExtResource("1_gate")
+id = &"kalmora_lighthouse_door"
+display_name = "Lighthouse Door"
+zone = &"kalmora"
+cost_card_id = &"lighthouse_wick"
+cost_amount = 1

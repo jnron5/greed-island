@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="GateData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gate_data.gd" id="1_gate"]
+
+[resource]
+script = ExtResource("1_gate")
+id = &"warden_sanctum"
+display_name = "Warden's Sanctum"
+zone = &"thornveil"
+cost_card_id = &"warden_mask"
+cost_amount = 1

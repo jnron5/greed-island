@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"fishers_knot"
+display_name = "Fisher's Knot"
+description = "A knot no one on the island admits to inventing."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 10
+copies_in_world = 6
+sale_allowance = 1

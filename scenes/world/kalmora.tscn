@@ -1,0 +1,161 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="3_pick"]
+[ext_resource type="PackedScene" path="res://scenes/characters/training_dummy.tscn" id="4_dummy"]
+
+[sub_resource type="RectangleShape2D" id="Wall_h"]
+size = Vector2(840, 40)
+
+[sub_resource type="RectangleShape2D" id="Wall_v"]
+size = Vector2(40, 640)
+
+[sub_resource type="RectangleShape2D" id="Sea_w"]
+size = Vector2(600, 40)
+
+[sub_resource type="RectangleShape2D" id="Sea_e"]
+size = Vector2(200, 40)
+
+[sub_resource type="RectangleShape2D" id="Rail"]
+size = Vector2(10, 130)
+
+[sub_resource type="RectangleShape2D" id="Fountain"]
+size = Vector2(40, 24)
+
+[node name="Kalmora" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Ground" type="ColorRect" parent="."]
+z_index = -10
+offset_left = -400.0
+offset_top = -300.0
+offset_right = 400.0
+offset_bottom = 300.0
+mouse_filter = 2
+color = Color(0.86, 0.78, 0.62, 1)
+
+[node name="Plaza" type="ColorRect" parent="."]
+z_index = -9
+offset_left = -90.0
+offset_top = -70.0
+offset_right = 90.0
+offset_bottom = 70.0
+mouse_filter = 2
+color = Color(0.93, 0.9, 0.82, 1)
+
+[node name="Sea" type="ColorRect" parent="."]
+z_index = -9
+offset_left = -400.0
+offset_top = 200.0
+offset_right = 400.0
+offset_bottom = 300.0
+mouse_filter = 2
+color = Color(0.25, 0.55, 0.72, 1)
+
+[node name="Dock" type="ColorRect" parent="."]
+z_index = -8
+offset_left = 180.0
+offset_top = 170.0
+offset_right = 220.0
+offset_bottom = 290.0
+mouse_filter = 2
+color = Color(0.55, 0.38, 0.22, 1)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="North" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, -320)
+shape = SubResource("Wall_h")
+
+[node name="SeaWest" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-120, 225)
+shape = SubResource("Sea_w")
+
+[node name="SeaEast" type="CollisionShape2D" parent="Walls"]
+position = Vector2(320, 225)
+shape = SubResource("Sea_e")
+
+[node name="DockRailW" type="CollisionShape2D" parent="Walls"]
+position = Vector2(175, 245)
+shape = SubResource("Rail")
+
+[node name="DockRailE" type="CollisionShape2D" parent="Walls"]
+position = Vector2(225, 245)
+shape = SubResource("Rail")
+
+[node name="DockEnd" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, 310)
+shape = SubResource("Wall_h")
+
+[node name="West" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-420, 0)
+shape = SubResource("Wall_v")
+
+[node name="East" type="CollisionShape2D" parent="Walls"]
+position = Vector2(420, 0)
+shape = SubResource("Wall_v")
+
+[node name="Fountain" type="StaticBody2D" parent="."]
+position = Vector2(0, -20)
+
+[node name="Basin" type="ColorRect" parent="Fountain"]
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 12.0
+mouse_filter = 2
+color = Color(0.4, 0.65, 0.8, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fountain"]
+shape = SubResource("Fountain")
+
+[node name="Card_harbor_lantern" parent="." instance=ExtResource("3_pick")]
+position = Vector2(-140, -60)
+card_id = &"harbor_lantern"
+
+[node name="Card_salt_compass" parent="." instance=ExtResource("3_pick")]
+position = Vector2(120, -110)
+card_id = &"salt_compass"
+
+[node name="Card_gull_feather" parent="." instance=ExtResource("3_pick")]
+position = Vector2(-60, 110)
+card_id = &"gull_feather"
+
+[node name="Card_terracotta_tile" parent="." instance=ExtResource("3_pick")]
+position = Vector2(-260, -180)
+card_id = &"terracotta_tile"
+
+[node name="Card_tide_bell" parent="." instance=ExtResource("3_pick")]
+position = Vector2(260, -40)
+card_id = &"tide_bell"
+
+[node name="Card_coral_coin" parent="." instance=ExtResource("3_pick")]
+position = Vector2(60, 150)
+card_id = &"coral_coin"
+
+[node name="Card_lighthouse_wick" parent="." instance=ExtResource("3_pick")]
+position = Vector2(320, -230)
+card_id = &"lighthouse_wick"
+
+[node name="Card_sea_glass" parent="." instance=ExtResource("3_pick")]
+position = Vector2(-320, 150)
+card_id = &"sea_glass"
+
+[node name="Card_sunken_crown_shard" parent="." instance=ExtResource("3_pick")]
+position = Vector2(200, 270)
+card_id = &"sunken_crown_shard"
+
+[node name="TrainingDummy1" parent="." instance=ExtResource("4_dummy")]
+position = Vector2(-200, 40)
+
+[node name="TrainingDummy2" parent="." instance=ExtResource("4_dummy")]
+position = Vector2(-160, 70)
+
+[node name="TrainingDummy3" parent="." instance=ExtResource("4_dummy")]
+position = Vector2(-230, 90)
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(0, 40)
+
+[node name="HUD" parent="." instance=ExtResource("2_hud")]

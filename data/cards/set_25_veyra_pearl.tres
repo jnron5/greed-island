@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"veyra_pearl"
+display_name = "Veyra Pearl"
+description = "Lake Veyra gives up one only when it chooses to."
+rarity = 1
+source = 0
+is_final_set_member = true
+gate_card = true
+sell_value = 60
+copies_in_world = 4

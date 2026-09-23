@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"pickpockets_whisper"
+display_name = "Pickpocket's Whisper"
+description = "Spell: guaranteed steal of one loose card from a nearby collector. Consumed on use."
+category = 3
+source = 3
+sell_value = 25

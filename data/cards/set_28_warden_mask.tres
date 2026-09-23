@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"warden_mask"
+display_name = "Warden's Mask"
+description = "Bark and leaves grown into the shape of a face."
+rarity = 2
+source = 2
+is_final_set_member = true
+gate_card = true
+sell_value = 120
+boss_drops_per_kill = 1
+boss_kill_cap = 4

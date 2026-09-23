@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"mushroom_ring"
+display_name = "Mushroom Ring"
+description = "Step inside and the forest goes quiet."
+rarity = 0
+source = 1
+is_final_set_member = true
+sell_value = 8
+copies_in_world = 4
+respawning_monster_drop = true

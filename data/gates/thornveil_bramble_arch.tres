@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="GateData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gate_data.gd" id="1_gate"]
+
+[resource]
+script = ExtResource("1_gate")
+id = &"thornveil_bramble_arch"
+display_name = "Bramble Arch"
+zone = &"thornveil"
+cost_card_id = &"thorn_sprig"
+cost_amount = 2

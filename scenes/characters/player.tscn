@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/systems/hurtbox.gd" id="2_hurt"]
+[ext_resource type="Script" path="res://scripts/systems/hitbox.gd" id="3_hit"]
+[ext_resource type="PackedScene" path="res://scenes/systems/projectile.tscn" id="4_proj"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/player/player_frames.tres" id="5_frames"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_feet"]
+radius = 5.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hurt"]
+radius = 8.0
+height = 36.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sword"]
+size = Vector2(24, 32)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 1
+motion_mode = 1
+script = ExtResource("1_player")
+projectile_scene = ExtResource("4_proj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("5_frames")
+animation = &"idle_south"
+autoplay = "idle_south"
+offset = Vector2(0, -27)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_feet")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 128
+monitorable = false
+script = ExtResource("2_hurt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -22)
+shape = SubResource("CapsuleShape2D_hurt")
+
+[node name="SwordPivot" type="Node2D" parent="."]
+position = Vector2(0, -18)
+
+[node name="SwordHitbox" type="Area2D" parent="SwordPivot"]
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordPivot/SwordHitbox"]
+position = Vector2(18, 0)
+shape = SubResource("RectangleShape2D_sword")
+disabled = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -20)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
