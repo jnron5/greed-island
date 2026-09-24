@@ -15,7 +15,7 @@ into collision and a level map the game reads at runtime.
 """
 import json
 
-from PIL import Image
+from PIL import Image, ImageEnhance
 
 CENTER = {(1, 1), (1, 2), (2, 1), (2, 2)}
 
@@ -116,6 +116,44 @@ def compose(levels, sets, tile=32, extra_wall_rows=0):
                 stand[r - k][c] = -1
             img.paste(cap, (c * tile, (r - extra_wall_rows) * tile))
     return img, stand
+
+
+class CornerSet:
+    """A 16-tile PixelLab Wang set (lower/upper corners), used to paint a second
+    surface (lawns, plaza paving) over one level's flat ground."""
+
+    def __init__(self, prefix: str, grade=None):
+        """grade: optional (saturation, (r, g, b) multipliers) to sit the set in a palette."""
+        meta = json.load(open(prefix + "_metadata.json"))
+        sheet = Image.open(prefix + "_image.png").convert("RGBA")
+        if grade:
+            sat, mul = grade
+            rgb = ImageEnhance.Color(sheet.convert("RGB")).enhance(sat)
+            rgb = Image.merge("RGB", [ch.point(lambda v, m=m: min(255, int(v * m))) for ch, m in zip(rgb.split(), mul)])
+            rgb.putalpha(sheet.getchannel("A"))
+            sheet = rgb
+        self.tiles = {}
+        for t in meta["tileset_data"]["tiles"]:
+            c, b = t["corners"], t["bounding_box"]
+            idx = (c["NW"] == "upper") * 8 + (c["NE"] == "upper") * 4 + (c["SW"] == "upper") * 2 + (c["SE"] == "upper")
+            self.tiles[idx] = sheet.crop((b["x"], b["y"], b["x"] + b["width"], b["y"] + b["height"]))
+
+
+def overlay(img, stand, level, corner_set, upper_at, left, top, tile=32, base_is_upper=False):
+    """Repaint the flat cells of one level: corners where upper_at(x, y) is true
+    take the set's upper terrain, the rest its lower. Cells made entirely of the
+    terrain the level was already drawn with (the set's shared base tile) are left
+    untouched, so the overlay meets cliff edges without a seam."""
+    skip = 15 if base_is_upper else 0
+    for r, row in enumerate(stand):
+        for c, v in enumerate(row):
+            if v != level:
+                continue
+            x, y = left + c * tile, top + r * tile
+            idx = (upper_at(x, y) * 8 + upper_at(x + tile, y) * 4
+                   + upper_at(x, y + tile) * 2 + upper_at(x + tile, y + tile))
+            if idx != skip:
+                img.paste(corner_set.tiles[idx], (c * tile, r * tile))
 
 
 def merge_rects(mask, left, top, tile=32):

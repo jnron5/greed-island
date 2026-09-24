@@ -15,13 +15,12 @@ Cliffs are three rows tall (WALL_EXTRA adds a row of wall body); stairs are cut
 through them, 2 cells wide and 3 rows tall.
 """
 import os
-import random
 
 from PIL import Image
 
 os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from terrain import CliffSet, compose, merge_rects  # noqa: E402
+from terrain import CliffSet, CornerSet, compose, merge_rects, overlay  # noqa: E402
 
 TILE = 32
 LEFT, TOP, RIGHT, BOTTOM = -768, -992, 768, 416
@@ -61,6 +60,9 @@ def build_terrain():
     levels = [[level_at(LEFT + c * TILE, TOP + r * TILE) for c in range(COLS + 1)] for r in range(ROWS + 1)]
     sets = {SEA: CliffSet(CLIFF + "sea_quay"), QUAY: CliffSet(CLIFF + "quay_market"), MARKET: CliffSet(CLIFF + "market_upper")}
     img, stand = compose(levels, sets, TILE, extra_wall_rows=WALL_EXTRA)
+    # Streets through lawns in the upper town; marble paving on the fountain plaza.
+    overlay(img, stand, UPPER, CornerSet(GARDEN_SET, LAWN_GRADE), upper_street, LEFT, TOP, TILE, base_is_upper=True)
+    overlay(img, stand, MARKET, CornerSet(PLAZA_SET), plaza, LEFT, TOP, TILE)
     img.save(GROUND_PNG)
 
     stair_cells = set()
@@ -82,15 +84,28 @@ def build_terrain():
 
 
 # ------------------------------------------------------------------ content
+# The town hangs off one axis: the north gate, a cypress avenue down the upper
+# town, stairs to the fountain plaza on the promontory, stairs to the quay, and
+# the jetty. Everything else is laid out along streets that branch off it.
 BUILDINGS = [  # (node, prop, position = footprint bottom-centre)
-    ("Tavern", "kalmora_tavern", (-360, 110)),
-    ("Harbormaster", "kalmora_harbormaster", (-640, 110)),
-    ("Townhouse1", "kalmora_townhouse_tall", (-470, -290)),
-    ("Cottage1", "kalmora_cottage", (-660, -215)),
+    # Quay: the harbor front, backed against the market wall.
+    ("Harbormaster", "kalmora_harbormaster", (-640, 100)),
+    ("Tavern", "kalmora_tavern", (-340, 100)),
+    # Market terrace: the café street west of the plaza, the card shop east.
+    ("Townhouse1", "kalmora_townhouse_tall", (-650, -410)),
+    ("Bakery", "kalmora_cottage", (-510, -410)),
     ("CardShop", "kalmora_card_shop", (470, -235)),
-    ("Villa", "kalmora_villa", (-330, -720)),
-    ("NonnaHouse", "kalmora_townhouse_tall", (250, -790)),
-    ("Cottage3", "kalmora_cottage", (-620, -830)),
+    # Upper town: a row of houses fronting the cross street...
+    ("Cottage1", "kalmora_cottage", (-690, -776)),
+    ("Villa", "kalmora_villa", (-500, -776)),
+    ("Townhouse2", "kalmora_townhouse", (-330, -776)),
+    ("Townhouse3", "kalmora_townhouse_tall", (-170, -776)),
+    ("NonnaHouse", "kalmora_townhouse_tall", (140, -776)),
+    ("Cottage2", "kalmora_cottage", (290, -776)),
+    ("Townhouse4", "kalmora_townhouse", (420, -776)),
+    # ...and two cottages framing the gate square.
+    ("Cottage3", "kalmora_cottage", (-260, -905)),
+    ("Cottage4", "kalmora_cottage", (250, -905)),
 ]
 # Enterable buildings: node -> (door x offset from the building, interior scene).
 DOORS = {
@@ -105,19 +120,19 @@ NPCS = [
         "Manifests, manifests. Everything that lands in Kalmora gets a stamp. Everything.",
         "The race? The whole island's talking. Somebody's walking into Vetrassa with a full set, mark my words.",
     ]),
-    ("pip", "Pip", "pip", (-120, 60), 90, [
+    ("pip", "Pip", "pip", (-170, 70), 50, [
         "Fresh fish! Well. Fresh-ish.",
         "My cousin went to work out in Duskara last spring. Good pay, they said. He hasn't written.",
     ]),
-    ("sailor", "Deckhand Luca", "sailor", (330, 40), 110, [
+    ("sailor", "Deckhand Luca", "sailor", (360, 60), 70, [
         "Sailed round the whole isle once. Vetrassa's got the tallest spires you ever saw.",
         "You racers bind your cards in town, right? Thieves love a loose card on the road.",
     ]),
-    ("baker", "Baker Rosa", "baker", (-220, -330), 120, [
+    ("baker", "Baker Rosa", "baker", (-470, -350), 50, [
         "Warm bread! Two coins a loaf, one if you tell me a good rumor.",
         "The Runner came through at dawn, all scarf and no manners. Didn't even stop for bread.",
     ]),
-    ("tomas", "Keeper Tomas", "tomas", (520, -560), 0, [
+    ("tomas", "Keeper Tomas", "tomas", (520, -540), 0, [
         "Lost my lighthouse wick somewhere by the west houses. Can't light the lamp without it.",
         "That lens up there's worth more than my whole cottage. Door stays locked, wick or no wick.",
     ]),
@@ -126,39 +141,136 @@ NPCS = [
         "Thornveil's no place to wander with loose cards. The hounds don't care, but the Raider does.",
     ]),
 ]
-CLUE_CRATES = [("crate_sand", (-20, 130)), ("crate_glove", (210, 125)), ("crate_ledger", (-70, 95))]
+# The unmarked shipment: three crates piled by the jetty, where Bram works.
+CLUE_CRATES = [("crate_sand", (205, 150)), ("crate_glove", (240, 118)), ("crate_ledger", (205, 104))]
 CARDS = [  # (card, position)
-    ("harbor_lantern", (-600, 125)), ("coral_coin", (250, 125)), ("gull_feather", (600, 125)),
+    ("harbor_lantern", (-600, 125)), ("coral_coin", (360, 120)), ("gull_feather", (600, 125)),
     ("sea_glass", (-170, 125)), ("sunken_crown_shard", (112, 300)),
-    ("salt_compass", (-300, -230)), ("tide_bell", (230, -370)), ("terracotta_tile", (-150, -470)),
-    ("lighthouse_wick", (-560, -620)), ("fishers_knot", (-40, 100)),
+    ("salt_compass", (-380, -300)), ("tide_bell", (620, -330)), ("terracotta_tile", (-150, -470)),
+    ("lighthouse_wick", (-560, -620)), ("fishers_knot", (-60, 110)),
 ]
-EXTRA_SALT_COMPASS = (-600, -430)
-DUMMIES = [(470, 60), (540, 100), (500, 140)]
+EXTRA_SALT_COMPASS = (-720, -300)
+DUMMIES = [(530, -10), (610, -10), (690, -10)]
 RIVAL_SPOTS = {"runner": (-450, -600), "raider": (380, -700), "hoarder": (-140, -660)}
 SPAWNS = {"town": (0, -150), "from_thornveil": (0, -860)}
 LIGHTHOUSE = (600, -640)      # yard centre; the tower stands in its north half
-MERCHANT = (160, -250)
-FOUNTAIN = (0, -250)
-DECOR_COUNT = {"kalmora_cypress": 14, "kalmora_olive": 10}
+MERCHANT = (240, -240)
+FOUNTAIN = (0, -235)
 
-# Prop pack (assets/sprites/tiles/kalmora/props): what each district is dressed with.
+# Surfaces painted over the flat ground (terrain.overlay).
+GARDEN_SET = "assets/sprites/tiles/kalmora/wang/garden"   # lawn (lower) / limestone street (upper)
+PLAZA_SET = "assets/sprites/tiles/kalmora/wang/plaza"     # sandstone (lower) / marble plaza (upper)
+LAWN_GRADE = (0.72, (1.06, 0.98, 0.86))                     # sun-warmed, less saturated grass
+
+
+def upper_street(x, y):
+    """Upper-town corners that are paved street; everything else is lawn."""
+    return bool(
+        -32 <= x <= 32                                  # the avenue from the gate to the stairs
+        or -768 <= y <= -704 and x <= 512               # the cross street
+        or y <= -864 and -96 <= x <= 96                 # the gate square
+        or -224 <= x <= -160 and y >= -768              # down to the west stairs
+        or 416 <= x <= 480 and y >= -768                # down to the east stairs
+        or x >= 288 and y >= -552                       # the lighthouse forecourt
+        or level_at(x, y + 96) != UPPER                 # the promenade along the terrace edge
+    )
+
+
+PLAZA_CENTRE, PLAZA_RADIUS = (0, -300), 172
+
+
+def plaza(x, y):
+    """A round marble plaza around the fountain."""
+    return (x - PLAZA_CENTRE[0]) ** 2 + (y - PLAZA_CENTRE[1]) ** 2 <= PLAZA_RADIUS ** 2
+
+
+# Trees: (scene, position). Cypresses line the avenue; olives shade the verge.
+TREES = (
+    [("kalmora_cypress", (sx * 72, y)) for sx in (-1, 1) for y in (-800, -845)]
+    + [("kalmora_cypress", (sx * 72, -650)) for sx in (-1, 1)]
+    + [("kalmora_olive", (x, -650)) for x in (-690, -340, 130, 250, 370)]
+    + [("kalmora_olive", (x, y)) for x in (-720, -620) for y in (-940, -880)]  # orchard behind the houses
+    + [("kalmora_cypress", (x, -470)) for x in (-736,)]
+)
+
+
+def row(name, x0, x1, y, step):
+    return [(name, x, y) for x in range(x0, x1 + 1, step)]
+
+
+# Props (assets/sprites/tiles/kalmora/props, or EXTRA_TEX): (name, x, y), grouped
+# by where a resident would have put them.
+PROPS = (
+    # --- Quay -----------------------------------------------------------------
+    # Boat store beside the harbormaster's office.
+    [("rowboat", -738, 30), ("oars", -738, 64), ("net_crate", -738, 98), ("fishing_rods", -708, 64)]
+    # Ship's chandlery display between the harbormaster and the tavern stairs.
+    + [("anchor", -560, -10), ("ship_wheel", -528, -10), ("cannonballs", -560, 30), ("buoy", -528, 30)]
+    # Tavern front: barrels and a menu board either side of the door.
+    + [("barrels", -430, 116), ("barrel", -405, 122), ("menu_board", -278, 118), ("barrel", -252, 122)]
+    # Fish market under the promontory: two stalls and the day's catch.
+    + [("market_stall", -225, -6), ("market_stall", -125, -6)]
+    + [("fish_basket", -250, 32), ("ice_crates", -215, 32), ("fish_basket", -140, 32), ("lobster_trap", -105, 32)]
+    + [("bucket", -75, 20), ("mop_bucket", -270, 20)]
+    # The jetty root: traps and buoys waiting to go out.
+    + [("lobster_trap", 40, 148), ("buoy", 10, 148), ("rope", 176, 150)]
+    # Cargo yard east of the jetty, stacked in blocks.
+    + row("crates", 232, 296, -50, 32) + [("crate", 232, -16), ("barrels", 264, -16), ("crates", 296, -16)]
+    + [("sack", 232, 20), ("flour_sack", 264, 20), ("sack", 296, 20), ("cart", 420, -50)]
+    + [("crates", 240, 152), ("barrel", 170, 110)]
+    # Training yard at the east end, fenced along the back.
+    + row("fence", 480, 736, -84, 32) + [("fence", 480, 40), ("fence", 736, 40)]
+    + [("oars", 736, -40), ("tackle_box", 480, -40)]
+    # --- Market terrace -------------------------------------------------------
+    # The fountain plaza: benches facing the fountain, flowers at the corners.
+    + [("bench_stone", -110, -190), ("bench_stone", 110, -190), ("bench_stone", -120, -400), ("bench_stone", 120, -400)]
+    + [("bougainvillea_box", -176, -436), ("bougainvillea_box", 176, -436),
+       ("bougainvillea_box", -176, -140), ("bougainvillea_box", 176, -140)]
+    + [("lemon_tree_pot", -62, -440), ("lemon_tree_pot", 62, -440)]
+    # Market stalls flanking the plaza, produce stacked beside them.
+    + [("market_stall", -280, -420), ("market_stall", -280, -330), ("market_stall", -280, -240)]
+    + [("oranges_basket", -322, -420), ("apples_crate", -322, -330), ("bread_basket", -322, -240)]
+    + [("market_stall", 240, -420), ("market_stall", 240, -330)]
+    + [("lemons_crate", 284, -340), ("amphorae", 284, -300), ("amphora", 284, -268)]
+    # Café street: tables under umbrellas in front of the townhouse and bakery.
+    + [("umbrella_table", x, y) for x in (-690, -620) for y in (-330, -262)]
+    + [("menu_board", -580, -380), ("bread_basket", -466, -396), ("flour_sack", -552, -396)]
+    + [("signpost", -392, -210), ("wheelbarrow", -720, -220)]
+    # Card shop: palms by the door, a pair of tables, amphorae stacked by the wall.
+    + [("potted_palm", 396, -222), ("potted_palm", 546, -222)]
+    + [("cafe_table", 640, -272), ("cafe_table", 700, -272), ("amphorae", 730, -200), ("amphora", 704, -210)]
+    # --- Upper town -----------------------------------------------------------
+    # Flowers either side of every front door on the cross street.
+    + [(("geraniums", "lavender_planter")[k % 2], x + DOORS.get(name, (0,))[0] + dx, -762)
+       for k, (name, prop, (x, y)) in enumerate(BUILDINGS) if y == -776 for dx in (-30, 30)]
+    # Benches along the terrace-edge promenade, looking out over the harbor.
+    + [("bench_stone", x, -592) for x in (-690, -560, -390, -300, 100, 220)]
+    # The gate square.
+    + [("lavender_planter", -80, -960), ("lavender_planter", 80, -960), ("signpost", 48, -852)]
+    # Kitchen gardens behind the east houses.
+    + [("laundry_line", 520, -870), ("laundry_line", 560, -870), ("laundry_basket", 600, -856),
+       ("wheelbarrow", 680, -840), ("lemon_tree_pot", 640, -910)] + row("fence", 544, 736, -800, 32)
+    # Lighthouse forecourt.
+    + [("candle_shrine", 690, -500), ("bench_wood", 360, -500), ("potted_palm", 470, -495), ("potted_palm", 736, -495)]
+)
 PROP_DIR = "assets/sprites/tiles/kalmora/props/"
-DISTRICT_PROPS = {
-    QUAY: (["barrel", "barrels", "crate", "crates", "sack", "rope", "anchor", "net_crate", "fish_basket",
-             "lobster_trap", "buoy", "oars", "ice_crates", "cannonballs", "ship_wheel", "rowboat", "fishing_rods",
-             "tackle_box", "bucket", "mop_bucket", "straw_hat_crate", "flour_sack", "lemons_crate"], 46),
-    MARKET: (["oranges_basket", "bread_basket", "apples_crate", "lemons_crate", "amphora", "amphorae", "signpost",
-               "menu_board", "cart", "wheelbarrow", "bench_wood", "geraniums", "lemon_tree_pot", "lavender_planter",
-               "cafe_table", "umbrella_table", "bougainvillea_box", "small_well", "water_tap", "barrel", "sack"], 40),
-    UPPER: (["bench_stone", "bench_wood", "geraniums", "lemon_tree_pot", "lavender_planter", "potted_palm",
-              "laundry_basket", "laundry_line", "candle_shrine", "fence", "low_wall", "cactus", "amphora",
-              "bougainvillea_box", "wheelbarrow"], 34),
-}
-DECALS = (["puddle", "leaves", "moss"], 60)
-# Lamp posts line the quay's edge and the market wall; bollards line the harbor.
-LAMP_ROWS = [(125, range(-700, 700, 224)), (-110, range(-640, 700, 256))]
+EXTRA_TEX = {"market_stall": "assets/sprites/tiles/kalmora/market_stall.png"}
+# Collision footprint (w, h) at the base; anything else gets 16x8.
+FOOTPRINTS = {"market_stall": (44, 12), "fence": (32, 6), "bench_stone": (28, 8), "bench_wood": (28, 8),
+              "cart": (28, 10), "umbrella_table": (24, 10), "rowboat": (28, 10)}
+# Lamp posts: the quay's waterfront, the plaza corners, the café street, the cross street.
+LAMPS = ([("lamp_post", x, 128) for x in (-700, -480, -200, 20, 300, 520, 720)]
+         + [("lamp_post", x, y) for x in (-150, 150) for y in (-420, -150)]
+         + [("lamp_post", -560, -250), ("lamp_post", 600, -205)]
+         + [("lamp_post", x, -698) for x in (-600, -420, -250, 90, 360)]
+         + [("lamp_post", -80, -900)])
 BOLLARD_ROW = (150, range(-736, 736, 96))
+# Ground clutter that isn't solid: leaves under trees, puddles by the water.
+DECALS = ([("leaves", x + 10, y + 6) for prop, (x, y) in TREES if prop == "kalmora_olive"]
+          + [("puddle", x, 140) for x in (-620, -150, 280, 470)]
+          + [("cracks", -260, -150), ("cracks", 380, -200), ("moss", -700, -560), ("moss", 640, -455)])
+# Birds on the jetty (free sprites, y-sorted, no collision).
+BIRDS = [("seagull", 84, 262), ("seagull", 140, 318), ("seagull", 110, 200)]
 
 
 def cell_of(x, y):
@@ -216,7 +328,7 @@ def main():
     prop_ids = {}
     for _, prop, _ in BUILDINGS:
         prop_ids.setdefault(prop, f"{30 + len(prop_ids)}_{prop}")
-    for prop in DECOR_COUNT:
+    for prop, _ in TREES:
         prop_ids.setdefault(prop, f"{30 + len(prop_ids)}_{prop}")
     for prop, rid in prop_ids.items():
         ext.append(('PackedScene', f"res://scenes/world/props/{prop}.tscn", rid))
@@ -368,89 +480,68 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         n.append(f'[node name="Clue_{clue}" parent="." instance=ExtResource("21_clue")]\nposition = Vector2({x}, {y})\nclue_id = &"{clue}"\n')
         taken.append((x, y))
 
-    # Decor on open ground of the three walkable levels, clear of everything placed.
-    rng = random.Random(7)
-    blocked_near = lambda x, y: any((x - a) ** 2 + (y - b) ** 2 < 70 ** 2 for a, b in taken)
-    for prop, count in DECOR_COUNT.items():
-        placed = 0
-        for _ in range(4000):
-            if placed == count:
-                break
-            x, y = rng.randint(LEFT + 40, RIGHT - 40), rng.randint(TOP + 60, 200)
-            r, c = cell_of(x, y)
-            ok = all(0 <= r + dr < ROWS and 0 <= c + dc < COLS and not blocked[r + dr][c + dc]
-                     and (r + dr, c + dc) not in stair_cells for dr in (-2, -1, 0, 1) for dc in (-1, 0, 1))
-            if not ok or blocked_near(x, y) or abs(x) < 70 and y < -500:
-                continue
-            placed += 1
-            taken.append((x, y))
-            n.append(f'[node name="{prop.split("_")[1].title()}{placed}" parent="." instance=ExtResource("{prop_ids[prop]}")]\nposition = Vector2({x}, {y})\n')
+    # Trees, then props. Everything is placed on purpose (see TREES/PROPS/LAMPS);
+    # a spot that lands on a wall, stairs, or something already placed is an error
+    # in the layout, so the build stops and says where.
+    crowd = lambda x, y, r: next(((a, b) for a, b in taken if (x - a) ** 2 + (y - b) ** 2 < r ** 2), None)
 
-    # Props: lamp and bollard rows, then each district's clutter, favoring spots
-    # against walls and buildings like a lived-in town; decals go on the ground.
+    def place_check(name, x, y, clearance=18):
+        r, c = cell_of(x, y)
+        if not (0 <= r < ROWS and 0 <= c < COLS) or blocked[r][c] or stand[r][c] < 0 or (r, c) in stair_cells:
+            raise SystemExit(f"{name} at ({x}, {y}) is not on open ground")
+        hit = crowd(x, y, clearance)
+        if hit:
+            raise SystemExit(f"{name} at ({x}, {y}) crowds something at {hit}")
+
+    for k, (prop, (x, y)) in enumerate(TREES):
+        place_check(prop, x, y, 24)
+        taken.append((x, y))
+        n.append(f'[node name="{prop.split("_")[1].title()}{k + 1}" parent="." instance=ExtResource("{prop_ids[prop]}")]\nposition = Vector2({x}, {y})\n')
+
     prop_tex = {}
     prop_count = [0]
-    def prop_node(name, x, y, solid=True):
+    def prop_node(name, x, y, kind="solid"):
+        """kind: solid (collides at its base), decal (flat on the ground), free (y-sorted, no collision)."""
+        path = EXTRA_TEX.get(name, f"{PROP_DIR}{name}.png")
         if name not in prop_tex:
-            rid = f"p_{name}"
-            prop_tex[name] = rid
-            ext.append(('Texture2D', f"res://{PROP_DIR}{name}.png", rid))
-        im = Image.open(PROP_DIR + name + ".png")
+            prop_tex[name] = f"p_{name}"
+            ext.append(('Texture2D', f"res://{path}", prop_tex[name]))
+        im = Image.open(path)
         bottom = im.getbbox()[3]
         prop_count[0] += 1
         node = f"P{prop_count[0]}_{name}"
-        taken.append((x, y))
-        if not solid:
+        if kind == "decal":
             return (f'[node name="{node}" type="Sprite2D" parent="."]\nz_index = -9\nposition = Vector2({x}, {y})\n'
                     f'texture = ExtResource("{prop_tex[name]}")\n')
+        taken.append((x, y))
+        if kind == "free":
+            return (f'[node name="{node}" type="Sprite2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                    f'offset = Vector2(0, {im.height / 2 - bottom})\ntexture = ExtResource("{prop_tex[name]}")\n')
+        fw, fh = FOOTPRINTS.get(name, (16, 8))
         return (f'[node name="{node}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
                 f'[node name="Sprite" type="Sprite2D" parent="{node}"]\nposition = Vector2(0, {im.height / 2 - bottom})\n'
                 f'texture = ExtResource("{prop_tex[name]}")\n\n'
-                f'[node name="Base" type="CollisionShape2D" parent="{node}"]\nposition = Vector2(0, -4)\n'
-                f'shape = SubResource("{shape(16, 8)}")\n')
+                f'[node name="Base" type="CollisionShape2D" parent="{node}"]\nposition = Vector2(0, {-fh / 2})\n'
+                f'shape = SubResource("{shape(fw, fh)}")\n')
 
-    def open_spot(x, y, clearance):
-        r, c = cell_of(x, y)
-        if not (0 <= r < ROWS and 0 <= c < COLS) or blocked[r][c] or (r, c) in stair_cells:
-            return False
-        if r + 1 < ROWS and blocked[r + 1][c] and stand[r][c] == QUAY and y > 100:
-            return False  # keep the harbor edge walkable
-        return all((x - a) ** 2 + (y - b) ** 2 >= clearance ** 2 for a, b in taken)
-
-    for y, xs in LAMP_ROWS:
-        for x in xs:
-            if open_spot(x, y, 40):
-                n.append(prop_node("lamp_post", x, y))
-                n.append(f'[node name="Light{prop_count[0]}" type="PointLight2D" parent="."]\nposition = Vector2({x + 6}, {y - 26})\n'
-                         f'texture_scale = 1.3\nscript = ExtResource("20_lamp")\n')
+    for name, x, y in PROPS:
+        place_check(name, x, y)
+        n.append(prop_node(name, x, y))
+    for name, x, y in LAMPS:
+        place_check(name, x, y)
+        n.append(prop_node(name, x, y))
+        n.append(f'[node name="Light{prop_count[0]}" type="PointLight2D" parent="."]\nposition = Vector2({x + 6}, {y - 26})\n'
+                 f'texture_scale = 1.3\nscript = ExtResource("20_lamp")\n')
+    # Bollards line the harbor edge wherever the waterfront is clear.
     y, xs = BOLLARD_ROW
     for x in xs:
-        if open_spot(x, y, 30):
+        r, c = cell_of(x, y)
+        if not blocked[r][c] and not crowd(x, y, 30) and not 48 <= x <= 176:  # keep the jetty open
             n.append(prop_node("bollard", x, y))
-
-    for level, (names, count) in DISTRICT_PROPS.items():
-        placed = 0
-        for _ in range(20000):
-            if placed == count:
-                break
-            x, y = rng.randint(LEFT + 24, RIGHT - 24), rng.randint(TOP + 40, 200)
-            r, c = cell_of(x, y)
-            if not (0 <= r < ROWS and 0 <= c < COLS) or stand[r][c] != level or not open_spot(x, y, 34):
-                continue
-            against = (r > 0 and blocked[r - 1][c]) or any((x - a) ** 2 + (y - b) ** 2 < 90 ** 2 for _, _, (a, b) in BUILDINGS)
-            if not against and rng.random() > 0.3:
-                continue
-            n.append(prop_node(rng.choice(names), x, y))
-            placed += 1
-    names, count = DECALS
-    for _ in range(count):
-        for _ in range(200):
-            x, y = rng.randint(LEFT + 24, RIGHT - 24), rng.randint(TOP + 40, 200)
-            r, c = cell_of(x, y)
-            if 0 <= r < ROWS and 0 <= c < COLS and not blocked[r][c] and (r, c) not in stair_cells:
-                n.append(prop_node(rng.choice(names), x, y, solid=False))
-                taken.pop()  # decals don't crowd anything
-                break
+    for name, x, y in DECALS:
+        n.append(prop_node(name, x, y, "decal"))
+    for name, x, y in BIRDS:
+        n.append(prop_node(name, x, y, "free"))
 
     n.append('''[node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, -150)

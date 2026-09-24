@@ -1,16 +1,81 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=12 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/fountain.png" id="1_tex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/grand_fountain_water.png" id="1_tex"]
+
+[sub_resource type="AtlasTexture" id="Frame0"]
+atlas = ExtResource("1_tex")
+region = Rect2(0, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="Frame1"]
+atlas = ExtResource("1_tex")
+region = Rect2(160, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="Frame2"]
+atlas = ExtResource("1_tex")
+region = Rect2(320, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="Frame3"]
+atlas = ExtResource("1_tex")
+region = Rect2(480, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="Frame4"]
+atlas = ExtResource("1_tex")
+region = Rect2(640, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="Frame5"]
+atlas = ExtResource("1_tex")
+region = Rect2(800, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="Frame6"]
+atlas = ExtResource("1_tex")
+region = Rect2(960, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="Frame7"]
+atlas = ExtResource("1_tex")
+region = Rect2(1120, 0, 160, 160)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_anim"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Frame0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Frame1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Frame2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Frame3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Frame4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Frame5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Frame6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Frame7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_base"]
-size = Vector2(50, 20)
+size = Vector2(104, 44)
 
 [node name="KalmoraFountain" type="StaticBody2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -25.0)
-texture = ExtResource("1_tex")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -64.0)
+sprite_frames = SubResource("SpriteFrames_anim")
+autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -10.0)
+position = Vector2(0, -26.0)
 shape = SubResource("RectangleShape2D_base")

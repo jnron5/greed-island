@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbiqwfahwqk8m"
-path="res://.godot/imported/fountain.png-b613c6a7ee980c2136476744bc7448f0.ctex"
+uid="uid://t0eoxn6pfma3"
+path="res://.godot/imported/plaza_image.png-a5908fa5f5984554f88481f4b889bc1e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/tiles/kalmora/fountain.png"
-dest_files=["res://.godot/imported/fountain.png-b613c6a7ee980c2136476744bc7448f0.ctex"]
+source_file="res://assets/sprites/tiles/kalmora/wang/plaza_image.png"
+dest_files=["res://.godot/imported/plaza_image.png-a5908fa5f5984554f88481f4b889bc1e.ctex"]
 
 [params]
 
