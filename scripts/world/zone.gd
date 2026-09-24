@@ -24,6 +24,7 @@ func _ready() -> void:
 		var camera := player.get_node_or_null(^"Camera2D") as Camera2D
 		if camera:
 			camera.reset_smoothing()
+	_limit_camera(player)
 	GameState.pending_spawn = &""
 	for drop: Dictionary in GameState.zone_drops.get(scene_file_path, []):
 		_spawn_drop(drop.card_id, drop.position)
@@ -32,6 +33,24 @@ func _ready() -> void:
 			spawn_rival(id)
 	if display_name != "":
 		EventBus.notify.emit(display_name)
+
+
+## Keeps the player's camera over the painted ground (no grey void past the edges).
+func _limit_camera(player: Node2D) -> void:
+	var camera := player.get_node_or_null(^"Camera2D") as Camera2D if player else null
+	var ground: Sprite2D = null
+	for name in [&"GroundTiles", &"Ground"]:
+		ground = get_node_or_null(NodePath(name)) as Sprite2D
+		if ground and ground.texture:
+			break
+		ground = null
+	if camera == null or ground == null:
+		return
+	var rect := Rect2(ground.position - ground.texture.get_size() / 2.0, ground.texture.get_size())
+	camera.limit_left = int(rect.position.x)
+	camera.limit_top = int(rect.position.y)
+	camera.limit_right = int(rect.end.x)
+	camera.limit_bottom = int(rect.end.y)
 
 
 ## Leaves a card lying here that survives the player leaving and coming back.

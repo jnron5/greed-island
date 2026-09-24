@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://scenes/world/props/sorenda_well.tscn" id="14_well"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/sorenda_ground.png" id="90_ground"]
 
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/market_stall.png" id="83_stall"]
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(940, 40)
 
@@ -116,6 +117,7 @@ position = Vector2(395, -310)
 gate_id = &"sorenda_hollow"
 
 [node name="Merchant" parent="." instance=ExtResource("9_merchant")]
+stall_texture = ExtResource("83_stall")
 position = Vector2(-90, 40)
 
 [node name="Longhouse1" parent="." instance=ExtResource("13_longhouse")]
