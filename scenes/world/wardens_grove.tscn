@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/systems/card_gate.tscn" id="10_gate"]
 [ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="11_pick"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/elder_shrine.tscn" id="12_shrine"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/wardens_grove_ground.png" id="90_ground"]
 
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(1000, 40)
@@ -36,31 +37,13 @@ y_sort_enabled = true
 script = ExtResource("1_zone")
 display_name = "Warden's Grove"
 
+[node name="GroundTiles" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(-16.0, 0.0)
+texture = ExtResource("90_ground")
+
 [node name="Shade" type="CanvasModulate" parent="."]
 color = Color(0.78, 0.88, 0.8, 1)
-
-[node name="Ground" type="ColorRect" parent="."]
-z_index = -10
-offset_left = -480.0
-offset_top = -360.0
-offset_right = 480.0
-offset_bottom = 360.0
-mouse_filter = 2
-color = Color(0.22, 0.33, 0.2, 1)
-
-[node name="Clearing" type="Polygon2D" parent="."]
-z_index = -9
-color = Color(0.36, 0.47, 0.3, 1)
-polygon = PackedVector2Array(330, 0, 324, 49, 305, 96, 274, 139, 233, 177, 183, 208, 126, 231, 64, 245, 0, 250, -64, 245, -126, 231, -183, 208, -233, 177, -274, 139, -305, 96, -324, 49, -330, 0, -324, -49, -305, -96, -274, -139, -233, -177, -183, -208, -126, -231, -64, -245, -0, -250, 64, -245, 126, -231, 183, -208, 233, -177, 274, -139, 305, -96, 324, -49)
-
-[node name="Path" type="ColorRect" parent="."]
-z_index = -9
-offset_left = -500.0
-offset_top = -24.0
-offset_right = -300.0
-offset_bottom = 24.0
-mouse_filter = 2
-color = Color(0.45, 0.4, 0.3, 1)
 
 [node name="Walls" type="StaticBody2D" parent="."]
 
@@ -112,15 +95,6 @@ z_index = -7
 points = PackedVector2Array(-40, -22, -40, -152, 80, -152, 80, 152, -40, 152, -40, 22)
 width = 8.0
 default_color = Color(0.3, 0.22, 0.14, 1)
-
-[node name="SanctumFloor" type="ColorRect" parent="."]
-z_index = -9
-offset_left = 380.0
-offset_top = -152.0
-offset_right = 480.0
-offset_bottom = 152.0
-mouse_filter = 2
-color = Color(0.3, 0.36, 0.24, 1)
 
 [node name="SanctumGate" parent="." instance=ExtResource("10_gate")]
 position = Vector2(380, 0)
@@ -280,11 +254,6 @@ tint = Color(0.16, 0.32, 0.18, 1)
 
 [node name="Tree17" parent="." instance=ExtResource("5_tree")]
 position = Vector2(-429, -227)
-radius = 20.0
-tint = Color(0.16, 0.32, 0.18, 1)
-
-[node name="Tree18" parent="." instance=ExtResource("5_tree")]
-position = Vector2(463, -164)
 radius = 20.0
 tint = Color(0.16, 0.32, 0.18, 1)
 

@@ -58,7 +58,8 @@ for j in range(ROWS):
         nw, ne, sw, se = land[j][i], land[j][i + 1], land[j + 1][i], land[j + 1][i + 1]
         ground.paste(tiles[nw * 8 + ne * 4 + sw * 2 + se], (i * TILE, j * TILE))
         blocked[j][i] = (4 - (nw + ne + sw + se)) >= 3  # mostly water
-ground.save("assets/sprites/tiles/thornveil/lake_veyra_ground.png")
+from build_ground import grade  # Same Thornveil colour grade as the other forest zones.
+grade(ground).save("assets/sprites/tiles/thornveil/lake_veyra_ground.png")
 
 # ------------------------------------------------------------ water collision (row runs, bridge cut out)
 water_rects = []  # (x0, y0, x1, y1) in local coords

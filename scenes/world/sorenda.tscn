@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" path="res://scenes/world/props/sorenda_hut.tscn" id="12_hut"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/sorenda_longhouse.tscn" id="13_longhouse"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/sorenda_well.tscn" id="14_well"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/sorenda_ground.png" id="90_ground"]
 
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(940, 40)
@@ -38,41 +39,10 @@ y_sort_enabled = true
 script = ExtResource("1_zone")
 display_name = "Sorenda"
 
-[node name="Ground" type="ColorRect" parent="."]
+[node name="GroundTiles" type="Sprite2D" parent="."]
 z_index = -10
-offset_left = -450.0
-offset_top = -420.0
-offset_right = 450.0
-offset_bottom = 200.0
-mouse_filter = 2
-color = Color(0.3, 0.42, 0.26, 1)
-
-[node name="Clearing" type="ColorRect" parent="."]
-z_index = -9
-offset_left = -330.0
-offset_top = -330.0
-offset_right = 330.0
-offset_bottom = 150.0
-mouse_filter = 2
-color = Color(0.46, 0.55, 0.34, 1)
-
-[node name="Path" type="ColorRect" parent="."]
-z_index = -8
-offset_left = -24.0
-offset_top = -20.0
-offset_right = 24.0
-offset_bottom = 205.0
-mouse_filter = 2
-color = Color(0.52, 0.45, 0.32, 1)
-
-[node name="GroveFloor" type="ColorRect" parent="."]
-z_index = -8
-offset_left = 345.0
-offset_top = -410.0
-offset_right = 440.0
-offset_bottom = -310.0
-mouse_filter = 2
-color = Color(0.38, 0.5, 0.42, 1)
+position = Vector2(0.0, -112.0)
+texture = ExtResource("90_ground")
 
 [node name="Walls" type="StaticBody2D" parent="."]
 
@@ -278,11 +248,6 @@ position = Vector2(-253, -253)
 radius = 20.0
 tint = Color(0.18, 0.36, 0.2, 1)
 
-[node name="Tree24" parent="." instance=ExtResource("7_tree")]
-position = Vector2(302, -216)
-radius = 16.0
-tint = Color(0.18, 0.36, 0.2, 1)
-
 [node name="Tree25" parent="." instance=ExtResource("7_tree")]
 position = Vector2(-334, -299)
 radius = 18.0
@@ -379,6 +344,66 @@ card_id = &"mushroom_ring"
 position = Vector2(395, -375)
 card_id = &"sorenda_star_map"
 behind_gate = &"sorenda_hollow"
+
+[node name="ForestTree1" parent="." instance=ExtResource("7_tree")]
+position = Vector2(-134, -377)
+
+[node name="ForestTree2" parent="." instance=ExtResource("7_tree")]
+position = Vector2(-321, -378)
+
+[node name="ForestTree3" parent="." instance=ExtResource("7_tree")]
+position = Vector2(262, -147)
+
+[node name="ForestTree4" parent="." instance=ExtResource("7_tree")]
+position = Vector2(95, -317)
+
+[node name="ForestTree5" parent="." instance=ExtResource("7_tree")]
+position = Vector2(281, -296)
+
+[node name="ForestTree6" parent="." instance=ExtResource("7_tree")]
+position = Vector2(-162, -174)
+
+[node name="ForestTree7" parent="." instance=ExtResource("7_tree")]
+position = Vector2(-420, -271)
+
+[node name="ForestTree8" parent="." instance=ExtResource("7_tree")]
+position = Vector2(-185, 185)
+
+[node name="ForestTree9" parent="." instance=ExtResource("7_tree")]
+position = Vector2(-251, 108)
+
+[node name="ForestTree10" parent="." instance=ExtResource("7_tree")]
+position = Vector2(370, -200)
+
+[node name="ForestTree11" parent="." instance=ExtResource("7_tree")]
+position = Vector2(1, -360)
+
+[node name="ForestTree12" parent="." instance=ExtResource("7_tree")]
+position = Vector2(131, 179)
+
+[node name="ForestTree13" parent="." instance=ExtResource("7_tree")]
+position = Vector2(-342, -246)
+
+[node name="ForestTree14" parent="." instance=ExtResource("7_tree")]
+position = Vector2(224, 7)
+
+[node name="ForestTree15" parent="." instance=ExtResource("7_tree")]
+position = Vector2(423, 15)
+
+[node name="ForestTree16" parent="." instance=ExtResource("7_tree")]
+position = Vector2(82, -227)
+
+[node name="ForestTree17" parent="." instance=ExtResource("7_tree")]
+position = Vector2(-253, -23)
+
+[node name="ForestTree18" parent="." instance=ExtResource("7_tree")]
+position = Vector2(126, 108)
+
+[node name="ForestTree19" parent="." instance=ExtResource("7_tree")]
+position = Vector2(323, -187)
+
+[node name="ForestTree20" parent="." instance=ExtResource("7_tree")]
+position = Vector2(-137, -293)
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 120)
