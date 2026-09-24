@@ -11,10 +11,16 @@ extends Node2D
 ## fight, see and steal on their own level.
 ## Navigation: a grid built from the zone's World collision gives rivals real
 ## paths (around trees, up stairs) via find_path().
+## Atmosphere: outdoor zones follow the TimeOfDay tint (multiplied with any
+## CanvasModulate the scene already has); interiors keep a warm fixed light.
+## Zones with a level map get a water shimmer over their sea cells.
 
 @export var display_name := ""
 @export var pickup_scene: PackedScene = preload("res://scenes/systems/card_pickup.tscn")
 @export var rival_scene: PackedScene = preload("res://scenes/characters/rival.tscn")
+## Indoors: fixed warm light instead of the day/night tint.
+@export var interior := false
+@export var water_shimmer := true
 @export_group("Elevation")
 ## One pixel per cell; red channel = level * 40, 255 = not walkable (cliff).
 @export var level_map: Texture2D
@@ -25,6 +31,8 @@ extends Node2D
 const NAV_CELL := 16
 
 var _levels: Image
+var _modulate: CanvasModulate
+var _base_tint := Color.WHITE
 var _nav := AStarGrid2D.new()
 var _nav_ready := false
 
@@ -46,6 +54,7 @@ func _ready() -> void:
 	if level_map:
 		_levels = level_map.get_image()
 	_build_nav.call_deferred()
+	_setup_atmosphere()
 	# Opened gates stop blocking: rebuild the grid once the collision is gone.
 	EventBus.gate_opened.connect(func(_id: StringName, _by: StringName) -> void: _build_nav.call_deferred())
 	GameState.pending_spawn = &""
@@ -69,6 +78,37 @@ func _limit_camera(player: Node2D) -> void:
 	camera.limit_top = int(rect.position.y)
 	camera.limit_right = int(rect.end.x)
 	camera.limit_bottom = int(rect.end.y)
+
+
+func _setup_atmosphere() -> void:
+	for child in get_children():
+		if child is CanvasModulate:
+			_modulate = child
+			_base_tint = child.color
+	if _modulate == null:
+		_modulate = CanvasModulate.new()
+		add_child(_modulate)
+	if interior:
+		_modulate.color = _base_tint * Color(1.0, 0.93, 0.84)
+	else:
+		_apply_tint(TimeOfDay.hour)
+		TimeOfDay.hour_changed.connect(_apply_tint)
+	if level_map and water_shimmer and not interior:
+		var water := ColorRect.new()
+		water.z_index = -9
+		water.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		water.position = level_origin
+		water.size = Vector2(level_map.get_size()) * level_cell
+		var mat := ShaderMaterial.new()
+		mat.shader = preload("res://assets/shaders/water_shimmer.gdshader")
+		mat.set_shader_parameter(&"level_map", level_map)
+		mat.set_shader_parameter(&"map_cells", Vector2(level_map.get_size()))
+		water.material = mat
+		add_child(water)
+
+
+func _apply_tint(_hour: float) -> void:
+	_modulate.color = _base_tint * TimeOfDay.tint()
 
 
 ## Level at a global position: 0 without a level map, -1 on a cliff/edge cell.

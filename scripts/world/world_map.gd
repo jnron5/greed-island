@@ -14,6 +14,9 @@ const THORNVEIL := "res://scenes/world/thornveil.tscn"
 const SORENDA := "res://scenes/world/sorenda.tscn"
 const WARDENS_GROVE := "res://scenes/world/wardens_grove.tscn"
 const LAKE_VEYRA := "res://scenes/world/lake_veyra.tscn"
+const KALMORA_TAVERN := "res://scenes/world/interiors/kalmora_tavern.tscn"
+const KALMORA_CARD_SHOP := "res://scenes/world/interiors/kalmora_card_shop.tscn"
+const KALMORA_NONNA_HOUSE := "res://scenes/world/interiors/kalmora_nonna_house.tscn"
 
 const PICKUP_SCENE := "res://scenes/systems/card_pickup.tscn"
 
@@ -26,6 +29,11 @@ const ZONES := {
 	WARDENS_GROVE: { "name": "Warden's Grove", "origin": Vector2(1030, -885), "monster_drops": [] },
 	LAKE_VEYRA: { "name": "Lake Veyra", "origin": Vector2(-1070, -985),
 		"monster_drops": [&"veyra_reed", &"moss_lantern", &"thorn_sprig"] },
+	# Interiors sit where their buildings stand in town. They have no EDGES, so
+	# rivals never wander in; you enter through the building's door.
+	KALMORA_TAVERN: { "name": "The Salted Lantern", "origin": Vector2(-550, 520), "monster_drops": [] },
+	KALMORA_CARD_SHOP: { "name": "Sable's Card Emporium", "origin": Vector2(310, 220), "monster_drops": [] },
+	KALMORA_NONNA_HOUSE: { "name": "Nonna Vess's House", "origin": Vector2(100, -350), "monster_drops": [] },
 }
 
 ## Town scene -> { spawn marker (under "Spawns") people wake at, its local position }

@@ -27,7 +27,7 @@ func _run() -> void:
 	_check("the cliff between them is no level", town.level_at(town.to_global(Vector2(-300, -150))) == -1)
 
 	# A route from the harbor to the upper town has to use the stairs.
-	var from := town.to_global(Vector2(-600, 100))
+	var from := (town.get_node("Spawns/from_tavern") as Node2D).global_position  # quay, outside the tavern
 	var to := town.to_global(Vector2(-450, -600))
 	var path := town.find_path(from, to)
 	_check("there is a route from the quay to the upper town", path.size() > 2

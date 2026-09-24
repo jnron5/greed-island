@@ -1,0 +1,243 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/npcs/pip/pip_idle.png" id="1_idle"]
+[ext_resource type="Texture2D" path="res://assets/sprites/npcs/pip/pip_walk.png" id="2_walk"]
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_south_0"]
+atlas = ExtResource("1_idle")
+region = Rect2(0, 0, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_east_0"]
+atlas = ExtResource("1_idle")
+region = Rect2(0, 112, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_north_0"]
+atlas = ExtResource("1_idle")
+region = Rect2(0, 224, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_west_0"]
+atlas = ExtResource("1_idle")
+region = Rect2(0, 336, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_south_0"]
+atlas = ExtResource("2_walk")
+region = Rect2(0, 0, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_south_1"]
+atlas = ExtResource("2_walk")
+region = Rect2(29, 0, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_south_2"]
+atlas = ExtResource("2_walk")
+region = Rect2(58, 0, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_south_3"]
+atlas = ExtResource("2_walk")
+region = Rect2(87, 0, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_south_4"]
+atlas = ExtResource("2_walk")
+region = Rect2(116, 0, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_south_5"]
+atlas = ExtResource("2_walk")
+region = Rect2(145, 0, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_east_0"]
+atlas = ExtResource("2_walk")
+region = Rect2(0, 112, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_east_1"]
+atlas = ExtResource("2_walk")
+region = Rect2(29, 112, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_east_2"]
+atlas = ExtResource("2_walk")
+region = Rect2(58, 112, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_east_3"]
+atlas = ExtResource("2_walk")
+region = Rect2(87, 112, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_east_4"]
+atlas = ExtResource("2_walk")
+region = Rect2(116, 112, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_east_5"]
+atlas = ExtResource("2_walk")
+region = Rect2(145, 112, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_north_0"]
+atlas = ExtResource("2_walk")
+region = Rect2(0, 224, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_north_1"]
+atlas = ExtResource("2_walk")
+region = Rect2(29, 224, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_north_2"]
+atlas = ExtResource("2_walk")
+region = Rect2(58, 224, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_north_3"]
+atlas = ExtResource("2_walk")
+region = Rect2(87, 224, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_north_4"]
+atlas = ExtResource("2_walk")
+region = Rect2(116, 224, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_north_5"]
+atlas = ExtResource("2_walk")
+region = Rect2(145, 224, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_west_0"]
+atlas = ExtResource("2_walk")
+region = Rect2(0, 336, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_west_1"]
+atlas = ExtResource("2_walk")
+region = Rect2(29, 336, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_west_2"]
+atlas = ExtResource("2_walk")
+region = Rect2(58, 336, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_west_3"]
+atlas = ExtResource("2_walk")
+region = Rect2(87, 336, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_west_4"]
+atlas = ExtResource("2_walk")
+region = Rect2(116, 336, 29, 56)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_west_5"]
+atlas = ExtResource("2_walk")
+region = Rect2(145, 336, 29, 56)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_south_0")
+}],
+"loop": true,
+"name": &"idle_south",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_east_0")
+}],
+"loop": true,
+"name": &"idle_east",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_north_0")
+}],
+"loop": true,
+"name": &"idle_north",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_west_0")
+}],
+"loop": true,
+"name": &"idle_west",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_south_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_south_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_south_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_south_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_south_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_south_5")
+}],
+"loop": true,
+"name": &"walk_south",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_east_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_east_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_east_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_east_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_east_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_east_5")
+}],
+"loop": true,
+"name": &"walk_east",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_north_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_north_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_north_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_north_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_north_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_north_5")
+}],
+"loop": true,
+"name": &"walk_north",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_west_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_west_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_west_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_west_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_west_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_west_5")
+}],
+"loop": true,
+"name": &"walk_west",
+"speed": 8.0
+}]

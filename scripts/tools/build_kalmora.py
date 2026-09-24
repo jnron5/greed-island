@@ -83,15 +83,50 @@ def build_terrain():
 
 # ------------------------------------------------------------------ content
 BUILDINGS = [  # (node, prop, position = footprint bottom-centre)
-    ("Tavern", "kalmora_tavern", (-380, 110)),
-    ("HarborHouse", "kalmora_cottage", (-640, 40)),
-    ("Townhouse1", "kalmora_townhouse", (-470, -290)),
+    ("Tavern", "kalmora_tavern", (-360, 110)),
+    ("Harbormaster", "kalmora_harbormaster", (-640, 110)),
+    ("Townhouse1", "kalmora_townhouse_tall", (-470, -290)),
     ("Cottage1", "kalmora_cottage", (-660, -215)),
-    ("Shop", "kalmora_townhouse", (470, -200)),
-    ("Townhouse2", "kalmora_townhouse", (-330, -700)),
-    ("Cottage2", "kalmora_cottage", (250, -780)),
-    ("Cottage3", "kalmora_cottage", (-620, -820)),
+    ("CardShop", "kalmora_card_shop", (470, -235)),
+    ("Villa", "kalmora_villa", (-330, -720)),
+    ("NonnaHouse", "kalmora_townhouse_tall", (250, -790)),
+    ("Cottage3", "kalmora_cottage", (-620, -830)),
 ]
+# Enterable buildings: node -> (door x offset from the building, interior scene).
+DOORS = {
+    "Tavern": (0, "res://scenes/world/interiors/kalmora_tavern.tscn"),
+    "CardShop": (-33, "res://scenes/world/interiors/kalmora_card_shop.tscn"),
+    "NonnaHouse": (-17, "res://scenes/world/interiors/kalmora_nonna_house.tscn"),
+}
+# Residents (dogs and cats). (id, name, sprite id, position, wander radius, lines)
+NPCS = [
+    ("bram", "Bram", "bram", (170, 70), 0, ["Tide's good today. Good for ships, anyway."]),
+    ("mirela", "Harbormaster Mirela", "mirela", (-560, 135), 0, [
+        "Manifests, manifests. Everything that lands in Kalmora gets a stamp. Everything.",
+        "The race? The whole island's talking. Somebody's walking into Vetrassa with a full set, mark my words.",
+    ]),
+    ("pip", "Pip", "pip", (-120, 60), 90, [
+        "Fresh fish! Well. Fresh-ish.",
+        "My cousin went to work out in Duskara last spring. Good pay, they said. He hasn't written.",
+    ]),
+    ("sailor", "Deckhand Luca", "sailor", (330, 40), 110, [
+        "Sailed round the whole isle once. Vetrassa's got the tallest spires you ever saw.",
+        "You racers bind your cards in town, right? Thieves love a loose card on the road.",
+    ]),
+    ("baker", "Baker Rosa", "baker", (-220, -330), 120, [
+        "Warm bread! Two coins a loaf, one if you tell me a good rumor.",
+        "The Runner came through at dawn, all scarf and no manners. Didn't even stop for bread.",
+    ]),
+    ("tomas", "Keeper Tomas", "tomas", (520, -560), 0, [
+        "Lost my lighthouse wick somewhere by the west houses. Can't light the lamp without it.",
+        "That lens up there's worth more than my whole cottage. Door stays locked, wick or no wick.",
+    ]),
+    ("rook", "Guard Rook", "rook", (70, -880), 0, [
+        "North road's sealed. A Salt Compass opens it. Old rule, nobody remembers why.",
+        "Thornveil's no place to wander with loose cards. The hounds don't care, but the Raider does.",
+    ]),
+]
+CLUE_CRATES = [("crate_sand", (-20, 130)), ("crate_glove", (210, 125)), ("crate_ledger", (-70, 95))]
 CARDS = [  # (card, position)
     ("harbor_lantern", (-600, 125)), ("coral_coin", (250, 125)), ("gull_feather", (600, 125)),
     ("sea_glass", (-170, 125)), ("sunken_crown_shard", (112, 300)),
@@ -139,6 +174,10 @@ def check_spot(stand, blocked, name, x, y, want=None):
 
 def main():
     stand, blocked, stair_cells = build_terrain()
+    # Coming back out of a building puts you on its doorstep.
+    for name, _, (x, y) in BUILDINGS:
+        if name in DOORS:
+            SPAWNS[f"from_{name.lower()}"] = (x + DOORS[name][0], y + 26)
     for card, (x, y) in CARDS:
         check_spot(stand, blocked, card, x, y)
     for name, (x, y) in {**SPAWNS, **RIVAL_SPOTS}.items():
@@ -169,6 +208,10 @@ def main():
         ('Texture2D', "res://assets/sprites/tiles/kalmora/market_stall.png", "16_stall"),
         ('PackedScene', "res://scenes/world/props/lighthouse.tscn", "17_lighthouse"),
         ('PackedScene', "res://scenes/world/props/kalmora_fountain.tscn", "18_fountain"),
+        ('PackedScene', "res://scenes/characters/npc.tscn", "19_npc"),
+        ('Script', "res://scripts/systems/lamp_light.gd", "20_lamp"),
+        ('PackedScene', "res://scenes/systems/clue_crate.tscn", "21_clue"),
+        ('PackedScene', "res://scenes/ui/dialogue_box.tscn", "22_dialogue"),
     ]
     prop_ids = {}
     for _, prop, _ in BUILDINGS:
@@ -302,6 +345,28 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         check_spot(stand, blocked, name, x, y)
         n.append(f'[node name="{name}" parent="." instance=ExtResource("{prop_ids[prop]}")]\nposition = Vector2({x}, {y})\n')
         taken.append((x, y))
+        # A lantern by every front door.
+        n.append(f'[node name="{name}Lamp" type="PointLight2D" parent="."]\nposition = Vector2({x}, {y - 30})\n'
+                 f'texture_scale = 0.9\nscript = ExtResource("20_lamp")\nmax_energy = 0.8\n')
+        if name in DOORS:
+            dx, interior = DOORS[name]
+            n.append(f'[node name="{name}Door" parent="." instance=ExtResource("11_exit")]\nposition = Vector2({x + dx}, {y + 4})\n'
+                     f'scale = Vector2(0.5, 1)\ntarget_scene = "{interior}"\ntarget_spawn = &"door"\n')
+
+    # Residents and the quay's unmarked crates.
+    for npc_id, display, sprite_id, (x, y), wander, lines in NPCS:
+        check_spot(stand, blocked, npc_id, x, y)
+        frames_id = f"n_{sprite_id}"
+        ext.append(('SpriteFrames', f"res://assets/sprites/npcs/{sprite_id}/{sprite_id}_frames.tres", frames_id))
+        quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
+        n.append(f'[node name="Npc_{npc_id}" parent="." instance=ExtResource("19_npc")]\nposition = Vector2({x}, {y})\n'
+                 f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{frames_id}")\n'
+                 f'lines = PackedStringArray({quoted})\nwander_radius = {float(wander)}\n')
+        taken.append((x, y))
+    for clue, (x, y) in CLUE_CRATES:
+        check_spot(stand, blocked, clue, x, y, QUAY)
+        n.append(f'[node name="Clue_{clue}" parent="." instance=ExtResource("21_clue")]\nposition = Vector2({x}, {y})\nclue_id = &"{clue}"\n')
+        taken.append((x, y))
 
     # Decor on open ground of the three walkable levels, clear of everything placed.
     rng = random.Random(7)
@@ -356,6 +421,8 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         for x in xs:
             if open_spot(x, y, 40):
                 n.append(prop_node("lamp_post", x, y))
+                n.append(f'[node name="Light{prop_count[0]}" type="PointLight2D" parent="."]\nposition = Vector2({x + 6}, {y - 26})\n'
+                         f'texture_scale = 1.3\nscript = ExtResource("20_lamp")\n')
     y, xs = BOLLARD_ROW
     for x in xs:
         if open_spot(x, y, 30):
@@ -393,6 +460,8 @@ position = Vector2(0, -150)
 [node name="Binder" parent="." instance=ExtResource("4_binder")]
 
 [node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("22_dialogue")]
 ''')
     head = f'[gd_scene load_steps={len(ext) + len(subs) + 1} format=3]\n\n' + "".join(
         f'[ext_resource type="{t}" path="{p}" id="{i}"]\n' for t, p, i in ext) + "\n"

@@ -4,8 +4,13 @@ extends Node2D
 @export_file("*.tscn") var zone := "res://scenes/world/sorenda.tscn"
 @export var zoom := 0.62
 @export var center := Vector2(0, -110)
+## Hour of day to freeze at (-1 = leave the clock alone).
+@export var hour := -1.0
 
 func _ready() -> void:
+	if hour >= 0.0:
+		TimeOfDay.paused = true
+		TimeOfDay.set_hour(hour)
 	var z: Node = load(zone).instantiate()
 	add_child(z)
 	await get_tree().process_frame

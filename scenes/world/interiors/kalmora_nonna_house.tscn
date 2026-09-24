@@ -1,0 +1,160 @@
+[gd_scene load_steps=25 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/interiors/nonna_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/nonna/nonna_frames.tres" id="n_nonna"]
+
+[sub_resource type="RectangleShape2D" id="R288x104"]
+size = Vector2(288, 104)
+
+[sub_resource type="RectangleShape2D" id="R40x224"]
+size = Vector2(40, 224)
+
+[sub_resource type="RectangleShape2D" id="R18x224"]
+size = Vector2(18, 224)
+
+[sub_resource type="RectangleShape2D" id="R76x46"]
+size = Vector2(76, 46)
+
+[sub_resource type="RectangleShape2D" id="R40x58"]
+size = Vector2(40, 58)
+
+[sub_resource type="RectangleShape2D" id="R56x74"]
+size = Vector2(56, 74)
+
+[sub_resource type="RectangleShape2D" id="R42x92"]
+size = Vector2(42, 92)
+
+[sub_resource type="RectangleShape2D" id="R110x8"]
+size = Vector2(110, 8)
+
+[sub_resource type="RectangleShape2D" id="R98x8"]
+size = Vector2(98, 8)
+
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
+
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
+
+[node name="kalmora_nonna_house" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Nonna Vess's House"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(144.0, 112.0)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 52.0)
+shape = SubResource("R288x104")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(20.0, 112.0)
+shape = SubResource("R40x224")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(279.0, 112.0)
+shape = SubResource("R18x224")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(78.0, 83.0)
+shape = SubResource("R76x46")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(200.0, 83.0)
+shape = SubResource("R40x58")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(246.0, 67.0)
+shape = SubResource("R56x74")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(261.0, 160.0)
+shape = SubResource("R42x92")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(55.0, 220.0)
+shape = SubResource("R110x8")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(239.0, 220.0)
+shape = SubResource("R98x8")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(150, 200)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(150, 232)
+target_scene = "res://scenes/world/kalmora.tscn"
+target_spawn = &"from_nonnahouse"
+
+[node name="Npc_nonna" parent="." instance=ExtResource("9_npc")]
+position = Vector2(120, 140)
+npc_id = &"nonna"
+display_name = "Nonna Vess"
+sprite_frames = ExtResource("n_nonna")
+lines = PackedStringArray("Sit, sit. You look like you've been running. They all do, the racers.", "Every generation the King calls a race. Funny thing: the winners never talk about the prize after.", "My grandmother used to say the cards grow in the dark, under the dunes. Grandmothers say a lot of things.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(150, 200)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

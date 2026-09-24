@@ -51,6 +51,18 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 10
 
+[node name="QuestLabel" type="Label" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 360.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 9
+
 [node name="HintLabel" type="Label" parent="Root"]
 layout_mode = 1
 anchors_preset = 2

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/townhouse_tall.png" id="1_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_base"]
+size = Vector2(92, 30)
+
+[node name="KalmoraTownhouseTall" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -75.0)
+texture = ExtResource("1_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15.0)
+shape = SubResource("RectangleShape2D_base")

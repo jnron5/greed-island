@@ -1,0 +1,151 @@
+[gd_scene load_steps=23 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/interiors/card_shop_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sable/sable_frames.tres" id="n_sable"]
+
+[sub_resource type="RectangleShape2D" id="R130x106"]
+size = Vector2(130, 106)
+
+[sub_resource type="RectangleShape2D" id="R134x106"]
+size = Vector2(134, 106)
+
+[sub_resource type="RectangleShape2D" id="R56x90"]
+size = Vector2(56, 90)
+
+[sub_resource type="RectangleShape2D" id="R40x256"]
+size = Vector2(40, 256)
+
+[sub_resource type="RectangleShape2D" id="R82x52"]
+size = Vector2(82, 52)
+
+[sub_resource type="RectangleShape2D" id="R130x16"]
+size = Vector2(130, 16)
+
+[sub_resource type="RectangleShape2D" id="R120x16"]
+size = Vector2(120, 16)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="kalmora_card_shop" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Sable's Card Emporium"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(65.0, 53.0)
+shape = SubResource("R130x106")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(253.0, 53.0)
+shape = SubResource("R134x106")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(158.0, 45.0)
+shape = SubResource("R56x90")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(20.0, 128.0)
+shape = SubResource("R40x256")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(300.0, 128.0)
+shape = SubResource("R40x256")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(81.0, 230.0)
+shape = SubResource("R82x52")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(255.0, 248.0)
+shape = SubResource("R130x16")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(60.0, 248.0)
+shape = SubResource("R120x16")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(155, 226)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(155, 262)
+target_scene = "res://scenes/world/kalmora.tscn"
+target_spawn = &"from_cardshop"
+
+[node name="Npc_sable" parent="." instance=ExtResource("9_npc")]
+position = Vector2(158, 118)
+npc_id = &"sable"
+display_name = "Sable"
+sprite_frames = ExtResource("n_sable")
+lines = PackedStringArray("Welcome, welcome. Spells, charms, a little luck in card form. Have a look.")
+shop_stock = Array[StringName]([&"pickpockets_whisper", &"lockbox_seal", &"second_wind"])
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(155, 226)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

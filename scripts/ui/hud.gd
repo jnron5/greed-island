@@ -10,6 +10,7 @@ const NAMES: Dictionary[StringName, String] = {
 @onready var tracker_label: Label = %TrackerLabel
 @onready var toast_label: Label = %ToastLabel
 @onready var spell_label: Label = %SpellLabel
+@onready var quest_label: Label = %QuestLabel
 
 var _toast_tween: Tween
 var _boss_bar: Control
@@ -28,6 +29,8 @@ func _ready() -> void:
 	EventBus.boss_bar.connect(_on_boss_bar)
 	EventBus.boss_returned.connect(_on_boss_returned)
 	_build_boss_bar()
+	Quests.quest_changed.connect(_update_quest.unbind(2))
+	_update_quest()
 	RivalDirector.rival_departed.connect(_on_rival_departed)
 	RivalDirector.rival_arrived.connect(_on_rival_arrived)
 	EventBus.notify.connect(_toast)
@@ -146,6 +149,11 @@ func _on_stealth_failed(thief: StringName, victim: StringName) -> void:
 		_toast("The %s caught you! It's on alert." % NAMES.get(victim, String(victim)))
 	elif victim == GameState.PLAYER:
 		_toast("You caught the %s reaching for your cards!" % NAMES.get(thief, String(thief)))
+
+
+func _update_quest() -> void:
+	var text := Quests.tracker_text()
+	quest_label.text = "◆ " + text if text != "" else ""
 
 
 func _update_spells() -> void:

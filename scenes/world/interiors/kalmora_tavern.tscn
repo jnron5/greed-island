@@ -1,0 +1,164 @@
+[gd_scene load_steps=25 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/interiors/tavern_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/otto/otto_frames.tres" id="n_otto"]
+
+[sub_resource type="RectangleShape2D" id="R384x104"]
+size = Vector2(384, 104)
+
+[sub_resource type="RectangleShape2D" id="R70x288"]
+size = Vector2(70, 288)
+
+[sub_resource type="RectangleShape2D" id="R168x64"]
+size = Vector2(168, 64)
+
+[sub_resource type="RectangleShape2D" id="R176x64"]
+size = Vector2(176, 64)
+
+[sub_resource type="RectangleShape2D" id="R38x36"]
+size = Vector2(38, 36)
+
+[sub_resource type="RectangleShape2D" id="R38x34"]
+size = Vector2(38, 34)
+
+[sub_resource type="RectangleShape2D" id="R52x44"]
+size = Vector2(52, 44)
+
+[sub_resource type="RectangleShape2D" id="R38x38"]
+size = Vector2(38, 38)
+
+[sub_resource type="RectangleShape2D" id="R66x36"]
+size = Vector2(66, 36)
+
+[sub_resource type="RectangleShape2D" id="R464x40"]
+size = Vector2(464, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x348"]
+size = Vector2(40, 348)
+
+[sub_resource type="RectangleShape2D" id="R384x308"]
+size = Vector2(384, 308)
+
+[node name="kalmora_tavern" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Salted Lantern"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(192.0, 144.0)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(192.0, 144.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(192.0, 52.0)
+shape = SubResource("R384x104")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(35.0, 144.0)
+shape = SubResource("R70x288")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(349.0, 144.0)
+shape = SubResource("R70x288")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(84.0, 256.0)
+shape = SubResource("R168x64")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(296.0, 256.0)
+shape = SubResource("R176x64")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(91.0, 162.0)
+shape = SubResource("R38x36")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(91.0, 205.0)
+shape = SubResource("R38x34")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(192.0, 166.0)
+shape = SubResource("R52x44")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(295.0, 159.0)
+shape = SubResource("R38x38")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(281.0, 204.0)
+shape = SubResource("R66x36")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(192.0, -20.0)
+shape = SubResource("R464x40")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 174.0)
+shape = SubResource("R40x348")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(404.0, 174.0)
+shape = SubResource("R40x348")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(192.0, 328.0)
+shape = SubResource("R464x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(192.0, 144.0)
+shape = SubResource("R384x308")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(188, 244)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(188, 282)
+target_scene = "res://scenes/world/kalmora.tscn"
+target_spawn = &"from_tavern"
+
+[node name="Npc_otto" parent="." instance=ExtResource("9_npc")]
+position = Vector2(112, 122)
+npc_id = &"otto"
+display_name = "Otto"
+sprite_frames = ExtResource("n_otto")
+lines = PackedStringArray("Welcome to the Salted Lantern. Sit anywhere that isn't sticky.", "Racers, eh? Last one through here swore the prize was a crown. Laughed all the way to the north gate.", "The Hoarder's family? Old money. Shipping money. Don't ask them what they ship.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(188, 244)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]
