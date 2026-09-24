@@ -14,6 +14,9 @@ from PIL import Image
 DIRS = ["south", "south-east", "east", "north-east", "north", "north-west", "west", "south-west"]
 # One-shot actions play once instead of looping.
 ONE_SHOT = {"attack", "sword", "pistol"}
+# Working canvas that every frame is re-anchored onto (feet at ANCHOR).
+CANVAS = (320, 320)
+ANCHOR = (160, 220)
 
 def main():
     zpath, out_dir, name = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -37,12 +40,28 @@ def main():
                           for r in [next((n for n in names if n.endswith(f"/rotations/{d}.png")), None)] if r}
         anims = sorted(frames)
 
+    # Custom (v3) animations come back on bigger canvases than the template ones, so
+    # re-anchor every animation+direction on its first frame's feet (bbox bottom,
+    # horizontal centre) before cropping. Otherwise the sprite hops when it attacks.
+    for anim in frames:
+        for d, fs in frames[anim].items():
+            b = fs[0].getbbox()
+            if not b:
+                continue
+            dx, dy = ANCHOR[0] - (b[0] + b[2]) // 2, ANCHOR[1] - b[3]
+            placed = []
+            for im in fs:
+                canvas = Image.new("RGBA", CANVAS)
+                canvas.paste(im, (dx, dy))
+                placed.append(canvas)
+            frames[anim][d] = placed
+
     # Shared crop box across every frame, padded by 1px, so all cells are identical in size.
     boxes = [im.getbbox() for a in frames.values() for fs in a.values() for im in fs if im.getbbox()]
     l = max(min(b[0] for b in boxes) - 1, 0); t = max(min(b[1] for b in boxes) - 1, 0)
     r = max(b[2] for b in boxes) + 1; btm = max(b[3] for b in boxes) + 1
     cw, ch = r - l, btm - t
-    feet_y = max(b[3] for b in boxes) - t  # baseline inside a cell
+    feet_y = ANCHOR[1] - t  # baseline inside a cell
 
     os.makedirs(out_dir, exist_ok=True)
     ext, subs, anim_entries = [], [], []

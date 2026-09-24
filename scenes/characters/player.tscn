@@ -11,7 +11,7 @@ radius = 5.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hurt"]
 radius = 8.0
-height = 36.0
+height = 44.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sword"]
 size = Vector2(24, 32)
@@ -27,7 +27,7 @@ projectile_scene = ExtResource("4_proj")
 sprite_frames = ExtResource("5_frames")
 animation = &"idle_south"
 autoplay = "idle_south"
-offset = Vector2(0, -28)
+offset = Vector2(0, -30)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -3)
@@ -40,7 +40,7 @@ monitorable = false
 script = ExtResource("2_hurt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(0, -22)
+position = Vector2(0, -26)
 shape = SubResource("CapsuleShape2D_hurt")
 
 [node name="SwordPivot" type="Node2D" parent="."]
