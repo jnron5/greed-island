@@ -123,17 +123,17 @@ func choose_destination(id: StringName, zone: String) -> String:
 			if WorldMap.is_town(zone):
 				# Only short trips out, and only when there's something close to fetch.
 				for other in WorldMap.reachable(zone, id, pays):
-					if not WorldMap.remaining_pickups(other).is_empty() and randf() < 0.2:
+					if not WorldMap.reachable_pickups(other, id, pays).is_empty() and randf() < 0.2:
 						return other
 				return zone
-			return zone if carrying == 0 and not WorldMap.remaining_pickups(zone).is_empty() \
+			return zone if carrying == 0 and not WorldMap.reachable_pickups(zone, id, pays).is_empty() \
 				else _nearest_reachable_town(id, zone, pays)
 		_:
 			# EXPLORER: stay while cards are left here, else rush to where they are.
-			if not WorldMap.remaining_pickups(zone).is_empty():
+			if not WorldMap.reachable_pickups(zone, id, pays).is_empty():
 				return zone
 			for other in WorldMap.reachable(zone, id, pays):
-				if not WorldMap.remaining_pickups(other).is_empty():
+				if not WorldMap.reachable_pickups(other, id, pays).is_empty():
 					return other
 			return zone
 
@@ -221,9 +221,10 @@ func _arrive(id: StringName, edge: Dictionary) -> void:
 
 
 func _collect_offscreen(id: StringName, zone: String) -> void:
-	var pickups := WorldMap.remaining_pickups(zone)
+	var pickups := WorldMap.reachable_pickups(zone, id, GameState.rival_profile(id).pays_gates)
 	if not pickups.is_empty():
 		var pickup: Dictionary = pickups.pick_random()
+		_pay_gate(id, pickup)
 		if GameState.add_loose_card(id, pickup.card_id):
 			GameState.collected_pickups[pickup.key] = true
 		return

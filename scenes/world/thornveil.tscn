@@ -16,6 +16,12 @@ size = Vector2(1040, 40)
 [sub_resource type="RectangleShape2D" id="Wall_v"]
 size = Vector2(40, 920)
 
+[sub_resource type="RectangleShape2D" id="West_top"]
+size = Vector2(40, 536)
+
+[sub_resource type="RectangleShape2D" id="West_bottom"]
+size = Vector2(40, 336)
+
 [sub_resource type="RectangleShape2D" id="East_top"]
 size = Vector2(40, 386)
 
@@ -60,6 +66,15 @@ offset_bottom = -700.0
 mouse_filter = 2
 color = Color(0.5, 0.44, 0.32, 1)
 
+[node name="WestPath" type="ColorRect" parent="."]
+z_index = -9
+offset_left = -560.0
+offset_top = -274.0
+offset_right = -440.0
+offset_bottom = -226.0
+mouse_filter = 2
+color = Color(0.5, 0.44, 0.32, 1)
+
 [node name="EastPath" type="ColorRect" parent="."]
 z_index = -9
 offset_left = 440.0
@@ -79,9 +94,17 @@ shape = SubResource("South_half")
 position = Vector2(272, -820)
 shape = SubResource("South_half")
 
-[node name="West" type="CollisionShape2D" parent="Walls"]
-position = Vector2(-520, -350)
-shape = SubResource("Wall_v")
+[node name="WestTop" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-520, -542)
+shape = SubResource("West_top")
+
+[node name="WestBottom" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-520, -58)
+shape = SubResource("West_bottom")
+
+[node name="WestPathEnd" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-560, -250)
+shape = SubResource("East_end")
 
 [node name="EastTop" type="CollisionShape2D" parent="Walls"]
 position = Vector2(520, -617)
@@ -123,6 +146,15 @@ position = Vector2(460, -400)
 position = Vector2(535, -400)
 rotation = 1.5708
 target_scene = "res://scenes/world/wardens_grove.tscn"
+target_spawn = &"from_thornveil"
+
+[node name="from_lake" type="Marker2D" parent="Spawns"]
+position = Vector2(-460, -250)
+
+[node name="ToLake" parent="." instance=ExtResource("9_exit")]
+position = Vector2(-535, -250)
+rotation = 1.5708
+target_scene = "res://scenes/world/lake_veyra.tscn"
 target_spawn = &"from_thornveil"
 
 [node name="ToKalmora" parent="." instance=ExtResource("9_exit")]
@@ -172,10 +204,6 @@ radius = 20.0
 
 [node name="Tree12" parent="." instance=ExtResource("6_tree")]
 position = Vector2(94, -326)
-radius = 14.0
-
-[node name="Tree13" parent="." instance=ExtResource("6_tree")]
-position = Vector2(-410, -181)
 radius = 14.0
 
 [node name="Tree14" parent="." instance=ExtResource("6_tree")]

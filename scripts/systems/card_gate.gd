@@ -7,6 +7,8 @@ extends StaticBody2D
 @export var gate_id: StringName
 ## Visual width of the gate in pixels (the collision shape is set in the scene).
 @export var width := 40.0
+## Stands across an east-west passage instead of a north-south one.
+@export var vertical := false
 
 var _player_near := false
 
@@ -15,6 +17,8 @@ var _player_near := false
 
 
 func _ready() -> void:
+	if vertical:
+		body_shape.rotation = PI / 2.0
 	prompt_area.body_entered.connect(func(b: Node2D) -> void: _set_near(b, true))
 	prompt_area.body_exited.connect(func(b: Node2D) -> void: _set_near(b, false))
 	EventBus.gate_opened.connect(_on_gate_opened)
@@ -55,6 +59,8 @@ func _apply_open() -> void:
 
 
 func _draw() -> void:
+	if vertical:
+		draw_set_transform(Vector2(0, -10), PI / 2.0)
 	var half := width / 2.0
 	var stone := Color(0.55, 0.52, 0.48)
 	draw_rect(Rect2(-half - 8, -28, 8, 36), stone)
@@ -65,6 +71,7 @@ func _draw() -> void:
 		for i in 5:
 			draw_rect(Rect2(-half + 2 + i * (width - 4) / 4.0 - 1, -26, 3, 32), Color(0.3, 0.25, 0.2))
 		draw_rect(Rect2(-5, -32, 10, 5), Color(0.95, 0.8, 0.35))
+	draw_set_transform(Vector2.ZERO)
 	if _player_near and not is_open():
 		var gate := CardDatabase.get_gate(gate_id)
 		var card := CardDatabase.get_card(gate.cost_card_id) if gate else null

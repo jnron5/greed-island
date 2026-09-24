@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="11_zone"]
 [ext_resource type="PackedScene" path="res://scenes/systems/card_gate.tscn" id="12_gate"]
 [ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="13_exit"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/lighthouse.tscn" id="14_lighthouse"]
 
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(840, 40)
@@ -32,6 +33,15 @@ size = Vector2(396, 40)
 
 [sub_resource type="RectangleShape2D" id="Path_side"]
 size = Vector2(10, 50)
+
+[sub_resource type="RectangleShape2D" id="Yard_v"]
+size = Vector2(10, 150)
+
+[sub_resource type="RectangleShape2D" id="Yard_h"]
+size = Vector2(100, 10)
+
+[sub_resource type="RectangleShape2D" id="Yard_front"]
+size = Vector2(28, 10)
 
 [sub_resource type="RectangleShape2D" id="Town"]
 size = Vector2(600, 430)
@@ -183,7 +193,7 @@ position = Vector2(60, 150)
 card_id = &"coral_coin"
 
 [node name="Card_lighthouse_wick" parent="." instance=ExtResource("3_pick")]
-position = Vector2(320, -230)
+position = Vector2(-340, -90)
 card_id = &"lighthouse_wick"
 
 [node name="Card_sea_glass" parent="." instance=ExtResource("3_pick")]
@@ -202,6 +212,47 @@ position = Vector2(-160, 70)
 
 [node name="TrainingDummy3" parent="." instance=ExtResource("4_dummy")]
 position = Vector2(-230, 90)
+
+[node name="LighthouseYard" type="StaticBody2D" parent="."]
+position = Vector2(335, -185)
+
+[node name="West" type="CollisionShape2D" parent="LighthouseYard"]
+position = Vector2(-50, 0)
+shape = SubResource("Yard_v")
+
+[node name="East" type="CollisionShape2D" parent="LighthouseYard"]
+position = Vector2(50, 0)
+shape = SubResource("Yard_v")
+
+[node name="North" type="CollisionShape2D" parent="LighthouseYard"]
+position = Vector2(0, -75)
+shape = SubResource("Yard_h")
+
+[node name="FrontWest" type="CollisionShape2D" parent="LighthouseYard"]
+position = Vector2(-36, 75)
+shape = SubResource("Yard_front")
+
+[node name="FrontEast" type="CollisionShape2D" parent="LighthouseYard"]
+position = Vector2(36, 75)
+shape = SubResource("Yard_front")
+
+[node name="YardWall" type="Line2D" parent="LighthouseYard"]
+z_index = -7
+points = PackedVector2Array(-22, 75, -50, 75, -50, -75, 50, -75, 50, 75, 22, 75)
+width = 6.0
+default_color = Color(0.93, 0.9, 0.82, 1)
+
+[node name="Lighthouse" parent="." instance=ExtResource("14_lighthouse")]
+position = Vector2(335, -205)
+
+[node name="LighthouseDoor" parent="." instance=ExtResource("12_gate")]
+position = Vector2(335, -110)
+gate_id = &"kalmora_lighthouse_door"
+
+[node name="Card_lighthouse_lens" parent="." instance=ExtResource("3_pick")]
+position = Vector2(335, -160)
+card_id = &"lighthouse_lens"
+behind_gate = &"kalmora_lighthouse_door"
 
 [node name="Spawns" type="Node2D" parent="."]
 

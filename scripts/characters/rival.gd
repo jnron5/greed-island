@@ -249,6 +249,8 @@ func _process_seek() -> void:
 			else:
 				_try_leave(State.IDLE)
 			return
+	if _target.behind_gate != &"" and not GameState.opened_gates.has(_target.behind_gate):
+		GameState.open_gate(_target.behind_gate, collector_id)  # Pays like anyone else.
 	_steer_toward(_target.global_position, get_physics_process_delta_time())
 
 
@@ -413,6 +415,11 @@ func _on_stealth_failed(thief: StringName, _victim: StringName) -> void:
 		_enter(State.RETURN)
 
 
+func _pays_gates() -> bool:
+	var profile := GameState.rival_profile(collector_id)
+	return profile != null and profile.pays_gates
+
+
 func carried_count() -> int:
 	var col := GameState.collection(collector_id)
 	var n := 0
@@ -431,6 +438,8 @@ func _find_nearest_pickup() -> CardPickup:
 	for node in get_tree().get_nodes_in_group(&"card_pickups"):
 		var pickup := node as CardPickup
 		if pickup == null or pickup.is_queued_for_deletion():
+			continue
+		if not WorldMap.can_use({ "gate": pickup.behind_gate }, collector_id, _pays_gates()):
 			continue
 		var d := global_position.distance_to(pickup.global_position)
 		if d < best_dist:

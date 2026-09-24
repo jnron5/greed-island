@@ -378,6 +378,7 @@ card_id = &"mushroom_ring"
 [node name="Card_sorenda_star_map" parent="." instance=ExtResource("6_pick")]
 position = Vector2(395, -375)
 card_id = &"sorenda_star_map"
+behind_gate = &"sorenda_hollow"
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 120)

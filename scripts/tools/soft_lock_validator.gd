@@ -1,7 +1,7 @@
 @tool
 extends EditorScript
 ## Run from the Script editor: File > Run (Ctrl+Shift+X) with this file open.
-## Headless: godot --headless -s res://scripts/tools/run_soft_lock_check.gd
+## Headless: godot --headless --path . res://scripts/tools/run_soft_lock_check.tscn
 
 
 func _run() -> void:

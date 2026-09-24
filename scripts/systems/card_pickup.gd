@@ -6,6 +6,9 @@ extends Area2D
 ## zone reloads; dropped cards are tracked per zone in GameState.zone_drops.
 
 @export var card_id: StringName
+## The gate you must open to reach this card, if any. Rivals skip it unless
+## they can pay for that gate (and then they do).
+@export var behind_gate: StringName
 
 ## Set for cards dropped at runtime that should persist in their zone.
 var zone_drop_of: String

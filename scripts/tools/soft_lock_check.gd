@@ -73,6 +73,19 @@ static func run() -> Dictionary:
 		if card.source == CardData.Source.BOSS and not (card.boss_kill_cap >= 3 and card.boss_kill_cap <= 4):
 			warnings.append("'%s' boss kill cap is %d (design target 3-4)" % [id, card.boss_kill_cap])
 
+	# Hand-placed pickups across every zone can't exceed a finite card's supply.
+	var placed: Dictionary[StringName, int] = {}
+	for pickup: Dictionary in WorldMap.all_placed_pickups():
+		placed[pickup.card_id] = placed.get(pickup.card_id, 0) + 1
+		if pickup.gate != &"" and _find_gate(gates, pickup.gate) == null:
+			errors.append("Pickup %s is behind unknown gate '%s'" % [pickup.key, pickup.gate])
+	for id in placed:
+		var card := cards.get(id) as CardData
+		if card == null:
+			errors.append("A zone places unknown card '%s'" % id)
+		elif not card.is_effectively_infinite() and card.source != CardData.Source.BOSS 				and placed[id] > card.copies_in_world:
+			errors.append("'%s' is placed %d times but only %d copies exist" % [id, placed[id], card.copies_in_world])
+
 	# Bosses: kills beyond the first need respawn gates, and the drops must be
 	# boss cards whose kill cap matches (that's what their supply is computed from).
 	for file in ResourceLoader.list_directory(BOSS_DIR):
@@ -100,6 +113,13 @@ static func run() -> Dictionary:
 		"warnings": warnings,
 		"lines": lines,
 	}
+
+
+static func _find_gate(gates: Array[GateData], id: StringName) -> GateData:
+	for gate in gates:
+		if gate.id == id:
+			return gate
+	return null
 
 
 static func print_report(result: Dictionary) -> void:

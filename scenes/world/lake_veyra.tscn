@@ -1,0 +1,514 @@
+[gd_scene load_steps=34 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="5_pick"]
+[ext_resource type="PackedScene" path="res://scenes/characters/briar_hound.tscn" id="6_hound"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="PackedScene" path="res://scenes/systems/card_gate.tscn" id="8_gate"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/monsters/briar_hound/briar_hound_frames.tres" id="9_hound_frames"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/lake_veyra_ground.png" id="10_ground"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/moss_bridge.png" id="11_bridge"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/elder_shrine.tscn" id="12_shrine"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/tree.tscn" id="13_tree"]
+
+[sub_resource type="RectangleShape2D" id="R256x32"]
+size = Vector2(256, 32)
+
+[sub_resource type="RectangleShape2D" id="R448x32"]
+size = Vector2(448, 32)
+
+[sub_resource type="RectangleShape2D" id="R576x32"]
+size = Vector2(576, 32)
+
+[sub_resource type="RectangleShape2D" id="R224x32"]
+size = Vector2(224, 32)
+
+[sub_resource type="RectangleShape2D" id="R288x32"]
+size = Vector2(288, 32)
+
+[sub_resource type="RectangleShape2D" id="R276x32"]
+size = Vector2(276, 32)
+
+[sub_resource type="RectangleShape2D" id="R212x32"]
+size = Vector2(212, 32)
+
+[sub_resource type="RectangleShape2D" id="R148x32"]
+size = Vector2(148, 32)
+
+[sub_resource type="RectangleShape2D" id="R1104x40"]
+size = Vector2(1104, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x800"]
+size = Vector2(40, 800)
+
+[sub_resource type="RectangleShape2D" id="R40x626"]
+size = Vector2(40, 626)
+
+[sub_resource type="RectangleShape2D" id="R40x126"]
+size = Vector2(40, 126)
+
+[sub_resource type="RectangleShape2D" id="R28x48"]
+size = Vector2(28, 48)
+
+[sub_resource type="RectangleShape2D" id="R8x628"]
+size = Vector2(8, 628)
+
+[sub_resource type="RectangleShape2D" id="R8x128"]
+size = Vector2(8, 128)
+
+[sub_resource type="RectangleShape2D" id="R138x10"]
+size = Vector2(138, 10)
+
+[sub_resource type="RectangleShape2D" id="R35x10"]
+size = Vector2(35, 10)
+
+[sub_resource type="RectangleShape2D" id="R126x10"]
+size = Vector2(126, 10)
+
+[sub_resource type="RectangleShape2D" id="R10x120"]
+size = Vector2(10, 120)
+
+[sub_resource type="RectangleShape2D" id="R44x10"]
+size = Vector2(44, 10)
+
+[node name="LakeVeyra" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Lake Veyra"
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+texture = ExtResource("10_ground")
+
+[node name="EntryPath" type="ColorRect" parent="."]
+z_index = -9
+offset_left = 500.0
+offset_top = 226.0
+offset_right = 580.0
+offset_bottom = 274.0
+mouse_filter = 2
+color = Color(0.5, 0.44, 0.32, 1)
+
+[node name="MossBridge" type="Sprite2D" parent="."]
+z_index = -8
+position = Vector2(0, 67)
+texture = ExtResource("11_bridge")
+
+[node name="ElderShrine" parent="." instance=ExtResource("12_shrine")]
+position = Vector2(-446, -350)
+
+[node name="Water" type="StaticBody2D" parent="."]
+
+[node name="S0" type="CollisionShape2D" parent="Water"]
+position = Vector2(0.0, -224.0)
+shape = SubResource("R256x32")
+
+[node name="S1" type="CollisionShape2D" parent="Water"]
+position = Vector2(0.0, -192.0)
+shape = SubResource("R448x32")
+
+[node name="S2" type="CollisionShape2D" parent="Water"]
+position = Vector2(0.0, -160.0)
+shape = SubResource("R576x32")
+
+[node name="S3" type="CollisionShape2D" parent="Water"]
+position = Vector2(-160.0, -128.0)
+shape = SubResource("R256x32")
+
+[node name="S4" type="CollisionShape2D" parent="Water"]
+position = Vector2(160.0, -128.0)
+shape = SubResource("R256x32")
+
+[node name="S5" type="CollisionShape2D" parent="Water"]
+position = Vector2(-192.0, -96.0)
+shape = SubResource("R256x32")
+
+[node name="S6" type="CollisionShape2D" parent="Water"]
+position = Vector2(192.0, -96.0)
+shape = SubResource("R256x32")
+
+[node name="S7" type="CollisionShape2D" parent="Water"]
+position = Vector2(-208.0, -64.0)
+shape = SubResource("R224x32")
+
+[node name="S8" type="CollisionShape2D" parent="Water"]
+position = Vector2(208.0, -64.0)
+shape = SubResource("R224x32")
+
+[node name="S9" type="CollisionShape2D" parent="Water"]
+position = Vector2(-192.0, -32.0)
+shape = SubResource("R256x32")
+
+[node name="S10" type="CollisionShape2D" parent="Water"]
+position = Vector2(192.0, -32.0)
+shape = SubResource("R256x32")
+
+[node name="S11" type="CollisionShape2D" parent="Water"]
+position = Vector2(-176.0, 0.0)
+shape = SubResource("R288x32")
+
+[node name="S12" type="CollisionShape2D" parent="Water"]
+position = Vector2(176.0, 0.0)
+shape = SubResource("R288x32")
+
+[node name="S13" type="CollisionShape2D" parent="Water"]
+position = Vector2(-150.0, 32.0)
+shape = SubResource("R276x32")
+
+[node name="S14" type="CollisionShape2D" parent="Water"]
+position = Vector2(150.0, 32.0)
+shape = SubResource("R276x32")
+
+[node name="S15" type="CollisionShape2D" parent="Water"]
+position = Vector2(-118.0, 64.0)
+shape = SubResource("R212x32")
+
+[node name="S16" type="CollisionShape2D" parent="Water"]
+position = Vector2(118.0, 64.0)
+shape = SubResource("R212x32")
+
+[node name="S17" type="CollisionShape2D" parent="Water"]
+position = Vector2(-86.0, 96.0)
+shape = SubResource("R148x32")
+
+[node name="S18" type="CollisionShape2D" parent="Water"]
+position = Vector2(86.0, 96.0)
+shape = SubResource("R148x32")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="S0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0.0, -420.0)
+shape = SubResource("R1104x40")
+
+[node name="S1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0.0, 420.0)
+shape = SubResource("R1104x40")
+
+[node name="S2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-532.0, 0.0)
+shape = SubResource("R40x800")
+
+[node name="S3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(532.0, -87.0)
+shape = SubResource("R40x626")
+
+[node name="S4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(532.0, 337.0)
+shape = SubResource("R40x126")
+
+[node name="S5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(566.0, 250.0)
+shape = SubResource("R28x48")
+
+[node name="S6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(430.0, -86.0)
+shape = SubResource("R8x628")
+
+[node name="S7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(430.0, 336.0)
+shape = SubResource("R8x128")
+
+[node name="S8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-443.0, -60.0)
+shape = SubResource("R138x10")
+
+[node name="S9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-317.5, -60.0)
+shape = SubResource("R35x10")
+
+[node name="S10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(363.0, -60.0)
+shape = SubResource("R126x10")
+
+[node name="S11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-380.0, -340.0)
+shape = SubResource("R10x120")
+
+[node name="S12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-490.0, -280.0)
+shape = SubResource("R44x10")
+
+[node name="S13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-402.0, -280.0)
+shape = SubResource("R44x10")
+
+[node name="Hedge0" type="ColorRect" parent="."]
+z_index = -7
+offset_left = 423.0
+offset_top = -403.0
+offset_right = 437.0
+offset_bottom = 231.0
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.14, 1)
+
+[node name="Hedge1" type="ColorRect" parent="."]
+z_index = -7
+offset_left = 423.0
+offset_top = 269.0
+offset_right = 437.0
+offset_bottom = 403.0
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.14, 1)
+
+[node name="Hedge2" type="ColorRect" parent="."]
+z_index = -7
+offset_left = -515.0
+offset_top = -68.0
+offset_right = -371.0
+offset_bottom = -52.0
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.14, 1)
+
+[node name="Hedge3" type="ColorRect" parent="."]
+z_index = -7
+offset_left = -338.0
+offset_top = -68.0
+offset_right = -297.0
+offset_bottom = -52.0
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.14, 1)
+
+[node name="Hedge4" type="ColorRect" parent="."]
+z_index = -7
+offset_left = 297.0
+offset_top = -68.0
+offset_right = 429.0
+offset_bottom = -52.0
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.14, 1)
+
+[node name="Hedge5" type="ColorRect" parent="."]
+z_index = -7
+offset_left = -388.0
+offset_top = -403.0
+offset_right = -372.0
+offset_bottom = -277.0
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.14, 1)
+
+[node name="Hedge6" type="ColorRect" parent="."]
+z_index = -7
+offset_left = -515.0
+offset_top = -288.0
+offset_right = -465.0
+offset_bottom = -272.0
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.14, 1)
+
+[node name="Hedge7" type="ColorRect" parent="."]
+z_index = -7
+offset_left = -427.0
+offset_top = -288.0
+offset_right = -377.0
+offset_bottom = -272.0
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.14, 1)
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="from_thornveil" type="Marker2D" parent="Spawns"]
+position = Vector2(470, 250)
+
+[node name="ToThornveil" parent="." instance=ExtResource("7_exit")]
+position = Vector2(535, 250)
+rotation = 1.5708
+target_scene = "res://scenes/world/thornveil.tscn"
+target_spawn = &"from_lake"
+
+[node name="BrambleArch" parent="." instance=ExtResource("8_gate")]
+position = Vector2(430, 250)
+gate_id = &"thornveil_bramble_arch"
+vertical = true
+
+[node name="MossBridgeGate" parent="." instance=ExtResource("8_gate")]
+position = Vector2(0, 146)
+gate_id = &"thornveil_moss_bridge"
+
+[node name="ShorePathGate" parent="." instance=ExtResource("8_gate")]
+position = Vector2(-352, -60)
+gate_id = &"veyra_shore_path"
+
+[node name="ElderGroveSeal" parent="." instance=ExtResource("8_gate")]
+position = Vector2(-446, -280)
+gate_id = &"elder_grove_seal"
+
+[node name="Card_IslandPearl" parent="." instance=ExtResource("5_pick")]
+position = Vector2(0, -75)
+card_id = &"veyra_pearl"
+behind_gate = &"thornveil_moss_bridge"
+
+[node name="Card_ShrinePearl" parent="." instance=ExtResource("5_pick")]
+position = Vector2(-446, -325)
+card_id = &"veyra_pearl"
+behind_gate = &"elder_grove_seal"
+
+[node name="Card_NorthReed" parent="." instance=ExtResource("5_pick")]
+position = Vector2(150, -320)
+card_id = &"veyra_reed"
+behind_gate = &"veyra_shore_path"
+
+[node name="Card_NorthSeed" parent="." instance=ExtResource("5_pick")]
+position = Vector2(-160, -330)
+card_id = &"canopy_seed"
+behind_gate = &"veyra_shore_path"
+
+[node name="BriarHound1" parent="." instance=ExtResource("6_hound")]
+position = Vector2(-250, 260)
+sprite_frames = ExtResource("9_hound_frames")
+drop_card_ids = Array[StringName]([&"veyra_reed", &"moss_lantern", &"thorn_sprig"])
+
+[node name="BriarHound2" parent="." instance=ExtResource("6_hound")]
+position = Vector2(100, 270)
+sprite_frames = ExtResource("9_hound_frames")
+drop_card_ids = Array[StringName]([&"veyra_reed", &"moss_lantern", &"thorn_sprig"])
+
+[node name="BriarHound3" parent="." instance=ExtResource("6_hound")]
+position = Vector2(260, 190)
+sprite_frames = ExtResource("9_hound_frames")
+drop_card_ids = Array[StringName]([&"veyra_reed", &"moss_lantern", &"thorn_sprig"])
+
+[node name="BriarHound4" parent="." instance=ExtResource("6_hound")]
+position = Vector2(60, -330)
+sprite_frames = ExtResource("9_hound_frames")
+drop_card_ids = Array[StringName]([&"veyra_reed", &"moss_lantern", &"thorn_sprig"])
+
+[node name="Tree1" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-483, 90)
+radius = 16.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree2" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-380, 12)
+radius = 18.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree3" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-351, 310)
+radius = 18.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree4" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-380, 158)
+radius = 18.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree5" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-258, 338)
+radius = 16.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree6" parent="." instance=ExtResource("13_tree")]
+position = Vector2(280, -248)
+radius = 20.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree7" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-462, 288)
+radius = 20.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree8" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-259, 158)
+radius = 16.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree9" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-286, 217)
+radius = 18.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree10" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-400, -270)
+radius = 16.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree11" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-475, 22)
+radius = 20.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree12" parent="." instance=ExtResource("13_tree")]
+position = Vector2(103, 288)
+radius = 16.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree13" parent="." instance=ExtResource("13_tree")]
+position = Vector2(65, -329)
+radius = 16.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree14" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-287, -239)
+radius = 16.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree15" parent="." instance=ExtResource("13_tree")]
+position = Vector2(257, 153)
+radius = 18.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree16" parent="." instance=ExtResource("13_tree")]
+position = Vector2(394, 59)
+radius = 16.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree17" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-2, -348)
+radius = 20.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree18" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-2, 272)
+radius = 16.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree19" parent="." instance=ExtResource("13_tree")]
+position = Vector2(143, 168)
+radius = 18.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree20" parent="." instance=ExtResource("13_tree")]
+position = Vector2(363, 300)
+radius = 16.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree21" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-193, -295)
+radius = 18.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree22" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-466, 225)
+radius = 20.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree23" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-112, 322)
+radius = 20.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree24" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-183, 274)
+radius = 18.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree25" parent="." instance=ExtResource("13_tree")]
+position = Vector2(364, -189)
+radius = 18.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Tree26" parent="." instance=ExtResource("13_tree")]
+position = Vector2(-379, 75)
+radius = 20.0
+tint = Color(0.18, 0.36, 0.22, 1)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(470, 250)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]

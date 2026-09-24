@@ -13,6 +13,7 @@ const KALMORA := "res://scenes/world/kalmora.tscn"
 const THORNVEIL := "res://scenes/world/thornveil.tscn"
 const SORENDA := "res://scenes/world/sorenda.tscn"
 const WARDENS_GROVE := "res://scenes/world/wardens_grove.tscn"
+const LAKE_VEYRA := "res://scenes/world/lake_veyra.tscn"
 
 const PICKUP_SCENE := "res://scenes/systems/card_pickup.tscn"
 
@@ -23,6 +24,8 @@ const ZONES := {
 		"monster_drops": [&"thorn_sprig", &"moss_lantern", &"veyra_reed", &"hollow_acorn"] },
 	SORENDA: { "name": "Sorenda", "origin": Vector2(0, -1490), "monster_drops": [] },
 	WARDENS_GROVE: { "name": "Warden's Grove", "origin": Vector2(1030, -885), "monster_drops": [] },
+	LAKE_VEYRA: { "name": "Lake Veyra", "origin": Vector2(-1070, -985),
+		"monster_drops": [&"veyra_reed", &"moss_lantern", &"thorn_sprig"] },
 }
 
 ## Town scene -> { spawn marker (under "Spawns") people wake at, its local position }
@@ -47,6 +50,10 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(-400, 0), "gate": &"" },
 	{ "from": WARDENS_GROVE, "to": THORNVEIL, "exit": Vector2(-495, 0), "spawn": &"from_grove",
 		"entry": Vector2(460, -400), "gate": &"" },
+	{ "from": THORNVEIL, "to": LAKE_VEYRA, "exit": Vector2(-535, -250), "spawn": &"from_thornveil",
+		"entry": Vector2(470, 250), "gate": &"thornveil_bramble_arch" },
+	{ "from": LAKE_VEYRA, "to": THORNVEIL, "exit": Vector2(535, 250), "spawn": &"from_lake",
+		"entry": Vector2(-460, -250), "gate": &"thornveil_bramble_arch" },
 ]
 
 static var _pickup_cache: Dictionary = {}
@@ -141,12 +148,30 @@ static func reachable(from: String, collector: StringName, will_pay: bool) -> Ar
 
 
 ## Hand-placed card pickups in `zone` that nobody has taken yet:
-## Array of { "key": persist key, "card_id": StringName }.
+## Array of { "key": persist key, "card_id": StringName, "gate": guarding gate or &"" }.
 static func remaining_pickups(zone: String) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for pickup: Dictionary in _all_pickups(zone):
 		if not GameState.collected_pickups.has(pickup.key):
 			out.append(pickup)
+	return out
+
+
+## Remaining pickups `collector` can actually get to: behind no gate, an open
+## one, or one it's willing and able to pay for.
+static func reachable_pickups(zone: String, collector: StringName, will_pay: bool) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for pickup in remaining_pickups(zone):
+		if can_use({ "gate": pickup.gate }, collector, will_pay):
+			out.append(pickup)
+	return out
+
+
+## Every hand-placed pickup in every zone (for the soft-lock validator).
+static func all_placed_pickups() -> Array:
+	var out := []
+	for zone: String in ZONES:
+		out.append_array(_all_pickups(zone))
 	return out
 
 
@@ -163,10 +188,14 @@ static func _all_pickups(zone: String) -> Array:
 			if instance == null or instance.resource_path != PICKUP_SCENE:
 				continue
 			var card_id: StringName = &""
+			var gate: StringName = &""
 			for p in state.get_node_property_count(i):
-				if state.get_node_property_name(i, p) == &"card_id":
-					card_id = state.get_node_property_value(i, p)
+				match state.get_node_property_name(i, p):
+					&"card_id":
+						card_id = state.get_node_property_value(i, p)
+					&"behind_gate":
+						gate = state.get_node_property_value(i, p)
 			var path := String(state.get_node_path(i)).trim_prefix("./")
-			found.append({ "key": CardPickup.persist_key(zone, path), "card_id": card_id })
+			found.append({ "key": CardPickup.persist_key(zone, path), "card_id": card_id, "gate": gate })
 	_pickup_cache[zone] = found
 	return found
