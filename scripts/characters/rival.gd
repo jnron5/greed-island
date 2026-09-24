@@ -65,6 +65,10 @@ var _sprite_offset_y := -26.0
 var _relocated := false
 ## WorldMap edge this rival is walking out by (LEAVE state).
 var _exit_edge: Dictionary = {}
+## Current route from the zone's navigation grid (global points).
+var _path := PackedVector2Array()
+var _path_goal := Vector2.INF
+var _path_age := 0.0
 const LEAVE_TIMEOUT := 25.0
 ## Draws the sight cone on the ground layer, under every character.
 var _cone := Node2D.new()
@@ -448,9 +452,22 @@ func _find_nearest_pickup() -> CardPickup:
 	return best
 
 
-## Straight-line steering with a sidestep when blocked (no navmesh yet).
+## Follows the zone's navigation grid toward `point` (around trees, up stairs),
+## falling back to straight-line steering with a sidestep when blocked.
 func _steer_toward(point: Vector2, delta: float) -> void:
-	var dir := global_position.direction_to(point)
+	var zone := get_parent() as Zone
+	var goal := point
+	if zone:
+		_path_age += delta
+		if _path.is_empty() or _path_goal.distance_to(point) > 24.0 or _path_age > 1.5:
+			_path = zone.find_path(global_position, point)
+			_path_goal = point
+			_path_age = 0.0
+		while _path.size() > 1 and global_position.distance_to(_path[0]) < 10.0:
+			_path.remove_at(0)
+		if _path.size() > 1:
+			goal = _path[0]
+	var dir := global_position.direction_to(goal)
 	if _detour_time > 0.0:
 		_detour_time -= delta
 		dir = (dir + _detour_dir * 1.5).normalized()

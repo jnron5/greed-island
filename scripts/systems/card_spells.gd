@@ -75,7 +75,7 @@ static func use_second_wind(caster: Node2D) -> bool:
 static func collectors_in_range(caster: Node2D, radius: float) -> Array[Node2D]:
 	var out: Array[Node2D] = []
 	for node in caster.get_tree().get_nodes_in_group(&"collectors"):
-		if node != caster and node is Node2D and caster.global_position.distance_to(node.global_position) <= radius:
+		if node != caster and node is Node2D and caster.global_position.distance_to(node.global_position) <= radius 				and Zone.same_level(caster.get_tree(), caster.global_position, node.global_position):
 			out.append(node)
 	out.sort_custom(func(a: Node2D, b: Node2D) -> bool:
 		return caster.global_position.distance_squared_to(a.global_position) \

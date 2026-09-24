@@ -143,6 +143,8 @@ func _valid_target(n: Variant) -> bool:
 	var id: Variant = n.get(&"collector_id")
 	if not (id is StringName) or GameState.is_in_safe_zone(id):
 		return false
+	if not Zone.same_level(get_tree(), global_position, n.global_position):
+		return false
 	return global_position.distance_to(n.global_position) <= aggro_radius * 1.6
 
 

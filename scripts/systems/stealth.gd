@@ -49,6 +49,8 @@ static func blocker(thief: Node2D, victim: Node2D) -> String:
 	var victim_id: StringName = victim.get(&"collector_id")
 	if thief.global_position.distance_to(victim.global_position) > STEAL_RANGE:
 		return "Too far away"
+	if not Zone.same_level(thief.get_tree(), thief.global_position, victim.global_position):
+		return "Out of reach from here"
 	if GameState.grace_left(victim_id) > 0.0:
 		return "They were just robbed"
 	if GameState.stealable_card_ids(victim_id, CardCollection.LOOSE_ONLY).is_empty():

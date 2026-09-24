@@ -167,6 +167,8 @@ func _fire_pistol() -> void:
 	shot.direction = facing
 	shot.damage = pistol_damage
 	shot.source_id = collector_id
+	var zone := Zone.current(get_tree())
+	shot.level = zone.level_at(global_position) if zone else -1
 	shot.global_position = global_position + Vector2(0, -18) + facing * 10.0
 	get_parent().add_child(shot)
 	_enter(State.SHOOT)

@@ -51,6 +51,8 @@ func perceived_gain(target: Node2D) -> float:
 	var to := target.global_position - body.global_position
 	var dist := to.length()
 	var gain := 0.0
+	if not Zone.same_level(get_tree(), body.global_position, target.global_position):
+		return 0.0  # Can't see or hear across a cliff.
 	if can_see(to):
 		gain = sight_gain * (1.0 - dist / sight_radius) + 10.0
 	elif dist <= hearing_radius:

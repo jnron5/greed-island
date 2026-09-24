@@ -1,151 +1,403 @@
-"""Kalmora art pass: coastal ground from two chained PixelLab Wang tilesets
-(sea -> sand, sand -> cobbles) plus Mediterranean buildings and decor.
+"""Build Kalmora, Port of Beginnings, as a multilevel harbor town.
 
 Usage: python scripts/tools/build_kalmora.py
-Writes assets/sprites/tiles/kalmora/kalmora_ground.png and updates
-scenes/world/kalmora.tscn: replaces the flat ColorRect ground, swaps the drawn
-fountain/dock for sprites, and (re)places the House*/Decor* nodes. Candidate
-spots are skipped if they'd crowd anything already placed (pickups, gates,
-spawn and rival markers, dummies, the merchant, the lighthouse yard).
+Writes the ground image, the level map, and scenes/world/kalmora.tscn (the
+whole scene is generated: edit the layout here, not in the editor).
+
+Levels (tile-corner heightmap, see terrain.py):
+  0 sea         the harbor water (not walkable)
+  1 quay        stone docks and a jetty at the waterline
+  2 market      the whitewashed market terrace; its fountain square juts out
+                over the harbor as a promontory
+  3 upper town  gardens and houses; the lighthouse garden reaches down in the
+                north-east, and the north road climbs to the Thornveil gate
+Cliffs are three rows tall (WALL_EXTRA adds a row of wall body); stairs are cut
+through them, 2 cells wide and 3 rows tall.
 """
-import json
 import os
-import re
+import random
 
 from PIL import Image
 
 os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from build_ground import remove_node, remove_node_prefix  # noqa: E402
+from terrain import CliffSet, compose, merge_rects  # noqa: E402
 
 TILE = 32
-BOUNDS = (-416, -384, 416, 320)
-COAST = "assets/sprites/tiles/kalmora/wang/coast"   # lower = sea, upper = sand
-TOWN = "assets/sprites/tiles/kalmora/wang/town"     # lower = sand, upper = cobbles
-OUT = "assets/sprites/tiles/kalmora/kalmora_ground.png"
+LEFT, TOP, RIGHT, BOTTOM = -768, -992, 768, 416
+COLS, ROWS = (RIGHT - LEFT) // TILE, (BOTTOM - TOP) // TILE
+SEA, QUAY, MARKET, UPPER = 0, 1, 2, 3
+WALL_EXTRA = 1
+STAIR_ROWS = 2 + WALL_EXTRA
+
+GROUND_PNG = "assets/sprites/tiles/kalmora/kalmora_ground.png"
+LEVEL_PNG = "assets/sprites/tiles/kalmora/kalmora_levels.png"
 SCENE = "scenes/world/kalmora.tscn"
-
-SEA, SAND, COBBLE = 0, 1, 2
-SEA_TOP = 205          # the sea wall runs along y ~205..245
-TOWN_RECT = (-300, -262, 300, 172)
-
-# (name, prop scene, footprint-bottom position). Skipped if too close to something.
-BUILDINGS = [
-    ("HouseTall1", "kalmora_townhouse", (-150, -150)),
-    ("HouseTall2", "kalmora_townhouse", (165, -195)),
-    ("Cottage1", "kalmora_cottage", (-300, -10)),
-    ("Cottage2", "kalmora_cottage", (95, -250)),
-    ("Tavern", "kalmora_tavern", (255, 125)),
-]
-DECOR = [
-    ("Cypress", "kalmora_cypress", [(-110, -250), (-205, -240), (230, -120), (-360, -200), (-10, 175), (40, -250)]),
-    ("Olive", "kalmora_olive", [(-330, 110), (-380, -120), (360, 20), (-250, 170), (140, 175), (-120, 40)]),
-]
-CLEARANCE = 44
-KEEP_OUT = [(285, -262, 385, -105), (175, 165, 225, 300)]  # lighthouse yard, pier
+CLIFF = "assets/sprites/tiles/kalmora/cliff/"
 
 
-def load(prefix):
-    meta = json.load(open(prefix + "_metadata.json"))
-    sheet = Image.open(prefix + "_image.png").convert("RGBA")
-    tiles = {}
-    for t in meta["tileset_data"]["tiles"]:
-        c = t["corners"]
-        idx = (c["NW"] == "upper") * 8 + (c["NE"] == "upper") * 4 + (c["SW"] == "upper") * 2 + (c["SE"] == "upper")
-        b = t["bounding_box"]
-        tiles[idx] = sheet.crop((b["x"], b["y"], b["x"] + b["width"], b["y"] + b["height"]))
-    return tiles
-
-
-def terrain(x, y):
-    if y >= SEA_TOP:
+def level_at(x: float, y: float) -> int:
+    if 64 <= x <= 160 and 220 < y <= 352:
+        return QUAY  # the jetty
+    if y > 220:
         return SEA
-    x0, y0, x1, y1 = TOWN_RECT
-    return COBBLE if x0 <= x <= x1 and y0 <= y <= y1 else SAND
+    market_edge = -76 if -192 <= x <= 192 else -140  # fountain promontory
+    if y > market_edge:
+        return QUAY
+    upper_edge = -420 if x >= 288 else -520          # lighthouse garden
+    if y > upper_edge:
+        return MARKET
+    return UPPER
 
 
-def build_ground():
-    coast, town = load(COAST), load(TOWN)
-    x0, y0, x1, y1 = BOUNDS
-    cols, rows = (x1 - x0) // TILE, (y1 - y0) // TILE
-    t = [[terrain(x0 + i * TILE, y0 + j * TILE) for i in range(cols + 1)] for j in range(rows + 1)]
-    img = Image.new("RGBA", (cols * TILE, rows * TILE))
-    for j in range(rows):
-        for i in range(cols):
-            c = [t[j][i], t[j][i + 1], t[j + 1][i], t[j + 1][i + 1]]
-            if min(c) >= SAND:   # sand/cobble cell: town tileset (sand lower, cobble upper)
-                bits, tiles = [v == COBBLE for v in c], town
-            else:                 # sea/sand cell (a stray cobble counts as sand here)
-                bits, tiles = [v != SEA for v in c], coast
-            img.paste(tiles[bits[0] * 8 + bits[1] * 4 + bits[2] * 2 + bits[3]], (i * TILE, j * TILE))
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    img.save(OUT)
-    return cols, rows
+# Stairs: (left x, plateau edge y, style). They cover the cliff rows around the edge.
+STAIRS = [
+    (-480, -140, "town"), (320, -140, "town"), (-32, -76, "town"),
+    (-224, -520, "town"), (416, -420, "town"), (-32, -520, "town"),
+]
 
 
-def ext(scene, path, rid, kind="PackedScene"):
-    if f'path="{path}"' in scene:
-        return re.search(r'path="%s" id="([^"]+)"' % re.escape(path), scene).group(1), scene
-    line = f'[ext_resource type="{kind}" path="{path}" id="{rid}"]\n'
-    at = scene.index("\n[sub_resource")
-    return rid, scene[:at] + "\n" + line.rstrip("\n") + scene[at:]
+def build_terrain():
+    levels = [[level_at(LEFT + c * TILE, TOP + r * TILE) for c in range(COLS + 1)] for r in range(ROWS + 1)]
+    sets = {SEA: CliffSet(CLIFF + "sea_quay"), QUAY: CliffSet(CLIFF + "quay_market"), MARKET: CliffSet(CLIFF + "market_upper")}
+    img, stand = compose(levels, sets, TILE, extra_wall_rows=WALL_EXTRA)
+    img.save(GROUND_PNG)
+
+    stair_cells = set()
+    for x, edge, _ in STAIRS:
+        c0, r0 = (x - LEFT) // TILE, (edge - TOP) // TILE - WALL_EXTRA
+        for dr in range(STAIR_ROWS):
+            for dc in (0, 1):
+                stair_cells.add((r0 + dr, c0 + dc))
+    blocked = [[(stand[r][c] in (-1, SEA)) and (r, c) not in stair_cells for c in range(COLS)] for r in range(ROWS)]
+
+    # Level map: red = level * 40; 255 = cliff/stairs (counts as any level).
+    lm = Image.new("RGB", (COLS, ROWS))
+    for r in range(ROWS):
+        for c in range(COLS):
+            v = stand[r][c]
+            lm.putpixel((c, r), (255, 0, 0) if v < 0 or (r, c) in stair_cells else (v * 40, 0, 0))
+    lm.save(LEVEL_PNG)
+    return stand, blocked, stair_cells
+
+
+# ------------------------------------------------------------------ content
+BUILDINGS = [  # (node, prop, position = footprint bottom-centre)
+    ("Tavern", "kalmora_tavern", (-380, 110)),
+    ("HarborHouse", "kalmora_cottage", (-640, 40)),
+    ("Townhouse1", "kalmora_townhouse", (-470, -290)),
+    ("Cottage1", "kalmora_cottage", (-660, -215)),
+    ("Shop", "kalmora_townhouse", (470, -200)),
+    ("Townhouse2", "kalmora_townhouse", (-330, -700)),
+    ("Cottage2", "kalmora_cottage", (250, -780)),
+    ("Cottage3", "kalmora_cottage", (-620, -820)),
+]
+CARDS = [  # (card, position)
+    ("harbor_lantern", (-600, 125)), ("coral_coin", (250, 125)), ("gull_feather", (600, 125)),
+    ("sea_glass", (-170, 125)), ("sunken_crown_shard", (112, 300)),
+    ("salt_compass", (-300, -230)), ("tide_bell", (230, -370)), ("terracotta_tile", (-150, -470)),
+    ("lighthouse_wick", (-560, -620)), ("fishers_knot", (-40, 100)),
+]
+EXTRA_SALT_COMPASS = (-600, -430)
+DUMMIES = [(470, 60), (540, 100), (500, 140)]
+RIVAL_SPOTS = {"runner": (-450, -600), "raider": (380, -700), "hoarder": (-140, -660)}
+SPAWNS = {"town": (0, -150), "from_thornveil": (0, -860)}
+LIGHTHOUSE = (600, -640)      # yard centre; the tower stands in its north half
+MERCHANT = (160, -250)
+FOUNTAIN = (0, -250)
+DECOR_COUNT = {"kalmora_cypress": 14, "kalmora_olive": 10}
+
+# Prop pack (assets/sprites/tiles/kalmora/props): what each district is dressed with.
+PROP_DIR = "assets/sprites/tiles/kalmora/props/"
+DISTRICT_PROPS = {
+    QUAY: (["barrel", "barrels", "crate", "crates", "sack", "rope", "anchor", "net_crate", "fish_basket",
+             "lobster_trap", "buoy", "oars", "ice_crates", "cannonballs", "ship_wheel", "rowboat", "fishing_rods",
+             "tackle_box", "bucket", "mop_bucket", "straw_hat_crate", "flour_sack", "lemons_crate"], 46),
+    MARKET: (["oranges_basket", "bread_basket", "apples_crate", "lemons_crate", "amphora", "amphorae", "signpost",
+               "menu_board", "cart", "wheelbarrow", "bench_wood", "geraniums", "lemon_tree_pot", "lavender_planter",
+               "cafe_table", "umbrella_table", "bougainvillea_box", "small_well", "water_tap", "barrel", "sack"], 40),
+    UPPER: (["bench_stone", "bench_wood", "geraniums", "lemon_tree_pot", "lavender_planter", "potted_palm",
+              "laundry_basket", "laundry_line", "candle_shrine", "fence", "low_wall", "cactus", "amphora",
+              "bougainvillea_box", "wheelbarrow"], 34),
+}
+DECALS = (["puddle", "leaves", "moss"], 60)
+# Lamp posts line the quay's edge and the market wall; bollards line the harbor.
+LAMP_ROWS = [(125, range(-700, 700, 224)), (-110, range(-640, 700, 256))]
+BOLLARD_ROW = (150, range(-736, 736, 96))
+
+
+def cell_of(x, y):
+    return int((y - TOP) // TILE), int((x - LEFT) // TILE)
+
+
+def check_spot(stand, blocked, name, x, y, want=None):
+    r, c = cell_of(x, y)
+    ok = 0 <= r < ROWS and 0 <= c < COLS and not blocked[r][c] and (want is None or stand[r][c] == want)
+    if not ok:
+        raise SystemExit(f"{name} at ({x}, {y}) is not on walkable ground (cell level {stand[r][c]})")
 
 
 def main():
-    cols, rows = build_ground()
-    scene = open(SCENE, encoding="utf-8").read()
-    for name in ["Ground", "NorthPath", "TownPaving", "Plaza", "Sea", "Dock", "GroundTiles", "PierSprite"]:
-        scene = remove_node(scene, name)
-    # Drawn fountain -> sprite prop (drop its children too).
-    scene = re.sub(r'\[node name="[^"]+" [^\n]*parent="Fountain"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*', "", scene)
-    scene = remove_node(scene, "Fountain")
-    for prefix in ["House", "Cottage", "Tavern", "Cypress", "Olive"]:
-        scene = re.sub(r'\[node name="%s\d*" [^\n]*\]\n(?:(?!\[node )[^\n]*\n)*' % prefix, "", scene)
+    stand, blocked, stair_cells = build_terrain()
+    for card, (x, y) in CARDS:
+        check_spot(stand, blocked, card, x, y)
+    for name, (x, y) in {**SPAWNS, **RIVAL_SPOTS}.items():
+        check_spot(stand, blocked, name, x, y)
 
-    ground_id, scene = ext(scene, "res://" + OUT, "80_ground", "Texture2D")
-    pier_id, scene = ext(scene, "res://assets/sprites/tiles/kalmora/pier.png", "81_pier", "Texture2D")
-    fountain_id, scene = ext(scene, "res://scenes/world/props/kalmora_fountain.tscn", "82_fountain")
-    stall_id, scene = ext(scene, "res://assets/sprites/tiles/kalmora/market_stall.png", "83_stall", "Texture2D")
+    subs = {}
+    def shape(w, h):
+        key = f"R{w}x{h}"
+        subs[key] = f'[sub_resource type="RectangleShape2D" id="{key}"]\nsize = Vector2({w}, {h})\n'
+        return key
 
-    x0, y0, x1, y1 = BOUNDS
-    root_end = scene.index("\n\n", scene.index('[node name="')) + 2
-    scene = (scene[:root_end]
-             + f'[node name="GroundTiles" type="Sprite2D" parent="."]\nz_index = -10\n'
-               f'position = Vector2({(x0 + x1) / 2}, {(y0 + y1) / 2})\ntexture = ExtResource("{ground_id}")\n\n'
-             + f'[node name="PierSprite" type="Sprite2D" parent="."]\nz_index = -8\nposition = Vector2(200, 232)\n'
-               f'texture = ExtResource("{pier_id}")\n\n'
-             + f'[node name="Fountain" parent="." instance=ExtResource("{fountain_id}")]\nposition = Vector2(0, -8)\n\n'
-             + scene[root_end:])
-    if "stall_texture" not in scene:
-        scene = scene.replace('[node name="Merchant" parent="." instance=ExtResource("7_merchant")]\n',
-                              f'[node name="Merchant" parent="." instance=ExtResource("7_merchant")]\nstall_texture = ExtResource("{stall_id}")\n')
+    ext = [
+        ('Script', "res://scripts/world/zone.gd", "1_zone"),
+        ('PackedScene', "res://scenes/characters/player.tscn", "2_player"),
+        ('PackedScene', "res://scenes/ui/hud.tscn", "3_hud"),
+        ('PackedScene', "res://scenes/ui/binder.tscn", "4_binder"),
+        ('PackedScene', "res://scenes/ui/shop_panel.tscn", "5_shop"),
+        ('PackedScene', "res://scenes/systems/card_pickup.tscn", "6_pick"),
+        ('PackedScene', "res://scenes/characters/training_dummy.tscn", "7_dummy"),
+        ('PackedScene', "res://scenes/systems/merchant.tscn", "8_merchant"),
+        ('Script', "res://scripts/systems/safe_zone.gd", "9_safe"),
+        ('PackedScene', "res://scenes/systems/card_gate.tscn", "10_gate"),
+        ('PackedScene', "res://scenes/systems/zone_exit.tscn", "11_exit"),
+        ('Texture2D', "res://" + GROUND_PNG, "12_ground"),
+        ('Texture2D', "res://" + LEVEL_PNG, "13_levels"),
+        ('Texture2D', "res://assets/sprites/tiles/kalmora/stairs_town.png", "14_stairs_town"),
+        ('Texture2D', "res://assets/sprites/tiles/kalmora/stairs_stone.png", "15_stairs_stone"),
+        ('Texture2D', "res://assets/sprites/tiles/kalmora/market_stall.png", "16_stall"),
+        ('PackedScene', "res://scenes/world/props/lighthouse.tscn", "17_lighthouse"),
+        ('PackedScene', "res://scenes/world/props/kalmora_fountain.tscn", "18_fountain"),
+    ]
+    prop_ids = {}
+    for _, prop, _ in BUILDINGS:
+        prop_ids.setdefault(prop, f"{30 + len(prop_ids)}_{prop}")
+    for prop in DECOR_COUNT:
+        prop_ids.setdefault(prop, f"{30 + len(prop_ids)}_{prop}")
+    for prop, rid in prop_ids.items():
+        ext.append(('PackedScene', f"res://scenes/world/props/{prop}.tscn", rid))
 
-    taken = [(float(a), float(b)) for a, b in re.findall(r'position = Vector2\((-?[\d.]+), (-?[\d.]+)\)', scene)]
-    def free(x, y, r=CLEARANCE):
-        if any(ax0 - 20 <= x <= ax1 + 20 and ay0 - 20 <= y <= ay1 + 20 for ax0, ay0, ax1, ay1 in KEEP_OUT):
-            return False
-        return all((x - a) ** 2 + (y - b) ** 2 >= r * r for a, b in taken)
+    n = []
+    cx, cy = (LEFT + RIGHT) / 2, (TOP + BOTTOM) / 2
+    n.append(f'''[node name="Kalmora" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Kalmora, Port of Beginnings"
+level_map = ExtResource("13_levels")
+level_cell = {TILE}
+level_origin = Vector2({LEFT}, {TOP})
 
-    nodes, skipped = [], []
+[node name="GroundTiles" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2({cx}, {cy})
+texture = ExtResource("12_ground")
+''')
+    for k, (x, edge, style) in enumerate(STAIRS):
+        top = edge - WALL_EXTRA * TILE
+        n.append(f'[node name="Stairs{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\nposition = Vector2({x + TILE}, {top + STAIR_ROWS * TILE / 2})\n'
+                 f'texture = ExtResource("{"14_stairs_town" if style == "town" else "15_stairs_stone"}")\n')
+
+    # Cliffs, sea and the town's outer walls, merged into rectangles.
+    walls = merge_rects(blocked, LEFT, TOP, TILE)
+    walls += [(LEFT - 40, TOP - 40, -24, TOP), (24, TOP - 40, RIGHT + 40, TOP),   # north, gap for the road
+              (-64, TOP - 80, -24, TOP - 40), (24, TOP - 80, 64, TOP - 40),     # road walls beyond the edge
+              (LEFT - 40, TOP, LEFT, BOTTOM), (RIGHT, TOP, RIGHT + 40, BOTTOM),
+              (LEFT - 40, BOTTOM, RIGHT + 40, BOTTOM + 40)]
+    n.append('[node name="Walls" type="StaticBody2D" parent="."]\n')
+    for k, (x0, y0, x1, y1) in enumerate(walls):
+        n.append(f'[node name="W{k}" type="CollisionShape2D" parent="Walls"]\nposition = Vector2({(x0 + x1) / 2}, {(y0 + y1) / 2})\n'
+                 f'shape = SubResource("{shape(x1 - x0, y1 - y0)}")\n')
+
+    # Lighthouse yard: low walls around the tower with the door gate in front.
+    lx, ly = LIGHTHOUSE
+    n.append(f'''[node name="LighthouseYard" type="StaticBody2D" parent="."]
+position = Vector2({lx}, {ly})
+
+[node name="West" type="CollisionShape2D" parent="LighthouseYard"]
+position = Vector2(-60, 0)
+shape = SubResource("{shape(10, 170)}")
+
+[node name="East" type="CollisionShape2D" parent="LighthouseYard"]
+position = Vector2(60, 0)
+shape = SubResource("{shape(10, 170)}")
+
+[node name="North" type="CollisionShape2D" parent="LighthouseYard"]
+position = Vector2(0, -85)
+shape = SubResource("{shape(120, 10)}")
+
+[node name="FrontWest" type="CollisionShape2D" parent="LighthouseYard"]
+position = Vector2(-41, 85)
+shape = SubResource("{shape(38, 10)}")
+
+[node name="FrontEast" type="CollisionShape2D" parent="LighthouseYard"]
+position = Vector2(41, 85)
+shape = SubResource("{shape(38, 10)}")
+
+[node name="YardWall" type="Line2D" parent="LighthouseYard"]
+z_index = -7
+points = PackedVector2Array(-22, 85, -60, 85, -60, -85, 60, -85, 60, 85, 22, 85)
+width = 6.0
+default_color = Color(0.95, 0.93, 0.87, 1)
+
+[node name="Lighthouse" parent="." instance=ExtResource("17_lighthouse")]
+position = Vector2({lx}, {ly - 25})
+
+[node name="LighthouseDoor" parent="." instance=ExtResource("10_gate")]
+position = Vector2({lx}, {ly + 85})
+gate_id = &"kalmora_lighthouse_door"
+
+[node name="Card_lighthouse_lens" parent="." instance=ExtResource("6_pick")]
+position = Vector2({lx}, {ly + 40})
+card_id = &"lighthouse_lens"
+behind_gate = &"kalmora_lighthouse_door"
+''')
+    check_spot(stand, blocked, "lighthouse lens", lx, ly + 40, UPPER)
+
+    n.append(f'''[node name="Fountain" parent="." instance=ExtResource("18_fountain")]
+position = Vector2{FOUNTAIN}
+
+[node name="Merchant" parent="." instance=ExtResource("8_merchant")]
+position = Vector2{MERCHANT}
+stall_texture = ExtResource("16_stall")
+
+[node name="NorthGate" parent="." instance=ExtResource("10_gate")]
+position = Vector2(0, {TOP + 90})
+gate_id = &"kalmora_north_gate"
+
+[node name="ToThornveil" parent="." instance=ExtResource("11_exit")]
+position = Vector2(0, {TOP - 20})
+target_scene = "res://scenes/world/thornveil.tscn"
+target_spawn = &"from_kalmora"
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("9_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2({cx}, {cy})
+shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
+
+[node name="Spawns" type="Node2D" parent="."]
+''')
+    # The gate road must be walkable ground on the upper level.
+    check_spot(stand, blocked, "north gate", 0, TOP + 110, UPPER)
+    for name, (x, y) in SPAWNS.items():
+        n.append(f'[node name="{name}" type="Marker2D" parent="Spawns"]\nposition = Vector2({x}, {y})\n')
+    n.append('[node name="RivalSpots" type="Node2D" parent="."]\n')
+    for name, (x, y) in RIVAL_SPOTS.items():
+        n.append(f'[node name="{name}" type="Marker2D" parent="RivalSpots"]\nposition = Vector2({x}, {y})\n')
+
+    taken = [p for _, p in CARDS] + DUMMIES + list(RIVAL_SPOTS.values()) + list(SPAWNS.values()) \
+        + [EXTRA_SALT_COMPASS, MERCHANT, FOUNTAIN, (lx, ly), (0, TOP + 90)]
+    for card, (x, y) in CARDS:
+        n.append(f'[node name="Card_{card}" parent="." instance=ExtResource("6_pick")]\nposition = Vector2({x}, {y})\ncard_id = &"{card}"\n')
+    n.append(f'[node name="Card_salt_compass_2" parent="." instance=ExtResource("6_pick")]\nposition = Vector2{EXTRA_SALT_COMPASS}\ncard_id = &"salt_compass"\n')
+    for k, (x, y) in enumerate(DUMMIES):
+        check_spot(stand, blocked, "dummy", x, y, QUAY)
+        n.append(f'[node name="TrainingDummy{k + 1}" parent="." instance=ExtResource("7_dummy")]\nposition = Vector2({x}, {y})\n')
     for name, prop, (x, y) in BUILDINGS:
-        if not free(x, y, 60):
-            skipped.append(name)
-            continue
-        rid, scene = ext(scene, f"res://scenes/world/props/{prop}.tscn", f"84_{prop}")
-        nodes.append(f'[node name="{name}" parent="." instance=ExtResource("{rid}")]\nposition = Vector2({x}, {y})\n\n')
+        check_spot(stand, blocked, name, x, y)
+        n.append(f'[node name="{name}" parent="." instance=ExtResource("{prop_ids[prop]}")]\nposition = Vector2({x}, {y})\n')
         taken.append((x, y))
-    for prefix, prop, spots in DECOR:
-        rid, scene = ext(scene, f"res://scenes/world/props/{prop}.tscn", f"85_{prop}")
-        for k, (x, y) in enumerate(spots):
-            if not free(x, y):
-                skipped.append(f"{prefix}{k + 1}")
+
+    # Decor on open ground of the three walkable levels, clear of everything placed.
+    rng = random.Random(7)
+    blocked_near = lambda x, y: any((x - a) ** 2 + (y - b) ** 2 < 70 ** 2 for a, b in taken)
+    for prop, count in DECOR_COUNT.items():
+        placed = 0
+        for _ in range(4000):
+            if placed == count:
+                break
+            x, y = rng.randint(LEFT + 40, RIGHT - 40), rng.randint(TOP + 60, 200)
+            r, c = cell_of(x, y)
+            ok = all(0 <= r + dr < ROWS and 0 <= c + dc < COLS and not blocked[r + dr][c + dc]
+                     and (r + dr, c + dc) not in stair_cells for dr in (-2, -1, 0, 1) for dc in (-1, 0, 1))
+            if not ok or blocked_near(x, y) or abs(x) < 70 and y < -500:
                 continue
-            nodes.append(f'[node name="{prefix}{k + 1}" parent="." instance=ExtResource("{rid}")]\nposition = Vector2({x}, {y})\n\n')
+            placed += 1
             taken.append((x, y))
-    at = scene.index('[node name="Player"')
-    scene = scene[:at] + "".join(nodes) + scene[at:]
-    open(SCENE, "w", encoding="utf-8", newline="\n").write(scene)
-    print(f"kalmora: {cols}x{rows} tiles, {len(nodes)} props placed, skipped (crowded): {skipped}")
+            n.append(f'[node name="{prop.split("_")[1].title()}{placed}" parent="." instance=ExtResource("{prop_ids[prop]}")]\nposition = Vector2({x}, {y})\n')
+
+    # Props: lamp and bollard rows, then each district's clutter, favoring spots
+    # against walls and buildings like a lived-in town; decals go on the ground.
+    prop_tex = {}
+    prop_count = [0]
+    def prop_node(name, x, y, solid=True):
+        if name not in prop_tex:
+            rid = f"p_{name}"
+            prop_tex[name] = rid
+            ext.append(('Texture2D', f"res://{PROP_DIR}{name}.png", rid))
+        im = Image.open(PROP_DIR + name + ".png")
+        bottom = im.getbbox()[3]
+        prop_count[0] += 1
+        node = f"P{prop_count[0]}_{name}"
+        taken.append((x, y))
+        if not solid:
+            return (f'[node name="{node}" type="Sprite2D" parent="."]\nz_index = -9\nposition = Vector2({x}, {y})\n'
+                    f'texture = ExtResource("{prop_tex[name]}")\n')
+        return (f'[node name="{node}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
+                f'[node name="Sprite" type="Sprite2D" parent="{node}"]\nposition = Vector2(0, {im.height / 2 - bottom})\n'
+                f'texture = ExtResource("{prop_tex[name]}")\n\n'
+                f'[node name="Base" type="CollisionShape2D" parent="{node}"]\nposition = Vector2(0, -4)\n'
+                f'shape = SubResource("{shape(16, 8)}")\n')
+
+    def open_spot(x, y, clearance):
+        r, c = cell_of(x, y)
+        if not (0 <= r < ROWS and 0 <= c < COLS) or blocked[r][c] or (r, c) in stair_cells:
+            return False
+        if r + 1 < ROWS and blocked[r + 1][c] and stand[r][c] == QUAY and y > 100:
+            return False  # keep the harbor edge walkable
+        return all((x - a) ** 2 + (y - b) ** 2 >= clearance ** 2 for a, b in taken)
+
+    for y, xs in LAMP_ROWS:
+        for x in xs:
+            if open_spot(x, y, 40):
+                n.append(prop_node("lamp_post", x, y))
+    y, xs = BOLLARD_ROW
+    for x in xs:
+        if open_spot(x, y, 30):
+            n.append(prop_node("bollard", x, y))
+
+    for level, (names, count) in DISTRICT_PROPS.items():
+        placed = 0
+        for _ in range(20000):
+            if placed == count:
+                break
+            x, y = rng.randint(LEFT + 24, RIGHT - 24), rng.randint(TOP + 40, 200)
+            r, c = cell_of(x, y)
+            if not (0 <= r < ROWS and 0 <= c < COLS) or stand[r][c] != level or not open_spot(x, y, 34):
+                continue
+            against = (r > 0 and blocked[r - 1][c]) or any((x - a) ** 2 + (y - b) ** 2 < 90 ** 2 for _, _, (a, b) in BUILDINGS)
+            if not against and rng.random() > 0.3:
+                continue
+            n.append(prop_node(rng.choice(names), x, y))
+            placed += 1
+    names, count = DECALS
+    for _ in range(count):
+        for _ in range(200):
+            x, y = rng.randint(LEFT + 24, RIGHT - 24), rng.randint(TOP + 40, 200)
+            r, c = cell_of(x, y)
+            if 0 <= r < ROWS and 0 <= c < COLS and not blocked[r][c] and (r, c) not in stair_cells:
+                n.append(prop_node(rng.choice(names), x, y, solid=False))
+                taken.pop()  # decals don't crowd anything
+                break
+
+    n.append('''[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(0, -150)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+''')
+    head = f'[gd_scene load_steps={len(ext) + len(subs) + 1} format=3]\n\n' + "".join(
+        f'[ext_resource type="{t}" path="{p}" id="{i}"]\n' for t, p, i in ext) + "\n"
+    open(SCENE, "w", encoding="utf-8", newline="\n").write(head + "\n".join(subs.values()) + "\n" + "\n".join(n))
+    print(f"kalmora: {COLS}x{ROWS} cells, {len(walls)} wall rects, {len(taken)} placed things")
 
 
 if __name__ == "__main__":

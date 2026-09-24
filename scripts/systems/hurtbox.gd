@@ -18,5 +18,16 @@ func _on_area_entered(area: Area2D) -> void:
 	var hitbox := area as Hitbox
 	if invulnerable or hitbox == null or not Combat.can_damage(hitbox.source_id, owner_id):
 		return
+	if not _same_level(hitbox):
+		return  # Across a cliff: out of reach.
 	hurt.emit(hitbox)
 	hitbox.hit_landed.emit(self)
+
+
+func _same_level(hitbox: Hitbox) -> bool:
+	var zone := Zone.current(get_tree())
+	if zone == null:
+		return true
+	var mine := zone.level_at((get_parent() as Node2D).global_position)
+	var theirs := hitbox.attack_level()
+	return mine == -1 or theirs == -1 or mine == theirs

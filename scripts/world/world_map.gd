@@ -6,8 +6,8 @@ extends RefCounted
 ## them while the player is elsewhere).
 ##
 ## Add every new zone/town/connection here when its scene is created. Origins
-## line up the zone exits: e.g. Thornveil's south exit (local y 125) meets
-## Kalmora's north exit (local y -360), so Thornveil sits 485px north of Kalmora.
+## line up the zone exits: e.g. Thornveil's south exit (local y 125, island y -360)
+## meets Kalmora's north road exit (local y -1012), so Kalmora's origin is y 652.
 
 const KALMORA := "res://scenes/world/kalmora.tscn"
 const THORNVEIL := "res://scenes/world/thornveil.tscn"
@@ -19,7 +19,7 @@ const PICKUP_SCENE := "res://scenes/systems/card_pickup.tscn"
 
 ## Zone scene -> { name, origin on the island, monster drops (for off-screen farming) }
 const ZONES := {
-	KALMORA: { "name": "Kalmora", "origin": Vector2(0, 0), "monster_drops": [] },
+	KALMORA: { "name": "Kalmora", "origin": Vector2(0, 652), "monster_drops": [] },
 	THORNVEIL: { "name": "Thornveil Forest", "origin": Vector2(0, -485),
 		"monster_drops": [&"thorn_sprig", &"moss_lantern", &"veyra_reed", &"hollow_acorn"] },
 	SORENDA: { "name": "Sorenda", "origin": Vector2(0, -1490), "monster_drops": [] },
@@ -30,7 +30,7 @@ const ZONES := {
 
 ## Town scene -> { spawn marker (under "Spawns") people wake at, its local position }
 const TOWNS := {
-	KALMORA: { "spawn": &"town", "position": Vector2(0, 40) },
+	KALMORA: { "spawn": &"town", "position": Vector2(0, -150) },
 	SORENDA: { "spawn": &"town", "position": Vector2(0, 0) },
 }
 
@@ -38,10 +38,10 @@ const TOWNS := {
 ## ZoneExit), `spawn`/`entry` are the arrival marker in `to` and its position.
 ## A `gate` must be open (or paid for) to pass in either direction.
 const EDGES: Array[Dictionary] = [
-	{ "from": KALMORA, "to": THORNVEIL, "exit": Vector2(0, -360), "spawn": &"from_kalmora",
+	{ "from": KALMORA, "to": THORNVEIL, "exit": Vector2(0, -1012), "spawn": &"from_kalmora",
 		"entry": Vector2(0, 60), "gate": &"kalmora_north_gate" },
 	{ "from": THORNVEIL, "to": KALMORA, "exit": Vector2(0, 125), "spawn": &"from_thornveil",
-		"entry": Vector2(0, -270), "gate": &"kalmora_north_gate" },
+		"entry": Vector2(0, -860), "gate": &"kalmora_north_gate" },
 	{ "from": THORNVEIL, "to": SORENDA, "exit": Vector2(0, -830), "spawn": &"from_thornveil",
 		"entry": Vector2(0, 120), "gate": &"" },
 	{ "from": SORENDA, "to": THORNVEIL, "exit": Vector2(0, 175), "spawn": &"from_sorenda",

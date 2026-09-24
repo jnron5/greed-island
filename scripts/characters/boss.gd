@@ -202,6 +202,8 @@ func _valid_target(n: Variant, radius: float) -> bool:
 	var id: Variant = n.get(&"collector_id")
 	if not (id is StringName) or GameState.is_in_safe_zone(id):
 		return false
+	if not Zone.same_level(get_tree(), global_position, n.global_position):
+		return false
 	if n.has_method(&"can_pick_up") and not n.can_pick_up():
 		return false  # Down/dead collectors aren't worth attacking.
 	return _lair.distance_to(n.global_position) <= radius
