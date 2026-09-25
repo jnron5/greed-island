@@ -68,7 +68,7 @@ def level_c(cx, cy):
         return SEA                                        # the canal
     if cy <= 176 and cx >= 336:
         return UPPER                                      # forest band with the north gate
-    if 1200 <= cx <= 1440 + wob(cy, 14, 30) and cy <= 336 + wob(cx, 10, 40):
+    if 1200 <= cx <= 1440 + wob(cy, 14, 30) and cy <= 336:
         return UPPER                                      # north-east hill houses
     if cx < 336:
         if cy <= 512 + wob(cx, 16, 45, 1):
@@ -122,7 +122,7 @@ def planks(x, y):
 
 
 # Canal bridges (concept px): walkable at town level, decked with planks.
-BRIDGES = [(1088, 272, 1184, 288), (1088, 336, 1184, 368)]
+BRIDGES = [(1088, 272, 1184, 280), (1088, 344, 1184, 352)]
 
 # Garden beds inside the paved town (concept px): lawns with bushes and palms.
 BEDS = [(640, 384, 704, 432), (832, 384, 896, 432), (624, 496, 688, 528), (848, 496, 912, 528),
@@ -230,7 +230,7 @@ def deepen_greens(img):
     return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGBA")
 
 
-def grade_ground(img, stand, wet):
+def grade_ground(img, stand, wet, natural):
     """Match the concept's palette: warm, light paving on flat ground (walls keep their
     grey stone); calmer water with turquoise shallows along the shore."""
     a = np.asarray(img).astype(np.float32)
@@ -241,23 +241,30 @@ def grade_ground(img, stand, wet):
     r, g, b = a[..., 0], a[..., 1], a[..., 2]
     grey = (np.abs(r - g) < 28) & (np.abs(g - b) < 34) & ~((g > r + 18) & (g > b + 18))
     pave = land_px & grey
-    for i, (mul, add) in enumerate(((1.2, 14), (1.13, 10), (1.02, 2))):
-        a[..., i] = np.where(pave, a[..., i] * mul + add, a[..., i])
+    # Lighter plaza paving around the fountain, fading out over ~200px.
+    fx, fy = W(*FOUNTAIN)
+    yy, xx = np.mgrid[0:a.shape[0], 0:a.shape[1]]
+    plaza = np.clip(1.0 - np.hypot(xx - (fx - LEFT), (yy - (fy - 60 - TOP)) * 1.15) / 210.0, 0, 1) * 16
+    for i, (mul, add) in enumerate(((1.45, 25), (1.35, 20), (1.2, 19))):
+        a[..., i] = np.where(pave, a[..., i] * mul + add + plaza, a[..., i])
     lum = 0.3 * r + 0.59 * g + 0.11 * b
     fleck = water_px & (lum > 120)
     deep = np.array([34, 88, 168], np.float32)
     for i in range(3):
         a[..., i] = np.where(fleck, a[..., i] * 0.3 + deep[i] * 0.7, a[..., i])
-    near = Image.fromarray(((1 - water_px) * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(28))
-    w = np.clip(np.asarray(near).astype(np.float32) / 255.0 * 1.6, 0, 0.75) * water_px
+    # Shallows only against natural shores (sand, rock), not docks or harbor walls.
+    shore = np.array([[1 if natural(r, c) else 0 for c in range(len(row))] for r, row in enumerate(stand)], np.uint8)
+    shore_px = np.kron(shore, np.ones((TILE, TILE), np.uint8))
+    near = Image.fromarray((shore_px * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(28))
+    w = np.clip(np.asarray(near).astype(np.float32) / 255.0 * 1.3, 0, 0.5) * water_px
     shallow = np.array([46, 158, 186], np.float32)
     for i in range(3):
         a[..., i] = a[..., i] * (1 - w) + shallow[i] * w
     # The concept's sea is a calm, bright teal: smooth the tile's busy pattern and shift the hue.
     smooth = np.asarray(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA").filter(ImageFilter.GaussianBlur(3))).astype(np.float32)
     for i in range(3):
-        a[..., i] = np.where(water_px, a[..., i] * 0.55 + smooth[..., i] * 0.45, a[..., i])
-    for i, (mul, add) in enumerate(((0.95, 2), (1.32, 12), (0.96, 8))):
+        a[..., i] = np.where(water_px, a[..., i] * 0.72 + smooth[..., i] * 0.28, a[..., i])
+    for i, (mul, add) in enumerate(((0.95, 0), (1.26, 12), (1.0, 8))):
         a[..., i] = np.where(water_px, a[..., i] * mul + add, a[..., i])
     out = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
     # A touch more saturation and contrast overall, like the concept's.
@@ -311,7 +318,15 @@ def build_terrain():
         """Open water: sea-level cells with no sand or planks at any corner."""
         return stand[r][c] == SEA and (r, c) not in bridges and not any(sand(*p) or planks(*p) for p in corners(r, c))
 
-    img = grade_ground(img, stand, wet)
+    def natural(r, c):
+        """Shore that isn't built: sand, rock cliffs and land away from the harbor."""
+        if wet(r, c) or (r, c) in bridges:
+            return False
+        if stand[r][c] == SEA:
+            return any(sand(*p) for p in corners(r, c))
+        return not harbor_wall(r, c)
+
+    img = grade_ground(img, stand, wet, natural)
     walkable = [[(stand[r][c] > SEA or stand[r][c] == SEA and dry(r, c) or (r, c) in stairs or (r, c) in bridges)
                  for c in range(COLS)] for r in range(ROWS)]
     blocked = [[not walkable[r][c] for c in range(COLS)] for r in range(ROWS)]
@@ -505,6 +520,28 @@ PROPS = (
     # Gate band.
     + [("flower_bed", x, 160) for x in (720, 820)]
 )
+# Packing: the concept piles goods, flowers and planters into every gap (concept px).
+CLUTTER = (
+    # Cargo along the deck and out on the piers.
+    [("crates", 386, 736), ("barrel", 404, 752), ("barrels", 470, 760), ("fish_crates", 520, 762),
+     ("crates", 600, 758), ("rope", 640, 764), ("barrels", 700, 762), ("crate", 740, 756), ("amphorae", 800, 760),
+     ("lobster_trap", 830, 744), ("buoy", 850, 760), ("crates", 616, 856), ("barrel", 650, 840),
+     ("barrel", 920, 820), ("crate", 950, 900), ("net_crate", 930, 960)]
+    # Goods between the market stalls.
+    + [("crates", 860, 690), ("barrels", 1000, 690), ("amphorae", 1090, 650), ("fish_crates", 940, 700),
+       ("apples_crate", 1040, 560), ("oranges_basket", 1100, 580), ("sack", 920, 600), ("lemons_crate", 1060, 620)]
+    # Flowers at the doors of the houses.
+    + [("flower_bed", x, y) for x, y in [(1120, 146), (1180, 146), (1298, 146), (1358, 146), (1290, 272),
+                                         (1430, 272), (955, 262), (1025, 262)]]
+    + [("bush_flowers", x, y) for x, y in [(425, 356), (485, 356), (650, 470), (886, 470)]]
+    # The beach, the meadow, and the gate band.
+    + [("parasol_table", 1250, 610), ("parasol_table", 1380, 620), ("boulder", 1420, 600)]
+    + [("bush_flowers", x, y) for x, y in [(40, 232), (200, 222), (90, 332), (250, 342)]]
+    + [("crates", 200, 352), ("sack", 212, 364)]
+    + [("bush", x, 166) for x in (400, 500, 600, 900, 1000)]
+)
+SMALL = {"crate", "barrel", "sack", "flour_sack", "rope", "buoy", "bucket", "lobster_trap", "apples_crate",
+         "oranges_basket", "lemons_crate", "amphora"}
 # Bushes packed along walls, beds and building sides (concept px).
 BUSHES = (
     [(x, 250) for x in (520, 560, 610, 680, 740, 800, 850)]
@@ -515,7 +552,7 @@ BUSHES = (
     + [(1110, 60), (1200, 110), (1440, 110), (1180, 250), (1380, 330)]
 )
 # Free sprites (y-sorted, no collision): boats and rocks out on the water (concept px).
-FLOATING = [("ship", 460, 930), ("rowboat", 250, 650), ("rowboat", 1010, 880), ("rowboat", 870, 960),
+FLOATING = [("ship", 460, 930), ("rowboat", 250, 650), ("rowboat", 1210, 652), ("rowboat", 1010, 880), ("rowboat", 870, 960),
             ("sea_rocks", 1480, 700), ("sea_rocks", 1470, 860), ("sea_rocks", 1300, 900), ("sea_rocks", 1100, 900),
             ("sea_rocks", 60, 560), ("sea_rocks", 230, 580), ("sea_rocks", 1500, 420), ("sea_rocks", 280, 760)]
 LAMPS = ([(x, y) for x, y in [(690, 380), (846, 380), (690, 560), (846, 560), (768, 200)]]
@@ -805,23 +842,28 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
 
     skipped = []
 
+    def fits(x, y, clearance):
+        r, c = cell_of(x, y)
+        return (0 <= r < ROWS and 0 <= c < COLS and not blocked[r][c] and (r, c) not in stairs
+                and not crowd(x, y, clearance))
+
     def place_check(name, x, y, clearance=18):
         """Decorations that don't fit (a wall, stairs, something already there) are
-        skipped with a warning; they never block the build."""
-        r, c = cell_of(x, y)
-        if not (0 <= r < ROWS and 0 <= c < COLS) or blocked[r][c] or (r, c) in stairs:
-            skipped.append(f"{name} at concept {C(x, y)}: not on open ground")
-            return False
-        hit = crowd(x, y, clearance)
-        if hit:
-            skipped.append(f"{name} at concept {C(x, y)}: crowds concept {C(*hit)}")
-            return False
-        return True
+        nudged to the nearest open spot within a short reach, else skipped with a
+        warning; they never block the build. Returns the spot used, or None."""
+        for reach in range(0, 49, 8):
+            for dx, dy in ((0, 0),) if reach == 0 else [(reach * math.cos(t), reach * math.sin(t))
+                                                         for t in (i * math.pi / 4 for i in range(8))]:
+                if fits(x + dx, y + dy, clearance):
+                    return (round(x + dx), round(y + dy))
+        skipped.append(f"{name} at concept {C(x, y)}")
+        return None
 
     for k, (sprite, pos) in enumerate(TREES):
-        x, y = W(*pos)
         path = OBJ + sprite + ".png" if sprite != PINE else "assets/sprites/tiles/kalmora/cypress.png"
-        if place_check(sprite, x, y, 26):
+        spot = place_check(sprite, *W(*pos), 26)
+        if spot:
+            x, y = spot
             taken.append((x, y))
             n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, 16 if sprite != TREE else 30, 10))
             shadow("tree", path, x, y)
@@ -841,23 +883,33 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         shadow("prop", path, x, y)
         return solid(node, path, x, y, max(12, int((b[2] - b[0]) * frac)), fh)
 
-    for name, pcx, pcy in PROPS:
-        x, y = W(pcx, pcy)
-        if place_check(name, x, y):
-            n.append(prop_node(name, x, y))
-    for k, (pcx, pcy) in enumerate(BUSHES):
-        x, y = W(pcx, pcy)
-        name = ("bush", "bush_flowers")[k % 3 == 0]
-        if place_check(name, x, y, 22):
-            n.append(prop_node(name, x, y))
     for pcx, pcy in LAMPS:
-        x, y = W(pcx, pcy)
-        if place_check("lamp_post", x, y):
+        spot = place_check("lamp_post", *W(pcx, pcy))
+        if spot:
+            x, y = spot
             n.append(prop_node("lamp_post", x, y))
             n.append(f'[node name="Light{count[0]}" type="PointLight2D" parent="."]\nposition = Vector2({x + 18}, {y - 47})\n'
                      f'texture_scale = 1.4\nscript = ExtResource("20_lamp")\n')
+    for name, pcx, pcy in PROPS + CLUTTER:
+        spot = place_check(name, *W(pcx, pcy), 16 if name in SMALL else 18)
+        if spot:
+            n.append(prop_node(name, *spot))
+    for k, (pcx, pcy) in enumerate(BUSHES):
+        name = ("bush", "bush_flowers")[k % 3 == 0]
+        spot = place_check(name, *W(pcx, pcy), 22)
+        if spot:
+            n.append(prop_node(name, *spot))
     for name, pcx, pcy in FLOATING:
         n.append(prop_node(name, *W(pcx, pcy), "free"))
+    # Boulders in the surf along every rocky cliff foot, like the concept's coasts.
+    rng = random.Random(9)
+    for r in range(ROWS - 1):
+        for c in range(COLS):
+            if stand[r][c] == -1 and stand[r + 1][c] == SEA and blocked[r + 1][c] and not harbor_wall(r, c) \
+                    and (r, c) not in stairs and rng.random() < 0.45:
+                x = LEFT + c * TILE + TILE // 2 + rng.randint(-10, 10)
+                y = TOP + (r + 1) * TILE + rng.randint(4, 20)
+                n.append(prop_node("sea_rocks", x, y, "free"))
     if errors:
         raise SystemExit("layout errors:\n  " + "\n  ".join(errors))
     if skipped:
