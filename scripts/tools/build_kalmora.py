@@ -574,7 +574,12 @@ BUSHES = (
 # Free sprites (y-sorted, no collision): boats and rocks out on the water (concept px).
 # Bridge railings: split rails along both sides of each canal crossing (drawn only).
 RAILS = [("fence", x, y) for x0, y0, x1, y1 in BRIDGES for x in range(x0 + 8, x1, 22) for y in (y0 - 3, y1 + 11)]
-FLOATING = RAILS + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1210, 652), ("rowboat", 1010, 880), ("rowboat", 870, 960),
+# Harbor detail: boat arches in the foot of the market's harbor wall, pilings along the
+# deck and pier edges (drawn only; the water behind them is already blocked).
+HARBOR_DETAIL = ([("wall_arch", x, 773) for x in (950, 1050)]
+                 + [("pilings", x, 782) for x in (390, 450, 520, 580, 700, 760, 820, 870)]
+                 + [("pilings", x, y) for x, y in [(604, 880), (668, 880), (902, 988), (966, 988), (900, 860), (966, 860)]])
+FLOATING = RAILS + HARBOR_DETAIL + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1210, 652), ("rowboat", 1010, 880), ("rowboat", 870, 960),
             ("sea_rocks", 1480, 700), ("sea_rocks", 1470, 860), ("sea_rocks", 1300, 900), ("sea_rocks", 1100, 900),
             ("sea_rocks", 60, 560), ("sea_rocks", 230, 580), ("sea_rocks", 1500, 420), ("sea_rocks", 280, 760)]
 LAMPS = ([(x, y) for x, y in [(690, 380), (846, 380), (690, 560), (846, 560), (768, 200)]]

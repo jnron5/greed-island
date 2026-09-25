@@ -5,7 +5,7 @@ shader_type canvas_item;
 
 uniform sampler2D level_map : filter_nearest;
 uniform vec2 map_cells;          // level map size in cells
-uniform float strength = 0.35;
+uniform float strength = 0.5;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 
@@ -19,10 +19,10 @@ float noise(vec2 p) {
 void fragment() {
 	vec4 cell = texture(level_map, UV);
 	float water = step(cell.r, 0.05) * (1.0 - step(0.5, cell.g));
-	vec2 p = UV * map_cells * 2.0;
+	vec2 p = UV * map_cells * 7.0;   // fine glints, a few pixels each
 	float t = TIME * 0.6;
 	float n = noise(p + vec2(t, t * 0.4)) * noise(p * 1.7 - vec2(t * 0.7, -t * 0.3));
-	float sparkle = smoothstep(0.42, 0.62, n);
-	float swell = noise(p * 0.35 + vec2(t * 0.2, 0.0)) * 0.12;
+	float sparkle = smoothstep(0.55, 0.66, n);
+	float swell = noise(p * 0.08 + vec2(t * 0.2, 0.0)) * 0.06;
 	COLOR = vec4(0.85, 1.0, 1.0, (sparkle * strength + swell) * water);
 }

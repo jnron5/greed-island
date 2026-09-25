@@ -1,4 +1,4 @@
-[gd_scene load_steps=162 format=3]
+[gd_scene load_steps=164 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -78,9 +78,11 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/crate.png" id="t48_crate"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/lobster_trap.png" id="t49_lobster_trap"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bush_g.png" id="t50_bush_g"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/objects/ship.png" id="t51_ship"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/rowboat.png" id="t52_rowboat"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/sea_rocks.png" id="t53_sea_rocks"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/objects/wall_arch.png" id="t51_wall_arch"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/objects/pilings.png" id="t52_pilings"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/objects/ship.png" id="t53_ship"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/rowboat.png" id="t54_rowboat"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/sea_rocks.png" id="t55_sea_rocks"]
 
 [sub_resource type="RectangleShape2D" id="R32x192"]
 size = Vector2(32, 192)
@@ -5845,455 +5847,551 @@ scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
 texture = ExtResource("t39_fence")
 
-[node name="P249_ship" type="Sprite2D" parent="."]
+[node name="P249_wall_arch" type="Sprite2D" parent="."]
+position = Vector2(242, 346)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -27.0)
+texture = ExtResource("t51_wall_arch")
+
+[node name="P250_wall_arch" type="Sprite2D" parent="."]
+position = Vector2(382, 346)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -27.0)
+texture = ExtResource("t51_wall_arch")
+
+[node name="P251_pilings" type="Sprite2D" parent="."]
+position = Vector2(-542, 359)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P252_pilings" type="Sprite2D" parent="."]
+position = Vector2(-458, 359)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P253_pilings" type="Sprite2D" parent="."]
+position = Vector2(-360, 359)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P254_pilings" type="Sprite2D" parent="."]
+position = Vector2(-276, 359)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P255_pilings" type="Sprite2D" parent="."]
+position = Vector2(-108, 359)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P256_pilings" type="Sprite2D" parent="."]
+position = Vector2(-24, 359)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P257_pilings" type="Sprite2D" parent="."]
+position = Vector2(60, 359)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P258_pilings" type="Sprite2D" parent="."]
+position = Vector2(130, 359)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P259_pilings" type="Sprite2D" parent="."]
+position = Vector2(-242, 496)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P260_pilings" type="Sprite2D" parent="."]
+position = Vector2(-153, 496)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P261_pilings" type="Sprite2D" parent="."]
+position = Vector2(175, 647)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P262_pilings" type="Sprite2D" parent="."]
+position = Vector2(264, 647)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P263_pilings" type="Sprite2D" parent="."]
+position = Vector2(172, 468)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P264_pilings" type="Sprite2D" parent="."]
+position = Vector2(264, 468)
+scale = Vector2(1.0, 1.0)
+offset = Vector2(0, -24.0)
+texture = ExtResource("t52_pilings")
+
+[node name="P265_ship" type="Sprite2D" parent="."]
 position = Vector2(-430, 608)
 scale = Vector2(1.5, 1.5)
 offset = Vector2(0, -107.0)
-texture = ExtResource("t51_ship")
+texture = ExtResource("t53_ship")
 
-[node name="P250_rowboat" type="Sprite2D" parent="."]
+[node name="P266_rowboat" type="Sprite2D" parent="."]
 position = Vector2(-738, 174)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -28.5)
-texture = ExtResource("t52_rowboat")
+texture = ExtResource("t54_rowboat")
 
-[node name="P251_rowboat" type="Sprite2D" parent="."]
+[node name="P267_rowboat" type="Sprite2D" parent="."]
 position = Vector2(606, 177)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -28.5)
-texture = ExtResource("t52_rowboat")
+texture = ExtResource("t54_rowboat")
 
-[node name="P252_rowboat" type="Sprite2D" parent="."]
+[node name="P268_rowboat" type="Sprite2D" parent="."]
 position = Vector2(326, 496)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -28.5)
-texture = ExtResource("t52_rowboat")
+texture = ExtResource("t54_rowboat")
 
-[node name="P253_rowboat" type="Sprite2D" parent="."]
+[node name="P269_rowboat" type="Sprite2D" parent="."]
 position = Vector2(130, 608)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -28.5)
-texture = ExtResource("t52_rowboat")
+texture = ExtResource("t54_rowboat")
 
-[node name="P254_sea_rocks" type="Sprite2D" parent="."]
+[node name="P270_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(984, 244)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P255_sea_rocks" type="Sprite2D" parent="."]
+[node name="P271_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(970, 468)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P256_sea_rocks" type="Sprite2D" parent="."]
+[node name="P272_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(732, 524)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P257_sea_rocks" type="Sprite2D" parent="."]
+[node name="P273_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(452, 524)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P258_sea_rocks" type="Sprite2D" parent="."]
+[node name="P274_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-1004, 48)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P259_sea_rocks" type="Sprite2D" parent="."]
+[node name="P275_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-766, 76)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P260_sea_rocks" type="Sprite2D" parent="."]
+[node name="P276_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1012, -148)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P261_sea_rocks" type="Sprite2D" parent="."]
+[node name="P277_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-696, 328)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P262_sea_rocks" type="Sprite2D" parent="."]
+[node name="P278_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1066, -343)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P263_sea_rocks" type="Sprite2D" parent="."]
+[node name="P279_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(534, -302)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P264_sea_rocks" type="Sprite2D" parent="."]
+[node name="P280_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1015, -251)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P265_sea_rocks" type="Sprite2D" parent="."]
+[node name="P281_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-876, 81)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P266_sea_rocks" type="Sprite2D" parent="."]
+[node name="P282_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-1043, 101)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P267_sea_rocks" type="Sprite2D" parent="."]
+[node name="P283_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-1002, 102)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P268_sea_rocks" type="Sprite2D" parent="."]
+[node name="P284_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-951, 109)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P269_sea_rocks" type="Sprite2D" parent="."]
+[node name="P285_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-915, 113)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P270_sea_rocks" type="Sprite2D" parent="."]
+[node name="P286_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-752, 101)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P271_sea_rocks" type="Sprite2D" parent="."]
+[node name="P287_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-730, 113)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P272_sea_rocks" type="Sprite2D" parent="."]
+[node name="P288_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-1070, 147)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P273_sea_rocks" type="Sprite2D" parent="."]
+[node name="P289_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-691, 145)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P274_sea_rocks" type="Sprite2D" parent="."]
+[node name="P290_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-552, 170)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P275_sea_rocks" type="Sprite2D" parent="."]
+[node name="P291_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(518, 518)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P276_sea_rocks" type="Sprite2D" parent="."]
+[node name="P292_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(870, 532)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P277_sea_rocks" type="Sprite2D" parent="."]
+[node name="P293_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-1067, 554)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P278_sea_rocks" type="Sprite2D" parent="."]
+[node name="P294_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-718, 554)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P279_sea_rocks" type="Sprite2D" parent="."]
+[node name="P295_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(600, 552)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P280_sea_rocks" type="Sprite2D" parent="."]
+[node name="P296_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(633, 549)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P281_sea_rocks" type="Sprite2D" parent="."]
+[node name="P297_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(663, 552)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P282_sea_rocks" type="Sprite2D" parent="."]
+[node name="P298_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(786, 555)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P283_sea_rocks" type="Sprite2D" parent="."]
+[node name="P299_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(822, 549)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P284_sea_rocks" type="Sprite2D" parent="."]
+[node name="P300_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-744, 591)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P285_sea_rocks" type="Sprite2D" parent="."]
+[node name="P301_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-936, 612)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P286_sea_rocks" type="Sprite2D" parent="."]
+[node name="P302_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-903, 622)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P287_sea_rocks" type="Sprite2D" parent="."]
+[node name="P303_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-887, 618)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P288_sea_rocks" type="Sprite2D" parent="."]
+[node name="P304_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-850, 622)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P289_sea_rocks" type="Sprite2D" parent="."]
+[node name="P305_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-785, 615)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P290_sea_rocks" type="Sprite2D" parent="."]
+[node name="P306_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(502, -293)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P291_sea_rocks" type="Sprite2D" parent="."]
+[node name="P307_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(525, -304)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P292_sea_rocks" type="Sprite2D" parent="."]
+[node name="P308_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1043, -303)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P293_sea_rocks" type="Sprite2D" parent="."]
+[node name="P309_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(523, -263)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P294_sea_rocks" type="Sprite2D" parent="."]
+[node name="P310_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1044, -269)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P295_sea_rocks" type="Sprite2D" parent="."]
+[node name="P311_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(526, -202)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P296_sea_rocks" type="Sprite2D" parent="."]
+[node name="P312_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1008, -164)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P297_sea_rocks" type="Sprite2D" parent="."]
+[node name="P313_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(502, -137)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P298_sea_rocks" type="Sprite2D" parent="."]
+[node name="P314_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(498, -99)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P299_sea_rocks" type="Sprite2D" parent="."]
+[node name="P315_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1009, -105)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P300_sea_rocks" type="Sprite2D" parent="."]
+[node name="P316_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1015, -78)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P301_sea_rocks" type="Sprite2D" parent="."]
+[node name="P317_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(498, -10)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P302_sea_rocks" type="Sprite2D" parent="."]
+[node name="P318_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(497, 47)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P303_sea_rocks" type="Sprite2D" parent="."]
+[node name="P319_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-878, 83)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P304_sea_rocks" type="Sprite2D" parent="."]
+[node name="P320_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-723, 110)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P305_sea_rocks" type="Sprite2D" parent="."]
+[node name="P321_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(503, 124)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P306_sea_rocks" type="Sprite2D" parent="."]
+[node name="P322_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1016, 189)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P307_sea_rocks" type="Sprite2D" parent="."]
+[node name="P323_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1009, 238)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P308_sea_rocks" type="Sprite2D" parent="."]
+[node name="P324_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1012, 286)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P309_sea_rocks" type="Sprite2D" parent="."]
+[node name="P325_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(493, 370)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P310_sea_rocks" type="Sprite2D" parent="."]
+[node name="P326_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1015, 380)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P311_sea_rocks" type="Sprite2D" parent="."]
+[node name="P327_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-688, 398)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P312_sea_rocks" type="Sprite2D" parent="."]
+[node name="P328_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(489, 405)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P313_sea_rocks" type="Sprite2D" parent="."]
+[node name="P329_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1015, 405)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P314_sea_rocks" type="Sprite2D" parent="."]
+[node name="P330_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-687, 431)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P315_sea_rocks" type="Sprite2D" parent="."]
+[node name="P331_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1009, 432)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P316_sea_rocks" type="Sprite2D" parent="."]
+[node name="P332_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-686, 464)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P317_sea_rocks" type="Sprite2D" parent="."]
+[node name="P333_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(491, 477)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P318_sea_rocks" type="Sprite2D" parent="."]
+[node name="P334_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-687, 504)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P319_sea_rocks" type="Sprite2D" parent="."]
+[node name="P335_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(491, 494)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P320_sea_rocks" type="Sprite2D" parent="."]
+[node name="P336_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1015, 498)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P321_sea_rocks" type="Sprite2D" parent="."]
+[node name="P337_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(1013, 533)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P322_sea_rocks" type="Sprite2D" parent="."]
+[node name="P338_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-718, 564)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
-[node name="P323_sea_rocks" type="Sprite2D" parent="."]
+[node name="P339_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-752, 593)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t53_sea_rocks")
+texture = ExtResource("t55_sea_rocks")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(-13, -8)
