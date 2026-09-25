@@ -68,7 +68,7 @@ def level_c(cx, cy):
         return SEA                                        # the canal
     if cy <= 176 and cx >= 336:
         return UPPER                                      # forest band with the north gate
-    if 1264 <= cx <= 1440 + wob(cy, 14, 30) and cy <= 336:     # (a strip of town ground along the canal lands the bridges)
+    if 1264 <= cx and cy <= 336:     # (a strip of town ground along the canal lands the bridges)
         return UPPER                                      # north-east hill houses
     if cx < 336:
         if cy <= 512 + wob(cx, 16, 45, 1):
@@ -122,12 +122,12 @@ def planks(x, y):
 
 
 # Canal bridges (concept px): walkable at town level, decked with planks.
-BRIDGES = [(1088, 270, 1184, 280), (1088, 342, 1184, 352)]
+BRIDGES = [(1088, 270, 1184, 280), (1088, 418, 1184, 428)]
 
 # Garden beds inside the paved town (concept px): lawns with bushes and palms.
 BEDS = [(640, 384, 704, 432), (832, 384, 896, 432), (624, 496, 688, 528), (848, 496, 912, 528),
         (512, 192, 624, 240), (672, 192, 736, 240), (816, 192, 896, 240),
-        (1040, 400, 1088, 448), (352, 256, 400, 496), (352, 192, 448, 224)]
+        (352, 256, 400, 496), (352, 192, 448, 224)]
 
 
 def in_rect(cx, cy, r):
@@ -147,7 +147,7 @@ def paved_c(cx, cy):
             return 1248 <= cx <= 1296 or cy <= 736                  # the headland: a path to the lighthouse
         return not any(in_rect(cx, cy, b) for b in BEDS)
     if lv == UPPER:
-        return (cx >= 1184 and (144 <= cy <= 176 or 272 <= cy <= 304)   # hill lanes
+        return (1184 <= cx <= 1456 and (144 <= cy <= 176 or 272 <= cy <= 304)   # hill lanes
                 or 1280 <= cx <= 1312 and cy >= 144)
     return True
 
@@ -161,9 +161,9 @@ def seg_dist(px, py, ax, ay, bx, by):
 # Dirt paths (concept px polylines, half-width): the north road and the meadow's tracks.
 PATHS = [
     ([(768, 0), (768, 176)], 28),
-    ([(0, 208), (96, 200), (208, 212), (296, 244), (340, 284), (352, 330)], 24),
-    ([(0, 336), (128, 346), (240, 370), (330, 396)], 23),
-    ([(300, 0), (318, 64), (352, 118), (416, 168)], 24),
+    ([(236, 352), (236, 396), (336, 396), (352, 340)], 14),                  # windmill door to town
+    ([(300, 396), (300, 488)], 12),                                          # lane down past the south plot
+    ([(318, 0), (318, 120), (360, 150), (416, 168)], 20),                    # up from the west gate
 ]
 
 
@@ -293,6 +293,10 @@ def build_terrain():
     overlay(img, stand, TOWN, grass, lawn, LEFT, TOP, TILE, base_is_upper=True)
     overlay(img, stand, UPPER, grass, lawn, LEFT, TOP, TILE)
     track = lambda x, y: dirt_c(*C(x, y)) and not paved_c(*C(x, y))
+    wheat, crops = CornerSet(ART + "wang/wheat"), CornerSet(ART + "wang/crops")
+    for level in (TOWN, UPPER):
+        overlay(img, stand, level, wheat, lambda x, y: in_field(*C(x, y), WHEAT), LEFT, TOP, TILE)
+        overlay(img, stand, level, crops, lambda x, y: in_field(*C(x, y), CROPS), LEFT, TOP, TILE)
     overlay(img, stand, TOWN, dirt, track, LEFT, TOP, TILE)
     overlay(img, stand, UPPER, dirt, track, LEFT, TOP, TILE)
     overlay(img, stand, SEA, CornerSet(ART + "wang/sand"), sand, LEFT, TOP, TILE)
@@ -406,7 +410,6 @@ BUILDINGS = [
     ("GeneralStore", "general_store", (590, 400), 170),
     ("Blacksmith", "blacksmith", (478, 490), 160),
     ("Tavern", "inn", (930, 400), 190),
-    ("NorthHouse", "house_blue", (990, 252), 170),
     ("CardShop", "item_shop", (1034, 520), 150),
     ("Harbormaster", "harbormaster2", (440, 700), 140),
     ("Warehouse", "warehouse", (560, 700), 170),
@@ -466,7 +469,7 @@ LIGHTHOUSE = (1290, 740)      # yard centre; the gate faces north toward the mar
 MERCHANT = (880, 600)
 FOUNTAIN = (768, 486)
 
-PALM = "palm_g"
+PALM, TREE = "palm_g", "tree_g"
 
 
 def grid(xs, ys):
@@ -478,6 +481,10 @@ TREES = (
     [(PALM, p) for p in [(650, 526), (872, 526), (700, 240), (860, 240), (380, 480)]]      # the square and town
     + [(PALM, p) for p in [(1200, 760), (1400, 720), (1430, 620), (1400, 540)]]           # headland and beach
     + [(PALM, p) for p in [(100, 810), (175, 850), (95, 880)]]                             # the islet
+    # Sparse round trees in the open grass, as in the cleaned-up picture.
+    + [(TREE, p) for p in [(30, 40), (220, 42), (285, 38), (420, 44), (630, 42), (1110, 40), (1470, 50),
+                           (70, 118), (600, 116), (960, 116), (1085, 140), (1215, 140), (1420, 150),
+                           (300, 230), (380, 300), (385, 440)]]
 )
 
 
@@ -485,23 +492,21 @@ def row(name, x0, x1, y, step):
     return [(name, x, y) for x in range(x0, x1 + 1, step)]
 
 
-def track_fences():
-    """Split-rail fences along both sides of the meadow tracks, on their flatter
-    stretches (the rail sprite is horizontal), like the concept's fenced fields."""
-    out = []
-    for pts, w in PATHS[1:]:
-        for (ax, ay), (bx, by) in zip(pts, pts[1:]):
-            if abs(by - ay) > 0.4 * abs(bx - ax):
-                continue
-            steps = max(1, int(abs(bx - ax) // 22))
-            for k in range(steps + 1):
-                if k % 4 == 2:
-                    continue                                   # a gap every few rails: fields stay open
-                t = k / steps
-                x, y = ax + (bx - ax) * t, ay + (by - ay) * t
-                if x < 330:
-                    out += [("fence", round(x), round(y - w - 6)), ("fence", round(x), round(y + w + 10))]
-    return out
+# The windmill farm (concept px rects): golden wheat and vegetable plots, fenced along
+# their tops and bottoms; plus a kitchen garden east of the hill houses.
+WHEAT = [(5, 180, 130, 228), (5, 346, 125, 386)]
+CROPS = [(5, 262, 120, 312), (65, 424, 225, 490), (1466, 200, 1530, 325)]
+# One fence line per plot edge (shared edges get a single line): (x0, x1, y), concept px.
+FARM_FENCES = [(5, 140, 166), (5, 140, 246), (5, 140, 330), (5, 235, 408)]
+
+
+def in_field(cx, cy, fields):
+    return any(in_rect(cx, cy, f) for f in fields)
+
+
+def farm_fences():
+    """Split-rail fences between the meadow plots, gapped every few rails for gates."""
+    return [("fence", x, y) for x0, x1, y in FARM_FENCES for k, x in enumerate(range(x0 + 8, x1, 16)) if k % 5 != 2]
 
 
 STALLS = ["stall_fruit", "stall_fish", "stall_pottery", "stall_bread"]
@@ -509,16 +514,15 @@ STALLS = ["stall_fruit", "stall_fish", "stall_pottery", "stall_bread"]
 PROPS = (
     # The fountain square: banners on its rim, flower beds, benches.
     [("banner", x, y) for x, y in [(700, 408), (836, 408), (700, 540), (836, 540)]]
-    + [("flower_bed", x, y) for x, y in [(690, 460), (846, 460)]]
+    + [("bush_g", x, y) for x, y in [(718, 478), (818, 478)]]
     # Shop fronts.
     + [("parasol_table", 880, 420)]
     + [("barrels", 418, 520)]
     # Market stalls east of the square, in rows.
-    + [(STALLS[k % 4], x, y) for k, (x, y) in enumerate([(1040, 590), (900, 660), (1060, 670)], 2)]
     # The quay and the deck.
     + [("crates", 400, 660), ("fish_crates", 520, 700)]
     # The west meadow: fenced fields around the windmill.
-    + track_fences()
+    + farm_fences()
     + [("signpost", 24, 344)]
     # Beach and headland.
     + [("parasol_table", 1340, 520), ("candle_shrine", 1430, 700)]
@@ -532,7 +536,6 @@ CLUTTER = (
     # Cargo along the deck and out on the piers.
     [("crates", 386, 736), ("barrels", 470, 760), ("barrel", 650, 840)]
     # Goods between the market stalls.
-    + [("crates", 860, 690), ("fish_crates", 940, 700)]
     # Flowers at the doors of the houses.
     # The beach, the meadow, and the gate band.
     # Rocks and greenery along the canal banks and around the hill houses.
@@ -540,7 +543,7 @@ CLUTTER = (
 SMALL = {"crate", "barrel", "sack", "flour_sack", "rope", "buoy", "bucket", "lobster_trap", "apples_crate",
          "oranges_basket", "lemons_crate", "amphora"}
 # Bushes packed along walls, beds and building sides (concept px).
-BUSHES = [(1430, 450), (1420, 790), (60, 170), (230, 190), (10, 420)]
+BUSHES = [(1430, 450), (1420, 790), (1230, 800), (1350, 800)]
 
 # Walking corridors (concept px polylines, half-width): the routes people actually take.
 # No decoration may stand in them, so every district stays easy to cross.
@@ -550,6 +553,7 @@ ROUTES = [
     ([(768, 450), (1000, 450), (1080, 350), (1210, 350), (1296, 330), (1296, 150), (1400, 150)], 20),  # east bank and hill
     ([(1210, 276), (1210, 350)], 16),                                    # along the canal strip
     ([(1080, 350), (1080, 276), (1200, 276)], 16),                        # the upper bridge
+    ([(1000, 450), (1080, 423), (1210, 423)], 16),                        # the lower bridge
     ([(1248, 350), (1300, 420), (1310, 520), (1330, 600)], 18),           # down to the beach
     ([(768, 540), (900, 620), (1100, 620), (1225, 680), (1225, 770), (1290, 770)], 20),  # through the market, round to the lighthouse door
     ([(745, 540), (745, 700), (560, 720), (400, 720)], 22),               # grand stairs, the deck
@@ -569,8 +573,11 @@ HARBOR_DETAIL = ([("wall_arch", x, 773) for x in (950, 1050)]
                  + [("pilings", x, y) for x, y in [(604, 880), (668, 880), (902, 988), (966, 988), (900, 860), (966, 860)]])
 # A split-rail fence marks the gate line (its collision is the invisible wall line in the
 # scene), so nobody walks round the north gate and nothing blocks you unseen.
-GATE_FENCE = [("fence", x, 78) for x in range(346, 1190, 16) if abs(x - 768) > 44]
-FLOATING = HARBOR_DETAIL + GATE_FENCE + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1010, 880), ("rowboat", 870, 960),
+GATE_FENCE = ([("fence", x, 78) for x in range(346, 1190, 16) if abs(x - 768) > 44]
+              + [("fence", x, 148) for x in list(range(352, 740, 16)) + list(range(812, 1080, 16))])
+ROCKS = [("sea_rocks", x, y) for x, y in [(20, 900), (70, 945), (200, 940), (262, 902), (278, 850),
+                                           (1170, 862), (1350, 866), (1440, 810), (1474, 730), (1480, 520)]]
+FLOATING = HARBOR_DETAIL + GATE_FENCE + ROCKS + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1010, 880), ("rowboat", 870, 960),
 ]
 LAMPS = ([(x, y) for x, y in [(690, 380), (846, 380), (690, 560), (846, 560), (768, 200)]]
          + [(x, 606) for x in (400, 720)] + [(x, 716) for x in (500, 760)] + [(1140, 620), (1180, 700)]
@@ -935,7 +942,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         """Decorations that don't fit (a wall, stairs, something already there) are
         nudged to the nearest open spot within a short reach, else skipped with a
         warning; they never block the build. Returns the spot used, or None."""
-        for reach in range(0, 49, 8):
+        for reach in range(0, 1 if name == "fence" else 49, 8):   # fences stay in line or go
             for dx, dy in ((0, 0),) if reach == 0 else [(reach * math.cos(t), reach * math.sin(t))
                                                          for t in (i * math.pi / 4 for i in range(8))]:
                 if fits(x + dx, y + dy, clearance):
@@ -949,7 +956,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         if spot:
             x, y = spot
             taken.append((x, y))
-            n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, 16, 10))
+            n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, 16 if sprite == PALM else 28, 10))
             shadow("tree", path, x, y)
 
     count = [0]
