@@ -275,6 +275,40 @@ def grade_ground(img, stand, wet, natural):
     return out
 
 
+def soft_surface(img, stand, levels, tile, inside, seed=0, res=4, blur=6, jitter=0.16, rim=0.8, shade_outside=True):
+    """Paints `tile` (tiled) over the flat cells of `levels` wherever inside(cx, cy) holds
+    (concept px), with a pixel-level edge: the coarse mask is blurred, which rounds every
+    corner, then thresholded against smooth noise so the edge wanders a little. The
+    surface gets a darker rim along its edge, and (shade_outside) the ground just outside
+    it a soft shade, like grass lipping over stone."""
+    W_, H_ = img.size
+    gw, gh = W_ // res, H_ // res
+    coarse = np.zeros((gh, gw), np.float32)
+    for j in range(gh):
+        for i in range(gw):
+            coarse[j, i] = 1.0 if inside(*C(LEFT + i * res + res / 2, TOP + j * res + res / 2)) else 0.0
+    m = Image.fromarray((coarse * 255).astype(np.uint8)).resize((W_, H_), Image.BILINEAR).filter(ImageFilter.GaussianBlur(blur))
+    rng = np.random.default_rng(seed)
+    noise = Image.fromarray((rng.random((H_ // 24 + 1, W_ // 24 + 1)) * 255).astype(np.uint8)).resize((W_, H_), Image.BICUBIC)
+    level = np.asarray(m).astype(np.float32) / 255.0 + (np.asarray(noise).astype(np.float32) / 255.0 - 0.5) * jitter
+    on = level > 0.5
+    cells = np.array([[1 if v in levels else 0 for v in row] for row in stand], np.uint8)
+    region = np.kron(cells, np.ones((TILE, TILE), np.uint8)).astype(bool)
+    on &= region
+    tex = np.tile(np.asarray(tile.convert("RGBA")), (H_ // TILE, W_ // TILE, 1)).astype(np.float32)
+    a = np.asarray(img).astype(np.float32)
+    a = np.where(on[..., None], tex, a)
+    # Edges: pixels of the surface within 2px of its outside, and outside pixels within 3px of it.
+    near_out = np.asarray(Image.fromarray((~on & region).astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(5))) > 0
+    near_in = np.asarray(Image.fromarray(on.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(7))) > 0
+    rim_px = on & near_out
+    a[..., :3] = np.where(rim_px[..., None], a[..., :3] * rim, a[..., :3])
+    if shade_outside:
+        shade = ~on & near_in & region
+        a[..., :3] = np.where(shade[..., None], a[..., :3] * 0.86, a[..., :3])
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
+
+
 def build_terrain():
     levels = [[level_at(LEFT + c * TILE, TOP + r * TILE) for c in range(COLS + 1)] for r in range(ROWS + 1)]
     quay, rock = CliffSet(ART + "cliff/sea_quay"), CliffSet(ART + "cliff/sea_rock")
@@ -288,17 +322,18 @@ def build_terrain():
     # Surfaces: cobbles vs. grass on every land level (each level's own base terrain is
     # left alone), dirt tracks, then sand and planks over the sea.
     grass, dirt = CornerSet(ART + "wang/grass"), CornerSet(ART + "wang/dirt")
-    lawn = lambda x, y: not paved_c(*C(x, y))
-    overlay(img, stand, HARBOR, grass, lawn, LEFT, TOP, TILE)
-    overlay(img, stand, TOWN, grass, lawn, LEFT, TOP, TILE, base_is_upper=True)
-    overlay(img, stand, UPPER, grass, lawn, LEFT, TOP, TILE)
-    track = lambda x, y: dirt_c(*C(x, y)) and not paved_c(*C(x, y))
+    # Grass over paving and dirt over grass are blended per pixel (soft_surface), so
+    # their edges round off and wander a little instead of stepping along tile corners.
+    land = (HARBOR, TOWN, UPPER)
+    img = soft_surface(img, stand, land, grass.tiles[0], lambda cx, cy: True, jitter=0, rim=1.0,
+                       shade_outside=False)                        # paving everywhere first
+    img = soft_surface(img, stand, land, grass.tiles[15], lambda cx, cy: not paved_c(cx, cy), seed=1)
     wheat, crops = CornerSet(ART + "wang/wheat"), CornerSet(ART + "wang/crops")
     for level in (TOWN, UPPER):
         overlay(img, stand, level, wheat, lambda x, y: in_field(*C(x, y), WHEAT), LEFT, TOP, TILE)
         overlay(img, stand, level, crops, lambda x, y: in_field(*C(x, y), CROPS), LEFT, TOP, TILE)
-    overlay(img, stand, TOWN, dirt, track, LEFT, TOP, TILE)
-    overlay(img, stand, UPPER, dirt, track, LEFT, TOP, TILE)
+    img = soft_surface(img, stand, land, dirt.tiles[15], lambda cx, cy: dirt_c(cx, cy) and not paved_c(cx, cy),
+                       seed=2, blur=3, rim=0.9, shade_outside=False)
     overlay(img, stand, SEA, CornerSet(ART + "wang/sand"), sand, LEFT, TOP, TILE)
     boards = CornerSet(ART + "wang/planks")
     overlay(img, stand, SEA, boards, planks, LEFT, TOP, TILE)
@@ -417,7 +452,7 @@ BUILDINGS = [
     ("NonnaHouse", "cottage_red", (1328, 136), 130),
     ("HillHouse", "townhouse_blue", (1318, 262), 100),
     ("TealHouse", "townhouse_teal", (1400, 262), 96),
-    ("Windmill", "windmill", (230, 344), 110),
+    ("Windmill", "windmill2", (230, 344), 90),
 ]
 # Enterable buildings: node -> (door x offset from the building, interior scene).
 DOORS = {
@@ -469,7 +504,7 @@ LIGHTHOUSE = (1290, 740)      # yard centre; the gate faces north toward the mar
 MERCHANT = (880, 600)
 FOUNTAIN = (768, 486)
 
-PALM, TREE = "palm_g", "tree_g"
+PALM, TREE = "palm_g", "tree2_g"
 
 
 def grid(xs, ys):
