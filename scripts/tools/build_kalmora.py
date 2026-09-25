@@ -68,7 +68,7 @@ def level_c(cx, cy):
         return SEA                                        # the canal
     if cy <= 176 and cx >= 336:
         return UPPER                                      # forest band with the north gate
-    if 1200 <= cx <= 1440 + wob(cy, 14, 30) and cy <= 336:
+    if 1264 <= cx <= 1440 + wob(cy, 14, 30) and cy <= 336:     # (a strip of town ground along the canal lands the bridges)
         return UPPER                                      # north-east hill houses
     if cx < 336:
         if cy <= 512 + wob(cx, 16, 45, 1):
@@ -81,7 +81,7 @@ def level_c(cx, cy):
     if 832 <= cx <= 1104 and cy <= 704:
         return TOWN                                       # market, over the harbor wall
     east = 1456 + wob(cy, 16, 38, 2)                      # the rocky east coast
-    if cx >= 1104 and 640 < cy <= 704:
+    if cx >= 1104 and 596 < cy <= 704:
         return TOWN if cx <= east else SEA                # neck of the lighthouse headland
     if cx >= 1152 + wob(cy, 10, 30) and 704 < cy <= 832 + wob(cx, 14, 36, 3):
         return TOWN if cx <= east else SEA                # the lighthouse headland
@@ -102,7 +102,7 @@ def harbor_wall(r, c):
 
 # Dry ground painted over sea level (concept px).
 def sand_c(cx, cy):
-    return (cy >= 440 and ((cx - 1300) / 176) ** 2 + ((cy - 520) / 150) ** 2 <= 1  # the beach, a crescent cove
+    return (440 <= cy <= 596 and ((cx - 1300) / 176) ** 2 + ((cy - 520) / 150) ** 2 <= 1  # the beach, a crescent cove
             and not ((cx - 1330) / 120) ** 2 + ((cy - 700) / 70) ** 2 <= 1)
 
 
@@ -148,7 +148,7 @@ def paved_c(cx, cy):
         return not any(in_rect(cx, cy, b) for b in BEDS)
     if lv == UPPER:
         return (cx >= 1184 and (144 <= cy <= 176 or 272 <= cy <= 304)   # hill lanes
-                or 1232 <= cx <= 1264 and cy >= 144)
+                or 1280 <= cx <= 1312 and cy >= 144)
     return True
 
 
@@ -176,7 +176,7 @@ STAIRS = [
     (736, 560, (0, 2)),                           # grand stairs: square down to the deck
     (752, 176, (2, 3)),                           # the gate road down into town
     (416, 176, (2, 3)),                           # the west gate
-    (1232, 336, (2, 3)),                          # the hill houses down to the band
+    (1280, 336, (2, 3)),                          # the hill houses down to the band
     (1296, 440, (0, 2)),                          # band down to the beach
 ]
 
@@ -424,7 +424,7 @@ NPCS = [
 # The unmarked shipment: three crates piled on the quay, where Bram works.
 CLUE_CRATES = [("crate_sand", (680, 700)), ("crate_glove", (700, 690)), ("crate_ledger", (714, 704))]
 CARDS = [  # (card, concept position)
-    ("harbor_lantern", (400, 740)), ("coral_coin", (1330, 540)), ("gull_feather", (1310, 740)),
+    ("harbor_lantern", (400, 740)), ("coral_coin", (1330, 540)), ("gull_feather", (1360, 790)),
     ("sea_glass", (1400, 560)), ("sunken_crown_shard", (934, 935)),
     ("salt_compass", (150, 280)), ("tide_bell", (1000, 600)), ("terracotta_tile", (560, 216)),
     ("lighthouse_wick", (1390, 290)), ("fishers_knot", (636, 850)),
@@ -475,7 +475,7 @@ TREES = (
     + [(PALM, p) for p in [(650, 526), (872, 526), (700, 240), (860, 240), (380, 480)]]
     + [(TREE, p) for p in [(540, 236), (832, 236)]]
     # Market, headland and beach.
-    + [(PALM, p) for p in [(1200, 760), (1400, 720), (1430, 620), (1400, 540), (1300, 820)]]
+    + [(PALM, p) for p in [(1200, 760), (1400, 720), (1430, 620), (1400, 540)]]
     # The hill: trees behind and between the houses, forest on the band's cliff.
     + [(TREE, p) for p in [(1230, 60), (1420, 60), (1240, 230), (1450, 200)]]
     + [(TREE, p) for p in [(1400, 420), (1445, 380)]]
@@ -550,10 +550,11 @@ BUSHES = [(1430, 450), (1420, 790), (60, 170), (230, 190), (10, 420)]
 ROUTES = [
     ([(768, 90), (768, 560)], 24),                                        # gate road down through the square
     ([(768, 450), (560, 450), (380, 430), (340, 330), (200, 400)], 20),   # west street out to the meadow
-    ([(768, 450), (1000, 450), (1080, 350), (1200, 350), (1248, 300), (1248, 150), (1400, 150)], 20),  # east bank and hill
+    ([(768, 450), (1000, 450), (1080, 350), (1210, 350), (1296, 330), (1296, 150), (1400, 150)], 20),  # east bank and hill
+    ([(1210, 276), (1210, 350)], 16),                                    # along the canal strip
     ([(1080, 350), (1080, 276), (1200, 276)], 16),                        # the upper bridge
     ([(1248, 350), (1300, 420), (1310, 520), (1330, 600)], 18),           # down to the beach
-    ([(768, 540), (900, 620), (1100, 620), (1250, 660), (1290, 700)], 20),  # through the market to the lighthouse
+    ([(768, 540), (900, 620), (1100, 620), (1225, 680), (1225, 770), (1290, 770)], 20),  # through the market, round to the lighthouse door
     ([(745, 540), (745, 700), (560, 720), (400, 720)], 22),               # grand stairs, the deck
     ([(745, 720), (800, 790), (934, 800)], 18), ([(636, 740), (636, 870)], 14), ([(934, 740), (934, 960)], 14),  # deck east, piers
     ([(930, 400), (930, 450)], 14), ([(1034, 520), (1034, 560)], 14), ([(1328, 136), (1328, 160)], 14),  # doors
@@ -571,11 +572,11 @@ RAILS = [("fence", x, y) for x0, y0, x1, y1 in BRIDGES for x in range(x0 + 8, x1
 HARBOR_DETAIL = ([("wall_arch", x, 773) for x in (950, 1050)]
                  + [("pilings", x, 782) for x in (390, 450, 520, 580, 700)] + [("pilings", x, 846) for x in (780, 840)]
                  + [("pilings", x, y) for x, y in [(604, 880), (668, 880), (902, 988), (966, 988), (900, 860), (966, 860)]])
-FLOATING = RAILS + HARBOR_DETAIL + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1210, 652), ("rowboat", 1010, 880), ("rowboat", 870, 960),
+FLOATING = RAILS + HARBOR_DETAIL + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1010, 880), ("rowboat", 870, 960),
             ("sea_rocks", 1480, 700), ("sea_rocks", 1470, 860), ("sea_rocks", 1300, 900), ("sea_rocks", 1100, 900),
             ("sea_rocks", 60, 560), ("sea_rocks", 230, 580), ("sea_rocks", 1500, 420), ("sea_rocks", 280, 760)]
 LAMPS = ([(x, y) for x, y in [(690, 380), (846, 380), (690, 560), (846, 560), (768, 200)]]
-         + [(x, 606) for x in (400, 720)] + [(x, 716) for x in (500, 760)] + [(1140, 620), (1250, 760)]
+         + [(x, 606) for x in (400, 720)] + [(x, 716) for x in (500, 760)] + [(1140, 620), (1180, 700)]
          + [(x, 300) for x in (500, 1000)] + [(1230, 180), (1420, 180), (330, 190)])
 PROP_DIRS = [ART + "props/", OBJ, "assets/sprites/tiles/kalmora/props/"]
 FOOTPRINT_FRAC = {"fence": (1.0, 16), "bench": (0.8, 10), "parasol_table": (0.5, 10), "lamp_post": (0.3, 8), "banner": (0.3, 8),
@@ -592,7 +593,12 @@ def prop_path(name):
     raise SystemExit(f"no sprite for prop {name}")
 
 
-def unreachable(blocked, stairs, solids, start, targets, step=8, body=6):
+# Open ground that is meant to be out of reach (concept px rects): the islet across the
+# water and the forests' interiors.
+MEANT_UNREACHABLE = [(0, 700, 300, 1024), (0, 0, 1200, 150)]
+
+
+def unreachable(blocked, stairs, solids, start, targets, step=8, body=5, min_pocket=48, allowed=()):
     """Flood-fills an 8px grid from start, treating terrain walls and every solid
     footprint (grown by a walker's radius) as blocked; returns the targets that
     can't be reached (a target counts if any open cell within ~24px is reached)."""
@@ -603,9 +609,11 @@ def unreachable(blocked, stairs, solids, start, targets, step=8, body=6):
             if blocked[r][c] and (r, c) not in stairs:
                 grid[r * TILE // step:(r + 1) * TILE // step, c * TILE // step:(c + 1) * TILE // step] = True
     for x0, y0, x1, y1 in solids:
-        gx0, gy0 = max(0, int((x0 - body - LEFT) // step)), max(0, int((y0 - body - TOP) // step))
-        gx1, gy1 = min(w, int((x1 + body - LEFT) // step) + 1), min(h, int((y1 + body - TOP) // step) + 1)
-        grid[gy0:gy1, gx0:gx1] = True
+        # A cell is blocked when its centre falls inside the rect grown by a walker's radius.
+        gx0, gy0 = max(0, math.ceil((x0 - body - LEFT) / step - 0.5)), max(0, math.ceil((y0 - body - TOP) / step - 0.5))
+        gx1, gy1 = min(w, math.floor((x1 + body - LEFT) / step - 0.5) + 1), min(h, math.floor((y1 + body - TOP) / step - 0.5) + 1)
+        if gx1 > gx0 and gy1 > gy0:      # rects wholly off the map (road walls past the edge) clip to nothing
+            grid[gy0:gy1, gx0:gx1] = True
     seen = np.zeros_like(grid)
     sx, sy = int((start[0] - LEFT) // step), int((start[1] - TOP) // step)
     queue = [(sy, sx)]
@@ -622,6 +630,28 @@ def unreachable(blocked, stairs, solids, start, targets, step=8, body=6):
         gx, gy = int((x - LEFT) // step), int((y - TOP) // step)
         if not seen[max(0, gy - 3):gy + 4, max(0, gx - 3):gx + 4].any():
             bad.append(f"{name} at concept {C(x, y)} can't be reached on foot")
+    # Open ground nobody can walk to means an invisible wall somewhere: report every
+    # sealed pocket bigger than a small nook.
+    pocket = ~grid & ~seen
+    label = np.zeros_like(grid, dtype=np.int32)
+    for y0 in range(h):
+        for x0 in range(w):
+            if pocket[y0, x0] and not label[y0, x0]:
+                label[y0, x0] = 1
+                cells, stack = [(y0, x0)], [(y0, x0)]
+                while stack:
+                    y, x = stack.pop()
+                    for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                        ny, nx = y + dy, x + dx
+                        if 0 <= ny < h and 0 <= nx < w and pocket[ny, nx] and not label[ny, nx]:
+                            label[ny, nx] = 1
+                            cells.append((ny, nx))
+                            stack.append((ny, nx))
+                cy = sum(c[0] for c in cells) / len(cells) * step + TOP
+                cx = sum(c[1] for c in cells) / len(cells) * step + LEFT
+                if len(cells) >= min_pocket and not any(in_rect(*C(cx, cy), r) for r in allowed):
+                    bad.append(f"sealed-off open ground ({len(cells) * step * step // 1024} tiles) around concept "
+                               f"{tuple(round(v) for v in C(cx, cy))}")
     return bad
 
 
@@ -730,7 +760,10 @@ texture = ExtResource("12_ground")
     walls = merge_rects(blocked, LEFT, TOP, TILE)
     walls += [(LEFT - 40, TOP - 40, -24, TOP), (24, TOP - 40, RIGHT + 40, TOP),
               (-64, TOP - 80, -24, TOP - 40), (24, TOP - 80, 64, TOP - 40),
-              (LEFT, GATE_Y - 12, -22, GATE_Y + 4), (22, GATE_Y - 12, RIGHT, GATE_Y + 4),
+              # the gate line spans only the forest band (the meadow's cliff and a seal behind the
+              # blue cottage's roof close its ends), so no open ground is walled off by it
+              (W(336, 0)[0], GATE_Y - 12, -22, GATE_Y + 4), (22, GATE_Y - 12, W(1196, 0)[0], GATE_Y + 4),
+              (W(1196, 0)[0] - 8, TOP, W(1196, 0)[0] + 8, GATE_Y + 4),
               (LEFT - 40, TOP, LEFT, BOTTOM), (RIGHT, TOP, RIGHT + 40, BOTTOM),
               (LEFT - 40, BOTTOM, RIGHT + 40, BOTTOM + 40)]
     n.append('[node name="Walls" type="StaticBody2D" parent="."]\n')
@@ -738,60 +771,47 @@ texture = ExtResource("12_ground")
         n.append(f'[node name="W{k}" type="CollisionShape2D" parent="Walls"]\nposition = Vector2({(x0 + x1) / 2}, {(y0 + y1) / 2})\n'
                  f'shape = SubResource("{shape(x1 - x0, y1 - y0)}")\n')
 
-    # Lighthouse yard on the headland: low walls, the door gate facing the market.
-    lx, ly = W(*LIGHTHOUSE)
+    # The lighthouse on the headland. Its lens sits just inside the door, in a notch in
+    # the tower's base; the locked door gate closes the notch's mouth. What blocks you is
+    # exactly what you see: the tower and its door.
+    lx, ly = W(*LIGHTHOUSE)                                       # the tower's base line
     lh = OBJ + "lighthouse.png"
-    n.append(f'''[node name="LighthouseYard" type="StaticBody2D" parent="."]
+    n.append(f'''[node name="Lighthouse" type="StaticBody2D" parent="."]
 position = Vector2({lx}, {ly})
-
-[node name="West" type="CollisionShape2D" parent="LighthouseYard"]
-position = Vector2(-70, 0)
-shape = SubResource("{shape(10, 170)}")
-
-[node name="East" type="CollisionShape2D" parent="LighthouseYard"]
-position = Vector2(70, 0)
-shape = SubResource("{shape(10, 170)}")
-
-[node name="South" type="CollisionShape2D" parent="LighthouseYard"]
-position = Vector2(0, 85)
-shape = SubResource("{shape(140, 10)}")
-
-[node name="FrontWest" type="CollisionShape2D" parent="LighthouseYard"]
-position = Vector2(-46, -85)
-shape = SubResource("{shape(48, 10)}")
-
-[node name="FrontEast" type="CollisionShape2D" parent="LighthouseYard"]
-position = Vector2(46, -85)
-shape = SubResource("{shape(48, 10)}")
-
-[node name="Lighthouse" type="StaticBody2D" parent="."]
-position = Vector2({lx}, {ly + 70})
 
 [node name="Sprite" type="Sprite2D" parent="Lighthouse"]
 position = Vector2(0, {bottom_offset(lh)})
 texture = ExtResource("{texture(lh)}")
 
-[node name="Base" type="CollisionShape2D" parent="Lighthouse"]
-position = Vector2(0, -14)
-shape = SubResource("{shape(64, 28)}")
+[node name="BaseWest" type="CollisionShape2D" parent="Lighthouse"]
+position = Vector2(-24.5, -15)
+shape = SubResource("{shape(19, 30)}")
+
+[node name="BaseEast" type="CollisionShape2D" parent="Lighthouse"]
+position = Vector2(24.5, -15)
+shape = SubResource("{shape(19, 30)}")
+
+[node name="BaseBack" type="CollisionShape2D" parent="Lighthouse"]
+position = Vector2(0, -25)
+shape = SubResource("{shape(30, 10)}")
 
 [node name="LighthouseLight" type="PointLight2D" parent="."]
-position = Vector2({lx}, {ly + 70 - 230})
+position = Vector2({lx}, {ly - 230})
 texture_scale = 3.0
 script = ExtResource("20_lamp")
 max_energy = 1.2
 
 [node name="LighthouseDoor" parent="." instance=ExtResource("10_gate")]
-position = Vector2({lx}, {ly - 85})
+position = Vector2({lx}, {ly + 6})
 gate_id = &"kalmora_lighthouse_door"
 
 [node name="Card_lighthouse_lens" parent="." instance=ExtResource("6_pick")]
-position = Vector2({lx}, {ly - 30})
+position = Vector2({lx}, {ly - 10})
 card_id = &"lighthouse_lens"
 behind_gate = &"kalmora_lighthouse_door"
 ''')
-    shadow("building", lh, lx, ly + 70)
-    check_spot("lighthouse lens", lx, ly - 30, TOWN)
+    shadow("building", lh, lx, ly)
+    check_spot("lighthouse lens", lx, ly - 10, TOWN)
 
     gp = OBJ + "gate_pillars.png"
     fx, fy = W(*FOUNTAIN)
@@ -840,7 +860,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
 
     ex, ey = W(*EXTRA_SALT_COMPASS)
     taken = [p for _, p in cards] + list(rival_spots.values()) + list(spawns.values()) \
-        + [(ex, ey), (mx, my), (fx, fy), (lx, ly - 85), (lx, ly - 30), (0, GATE_Y)]
+        + [(ex, ey), (mx, my), (fx, fy), (lx, ly + 6), (lx, ly - 10), (0, GATE_Y)]
     for card, (x, y) in cards:
         n.append(f'[node name="Card_{card}" parent="." instance=ExtResource("6_pick")]\nposition = Vector2({x}, {y})\ncard_id = &"{card}"\n')
     n.append(f'[node name="Card_salt_compass_2" parent="." instance=ExtResource("6_pick")]\nposition = Vector2({ex}, {ey})\ncard_id = &"salt_compass"\n')
@@ -986,16 +1006,15 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
                 n.append(prop_node("sea_rocks", x, y, "free"))
     # Everything that matters must be reachable on foot from the town spawn.
     lx, ly = W(*LIGHTHOUSE)
-    solids += [(lx - 75, ly - 90, lx - 65, ly + 90), (lx + 65, ly - 90, lx + 75, ly + 90), (lx - 70, ly + 80, lx + 70, ly + 90),
-               (lx - 70, ly - 90, lx - 22, ly - 80), (lx + 22, ly - 90, lx + 70, ly - 80), (lx - 32, ly + 42, lx + 32, ly + 70)]
+    solids += [(lx - 34, ly - 30, lx - 15, ly), (lx + 15, ly - 30, lx + 34, ly), (lx - 15, ly - 30, lx + 15, ly - 20)]
     solids += [(x - 12, y - 10, x + 12, y) for x, y in [W(*p) for _, p in CLUE_CRATES] + [W(*p) for p in DUMMIES]]
     targets = {**{f"spawn {k}": v for k, v in spawns.items()}, **{f"rival spot {k}": v for k, v in rival_spots.items()},
-               **{f"card {k}": v for k, v in cards}, "north gate": (0, GATE_Y + 24), "lighthouse door": (lx, ly - 100),
+               **{f"card {k}": v for k, v in cards}, "north gate": (0, GATE_Y + 24), "lighthouse door": (lx, ly + 30),
                **{f"npc {n[0]}": W(*n[3]) for n in NPCS}, **{f"crate {k}": W(*p) for k, p in CLUE_CRATES}}
     for k, (c0, r0, rows) in enumerate(STAIR_SPOTS):
         targets[f"stairs {k + 1} top"] = (LEFT + (c0 + 1) * TILE, TOP + r0 * TILE - 12)
         targets[f"stairs {k + 1} bottom"] = (LEFT + (c0 + 1) * TILE, TOP + (r0 + rows) * TILE + 12)
-    errors += unreachable(blocked, stairs, solids, spawns["town"], targets)
+    errors += unreachable(blocked, stairs, solids + walls, spawns["town"], targets, allowed=MEANT_UNREACHABLE)
     if errors:
         raise SystemExit("layout errors:\n  " + "\n  ".join(errors))
     if skipped:
