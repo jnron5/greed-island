@@ -173,7 +173,7 @@ def dirt_c(cx, cy):
 
 # Stairs: (concept x of the left edge, concept y of the plateau edge, (lower, upper) levels).
 STAIRS = [
-    (722, 560, (0, 2)), (768, 560, (0, 2)),       # grand stairs: square down to the deck
+    (736, 560, (0, 2)),                           # grand stairs: square down to the deck
     (752, 176, (2, 3)),                           # the gate road down into town
     (416, 176, (2, 3)),                           # the west gate
     (1232, 336, (2, 3)),                          # the hill houses down to the band
@@ -472,15 +472,13 @@ TREES = (
                                    (20, 150), (300, 420)]]
     + [(PINE, (x, y)) for x, y in [(150, 240), (190, 270), (100, 450), (240, 470), (320, 300), (320, 250)]]
     # The town: palms around the square, trees in the gardens.
-    + [(PALM, p) for p in [(660, 426), (880, 426), (650, 526), (872, 526), (700, 240), (860, 240),
-                           (1060, 330), (1062, 440), (1180, 230), (1180, 420), (380, 480), (380, 300)]]
-    + [(TREE, p) for p in [(540, 236), (600, 236), (832, 236), (390, 220)]]
+    + [(PALM, p) for p in [(650, 526), (872, 526), (700, 240), (860, 240), (380, 480)]]
+    + [(TREE, p) for p in [(540, 236), (832, 236)]]
     # Market, headland and beach.
-    + [(PALM, p) for p in [(1150, 690), (1200, 760), (1400, 720), (1430, 620), (1170, 520), (1400, 540),
-                           (1190, 810), (1300, 820)]]
+    + [(PALM, p) for p in [(1200, 760), (1400, 720), (1430, 620), (1400, 540), (1300, 820)]]
     # The hill: trees behind and between the houses, forest on the band's cliff.
     + [(TREE, p) for p in [(1230, 60), (1420, 60), (1240, 230), (1450, 200)]]
-    + [(TREE, p) for p in [(1200, 400), (1250, 420), (1360, 400), (1410, 430), (1440, 380)]]
+    + [(TREE, p) for p in [(1400, 420), (1445, 380)]]
 )
 
 
@@ -511,60 +509,41 @@ STALLS = ["stall_fruit", "stall_fish", "stall_pottery", "stall_bread"]
 # Props: (name, concept x, concept y), grouped by where a resident would put them.
 PROPS = (
     # The fountain square: banners on its rim, flower beds, benches.
-    [("banner", x, y) for x, y in [(700, 408), (836, 408), (700, 540), (836, 540), (712, 330), (824, 330)]]
+    [("banner", x, y) for x, y in [(700, 408), (836, 408), (700, 540), (836, 540)]]
     + [("flower_bed", x, y) for x, y in [(690, 460), (846, 460)]]
     # Shop fronts.
-    + [("apples_crate", 552, 410), ("oranges_basket", 628, 410), ("sack", 540, 420)]
-    + [("parasol_table", 880, 420), ("parasol_table", 980, 420), ("menu_board", 900, 404)]
-    + [("barrel", 430, 512), ("barrels", 418, 520), ("crates", 530, 512)]
-    + [("potted_palm", 996, 526), ("potted_palm", 1072, 526)]
+    + [("parasol_table", 880, 420)]
+    + [("barrels", 418, 520)]
     # Market stalls east of the square, in rows.
-    + [(STALLS[k % 4], x, y) for k, (x, y) in enumerate([(880, 560), (960, 560), (1040, 590), (900, 660),
-                                                          (980, 660), (1060, 670)])]
-    + [("fish_crates", 840, 600), ("crates", 1080, 610), ("amphorae", 940, 610), ("lemons_crate", 1010, 620)]
+    + [(STALLS[k % 4], x, y) for k, (x, y) in enumerate([(1040, 590), (900, 660), (1060, 670)], 2)]
     # The quay and the deck.
-    + [("anchor", 740, 590), ("rope", 700, 600), ("crates", 400, 660), ("barrels", 430, 690),
-       ("fish_crates", 520, 700), ("barrel", 760, 700), ("crates", 780, 680), ("net_crate", 600, 700)]
+    + [("crates", 400, 660), ("fish_crates", 520, 700)]
     # The west meadow: fenced fields around the windmill.
     + track_fences()
-    + [("flower_bed", x, y) for x, y in [(60, 262), (110, 262), (70, 360), (120, 360)]]
-    + [("wheelbarrow", 270, 360), ("signpost", 24, 344), ("cart", 16, 300)]
+    + [("signpost", 24, 344)]
     # Beach and headland.
-    + [("parasol_table", 1340, 520), ("boulder", 1250, 560), ("bench", 1370, 660), ("candle_shrine", 1430, 700)]
+    + [("parasol_table", 1340, 520), ("candle_shrine", 1430, 700)]
     # The hill: flowers at doors, gardens between the houses.
-    + [("flower_bed", x, y) for x, y in [(1110, 150), (1190, 150), (1290, 150), (1370, 150), (1270, 276), (1440, 276)]]
-    + [("laundry_line", 1210, 240), ("bush_flowers_g", 1450, 150)]
+
     # Gate band.
-    + [("flower_bed", x, 160) for x in (720, 820)]
+
 )
 # Packing: the concept piles goods, flowers and planters into every gap (concept px).
 CLUTTER = (
     # Cargo along the deck and out on the piers.
-    [("crates", 386, 736), ("barrel", 404, 752), ("barrels", 470, 760), ("fish_crates", 520, 762),
-     ("crates", 600, 758), ("rope", 640, 764), ("barrels", 700, 762), ("crate", 740, 756), ("amphorae", 800, 760),
-     ("lobster_trap", 830, 744), ("buoy", 850, 760), ("crates", 616, 856), ("barrel", 650, 840),
-     ("barrel", 920, 820), ("crate", 950, 900), ("net_crate", 930, 960)]
+    [("crates", 386, 736), ("barrels", 470, 760), ("barrel", 650, 840)]
     # Goods between the market stalls.
-    + [("crates", 860, 690), ("barrels", 1000, 690), ("amphorae", 1090, 650), ("fish_crates", 940, 700),
-       ("apples_crate", 1040, 560), ("oranges_basket", 1100, 580), ("sack", 920, 600), ("lemons_crate", 1060, 620)]
+    + [("crates", 860, 690), ("fish_crates", 940, 700)]
     # Flowers at the doors of the houses.
-    + [("flower_bed", x, y) for x, y in [(1120, 146), (1180, 146), (1298, 146), (1358, 146), (1290, 272),
-                                         (1430, 272), (955, 262), (1025, 262)]]
     # The beach, the meadow, and the gate band.
-    + [("parasol_table", 1250, 610), ("parasol_table", 1380, 620), ("boulder", 1420, 600)]
-    + [("bush_flowers_g", x, y) for x, y in [(40, 232), (200, 222), (90, 332), (250, 342)]]
-    + [("crates", 200, 352), ("sack", 212, 364)]
+    + [("boulder", 1420, 600)]
     # Rocks and greenery along the canal banks and around the hill houses.
     + [("boulder", 1450, 250)]
 )
 SMALL = {"crate", "barrel", "sack", "flour_sack", "rope", "buoy", "bucket", "lobster_trap", "apples_crate",
          "oranges_basket", "lemons_crate", "amphora"}
 # Bushes packed along walls, beds and building sides (concept px).
-BUSHES = (
-    [(380, 420), (1180, 180), (1430, 450), (1420, 790), (1180, 760)]
-    + [(60, 170), (230, 190), (10, 420)]
-    + [(1110, 60), (1200, 110), (1440, 110)]
-)
+BUSHES = [(1430, 450), (1420, 790), (60, 170), (230, 190), (10, 420)]
 
 # Walking corridors (concept px polylines, half-width): the routes people actually take.
 # No decoration may stand in them, so every district stays easy to cross.
@@ -918,10 +897,13 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
 
     skipped = []
 
+    yards = [(*W(*pos), fw) for _, _, pos, fw in BUILDINGS]   # front yards stay open
+
     def fits(x, y, clearance):
         r, c = cell_of(x, y)
         return (0 <= r < ROWS and 0 <= c < COLS and not blocked[r][c] and (r, c) not in stairs
-                and not crowd(x, y, clearance) and not on_route(*C(x, y), clearance / SCALE))
+                and not crowd(x, y, clearance) and not on_route(*C(x, y), clearance / SCALE)
+                and not any(abs(x - bx) <= fw / 2 + 36 and by - 16 <= y <= by + 90 for bx, by, fw in yards))
 
     def place_check(name, x, y, clearance=18):
         """Decorations that don't fit (a wall, stairs, something already there) are
