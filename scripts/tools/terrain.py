@@ -125,17 +125,26 @@ def compose(levels, sets, flat, tile=32, extra_wall_rows=None, grow_down=None):
     # Growing down (grow_down): the wall's foot moves N rows further out over the lower
     # level instead, which is what sea cliffs want: the sea isn't walkable anyway.
     down = grow_down or {}
+    lip_cells = {(r, c) for r, c, _, _ in lips}
+    grown = set()
     for r, c, cap, pair in lips:
         body = img.crop((c * tile, (r + 1) * tile, (c + 1) * tile, (r + 1) * tile + tile // 2))
         n = down.get(pair, 0)
         if n and r + n + 1 < rows:
             foot = img.crop((c * tile, (r + 1) * tile, (c + 1) * tile, (r + 2) * tile))
-            for k in range(1, n + 1):
-                img.paste(body, (c * tile, (r + k) * tile))
-                img.paste(body, (c * tile, (r + k) * tile + tile // 2))
-                stand[r + k][c] = -1
-            img.paste(foot, (c * tile, (r + n + 1) * tile))
-            stand[r + n + 1][c] = -1
+            # Where a wavy cliff steps sideways, the side-facing cell next to this lip
+            # would stay short and leave a slit of water in the face: grow it too.
+            columns = [c] + [cc for cc in (c - 1, c + 1) if 0 <= cc < cols and (r, cc) not in lip_cells
+                             and stand[r][cc] == -1 and (r + 1, cc) not in grown and stand[r + 1][cc] == pair[0]]
+            for cc in columns:
+                for k in range(1, n + 1):
+                    img.paste(body, (cc * tile, (r + k) * tile))
+                    img.paste(body, (cc * tile, (r + k) * tile + tile // 2))
+                    stand[r + k][cc] = -1
+                    grown.add((r + k, cc))
+                img.paste(foot, (cc * tile, (r + n + 1) * tile))
+                stand[r + n + 1][cc] = -1
+                grown.add((r + n + 1, cc))
         n = extra.get(pair, 0)
         if not n or r - n < 0:
             continue

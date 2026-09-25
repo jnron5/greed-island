@@ -102,8 +102,8 @@ def harbor_wall(r, c):
 
 # Dry ground painted over sea level (concept px).
 def sand_c(cx, cy):
-    return (1152 <= cx <= 1440 and 440 <= cy <= 656
-            or ((cx - 1296) / 150) ** 2 + ((cy - 610) / 60) ** 2 <= 1)         # the beach
+    return (cy >= 440 and ((cx - 1300) / 176) ** 2 + ((cy - 520) / 150) ** 2 <= 1  # the beach, a crescent cove
+            and not ((cx - 1330) / 120) ** 2 + ((cy - 700) / 70) ** 2 <= 1)
 
 
 def planks_c(cx, cy):
@@ -160,10 +160,10 @@ def seg_dist(px, py, ax, ay, bx, by):
 
 # Dirt paths (concept px polylines, half-width): the north road and the meadow's tracks.
 PATHS = [
-    ([(768, 0), (768, 176)], 26),
-    ([(0, 208), (96, 200), (208, 212), (296, 244), (340, 284), (352, 330)], 14),
-    ([(0, 336), (128, 346), (240, 370), (330, 396)], 13),
-    ([(300, 0), (318, 64), (352, 118), (416, 168)], 14),
+    ([(768, 0), (768, 176)], 28),
+    ([(0, 208), (96, 200), (208, 212), (296, 244), (340, 284), (352, 330)], 24),
+    ([(0, 336), (128, 346), (240, 370), (330, 396)], 23),
+    ([(300, 0), (318, 64), (352, 118), (416, 168)], 24),
 ]
 
 
@@ -437,7 +437,7 @@ LIGHTHOUSE = (1290, 740)      # yard centre; the gate faces north toward the mar
 MERCHANT = (880, 600)
 FOUNTAIN = (768, 486)
 
-PALM, TREE, PINE = "palm", "tree", "pine"
+PALM, TREE, PINE = "palm_g", "tree_g", "pine"
 
 
 def grid(xs, ys):
@@ -488,6 +488,23 @@ def row(name, x0, x1, y, step):
     return [(name, x, y) for x in range(x0, x1 + 1, step)]
 
 
+def track_fences():
+    """Split-rail fences along both sides of the meadow tracks, on their flatter
+    stretches (the rail sprite is horizontal), like the concept's fenced fields."""
+    out = []
+    for pts, w in PATHS[1:]:
+        for (ax, ay), (bx, by) in zip(pts, pts[1:]):
+            if abs(by - ay) > 0.4 * abs(bx - ax):
+                continue
+            steps = max(1, int(abs(bx - ax) // 22))
+            for k in range(steps + 1):
+                t = k / steps
+                x, y = ax + (bx - ax) * t, ay + (by - ay) * t
+                if x < 330:
+                    out += [("fence", round(x), round(y - w - 6)), ("fence", round(x), round(y + w + 10))]
+    return out
+
+
 STALLS = ["stall_fruit", "stall_fish", "stall_pottery", "stall_bread"]
 # Props: (name, concept x, concept y), grouped by where a resident would put them.
 PROPS = (
@@ -508,15 +525,14 @@ PROPS = (
     + [("anchor", 740, 590), ("rope", 700, 600), ("crates", 400, 660), ("barrels", 430, 690),
        ("fish_crates", 520, 700), ("barrel", 760, 700), ("crates", 780, 680), ("net_crate", 600, 700)]
     # The west meadow: fenced fields around the windmill.
-    + row("fence", 0, 128, 224, 16) + row("fence", 160, 320, 212, 16) + row("fence", 0, 110, 320, 16)
-    + row("fence", 150, 300, 330, 16) + row("fence", 16, 200, 380, 16)
+    + track_fences()
     + [("flower_bed", x, y) for x, y in [(60, 262), (110, 262), (70, 360), (120, 360)]]
     + [("wheelbarrow", 270, 360), ("signpost", 24, 344), ("cart", 16, 300)]
     # Beach and headland.
     + [("parasol_table", 1340, 520), ("boulder", 1250, 560), ("bench", 1370, 660), ("candle_shrine", 1430, 700)]
     # The hill: flowers at doors, gardens between the houses.
     + [("flower_bed", x, y) for x, y in [(1110, 150), (1190, 150), (1290, 150), (1370, 150), (1270, 276), (1440, 276)]]
-    + [("laundry_line", 1210, 240), ("bush_flowers", 1450, 150)]
+    + [("laundry_line", 1210, 240), ("bush_flowers_g", 1450, 150)]
     # Gate band.
     + [("flower_bed", x, 160) for x in (720, 820)]
 )
@@ -533,12 +549,16 @@ CLUTTER = (
     # Flowers at the doors of the houses.
     + [("flower_bed", x, y) for x, y in [(1120, 146), (1180, 146), (1298, 146), (1358, 146), (1290, 272),
                                          (1430, 272), (955, 262), (1025, 262)]]
-    + [("bush_flowers", x, y) for x, y in [(425, 356), (485, 356), (650, 470), (886, 470)]]
+    + [("bush_flowers_g", x, y) for x, y in [(425, 356), (485, 356), (650, 470), (886, 470)]]
     # The beach, the meadow, and the gate band.
     + [("parasol_table", 1250, 610), ("parasol_table", 1380, 620), ("boulder", 1420, 600)]
-    + [("bush_flowers", x, y) for x, y in [(40, 232), (200, 222), (90, 332), (250, 342)]]
+    + [("bush_flowers_g", x, y) for x, y in [(40, 232), (200, 222), (90, 332), (250, 342)]]
     + [("crates", 200, 352), ("sack", 212, 364)]
-    + [("bush", x, 166) for x in (400, 500, 600, 900, 1000)]
+    + [("bush_g", x, 166) for x in (400, 500, 600, 900, 1000)]
+    # Rocks and greenery along the canal banks and around the hill houses.
+    + [("boulder", x, y) for x, y in [(1086, 250), (1188, 310), (1086, 420), (1190, 400), (1230, 210), (1450, 250),
+                                      (1210, 330)]]
+    + [("bush_flowers_g", x, y) for x, y in [(1086, 300), (1190, 250), (1088, 470)]]
 )
 SMALL = {"crate", "barrel", "sack", "flour_sack", "rope", "buoy", "bucket", "lobster_trap", "apples_crate",
          "oranges_basket", "lemons_crate", "amphora"}
@@ -552,15 +572,17 @@ BUSHES = (
     + [(1110, 60), (1200, 110), (1440, 110), (1180, 250), (1380, 330)]
 )
 # Free sprites (y-sorted, no collision): boats and rocks out on the water (concept px).
-FLOATING = [("ship", 460, 930), ("rowboat", 250, 650), ("rowboat", 1210, 652), ("rowboat", 1010, 880), ("rowboat", 870, 960),
+# Bridge railings: split rails along both sides of each canal crossing (drawn only).
+RAILS = [("fence", x, y) for x0, y0, x1, y1 in BRIDGES for x in range(x0 + 8, x1, 22) for y in (y0 - 3, y1 + 11)]
+FLOATING = RAILS + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1210, 652), ("rowboat", 1010, 880), ("rowboat", 870, 960),
             ("sea_rocks", 1480, 700), ("sea_rocks", 1470, 860), ("sea_rocks", 1300, 900), ("sea_rocks", 1100, 900),
             ("sea_rocks", 60, 560), ("sea_rocks", 230, 580), ("sea_rocks", 1500, 420), ("sea_rocks", 280, 760)]
 LAMPS = ([(x, y) for x, y in [(690, 380), (846, 380), (690, 560), (846, 560), (768, 200)]]
          + [(x, 606) for x in (400, 720)] + [(x, 716) for x in (500, 760)] + [(1140, 620), (1250, 760)]
          + [(x, 300) for x in (500, 1000)] + [(1230, 180), (1420, 180), (330, 190)])
 PROP_DIRS = [ART + "props/", OBJ, "assets/sprites/tiles/kalmora/props/"]
-FOOTPRINT_FRAC = {"bench": (0.8, 10), "parasol_table": (0.5, 10), "lamp_post": (0.3, 8), "banner": (0.3, 8),
-                  "flower_bed": (0.9, 14), "bush": (0.7, 14), "bush_flowers": (0.7, 14), "boulder": (0.8, 16)}
+FOOTPRINT_FRAC = {"fence": (1.0, 16), "bench": (0.8, 10), "parasol_table": (0.5, 10), "lamp_post": (0.3, 8), "banner": (0.3, 8),
+                  "flower_bed": (0.9, 14), "bush_g": (0.7, 14), "bush_flowers_g": (0.7, 14), "boulder": (0.8, 16)}
 # Soft contact shadows baked into the ground: (rx scale, ry scale, x offset, strength) per kind.
 SHADOW = {"building": (0.52, 0.10, 6, 0.55), "tree": (0.42, 0.16, 8, 0.5), "prop": (0.5, 0.2, 2, 0.4),
           "float": (0.45, 0.14, 4, 0.35)}
@@ -875,7 +897,9 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         node = f"P{count[0]}_{name}"
         if kind == "free":
             shadow("float", path, x, y)
+            scale = 1.5 if name == "ship" else 1.0      # the concept's moored ship dwarfs the piers
             return (f'[node name="{node}" type="Sprite2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                    f'scale = Vector2({scale}, {scale})\n'
                     f'offset = Vector2(0, {bottom_offset(path)})\ntexture = ExtResource("{texture(path)}")\n')
         taken.append((x, y))
         (_, _), b = bbox(path)
@@ -895,7 +919,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         if spot:
             n.append(prop_node(name, *spot))
     for k, (pcx, pcy) in enumerate(BUSHES):
-        name = ("bush", "bush_flowers")[k % 3 == 0]
+        name = ("bush_g", "bush_flowers_g")[k % 3 == 0]
         spot = place_check(name, *W(pcx, pcy), 22)
         if spot:
             n.append(prop_node(name, *spot))
@@ -910,6 +934,18 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
                 x = LEFT + c * TILE + TILE // 2 + rng.randint(-10, 10)
                 y = TOP + (r + 1) * TILE + rng.randint(4, 20)
                 n.append(prop_node("sea_rocks", x, y, "free"))
+    # Side-facing coasts (the rock set only draws a thin edge there): pile boulders
+    # into the water along them.
+    for r in range(1, ROWS - 1):
+        for c in range(1, COLS - 1):
+            if stand[r][c] != SEA or not blocked[r][c] or harbor_wall(r, c):
+                continue
+            side = next((dc for dc in (-1, 1) if stand[r][c + dc] != SEA and not blocked[r][c + dc] or stand[r][c + dc] == -1), None)
+            if side is None or rng.random() > 0.5:
+                continue
+            x = LEFT + c * TILE + TILE // 2 - side * rng.randint(0, 8)
+            y = TOP + r * TILE + rng.randint(14, 30)
+            n.append(prop_node("sea_rocks", x, y, "free"))
     if errors:
         raise SystemExit("layout errors:\n  " + "\n  ".join(errors))
     if skipped:
