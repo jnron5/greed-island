@@ -122,11 +122,11 @@ def planks(x, y):
 
 
 # Canal bridges (concept px): walkable at town level, decked with planks.
-BRIDGES = [(1088, 272, 1184, 280), (1088, 344, 1184, 352)]
+BRIDGES = [(1088, 270, 1184, 280), (1088, 342, 1184, 352)]
 
 # Garden beds inside the paved town (concept px): lawns with bushes and palms.
 BEDS = [(640, 384, 704, 432), (832, 384, 896, 432), (624, 496, 688, 528), (848, 496, 912, 528),
-        (512, 192, 624, 240), (672, 192, 736, 240), (816, 192, 896, 240), (1040, 192, 1088, 336),
+        (512, 192, 624, 240), (672, 192, 736, 240), (816, 192, 896, 240),
         (1040, 400, 1088, 448), (352, 256, 400, 496), (352, 192, 448, 224)]
 
 
@@ -298,9 +298,7 @@ def build_terrain():
     overlay(img, stand, SEA, CornerSet(ART + "wang/sand"), sand, LEFT, TOP, TILE)
     boards = CornerSet(ART + "wang/planks")
     overlay(img, stand, SEA, boards, planks, LEFT, TOP, TILE)
-    bridges = bridge_cells()
-    for r, c in bridges:
-        img.paste(boards.tiles[15], (c * TILE, r * TILE))
+    bridges = bridge_cells()   # drawn by the stone bridge sprites (build_bridge), walkable here
     img = deepen_greens(img)
 
     stairs = stair_cells()
@@ -345,6 +343,37 @@ def build_terrain():
                 lm.putpixel((c, r), (v * 40, 255 if v == SEA and walkable[r][c] else 0, 0))
     lm.save(LEVEL_PNG)
     return img, stand, blocked, stairs
+
+
+def build_bridge():
+    """The canal footbridge: PixelLab's stone bridge with its end walls cut away so both
+    ends are open, lengthened to span bank to bank, and its cobbled deck deepened to a
+    comfortable walking width."""
+    src = Image.open(OBJ + "canal_bridge.png").convert("RGBA")
+    x0, y0, x1, y1 = src.getbbox()
+    src = src.crop((x0, y0, x1, y1))
+    w, h = src.size
+    end = 13                                    # the end walls' width
+    body = src.crop((end, 0, w - end, h))       # parapets along top and bottom, deck between
+    # Deepen the deck: repeat its middle rows (rows 12..29 of the crop are cobbles).
+    top, deck, bottom = body.crop((0, 0, body.width, 12)), body.crop((0, 12, body.width, 30)), body.crop((0, 30, body.width, h))
+    tall = Image.new("RGBA", (body.width, 12 + 40 + bottom.height))
+    tall.paste(top, (0, 0))
+    for y in range(12, 52, deck.height):
+        tall.paste(deck.crop((0, 0, body.width, min(deck.height, 52 - y))), (0, y))
+    tall.paste(bottom, (0, 52))
+    # Lengthen: repeat a plain middle slice until it spans the canal and onto both banks.
+    target = round((BRIDGES[0][2] - BRIDGES[0][0]) * SCALE) + 16
+    mid = tall.crop((40, 0, 60, tall.height))
+    out = Image.new("RGBA", (target, tall.height))
+    half = tall.width // 2
+    out.paste(tall.crop((0, 0, half, tall.height)), (0, 0))
+    for x in range(half, target - half, mid.width):
+        out.paste(mid, (x, 0))
+    out.paste(tall.crop((tall.width - half, 0, tall.width, tall.height)), (target - half, 0))
+    path = ART + "canal_bridge_span.png"
+    out.save(path)
+    return path, 12 + 20                        # the deck's centre row in the sprite
 
 
 def build_stairs():
@@ -437,48 +466,18 @@ LIGHTHOUSE = (1290, 740)      # yard centre; the gate faces north toward the mar
 MERCHANT = (880, 600)
 FOUNTAIN = (768, 486)
 
-PALM, TREE, PINE = "palm_g", "tree_g", "pine"
+PALM = "palm_g"
 
 
 def grid(xs, ys):
     return [(x, y) for x in xs for y in ys]
 
 
-# Trees: (sprite, concept position). The forest band and the meadow's edges are dense.
-def forest(x0, y0, x1, y1, spacing, seed, keep_clear=()):
-    """A dense, staggered stand of trees whose canopies overlap, like the concept's
-    forests; keep_clear rects (concept px) stay open for roads and houses."""
-    rng = random.Random(seed)
-    out, j, y = [], 0, y0
-    while y <= y1:
-        x = x0 + (j % 2) * spacing / 2
-        while x <= x1:
-            px, py = x + rng.uniform(-0.22, 0.22) * spacing, y + rng.uniform(-0.2, 0.2) * spacing
-            if not any(in_rect(px, py, r) for r in keep_clear):
-                out.append((TREE, (round(px), round(py))))
-            x += spacing
-        y += spacing * 0.72
-        j += 1
-    return out
-
-
-HOUSE_CLEAR = [(1060, 20, 1240, 160), (1240, 20, 1420, 160), (720, 0, 816, 180), (380, 90, 460, 190)]
+# Trees: palms only (concept px). The broadleaf trees read out of place in this palette.
 TREES = (
-    forest(350, 18, 1196, 150, 40, 1, HOUSE_CLEAR)                    # the forest band over the town
-    + forest(10, 18, 330, 110, 42, 2, [(270, 0, 340, 130)])           # woods above the meadow
-    + forest(1180, 8, 1520, 30, 40, 3)                                # trees behind the hill houses
-    + forest(20, 740, 250, 900, 44, 4)                                # the forested islet
-    + [(TREE, (x, y)) for x, y in [(30, 250), (80, 270), (40, 480), (300, 470), (260, 150), (180, 150),
-                                   (20, 150), (300, 420)]]
-    + [(PINE, (x, y)) for x, y in [(150, 240), (190, 270), (100, 450), (240, 470), (320, 300), (320, 250)]]
-    # The town: palms around the square, trees in the gardens.
-    + [(PALM, p) for p in [(650, 526), (872, 526), (700, 240), (860, 240), (380, 480)]]
-    + [(TREE, p) for p in [(540, 236), (832, 236)]]
-    # Market, headland and beach.
-    + [(PALM, p) for p in [(1200, 760), (1400, 720), (1430, 620), (1400, 540)]]
-    # The hill: trees behind and between the houses, forest on the band's cliff.
-    + [(TREE, p) for p in [(1230, 60), (1420, 60), (1240, 230), (1450, 200)]]
-    + [(TREE, p) for p in [(1400, 420), (1445, 380)]]
+    [(PALM, p) for p in [(650, 526), (872, 526), (700, 240), (860, 240), (380, 480)]]      # the square and town
+    + [(PALM, p) for p in [(1200, 760), (1400, 720), (1430, 620), (1400, 540)]]           # headland and beach
+    + [(PALM, p) for p in [(100, 810), (175, 850), (95, 880)]]                             # the islet
 )
 
 
@@ -536,9 +535,7 @@ CLUTTER = (
     + [("crates", 860, 690), ("fish_crates", 940, 700)]
     # Flowers at the doors of the houses.
     # The beach, the meadow, and the gate band.
-    + [("boulder", 1420, 600)]
     # Rocks and greenery along the canal banks and around the hill houses.
-    + [("boulder", 1450, 250)]
 )
 SMALL = {"crate", "barrel", "sack", "flour_sack", "rope", "buoy", "bucket", "lobster_trap", "apples_crate",
          "oranges_basket", "lemons_crate", "amphora"}
@@ -565,16 +562,16 @@ ROUTES = [
 def on_route(cx, cy, pad=0):
     return any(seg_dist(cx, cy, *a, *b) <= w + pad for pts, w in ROUTES for a, b in zip(pts, pts[1:]))
 # Free sprites (y-sorted, no collision): boats and rocks out on the water (concept px).
-# Bridge railings: split rails along both sides of each canal crossing (drawn only).
-RAILS = [("fence", x, y) for x0, y0, x1, y1 in BRIDGES for x in range(x0 + 8, x1, 22) for y in (y0 - 3, y1 + 11)]
 # Harbor detail: boat arches in the foot of the market's harbor wall, pilings along the
 # deck and pier edges (drawn only; the water behind them is already blocked).
 HARBOR_DETAIL = ([("wall_arch", x, 773) for x in (950, 1050)]
                  + [("pilings", x, 782) for x in (390, 450, 520, 580, 700)] + [("pilings", x, 846) for x in (780, 840)]
                  + [("pilings", x, y) for x, y in [(604, 880), (668, 880), (902, 988), (966, 988), (900, 860), (966, 860)]])
-FLOATING = RAILS + HARBOR_DETAIL + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1010, 880), ("rowboat", 870, 960),
-            ("sea_rocks", 1480, 700), ("sea_rocks", 1470, 860), ("sea_rocks", 1300, 900), ("sea_rocks", 1100, 900),
-            ("sea_rocks", 60, 560), ("sea_rocks", 230, 580), ("sea_rocks", 1500, 420), ("sea_rocks", 280, 760)]
+# A split-rail fence marks the gate line (its collision is the invisible wall line in the
+# scene), so nobody walks round the north gate and nothing blocks you unseen.
+GATE_FENCE = [("fence", x, 78) for x in range(346, 1190, 16) if abs(x - 768) > 44]
+FLOATING = HARBOR_DETAIL + GATE_FENCE + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1010, 880), ("rowboat", 870, 960),
+]
 LAMPS = ([(x, y) for x, y in [(690, 380), (846, 380), (690, 560), (846, 560), (768, 200)]]
          + [(x, 606) for x in (400, 720)] + [(x, 716) for x in (500, 760)] + [(1140, 620), (1180, 700)]
          + [(x, 300) for x in (500, 1000)] + [(1230, 180), (1420, 180), (330, 190)])
@@ -662,6 +659,7 @@ def cell_of(x, y):
 def main():
     ground, stand, blocked, stairs = build_terrain()
     stair_png = build_stairs()
+    bridge_png, bridge_mid = build_bridge()
     errors = []
 
     def check_spot(name, x, y, want=None):
@@ -754,6 +752,14 @@ texture = ExtResource("12_ground")
         x, top = LEFT + c0 * TILE, TOP + r0 * TILE
         n.append(f'[node name="Stairs{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\nposition = Vector2({x + TILE}, {top + rows * TILE / 2})\n'
                  f'texture = ExtResource("st_{rows}")\n')
+    # Canal bridges: the deck's centre lines up with the walkable bridge row.
+    bw, bh = Image.open(bridge_png).size
+    for k, (bx0, by0, bx1, by1) in enumerate(BRIDGES):
+        rows = sorted({r for r, c in bridge_cells() if TOP + r * TILE <= W(bx0, by0)[1] + TILE and TOP + (r + 1) * TILE >= W(bx1, by1)[1] - TILE})
+        cy = TOP + (rows[0] + rows[-1] + 1) * TILE / 2
+        cx = (W(bx0, by0)[0] + W(bx1, by1)[0]) / 2
+        n.append(f'[node name="CanalBridge{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\n'
+                 f'position = Vector2({cx}, {cy + bh / 2 - bridge_mid})\ntexture = ExtResource("{texture(bridge_png)}")\n')
 
     # Cliffs, sea and the town's outer walls, merged into rectangles; the gate line
     # closes the forest band so the north gate is the only way out.
@@ -938,12 +944,12 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         return None
 
     for k, (sprite, pos) in enumerate(TREES):
-        path = OBJ + sprite + ".png" if sprite != PINE else "assets/sprites/tiles/kalmora/cypress.png"
+        path = OBJ + sprite + ".png"
         spot = place_check(sprite, *W(*pos), 26)
         if spot:
             x, y = spot
             taken.append((x, y))
-            n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, 16 if sprite != TREE else 30, 10))
+            n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, 16, 10))
             shadow("tree", path, x, y)
 
     count = [0]
@@ -981,29 +987,6 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
             n.append(prop_node(name, *spot))
     for name, pcx, pcy in FLOATING:
         n.append(prop_node(name, *W(pcx, pcy), "free"))
-    # Boulders in the surf along every rocky cliff foot, like the concept's coasts.
-    rng = random.Random(9)
-    for r in range(ROWS - 1):
-        for c in range(COLS):
-            if stand[r][c] == -1 and stand[r + 1][c] == SEA and blocked[r + 1][c] and not harbor_wall(r, c) \
-                    and (r, c) not in stairs and rng.random() < 0.45:
-                x = LEFT + c * TILE + TILE // 2 + rng.randint(-10, 10)
-                y = TOP + (r + 1) * TILE + rng.randint(4, 20)
-                if not in_rect(*C(x, y), (1080, 200, 1200, 500)):   # not in the canal
-                    n.append(prop_node("sea_rocks", x, y, "free"))
-    # Side-facing coasts (the rock set only draws a thin edge there): pile boulders
-    # into the water along them.
-    for r in range(1, ROWS - 1):
-        for c in range(1, COLS - 1):
-            if stand[r][c] != SEA or not blocked[r][c] or harbor_wall(r, c):
-                continue
-            side = next((dc for dc in (-1, 1) if stand[r][c + dc] != SEA and not blocked[r][c + dc] or stand[r][c + dc] == -1), None)
-            if side is None or rng.random() > 0.5:
-                continue
-            x = LEFT + c * TILE + TILE // 2 - side * rng.randint(0, 8)
-            y = TOP + r * TILE + rng.randint(14, 30)
-            if not in_rect(*C(x, y), (1080, 200, 1200, 500)):   # not in the canal
-                n.append(prop_node("sea_rocks", x, y, "free"))
     # Everything that matters must be reachable on foot from the town spawn.
     lx, ly = W(*LIGHTHOUSE)
     solids += [(lx - 34, ly - 30, lx - 15, ly), (lx + 15, ly - 30, lx + 34, ly), (lx - 15, ly - 30, lx + 15, ly - 20)]
