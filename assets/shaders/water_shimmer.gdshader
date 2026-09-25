@@ -1,6 +1,7 @@
 shader_type canvas_item;
 // Moving light sparkles on water. Drawn over the zone's ground; the level map
-// masks it to sea cells (red channel 0 = level 0 = water).
+// masks it to sea cells (red channel 0 = level 0 = water; green marks dry
+// sea-level ground such as beaches and docks, which stays still).
 
 uniform sampler2D level_map : filter_nearest;
 uniform vec2 map_cells;          // level map size in cells
@@ -16,7 +17,8 @@ float noise(vec2 p) {
 }
 
 void fragment() {
-	float water = step(texture(level_map, UV).r, 0.05);
+	vec4 cell = texture(level_map, UV);
+	float water = step(cell.r, 0.05) * (1.0 - step(0.5, cell.g));
 	vec2 p = UV * map_cells * 2.0;
 	float t = TIME * 0.6;
 	float n = noise(p + vec2(t, t * 0.4)) * noise(p * 1.7 - vec2(t * 0.7, -t * 0.3));

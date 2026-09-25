@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvbkdffb0nyv4"
-path="res://.godot/imported/kalmora_levels.png-e46f8fc01aad0276e60056fa1cb090eb.ctex"
+uid="uid://bk34o15rc7s67"
+path="res://.godot/imported/stairs_2.png-7570c03810e3fc4240fb43eed1e74a2a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/tiles/kalmora/kalmora_levels.png"
-dest_files=["res://.godot/imported/kalmora_levels.png-e46f8fc01aad0276e60056fa1cb090eb.ctex"]
+source_file="res://assets/sprites/tiles/kalmora2/stairs_2.png"
+dest_files=["res://.godot/imported/stairs_2.png-7570c03810e3fc4240fb43eed1e74a2a.ctex"]
 
 [params]
 

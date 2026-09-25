@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq7krfrki3rv"
-path="res://.godot/imported/kalmora_ground.png-d680e564e0a2f486a9612fe32c3e7912.ctex"
+uid="uid://b7qgo8stnik4k"
+path="res://.godot/imported/potted_palm.png-963f3a0f7fc2912aaf0d6673fde44dc3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/tiles/kalmora/kalmora_ground.png"
-dest_files=["res://.godot/imported/kalmora_ground.png-d680e564e0a2f486a9612fe32c3e7912.ctex"]
+source_file="res://assets/sprites/tiles/kalmora2/props/potted_palm.png"
+dest_files=["res://.godot/imported/potted_palm.png-963f3a0f7fc2912aaf0d6673fde44dc3.ctex"]
 
 [params]
 

@@ -6,6 +6,8 @@ extends Node2D
 @export var center := Vector2(0, -110)
 ## Hour of day to freeze at (-1 = leave the clock alone).
 @export var hour := -1.0
+## Hide HUD/menus (CanvasLayers) for clean map shots.
+@export var hide_ui := false
 
 func _ready() -> void:
 	if hour >= 0.0:
@@ -21,3 +23,6 @@ func _ready() -> void:
 	cam.make_current()
 	for n in get_tree().get_nodes_in_group(&"player"):
 		n.get_node("Camera2D").enabled = false
+	if hide_ui:
+		for layer in z.find_children("*", "CanvasLayer", true, false):
+			layer.visible = false

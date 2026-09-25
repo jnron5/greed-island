@@ -21,14 +21,15 @@ func _run() -> void:
 	while not town._nav_ready:
 		await get_tree().physics_frame
 
-	_check("quay is level 1", town.level_at(town.to_global(Vector2(-300, 60))) == 1)
-	_check("market terrace is level 2", town.level_at(town.to_global(Vector2(-300, -250))) == 2)
-	_check("upper town is level 3", town.level_at(town.to_global(Vector2(-300, -800))) == 3)
-	_check("the cliff between them is no level", town.level_at(town.to_global(Vector2(-300, -150))) == -1)
+	_check("the docks are sea level", town.level_at(town.to_global(Vector2(-300, 160))) == 0)
+	_check("the harbor quay is level 1", town.level_at(town.to_global(Vector2(-300, -40))) == 1)
+	_check("the town around the square is level 2", town.level_at(town.to_global(Vector2(-150, -450))) == 2)
+	_check("the hill houses are level 3", town.level_at(town.to_global(Vector2(700, -850))) == 3)
+	_check("the wall between quay and town is no level", town.level_at(town.to_global(Vector2(-300, -150))) == -1)
 
-	# A route from the harbor to the upper town has to use the stairs.
-	var from := (town.get_node("Spawns/from_tavern") as Node2D).global_position  # quay, outside the tavern
-	var to := town.to_global(Vector2(-450, -600))
+	# A route from the harbor quay to the hill houses has to use the stairs.
+	var from := town.to_global(Vector2(-300, -40))
+	var to := town.to_global(Vector2(700, -850))
 	var path := town.find_path(from, to)
 	_check("there is a route from the quay to the upper town", path.size() > 2
 		and path[path.size() - 1].distance_to(to) < 24.0)

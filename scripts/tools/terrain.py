@@ -54,15 +54,20 @@ class CliffSet:
 
 
 def compose(levels, sets, tile=32, extra_wall_rows=0):
-    """levels: (rows+1) x (cols+1) corner levels. sets: {k: CliffSet for (k, k+1)}.
-    extra_wall_rows makes every cliff that many rows taller: the wall's cap moves
-    up onto the plateau and the gap is filled with wall body (the top half of the
-    plain wall tile under the cap, repeated), so plateaus need that much extra depth.
+    """levels: (rows+1) x (cols+1) corner levels. sets: {k: CliffSet for (k, k+1)};
+    a value may instead be a function (r, c) -> CliffSet to vary the cliff by region
+    (e.g. harbor quay walls vs. a rocky coast for the same pair of levels).
+    extra_wall_rows (an int, or {k: rows} per pair) makes cliffs that many rows taller:
+    the wall's cap moves up onto the plateau and the gap is filled with wall body (the
+    top half of the plain wall tile under the cap, repeated), so plateaus need that much
+    extra depth.
     Returns (image, stand) where stand[r][c] is the walkable level of the cell or -1."""
     rows, cols = len(levels) - 1, len(levels[0]) - 1
     img = Image.new("RGBA", (cols * tile, rows * tile))
     stand = [[-1] * cols for _ in range(rows)]
-    lips = []  # (r, c, cap tile image): cells holding a wall's top edge
+    lips = []  # (r, c, cap tile image, pair): cells holding a wall's top edge
+    extra = extra_wall_rows if isinstance(extra_wall_rows, dict) else {k: extra_wall_rows for k in sets}
+    cliff = lambda pair, r, c: sets[pair](r, c) if callable(sets[pair]) else sets[pair]
 
     def lv(r, c):
         if 0 <= r <= rows and 0 <= c <= cols:
@@ -73,6 +78,8 @@ def compose(levels, sets, tile=32, extra_wall_rows=0):
         for c in range(cols):
             corners = [levels[r][c], levels[r][c + 1], levels[r + 1][c], levels[r + 1][c + 1]]
             lo, hi = min(corners), max(corners)
+            if hi - lo > 1:
+                raise ValueError(f"cell ({r}, {c}) spans levels {lo}..{hi}; neighbouring cells may differ by one level only")
             above = [a for a in (lv(r - 1, c), lv(r - 1, c + 1)) if a is not None]
             if hi > lo or any(a > lo for a in above):
                 # An edge cell, or a flat cell with a plateau right above it (the
@@ -96,25 +103,25 @@ def compose(levels, sets, tile=32, extra_wall_rows=0):
                     else:
                         row.append(1 if v > pair else 0)
                 around.append(row)
-            chosen = sets[pair].pick(around)
+            chosen = cliff(pair, r, c).pick(around)
             img.paste(chosen, (c * tile, r * tile))
             walled = any(around[i][j] == 2 for i, j in CENTER)
             if lo == hi and not walled:
                 stand[r][c] = lo
             if 1 in around[1][1:3] and 2 in around[2][1:3]:
-                lips.append((r, c, chosen))
+                lips.append((r, c, chosen, pair))
 
-    if extra_wall_rows:
-        # Raise each wall: cap up by N rows, wall body in between.
-        for r, c, cap in lips:
-            if r - extra_wall_rows < 0:
-                continue
-            body = img.crop((c * tile, (r + 1) * tile, (c + 1) * tile, (r + 1) * tile + tile // 2))
-            for k in range(1, extra_wall_rows + 1):
-                img.paste(body, (c * tile, (r - k + 1) * tile))
-                img.paste(body, (c * tile, (r - k + 1) * tile + tile // 2))
-                stand[r - k][c] = -1
-            img.paste(cap, (c * tile, (r - extra_wall_rows) * tile))
+    # Raise each wall: cap up by N rows, wall body in between.
+    for r, c, cap, pair in lips:
+        n = extra.get(pair, 0)
+        if not n or r - n < 0:
+            continue
+        body = img.crop((c * tile, (r + 1) * tile, (c + 1) * tile, (r + 1) * tile + tile // 2))
+        for k in range(1, n + 1):
+            img.paste(body, (c * tile, (r - k + 1) * tile))
+            img.paste(body, (c * tile, (r - k + 1) * tile + tile // 2))
+            stand[r - k][c] = -1
+        img.paste(cap, (c * tile, (r - n) * tile))
     return img, stand
 
 

@@ -90,7 +90,7 @@ func _run() -> void:
 	RivalDirector.enabled = true
 	get_tree().change_scene_to_file(WorldMap.KALMORA)
 	var left := false
-	for i in 30:
+	for i in 60:  # Kalmora is big: the walk from its rival spots to the north gate is ~1300px.
 		await get_tree().create_timer(1.0).timeout
 		if GameState.rival_locations[R].zone != WorldMap.KALMORA:
 			left = true
