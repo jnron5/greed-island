@@ -108,9 +108,9 @@ def sand_c(cx, cy):
 
 def planks_c(cx, cy):
     return (368 <= cx <= 840 and 560 <= cy <= 772                              # the long deck under the square
-            or 840 <= cx <= 968 and 712 <= cy <= 772                           # deck under the market wall
+            or 760 <= cx <= 968 and 760 <= cy <= 836                           # deck below the market wall's foot
             or 600 <= cx <= 672 and 772 <= cy <= 872                           # pier by the ship
-            or 900 <= cx <= 968 and 772 <= cy <= 980)                          # the long pier
+            or 900 <= cx <= 968 and 836 <= cy <= 980)                          # the long pier
 
 
 def sand(x, y):
@@ -498,6 +498,8 @@ def track_fences():
                 continue
             steps = max(1, int(abs(bx - ax) // 22))
             for k in range(steps + 1):
+                if k % 4 == 2:
+                    continue                                   # a gap every few rails: fields stay open
                 t = k / steps
                 x, y = ax + (bx - ax) * t, ay + (by - ay) * t
                 if x < 330:
@@ -511,7 +513,6 @@ PROPS = (
     # The fountain square: banners on its rim, flower beds, benches.
     [("banner", x, y) for x, y in [(700, 408), (836, 408), (700, 540), (836, 540), (712, 330), (824, 330)]]
     + [("flower_bed", x, y) for x, y in [(690, 460), (846, 460)]]
-    + [("bench", x, 484) for x in (724, 812)]
     # Shop fronts.
     + [("apples_crate", 552, 410), ("oranges_basket", 628, 410), ("sack", 540, 420)]
     + [("parasol_table", 880, 420), ("parasol_table", 980, 420), ("menu_board", 900, 404)]
@@ -549,35 +550,47 @@ CLUTTER = (
     # Flowers at the doors of the houses.
     + [("flower_bed", x, y) for x, y in [(1120, 146), (1180, 146), (1298, 146), (1358, 146), (1290, 272),
                                          (1430, 272), (955, 262), (1025, 262)]]
-    + [("bush_flowers_g", x, y) for x, y in [(425, 356), (485, 356), (650, 470), (886, 470)]]
     # The beach, the meadow, and the gate band.
     + [("parasol_table", 1250, 610), ("parasol_table", 1380, 620), ("boulder", 1420, 600)]
     + [("bush_flowers_g", x, y) for x, y in [(40, 232), (200, 222), (90, 332), (250, 342)]]
     + [("crates", 200, 352), ("sack", 212, 364)]
-    + [("bush_g", x, 166) for x in (400, 500, 600, 900, 1000)]
     # Rocks and greenery along the canal banks and around the hill houses.
-    + [("boulder", x, y) for x, y in [(1086, 250), (1188, 310), (1086, 420), (1190, 400), (1230, 210), (1450, 250),
-                                      (1210, 330)]]
-    + [("bush_flowers_g", x, y) for x, y in [(1086, 300), (1190, 250), (1088, 470)]]
+    + [("boulder", 1450, 250)]
 )
 SMALL = {"crate", "barrel", "sack", "flour_sack", "rope", "buoy", "bucket", "lobster_trap", "apples_crate",
          "oranges_basket", "lemons_crate", "amphora"}
 # Bushes packed along walls, beds and building sides (concept px).
 BUSHES = (
-    [(x, 250) for x in (520, 560, 610, 680, 740, 800, 850)]
-    + [(x, 380) for x in (600, 640, 900, 940)] + [(x, 536) for x in (600, 680, 860, 920)]
-    + [(380, 380), (390, 420), (1060, 260), (1070, 380), (1090, 460), (1180, 300), (1180, 180)]
-    + [(1210, 400), (1300, 440), (1430, 450), (1220, 700), (1290, 780), (1420, 790), (1180, 760)]
-    + [(170, 480), (60, 170), (230, 190), (300, 380), (10, 420)]
-    + [(1110, 60), (1200, 110), (1440, 110), (1180, 250), (1380, 330)]
+    [(380, 420), (1180, 180), (1430, 450), (1420, 790), (1180, 760)]
+    + [(60, 170), (230, 190), (10, 420)]
+    + [(1110, 60), (1200, 110), (1440, 110)]
 )
+
+# Walking corridors (concept px polylines, half-width): the routes people actually take.
+# No decoration may stand in them, so every district stays easy to cross.
+ROUTES = [
+    ([(768, 90), (768, 560)], 24),                                        # gate road down through the square
+    ([(768, 450), (560, 450), (380, 430), (340, 330), (200, 400)], 20),   # west street out to the meadow
+    ([(768, 450), (1000, 450), (1080, 350), (1200, 350), (1248, 300), (1248, 150), (1400, 150)], 20),  # east bank and hill
+    ([(1080, 350), (1080, 276), (1200, 276)], 16),                        # the upper bridge
+    ([(1248, 350), (1300, 420), (1310, 520), (1330, 600)], 18),           # down to the beach
+    ([(768, 540), (900, 620), (1100, 620), (1250, 660), (1290, 700)], 20),  # through the market to the lighthouse
+    ([(745, 540), (745, 700), (560, 720), (400, 720)], 22),               # grand stairs, the deck
+    ([(745, 720), (800, 790), (934, 800)], 18), ([(636, 740), (636, 870)], 14), ([(934, 740), (934, 960)], 14),  # deck east, piers
+    ([(930, 400), (930, 450)], 14), ([(1034, 520), (1034, 560)], 14), ([(1328, 136), (1328, 160)], 14),  # doors
+    ([(590, 400), (590, 450)], 14), ([(455, 348), (455, 400)], 14), ([(478, 490), (478, 520)], 14),
+]
+
+
+def on_route(cx, cy, pad=0):
+    return any(seg_dist(cx, cy, *a, *b) <= w + pad for pts, w in ROUTES for a, b in zip(pts, pts[1:]))
 # Free sprites (y-sorted, no collision): boats and rocks out on the water (concept px).
 # Bridge railings: split rails along both sides of each canal crossing (drawn only).
 RAILS = [("fence", x, y) for x0, y0, x1, y1 in BRIDGES for x in range(x0 + 8, x1, 22) for y in (y0 - 3, y1 + 11)]
 # Harbor detail: boat arches in the foot of the market's harbor wall, pilings along the
 # deck and pier edges (drawn only; the water behind them is already blocked).
 HARBOR_DETAIL = ([("wall_arch", x, 773) for x in (950, 1050)]
-                 + [("pilings", x, 782) for x in (390, 450, 520, 580, 700, 760, 820, 870)]
+                 + [("pilings", x, 782) for x in (390, 450, 520, 580, 700)] + [("pilings", x, 846) for x in (780, 840)]
                  + [("pilings", x, y) for x, y in [(604, 880), (668, 880), (902, 988), (966, 988), (900, 860), (966, 860)]])
 FLOATING = RAILS + HARBOR_DETAIL + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1210, 652), ("rowboat", 1010, 880), ("rowboat", 870, 960),
             ("sea_rocks", 1480, 700), ("sea_rocks", 1470, 860), ("sea_rocks", 1300, 900), ("sea_rocks", 1100, 900),
@@ -598,6 +611,39 @@ def prop_path(name):
         if os.path.exists(f"{d}{name}.png"):
             return f"{d}{name}.png"
     raise SystemExit(f"no sprite for prop {name}")
+
+
+def unreachable(blocked, stairs, solids, start, targets, step=8, body=6):
+    """Flood-fills an 8px grid from start, treating terrain walls and every solid
+    footprint (grown by a walker's radius) as blocked; returns the targets that
+    can't be reached (a target counts if any open cell within ~24px is reached)."""
+    w, h = (RIGHT - LEFT) // step, (BOTTOM - TOP) // step
+    grid = np.zeros((h, w), bool)
+    for r in range(ROWS):
+        for c in range(COLS):
+            if blocked[r][c] and (r, c) not in stairs:
+                grid[r * TILE // step:(r + 1) * TILE // step, c * TILE // step:(c + 1) * TILE // step] = True
+    for x0, y0, x1, y1 in solids:
+        gx0, gy0 = max(0, int((x0 - body - LEFT) // step)), max(0, int((y0 - body - TOP) // step))
+        gx1, gy1 = min(w, int((x1 + body - LEFT) // step) + 1), min(h, int((y1 + body - TOP) // step) + 1)
+        grid[gy0:gy1, gx0:gx1] = True
+    seen = np.zeros_like(grid)
+    sx, sy = int((start[0] - LEFT) // step), int((start[1] - TOP) // step)
+    queue = [(sy, sx)]
+    seen[sy, sx] = True
+    while queue:
+        y, x = queue.pop()
+        for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            ny, nx = y + dy, x + dx
+            if 0 <= ny < h and 0 <= nx < w and not grid[ny, nx] and not seen[ny, nx]:
+                seen[ny, nx] = True
+                queue.append((ny, nx))
+    bad = []
+    for name, (x, y) in targets.items():
+        gx, gy = int((x - LEFT) // step), int((y - TOP) // step)
+        if not seen[max(0, gy - 3):gy + 4, max(0, gx - 3):gx + 4].any():
+            bad.append(f"{name} at concept {C(x, y)} can't be reached on foot")
+    return bad
 
 
 def cell_of(x, y):
@@ -825,7 +871,10 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         taken.append((x, y))
         n.append(f'[node name="TrainingDummy{k + 1}" parent="." instance=ExtResource("7_dummy")]\nposition = Vector2({x}, {y})\n')
 
+    solids = []   # world rects (x0, y0, x1, y1) of every collision footprint, for the reachability check
+
     def solid(node, path, x, y, fw, fh):
+        solids.append((x - fw / 2, y - fh, x + fw / 2, y))
         return (f'[node name="{node}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
                 f'[node name="Sprite" type="Sprite2D" parent="{node}"]\nposition = Vector2(0, {bottom_offset(path)})\n'
                 f'texture = ExtResource("{texture(path)}")\n\n'
@@ -872,7 +921,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
     def fits(x, y, clearance):
         r, c = cell_of(x, y)
         return (0 <= r < ROWS and 0 <= c < COLS and not blocked[r][c] and (r, c) not in stairs
-                and not crowd(x, y, clearance))
+                and not crowd(x, y, clearance) and not on_route(*C(x, y), clearance / SCALE))
 
     def place_check(name, x, y, clearance=18):
         """Decorations that don't fit (a wall, stairs, something already there) are
@@ -938,7 +987,8 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
                     and (r, c) not in stairs and rng.random() < 0.45:
                 x = LEFT + c * TILE + TILE // 2 + rng.randint(-10, 10)
                 y = TOP + (r + 1) * TILE + rng.randint(4, 20)
-                n.append(prop_node("sea_rocks", x, y, "free"))
+                if not in_rect(*C(x, y), (1080, 200, 1200, 500)):   # not in the canal
+                    n.append(prop_node("sea_rocks", x, y, "free"))
     # Side-facing coasts (the rock set only draws a thin edge there): pile boulders
     # into the water along them.
     for r in range(1, ROWS - 1):
@@ -950,7 +1000,20 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
                 continue
             x = LEFT + c * TILE + TILE // 2 - side * rng.randint(0, 8)
             y = TOP + r * TILE + rng.randint(14, 30)
-            n.append(prop_node("sea_rocks", x, y, "free"))
+            if not in_rect(*C(x, y), (1080, 200, 1200, 500)):   # not in the canal
+                n.append(prop_node("sea_rocks", x, y, "free"))
+    # Everything that matters must be reachable on foot from the town spawn.
+    lx, ly = W(*LIGHTHOUSE)
+    solids += [(lx - 75, ly - 90, lx - 65, ly + 90), (lx + 65, ly - 90, lx + 75, ly + 90), (lx - 70, ly + 80, lx + 70, ly + 90),
+               (lx - 70, ly - 90, lx - 22, ly - 80), (lx + 22, ly - 90, lx + 70, ly - 80), (lx - 32, ly + 42, lx + 32, ly + 70)]
+    solids += [(x - 12, y - 10, x + 12, y) for x, y in [W(*p) for _, p in CLUE_CRATES] + [W(*p) for p in DUMMIES]]
+    targets = {**{f"spawn {k}": v for k, v in spawns.items()}, **{f"rival spot {k}": v for k, v in rival_spots.items()},
+               **{f"card {k}": v for k, v in cards}, "north gate": (0, GATE_Y + 24), "lighthouse door": (lx, ly - 100),
+               **{f"npc {n[0]}": W(*n[3]) for n in NPCS}, **{f"crate {k}": W(*p) for k, p in CLUE_CRATES}}
+    for k, (c0, r0, rows) in enumerate(STAIR_SPOTS):
+        targets[f"stairs {k + 1} top"] = (LEFT + (c0 + 1) * TILE, TOP + r0 * TILE - 12)
+        targets[f"stairs {k + 1} bottom"] = (LEFT + (c0 + 1) * TILE, TOP + (r0 + rows) * TILE + 12)
+    errors += unreachable(blocked, stairs, solids, spawns["town"], targets)
     if errors:
         raise SystemExit("layout errors:\n  " + "\n  ".join(errors))
     if skipped:
