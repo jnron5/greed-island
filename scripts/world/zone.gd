@@ -14,6 +14,8 @@ extends Node2D
 ## Atmosphere: outdoor zones follow the TimeOfDay tint (multiplied with any
 ## CanvasModulate the scene already has); interiors keep a warm fixed light.
 ## Zones with a level map get a water shimmer over their sea cells.
+## Surfaces: an optional surface map (one pixel per ground pixel; red = grass,
+## green = sand) makes grass ripple in the wind and sand take footprints.
 
 @export var display_name := ""
 @export var pickup_scene: PackedScene = preload("res://scenes/systems/card_pickup.tscn")
@@ -27,6 +29,9 @@ extends Node2D
 @export var level_cell := 32
 ## Local position of the level map's top-left corner.
 @export var level_origin := Vector2.ZERO
+@export_group("Surfaces")
+## Same size as the ground image; red = grass that moves in the wind, green = sand.
+@export var surface_map: Texture2D
 
 const NAV_CELL := 16
 
@@ -105,6 +110,16 @@ func _setup_atmosphere() -> void:
 		mat.set_shader_parameter(&"map_cells", Vector2(level_map.get_size()))
 		water.material = mat
 		add_child(water)
+	var ground := _ground_sprite()
+	if surface_map and ground and not interior:
+		var wind := ShaderMaterial.new()
+		wind.shader = preload("res://assets/shaders/ground_wind.gdshader")
+		wind.set_shader_parameter(&"surface_map", surface_map)
+		ground.material = wind
+		var prints := Footprints.new()
+		prints.surface = surface_map.get_image()
+		prints.origin = ground.position - ground.texture.get_size() / 2.0
+		add_child(prints)
 
 
 func _apply_tint(_hour: float) -> void:

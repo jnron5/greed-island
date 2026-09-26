@@ -39,6 +39,8 @@ ART = "assets/sprites/tiles/kalmora2/"
 OBJ = ART + "objects/"
 GROUND_PNG = ART + "kalmora_ground.png"
 LEVEL_PNG = ART + "kalmora_levels.png"
+SURFACE_PNG = ART + "kalmora_surface.png"      # red = grass (sways in the wind), green = sand (takes footprints)
+SURFACE = ART + "surface/"
 SCENE = "scenes/world/kalmora.tscn"
 GATE_Y = TOP + 104                             # the north gate; only way out of town
 
@@ -275,12 +277,14 @@ def grade_ground(img, stand, wet, natural):
     return out
 
 
-def soft_surface(img, stand, levels, tile, inside, seed=0, res=4, blur=6, jitter=0.16, rim=0.8, shade_outside=True):
+def soft_surface(img, stand, levels, tile, inside, seed=0, res=4, blur=6, jitter=0.16, rim=0.8, shade_outside=True,
+                 texture=None):
     """Paints `tile` (tiled) over the flat cells of `levels` wherever inside(cx, cy) holds
     (concept px), with a pixel-level edge: the coarse mask is blurred, which rounds every
     corner, then thresholded against smooth noise so the edge wanders a little. The
     surface gets a darker rim along its edge, and (shade_outside) the ground just outside
-    it a soft shade, like grass lipping over stone."""
+    it a soft shade, like grass lipping over stone. `texture` (a full-size array) replaces
+    the tiled `tile`. Returns the new image and the mask of pixels the surface covers."""
     W_, H_ = img.size
     gw, gh = W_ // res, H_ // res
     coarse = np.zeros((gh, gw), np.float32)
@@ -295,7 +299,9 @@ def soft_surface(img, stand, levels, tile, inside, seed=0, res=4, blur=6, jitter
     cells = np.array([[1 if v in levels else 0 for v in row] for row in stand], np.uint8)
     region = np.kron(cells, np.ones((TILE, TILE), np.uint8)).astype(bool)
     on &= region
-    tex = np.tile(np.asarray(tile.convert("RGBA")), (H_ // TILE, W_ // TILE, 1)).astype(np.float32)
+    if texture is None:
+        texture = np.tile(np.asarray(tile.convert("RGBA")), (H_ // TILE, W_ // TILE, 1))
+    tex = texture.astype(np.float32)
     a = np.asarray(img).astype(np.float32)
     a = np.where(on[..., None], tex, a)
     # Edges: pixels of the surface within 2px of its outside, and outside pixels within 3px of it.
@@ -306,7 +312,119 @@ def soft_surface(img, stand, levels, tile, inside, seed=0, res=4, blur=6, jitter
     if shade_outside:
         shade = ~on & near_in & region
         a[..., :3] = np.where(shade[..., None], a[..., :3] * 0.86, a[..., :3])
-    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA"), on
+
+
+def quilt(tiles, weights, size, seed, cell=22):
+    """A seamless field from PixelLab tiles that don't tile: every point takes its pixels
+    from the nearest of a jittered grid of patch centres (with a wobble, so the patch
+    edges are irregular), each patch cut from a random tile at a random spot. In a busy
+    texture like grass the edges disappear and nothing repeats."""
+    W_, H_ = size
+    rng = np.random.default_rng(seed)
+    srcs = [np.asarray(t.convert("RGBA")) for t in tiles]
+    th, tw = srcs[0].shape[:2]
+    gw, gh = W_ // cell + 2, H_ // cell + 2
+    sx = (np.arange(gw)[None, :] + rng.uniform(0.2, 0.8, (gh, gw))) * cell
+    sy = (np.arange(gh)[:, None] + rng.uniform(0.2, 0.8, (gh, gw))) * cell
+    pick = rng.choice(len(srcs), (gh, gw), p=np.array(weights) / sum(weights))
+    ox = rng.integers(cell, tw - cell, (gh, gw))
+    oy = rng.integers(cell, th - cell, (gh, gw))
+    yy, xx = np.mgrid[0:H_, 0:W_]
+    wob = np.asarray(Image.fromarray((rng.random((H_ // 8 + 2, W_ // 8 + 2)) * 255).astype(np.uint8))
+                     .resize((W_ + 16, H_ + 16), Image.BICUBIC)).astype(np.float32)[:H_, :W_] / 255.0 - 0.5
+    wx, wy = xx + wob * 9, yy + np.roll(wob, 37, axis=0) * 9
+    ci, cj = (wx // cell).astype(int), (wy // cell).astype(int)
+    best = np.full((H_, W_), 1e9, np.float32)
+    bi, bj = np.zeros((H_, W_), int), np.zeros((H_, W_), int)
+    for dj in (-1, 0, 1):
+        for di in (-1, 0, 1):
+            i, j = np.clip(ci + di, 0, gw - 1), np.clip(cj + dj, 0, gh - 1)
+            d = (wx - sx[j, i]) ** 2 + (wy - sy[j, i]) ** 2
+            closer = d < best
+            best = np.where(closer, d, best)
+            bi, bj = np.where(closer, i, bi), np.where(closer, j, bj)
+    u = np.clip(ox[bj, bi] + (xx - sx[bj, bi]).round().astype(int), 0, tw - 1)
+    v = np.clip(oy[bj, bi] + (yy - sy[bj, bi]).round().astype(int), 0, th - 1)
+    out = np.zeros((H_, W_, 4), np.uint8)
+    choice = pick[bj, bi]
+    for k, src in enumerate(srcs):
+        m = choice == k
+        out[m] = src[v[m], u[m]]
+    return out
+
+
+def grass_field(size):
+    """Lush meadow grass: mostly plain blades, now and then clover or a few wildflowers."""
+    plain, flowers, clover = (0, 2, 3, 11, 12, 14, 15), (4, 6, 7), (8, 9)
+    weights = [6] * len(plain) + [1] * len(flowers) + [1.5] * len(clover)
+    return quilt([Image.open(f"{SURFACE}grass_{k:02d}.png") for k in plain + flowers + clover], weights, size, seed=11)
+
+
+def regrass(img, grass_on, field):
+    """The cliff tiles and the field sets bring their own (older, brighter) grass along
+    cliff tops and field edges. Every patch of that old grass joined to the new meadow
+    takes the new grass too; isolated specks (moss on the cliff faces) stay."""
+    a = np.asarray(img)
+    r, g, b = (a[..., i].astype(int) for i in range(3))
+    old_px = (g > r + 40) & (g > b + 40) & ~grass_on                  # bright, grassy greens
+    fields = np.zeros(old_px.shape, bool)                               # crop rows stay crops
+    for x0, y0, x1, y1 in WHEAT + CROPS:
+        (px0, py0), (px1, py1) = W(x0, y0), W(x1, y1)
+        fields[max(0, py0 - TOP - TILE):py1 - TOP + TILE, max(0, px0 - LEFT - TILE):px1 - LEFT + TILE] = True
+    old_px &= ~fields
+    allowed = old_px | grass_on
+    reach = grass_on.copy()
+    count = reach.sum()
+    while True:
+        reach = (np.asarray(Image.fromarray(reach.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(3))) > 0) & allowed
+        if reach.sum() == count:
+            break
+        count = reach.sum()
+    add = reach & old_px
+    out = np.where(add[..., None], field, a)
+    return Image.fromarray(out.astype(np.uint8), "RGBA"), grass_on | add
+
+
+def paint_sand(img, stand):
+    """The beach, painted per pixel over the sea: rippled dry sand that darkens to wet sand
+    toward the waterline, with a broken line of foam where the water meets it."""
+    W_, H_ = img.size
+    res = 2
+    gw, gh = W_ // res, H_ // res
+    coarse = np.zeros((gh, gw), np.uint8)
+    for j in range(gh):
+        for i in range(gw):
+            coarse[j, i] = 255 if sand_c(*C(LEFT + i * res + 1, TOP + j * res + 1)) else 0
+    m = np.asarray(Image.fromarray(coarse).resize((W_, H_), Image.BILINEAR).filter(ImageFilter.GaussianBlur(4))) / 255.0
+    rng = np.random.default_rng(5)
+
+    def smooth_noise(cell):
+        n = (rng.random((H_ // cell + 2, W_ // cell + 2)) * 255).astype(np.uint8)
+        return np.asarray(Image.fromarray(n).resize((W_ + 2 * cell, H_ + 2 * cell), Image.BICUBIC))[:H_, :W_] / 255.0
+
+    def near(mask, px):
+        return np.asarray(Image.fromarray(mask.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(px * 2 + 1))) > 0
+
+    edge_noise, patch = smooth_noise(14), smooth_noise(90)
+    cells = np.array([[1 if v == SEA else 0 for v in row] for row in stand], np.uint8)
+    region = np.kron(cells, np.ones((TILE, TILE), np.uint8)).astype(bool)
+    on = (m + (edge_noise - 0.5) * 0.25 > 0.5) & region
+    tile = np.asarray(Image.open(SURFACE + "sand_ripples.png").convert("RGBA"))
+    tex = np.tile(tile, (H_ // tile.shape[0] + 1, W_ // tile.shape[1] + 1, 1))[:H_, :W_].astype(np.float32)
+    # Broad, barely-there patches of lighter and darker sand so the ripples don't read as a grid.
+    tex[..., :3] *= (1.0 + np.round((patch - 0.5) * 4) * 0.025)[..., None]
+    # Wet sand: a dark band right at the waterline and a lighter one behind it, its width wandering.
+    water = region & ~on
+    wet1 = on & near(water, 3)
+    wet2 = on & ~wet1 & (near(water, 9) | near(water, 13) & (edge_noise > 0.5))
+    tex[..., :3] = np.where(wet2[..., None], tex[..., :3] * np.array([0.86, 0.84, 0.82]), tex[..., :3])
+    tex[..., :3] = np.where(wet1[..., None], tex[..., :3] * np.array([0.72, 0.7, 0.7]), tex[..., :3])
+    a = np.asarray(img).astype(np.float32)
+    a = np.where(on[..., None], tex, a)
+    foam = water & near(on, 2) & (smooth_noise(6) > 0.3)
+    a[..., :3] = np.where(foam[..., None], a[..., :3] * 0.25 + np.array([236, 246, 244]) * 0.75, a[..., :3])
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA"), on
 
 
 def build_terrain():
@@ -325,20 +443,26 @@ def build_terrain():
     # Grass over paving and dirt over grass are blended per pixel (soft_surface), so
     # their edges round off and wander a little instead of stepping along tile corners.
     land = (HARBOR, TOWN, UPPER)
-    img = soft_surface(img, stand, land, grass.tiles[0], lambda cx, cy: True, jitter=0, rim=1.0,
-                       shade_outside=False)                        # paving everywhere first
-    img = soft_surface(img, stand, land, grass.tiles[15], lambda cx, cy: not paved_c(cx, cy), seed=1)
+    img, _ = soft_surface(img, stand, land, grass.tiles[0], lambda cx, cy: True, jitter=0, rim=1.0,
+                          shade_outside=False)                     # paving everywhere first
+    field = grass_field(img.size)
+    img, grass_on = soft_surface(img, stand, land, None, lambda cx, cy: not paved_c(cx, cy), seed=1, texture=field)
     wheat, crops = CornerSet(ART + "wang/wheat"), CornerSet(ART + "wang/crops")
     for level in (TOWN, UPPER):
         overlay(img, stand, level, wheat, lambda x, y: in_field(*C(x, y), WHEAT), LEFT, TOP, TILE)
         overlay(img, stand, level, crops, lambda x, y: in_field(*C(x, y), CROPS), LEFT, TOP, TILE)
-    img = soft_surface(img, stand, land, dirt.tiles[15], lambda cx, cy: dirt_c(cx, cy) and not paved_c(cx, cy),
-                       seed=2, blur=3, rim=0.9, shade_outside=False)
-    overlay(img, stand, SEA, CornerSet(ART + "wang/sand"), sand, LEFT, TOP, TILE)
+    img, dirt_on = soft_surface(img, stand, land, dirt.tiles[15], lambda cx, cy: dirt_c(cx, cy) and not paved_c(cx, cy),
+                                seed=2, blur=3, rim=0.9, shade_outside=False)
+    img, grass_on = regrass(img, grass_on, field)
+    img, sand_on = paint_sand(img, stand)
     boards = CornerSet(ART + "wang/planks")
     overlay(img, stand, SEA, boards, planks, LEFT, TOP, TILE)
     bridges = bridge_cells()   # drawn by the stone bridge sprites (build_bridge), walkable here
     img = deepen_greens(img)
+    surface = np.zeros((img.size[1], img.size[0], 3), np.uint8)
+    surface[..., 0] = (grass_on & ~dirt_on) * 255
+    surface[..., 1] = sand_on * 255
+    Image.fromarray(surface, "RGB").save(SURFACE_PNG)
 
     stairs = stair_cells()
 
@@ -504,7 +628,11 @@ LIGHTHOUSE = (1290, 740)      # yard centre; the gate faces north toward the mar
 MERCHANT = (880, 600)
 FOUNTAIN = (768, 486)
 
-PALM, TREE = "palm_g", "tree2_g"
+PALM, TREE = "palm_g", "tree3_g"
+# Sea breeze (assets/shaders/wind_sway.gdshader): palms bend from the base, broadleaf
+# trees only move their crowns.
+WIND = {PALM: {"lean": 1.5, "sway": 2.5, "speed": 1.3, "bend": 2.2, "root": 0.0},
+        TREE: {"lean": 0.6, "sway": 1.4, "speed": 1.1, "bend": 1.3, "root": 0.3}}
 
 
 def grid(xs, ys):
@@ -747,6 +875,8 @@ def main():
         ('Script', "res://scripts/systems/lamp_light.gd", "20_lamp"),
         ('PackedScene', "res://scenes/systems/clue_crate.tscn", "21_clue"),
         ('PackedScene', "res://scenes/ui/dialogue_box.tscn", "22_dialogue"),
+        ('Shader', "res://assets/shaders/wind_sway.gdshader", "23_wind"),
+        ('Texture2D', "res://" + SURFACE_PNG, "24_surface"),
     ]
     for rows, path in stair_png.items():
         ext.append(('Texture2D', "res://" + path, f"st_{rows}"))
@@ -784,6 +914,7 @@ display_name = "Kalmora, Port of Beginnings"
 level_map = ExtResource("13_levels")
 level_cell = {TILE}
 level_origin = Vector2({LEFT}, {TOP})
+surface_map = ExtResource("24_surface")
 
 [node name="GroundTiles" type="Sprite2D" parent="."]
 z_index = -10
@@ -920,10 +1051,18 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
 
     solids = []   # world rects (x0, y0, x1, y1) of every collision footprint, for the reachability check
 
-    def solid(node, path, x, y, fw, fh):
+    def wind(kind):
+        key = f"wind_{kind}"
+        if key not in subs:
+            params = "".join(f"shader_parameter/{k} = {v}\n" for k, v in WIND[kind].items())
+            subs[key] = f'[sub_resource type="ShaderMaterial" id="{key}"]\nshader = ExtResource("23_wind")\n{params}'
+        return f'material = SubResource("{key}")\n'
+
+    def solid(node, path, x, y, fw, fh, sway=None):
         solids.append((x - fw / 2, y - fh, x + fw / 2, y))
         return (f'[node name="{node}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
                 f'[node name="Sprite" type="Sprite2D" parent="{node}"]\nposition = Vector2(0, {bottom_offset(path)})\n'
+                + (wind(sway) if sway else "") +
                 f'texture = ExtResource("{texture(path)}")\n\n'
                 f'[node name="Base" type="CollisionShape2D" parent="{node}"]\nposition = Vector2(0, {-fh / 2})\n'
                 f'shape = SubResource("{shape(fw, fh)}")\n')
@@ -991,7 +1130,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         if spot:
             x, y = spot
             taken.append((x, y))
-            n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, 16 if sprite == PALM else 28, 10))
+            n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, 16 if sprite == PALM else 28, 10, sway=sprite))
             shadow("tree", path, x, y)
 
     count = [0]
