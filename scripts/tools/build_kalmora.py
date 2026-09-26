@@ -39,8 +39,9 @@ ART = "assets/sprites/tiles/kalmora2/"
 OBJ = ART + "objects/"
 GROUND_PNG = ART + "kalmora_ground.png"
 LEVEL_PNG = ART + "kalmora_levels.png"
-SURFACE_PNG = ART + "kalmora_surface.png"      # red = grass (sways in the wind), green = sand (takes footprints)
+SURFACE_PNG = ART + "kalmora_surface.png"      # green = sand (takes footprints); red marks grass
 SURFACE = ART + "surface/"
+GRASS = os.environ.get("KALMORA_GRASS", "grass_meadow")   # which wang/<name> grass set the lawns use
 SCENE = "scenes/world/kalmora.tscn"
 GATE_Y = TOP + 104                             # the north gate; only way out of town
 
@@ -315,52 +316,6 @@ def soft_surface(img, stand, levels, tile, inside, seed=0, res=4, blur=6, jitter
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA"), on
 
 
-def quilt(tiles, weights, size, seed, cell=22):
-    """A seamless field from PixelLab tiles that don't tile: every point takes its pixels
-    from the nearest of a jittered grid of patch centres (with a wobble, so the patch
-    edges are irregular), each patch cut from a random tile at a random spot. In a busy
-    texture like grass the edges disappear and nothing repeats."""
-    W_, H_ = size
-    rng = np.random.default_rng(seed)
-    srcs = [np.asarray(t.convert("RGBA")) for t in tiles]
-    th, tw = srcs[0].shape[:2]
-    gw, gh = W_ // cell + 2, H_ // cell + 2
-    sx = (np.arange(gw)[None, :] + rng.uniform(0.2, 0.8, (gh, gw))) * cell
-    sy = (np.arange(gh)[:, None] + rng.uniform(0.2, 0.8, (gh, gw))) * cell
-    pick = rng.choice(len(srcs), (gh, gw), p=np.array(weights) / sum(weights))
-    ox = rng.integers(cell, tw - cell, (gh, gw))
-    oy = rng.integers(cell, th - cell, (gh, gw))
-    yy, xx = np.mgrid[0:H_, 0:W_]
-    wob = np.asarray(Image.fromarray((rng.random((H_ // 8 + 2, W_ // 8 + 2)) * 255).astype(np.uint8))
-                     .resize((W_ + 16, H_ + 16), Image.BICUBIC)).astype(np.float32)[:H_, :W_] / 255.0 - 0.5
-    wx, wy = xx + wob * 9, yy + np.roll(wob, 37, axis=0) * 9
-    ci, cj = (wx // cell).astype(int), (wy // cell).astype(int)
-    best = np.full((H_, W_), 1e9, np.float32)
-    bi, bj = np.zeros((H_, W_), int), np.zeros((H_, W_), int)
-    for dj in (-1, 0, 1):
-        for di in (-1, 0, 1):
-            i, j = np.clip(ci + di, 0, gw - 1), np.clip(cj + dj, 0, gh - 1)
-            d = (wx - sx[j, i]) ** 2 + (wy - sy[j, i]) ** 2
-            closer = d < best
-            best = np.where(closer, d, best)
-            bi, bj = np.where(closer, i, bi), np.where(closer, j, bj)
-    u = np.clip(ox[bj, bi] + (xx - sx[bj, bi]).round().astype(int), 0, tw - 1)
-    v = np.clip(oy[bj, bi] + (yy - sy[bj, bi]).round().astype(int), 0, th - 1)
-    out = np.zeros((H_, W_, 4), np.uint8)
-    choice = pick[bj, bi]
-    for k, src in enumerate(srcs):
-        m = choice == k
-        out[m] = src[v[m], u[m]]
-    return out
-
-
-def grass_field(size):
-    """Lush meadow grass: mostly plain blades, now and then clover or a few wildflowers."""
-    plain, flowers, clover = (0, 2, 3, 11, 12, 14, 15), (4, 6, 7), (8, 9)
-    weights = [6] * len(plain) + [1] * len(flowers) + [1.5] * len(clover)
-    return quilt([Image.open(f"{SURFACE}grass_{k:02d}.png") for k in plain + flowers + clover], weights, size, seed=11)
-
-
 def regrass(img, grass_on, field):
     """The cliff tiles and the field sets bring their own (older, brighter) grass along
     cliff tops and field edges. Every patch of that old grass joined to the new meadow
@@ -439,14 +394,15 @@ def build_terrain():
 
     # Surfaces: cobbles vs. grass on every land level (each level's own base terrain is
     # left alone), dirt tracks, then sand and planks over the sea.
-    grass, dirt = CornerSet(ART + "wang/grass"), CornerSet(ART + "wang/dirt")
+    grass, dirt = CornerSet(ART + "wang/" + GRASS), CornerSet(ART + "wang/dirt")
     # Grass over paving and dirt over grass are blended per pixel (soft_surface), so
     # their edges round off and wander a little instead of stepping along tile corners.
     land = (HARBOR, TOWN, UPPER)
     img, _ = soft_surface(img, stand, land, grass.tiles[0], lambda cx, cy: True, jitter=0, rim=1.0,
                           shade_outside=False)                     # paving everywhere first
-    field = grass_field(img.size)
-    img, grass_on = soft_surface(img, stand, land, None, lambda cx, cy: not paved_c(cx, cy), seed=1, texture=field)
+    lawn = grass.tiles[15]
+    field = np.tile(np.asarray(lawn.convert("RGBA")), (img.size[1] // TILE, img.size[0] // TILE, 1))
+    img, grass_on = soft_surface(img, stand, land, lawn, lambda cx, cy: not paved_c(cx, cy), seed=1)
     wheat, crops = CornerSet(ART + "wang/wheat"), CornerSet(ART + "wang/crops")
     for level in (TOWN, UPPER):
         overlay(img, stand, level, wheat, lambda x, y: in_field(*C(x, y), WHEAT), LEFT, TOP, TILE)
@@ -629,10 +585,11 @@ MERCHANT = (880, 600)
 FOUNTAIN = (768, 486)
 
 PALM, TREE = "palm_g", "tree3_g"
-# Sea breeze (assets/shaders/wind_sway.gdshader): palms bend from the base, broadleaf
-# trees only move their crowns.
-WIND = {PALM: {"lean": 1.5, "sway": 2.5, "speed": 1.3, "bend": 2.2, "root": 0.0},
-        TREE: {"lean": 0.6, "sway": 1.4, "speed": 1.1, "bend": 1.3, "root": 0.3}}
+# Plants that move in the sea breeze: PixelLab-animated frame strips (strip, frames, fps).
+ANIMATED = {PALM: (ART + "anim/palm_sway.png", 8, 7), TREE: (ART + "anim/tree_sway.png", 8, 6),
+            "tuft": (ART + "anim/tuft_sway.png", 8, 7), "tuft_flowers": (ART + "anim/tuft_flowers_sway.png", 8, 6)}
+# Where grass tufts grow around each kind of tree (offsets from its base, world px).
+TUFT_RING = {TREE: [(-26, 4), (24, 2), (-12, 16), (14, 18)], PALM: [(-16, 6), (15, 10)]}
 
 
 def grid(xs, ys):
@@ -875,7 +832,6 @@ def main():
         ('Script', "res://scripts/systems/lamp_light.gd", "20_lamp"),
         ('PackedScene', "res://scenes/systems/clue_crate.tscn", "21_clue"),
         ('PackedScene', "res://scenes/ui/dialogue_box.tscn", "22_dialogue"),
-        ('Shader', "res://assets/shaders/wind_sway.gdshader", "23_wind"),
         ('Texture2D', "res://" + SURFACE_PNG, "24_surface"),
     ]
     for rows, path in stair_png.items():
@@ -1051,20 +1007,41 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
 
     solids = []   # world rects (x0, y0, x1, y1) of every collision footprint, for the reachability check
 
-    def wind(kind):
-        key = f"wind_{kind}"
+    def frames(kind):
+        """SpriteFrames for one of the ANIMATED plants, from its horizontal strip; returns
+        (sub-resource id, the frames' shared bottom offset, frame count)."""
+        strip, count, fps = ANIMATED[kind]
+        key = f"frames_{kind}"
+        im = Image.open(strip)
+        w, h = im.width // count, im.height
+        bottom = max(im.crop((k * w, 0, (k + 1) * w, h)).getbbox()[3] for k in range(count))
         if key not in subs:
-            params = "".join(f"shader_parameter/{k} = {v}\n" for k, v in WIND[kind].items())
-            subs[key] = f'[sub_resource type="ShaderMaterial" id="{key}"]\nshader = ExtResource("23_wind")\n{params}'
-        return f'material = SubResource("{key}")\n'
+            atlas = texture(strip)
+            refs = []
+            for k in range(count):
+                subs[f"{key}_{k}"] = (f'[sub_resource type="AtlasTexture" id="{key}_{k}"]\natlas = ExtResource("{atlas}")\n'
+                                      f'region = Rect2({k * w}, 0, {w}, {h})\n')
+                refs.append(f'{{\n"duration": 1.0,\n"texture": SubResource("{key}_{k}")\n}}')
+            subs[key] = (f'[sub_resource type="SpriteFrames" id="{key}"]\nanimations = [{{\n"frames": [{", ".join(refs)}],\n'
+                         f'"loop": true,\n"name": &"default",\n"speed": {fps}\n}}]\n')
+        return key, h / 2 - bottom, count
 
-    def solid(node, path, x, y, fw, fh, sway=None):
+    def plant_sprite(parent, kind, k):
+        """An animated plant sprite; neighbours start on different frames and play at
+        slightly different speeds, so a row of palms doesn't sway in lockstep."""
+        key, offset, count = frames(kind)
+        speed = 0.85 + (k * 37 % 11) / 30
+        return (f'[node name="Sprite" type="AnimatedSprite2D" parent="{parent}"]\nposition = Vector2(0, {offset})\n'
+                f'sprite_frames = SubResource("{key}")\nautoplay = "default"\nframe = {k * 3 % count}\n'
+                f'speed_scale = {speed:.2f}\n')
+
+    def solid(node, path, x, y, fw, fh, animated=None, k=0):
         solids.append((x - fw / 2, y - fh, x + fw / 2, y))
-        return (f'[node name="{node}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
-                f'[node name="Sprite" type="Sprite2D" parent="{node}"]\nposition = Vector2(0, {bottom_offset(path)})\n'
-                + (wind(sway) if sway else "") +
-                f'texture = ExtResource("{texture(path)}")\n\n'
-                f'[node name="Base" type="CollisionShape2D" parent="{node}"]\nposition = Vector2(0, {-fh / 2})\n'
+        sprite = (plant_sprite(node, animated, k) if animated else
+                  f'[node name="Sprite" type="Sprite2D" parent="{node}"]\nposition = Vector2(0, {bottom_offset(path)})\n'
+                  f'texture = ExtResource("{texture(path)}")\n')
+        return (f'[node name="{node}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n' + sprite +
+                f'\n[node name="Base" type="CollisionShape2D" parent="{node}"]\nposition = Vector2(0, {-fh / 2})\n'
                 f'shape = SubResource("{shape(fw, fh)}")\n')
 
     for name, sprite, pos, fw in BUILDINGS:
@@ -1124,14 +1101,35 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         skipped.append(f"{name} at concept {C(x, y)}")
         return None
 
+    tree_spots = []
     for k, (sprite, pos) in enumerate(TREES):
         path = OBJ + sprite + ".png"
         spot = place_check(sprite, *W(*pos), 26)
         if spot:
             x, y = spot
             taken.append((x, y))
-            n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, 16 if sprite == PALM else 28, 10, sway=sprite))
+            n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, 16 if sprite == PALM else 28, 10, animated=sprite, k=k))
             shadow("tree", path, x, y)
+            tree_spots.append((sprite, x, y))
+
+    # Grass tufts swaying at the foot of the trees (decoration: they don't block). Only
+    # on grass, never on a path or on something already placed.
+    lawn = np.asarray(Image.open(SURFACE_PNG))[..., 0] > 0
+    def on_grass(x, y):
+        px, py = int(x - LEFT), int(y - TOP)
+        return 0 <= py < lawn.shape[0] and 0 <= px < lawn.shape[1] and lawn[py, px]
+    tufts = 0
+    for sprite, tx, ty in tree_spots:
+        for dx, dy in TUFT_RING[sprite]:
+            x, y = tx + dx, ty + dy
+            if not on_grass(x, y) or on_route(*C(x, y), 6) or crowd(x, y, 10):
+                continue
+            kind = ("tuft", "tuft_flowers")[(tufts * 5 + int(tx)) % 3 == 0]
+            key, offset, count = frames(kind)
+            tufts += 1
+            n.append(f'[node name="Tuft{tufts}" type="AnimatedSprite2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                     f'offset = Vector2(0, {offset})\nsprite_frames = SubResource("{key}")\nautoplay = "default"\n'
+                     f'frame = {tufts * 3 % count}\nspeed_scale = {0.85 + (tufts * 37 % 11) / 30:.2f}\n')
 
     count = [0]
     def prop_node(name, x, y, kind="solid"):

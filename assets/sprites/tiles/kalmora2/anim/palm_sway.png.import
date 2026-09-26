@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4ahskjtubd1h"
-path="res://.godot/imported/grass_14.png-ba27b90089170da2721b809d0bf089df.ctex"
+uid="uid://ddu8l15f21ja5"
+path="res://.godot/imported/palm_sway.png-8e667a48ea0dcc8b686d8e818a8a2707.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/tiles/kalmora2/surface/grass_14.png"
-dest_files=["res://.godot/imported/grass_14.png-ba27b90089170da2721b809d0bf089df.ctex"]
+source_file="res://assets/sprites/tiles/kalmora2/anim/palm_sway.png"
+dest_files=["res://.godot/imported/palm_sway.png-8e667a48ea0dcc8b686d8e818a8a2707.ctex"]
 
 [params]
 
