@@ -17,9 +17,9 @@ const DIRECTIONS: Array[String] = [
 ]
 
 @export var collector_id: StringName = &"player"
-@export var move_speed := 110.0
+@export var move_speed := 145.0
 @export_group("Dash")
-@export var dash_speed := 260.0
+@export var dash_speed := 340.0
 @export var dash_duration := 0.15
 @export var dash_cooldown := 0.5
 @export_group("Sword")
@@ -310,6 +310,8 @@ func _play(action: String) -> void:
 		return
 	var fallback: Array[String] = ["run" if action == "dash" else "idle", "idle"]
 	var anim := pick_animation(sprite.sprite_frames, action, facing, fallback)
+	# The run cycle was drawn for a 110 px/s stride: keep the feet in step at other speeds.
+	sprite.speed_scale = move_speed / 110.0 if action == "run" else 1.0
 	if anim != &"" and sprite.animation != anim:
 		sprite.play(anim)
 
