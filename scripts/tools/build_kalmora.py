@@ -710,42 +710,19 @@ SHADOW = {"building": (0.52, 0.10, 6, 0.55), "tree": (0.42, 0.16, 8, 0.5), "prop
           "float": (0.45, 0.14, 4, 0.35)}
 
 
-# The bay's water rolls: a PixelLab-animated water tile repeated over the whole bay and
-# clipped to its water pixels (BAY_MASK), so it follows the shoreline exactly. The narrow
-# channels (by the beach, the canal) and the strip beside the beach stay as painted.
+# All the water rolls: a PixelLab-animated water tile repeated over the whole map and
+# clipped to the ground's water pixels (BAY_MASK), so it follows every shoreline exactly:
+# the bay, the channels by the beach and the canal.
 BAY_STRIP, BAY_FRAMES, BAY_FPS = ART + "anim/bay_water.png", 8, 6
 BAY_MASK = ART + "kalmora_bay_mask.png"
-BAY_SKIP_ROWS = 27            # the east-edge strip north of this row runs beside the beach
-
-
-def bay_cells():
-    """Level-0 open-water cells of the bay: the sea minus channels under three cells wide."""
-    lm = np.asarray(Image.open(LEVEL_PNG).convert("RGB")).astype(int)
-    wet = (lm[..., 0] == 0) & (lm[..., 1] == 0)
-
-    def spread(m, keep):
-        p = np.pad(m, 1, constant_values=keep)
-        out = m.copy()
-        for dy in (-1, 0, 1):
-            for dx in (-1, 0, 1):
-                nb = p[1 + dy:1 + dy + ROWS, 1 + dx:1 + dx + COLS]
-                out = out & nb if keep else out | nb
-        return out
-
-    bay = spread(spread(spread(wet, True), False), False) & wet    # open, then grown back to the shore
-    bay[:BAY_SKIP_ROWS, COLS - 6:] = False
-    return bay
 
 
 def bay_water(ground):
-    """Writes BAY_MASK (opaque where the bay's water shows in the ground) and returns the
-    scene nodes: the mask as a clipping sprite, the animated water tiled inside it."""
-    cells = bay_cells()
-    near = np.kron(cells, np.ones((TILE, TILE), np.uint8)).astype(bool)
-    near = np.asarray(Image.fromarray(near.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(2 * TILE + 1))) > 0
+    """Writes BAY_MASK (opaque wherever water shows in the ground) and returns the scene
+    nodes: the mask as a clipping sprite, the animated water tiled inside it."""
     a = np.asarray(ground).astype(int)
     r, g, b = a[..., 0], a[..., 1], a[..., 2]
-    water = near & (b > r + 50) & (b >= g - 10)                    # blue water, not foam, rock or wood
+    water = (b > r + 50) & (b >= g - 10)                            # blue water, not foam, rock or wood
     mask = np.zeros(a.shape[:2] + (4,), np.uint8)
     mask[water] = 255
     Image.fromarray(mask, "RGBA").save(BAY_MASK)
