@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cf53k1t0kmhpd"
-path="res://.godot/imported/sea_wave.png-1378108361d3325c3ba7ac2bb28941c3.ctex"
+uid="uid://dx5rgp4u8arti"
+path="res://.godot/imported/kalmora_bay_mask.png-49b9aa57f6a9ee856d495437eff4f588.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/tiles/kalmora2/anim/sea_wave.png"
-dest_files=["res://.godot/imported/sea_wave.png-1378108361d3325c3ba7ac2bb28941c3.ctex"]
+source_file="res://assets/sprites/tiles/kalmora2/kalmora_bay_mask.png"
+dest_files=["res://.godot/imported/kalmora_bay_mask.png-49b9aa57f6a9ee856d495437eff4f588.ctex"]
 
 [params]
 

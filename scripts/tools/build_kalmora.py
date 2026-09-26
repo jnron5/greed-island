@@ -585,11 +585,9 @@ MERCHANT = (880, 600)
 FOUNTAIN = (768, 486)
 
 PALM, TREE = "palm_g", "tree3_g"
-WAVE_FRAMES = 20        # sea_wave.png: fade-in, the PixelLab wave, then calm frames before it repeats
 # Plants that move in the sea breeze: PixelLab-animated frame strips (strip, frames, fps).
 ANIMATED = {PALM: (ART + "anim/palm_sway.png", 8, 7), TREE: (ART + "anim/tree_sway.png", 8, 6),
-            "tuft": (ART + "anim/tuft_sway.png", 8, 7), "tuft_flowers": (ART + "anim/tuft_flowers_sway.png", 8, 6),
-            "wave": (ART + "anim/sea_wave.png", WAVE_FRAMES, 8)}
+            "tuft": (ART + "anim/tuft_sway.png", 8, 7), "tuft_flowers": (ART + "anim/tuft_flowers_sway.png", 8, 6)}
 # Where grass tufts grow around each kind of tree (offsets from its base, world px).
 TUFT_RING = {TREE: [(-26, 4), (24, 2), (-12, 16), (14, 18)], PALM: [(-16, 6), (15, 10)]}
 
@@ -712,48 +710,59 @@ SHADOW = {"building": (0.52, 0.10, 6, 0.55), "tree": (0.42, 0.16, 8, 0.5), "prop
           "float": (0.45, 0.14, 4, 0.35)}
 
 
-# Open-sea waves: a PixelLab-animated foam crest that forms, rolls, breaks and fades,
-# repeated in staggered rows over open water (not the channels by the beach or the canal).
-# Each row runs a few frames behind the row south of it, so the waves cascade shoreward.
-WAVE_ROW, WAVE_STEP = 44, 104                   # row spacing and spacing along a row (world px)
-WAVE_CASCADE = 3                                # frames each row lags the row to its south
+# The bay's water rolls: a PixelLab-animated water tile repeated over the whole bay and
+# clipped to its water pixels (BAY_MASK), so it follows the shoreline exactly. The narrow
+# channels (by the beach, the canal) and the strip beside the beach stay as painted.
+BAY_STRIP, BAY_FRAMES, BAY_FPS = ART + "anim/bay_water.png", 8, 6
+BAY_MASK = ART + "kalmora_bay_mask.png"
+BAY_SKIP_ROWS = 27            # the east-edge strip north of this row runs beside the beach
 
 
-def sea_waves(frames, floating, bbox):
+def bay_cells():
+    """Level-0 open-water cells of the bay: the sea minus channels under three cells wide."""
     lm = np.asarray(Image.open(LEVEL_PNG).convert("RGB")).astype(int)
     wet = (lm[..., 0] == 0) & (lm[..., 1] == 0)
-    padded = np.pad(wet, 1, constant_values=True)             # the sea runs on past the map's edge
-    open_sea = wet.copy()
-    for dy in (-1, 0, 1):
-        for dx in (-1, 0, 1):
-            open_sea &= padded[1 + dy:1 + dy + ROWS, 1 + dx:1 + dx + COLS]
-    keep_clear = []
-    for name, x, y in floating:
-        (w, _), b = bbox(prop_path(name))
-        k = 1.5 if name == "ship" else 1.0
-        keep_clear.append((x - w * k / 2 + b[0] * k - 20, y - (b[3] - b[1]) * k - 20, x - w * k / 2 + b[2] * k + 20, y + 20))
-    key, offset, count = frames("wave")
 
-    def clear(x, y):
-        for px, py in ((x - 24, y - 14), (x + 24, y - 14), (x - 24, y + 2), (x + 24, y + 2)):
-            r, c = int((py - TOP) // TILE), int((px - LEFT) // TILE)
-            if not (0 <= r < ROWS and 0 <= c < COLS and open_sea[r, c]):
-                return False
-        return not any(x0 <= x <= x1 and y0 <= y <= y1 for x0, y0, x1, y1 in keep_clear)
+    def spread(m, keep):
+        p = np.pad(m, 1, constant_values=keep)
+        out = m.copy()
+        for dy in (-1, 0, 1):
+            for dx in (-1, 0, 1):
+                nb = p[1 + dy:1 + dy + ROWS, 1 + dx:1 + dx + COLS]
+                out = out & nb if keep else out | nb
+        return out
 
-    rng = np.random.default_rng(7)
-    nodes = []
-    for j, y in enumerate(range(TOP + 24, BOTTOM, WAVE_ROW)):
-        for x in range(LEFT + 40 + (j % 2) * WAVE_STEP // 2, RIGHT, WAVE_STEP):
-            wx, wy = x + int(rng.integers(-14, 15)), y + int(rng.integers(-6, 7))
-            if not clear(wx, wy):
-                continue
-            frame = (int((BOTTOM - wy) / WAVE_ROW * WAVE_CASCADE) + int(rng.integers(0, 4))) % count
-            nodes.append(f'[node name="Wave{len(nodes) + 1}" type="AnimatedSprite2D" parent="."]\nz_index = -8\n'
-                         f'position = Vector2({wx}, {wy})\noffset = Vector2(0, {offset})\n'
-                         f'sprite_frames = SubResource("{key}")\nautoplay = "default"\nframe = {count - 1 - frame}\n')
-    print(f"{len(nodes)} sea waves")
-    return nodes
+    bay = spread(spread(spread(wet, True), False), False) & wet    # open, then grown back to the shore
+    bay[:BAY_SKIP_ROWS, COLS - 6:] = False
+    return bay
+
+
+def bay_water(ground):
+    """Writes BAY_MASK (opaque where the bay's water shows in the ground) and returns the
+    scene nodes: the mask as a clipping sprite, the animated water tiled inside it."""
+    cells = bay_cells()
+    near = np.kron(cells, np.ones((TILE, TILE), np.uint8)).astype(bool)
+    near = np.asarray(Image.fromarray(near.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(2 * TILE + 1))) > 0
+    a = np.asarray(ground).astype(int)
+    r, g, b = a[..., 0], a[..., 1], a[..., 2]
+    water = near & (b > r + 50) & (b >= g - 10)                    # blue water, not foam, rock or wood
+    mask = np.zeros(a.shape[:2] + (4,), np.uint8)
+    mask[water] = 255
+    Image.fromarray(mask, "RGBA").save(BAY_MASK)
+    w, h = ground.size
+    return [f'''[node name="Bay" type="Sprite2D" parent="."]
+z_index = -9
+clip_children = 1
+position = Vector2({(LEFT + RIGHT) / 2}, {(TOP + BOTTOM) / 2})
+texture = ExtResource("25_baymask")
+
+[node name="Water" type="Sprite2D" parent="Bay"]
+script = ExtResource("26_tiled")
+strip = ExtResource("27_baywater")
+frame_count = {BAY_FRAMES}
+fps = {BAY_FPS}
+region_rect = Rect2(0, 0, {w}, {h})
+''']
 
 
 def prop_path(name):
@@ -879,6 +888,9 @@ def main():
         ('PackedScene', "res://scenes/systems/clue_crate.tscn", "21_clue"),
         ('PackedScene', "res://scenes/ui/dialogue_box.tscn", "22_dialogue"),
         ('Texture2D', "res://" + SURFACE_PNG, "24_surface"),
+        ('Texture2D', "res://" + BAY_MASK, "25_baymask"),
+        ('Script', "res://scripts/world/tiled_animation.gd", "26_tiled"),
+        ('Texture2D', "res://" + BAY_STRIP, "27_baywater"),
     ]
     for rows, path in stair_png.items():
         ext.append(('Texture2D', "res://" + path, f"st_{rows}"))
@@ -1212,7 +1224,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
             n.append(prop_node(name, *spot))
     for name, pcx, pcy in FLOATING:
         n.append(prop_node(name, *W(pcx, pcy), "free"))
-    n += sea_waves(frames, [(name, *W(pcx, pcy)) for name, pcx, pcy in FLOATING], bbox)
+    n += bay_water(ground)
     # Everything that matters must be reachable on foot from the town spawn.
     lx, ly = W(*LIGHTHOUSE)
     solids += [(lx - 34, ly - 30, lx - 15, ly), (lx + 15, ly - 30, lx + 34, ly), (lx - 15, ly - 30, lx + 15, ly - 20)]
