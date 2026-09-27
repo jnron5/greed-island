@@ -40,6 +40,4 @@ func _draw() -> void:
 		var t := Time.get_ticks_msec() / 300.0
 		draw_circle(Vector2(0, -28 + sin(t) * 2.0), 2.0 + sin(t * 1.7), Color(1, 0.95, 0.6, 0.9))
 	if _player_near():
-		var font := ThemeDB.fallback_font
-		draw_string_outline(font, Vector2(-18, -36), "E: Look", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, 3, Color.BLACK)
-		draw_string(font, Vector2(-18, -36), "E: Look", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color.WHITE)
+		WorldPrompt.draw(self, Vector2(0, -40), "E", "Look")

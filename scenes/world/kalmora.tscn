@@ -1403,6 +1403,7 @@ display_name = "Deckhand Luca"
 sprite_frames = ExtResource("n_sailor")
 lines = PackedStringArray("Sailed round the whole isle once. Vetrassa's got the tallest spires you ever saw.", "You racers bind your cards in town, right? Thieves love a loose card on the road.")
 wander_radius = 40.0
+patrol = PackedVector2Array(0, 0, -266, -28, -168, 0, -84, -14, 0, 0, 28, 70, 0, 0)
 
 [node name="Npc_baker" parent="." instance=ExtResource("19_npc")]
 position = Vector2(376, 196)

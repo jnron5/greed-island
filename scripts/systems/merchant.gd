@@ -45,6 +45,4 @@ func _draw() -> void:
 
 func _draw_prompt() -> void:
 	if _player_near:
-		var font := ThemeDB.fallback_font
-		draw_string_outline(font, Vector2(-16, -58), "E: Shop", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, 3, Color.BLACK)
-		draw_string(font, Vector2(-16, -58), "E: Shop", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color.WHITE)
+		WorldPrompt.draw(self, Vector2(0, -62), "E", "Shop")

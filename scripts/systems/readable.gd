@@ -41,6 +41,4 @@ func _draw() -> void:
 		draw_rect(Rect2(-3, 0, 1, 1), Color(1, 0.95, 0.65, glow * 0.6))
 		draw_rect(Rect2(2, -2, 1, 1), Color(1, 0.95, 0.65, glow * 0.6))
 	if _player_near():
-		var font := ThemeDB.fallback_font
-		draw_string_outline(font, Vector2(-14, -10), "E: Read", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, 3, Color.BLACK)
-		draw_string(font, Vector2(-14, -10), "E: Read", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color.WHITE)
+		WorldPrompt.draw(self, Vector2(0, -14), "E", "Read")

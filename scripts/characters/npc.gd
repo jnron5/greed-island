@@ -17,6 +17,10 @@ const TALK_RANGE := 34.0
 ## 0 = stands still at home.
 @export var wander_radius := 0.0
 @export var walk_speed := 30.0
+## A daily round: points (relative to home) walked in order, pausing at each.
+## Overrides wandering.
+@export var patrol: PackedVector2Array = []
+@export var patrol_pause := 3.0
 ## Shopkeepers: after talking, open the shop with this stock.
 @export var shop_stock: Array[StringName] = []
 
@@ -27,6 +31,8 @@ var _goal := Vector2.ZERO
 var _wait := 0.0
 var _talking := false
 var _line_index := 0
+var _patrol_index := 0
+var _pausing := true
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -44,6 +50,21 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if _talking:
 		velocity = Vector2.ZERO
+	elif not patrol.is_empty():
+		_wait -= delta
+		var target := _home + patrol[_patrol_index]
+		if _pausing:
+			velocity = Vector2.ZERO
+			if _wait <= 0.0:                      # rested: on to the next stop
+				_pausing = false
+				_patrol_index = (_patrol_index + 1) % patrol.size()
+				_wait = 12.0                      # give up on a stop that can't be reached
+		elif position.distance_to(target) < 3.0 or _wait <= 0.0:
+			_pausing = true
+			_wait = patrol_pause
+			velocity = Vector2.ZERO
+		else:
+			velocity = position.direction_to(target) * walk_speed
 	elif wander_radius > 0.0:
 		_wait -= delta
 		if position.distance_to(_goal) < 3.0:
@@ -108,11 +129,7 @@ func _update_animation() -> void:
 func _draw() -> void:
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
 	var marker := Quests.marker_for(npc_id)
-	var font := ThemeDB.fallback_font
 	if marker != "":
-		draw_string_outline(font, Vector2(-3, sprite_offset_y * 2 - 8), marker, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color.BLACK)
-		draw_string(font, Vector2(-3, sprite_offset_y * 2 - 8), marker, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1, 0.85, 0.3))
+		WorldPrompt.marker(self, Vector2(0, sprite_offset_y * 2 - 8), marker, Color(1, 0.85, 0.3))
 	if player and not _talking and player.global_position.distance_to(global_position) <= TALK_RANGE:
-		var text := "E: Talk"
-		draw_string_outline(font, Vector2(-14, sprite_offset_y * 2 + 4), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, 3, Color.BLACK)
-		draw_string(font, Vector2(-14, sprite_offset_y * 2 + 4), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color.WHITE)
+		WorldPrompt.draw(self, Vector2(0, sprite_offset_y * 2), "E", "Talk")

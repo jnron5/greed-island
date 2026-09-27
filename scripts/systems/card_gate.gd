@@ -76,7 +76,4 @@ func _draw() -> void:
 		var gate := CardDatabase.get_gate(gate_id)
 		var card := CardDatabase.get_card(gate.cost_card_id) if gate else null
 		if card:
-			var text := "E: Open (%d %s)" % [gate.cost_amount, card.display_name]
-			var font := ThemeDB.fallback_font
-			draw_string_outline(font, Vector2(-half - 10, -40), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, 3, Color.BLACK)
-			draw_string(font, Vector2(-half - 10, -40), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color.WHITE)
+			WorldPrompt.draw(self, Vector2(0, -44), "E", "Open (%d %s)" % [gate.cost_amount, card.display_name])

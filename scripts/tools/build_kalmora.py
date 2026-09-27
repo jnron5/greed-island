@@ -557,6 +557,9 @@ DOORS = {
     "TealHouse": (0, "res://scenes/world/interiors/kalmora_teal_house.tscn"),
     "Windmill": (0, "res://scenes/world/interiors/kalmora_mill.tscn"),
 }
+# Daily rounds (concept px, relative to the resident's spot): Luca hauls cargo from the
+# warehouse door to the stack on the deck and back, then out along the pier.
+PATROLS = {"sailor": [(0, 0), (-190, -20), (-120, 0), (-60, -10), (0, 0), (20, 50), (0, 0)]}
 # Residents (dogs and cats). (id, name, sprite id, concept position, wander radius, lines)
 NPCS = [
     ("bram", "Bram", "bram", (640, 700), 0, ["Tide's good today. Good for ships, anyway."]),
@@ -1162,7 +1165,9 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
         n.append(f'[node name="Npc_{npc_id}" parent="." instance=ExtResource("19_npc")]\nposition = Vector2({x}, {y})\n'
                  f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{frames_id}")\n'
-                 f'lines = PackedStringArray({quoted})\nwander_radius = {float(wander)}\n')
+                 f'lines = PackedStringArray({quoted})\nwander_radius = {float(wander)}\n'
+                 + (f'patrol = PackedVector2Array({", ".join(f"{px * SCALE:.0f}, {py * SCALE:.0f}" for px, py in PATROLS[npc_id])})\n'
+                    if npc_id in PATROLS else ""))
         taken.append((x, y))
     for clue, pos in CLUE_CRATES:
         x, y = W(*pos)

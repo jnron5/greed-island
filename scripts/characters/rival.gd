@@ -544,12 +544,10 @@ func _draw_sight_cone() -> void:
 func _draw_awareness_marker() -> void:
 	if awareness.level == Awareness.Level.UNAWARE and awareness.value < 5.0:
 		return
-	var font := ThemeDB.fallback_font
 	var color := Color(1, 0.3, 0.25) if awareness.level == Awareness.Level.ALERT else Color(1, 0.85, 0.2)
 	if awareness.level != Awareness.Level.UNAWARE:
 		var mark := "!" if awareness.level == Awareness.Level.ALERT else "?"
-		draw_string_outline(font, Vector2(-3, -72), mark, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color.BLACK)
-		draw_string(font, Vector2(-3, -72), mark, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, color)
+		WorldPrompt.marker(self, Vector2(0, -74), mark, color)
 	# Meter under the marker.
 	draw_rect(Rect2(-9, -70, 18, 3), Color(0, 0, 0, 0.6))
 	draw_rect(Rect2(-8, -69, 16.0 * awareness.value / 100.0, 1), color)
@@ -561,7 +559,6 @@ func _draw_steal_prompt() -> void:
 		return
 	var text := Stealth.blocker(player, self)
 	if text == "":
-		text = "E: Steal %d%%" % roundi(Stealth.success_chance(player, self) * 100.0)
-	var font := ThemeDB.fallback_font
-	draw_string_outline(font, Vector2(-24, -84), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, 3, Color.BLACK)
-	draw_string(font, Vector2(-24, -84), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color.WHITE)
+		WorldPrompt.draw(self, Vector2(0, -88), "E", "Steal %d%%" % roundi(Stealth.success_chance(player, self) * 100.0))
+	else:
+		WorldPrompt.draw(self, Vector2(0, -88), "!", text)
