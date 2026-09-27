@@ -86,6 +86,10 @@ func _image(texture: Texture2D) -> TextureRect:
 
 func _text_label(parent: Control, rect: Rect2, font_size: int, color: Color, align: HorizontalAlignment) -> Label:
 	var label := Label.new()
+	# Card text is small and the card is often shown scaled, so it keeps the smooth
+	# font in dark ink rather than the game's outlined pixel font.
+	label.theme_type_variation = &"InkLabel"
+	label.add_theme_font_override(&"font", ThemeDB.fallback_font)
 	label.position = rect.position
 	label.size = rect.size
 	label.horizontal_alignment = align

@@ -78,7 +78,7 @@ func talk(player: Node2D) -> void:
 	if said.is_empty() and not lines.is_empty():
 		said = PackedStringArray([lines[_line_index % lines.size()]])
 		_line_index += 1
-	DialogueBox.say(get_tree(), display_name, said, _done_talking)
+	DialogueBox.say(get_tree(), display_name, said, _done_talking, DialogueBox.portrait_from(sprite.sprite_frames))
 
 
 func _done_talking() -> void:

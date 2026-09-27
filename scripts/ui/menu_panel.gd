@@ -92,7 +92,7 @@ func _status_text() -> String:
 func add_header(text: String) -> void:
 	var label := Label.new()
 	label.text = text
-	label.modulate = Color(0.75, 0.75, 0.7)
+	label.theme_type_variation = &"TitleLabel"
 	_list.add_child(label)
 
 
@@ -118,6 +118,10 @@ func add_row(name_text: String, color: Color, detail: String, buttons: Array) ->
 		button.pressed.connect(b[1])
 		row.add_child(button)
 	_list.add_child(row)
+	var rule := ColorRect.new()                 # a faint divider under each row
+	rule.color = Color(0.85, 0.65, 0.35, 0.25)
+	rule.custom_minimum_size = Vector2(0, 1)
+	_list.add_child(rule)
 
 
 static func card_color(card: CardData) -> Color:
@@ -129,12 +133,10 @@ static func card_color(card: CardData) -> Color:
 func _build_frame() -> void:
 	var root := Control.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
-	root.theme = Theme.new()
-	root.theme.default_font_size = 10
 	add_child(root)
 
 	var dim := ColorRect.new()
-	dim.color = Color(0, 0, 0, 0.45)
+	dim.color = Color(0.02, 0.03, 0.08, 0.6)
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.add_child(dim)
 
@@ -143,10 +145,10 @@ func _build_frame() -> void:
 	panel.anchor_right = 0.5
 	panel.anchor_top = 0.5
 	panel.anchor_bottom = 0.5
-	panel.offset_left = -250
-	panel.offset_right = 250
-	panel.offset_top = -160
-	panel.offset_bottom = 160
+	panel.offset_left = -220
+	panel.offset_right = 220
+	panel.offset_top = -140
+	panel.offset_bottom = 140
 	root.add_child(panel)
 
 	var margin := MarginContainer.new()
@@ -160,7 +162,8 @@ func _build_frame() -> void:
 	vbox.add_child(header)
 	var title_label := Label.new()
 	title_label.text = title
-	title_label.add_theme_font_size_override("font_size", 14)
+	title_label.theme_type_variation = &"TitleLabel"
+	title_label.add_theme_font_size_override("font_size", 16)
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title_label)
 	var close_button := Button.new()
@@ -171,7 +174,7 @@ func _build_frame() -> void:
 
 	_status = Label.new()
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_status.modulate = Color(0.85, 0.85, 0.75)
+	_status.modulate = Color(0.85, 0.9, 0.85)
 	vbox.add_child(_status)
 
 	var scroll := ScrollContainer.new()

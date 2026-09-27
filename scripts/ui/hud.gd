@@ -1,17 +1,36 @@
 extends CanvasLayer
-## Health, currency, and the public race tracker (card counts only, never which cards).
+## Health, currency, the public race tracker (card counts only, never which cards),
+## the active quest, and short messages. Built from the UI kit (assets/ui/): a heart
+## bar and purse in a small window top-left, the race in a window top-right with the
+## quest under it, messages on a name plate at the bottom.
 
 const NAMES: Dictionary[StringName, String] = {
 	&"player": "You", &"hoarder": "Hoarder", &"raider": "Raider", &"runner": "Runner",
 }
+## Each collector's cloak colour (see the character notes in CLAUDE.md).
+const COLORS: Dictionary[StringName, Color] = {
+	&"player": Color(0.86, 0.62, 0.36), &"hoarder": Color(0.62, 0.32, 0.5),
+	&"raider": Color(0.55, 0.55, 0.6), &"runner": Color(0.62, 0.82, 0.96),
+}
+const HEART_BAR := preload("res://assets/ui/bar_heart.png")
+const LONG_BAR := preload("res://assets/ui/bar_long.png")
+const COIN := preload("res://assets/ui/medal_star.png")
+const SLOT := preload("res://assets/ui/slot.png")
+const BAR_FILL := Rect2(15, 5, 37, 4)        # inside bar_heart.png
+const HINT := "J Sword   K Pistol   Space Dash   Q Pickpocket   E Talk/Steal   B Binder"
 
-@onready var health_label: Label = %HealthLabel
-@onready var currency_label: Label = %CurrencyLabel
-@onready var tracker_label: Label = %TrackerLabel
-@onready var toast_label: Label = %ToastLabel
-@onready var spell_label: Label = %SpellLabel
-@onready var quest_label: Label = %QuestLabel
+var health_label: Label
+var currency_label: Label
+var toast_label: Label
+var spell_label: Label
+var quest_label: Label
 
+var _root: Control
+var _heart_fill: ColorRect
+var _race_rows: VBoxContainer
+var _quest_panel: PanelContainer
+var _spell_box: Control
+var _toast_plate: PanelContainer
 var _toast_tween: Tween
 var _boss_bar: Control
 var _boss_fill: ColorRect
@@ -19,8 +38,10 @@ var _boss_label: Label
 
 
 func _ready() -> void:
+	_root = $Root
+	_build()
 	EventBus.tracker_changed.connect(_on_tracker_changed)
-	EventBus.currency_changed.connect(func(amount: int) -> void: currency_label.text = "%d gold" % amount)
+	EventBus.currency_changed.connect(func(amount: int) -> void: currency_label.text = str(amount))
 	EventBus.card_added.connect(_on_card_added)
 	EventBus.card_stolen.connect(_on_card_stolen)
 	EventBus.stealth_failed.connect(_on_stealth_failed)
@@ -39,8 +60,8 @@ func _ready() -> void:
 	EventBus.card_stolen.connect(_update_spells.unbind(4))
 	_update_spells()
 	_on_tracker_changed(GameState.tracker_counts())
-	currency_label.text = "%d gold" % GameState.currency
-	toast_label.text = ""
+	currency_label.text = str(GameState.currency)
+	_toast_plate.modulate.a = 0.0
 	if GameState.pending_notice != "":
 		_toast.call_deferred(GameState.pending_notice)
 		GameState.pending_notice = ""
@@ -50,16 +71,137 @@ func _ready() -> void:
 		_on_health_changed(player.health, player.max_health)
 
 
+func _build() -> void:
+	# Top-left: hearts and purse.
+	var status := PanelContainer.new()
+	status.position = Vector2(4, 4)
+	_root.add_child(status)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override(&"separation", 2)
+	status.add_child(col)
+	var hp_row := HBoxContainer.new()
+	col.add_child(hp_row)
+	var bar := TextureRect.new()
+	bar.texture = HEART_BAR
+	hp_row.add_child(bar)
+	_heart_fill = ColorRect.new()
+	_heart_fill.color = Color(0.86, 0.22, 0.24)
+	_heart_fill.position = BAR_FILL.position
+	_heart_fill.size = BAR_FILL.size
+	bar.add_child(_heart_fill)
+	var shine := ColorRect.new()
+	shine.color = Color(1, 1, 1, 0.3)
+	shine.size = Vector2(BAR_FILL.size.x, 1)
+	_heart_fill.add_child(shine)
+	health_label = Label.new()
+	hp_row.add_child(health_label)
+	var gold_row := HBoxContainer.new()
+	col.add_child(gold_row)
+	var coin := TextureRect.new()
+	coin.texture = COIN
+	gold_row.add_child(coin)
+	currency_label = Label.new()
+	currency_label.theme_type_variation = &"TitleLabel"
+	currency_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	gold_row.add_child(currency_label)
+
+	# Top-right: the race, then the active quest.
+	var right := VBoxContainer.new()
+	right.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	right.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	right.offset_left = -150
+	right.offset_right = -4
+	right.offset_top = 4
+	right.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_root.add_child(right)
+	var race := PanelContainer.new()
+	right.add_child(race)
+	var race_col := VBoxContainer.new()
+	race_col.add_theme_constant_override(&"separation", 1)
+	race.add_child(race_col)
+	var race_title := Label.new()
+	race_title.theme_type_variation = &"TitleLabel"
+	race_title.text = "The Race"
+	race_col.add_child(race_title)
+	_race_rows = VBoxContainer.new()
+	_race_rows.add_theme_constant_override(&"separation", 0)
+	race_col.add_child(_race_rows)
+	_quest_panel = PanelContainer.new()
+	right.add_child(_quest_panel)
+	quest_label = Label.new()
+	quest_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	quest_label.custom_minimum_size.x = 120
+	_quest_panel.add_child(quest_label)
+
+	# Bottom-left: the spell ready to cast, and the controls.
+	_spell_box = HBoxContainer.new()
+	_spell_box.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	_spell_box.offset_left = 6
+	_spell_box.offset_top = -40
+	_root.add_child(_spell_box)
+	var slot := TextureRect.new()
+	slot.texture = SLOT
+	_spell_box.add_child(slot)
+	spell_label = Label.new()
+	spell_label.add_theme_color_override(&"font_color", Color(0.6, 0.92, 0.96))
+	_spell_box.add_child(spell_label)
+	var hint := Label.new()
+	hint.text = HINT
+	hint.modulate = Color(1, 1, 1, 0.65)
+	hint.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	hint.offset_left = 6
+	hint.offset_top = -16
+	_root.add_child(hint)
+
+	# Messages on a name plate at the bottom centre.
+	_toast_plate = PanelContainer.new()
+	_toast_plate.theme_type_variation = &"NamePlate"
+	_toast_plate.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	_toast_plate.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_toast_plate.offset_top = -62
+	_toast_plate.offset_bottom = -40
+	_toast_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_root.add_child(_toast_plate)
+	toast_label = Label.new()
+	toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_toast_plate.add_child(toast_label)
+
+
 func _on_health_changed(current: int, maximum: int) -> void:
-	health_label.text = "HP %d/%d" % [current, maximum]
+	health_label.text = "%d/%d" % [current, maximum]
+	var frac := clampf(float(current) / maxi(maximum, 1), 0.0, 1.0)
+	_heart_fill.size.x = roundf(BAR_FILL.size.x * frac)
 
 
 func _on_tracker_changed(counts: Dictionary) -> void:
 	var total := CardDatabase.final_set().size()
-	var lines: PackedStringArray = []
+	for child in _race_rows.get_children():
+		child.queue_free()
 	for id in counts:
-		lines.append("%s  %d/%d" % [NAMES.get(id, String(id)), counts[id], total])
-	tracker_label.text = "\n".join(lines)
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override(&"separation", 4)
+		_race_rows.add_child(row)
+		var dot := ColorRect.new()
+		dot.color = COLORS.get(id, Color.WHITE)
+		dot.custom_minimum_size = Vector2(5, 5)
+		dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(dot)
+		var name_label := Label.new()
+		name_label.text = NAMES.get(id, String(id))
+		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(name_label)
+		var count := Label.new()
+		count.text = "%d/%d" % [counts[id], total]
+		row.add_child(count)
+		# A slim progress line under each collector.
+		var track := ColorRect.new()
+		track.color = Color(0.03, 0.12, 0.15)
+		track.custom_minimum_size = Vector2(0, 2)
+		_race_rows.add_child(track)
+		var fill := ColorRect.new()
+		fill.color = COLORS.get(id, Color.WHITE)
+		fill.size = Vector2(118.0 * counts[id] / maxi(total, 1), 2)
+		track.add_child(fill)
 
 
 func _on_card_added(collector: StringName, card_id: StringName) -> void:
@@ -89,36 +231,34 @@ func _on_combat_won(winner: StringName, loser: StringName, card_id: StringName) 
 
 ## Boss name and health across the top of the screen while a fight is on.
 func _build_boss_bar() -> void:
-	_boss_bar = Control.new()
+	_boss_bar = PanelContainer.new()
 	_boss_bar.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	_boss_bar.position = Vector2(-110, 8)
+	_boss_bar.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_boss_bar.offset_top = 4
 	_boss_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_boss_bar.visible = false
-	$Root.add_child(_boss_bar)
+	_root.add_child(_boss_bar)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override(&"separation", 1)
+	_boss_bar.add_child(col)
 	_boss_label = Label.new()
-	_boss_label.add_theme_font_size_override("font_size", 10)
-	_boss_label.add_theme_color_override("font_outline_color", Color.BLACK)
-	_boss_label.add_theme_constant_override("outline_size", 4)
-	_boss_label.size = Vector2(220, 14)
+	_boss_label.theme_type_variation = &"TitleLabel"
 	_boss_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_boss_bar.add_child(_boss_label)
-	var back := ColorRect.new()
-	back.color = Color(0, 0, 0, 0.7)
-	back.position = Vector2(0, 16)
-	back.size = Vector2(220, 6)
-	_boss_bar.add_child(back)
+	col.add_child(_boss_label)
+	var bar := TextureRect.new()
+	bar.texture = LONG_BAR
+	col.add_child(bar)
 	_boss_fill = ColorRect.new()
-	_boss_fill.color = Color(0.45, 0.8, 0.35)
-	_boss_fill.position = Vector2(1, 17)
-	_boss_fill.size = Vector2(218, 4)
-	_boss_bar.add_child(_boss_fill)
+	_boss_fill.position = Vector2(15, 5)
+	_boss_fill.size = Vector2(95, 4)
+	bar.add_child(_boss_fill)
 
 
 func _on_boss_bar(boss_name: String, current: int, maximum: int, shown: bool) -> void:
 	_boss_bar.visible = shown
 	_boss_label.text = boss_name
 	var frac := float(current) / maximum if maximum > 0 else 0.0
-	_boss_fill.size.x = 218.0 * frac
+	_boss_fill.size.x = roundf(95.0 * frac)
 	_boss_fill.color = Color(0.9, 0.35, 0.25) if frac <= 0.5 else Color(0.45, 0.8, 0.35)
 
 
@@ -154,12 +294,14 @@ func _on_stealth_failed(thief: StringName, victim: StringName) -> void:
 
 func _update_quest() -> void:
 	var text := Quests.tracker_text()
-	quest_label.text = "◆ " + text if text != "" else ""
+	quest_label.text = text
+	_quest_panel.visible = text != ""
 
 
 func _update_spells() -> void:
 	var n := GameState.collection(GameState.PLAYER).count(CardSpells.PICKPOCKET)
 	spell_label.text = "Q  Pickpocket's Whisper x%d" % n if n > 0 else ""
+	_spell_box.visible = n > 0
 
 
 func _card_name(card_id: StringName) -> String:
@@ -169,9 +311,10 @@ func _card_name(card_id: StringName) -> String:
 
 func _toast(text: String) -> void:
 	toast_label.text = text
-	toast_label.modulate.a = 1.0
+	_toast_plate.reset_size()
+	_toast_plate.modulate.a = 1.0
 	if _toast_tween:
 		_toast_tween.kill()
 	_toast_tween = create_tween()
-	_toast_tween.tween_interval(2.0)
-	_toast_tween.tween_property(toast_label, "modulate:a", 0.0, 0.5)
+	_toast_tween.tween_interval(2.4)
+	_toast_tween.tween_property(_toast_plate, "modulate:a", 0.0, 0.5)
