@@ -25,6 +25,7 @@ Quests="*res://scripts/autoload/quests.gd"
 TimeOfDay="*res://scripts/autoload/time_of_day.gd"
 CardReveal="*res://scripts/ui/card_reveal.gd"
 Transition="*res://scripts/autoload/transition.gd"
+PauseMenu="*res://scripts/ui/pause_menu.gd"
 
 [display]
 
