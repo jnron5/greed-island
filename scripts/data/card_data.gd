@@ -10,7 +10,10 @@ enum Source { LOOSE, MONSTER, BOSS, SHOP, QUEST }
 
 @export var id: StringName
 @export var display_name: String
+## What the card is, shown on its face.
 @export_multiline var description: String
+## Backstory printed on the back of the card.
+@export_multiline var lore: String
 @export var rarity: Rarity = Rarity.COMMON
 @export var category: Category = Category.SET
 @export var source: Source = Source.LOOSE
