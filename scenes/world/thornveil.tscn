@@ -25,6 +25,11 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/mushrooms.png" id="81_mushrooms"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pinecones.png" id="81_pinecones"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/branch.png" id="81_branch"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="82_read"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/signpost.png" id="85_signpost"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/cart.png" id="85_cart"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/crates.png" id="85_crates"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/crate.png" id="85_crate"]
 
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(1040, 40)
@@ -1322,207 +1327,181 @@ flip_h = true
 texture = ExtResource("81_grass_clump")
 
 [node name="Under80" type="Sprite2D" parent="."]
-position = Vector2(184, -358)
-offset = Vector2(0, -11.5)
-texture = ExtResource("81_berry_bush")
+position = Vector2(64, -534)
+offset = Vector2(0, -11.0)
+texture = ExtResource("81_clover")
 
 [node name="Under81" type="Sprite2D" parent="."]
-position = Vector2(-421, -509)
-offset = Vector2(0, -12.5)
-texture = ExtResource("81_grass_clump")
+position = Vector2(35, -517)
+offset = Vector2(0, -11.0)
+texture = ExtResource("81_clover")
 
 [node name="Under82" type="Sprite2D" parent="."]
-position = Vector2(-444, -505)
+position = Vector2(332, -646)
 offset = Vector2(0, -11.0)
-flip_h = true
 texture = ExtResource("81_clover")
 
 [node name="Under83" type="Sprite2D" parent="."]
-position = Vector2(84, 24)
-offset = Vector2(0, -12.5)
-texture = ExtResource("81_grass_clump")
-
-[node name="Under84" type="Sprite2D" parent="."]
-position = Vector2(336, -653)
+position = Vector2(-86, 5)
 offset = Vector2(0, -11.0)
 flip_h = true
+texture = ExtResource("81_flowers")
+
+[node name="Under84" type="Sprite2D" parent="."]
+position = Vector2(-66, 8)
+offset = Vector2(0, -11.0)
 texture = ExtResource("81_flowers")
 
 [node name="Under85" type="Sprite2D" parent="."]
-position = Vector2(310, -645)
+position = Vector2(-304, 32)
 offset = Vector2(0, -11.0)
-flip_h = true
-texture = ExtResource("81_flowers")
+texture = ExtResource("81_clover")
 
 [node name="Under86" type="Sprite2D" parent="."]
-position = Vector2(299, -229)
+position = Vector2(-293, 16)
 offset = Vector2(0, -11.0)
-texture = ExtResource("81_flowers")
+flip_h = true
+texture = ExtResource("81_clover")
 
 [node name="Under87" type="Sprite2D" parent="."]
-position = Vector2(326, -250)
+position = Vector2(63, -346)
 offset = Vector2(0, -11.0)
-texture = ExtResource("81_flowers")
+flip_h = true
+texture = ExtResource("81_clover")
 
 [node name="Under88" type="Sprite2D" parent="."]
-position = Vector2(261, -681)
+position = Vector2(80, -339)
 offset = Vector2(0, -11.0)
+flip_h = true
 texture = ExtResource("81_clover")
 
 [node name="Under89" type="Sprite2D" parent="."]
-position = Vector2(300, -696)
-offset = Vector2(0, -11.0)
-texture = ExtResource("81_clover")
-
-[node name="Under90" type="Sprite2D" parent="."]
-position = Vector2(271, -698)
+position = Vector2(-290, -399)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("81_clover")
-
-[node name="Under91" type="Sprite2D" parent="."]
-position = Vector2(310, -673)
-offset = Vector2(0, -11.0)
-flip_h = true
-texture = ExtResource("81_clover")
-
-[node name="Under92" type="Sprite2D" parent="."]
-position = Vector2(64, -346)
-offset = Vector2(0, -11.0)
-texture = ExtResource("81_clover")
-
-[node name="Under93" type="Sprite2D" parent="."]
-position = Vector2(-301, -399)
-offset = Vector2(0, -11.0)
 texture = ExtResource("81_flowers")
 
-[node name="Under94" type="Sprite2D" parent="."]
+[node name="Under90" type="Sprite2D" parent="."]
 position = Vector2(172, 45)
 offset = Vector2(0, -11.0)
 flip_h = true
 texture = ExtResource("81_flowers")
 
-[node name="Under95" type="Sprite2D" parent="."]
+[node name="Under91" type="Sprite2D" parent="."]
 position = Vector2(293, -285)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_flowers")
 
-[node name="Under96" type="Sprite2D" parent="."]
+[node name="Under92" type="Sprite2D" parent="."]
 position = Vector2(-425, -324)
 offset = Vector2(0, -11.0)
 flip_h = true
 texture = ExtResource("81_flowers")
 
-[node name="Under97" type="Sprite2D" parent="."]
+[node name="Under93" type="Sprite2D" parent="."]
 position = Vector2(-92, -319)
 offset = Vector2(0, -11.0)
 flip_h = true
 texture = ExtResource("81_clover")
 
-[node name="Under98" type="Sprite2D" parent="."]
+[node name="Under94" type="Sprite2D" parent="."]
 position = Vector2(-66, -321)
 offset = Vector2(0, -11.0)
 flip_h = true
 texture = ExtResource("81_clover")
 
-[node name="Under99" type="Sprite2D" parent="."]
+[node name="Under95" type="Sprite2D" parent="."]
 position = Vector2(413, -361)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_flowers")
 
-[node name="Under100" type="Sprite2D" parent="."]
+[node name="Under96" type="Sprite2D" parent="."]
 position = Vector2(-54, -118)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_flowers")
 
-[node name="Under101" type="Sprite2D" parent="."]
+[node name="Under97" type="Sprite2D" parent="."]
 position = Vector2(189, -469)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_clover")
 
-[node name="Under102" type="Sprite2D" parent="."]
+[node name="Under98" type="Sprite2D" parent="."]
 position = Vector2(228, -485)
 offset = Vector2(0, -11.0)
 flip_h = true
 texture = ExtResource("81_clover")
 
-[node name="Under103" type="Sprite2D" parent="."]
+[node name="Under99" type="Sprite2D" parent="."]
 position = Vector2(438, -173)
 offset = Vector2(0, -11.0)
 flip_h = true
 texture = ExtResource("81_flowers")
 
-[node name="Under104" type="Sprite2D" parent="."]
+[node name="Under100" type="Sprite2D" parent="."]
 position = Vector2(417, -171)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_flowers")
 
-[node name="Under105" type="Sprite2D" parent="."]
+[node name="Under101" type="Sprite2D" parent="."]
 position = Vector2(190, -25)
 offset = Vector2(0, -12.5)
 flip_h = true
 texture = ExtResource("81_grass_clump")
 
-[node name="Under106" type="Sprite2D" parent="."]
+[node name="Under102" type="Sprite2D" parent="."]
 position = Vector2(201, -55)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_flowers")
 
-[node name="Under107" type="Sprite2D" parent="."]
+[node name="Under103" type="Sprite2D" parent="."]
 position = Vector2(-231, -443)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_clover")
 
-[node name="Under108" type="Sprite2D" parent="."]
+[node name="Under104" type="Sprite2D" parent="."]
 position = Vector2(-240, -459)
 offset = Vector2(0, -11.0)
 flip_h = true
 texture = ExtResource("81_flowers")
 
-[node name="Under109" type="Sprite2D" parent="."]
+[node name="Under105" type="Sprite2D" parent="."]
 position = Vector2(-208, -466)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_flowers")
 
-[node name="Under110" type="Sprite2D" parent="."]
-position = Vector2(99, 0)
+[node name="Under106" type="Sprite2D" parent="."]
+position = Vector2(85, 9)
+offset = Vector2(0, -11.0)
+texture = ExtResource("81_clover")
+
+[node name="Under107" type="Sprite2D" parent="."]
+position = Vector2(282, -673)
 offset = Vector2(0, -11.0)
 flip_h = true
 texture = ExtResource("81_clover")
 
-[node name="Under111" type="Sprite2D" parent="."]
-position = Vector2(332, -690)
-offset = Vector2(0, -11.0)
-texture = ExtResource("81_clover")
-
-[node name="Under112" type="Sprite2D" parent="."]
-position = Vector2(160, -563)
-offset = Vector2(0, -12.5)
-flip_h = true
-texture = ExtResource("81_grass_clump")
-
-[node name="Under113" type="Sprite2D" parent="."]
-position = Vector2(171, -582)
+[node name="Under108" type="Sprite2D" parent="."]
+position = Vector2(332, -665)
 offset = Vector2(0, -11.0)
 flip_h = true
 texture = ExtResource("81_clover")
 
-[node name="Under114" type="Sprite2D" parent="."]
+[node name="Under109" type="Sprite2D" parent="."]
 position = Vector2(-127, -647)
 offset = Vector2(0, -12.5)
 texture = ExtResource("81_grass_clump")
 
-[node name="Under115" type="Sprite2D" parent="."]
+[node name="Under110" type="Sprite2D" parent="."]
 position = Vector2(-330, -132)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_clover")
 
-[node name="Under116" type="Sprite2D" parent="."]
+[node name="Under111" type="Sprite2D" parent="."]
 position = Vector2(-296, -144)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_flowers")
 
-[node name="Under117" type="Sprite2D" parent="."]
+[node name="Under112" type="Sprite2D" parent="."]
 position = Vector2(-354, -152)
 offset = Vector2(0, -11.0)
 texture = ExtResource("81_flowers")
@@ -1680,6 +1659,56 @@ texture = ExtResource("81_stump")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Landmark14"]
 position = Vector2(0, -3)
 shape = SubResource("RockBase")
+
+[node name="Landmark15" type="StaticBody2D" parent="."]
+position = Vector2(54, -298)
+
+[node name="Sprite2D" type="Sprite2D" parent="Landmark15"]
+offset = Vector2(0, -14.0)
+texture = ExtResource("85_signpost")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Landmark15"]
+position = Vector2(0, -3)
+shape = SubResource("RockBase")
+
+[node name="Landmark16" type="StaticBody2D" parent="."]
+position = Vector2(300, -448)
+
+[node name="Sprite2D" type="Sprite2D" parent="Landmark16"]
+offset = Vector2(0, -14.0)
+texture = ExtResource("85_cart")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Landmark16"]
+position = Vector2(0, -3)
+shape = SubResource("RockBase")
+
+[node name="Landmark17" type="StaticBody2D" parent="."]
+position = Vector2(326, -440)
+
+[node name="Sprite2D" type="Sprite2D" parent="Landmark17"]
+offset = Vector2(0, -14.0)
+texture = ExtResource("85_crates")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Landmark17"]
+position = Vector2(0, -3)
+shape = SubResource("RockBase")
+
+[node name="Under116" type="Sprite2D" parent="."]
+position = Vector2(280, -430)
+offset = Vector2(0, -14.0)
+texture = ExtResource("85_crate")
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(54, -290)
+script = ExtResource("82_read")
+title = "The crossroads sign"
+lines = PackedStringArray("North: Sorenda. South: Kalmora and the sea. West: Lake Veyra. East: the Warden's Grove - keep to the path.", "Someone has scratched a small arrow pointing east under the last line, and the word 'Duskara' next to it.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(300, -436)
+script = ExtResource("82_read")
+title = "An abandoned cart"
+lines = PackedStringArray("A supply cart with a snapped axle, left where it fell. The crates are stamped with a red sun and nothing else.", "One has split open: lamp glass, rope, and a bundle of tiny work gloves, all bound for somewhere past the Warden's Grove.")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 60)

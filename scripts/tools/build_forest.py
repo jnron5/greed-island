@@ -97,6 +97,27 @@ def near_lake(cfg, x, y, margin):
 # Sorenda carries "What the Trees Remember": the village half knows where the Duskara
 # work goes, and the Hollow keeps what a runaway child left behind.
 LIFE = {
+    "thornveil": {
+        "npcs": [],
+        # Placed props: (texture, position, collides). A crossroads sign, and a supply
+        # cart that lost a wheel on the east road, its crates stamped with the red sun.
+        "props": [
+            ("res://assets/sprites/tiles/kalmora/props/signpost.png", (54, -298), True),
+            ("res://assets/sprites/tiles/kalmora/props/cart.png", (300, -448), True),
+            ("res://assets/sprites/tiles/kalmora/props/crates.png", (326, -440), True),
+            ("res://assets/sprites/tiles/kalmora/props/crate.png", (280, -430), False),
+        ],
+        "readables": [
+            ("The crossroads sign", (54, -290), [
+                "North: Sorenda. South: Kalmora and the sea. West: Lake Veyra. East: the Warden's Grove - keep to the path.",
+                "Someone has scratched a small arrow pointing east under the last line, and the word 'Duskara' next to it.",
+            ]),
+            ("An abandoned cart", (300, -436), [
+                "A supply cart with a snapped axle, left where it fell. The crates are stamped with a red sun and nothing else.",
+                "One has split open: lamp glass, rope, and a bundle of tiny work gloves, all bound for somewhere past the Warden's Grove.",
+            ]),
+        ],
+    },
     "sorenda": {
         "npcs": [
             ("moss", "Elder Moss", (0, -126), 0, [
@@ -385,6 +406,8 @@ def build(zone):
         keep.append((x, y, 40 + wander))
     for _, (x, y), _ in life["readables"]:
         keep.append((x, y, 30))
+    for _, (x, y), _ in life.get("props", []):
+        keep.append((x, y, 34))
     fronts = [(x, y) for name, (x, y) in scene_nodes(scene).items()
               if any(k in name for k in ("Hut", "Longhouse", "House", "Shrine", "Merchant"))]
     trees, props, landmarks = layout(cfg, keep, fronts)
@@ -438,6 +461,18 @@ def build(zone):
         nodes.append(f'[node name="Npc_{npc_id}" parent="." instance=ExtResource("{npc_ref.group(1)}")]\nposition = Vector2({x}, {y})\n'
                      f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{frames}")\n'
                      f'lines = PackedStringArray({quote(lines)})\nwander_radius = {float(wander)}\n')
+    for k, (res, (x, y), collides) in enumerate(life.get("props", [])):
+        scene, tid = resource(scene, "Texture2D", res, f"85_{os.path.basename(res)[:-4]}")
+        h = Image.open(res.replace("res://", "")).height
+        if collides:
+            nodes.append(f'[node name="Landmark{len(landmarks) + k + 1}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
+                         f'[node name="Sprite2D" type="Sprite2D" parent="Landmark{len(landmarks) + k + 1}"]\noffset = Vector2(0, {-h / 2 + 2})\n'
+                         f'texture = ExtResource("{tid}")\n\n'
+                         f'[node name="CollisionShape2D" type="CollisionShape2D" parent="Landmark{len(landmarks) + k + 1}"]\n'
+                         f'position = Vector2(0, -3)\nshape = SubResource("RockBase")\n')
+        else:
+            nodes.append(f'[node name="Under{len(props) + k + 1}" type="Sprite2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                         f'offset = Vector2(0, {-h / 2 + 2})\ntexture = ExtResource("{tid}")\n')
     for k, (title, (x, y), lines) in enumerate(life["readables"]):
         nodes.append(f'[node name="Read{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                      f'script = ExtResource("{read_ref.group(1)}")\ntitle = "{title}"\nlines = PackedStringArray({quote(lines)})\n')
