@@ -6,7 +6,7 @@ extends Node
 ## the gate.
 ## Run: godot --headless --path . res://tests/test_forest_reach.tscn
 
-const ZONES := ["res://scenes/world/thornveil.tscn", "res://scenes/world/sorenda.tscn"]
+const ZONES := ["res://scenes/world/thornveil.tscn", "res://scenes/world/sorenda.tscn", "res://scenes/world/wardens_grove.tscn"]
 const STEP := 8.0
 
 var _failures := 0
@@ -39,6 +39,8 @@ func _run() -> void:
 			if target != "":
 				_check("%s: %s reachable" % [label, target], _near(reach, node.global_position, 30))
 		for group in ["Spawns", "RivalSpots"]:
+			if zone.get_node_or_null(group) == null:
+				continue
 			for marker in zone.get_node(group).get_children():
 				_check("%s: %s/%s reachable" % [label, group, marker.name], _near(reach, marker.global_position, 16))
 	print("%d checks" % _checks)

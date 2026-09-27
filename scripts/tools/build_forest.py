@@ -56,7 +56,7 @@ UNDER = [("fern", 5, False), ("grass_clump", 4, False), ("berry_bush", 2, False)
          ("mushrooms", 2, False), ("pale_mushrooms", 1, False), ("clover", 2, False), ("acorns", 1, False),
          ("pinecones", 1, False), ("branch", 1, False)]
 LANDMARKS = [("rock", True), ("log", True), ("stump", True)]
-FORESTS = ["thornveil", "sorenda"]
+FORESTS = ["thornveil", "sorenda", "wardens_grove"]
 
 # Residents and story objects per zone (local coords). Residents are dogs and cats
 # (sprites in assets/sprites/npcs/<id>/); readables use scripts/systems/readable.gd.
