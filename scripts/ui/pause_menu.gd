@@ -15,6 +15,13 @@ var _root: Control
 var _race: Label
 var _where: Label
 var _resume: Button
+var _controls: Control
+var _journal: Control
+var _journal_list: VBoxContainer
+var _journal_text: Label
+var _journal_title: Label
+var _journal_place: Label
+var _journal_button: Button
 
 
 func _ready() -> void:
@@ -49,6 +56,7 @@ func open() -> void:
 		var who := "You" if id == GameState.PLAYER else "The " + String(id).capitalize()
 		lines.append("%s   %d / %d" % [who, counts[id], total])
 	_race.text = "\n".join(lines)
+	_show_journal(false)
 	_resume.grab_focus()
 
 
@@ -108,6 +116,10 @@ func _build() -> void:
 	_resume.text = "Resume"
 	_resume.pressed.connect(close)
 	left.add_child(_resume)
+	_journal_button = Button.new()
+	_journal_button.text = "Journal"
+	_journal_button.pressed.connect(func() -> void: _show_journal(not _journal.visible))
+	left.add_child(_journal_button)
 	var title_button := Button.new()
 	title_button.text = "Quit to title"
 	title_button.pressed.connect(_to_title)
@@ -116,6 +128,8 @@ func _build() -> void:
 	var right := VBoxContainer.new()
 	right.add_theme_constant_override(&"separation", 3)
 	row.add_child(right)
+	_controls = right
+	_build_journal(row)
 	var controls := Label.new()
 	controls.theme_type_variation = &"TitleLabel"
 	controls.text = "Controls"
@@ -133,3 +147,83 @@ func _build() -> void:
 		var what := Label.new()
 		what.text = pair[1]
 		grid.add_child(what)
+
+
+# ---------------------------------------------------------------- journal
+
+## The journal: everything the player has read, by title on the left, the text on a
+## parchment page on the right.
+func _build_journal(row: HBoxContainer) -> void:
+	_journal = HBoxContainer.new()
+	_journal.add_theme_constant_override(&"separation", 8)
+	_journal.visible = false
+	row.add_child(_journal)
+	var col := VBoxContainer.new()
+	_journal.add_child(col)
+	var heading := Label.new()
+	heading.theme_type_variation = &"TitleLabel"
+	heading.text = "Journal"
+	col.add_child(heading)
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(130, 190)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	col.add_child(scroll)
+	_journal_list = VBoxContainer.new()
+	_journal_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(_journal_list)
+	var page := PanelContainer.new()
+	page.theme_type_variation = &"DialoguePanel"
+	page.custom_minimum_size = Vector2(210, 210)
+	_journal.add_child(page)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override(&"margin_top", 14)
+	margin.add_theme_constant_override(&"margin_left", 6)
+	margin.add_theme_constant_override(&"margin_right", 6)
+	page.add_child(margin)
+	var text_col := VBoxContainer.new()
+	text_col.add_theme_constant_override(&"separation", 4)
+	margin.add_child(text_col)
+	_journal_title = Label.new()
+	_journal_title.theme_type_variation = &"InkLabel"
+	_journal_title.add_theme_font_override(&"font", preload("res://assets/fonts/virelia_title.tres"))
+	text_col.add_child(_journal_title)
+	_journal_place = Label.new()
+	_journal_place.theme_type_variation = &"InkLabel"
+	_journal_place.modulate = Color(1, 1, 1, 0.65)
+	text_col.add_child(_journal_place)
+	_journal_text = Label.new()
+	_journal_text.theme_type_variation = &"InkLabel"
+	_journal_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_journal_text.custom_minimum_size.x = 170
+	_journal_text.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	_journal_text.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	text_col.add_child(_journal_text)
+
+
+func _show_journal(on: bool) -> void:
+	_journal.visible = on
+	_controls.visible = not on
+	_journal_button.text = "Controls" if on else "Journal"
+	if not on:
+		return
+	for child in _journal_list.get_children():
+		child.queue_free()
+	if GameState.journal.is_empty():
+		_journal_title.text = "Nothing yet"
+		_journal_place.text = ""
+		_journal_text.text = "Letters, ledgers and signs you read around the island are kept here."
+		return
+	for entry: Dictionary in GameState.journal:
+		var b := Button.new()
+		b.text = entry.title
+		b.clip_text = true
+		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		b.pressed.connect(_read.bind(entry))
+		_journal_list.add_child(b)
+	_read(GameState.journal[-1])
+
+
+func _read(entry: Dictionary) -> void:
+	_journal_title.text = entry.title
+	_journal_place.text = entry.place
+	_journal_text.text = "\n\n".join(entry.lines)

@@ -23,7 +23,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if GameState.menus_open > 0 or not event.is_action_pressed(&"interact") or not _player_near():
 		return
 	get_viewport().set_input_as_handled()
-	DialogueBox.say(get_tree(), title, Quests.inspect(clue_id))
+	var said := Quests.inspect(clue_id)
+	if Quests.clue_found(clue_id):
+		var zone := Zone.current(get_tree())
+		GameState.note(title, zone.display_name if zone else "", said)
+	DialogueBox.say(get_tree(), title, said)
 
 
 func _player_near() -> bool:

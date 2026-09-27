@@ -52,6 +52,9 @@ var collected_pickups: Dictionary[String, bool] = {}
 var zone_drops: Dictionary[String, Array] = {}
 ## Card ids the player has held at least once (the first of each kind is revealed).
 var seen_cards: Dictionary[StringName, bool] = {}
+## Things the player has read (letters, ledgers, signs), in the order found:
+## Array of { "title": String, "place": String, "lines": PackedStringArray }.
+var journal: Array[Dictionary] = []
 
 
 func _ready() -> void:
@@ -76,6 +79,7 @@ func new_game(rivals: Array[StringName]) -> void:
 	collected_pickups.clear()
 	zone_drops.clear()
 	seen_cards.clear()
+	journal.clear()
 	pending_spawn = &""
 	rival_locations.clear()
 	bosses.clear()
@@ -344,6 +348,14 @@ func mark_card_seen(card_id: StringName) -> bool:
 		return false
 	seen_cards[card_id] = true
 	return true
+
+
+## Adds something the player read to the journal (once per title and place).
+func note(title: String, place: String, lines: PackedStringArray) -> void:
+	for entry in journal:
+		if entry.title == title and entry.place == place:
+			return
+	journal.append({ "title": title, "place": place, "lines": lines })
 
 
 func push_menu() -> void:

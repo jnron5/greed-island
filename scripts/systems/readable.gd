@@ -22,6 +22,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	get_viewport().set_input_as_handled()
 	GameState.quest_flags[_read_key()] = true
+	var zone := Zone.current(get_tree())
+	GameState.note(title, zone.display_name if zone else "", lines)
 	DialogueBox.say(get_tree(), title, lines)
 
 
