@@ -81,7 +81,7 @@ func _process(delta: float) -> void:
 	_pan += delta * 0.025
 	var room := BACKDROP.get_size() - size
 	var t := 0.5 - 0.5 * cos(_pan)
-	_backdrop.position = -Vector2(room.x * t, room.y * (0.55 + 0.25 * sin(_pan * 0.7))).round()
+	_backdrop.position = -Vector2(room.x * t, room.y * (0.82 + 0.12 * sin(_pan * 0.7))).round()   # over the harbor
 
 
 func _menu_button(text: String, action: Callable) -> Button:
@@ -151,6 +151,32 @@ func _rival_card(id: StringName) -> Button:
 	col.offset_bottom = -8
 	col.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	b.add_child(col)
+	# A gold ring and a ribbon mark the rivals you've picked.
+	var ring := Panel.new()
+	var style := StyleBoxFlat.new()
+	style.draw_center = false
+	style.border_color = Color(1.0, 0.8, 0.35)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(2)
+	ring.add_theme_stylebox_override(&"panel", style)
+	ring.set_anchors_preset(Control.PRESET_FULL_RECT)
+	ring.offset_left = -3
+	ring.offset_top = -3
+	ring.offset_right = 3
+	ring.offset_bottom = 3
+	ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ring.name = "Ring"
+	b.add_child(ring)
+	var ribbon := Label.new()
+	ribbon.name = "Ribbon"
+	ribbon.theme_type_variation = &"TitleLabel"
+	ribbon.text = "Rival"
+	ribbon.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	ribbon.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	ribbon.offset_top = -18
+	ribbon.offset_bottom = -4
+	ribbon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	b.add_child(ribbon)
 	var portrait := TextureRect.new()
 	portrait.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 	portrait.custom_minimum_size = Vector2(0, 64)
@@ -184,6 +210,12 @@ func _toggle(id: StringName, on: bool) -> void:
 
 
 func _refresh_pick() -> void:
+	for id in _cards:
+		var card: Button = _cards[id]
+		var on := _chosen.has(id)
+		card.get_node("Ring").visible = on
+		card.get_node("Ribbon").visible = on
+		card.modulate = Color.WHITE if on or _chosen.size() < 2 else Color(0.62, 0.62, 0.66)
 	_start_button.disabled = _chosen.size() != 2
 	_pick_hint.text = "Pick two." if _chosen.size() < 2 else "You'll race the %s and the %s." \
 		% [RIVAL_TEXT[_chosen[0]][0].trim_prefix("The "), RIVAL_TEXT[_chosen[1]][0].trim_prefix("The ")]
