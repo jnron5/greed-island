@@ -564,7 +564,7 @@ NPCS = [
         "Manifests, manifests. Everything that lands in Kalmora gets a stamp. Everything.",
         "The race? The whole island's talking. Somebody's walking into Vetrassa with a full set, mark my words.",
     ]),
-    ("pip", "Pip", "pip", (880, 640), 30, [
+    ("pip", "Pip", "pip", (962, 606), 12, [
         "Fresh fish! Well. Fresh-ish.",
         "My cousin went to work out in Duskara last spring. Good pay, they said. He hasn't written.",
     ]),
@@ -572,7 +572,7 @@ NPCS = [
         "Sailed round the whole isle once. Vetrassa's got the tallest spires you ever saw.",
         "You racers bind your cards in town, right? Thieves love a loose card on the road.",
     ]),
-    ("baker", "Baker Rosa", "baker", (640, 420), 30, [
+    ("baker", "Baker Rosa", "baker", (1046, 666), 0, [
         "Warm bread! Two coins a loaf, one if you tell me a good rumor.",
         "The Runner came through at dawn, all scarf and no manners. Didn't even stop for bread.",
     ]),
@@ -601,12 +601,13 @@ LIGHTHOUSE = (1290, 740)      # yard centre; the gate faces north toward the mar
 MERCHANT = (880, 600)
 FOUNTAIN = (768, 486)
 
-PALM, TREE = "palm_g", "tree3_g"
+PALM, TREE, CYPRESS = "palm_g", "tree3_g", "cypress_g"
 # Plants that move in the sea breeze: PixelLab-animated frame strips (strip, frames, fps).
 ANIMATED = {PALM: (ART + "anim/palm_sway.png", 8, 7), TREE: (ART + "anim/tree_sway.png", 8, 6),
+            CYPRESS: (ART + "anim/cypress_sway.png", 8, 5),
             "tuft": (ART + "anim/tuft_sway.png", 8, 7), "tuft_flowers": (ART + "anim/tuft_flowers_sway.png", 8, 6)}
 # Where grass tufts grow around each kind of tree (offsets from its base, world px).
-TUFT_RING = {TREE: [(-26, 4), (24, 2), (-12, 16), (14, 18)], PALM: [(-16, 6), (15, 10)]}
+TUFT_RING = {TREE: [(-26, 4), (24, 2), (-12, 16), (14, 18)], PALM: [(-16, 6), (15, 10)], CYPRESS: [(-12, 6), (12, 8)]}
 
 
 def grid(xs, ys):
@@ -618,10 +619,19 @@ TREES = (
     [(PALM, p) for p in [(650, 526), (872, 526), (700, 240), (860, 240), (380, 480)]]      # the square and town
     + [(PALM, p) for p in [(1200, 760), (1400, 720), (1430, 620), (1400, 540)]]           # headland and beach
     + [(PALM, p) for p in [(100, 810), (175, 850), (95, 880)]]                             # the islet
-    # Sparse round trees in the open grass, as in the cleaned-up picture.
-    + [(TREE, p) for p in [(30, 40), (220, 42), (285, 38), (420, 44), (630, 42), (1110, 40), (1470, 50),
-                           (70, 118), (600, 116), (960, 116), (1085, 140), (1215, 140), (1420, 150),
-                           (300, 230), (380, 300), (385, 440)]]
+    # Groves along the forest band: round trees and cypresses clustered and overlapping,
+    # thickest at the map's edge, rather than one tree repeated in a row.
+    + [(TREE, (22, 34)), (CYPRESS, (54, 50)), (TREE, (84, 30))]
+    + [(TREE, (200, 42)), (CYPRESS, (234, 28)), (TREE, (262, 50)), (CYPRESS, (292, 34))]
+    + [(TREE, (412, 42)), (CYPRESS, (444, 28))]
+    + [(CYPRESS, (604, 30)), (TREE, (634, 46)), (TREE, (666, 30))]
+    + [(CYPRESS, (878, 30)), (TREE, (906, 46))]
+    + [(TREE, (1080, 36)), (CYPRESS, (1112, 52)), (TREE, (1142, 30))]
+    + [(TREE, (1446, 42)), (CYPRESS, (1478, 58)), (TREE, (1508, 34))]
+    # Below the fence: pairs by the paths, and the meadow's shade trees.
+    + [(TREE, (70, 118)), (CYPRESS, (580, 110)), (TREE, (606, 122)), (CYPRESS, (938, 108)), (TREE, (966, 122))]
+    + [(TREE, (1085, 140)), (TREE, (1215, 140)), (CYPRESS, (1396, 140)), (TREE, (1424, 152))]
+    + [(TREE, p) for p in [(300, 230), (380, 300), (385, 440)]]
 )
 
 
@@ -652,9 +662,16 @@ PROPS = (
     # The fountain square: banners on its rim, flower beds, benches.
     [("banner", x, y) for x, y in [(700, 408), (836, 408), (700, 540), (836, 540)]]
     # Shop fronts.
-    + [("parasol_table", 880, 420)]
+    + [("parasol_table", 880, 420), ("notice_board", 704, 452)]
     + [("barrels", 418, 520)]
-    # Market stalls east of the square, in rows.
+    # The market: stalls in a row facing the lane from the fountain to the lighthouse,
+    # each with its own goods beside it; across the lane, a cart unloading and a bench.
+    # North of the lane (under the card shop's front): fruit (the merchant) and fish.
+    + [("stall_fish", 960, 588), ("ice_crates", 928, 594), ("fish_basket", 990, 598)]
+    # South of the lane, backs to the harbor wall: bread and pottery, a cart unloading.
+    + [("stall_bread", 1000, 678), ("bread_basket", 1030, 682)]
+    + [("stall_pottery", 1080, 678), ("amphorae", 1108, 682)]
+    + [("cart", 912, 678), ("apples_crate", 940, 684), ("oranges_basket", 958, 680)]
     # The quay and the deck.
     + [("crates", 400, 660), ("fish_crates", 520, 700)]
     # The west meadow: fenced fields around the windmill.
@@ -732,6 +749,25 @@ SHADOW = {"building": (0.52, 0.10, 6, 0.55), "tree": (0.42, 0.16, 8, 0.5), "prop
 # the bay, the channels by the beach and the canal.
 BAY_STRIP, BAY_FRAMES, BAY_FPS = ART + "anim/bay_water.png", 8, 6
 BAY_MASK = ART + "kalmora_bay_mask.png"
+# Things in town worth reading (scripts/systems/readable.gd): (title, concept px, lines).
+# They carry the story quietly: the race, the Calloways' money, the southern barges.
+TOWN_READABLES = [
+    ("The notice board", (704, 462), [
+        "ROYAL PROCLAMATION. The Race of Cards is open to all who reach Kalmora by sea. The first to present the full set at Vetrassa shall receive what the Crown has promised.",
+        "Pinned beneath it, newer: 'WORKERS WANTED - DUSKARA. Good pay, in cards. Small hands preferred. Enquire at the harbor.'",
+    ]),
+    ("The fountain's plaque", (768, 512), [
+        "'Gift of the Calloway family to the people of Kalmora, in the year of the Sixth Race. Drink freely.'",
+    ]),
+    ("The keeper's log", (1256, 772), [
+        "Nailed by the lighthouse door: 'Lamp lit 212 nights this year. The southern barges run dark. I am told not to log them. I log them anyway. - Tomas'",
+    ]),
+    ("A barred archway", (950, 792), [
+        "An old archway in the harbor wall, barred shut. Cold air breathes out through the bars, and with it, faintly, the smell of sand.",
+    ]),
+]
+# Gull flocks: (centre in concept px, gulls, loop radius in world px).
+GULLS = [((560, 880), 3, (170, 60)), ((230, 760), 2, (110, 50)), ((1180, 880), 2, (120, 40))]
 
 
 def bay_water(ground):
@@ -885,6 +921,9 @@ def main():
         ('Texture2D', "res://" + BAY_MASK, "25_baymask"),
         ('Script', "res://scripts/world/tiled_animation.gd", "26_tiled"),
         ('Texture2D', "res://" + BAY_STRIP, "27_baywater"),
+        ('Script', "res://scripts/world/gull_flock.gd", "28_gulls"),
+        ('Texture2D', "res://" + ART + "anim/gull_flap.png", "29_gull"),
+        ('Script', "res://scripts/systems/readable.gd", "30_read"),
     ]
     for rows, path in stair_png.items():
         ext.append(('Texture2D', "res://" + path, f"st_{rows}"))
@@ -1164,7 +1203,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         if spot:
             x, y = spot
             taken.append((x, y))
-            n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, 16 if sprite == PALM else 28, 10, animated=sprite, k=k))
+            n.append(solid(f"{sprite.title()}{k + 1}", path, x, y, {PALM: 16, CYPRESS: 12}.get(sprite, 28), 10, animated=sprite, k=k))
             shadow("tree", path, x, y)
             tree_spots.append((sprite, x, y))
 
@@ -1223,6 +1262,18 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
     for name, pcx, pcy in FLOATING:
         n.append(prop_node(name, *W(pcx, pcy), "free"))
     n += bay_water(ground)
+    for k, (title, pos, lines) in enumerate(TOWN_READABLES):
+        x, y = W(*pos)
+        check_spot(title, x, y)
+        quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
+        n.append(f'[node name="Read{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                 f'script = ExtResource("30_read")\ntitle = "{title}"\nlines = PackedStringArray({quoted})\n')
+    # Gulls circling the harbor and the islet (scripts/world/gull_flock.gd).
+    for k, (pos, count, radius) in enumerate(GULLS):
+        x, y = W(*pos)
+        n.append(f'[node name="Gulls{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                 f'script = ExtResource("28_gulls")\nstrip = ExtResource("29_gull")\ncount = {count}\n'
+                 f'radius = Vector2({radius[0]}, {radius[1]})\nseed = {k + 3}\n')
     # Everything that matters must be reachable on foot from the town spawn.
     lx, ly = W(*LIGHTHOUSE)
     solids += [(lx - 34, ly - 30, lx - 15, ly), (lx + 15, ly - 30, lx + 34, ly), (lx - 15, ly - 30, lx + 15, ly - 20)]
