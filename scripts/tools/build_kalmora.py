@@ -536,17 +536,26 @@ BUILDINGS = [
     ("CardShop", "item_shop", (1034, 520), 150),
     ("Harbormaster", "harbormaster2", (440, 700), 140),
     ("Warehouse", "warehouse", (560, 700), 170),
-    ("BlueCottage", "cottage_blue", (1150, 136), 140),
+    ("BlueCottage", "cottage_blue", (1150, 113), 140),        # back a tile, so its door has a step before the terrace edge
     ("NonnaHouse", "cottage_red", (1328, 136), 130),
     ("HillHouse", "townhouse_blue", (1318, 262), 100),
     ("TealHouse", "townhouse_teal", (1400, 262), 96),
     ("Windmill", "windmill2", (230, 344), 90),
 ]
-# Enterable buildings: node -> (door x offset from the building, interior scene).
+# Enterable buildings (all of them): node -> (door x offset from the building, interior scene).
 DOORS = {
     "Tavern": (0, "res://scenes/world/interiors/kalmora_tavern.tscn"),
     "CardShop": (0, "res://scenes/world/interiors/kalmora_card_shop.tscn"),
     "NonnaHouse": (0, "res://scenes/world/interiors/kalmora_nonna_house.tscn"),
+    "RedHouse": (0, "res://scenes/world/interiors/kalmora_red_house.tscn"),
+    "GeneralStore": (8, "res://scenes/world/interiors/kalmora_general_store.tscn"),
+    "Blacksmith": (0, "res://scenes/world/interiors/kalmora_forge.tscn"),
+    "Harbormaster": (0, "res://scenes/world/interiors/kalmora_harbor_office.tscn"),
+    "Warehouse": (0, "res://scenes/world/interiors/kalmora_warehouse.tscn"),
+    "BlueCottage": (0, "res://scenes/world/interiors/kalmora_blue_cottage.tscn"),
+    "HillHouse": (0, "res://scenes/world/interiors/kalmora_calloway_house.tscn"),
+    "TealHouse": (0, "res://scenes/world/interiors/kalmora_teal_house.tscn"),
+    "Windmill": (0, "res://scenes/world/interiors/kalmora_mill.tscn"),
 }
 # Residents (dogs and cats). (id, name, sprite id, concept position, wander radius, lines)
 NPCS = [

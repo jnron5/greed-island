@@ -17,6 +17,15 @@ const LAKE_VEYRA := "res://scenes/world/lake_veyra.tscn"
 const KALMORA_TAVERN := "res://scenes/world/interiors/kalmora_tavern.tscn"
 const KALMORA_CARD_SHOP := "res://scenes/world/interiors/kalmora_card_shop.tscn"
 const KALMORA_NONNA_HOUSE := "res://scenes/world/interiors/kalmora_nonna_house.tscn"
+const KALMORA_RED_HOUSE := "res://scenes/world/interiors/kalmora_red_house.tscn"
+const KALMORA_GENERAL_STORE := "res://scenes/world/interiors/kalmora_general_store.tscn"
+const KALMORA_FORGE := "res://scenes/world/interiors/kalmora_forge.tscn"
+const KALMORA_HARBOR_OFFICE := "res://scenes/world/interiors/kalmora_harbor_office.tscn"
+const KALMORA_WAREHOUSE := "res://scenes/world/interiors/kalmora_warehouse.tscn"
+const KALMORA_BLUE_COTTAGE := "res://scenes/world/interiors/kalmora_blue_cottage.tscn"
+const KALMORA_CALLOWAY_HOUSE := "res://scenes/world/interiors/kalmora_calloway_house.tscn"
+const KALMORA_TEAL_HOUSE := "res://scenes/world/interiors/kalmora_teal_house.tscn"
+const KALMORA_MILL := "res://scenes/world/interiors/kalmora_mill.tscn"
 
 const PICKUP_SCENE := "res://scenes/systems/card_pickup.tscn"
 
@@ -31,9 +40,18 @@ const ZONES := {
 		"monster_drops": [&"veyra_reed", &"moss_lantern", &"thorn_sprig"] },
 	# Interiors sit where their buildings stand in town. They have no EDGES, so
 	# rivals never wander in; you enter through the building's door.
-	KALMORA_TAVERN: { "name": "The Salted Lantern", "origin": Vector2(-550, 520), "monster_drops": [] },
-	KALMORA_CARD_SHOP: { "name": "Sable's Card Emporium", "origin": Vector2(310, 220), "monster_drops": [] },
-	KALMORA_NONNA_HOUSE: { "name": "Nonna Vess's House", "origin": Vector2(100, -350), "monster_drops": [] },
+	KALMORA_TAVERN: { "name": "The Salted Lantern", "origin": Vector2(214, 220), "monster_drops": [] },
+	KALMORA_CARD_SHOP: { "name": "Sable's Card Emporium", "origin": Vector2(360, 388), "monster_drops": [] },
+	KALMORA_NONNA_HOUSE: { "name": "Nonna Vess's House", "origin": Vector2(771, -150), "monster_drops": [] },
+	KALMORA_RED_HOUSE: { "name": "The Tamsin Home", "origin": Vector2(-451, 147), "monster_drops": [] },
+	KALMORA_GENERAL_STORE: { "name": "Greta's Provisions", "origin": Vector2(-262, 220), "monster_drops": [] },
+	KALMORA_FORGE: { "name": "Brannoc's Forge", "origin": Vector2(-419, 346), "monster_drops": [] },
+	KALMORA_HARBOR_OFFICE: { "name": "Harbormaster's Office", "origin": Vector2(-472, 640), "monster_drops": [] },
+	KALMORA_WAREHOUSE: { "name": "Harbor Warehouse", "origin": Vector2(-304, 640), "monster_drops": [] },
+	KALMORA_BLUE_COTTAGE: { "name": "Old Fenn's Cottage", "origin": Vector2(522, -182), "monster_drops": [] },
+	KALMORA_CALLOWAY_HOUSE: { "name": "Calloway House", "origin": Vector2(757, 27), "monster_drops": [] },
+	KALMORA_TEAL_HOUSE: { "name": "Ilse's Map House", "origin": Vector2(872, 27), "monster_drops": [] },
+	KALMORA_MILL: { "name": "The Windmill", "origin": Vector2(-766, 142), "monster_drops": [] },
 }
 
 ## Town scene -> { spawn marker (under "Spawns") people wake at, the local point

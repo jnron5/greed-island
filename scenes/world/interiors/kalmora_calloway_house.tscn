@@ -1,0 +1,176 @@
+[gd_scene load_steps=25 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/interiors/manor_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/calloway/calloway_frames.tres" id="n_calloway"]
+
+[sub_resource type="RectangleShape2D" id="R320x112"]
+size = Vector2(320, 112)
+
+[sub_resource type="RectangleShape2D" id="R70x66"]
+size = Vector2(70, 66)
+
+[sub_resource type="RectangleShape2D" id="R58x80"]
+size = Vector2(58, 80)
+
+[sub_resource type="RectangleShape2D" id="R32x55"]
+size = Vector2(32, 55)
+
+[sub_resource type="RectangleShape2D" id="R54x75"]
+size = Vector2(54, 75)
+
+[sub_resource type="RectangleShape2D" id="R52x256"]
+size = Vector2(52, 256)
+
+[sub_resource type="RectangleShape2D" id="R24x256"]
+size = Vector2(24, 256)
+
+[sub_resource type="RectangleShape2D" id="R128x24"]
+size = Vector2(128, 24)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="kalmora_calloway_house" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Calloway House"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 56.0)
+shape = SubResource("R320x112")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(103.0, 117.0)
+shape = SubResource("R70x66")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(261.0, 150.0)
+shape = SubResource("R58x80")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(284.0, 197.5)
+shape = SubResource("R32x55")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(51.0, 187.5)
+shape = SubResource("R54x75")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(26.0, 128.0)
+shape = SubResource("R52x256")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 128.0)
+shape = SubResource("R24x256")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(64.0, 244.0)
+shape = SubResource("R128x24")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(256.0, 244.0)
+shape = SubResource("R128x24")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(160, 214)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(160, 250)
+target_scene = "res://scenes/world/kalmora.tscn"
+target_spawn = &"from_hillhouse"
+
+[node name="Npc_calloway" parent="." instance=ExtResource("9_npc")]
+position = Vector2(190, 140)
+npc_id = &"calloway"
+display_name = "Lady Calloway"
+sprite_frames = ExtResource("n_calloway")
+lines = PackedStringArray("Another racer. Do wipe your feet. My grandson is racing too, you know. Calloways always race.", "The Duskara trade built this island, dear. Everyone eats from that table. Some of us simply set it.", "The King's race is older than any of us. Old things have their reasons. I wouldn't go digging for them.")
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(160, 118)
+script = ExtResource("12_read")
+title = "The family portrait"
+lines = PackedStringArray("Four generations of Calloways, painted in gold leaf. Behind them, very small, a window shows red dunes.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(104, 158)
+script = ExtResource("12_read")
+title = "A letter on the desk"
+lines = PackedStringArray("'Mother. The Duskara consignment is short again; the foreman blames the heat. Tell him the King's count must be met. Hire younger if he must. - H.'")
+
+[node name="Read3" type="Node2D" parent="."]
+position = Vector2(86, 190)
+script = ExtResource("12_read")
+title = "An iron strongbox"
+lines = PackedStringArray("Locked tight. A brass plate on the lid: 'CALLOWAY & DUNE, SHIPPING. Est. the year of the Third Race.'")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(160, 214)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

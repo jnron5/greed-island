@@ -905,14 +905,41 @@ position = Vector2(-13, -8)
 [node name="from_thornveil" type="Marker2D" parent="Spawns"]
 position = Vector2(-13, -609)
 
+[node name="from_redhouse" type="Marker2D" parent="Spawns"]
+position = Vector2(-451, -223)
+
+[node name="from_generalstore" type="Marker2D" parent="Spawns"]
+position = Vector2(-254, -150)
+
+[node name="from_blacksmith" type="Marker2D" parent="Spawns"]
+position = Vector2(-419, -24)
+
 [node name="from_tavern" type="Marker2D" parent="Spawns"]
 position = Vector2(214, -150)
 
 [node name="from_cardshop" type="Marker2D" parent="Spawns"]
 position = Vector2(360, 18)
 
+[node name="from_harbormaster" type="Marker2D" parent="Spawns"]
+position = Vector2(-472, 270)
+
+[node name="from_warehouse" type="Marker2D" parent="Spawns"]
+position = Vector2(-304, 270)
+
+[node name="from_bluecottage" type="Marker2D" parent="Spawns"]
+position = Vector2(522, -552)
+
 [node name="from_nonnahouse" type="Marker2D" parent="Spawns"]
 position = Vector2(771, -520)
+
+[node name="from_hillhouse" type="Marker2D" parent="Spawns"]
+position = Vector2(757, -343)
+
+[node name="from_tealhouse" type="Marker2D" parent="Spawns"]
+position = Vector2(872, -343)
+
+[node name="from_windmill" type="Marker2D" parent="Spawns"]
+position = Vector2(-766, -228)
 
 [node name="RivalSpots" type="Node2D" parent="."]
 
@@ -989,6 +1016,18 @@ texture = ExtResource("t4_townhouse_red")
 position = Vector2(0, -20.0)
 shape = SubResource("R120x40")
 
+[node name="RedHouseLamp" type="PointLight2D" parent="."]
+position = Vector2(-451, -289)
+texture_scale = 0.9
+script = ExtResource("20_lamp")
+max_energy = 0.8
+
+[node name="RedHouseDoor" parent="." instance=ExtResource("11_exit")]
+position = Vector2(-451, -245)
+scale = Vector2(0.5, 1)
+target_scene = "res://scenes/world/interiors/kalmora_red_house.tscn"
+target_spawn = &"door"
+
 [node name="GeneralStore" type="StaticBody2D" parent="."]
 position = Vector2(-262, -176)
 
@@ -1000,6 +1039,18 @@ texture = ExtResource("t5_general_store")
 position = Vector2(0, -20.0)
 shape = SubResource("R170x40")
 
+[node name="GeneralStoreLamp" type="PointLight2D" parent="."]
+position = Vector2(-254, -216)
+texture_scale = 0.9
+script = ExtResource("20_lamp")
+max_energy = 0.8
+
+[node name="GeneralStoreDoor" parent="." instance=ExtResource("11_exit")]
+position = Vector2(-254, -172)
+scale = Vector2(0.5, 1)
+target_scene = "res://scenes/world/interiors/kalmora_general_store.tscn"
+target_spawn = &"door"
+
 [node name="Blacksmith" type="StaticBody2D" parent="."]
 position = Vector2(-419, -50)
 
@@ -1010,6 +1061,18 @@ texture = ExtResource("t6_blacksmith")
 [node name="Base" type="CollisionShape2D" parent="Blacksmith"]
 position = Vector2(0, -20.0)
 shape = SubResource("R160x40")
+
+[node name="BlacksmithLamp" type="PointLight2D" parent="."]
+position = Vector2(-419, -90)
+texture_scale = 0.9
+script = ExtResource("20_lamp")
+max_energy = 0.8
+
+[node name="BlacksmithDoor" parent="." instance=ExtResource("11_exit")]
+position = Vector2(-419, -46)
+scale = Vector2(0.5, 1)
+target_scene = "res://scenes/world/interiors/kalmora_forge.tscn"
+target_spawn = &"door"
 
 [node name="Tavern" type="StaticBody2D" parent="."]
 position = Vector2(214, -176)
@@ -1068,6 +1131,18 @@ texture = ExtResource("t9_harbormaster2")
 position = Vector2(0, -20.0)
 shape = SubResource("R140x40")
 
+[node name="HarbormasterLamp" type="PointLight2D" parent="."]
+position = Vector2(-472, 204)
+texture_scale = 0.9
+script = ExtResource("20_lamp")
+max_energy = 0.8
+
+[node name="HarbormasterDoor" parent="." instance=ExtResource("11_exit")]
+position = Vector2(-472, 248)
+scale = Vector2(0.5, 1)
+target_scene = "res://scenes/world/interiors/kalmora_harbor_office.tscn"
+target_spawn = &"door"
+
 [node name="Warehouse" type="StaticBody2D" parent="."]
 position = Vector2(-304, 244)
 
@@ -1079,8 +1154,20 @@ texture = ExtResource("t10_warehouse")
 position = Vector2(0, -20.0)
 shape = SubResource("R170x40")
 
+[node name="WarehouseLamp" type="PointLight2D" parent="."]
+position = Vector2(-304, 204)
+texture_scale = 0.9
+script = ExtResource("20_lamp")
+max_energy = 0.8
+
+[node name="WarehouseDoor" parent="." instance=ExtResource("11_exit")]
+position = Vector2(-304, 248)
+scale = Vector2(0.5, 1)
+target_scene = "res://scenes/world/interiors/kalmora_warehouse.tscn"
+target_spawn = &"door"
+
 [node name="BlueCottage" type="StaticBody2D" parent="."]
-position = Vector2(522, -546)
+position = Vector2(522, -578)
 
 [node name="Sprite" type="Sprite2D" parent="BlueCottage"]
 position = Vector2(0, -74.0)
@@ -1089,6 +1176,18 @@ texture = ExtResource("t11_cottage_blue")
 [node name="Base" type="CollisionShape2D" parent="BlueCottage"]
 position = Vector2(0, -20.0)
 shape = SubResource("R140x40")
+
+[node name="BlueCottageLamp" type="PointLight2D" parent="."]
+position = Vector2(522, -618)
+texture_scale = 0.9
+script = ExtResource("20_lamp")
+max_energy = 0.8
+
+[node name="BlueCottageDoor" parent="." instance=ExtResource("11_exit")]
+position = Vector2(522, -574)
+scale = Vector2(0.5, 1)
+target_scene = "res://scenes/world/interiors/kalmora_blue_cottage.tscn"
+target_spawn = &"door"
 
 [node name="NonnaHouse" type="StaticBody2D" parent="."]
 position = Vector2(771, -546)
@@ -1124,6 +1223,18 @@ texture = ExtResource("t13_townhouse_blue")
 position = Vector2(0, -20.0)
 shape = SubResource("R100x40")
 
+[node name="HillHouseLamp" type="PointLight2D" parent="."]
+position = Vector2(757, -409)
+texture_scale = 0.9
+script = ExtResource("20_lamp")
+max_energy = 0.8
+
+[node name="HillHouseDoor" parent="." instance=ExtResource("11_exit")]
+position = Vector2(757, -365)
+scale = Vector2(0.5, 1)
+target_scene = "res://scenes/world/interiors/kalmora_calloway_house.tscn"
+target_spawn = &"door"
+
 [node name="TealHouse" type="StaticBody2D" parent="."]
 position = Vector2(872, -369)
 
@@ -1135,6 +1246,18 @@ texture = ExtResource("t14_townhouse_teal")
 position = Vector2(0, -20.0)
 shape = SubResource("R96x40")
 
+[node name="TealHouseLamp" type="PointLight2D" parent="."]
+position = Vector2(872, -409)
+texture_scale = 0.9
+script = ExtResource("20_lamp")
+max_energy = 0.8
+
+[node name="TealHouseDoor" parent="." instance=ExtResource("11_exit")]
+position = Vector2(872, -365)
+scale = Vector2(0.5, 1)
+target_scene = "res://scenes/world/interiors/kalmora_teal_house.tscn"
+target_spawn = &"door"
+
 [node name="Windmill" type="StaticBody2D" parent="."]
 position = Vector2(-766, -254)
 
@@ -1145,6 +1268,18 @@ texture = ExtResource("t15_windmill2")
 [node name="Base" type="CollisionShape2D" parent="Windmill"]
 position = Vector2(0, -20.0)
 shape = SubResource("R90x40")
+
+[node name="WindmillLamp" type="PointLight2D" parent="."]
+position = Vector2(-766, -294)
+texture_scale = 0.9
+script = ExtResource("20_lamp")
+max_energy = 0.8
+
+[node name="WindmillDoor" parent="." instance=ExtResource("11_exit")]
+position = Vector2(-766, -250)
+scale = Vector2(0.5, 1)
+target_scene = "res://scenes/world/interiors/kalmora_mill.tscn"
+target_spawn = &"door"
 
 [node name="Npc_bram" parent="." instance=ExtResource("19_npc")]
 position = Vector2(-192, 244)
@@ -1537,7 +1672,7 @@ position = Vector2(0, -5.0)
 shape = SubResource("R28x10")
 
 [node name="Tree3_G24" type="StaticBody2D" parent="."]
-position = Vector2(613, -564)
+position = Vector2(630, -557)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Tree3_G24"]
 position = Vector2(0, -61.0)
@@ -2023,15 +2158,15 @@ frame = 4
 speed_scale = 1.18
 
 [node name="Tuft53" type="AnimatedSprite2D" parent="."]
-position = Vector2(587, -560)
-offset = Vector2(0, -11.0)
-sprite_frames = SubResource("frames_tuft_flowers")
+position = Vector2(604, -553)
+offset = Vector2(0, -13.0)
+sprite_frames = SubResource("frames_tuft")
 autoplay = "default"
 frame = 7
 speed_scale = 0.95
 
 [node name="Tuft54" type="AnimatedSprite2D" parent="."]
-position = Vector2(637, -562)
+position = Vector2(654, -555)
 offset = Vector2(0, -13.0)
 sprite_frames = SubResource("frames_tuft")
 autoplay = "default"
@@ -2039,7 +2174,7 @@ frame = 2
 speed_scale = 1.08
 
 [node name="Tuft55" type="AnimatedSprite2D" parent="."]
-position = Vector2(601, -548)
+position = Vector2(956, -524)
 offset = Vector2(0, -13.0)
 sprite_frames = SubResource("frames_tuft")
 autoplay = "default"
@@ -2047,7 +2182,7 @@ frame = 5
 speed_scale = 0.85
 
 [node name="Tuft56" type="AnimatedSprite2D" parent="."]
-position = Vector2(627, -546)
+position = Vector2(-694, -410)
 offset = Vector2(0, -11.0)
 sprite_frames = SubResource("frames_tuft_flowers")
 autoplay = "default"
@@ -2055,15 +2190,15 @@ frame = 0
 speed_scale = 0.98
 
 [node name="Tuft57" type="AnimatedSprite2D" parent="."]
-position = Vector2(956, -524)
-offset = Vector2(0, -11.0)
-sprite_frames = SubResource("frames_tuft_flowers")
+position = Vector2(-644, -412)
+offset = Vector2(0, -13.0)
+sprite_frames = SubResource("frames_tuft")
 autoplay = "default"
 frame = 3
 speed_scale = 1.12
 
 [node name="Tuft58" type="AnimatedSprite2D" parent="."]
-position = Vector2(-694, -410)
+position = Vector2(-680, -398)
 offset = Vector2(0, -13.0)
 sprite_frames = SubResource("frames_tuft")
 autoplay = "default"
@@ -2071,7 +2206,7 @@ frame = 6
 speed_scale = 0.88
 
 [node name="Tuft59" type="AnimatedSprite2D" parent="."]
-position = Vector2(-644, -412)
+position = Vector2(-654, -396)
 offset = Vector2(0, -11.0)
 sprite_frames = SubResource("frames_tuft_flowers")
 autoplay = "default"
@@ -2079,15 +2214,15 @@ frame = 1
 speed_scale = 1.02
 
 [node name="Tuft60" type="AnimatedSprite2D" parent="."]
-position = Vector2(-680, -398)
-offset = Vector2(0, -13.0)
-sprite_frames = SubResource("frames_tuft")
+position = Vector2(-582, -312)
+offset = Vector2(0, -11.0)
+sprite_frames = SubResource("frames_tuft_flowers")
 autoplay = "default"
 frame = 4
 speed_scale = 1.15
 
 [node name="Tuft61" type="AnimatedSprite2D" parent="."]
-position = Vector2(-654, -396)
+position = Vector2(-532, -314)
 offset = Vector2(0, -13.0)
 sprite_frames = SubResource("frames_tuft")
 autoplay = "default"
@@ -2095,7 +2230,7 @@ frame = 7
 speed_scale = 0.92
 
 [node name="Tuft62" type="AnimatedSprite2D" parent="."]
-position = Vector2(-582, -312)
+position = Vector2(-568, -300)
 offset = Vector2(0, -13.0)
 sprite_frames = SubResource("frames_tuft")
 autoplay = "default"
@@ -2103,7 +2238,7 @@ frame = 2
 speed_scale = 1.05
 
 [node name="Tuft63" type="AnimatedSprite2D" parent="."]
-position = Vector2(-532, -314)
+position = Vector2(-542, -298)
 offset = Vector2(0, -11.0)
 sprite_frames = SubResource("frames_tuft_flowers")
 autoplay = "default"
@@ -2111,7 +2246,7 @@ frame = 5
 speed_scale = 1.18
 
 [node name="Tuft64" type="AnimatedSprite2D" parent="."]
-position = Vector2(-568, -300)
+position = Vector2(-559, -84)
 offset = Vector2(0, -13.0)
 sprite_frames = SubResource("frames_tuft")
 autoplay = "default"
@@ -2119,7 +2254,7 @@ frame = 0
 speed_scale = 0.95
 
 [node name="Tuft65" type="AnimatedSprite2D" parent="."]
-position = Vector2(-542, -298)
+position = Vector2(-595, -70)
 offset = Vector2(0, -13.0)
 sprite_frames = SubResource("frames_tuft")
 autoplay = "default"
@@ -2127,28 +2262,12 @@ frame = 3
 speed_scale = 1.08
 
 [node name="Tuft66" type="AnimatedSprite2D" parent="."]
-position = Vector2(-559, -84)
+position = Vector2(-569, -68)
 offset = Vector2(0, -11.0)
 sprite_frames = SubResource("frames_tuft_flowers")
 autoplay = "default"
 frame = 6
 speed_scale = 0.85
-
-[node name="Tuft67" type="AnimatedSprite2D" parent="."]
-position = Vector2(-595, -70)
-offset = Vector2(0, -13.0)
-sprite_frames = SubResource("frames_tuft")
-autoplay = "default"
-frame = 1
-speed_scale = 0.98
-
-[node name="Tuft68" type="AnimatedSprite2D" parent="."]
-position = Vector2(-569, -68)
-offset = Vector2(0, -13.0)
-sprite_frames = SubResource("frames_tuft")
-autoplay = "default"
-frame = 4
-speed_scale = 1.12
 
 [node name="P1_lamp_post" type="StaticBody2D" parent="."]
 position = Vector2(-122, -204)
