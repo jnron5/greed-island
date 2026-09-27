@@ -175,6 +175,14 @@ def dirt_c(cx, cy):
 
 
 # Stairs: (concept x of the left edge, concept y of the plateau edge, (lower, upper) levels).
+# Jordan's hand nudges from the editor (world px), applied after the grid is built:
+# stairs sprites by index into STAIRS, and the terrace wall rects beside them (keyed by
+# the rect the grid produces).
+STAIR_NUDGE = {1: (23, 4), 2: (-2, 0)}
+WALL_NUDGE = {(-640, -544, -512, -448): 5, (-448, -544, -64, -448): 9, (0, -544, 704, -448): 6.5}
+FOUNTAIN_NUDGE = (-1, -1)
+PLAYER_START_NUDGE = (-14, 5)
+
 STAIRS = [
     (736, 560, (0, 2)),                           # grand stairs: square down to the deck
     (752, 176, (2, 3)),                           # the gate road down into town
@@ -634,7 +642,6 @@ STALLS = ["stall_fruit", "stall_fish", "stall_pottery", "stall_bread"]
 PROPS = (
     # The fountain square: banners on its rim, flower beds, benches.
     [("banner", x, y) for x, y in [(700, 408), (836, 408), (700, 540), (836, 540)]]
-    + [("bush_g", x, y) for x, y in [(718, 478), (818, 478)]]
     # Shop fronts.
     + [("parasol_table", 880, 420)]
     + [("barrels", 418, 520)]
@@ -694,7 +701,8 @@ HARBOR_DETAIL = ([("wall_arch", x, 773) for x in (950, 1050)]
 # A split-rail fence marks the gate line (its collision is the invisible wall line in the
 # scene), so nobody walks round the north gate and nothing blocks you unseen.
 GATE_FENCE = ([("fence", x, 78) for x in range(346, 1190, 16) if abs(x - 768) > 44]
-              + [("fence", x, 148) for x in list(range(352, 740, 16)) + list(range(812, 1080, 16))])
+              + [("fence", x, 148) for x in list(range(352, 740, 16)) + list(range(812, 1080, 16))
+                 if not 408 <= x <= 456])                  # open at the top of the west-gate stairs
 ROCKS = [("sea_rocks", x, y) for x, y in [(20, 900), (70, 945), (200, 940), (262, 902), (278, 850),
                                            (1170, 862), (1350, 866), (1440, 810), (1474, 730), (1480, 520)]]
 FLOATING = HARBOR_DETAIL + GATE_FENCE + ROCKS + [("ship", 470, 960), ("rowboat", 250, 650), ("rowboat", 1010, 880), ("rowboat", 870, 960),
@@ -841,7 +849,7 @@ def main():
 
     subs = {}
     def shape(w, h):
-        key = f"R{w}x{h}"
+        key = f"R{w:g}x{h:g}"
         subs[key] = f'[sub_resource type="RectangleShape2D" id="{key}"]\nsize = Vector2({w}, {h})\n'
         return key
 
@@ -914,20 +922,23 @@ texture = ExtResource("12_ground")
 ''')
     for k, (c0, r0, rows) in enumerate(STAIR_SPOTS):
         x, top = LEFT + c0 * TILE, TOP + r0 * TILE
-        n.append(f'[node name="Stairs{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\nposition = Vector2({x + TILE}, {top + rows * TILE / 2})\n'
+        ndx, ndy = STAIR_NUDGE.get(k, (0, 0))
+        n.append(f'[node name="Stairs{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\nposition = Vector2({x + TILE + ndx}, {top + rows * TILE / 2 + ndy})\n'
                  f'texture = ExtResource("st_{rows}")\n')
     # Canal bridges: the deck's centre lines up with the walkable bridge row.
     bw, bh = Image.open(bridge_png).size
     for k, (bx0, by0, bx1, by1) in enumerate(BRIDGES):
         rows = sorted({r for r, c in bridge_cells() if TOP + r * TILE <= W(bx0, by0)[1] + TILE and TOP + (r + 1) * TILE >= W(bx1, by1)[1] - TILE})
-        cy = TOP + (rows[0] + rows[-1] + 1) * TILE / 2
-        cx = (W(bx0, by0)[0] + W(bx1, by1)[0]) / 2
+        by = TOP + (rows[0] + rows[-1] + 1) * TILE / 2
+        bx = (W(bx0, by0)[0] + W(bx1, by1)[0]) / 2
         n.append(f'[node name="CanalBridge{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\n'
-                 f'position = Vector2({cx}, {cy + bh / 2 - bridge_mid})\ntexture = ExtResource("{texture(bridge_png)}")\n')
+                 f'position = Vector2({bx}, {by + bh / 2 - bridge_mid})\ntexture = ExtResource("{texture(bridge_png)}")\n')
 
     # Cliffs, sea and the town's outer walls, merged into rectangles; the gate line
     # closes the forest band so the north gate is the only way out.
     walls = merge_rects(blocked, LEFT, TOP, TILE)
+    walls = [(x0 + WALL_NUDGE.get((x0, y0, x1, y1), 0), y0, x1 + WALL_NUDGE.get((x0, y0, x1, y1), 0), y1)
+             for x0, y0, x1, y1 in walls]
     walls += [(LEFT - 40, TOP - 40, -24, TOP), (24, TOP - 40, RIGHT + 40, TOP),
               (-64, TOP - 80, -24, TOP - 40), (24, TOP - 80, 64, TOP - 40),
               # the gate line spans only the forest band (the meadow's cliff and a seal behind the
@@ -985,6 +996,7 @@ behind_gate = &"kalmora_lighthouse_door"
 
     gp = OBJ + "gate_pillars.png"
     fx, fy = W(*FOUNTAIN)
+    fx, fy = fx + FOUNTAIN_NUDGE[0], fy + FOUNTAIN_NUDGE[1]
     mx, my = W(*MERCHANT)
     n.append(f'''[node name="Fountain" parent="." instance=ExtResource("18_fountain")]
 position = Vector2({fx}, {fy})
@@ -1232,7 +1244,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
     Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA").save(GROUND_PNG)
 
     n.append(f'''[node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector2{spawns["town"]}
+position = Vector2({spawns["town"][0] + PLAYER_START_NUDGE[0]}, {spawns["town"][1] + PLAYER_START_NUDGE[1]})
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
 
