@@ -241,7 +241,7 @@ func _drop_a_loose_card(zone: Zone) -> StringName:
 
 func _wake_in(town: String) -> void:
 	GameState.pending_spawn = WorldMap.town_spawn(town)
-	get_tree().change_scene_to_file(town)
+	Transition.go(town)
 
 
 func _set_invulnerable_for(seconds: float) -> void:

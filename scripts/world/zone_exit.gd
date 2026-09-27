@@ -14,4 +14,4 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player and target_scene != "":
 		GameState.pending_spawn = target_spawn
-		get_tree().change_scene_to_file.call_deferred(target_scene)
+		Transition.go(target_scene)
