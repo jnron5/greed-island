@@ -50,6 +50,8 @@ var collected_pickups: Dictionary[String, bool] = {}
 ## Cards dropped on the ground (e.g. when fainting), per zone scene path:
 ## Array of { "card_id": StringName, "position": Vector2 }.
 var zone_drops: Dictionary[String, Array] = {}
+## Card ids the player has held at least once (the first of each kind is revealed).
+var seen_cards: Dictionary[StringName, bool] = {}
 
 
 func _ready() -> void:
@@ -73,6 +75,7 @@ func new_game(rivals: Array[StringName]) -> void:
 	_robbed_at.clear()
 	collected_pickups.clear()
 	zone_drops.clear()
+	seen_cards.clear()
 	pending_spawn = &""
 	rival_locations.clear()
 	bosses.clear()
@@ -333,6 +336,14 @@ func remove_zone_drop(zone: String, card_id: StringName, pos: Vector2) -> void:
 		if drops[i].card_id == card_id and drops[i].position.is_equal_approx(pos):
 			drops.remove_at(i)
 			return
+
+
+## Records that the player has now held `card_id`; true the first time only.
+func mark_card_seen(card_id: StringName) -> bool:
+	if seen_cards.has(card_id):
+		return false
+	seen_cards[card_id] = true
+	return true
 
 
 func push_menu() -> void:

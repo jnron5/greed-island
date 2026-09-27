@@ -63,7 +63,8 @@ func _on_tracker_changed(counts: Dictionary) -> void:
 
 
 func _on_card_added(collector: StringName, card_id: StringName) -> void:
-	if collector == GameState.PLAYER:
+	# A card's first copy gets the full-screen reveal instead of a toast.
+	if collector == GameState.PLAYER and not CardReveal.revealing(card_id):
 		_toast("Picked up: %s" % _card_name(card_id))
 
 
