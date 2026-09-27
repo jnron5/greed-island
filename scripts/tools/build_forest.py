@@ -56,7 +56,43 @@ UNDER = [("fern", 5, False), ("grass_clump", 4, False), ("berry_bush", 2, False)
          ("mushrooms", 2, False), ("pale_mushrooms", 1, False), ("clover", 2, False), ("acorns", 1, False),
          ("pinecones", 1, False), ("branch", 1, False)]
 LANDMARKS = [("rock", True), ("log", True), ("stump", True)]
-FORESTS = ["thornveil"]
+FORESTS = ["thornveil", "sorenda"]
+
+# Residents and story objects per zone (local coords). Residents are dogs and cats
+# (sprites in assets/sprites/npcs/<id>/); readables use scripts/systems/readable.gd.
+# Sorenda carries "What the Trees Remember": the village half knows where the Duskara
+# work goes, and the Hollow keeps what a runaway child left behind.
+LIFE = {
+    "sorenda": {
+        "npcs": [
+            ("moss", "Elder Moss", (0, -126), 0, [
+                "Sorenda sits where the old roads cross. Every race, the racers come through. Some are running to something. Some from it.",
+                "The trees here remember everyone who passes. That's not a story, dear. Put your hand on the bark by the Hollow and you'll see.",
+                "We carve a notch in the longhouse post for every one of ours who goes east for the Duskara work. We haven't had to carve a homecoming in years.",
+            ]),
+            ("harl", "Harl", (262, -40), 20, [
+                "Cut timber for the Duskara road three winters running. Good coin. Then they wanted timber for pens. Small pens. I came home.",
+                "Hounds are bolder this year. Something out east has them spooked, or hungry. Keep your cards bound on the road.",
+                "The Runner came through last week, fast as ever. Stopped at the Hollow, though. Stood there a long time. Didn't say why.",
+            ]),
+            ("pell", "Pell", (-150, -18), 30, [
+                "Mushrooms by the well are fine to eat. The red ones by the Hollow aren't. Trust me.",
+                "I found a little boot in the moss near the Hollow. Too small to be a racer's. Too far from any house to be one of ours.",
+                "The Hollow gate wants a card to open. Elder Moss says it's to keep the forest's secrets. I think it's to keep us from finding them.",
+            ]),
+        ],
+        "readables": [
+            ("The longhouse post", (0, -140), [
+                "A carved post by the longhouse door, covered in names. Beside each name, a notch.",
+                "The oldest notches are wide and deep. The newest ones are small, low down, and there are a great many of them.",
+            ]),
+            ("A satchel in the moss", (392, -364), [
+                "A canvas satchel, stiff with old rain. Inside: a heel of bread gone to stone, a little carved wooden bird, and a tin work tag stamped 'D.M. - No. 117'.",
+                "Scratched into the bark above it, low down, where a small hand could reach: 'I ran. Tell mama I ran.'",
+            ]),
+        ],
+    },
+}
 
 
 def scene_nodes(scene):
@@ -70,7 +106,13 @@ def scene_nodes(scene):
 
 
 def strip_forest(scene):
-    for prefix in ("Tree", "ForestTree", "Under", "Landmark"):
+    for prefix in ("Tree", "ForestTree", "Under", "Landmark", "Read"):
+        scene = re.sub(r'\[node name="%s\d+"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*' % prefix, "", scene)
+    # ...and their children (a landmark's sprite and collider).
+    scene = re.sub(r'\[node name="[^"]+"[^\n]*parent="Landmark\d+"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*', "", scene)
+    for npc in {n for life in LIFE.values() for n, *_ in life["npcs"]}:
+        scene = re.sub(r'\[node name="Npc_%s"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*' % npc, "", scene)
+    for prefix in ():
         scene = re.sub(r'\[node name="%s\d+"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*' % prefix, "", scene)
     return scene
 
@@ -157,7 +199,7 @@ def paint_ground(cfg, trees, props):
     Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGBA").save(cfg["out"])
 
 
-def layout(cfg, keep):
+def layout(cfg, keep, fronts=()):
     """Tree and undergrowth positions: (kind, x, y) lists."""
     x0, y0, x1, y1 = cfg["bounds"]
     rng = random.Random(cfg["scene"] + "forest")
@@ -167,6 +209,9 @@ def layout(cfg, keep):
         if on_path(cfg["paths"], x, y, grow=path_gap):
             return False
         if any((x - a) ** 2 + (y - b) ** 2 < r ** 2 for a, b, r in keep):
+            return False
+        # A tree just south of a building would stand in front of it and hide it.
+        if any(abs(x - a) < 70 and 0 < y - b < 140 for a, b in fronts):
             return False
         return all((x - a) ** 2 + (y - b) ** 2 >= gap ** 2 for _, a, b in trees)
 
@@ -241,6 +286,12 @@ def layout(cfg, keep):
     return trees, props, landmarks
 
 
+def add_ext(scene, line):
+    """Adds an [ext_resource] line right after the scene's last one."""
+    last = [m.end() for m in re.finditer(r'\[ext_resource [^\n]*\]\n', scene)][-1]
+    return scene[:last] + line + "\n" + scene[last:]
+
+
 def build(zone):
     cfg = ZONES[zone]
     scene = strip_forest(open(cfg["scene"], encoding="utf-8").read())
@@ -250,11 +301,26 @@ def build(zone):
         if name in ("GroundTiles", "Player", "HUD", "Binder", "ShopPanel", "DialogueBox", "Walls", "Spawns",
                     "RivalSpots", "SafeZone") or name.startswith("Glow"):
             continue
-        keep.append((x, y, 90 if "Hound" in name or "Monster" in name else 44))
+        if any(k in name for k in ("Hound", "Monster")):
+            margin = 90                                   # they roam
+        elif any(k in name for k in ("Hut", "Longhouse", "House", "Shrine", "Well", "Merchant", "Npc")):
+            margin = 76                                   # buildings keep a yard; residents room to stand
+        elif name.startswith("To") or "Gate" in name:
+            margin = 60                                   # exits and gates stay open to walk up to
+        else:
+            margin = 44
+        keep.append((x, y, margin))
     for block in ("Spawns", "RivalSpots"):
         for m in re.finditer(r'\[node name="[^"]+" type="Marker2D" parent="%s"\]\nposition = Vector2\((-?[\d.]+), (-?[\d.]+)\)' % block, scene):
             keep.append((float(m.group(1)), float(m.group(2)), 50))
-    trees, props, landmarks = layout(cfg, keep)
+    life = LIFE.get(zone, {"npcs": [], "readables": []})
+    for _, _, (x, y), wander, _ in life["npcs"]:
+        keep.append((x, y, 40 + wander))
+    for _, (x, y), _ in life["readables"]:
+        keep.append((x, y, 30))
+    fronts = [(x, y) for name, (x, y) in scene_nodes(scene).items()
+              if any(k in name for k in ("Hut", "Longhouse", "House", "Shrine", "Merchant"))]
+    trees, props, landmarks = layout(cfg, keep, fronts)
     paint_ground(cfg, trees, props + landmarks)
 
     ids = {}
@@ -262,11 +328,11 @@ def build(zone):
         res = write_tree_scene(kind)
         ids[kind] = f"80_{kind}"
         if res not in scene:
-            scene = scene.replace("\n\n[sub_resource", f'\n[ext_resource type="PackedScene" path="{res}" id="80_{kind}"]\n\n[sub_resource', 1)
+            scene = add_ext(scene, f'[ext_resource type="PackedScene" path="{res}" id="80_{kind}"]')
     for name in {n for n, _, _ in props + landmarks}:
         res = f"res://{PROPS}{name}.png"
         if res not in scene:
-            scene = scene.replace("\n\n[sub_resource", f'\n[ext_resource type="Texture2D" path="{res}" id="81_{name}"]\n\n[sub_resource', 1)
+            scene = add_ext(scene, f'[ext_resource type="Texture2D" path="{res}" id="81_{name}"]')
     if 'id="RockBase"' not in scene:
         scene = scene.replace("\n\n[node name=", '\n\n[sub_resource type="RectangleShape2D" id="RockBase"]\nsize = Vector2(22, 8)\n\n[node name=', 1)
     nodes = []
@@ -284,9 +350,28 @@ def build(zone):
                      f'texture = ExtResource("81_{name}")\n\n'
                      f'[node name="CollisionShape2D" type="CollisionShape2D" parent="Landmark{k + 1}"]\nposition = Vector2(0, -3)\n'
                      f'shape = SubResource("RockBase")\n')
+    if life["npcs"]:
+        if "res://scenes/characters/npc.tscn" not in scene:
+            scene = add_ext(scene, '[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="82_npc"]')
+        for npc_id, *_ in life["npcs"]:
+            res = f"res://assets/sprites/npcs/{npc_id}/{npc_id}_frames.tres"
+            if res not in scene:
+                scene = add_ext(scene, f'[ext_resource type="SpriteFrames" path="{res}" id="82_{npc_id}"]')
+    if life["readables"] and "res://scripts/systems/readable.gd" not in scene:
+        scene = add_ext(scene, '[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="82_read"]')
+    npc_ref = re.search(r'path="res://scenes/characters/npc.tscn" id="([^"]+)"', scene)
+    read_ref = re.search(r'path="res://scripts/systems/readable.gd" id="([^"]+)"', scene)
+    quote = lambda lines: ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
+    for npc_id, display, (x, y), wander, lines in life["npcs"]:
+        frames = re.search(r'path="res://assets/sprites/npcs/%s/%s_frames.tres" id="([^"]+)"' % (npc_id, npc_id), scene).group(1)
+        nodes.append(f'[node name="Npc_{npc_id}" parent="." instance=ExtResource("{npc_ref.group(1)}")]\nposition = Vector2({x}, {y})\n'
+                     f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{frames}")\n'
+                     f'lines = PackedStringArray({quote(lines)})\nwander_radius = {float(wander)}\n')
+    for k, (title, (x, y), lines) in enumerate(life["readables"]):
+        nodes.append(f'[node name="Read{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                     f'script = ExtResource("{read_ref.group(1)}")\ntitle = "{title}"\nlines = PackedStringArray({quote(lines)})\n')
     at = scene.index('[node name="Player"')
     scene = scene[:at] + "\n".join(nodes) + "\n" + scene[at:]
-    # The ground sprite stays; make sure it has y-sort for trees to overlap properly.
     open(cfg["scene"], "w", encoding="utf-8", newline="\n").write(scene)
     print(f"{zone}: {len(trees)} trees, {len(props)} undergrowth, {len(landmarks)} landmarks")
 

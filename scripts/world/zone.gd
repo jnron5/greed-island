@@ -56,6 +56,9 @@ func _ready() -> void:
 		if camera:
 			camera.reset_smoothing()
 	_limit_camera(player)
+	# Every zone can talk: residents, signs and readables need the dialogue box.
+	if get_tree().get_first_node_in_group(&"dialogue_box") == null:
+		add_child(preload("res://scenes/ui/dialogue_box.tscn").instantiate())
 	if level_map:
 		_levels = level_map.get_image()
 	_build_nav.call_deferred()

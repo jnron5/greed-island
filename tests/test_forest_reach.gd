@@ -6,7 +6,7 @@ extends Node
 ## the gate.
 ## Run: godot --headless --path . res://tests/test_forest_reach.tscn
 
-const ZONES := ["res://scenes/world/thornveil.tscn"]
+const ZONES := ["res://scenes/world/thornveil.tscn", "res://scenes/world/sorenda.tscn"]
 const STEP := 8.0
 
 var _failures := 0
@@ -34,6 +34,8 @@ func _run() -> void:
 				target = "card " + String(node.card_id)
 			elif node is ZoneExit:
 				target = "exit " + String(node.name)
+			elif node is Npc:
+				target = "resident " + String(node.name)
 			if target != "":
 				_check("%s: %s reachable" % [label, target], _near(reach, node.global_position, 30))
 		for group in ["Spawns", "RivalSpots"]:
