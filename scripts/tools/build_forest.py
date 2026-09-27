@@ -56,7 +56,41 @@ UNDER = [("fern", 5, False), ("grass_clump", 4, False), ("berry_bush", 2, False)
          ("mushrooms", 2, False), ("pale_mushrooms", 1, False), ("clover", 2, False), ("acorns", 1, False),
          ("pinecones", 1, False), ("branch", 1, False)]
 LANDMARKS = [("rock", True), ("log", True), ("stump", True)]
-FORESTS = ["thornveil", "sorenda", "wardens_grove"]
+FORESTS = ["thornveil", "sorenda", "wardens_grove", "lake_veyra"]
+
+# Zones build_ground.py doesn't paint. Lake Veyra's scene comes from
+# build_lake_veyra.py (run that first); its lake is an ellipse with an island, the
+# same shape that script uses for the water collision.
+EXTRA = {
+    "lake_veyra": {
+        "scene": "scenes/world/lake_veyra.tscn",
+        "out": "assets/sprites/tiles/thornveil/lake_veyra_ground.png",
+        "bounds": (-512, -400, 512, 400),
+        "lake": (0.0, -60.0, 330.0, 190.0, 72.0),
+        "paths": [
+            ("line", [(560, 250), (400, 246), (250, 222), (80, 196), (0, 176)], 40),     # in from Thornveil to the bridge
+            ("line", [(0, 180), (-200, 172), (-330, 96), (-352, 10), (-352, -44)], 32),  # round the south shore to the Shore Path
+            ("line", [(-352, -76), (-310, -200), (-160, -306), (150, -312)], 28),        # the north shore
+            ("line", [(-340, -150), (-446, -262), (-446, -312)], 26),                   # up to the Elder Grove seal
+        ],
+    },
+}
+
+
+def lake_water(cfg, x, y):
+    if "lake" not in cfg:
+        return False
+    cx, cy, rx, ry, island = cfg["lake"]
+    return ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 < 1.0 and math.hypot(x - cx, y - cy) >= island
+
+
+def near_lake(cfg, x, y, margin):
+    """In the lake, or within `margin` px of its water."""
+    if "lake" not in cfg:
+        return False
+    cx, cy, rx, ry, island = cfg["lake"]
+    outer = ((x - cx) / (rx + margin)) ** 2 + ((y - cy) / (ry + margin)) ** 2 < 1.0
+    return outer and math.hypot(x - cx, y - cy) >= island - margin
 
 # Residents and story objects per zone (local coords). Residents are dogs and cats
 # (sprites in assets/sprites/npcs/<id>/); readables use scripts/systems/readable.gd.
@@ -196,6 +230,26 @@ def paint_ground(cfg, trees, props):
         dr.ellipse((x - x0 - 10, y - y0 - 4, x - x0 + 10, y - y0 + 4), fill=90)
     sm = np.asarray(mask.filter(ImageFilter.GaussianBlur(6))).astype(np.float32)[..., None] / 255.0
     out[..., :3] = out[..., :3] * (1 - sm * 0.55) + np.array([16, 30, 22]) * sm * 0.55 * 0.4
+    if "lake" in cfg:
+        # The lake: a smooth shoreline with a band of wet, darker earth, deep water beneath
+        # (the animated water layer draws over it, clipped by the saved water mask).
+        yy, xx = np.mgrid[0:H, 0:W]
+        cx, cy, rx, ry, island = cfg["lake"]
+        px, py = xx + x0 + 0.5, yy + y0 + 0.5
+        wobble = (noise(16) - 0.5) * 0.05
+        e = ((px - cx) / rx) ** 2 + ((py - cy) / ry) ** 2 + wobble
+        dist = np.hypot(px - cx, py - cy)
+        water = (e < 1.0) & (dist >= island + wobble * 60)
+        near = np.asarray(Image.fromarray(water.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(9))) > 0
+        shore = near & ~water
+        mud = d.copy()
+        mud[..., :3] *= np.array([0.72, 0.7, 0.66])
+        out = np.where(shore[..., None], mud, out)
+        deep = np.array([28, 70, 78], np.float32)
+        out[..., :3] = np.where(water[..., None], deep, out[..., :3])
+        mask_img = np.zeros((H, W, 4), np.uint8)
+        mask_img[water] = 255
+        Image.fromarray(mask_img, "RGBA").save(cfg["out"].replace("_ground.png", "_water_mask.png"))
     Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGBA").save(cfg["out"])
 
 
@@ -206,7 +260,7 @@ def layout(cfg, keep, fronts=()):
     trees = []
 
     def free(x, y, gap, path_gap):
-        if on_path(cfg["paths"], x, y, grow=path_gap):
+        if on_path(cfg["paths"], x, y, grow=path_gap) or near_lake(cfg, x, y, 26):
             return False
         if any((x - a) ** 2 + (y - b) ** 2 < r ** 2 for a, b, r in keep):
             return False
@@ -248,6 +302,7 @@ def layout(cfg, keep, fronts=()):
 
     def prop_free(x, y):
         return (x0 + 12 < x < x1 - 12 and y0 + 20 < y < y1 - 6 and not on_path(cfg["paths"], x, y, grow=6)
+                and not near_lake(cfg, x, y, 8)
                 and not any((x - a) ** 2 + (y - b) ** 2 < r ** 2 for a, b, r in keep)
                 and all((x - a) ** 2 + (y - b) ** 2 >= 18 ** 2 for _, a, b in props)
                 and all((x - a) ** 2 + (y - b) ** 2 >= 14 ** 2 for _, a, b in trees))
@@ -277,6 +332,18 @@ def layout(cfg, keep, fronts=()):
             px, py = round(cx + rng.gauss(0, 14)), round(cy + rng.gauss(0, 9))
             if not on_path(cfg["paths"], px, py, grow=12) and prop_free(px, py):
                 props.append((kind if rng.random() < 0.8 else rng.choice(low), px, py))
+    # Reeds along a lake's shore, in clumps, leaving gaps to reach the water.
+    if "lake" in cfg:
+        cx, cy, rx, ry, _ = cfg["lake"]
+        for k in range(160):
+            a = k / 160 * math.tau + rng.uniform(-0.01, 0.01)
+            if math.sin(a * 5 + 1.0) < -0.2:                  # gaps between the reed beds
+                continue
+            grow = rng.uniform(10, 18)
+            px, py = round(cx + math.cos(a) * (rx + grow)), round(cy + math.sin(a) * (ry + grow * 0.6))
+            if not on_path(cfg["paths"], px, py, grow=8) and not any((px - a2) ** 2 + (py - b2) ** 2 < r2 ** 2 for a2, b2, r2 in keep) \
+                    and all((px - a2) ** 2 + (py - b2) ** 2 >= 14 ** 2 for _, a2, b2 in props):
+                props.append(("cattails", px, py))
     landmarks = []
     for _ in range(300):
         px, py = rng.uniform(x0 + 60, x1 - 60), rng.uniform(y0 + 90, y1 - 40)
@@ -293,7 +360,7 @@ def add_ext(scene, line):
 
 
 def build(zone):
-    cfg = ZONES[zone]
+    cfg = ZONES[zone] if zone in ZONES else EXTRA[zone]
     scene = strip_forest(open(cfg["scene"], encoding="utf-8").read())
     # Keep clear of everything that matters: its spot and a margin (monsters roam more).
     keep = []
@@ -324,15 +391,19 @@ def build(zone):
     paint_ground(cfg, trees, props + landmarks)
 
     ids = {}
+
+    def resource(scene, kind, path, new_id):
+        """The id `path` already has in the scene, or add it under `new_id`."""
+        m = re.search(r'\[ext_resource type="%s" path="%s" id="([^"]+)"\]' % (kind, re.escape(path)), scene)
+        if m:
+            return scene, m.group(1)
+        return add_ext(scene, f'[ext_resource type="{kind}" path="{path}" id="{new_id}"]'), new_id
+
     for kind in TREES:
-        res = write_tree_scene(kind)
-        ids[kind] = f"80_{kind}"
-        if res not in scene:
-            scene = add_ext(scene, f'[ext_resource type="PackedScene" path="{res}" id="80_{kind}"]')
+        scene, ids[kind] = resource(scene, "PackedScene", write_tree_scene(kind), f"80_{kind}")
+    tex = {}
     for name in {n for n, _, _ in props + landmarks}:
-        res = f"res://{PROPS}{name}.png"
-        if res not in scene:
-            scene = add_ext(scene, f'[ext_resource type="Texture2D" path="{res}" id="81_{name}"]')
+        scene, tex[name] = resource(scene, "Texture2D", f"res://{PROPS}{name}.png", f"81_{name}")
     if 'id="RockBase"' not in scene:
         scene = scene.replace("\n\n[node name=", '\n\n[sub_resource type="RectangleShape2D" id="RockBase"]\nsize = Vector2(22, 8)\n\n[node name=', 1)
     nodes = []
@@ -342,12 +413,12 @@ def build(zone):
         h = Image.open(PROPS + name + ".png").height
         flip = "flip_h = true\n" if (x * 7 + y) % 2 else ""
         nodes.append(f'[node name="Under{k + 1}" type="Sprite2D" parent="."]\nposition = Vector2({x}, {y})\n'
-                     f'offset = Vector2(0, {-h / 2 + 2})\n{flip}texture = ExtResource("81_{name}")\n')
+                     f'offset = Vector2(0, {-h / 2 + 2})\n{flip}texture = ExtResource("{tex[name]}")\n')
     for k, (name, x, y) in enumerate(landmarks):
         h = Image.open(PROPS + name + ".png").height
         nodes.append(f'[node name="Landmark{k + 1}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
                      f'[node name="Sprite2D" type="Sprite2D" parent="Landmark{k + 1}"]\noffset = Vector2(0, {-h / 2 + 2})\n'
-                     f'texture = ExtResource("81_{name}")\n\n'
+                     f'texture = ExtResource("{tex[name]}")\n\n'
                      f'[node name="CollisionShape2D" type="CollisionShape2D" parent="Landmark{k + 1}"]\nposition = Vector2(0, -3)\n'
                      f'shape = SubResource("RockBase")\n')
     if life["npcs"]:
@@ -370,6 +441,23 @@ def build(zone):
     for k, (title, (x, y), lines) in enumerate(life["readables"]):
         nodes.append(f'[node name="Read{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                      f'script = ExtResource("{read_ref.group(1)}")\ntitle = "{title}"\nlines = PackedStringArray({quote(lines)})\n')
+    if "lake" in cfg:
+        # The lake's water: Kalmora's animated wave tile, clipped to the lake, a little
+        # greener and calmer for fresh water.
+        scene = re.sub(r'\[node name="LakeWater"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*', "", scene)
+        scene = re.sub(r'\[node name="Waves"[^\n]*parent="LakeWater"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*', "", scene)
+        mask_res = "res://" + cfg["out"].replace("_ground.png", "_water_mask.png")
+        for line in (f'[ext_resource type="Texture2D" path="{mask_res}" id="84_lakemask"]',
+                     '[ext_resource type="Script" path="res://scripts/world/tiled_animation.gd" id="84_tiled"]',
+                     '[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/bay_water.png" id="84_waves"]'):
+            if line.split('path="')[1].split('"')[0] not in scene:
+                scene = add_ext(scene, line)
+        x0, y0, x1, y1 = cfg["bounds"]
+        nodes.append(f'[node name="LakeWater" type="Sprite2D" parent="."]\nz_index = -9\nclip_children = 1\n'
+                     f'position = Vector2({(x0 + x1) / 2}, {(y0 + y1) / 2})\ntexture = ExtResource("84_lakemask")\n\n'
+                     f'[node name="Waves" type="Sprite2D" parent="LakeWater"]\nmodulate = Color(0.78, 1, 0.9, 1)\n'
+                     f'script = ExtResource("84_tiled")\nstrip = ExtResource("84_waves")\nframe_count = 8\nfps = 4.0\n'
+                     f'region_rect = Rect2(0, 0, {x1 - x0}, {y1 - y0})\n')
     at = scene.index('[node name="Player"')
     scene = scene[:at] + "\n".join(nodes) + "\n" + scene[at:]
     open(cfg["scene"], "w", encoding="utf-8", newline="\n").write(scene)

@@ -62,18 +62,25 @@ from build_ground import grade  # Same Thornveil colour grade as the other fores
 grade(ground).save("assets/sprites/tiles/thornveil/lake_veyra_ground.png")
 
 # ------------------------------------------------------------ water collision (row runs, bridge cut out)
+# At 8px from the same smooth lake the forest builder paints (build_forest.py), a few
+# pixels inside the shoreline so you can walk right to the water's edge.
+FINE = 8
+fine_cols, fine_rows = COLS * TILE // FINE, ROWS * TILE // FINE
+wet = [[all(is_water(LEFT + i * FINE + FINE / 2 + dx, TOP + j * FINE + FINE / 2 + dy)
+            for dx, dy in ((0, 0), (6, 0), (-6, 0), (0, 6), (0, -6)))
+        for i in range(fine_cols)] for j in range(fine_rows)]
 water_rects = []  # (x0, y0, x1, y1) in local coords
-for j in range(ROWS):
+for j in range(fine_rows):
     i = 0
-    while i < COLS:
-        if not blocked[j][i]:
+    while i < fine_cols:
+        if not wet[j][i]:
             i += 1
             continue
         start = i
-        while i < COLS and blocked[j][i]:
+        while i < fine_cols and wet[j][i]:
             i += 1
-        x0, x1 = LEFT + start * TILE, LEFT + i * TILE
-        y0, y1 = TOP + j * TILE, TOP + (j + 1) * TILE
+        x0, x1 = LEFT + start * FINE, LEFT + i * FINE
+        y0, y1 = TOP + j * FINE, TOP + (j + 1) * FINE
         if y1 > BRIDGE_Y[0] and y0 < BRIDGE_Y[1] and x0 < -BRIDGE_X and x1 > BRIDGE_X:
             water_rects += [(x0, y0, -BRIDGE_X, y1), (BRIDGE_X, y0, x1, y1)]
         else:
@@ -146,15 +153,6 @@ display_name = "Lake Veyra"
 z_index = -10
 texture = ExtResource("10_ground")
 
-[node name="EntryPath" type="ColorRect" parent="."]
-z_index = -9
-offset_left = 500.0
-offset_top = 226.0
-offset_right = 580.0
-offset_bottom = 274.0
-mouse_filter = 2
-color = Color(0.5, 0.44, 0.32, 1)
-
 [node name="MossBridge" type="Sprite2D" parent="."]
 z_index = -8
 position = Vector2(0, 67)
@@ -165,13 +163,22 @@ position = Vector2(-446, -350)
 ''']
 nodes += body("Water", water_rects)
 nodes += body("Walls", walls)
-# Interior walls (everything after the outer boundary) get a visible bramble hedge.
-for k, (x0, y0, x1, y1) in enumerate(walls[6:]):
-    pad = 3
-    nodes.append(f'[node name="Hedge{k}" type="ColorRect" parent="."]\nz_index = -7\n'
-                 f'offset_left = {x0 - pad}.0\noffset_top = {y0 - pad}.0\n'
-                 f'offset_right = {x1 + pad}.0\noffset_bottom = {y1 + pad}.0\n'
-                 f'mouse_filter = 2\ncolor = Color(0.2, 0.3, 0.14, 1)\n')
+# Interior walls (everything after the outer boundary) are drawn as a bramble hedge:
+# berry bushes and ferns shoulder to shoulder along the line, so every barrier shows.
+hedge_k = 0
+for x0, y0, x1, y1 in walls[6:]:
+    length = max(x1 - x0, y1 - y0)
+    for t in range(0, int(length) + 1, 12):
+        if x1 - x0 >= y1 - y0:
+            hx, hy = x0 + t, (y0 + y1) / 2 + 6
+        else:
+            hx, hy = (x0 + x1) / 2, y0 + t + 6
+        kind = "berry_bush" if (hedge_k * 7) % 5 else "fern"
+        hedge_k += 1
+        tex = "14_berry_bush" if kind == "berry_bush" else "15_fern"
+        flip = "true" if hedge_k % 2 else "false"
+        nodes.append(f'[node name="Hedge{hedge_k}" type="Sprite2D" parent="."]\nposition = Vector2({hx}, {hy})\n'
+                     f'offset = Vector2(0, -12)\nflip_h = {flip}\ntexture = ExtResource("{tex}")\n')
 nodes.append('''[node name="Spawns" type="Node2D" parent="."]
 
 [node name="from_thornveil" type="Marker2D" parent="Spawns"]
@@ -203,7 +210,7 @@ position = Vector2(470, 250)
 [node name="Binder" parent="." instance=ExtResource("4_binder")]
 ''')
 
-header = f'''[gd_scene load_steps={14 + len(subs)} format=3]
+header = f'''[gd_scene load_steps={16 + len(subs)} format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -218,6 +225,8 @@ header = f'''[gd_scene load_steps={14 + len(subs)} format=3]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/moss_bridge.png" id="11_bridge"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/elder_shrine.tscn" id="12_shrine"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/tree.tscn" id="13_tree"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/berry_bush.png" id="14_berry_bush"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/fern.png" id="15_fern"]
 
 '''
 open("scenes/world/lake_veyra.tscn", "w", newline="\n").write(header + "\n".join(subs.values()) + "\n" + "\n".join(nodes))
