@@ -812,6 +812,36 @@ def prop_depth(path):
     return int(min(32, max(10, (b[3] - b[1]) * 0.33)))
 
 
+CHEST_PNG = "assets/sprites/tiles/thornveil/props/chest.png"
+CHEST_OPEN_PNG = "assets/sprites/tiles/thornveil/props/chest_open.png"
+# Cards aren't left lying about: each sits in a chest (anyone can open it, rivals too).
+CHEST_HINTS = {
+    "harbor_lantern": "A dock chest of spare lamp parts, its padlock rusted open.",
+    "coral_coin": "A child's treasure box, half buried in the sand.",
+    "gull_feather": "Nailed shut long ago; the gulls have been at the lid.",
+    "sea_glass": "A beachcomber's box full of smooth green glass.",
+    "sunken_crown_shard": "Hauled up in a fishing net and never claimed.",
+    "salt_compass": "A farmer's tool chest, smelling of salt and rope.",
+    "salt_compass_2": "Somebody's forgotten stash by the cliff fence.",
+    "tide_bell": "A stall-keeper's lockbox, left unlocked.",
+    "terracotta_tile": "Roofer's spares, and something wrapped in oilcloth.",
+    "lighthouse_wick": "The keeper's spare-parts chest.",
+    "fishers_knot": "A net-mender's kit at the end of the pier.",
+}
+CHEST_GOLD = {"sunken_crown_shard": 25, "coral_coin": 15, "gull_feather": 10}
+
+
+def chest_node(name, x, y, card, gold=0, hint="", gate="", width=30, shape=None):
+    """A chest holding `card` (scripts/systems/chest.gd) with a small visible base."""
+    quoted = hint.replace('"', '\\"')
+    return (f'[node name="{name}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n'
+            f'script = ExtResource("6_chest")\nchest_id = &"kalmora_{card}"\ncard_id = &"{card}"\ngold = {gold}\n'
+            f'hint = "{quoted}"\n' + (f'behind_gate = &"{gate}"\n' if gate else "")
+            + f'closed_texture = ExtResource("6_chest_shut")\nopen_texture = ExtResource("6_chest_open")\n\n'
+            f'[node name="Base" type="CollisionShape2D" parent="{name}"]\nposition = Vector2(0, -5)\n'
+            f'shape = SubResource("{shape(width, 10)}")\n')
+
+
 def prop_path(name):
     for d in PROP_DIRS:
         if os.path.exists(f"{d}{name}.png"):
@@ -921,7 +951,9 @@ def main():
         ('PackedScene', "res://scenes/ui/hud.tscn", "3_hud"),
         ('PackedScene', "res://scenes/ui/binder.tscn", "4_binder"),
         ('PackedScene', "res://scenes/ui/shop_panel.tscn", "5_shop"),
-        ('PackedScene', "res://scenes/systems/card_pickup.tscn", "6_pick"),
+        ('Script', "res://scripts/systems/chest.gd", "6_chest"),
+        ('Texture2D', "res://" + CHEST_PNG, "6_chest_shut"),
+        ('Texture2D', "res://" + CHEST_OPEN_PNG, "6_chest_open"),
         ('PackedScene', "res://scenes/characters/training_dummy.tscn", "7_dummy"),
         ('PackedScene', "res://scenes/systems/merchant.tscn", "8_merchant"),
         ('Script', "res://scripts/systems/safe_zone.gd", "9_safe"),
@@ -1057,11 +1089,8 @@ max_energy = 1.2
 position = Vector2({lx}, {ly + 6})
 gate_id = &"kalmora_lighthouse_door"
 
-[node name="Card_lighthouse_lens" parent="." instance=ExtResource("6_pick")]
-position = Vector2({lx}, {ly - 10})
-card_id = &"lighthouse_lens"
-behind_gate = &"kalmora_lighthouse_door"
-''')
+''' + chest_node("Card_lighthouse_lens", lx, ly - 10, "lighthouse_lens", gate="kalmora_lighthouse_door",
+                  hint="The keeper's old lens case, tucked just inside the door.", width=22, shape=shape))
     shadow("building", lh, lx, ly)
     check_spot("lighthouse lens", lx, ly - 10, TOWN)
 
@@ -1115,8 +1144,8 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
     taken = [p for _, p in cards] + list(rival_spots.values()) + list(spawns.values()) \
         + [(ex, ey), (mx, my), (fx, fy), (lx, ly + 6), (lx, ly - 10), (0, GATE_Y)]
     for card, (x, y) in cards:
-        n.append(f'[node name="Card_{card}" parent="." instance=ExtResource("6_pick")]\nposition = Vector2({x}, {y})\ncard_id = &"{card}"\n')
-    n.append(f'[node name="Card_salt_compass_2" parent="." instance=ExtResource("6_pick")]\nposition = Vector2({ex}, {ey})\ncard_id = &"salt_compass"\n')
+        n.append(chest_node(f"Card_{card}", x, y, card, gold=CHEST_GOLD.get(card, 0), hint=CHEST_HINTS.get(card, ""), shape=shape))
+    n.append(chest_node("Card_salt_compass_2", ex, ey, "salt_compass", hint=CHEST_HINTS.get("salt_compass_2", ""), shape=shape))
     for k, p in enumerate(DUMMIES):
         x, y = W(*p)
         check_spot("dummy", x, y)

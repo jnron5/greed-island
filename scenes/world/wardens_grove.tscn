@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/canopy_warden.tscn" id="8_boss"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/bosses/canopy_warden/canopy_warden_frames.tres" id="9_boss_frames"]
 [ext_resource type="PackedScene" path="res://scenes/systems/card_gate.tscn" id="10_gate"]
-[ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="11_pick"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/elder_shrine.tscn" id="12_shrine"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/wardens_grove_ground.png" id="90_ground"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/forest_fir.tscn" id="80_fir"]
@@ -28,6 +27,9 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/clover.png" id="81_clover"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/acorns.png" id="81_acorns"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/fern.png" id="81_fern"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="70_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="70_chest_shut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="70_chest_open"]
 
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(1000, 40)
@@ -49,6 +51,9 @@ size = Vector2(20, 60)
 
 [sub_resource type="RectangleShape2D" id="RockBase"]
 size = Vector2(22, 8)
+
+[sub_resource type="RectangleShape2D" id="ChestBase"]
+size = Vector2(30, 10)
 
 [node name="WardensGrove" type="Node2D"]
 y_sort_enabled = true
@@ -122,10 +127,20 @@ vertical = true
 [node name="SanctumShrine" parent="." instance=ExtResource("12_shrine")]
 position = Vector2(440, -40)
 
-[node name="Card_elderwood_heart" parent="." instance=ExtResource("11_pick")]
+[node name="Card_elderwood_heart" type="StaticBody2D" parent="."]
 position = Vector2(440, 20)
+script = ExtResource("70_chest")
+chest_id = &"wardens_grove_card_elderwood_heart"
 card_id = &"elderwood_heart"
+gold = 0
+hint = ""
 behind_gate = &"warden_sanctum"
+closed_texture = ExtResource("70_chest_shut")
+open_texture = ExtResource("70_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Card_elderwood_heart"]
+position = Vector2(0, -5)
+shape = SubResource("ChestBase")
 
 [node name="Spawns" type="Node2D" parent="."]
 

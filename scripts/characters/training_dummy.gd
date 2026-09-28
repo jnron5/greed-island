@@ -8,6 +8,8 @@ extends StaticBody2D
 @export var drop_card_ids: Array[StringName] = [&"thorn_sprig", &"moss_lantern", &"hollow_acorn"]
 @export var pickup_scene: PackedScene
 
+var _last_hitter: StringName
+
 var health := 0
 var _flash := 0.0
 
@@ -30,6 +32,7 @@ func _on_hurt(hitbox: Hitbox) -> void:
 	if health <= 0:
 		return
 	health -= hitbox.damage
+	_last_hitter = hitbox.source_id
 	_flash = 0.1
 	queue_redraw()
 	if health <= 0:
@@ -40,11 +43,8 @@ func _break() -> void:
 	visible = false
 	body_shape.set_deferred(&"disabled", true)
 	hurtbox.set_deferred(&"monitoring", false)
-	if pickup_scene and not drop_card_ids.is_empty():
-		var pickup := pickup_scene.instantiate() as CardPickup
-		pickup.card_id = drop_card_ids.pick_random()
-		pickup.position = position + Vector2(randf_range(-12, 12), 14)
-		get_parent().add_child.call_deferred(pickup)
+	if not drop_card_ids.is_empty():
+		Combat.award_card(get_parent(), _last_hitter, drop_card_ids.pick_random(), position + Vector2(0, 14), pickup_scene)
 	get_tree().create_timer(respawn_time).timeout.connect(_respawn)
 
 

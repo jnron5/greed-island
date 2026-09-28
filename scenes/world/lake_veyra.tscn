@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
-[ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="5_pick"]
 [ext_resource type="PackedScene" path="res://scenes/characters/briar_hound.tscn" id="6_hound"]
 [ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
 [ext_resource type="PackedScene" path="res://scenes/systems/card_gate.tscn" id="8_gate"]
@@ -32,6 +31,9 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/lake_veyra_water_mask.png" id="84_lakemask"]
 [ext_resource type="Script" path="res://scripts/world/tiled_animation.gd" id="84_tiled"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/bay_water.png" id="84_waves"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="70_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="70_chest_shut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="70_chest_open"]
 
 [sub_resource type="RectangleShape2D" id="R192x8"]
 size = Vector2(192, 8)
@@ -161,6 +163,9 @@ size = Vector2(44, 10)
 
 [sub_resource type="RectangleShape2D" id="RockBase"]
 size = Vector2(22, 8)
+
+[sub_resource type="RectangleShape2D" id="ChestBase"]
+size = Vector2(30, 10)
 
 [node name="LakeVeyra" type="Node2D"]
 y_sort_enabled = true
@@ -1229,25 +1234,65 @@ gate_id = &"veyra_shore_path"
 position = Vector2(-446, -280)
 gate_id = &"elder_grove_seal"
 
-[node name="Card_IslandPearl" parent="." instance=ExtResource("5_pick")]
+[node name="Card_IslandPearl" type="StaticBody2D" parent="."]
 position = Vector2(0, -75)
+script = ExtResource("70_chest")
+chest_id = &"lake_veyra_card_islandpearl"
 card_id = &"veyra_pearl"
+gold = 0
+hint = ""
 behind_gate = &"thornveil_moss_bridge"
+closed_texture = ExtResource("70_chest_shut")
+open_texture = ExtResource("70_chest_open")
 
-[node name="Card_ShrinePearl" parent="." instance=ExtResource("5_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_IslandPearl"]
+position = Vector2(0, -5)
+shape = SubResource("ChestBase")
+
+[node name="Card_ShrinePearl" type="StaticBody2D" parent="."]
 position = Vector2(-446, -325)
+script = ExtResource("70_chest")
+chest_id = &"lake_veyra_card_shrinepearl"
 card_id = &"veyra_pearl"
+gold = 0
+hint = ""
 behind_gate = &"elder_grove_seal"
+closed_texture = ExtResource("70_chest_shut")
+open_texture = ExtResource("70_chest_open")
 
-[node name="Card_NorthReed" parent="." instance=ExtResource("5_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_ShrinePearl"]
+position = Vector2(0, -5)
+shape = SubResource("ChestBase")
+
+[node name="Card_NorthReed" type="StaticBody2D" parent="."]
 position = Vector2(150, -320)
+script = ExtResource("70_chest")
+chest_id = &"lake_veyra_card_northreed"
 card_id = &"veyra_reed"
+gold = 0
+hint = ""
 behind_gate = &"veyra_shore_path"
+closed_texture = ExtResource("70_chest_shut")
+open_texture = ExtResource("70_chest_open")
 
-[node name="Card_NorthSeed" parent="." instance=ExtResource("5_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_NorthReed"]
+position = Vector2(0, -5)
+shape = SubResource("ChestBase")
+
+[node name="Card_NorthSeed" type="StaticBody2D" parent="."]
 position = Vector2(-160, -330)
+script = ExtResource("70_chest")
+chest_id = &"lake_veyra_card_northseed"
 card_id = &"canopy_seed"
+gold = 0
+hint = ""
 behind_gate = &"veyra_shore_path"
+closed_texture = ExtResource("70_chest_shut")
+open_texture = ExtResource("70_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Card_NorthSeed"]
+position = Vector2(0, -5)
+shape = SubResource("ChestBase")
 
 [node name="BriarHound1" parent="." instance=ExtResource("6_hound")]
 position = Vector2(-250, 260)

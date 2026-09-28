@@ -22,11 +22,15 @@ func _run() -> void:
 	for node in forest.get_children():
 		if node is Chest:
 			chests.append(node)
-	_check("three chests (%d)" % chests.size(), chests.size() == 3)
+	_check("six chests (%d)" % chests.size(), chests.size() == 6)
+	_check("no cards lying on the ground", get_tree().get_nodes_in_group(&"card_pickups").all(
+		func(n: Node) -> bool: return n is Chest))
 	var gold := GameState.currency
-	var first := chests[0]
+	var first := forest.get_node("Chest_stone_circle") as Chest
+	var had := GameState.collection(GameState.PLAYER).count(&"owl_quill", CardCollection.State.LOOSE)
 	first.open()
 	_check("a chest pays out", GameState.currency == gold + first.gold and first.is_open())
+	_check("and hands over its card", GameState.collection(GameState.PLAYER).count(&"owl_quill", CardCollection.State.LOOSE) == had + 1)
 	first.open()
 	_check("and only once", GameState.currency == gold + first.gold)
 	var opened := String(first.name)
@@ -55,7 +59,7 @@ func _run() -> void:
 		_check("%s matches the world map" % exit_name, edge_ok)
 
 	var plaza := forest.level_at(forest.get_node("GreatTree").global_position + Vector2(0, 60))
-	var north := forest.level_at(forest.get_node("Card_owl_quill").global_position)
+	var north := forest.level_at(forest.get_node("Chest_stone_circle").global_position)
 	_check("the plaza (%d) sits below the north terrace (%d)" % [plaza, north], plaza >= 0 and north > plaza)
 
 	_check_water(forest, "res://assets/sprites/tiles/thornveil/thornveil_water_mask.png")

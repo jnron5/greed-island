@@ -28,6 +28,7 @@ const KALMORA_TEAL_HOUSE := "res://scenes/world/interiors/kalmora_teal_house.tsc
 const KALMORA_MILL := "res://scenes/world/interiors/kalmora_mill.tscn"
 
 const PICKUP_SCENE := "res://scenes/systems/card_pickup.tscn"
+const CHEST_SCRIPT := "res://scripts/systems/chest.gd"
 
 ## Zone scene -> { name, origin on the island, monster drops (for off-screen farming) }
 const ZONES := {
@@ -174,7 +175,7 @@ static func reachable(from: String, collector: StringName, will_pay: bool) -> Ar
 	return out
 
 
-## Hand-placed card pickups in `zone` that nobody has taken yet:
+## Cards placed in `zone` (in chests) that nobody has taken yet:
 ## Array of { "key": persist key, "card_id": StringName, "gate": guarding gate or &"" }.
 static func remaining_pickups(zone: String) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
@@ -211,17 +212,23 @@ static func _all_pickups(zone: String) -> Array:
 	if packed:
 		var state := packed.get_state()
 		for i in state.get_node_count():
+			# Loose pickups (older scenes) and chests that hold a card.
 			var instance := state.get_node_instance(i)
-			if instance == null or instance.resource_path != PICKUP_SCENE:
-				continue
+			var is_pickup := instance != null and instance.resource_path == PICKUP_SCENE
 			var card_id: StringName = &""
 			var gate: StringName = &""
+			var is_chest := false
 			for p in state.get_node_property_count(i):
 				match state.get_node_property_name(i, p):
 					&"card_id":
 						card_id = state.get_node_property_value(i, p)
 					&"behind_gate":
 						gate = state.get_node_property_value(i, p)
+					&"script":
+						var script := state.get_node_property_value(i, p) as Script
+						is_chest = script != null and script.resource_path == CHEST_SCRIPT
+			if not is_pickup and not (is_chest and card_id != &""):
+				continue
 			var path := String(state.get_node_path(i)).trim_prefix("./")
 			found.append({ "key": CardPickup.persist_key(zone, path), "card_id": card_id, "gate": gate })
 	_pickup_cache[zone] = found

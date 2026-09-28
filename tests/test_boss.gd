@@ -42,11 +42,11 @@ func _run() -> void:
 
 	boss._land()
 	_check("vulnerable once it lands", boss.is_vulnerable())
-	var pickups_before := get_tree().get_nodes_in_group(&"card_pickups").size()
+	var loose_before := _loose_count(P)
 	boss._on_hurt(_hit(P, boss.max_health))
 	await _frames(3)
 	_check("dies at 0 HP", boss.is_dead())
-	_check("drops its three cards", get_tree().get_nodes_in_group(&"card_pickups").size() == pickups_before + 3)
+	_check("its three cards go to the player who beat it", _loose_count(P) == loose_before + 3)
 	_check("kill recorded, credited to the player", not GameState.is_boss_alive(WARDEN)
 		and GameState.boss_kills_left(WARDEN) == 3 and _defeated_by == P)
 
@@ -116,3 +116,11 @@ func _check(label: String, ok: bool) -> void:
 	print("  %s  %s" % ["ok  " if ok else "FAIL", label])
 	if not ok:
 		_failures += 1
+
+
+func _loose_count(collector: StringName) -> int:
+	var col := GameState.collection(collector)
+	var n := 0
+	for id in col.card_ids():
+		n += col.count(id, CardCollection.State.LOOSE)
+	return n

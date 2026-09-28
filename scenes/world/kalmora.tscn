@@ -1,11 +1,13 @@
-[gd_scene load_steps=289 format=3]
+[gd_scene load_steps=292 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
 [ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
-[ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="6_pick"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="6_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="6_chest_shut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="6_chest_open"]
 [ext_resource type="PackedScene" path="res://scenes/characters/training_dummy.tscn" id="7_dummy"]
 [ext_resource type="PackedScene" path="res://scenes/systems/merchant.tscn" id="8_merchant"]
 [ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="9_safe"]
@@ -473,6 +475,9 @@ size = Vector2(19, 30)
 
 [sub_resource type="RectangleShape2D" id="R30x10"]
 size = Vector2(30, 10)
+
+[sub_resource type="RectangleShape2D" id="R22x10"]
+size = Vector2(22, 10)
 
 [sub_resource type="RectangleShape2D" id="R2176x1440"]
 size = Vector2(2176, 1440)
@@ -2256,10 +2261,20 @@ max_energy = 1.2
 position = Vector2(718, 306)
 gate_id = &"kalmora_lighthouse_door"
 
-[node name="Card_lighthouse_lens" parent="." instance=ExtResource("6_pick")]
+[node name="Card_lighthouse_lens" type="StaticBody2D" parent="."]
 position = Vector2(718, 290)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_lighthouse_lens"
 card_id = &"lighthouse_lens"
+gold = 0
+hint = "The keeper's old lens case, tucked just inside the door."
 behind_gate = &"kalmora_lighthouse_door"
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Card_lighthouse_lens"]
+position = Vector2(0, -5)
+shape = SubResource("R22x10")
 
 [node name="Fountain" parent="." instance=ExtResource("18_fountain")]
 position = Vector2(-14, -57)
@@ -2347,49 +2362,159 @@ position = Vector2(732, -512)
 [node name="hoarder" type="Marker2D" parent="RivalSpots"]
 position = Vector2(242, 48)
 
-[node name="Card_harbor_lantern" parent="." instance=ExtResource("6_pick")]
+[node name="Card_harbor_lantern" type="StaticBody2D" parent="."]
 position = Vector2(-528, 300)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_harbor_lantern"
 card_id = &"harbor_lantern"
+gold = 0
+hint = "A dock chest of spare lamp parts, its padlock rusted open."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
 
-[node name="Card_coral_coin" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_harbor_lantern"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Card_coral_coin" type="StaticBody2D" parent="."]
 position = Vector2(774, 20)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_coral_coin"
 card_id = &"coral_coin"
+gold = 15
+hint = "A child's treasure box, half buried in the sand."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
 
-[node name="Card_gull_feather" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_coral_coin"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Card_gull_feather" type="StaticBody2D" parent="."]
 position = Vector2(816, 370)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_gull_feather"
 card_id = &"gull_feather"
+gold = 10
+hint = "Nailed shut long ago; the gulls have been at the lid."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
 
-[node name="Card_sea_glass" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_gull_feather"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Card_sea_glass" type="StaticBody2D" parent="."]
 position = Vector2(872, 48)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_sea_glass"
 card_id = &"sea_glass"
+gold = 0
+hint = "A beachcomber's box full of smooth green glass."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
 
-[node name="Card_sunken_crown_shard" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_sea_glass"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Card_sunken_crown_shard" type="StaticBody2D" parent="."]
 position = Vector2(220, 573)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_sunken_crown_shard"
 card_id = &"sunken_crown_shard"
+gold = 25
+hint = "Hauled up in a fishing net and never claimed."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
 
-[node name="Card_salt_compass" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_sunken_crown_shard"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Card_salt_compass" type="StaticBody2D" parent="."]
 position = Vector2(-878, -344)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_salt_compass"
 card_id = &"salt_compass"
+gold = 0
+hint = "A farmer's tool chest, smelling of salt and rope."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
 
-[node name="Card_tide_bell" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_salt_compass"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Card_tide_bell" type="StaticBody2D" parent="."]
 position = Vector2(312, 104)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_tide_bell"
 card_id = &"tide_bell"
+gold = 0
+hint = "A stall-keeper's lockbox, left unlocked."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
 
-[node name="Card_terracotta_tile" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_tide_bell"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Card_terracotta_tile" type="StaticBody2D" parent="."]
 position = Vector2(-304, -434)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_terracotta_tile"
 card_id = &"terracotta_tile"
+gold = 0
+hint = "Roofer's spares, and something wrapped in oilcloth."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
 
-[node name="Card_lighthouse_wick" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_terracotta_tile"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Card_lighthouse_wick" type="StaticBody2D" parent="."]
 position = Vector2(858, -330)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_lighthouse_wick"
 card_id = &"lighthouse_wick"
+gold = 0
+hint = "The keeper's spare-parts chest."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
 
-[node name="Card_fishers_knot" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_lighthouse_wick"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Card_fishers_knot" type="StaticBody2D" parent="."]
 position = Vector2(-198, 454)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_fishers_knot"
 card_id = &"fishers_knot"
+gold = 0
+hint = "A net-mender's kit at the end of the pier."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
 
-[node name="Card_salt_compass_2" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_fishers_knot"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Card_salt_compass_2" type="StaticBody2D" parent="."]
 position = Vector2(-1004, -176)
+script = ExtResource("6_chest")
+chest_id = &"kalmora_salt_compass"
 card_id = &"salt_compass"
+gold = 0
+hint = "Somebody's forgotten stash by the cliff fence."
+closed_texture = ExtResource("6_chest_shut")
+open_texture = ExtResource("6_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Card_salt_compass_2"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
 
 [node name="TrainingDummy1" parent="." instance=ExtResource("7_dummy")]
 position = Vector2(-976, -148)

@@ -25,7 +25,7 @@ func _run() -> void:
 	await get_tree().process_frame
 	var live_keys: Array[String] = []
 	for node in get_tree().get_nodes_in_group(&"card_pickups"):
-		live_keys.append((node as CardPickup)._persist_key())
+		live_keys.append(node.persist_key() if node is Chest else (node as CardPickup)._persist_key())
 	var scanned_keys: Array[String] = []
 	for p in WorldMap.remaining_pickups(WorldMap.KALMORA):
 		scanned_keys.append(p.key)

@@ -47,7 +47,7 @@ var facing := Vector2.DOWN
 
 var _state := State.IDLE
 var _state_time := 0.0
-var _target: CardPickup
+var _target: Node2D  # a CardPickup (a dropped satchel) or a Chest with a card in it
 var _stuck_time := 0.0
 var _detour_time := 0.0
 var _detour_dir := Vector2.ZERO
@@ -241,7 +241,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _process_seek() -> void:
-	if not is_instance_valid(_target) or _target.is_queued_for_deletion():
+	if not is_instance_valid(_target) or _target.is_queued_for_deletion() 			or (_target is Chest and (_target as Chest).is_open()):
 		_target = null
 		if carried_count() >= carry_limit:
 			_enter(State.RETURN)
@@ -253,8 +253,13 @@ func _process_seek() -> void:
 			else:
 				_try_leave(State.IDLE)
 			return
-	if _target.behind_gate != &"" and not GameState.opened_gates.has(_target.behind_gate):
-		GameState.open_gate(_target.behind_gate, collector_id)  # Pays like anyone else.
+	var gate: StringName = _target.get(&"behind_gate")
+	if gate != &"" and not GameState.opened_gates.has(gate):
+		GameState.open_gate(gate, collector_id)  # Pays like anyone else.
+	if _target is Chest and global_position.distance_to(_target.global_position) <= Chest.RANGE:
+		(_target as Chest).open_for(collector_id)
+		_target = null
+		return
 	_steer_toward(_target.global_position, get_physics_process_delta_time())
 
 
@@ -436,14 +441,14 @@ func _player() -> Node2D:
 	return get_tree().get_first_node_in_group(&"player") as Node2D
 
 
-func _find_nearest_pickup() -> CardPickup:
-	var best: CardPickup = null
+func _find_nearest_pickup() -> Node2D:
+	var best: Node2D = null
 	var best_dist := search_radius
 	for node in get_tree().get_nodes_in_group(&"card_pickups"):
-		var pickup := node as CardPickup
-		if pickup == null or pickup.is_queued_for_deletion():
+		var pickup := node as Node2D
+		if pickup == null or pickup.is_queued_for_deletion() or (pickup is Chest and (pickup as Chest).is_open()):
 			continue
-		if not WorldMap.can_use({ "gate": pickup.behind_gate }, collector_id, _pays_gates()):
+		if not WorldMap.can_use({ "gate": pickup.get(&"behind_gate") }, collector_id, _pays_gates()):
 			continue
 		var d := global_position.distance_to(pickup.global_position)
 		if d < best_dist:

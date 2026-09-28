@@ -36,6 +36,23 @@ static func resolve_defeat(winner_id: StringName, loser_id: StringName) -> Strin
 
 
 ## Floating damage number at `pos` in `parent`'s space.
+## A kill's card goes straight into the killer's hands (no cards lying on the
+## ground): the player sees it pop up like any new card. When nobody who collects
+## landed the blow, it spills as a satchel at `pos` instead, for whoever comes by.
+static func award_card(parent: Node, killer: StringName, card_id: StringName, pos: Vector2,
+		pickup_scene: PackedScene) -> void:
+	if is_collector(killer) and GameState.add_loose_card(killer, card_id):
+		if killer == GameState.PLAYER:
+			var card := CardDatabase.get_card(card_id)
+			EventBus.notify.emit("+ %s" % (card.display_name if card else String(card_id)))
+		return
+	if pickup_scene:
+		var pickup := pickup_scene.instantiate() as CardPickup
+		pickup.card_id = card_id
+		pickup.position = pos
+		parent.add_child.call_deferred(pickup)
+
+
 static func pop_number(parent: Node, pos: Vector2, amount: int, color := Color.WHITE) -> void:
 	var label := Label.new()
 	label.text = str(amount)

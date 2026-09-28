@@ -1,14 +1,20 @@
 class_name Chest
 extends StaticBody2D
-## A chest out in the world: press interact beside it to open it and take the gold
-## inside. Opened once per game (GameState.quest_flags), so it stays open when you come
-## back. Its Base collider is a child in the scene; the sprite is set up here.
+## A chest out in the world: press interact beside it to open it and take what's
+## inside (a card, gold, or both). Opened once per game by whoever gets there first,
+## player or rival (GameState.collected_pickups, keyed like the old card pickups, so
+## WorldMap reads chests straight from the scene files and off-screen rivals can
+## loot them too). A chest behind a gate only opens once that gate is open.
+## Its Base collider is a child in the scene; the sprite is set up here.
 
 const RANGE := 30.0
 
 @export var chest_id: StringName
-@export var gold := 50
+@export var card_id: StringName
+@export var gold := 0
 @export var hint := ""
+## The gate you must open to reach this chest, if any (rivals pay it like a pickup's).
+@export var behind_gate: StringName
 @export var closed_texture: Texture2D
 @export var open_texture: Texture2D
 
@@ -19,15 +25,19 @@ var _near := false
 func _ready() -> void:
 	_sprite = Sprite2D.new()
 	add_child(_sprite)
+	if card_id != &"" and not is_open():
+		add_to_group(&"card_pickups")
 	_refresh()
 
 
 func is_open() -> bool:
-	return GameState.quest_flags.get(_flag(), false)
+	return GameState.collected_pickups.has(persist_key())
 
 
-func _flag() -> StringName:
-	return StringName("chest:%s" % chest_id)
+func persist_key() -> String:
+	if owner and owner.scene_file_path != "":
+		return CardPickup.persist_key(owner.scene_file_path, String(owner.get_path_to(self)))
+	return "chest:%s" % chest_id
 
 
 func _refresh() -> void:
@@ -51,18 +61,38 @@ func _unhandled_input(event: InputEvent) -> void:
 	open()
 
 
+## The player opens it: the card and gold go to them, with a word about what was inside.
 func open() -> void:
 	if is_open():
 		return
-	GameState.quest_flags[_flag()] = true
-	GameState.add_currency(gold)
-	_refresh()
-	queue_redraw()
+	open_for(GameState.PLAYER)
 	var lines := PackedStringArray()
 	if hint != "":
 		lines.append(hint)
-	lines.append("Inside: %d gold." % gold)
+	var found := PackedStringArray()
+	if card_id != &"":
+		var card := CardDatabase.get_card(card_id)
+		found.append("a card: %s" % (card.display_name if card else String(card_id)))
+	if gold > 0:
+		found.append("%d gold" % gold)
+	lines.append("Inside: %s." % (" and ".join(found) if not found.is_empty() else "nothing but dust"))
 	DialogueBox.say(get_tree(), "A chest", lines)
+
+
+## Anyone opens it (a rival walking up to it calls this too). Returns false if it was
+## already open or its gate is still shut.
+func open_for(collector: StringName) -> bool:
+	if is_open() or (behind_gate != &"" and not GameState.opened_gates.has(behind_gate)):
+		return false
+	GameState.collected_pickups[persist_key()] = true
+	remove_from_group(&"card_pickups")
+	if card_id != &"":
+		GameState.add_loose_card(collector, card_id)
+	if gold > 0 and collector == GameState.PLAYER:
+		GameState.add_currency(gold)
+	_refresh()
+	queue_redraw()
+	return true
 
 
 func _player_near() -> bool:

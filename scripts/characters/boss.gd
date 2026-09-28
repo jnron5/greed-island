@@ -263,16 +263,14 @@ func _die() -> void:
 	body_shape.set_deferred(&"disabled", true)
 	hurtbox.set_deferred(&"monitoring", false)
 	var data := GameState.boss_data(boss_id)
-	if data and pickup_scene:
+	if data:
 		var drops := data.drop_card_ids
 		for i in drops.size():
-			var pickup := pickup_scene.instantiate() as CardPickup
-			pickup.card_id = drops[i]
-			pickup.position = position + Vector2.from_angle(TAU * i / drops.size() - PI / 2.0) * 22.0
-			get_parent().add_child.call_deferred(pickup)
+			Combat.award_card(get_parent(), _killer, drops[i],
+				position + Vector2.from_angle(TAU * i / drops.size() - PI / 2.0) * 22.0, pickup_scene)
 	GameState.kill_boss(boss_id, _killer)
 	_show_bar(false)
-	EventBus.notify.emit("The %s falls! Its cards scatter." % _display_name())
+	EventBus.notify.emit("The %s falls!" % _display_name())
 	_death_tween = create_tween()
 	_death_tween.tween_property(sprite, "modulate:a", 0.0, 1.2)
 	_death_tween.tween_callback(_go_quiet)

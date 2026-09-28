@@ -43,14 +43,14 @@ func _run() -> void:
 	hound.max_health = 3
 	add_child(hound)
 	await get_tree().process_frame
-	var pickups_before := get_tree().get_nodes_in_group(&"card_pickups").size()
+	var loose_before := _loose(P)
 	hound._on_hurt(_hit(P, 2))
 	_check("monster takes damage", hound.health == 1 and not hound.is_dead())
 	hound._on_hurt(_hit(P, 2))
 	_check("monster dies", hound.is_dead())
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_check("monster drops a card", get_tree().get_nodes_in_group(&"card_pickups").size() == pickups_before + 1)
+	_check("the monster's card goes straight to its killer", _loose(P) == loose_before + 1)
 
 	# Rival: beaten by the player, loses a card, goes down.
 	var runner: Rival = load("res://scenes/characters/rival.tscn").instantiate()
@@ -123,3 +123,11 @@ func _check(label: String, ok: bool) -> void:
 	print("  %s  %s" % ["ok  " if ok else "FAIL", label])
 	if not ok:
 		_failures += 1
+
+
+func _loose(collector: StringName) -> int:
+	var col := GameState.collection(collector)
+	var n := 0
+	for id in col.card_ids():
+		n += col.count(id, CardCollection.State.LOOSE)
+	return n

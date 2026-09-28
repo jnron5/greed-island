@@ -386,18 +386,21 @@ EXITS = [  # (node, concept point on the map edge, target scene, target spawn, r
     ("ToGrove", (1448, 152), "res://scenes/world/wardens_grove.tscn", "from_thornveil", True),
 ]
 GATES = [(724, 44), (744, 1010)]                    # the banner towers on the north and south roads
-CARDS = [("fern_sigil", (96, 196)), ("owl_quill", (960, 262)), ("bark_rune", (470, 760)),
-         ("elderwood_heart", (1352, 452))]
 HOUNDS = [(330, 110), (560, 250), (1230, 60), (1100, 430), (1000, 640), (420, 800), (1000, 940), (160, 900)]
 RIVAL_SPOTS = {"raider": (540, 236), "runner": (1100, 420), "hoarder": (600, 470)}
 
 # The trapper's camp above the lake: Tobin, a badger-striped hound who traps for the
 # Sorenda furriers and trades what racers need.
 CAMP = {"tent": (140, 224), "fire": (196, 236), "npc": (190, 212)}
-CHESTS = [  # (id, concept px, gold, hint)
-    ("stone_circle", (962, 248), 90, "The stones hum when you stand among them."),
-    ("lake_island", (130, 520), 120, "Salt-stiff rope still ties the lid."),
-    ("south_clearing", (1283, 942), 70, "A hunter's cache, hidden in the ferns."),
+# Chests: (id, concept px, gold, hint, card). The zone's set cards are in chests, never
+# lying on the ground; whoever opens one first (player or rival) takes it.
+CHESTS = [
+    ("stone_circle", (962, 248), 60, "The stones hum when you stand among them.", "owl_quill"),
+    ("lake_island", (130, 520), 120, "Salt-stiff rope still ties the lid.", ""),
+    ("south_clearing", (1283, 942), 70, "A hunter's cache, hidden in the ferns.", ""),
+    ("camp_cache", (96, 196), 0, "Tobin's spare kit, the lid wedged shut with a stone.", "fern_sigil"),
+    ("heartwood", (1352, 452), 0, "Cradled in the Heartwood's roots, the wood warm to the touch.", "elderwood_heart"),
+    ("meadow_stump", (470, 760), 0, "Stuffed into the hollow of an old stump, under the moss.", "bark_rune"),
 ]
 CLEARINGS = [(962, 250, 190), (1352, 450, 200), (160, 215, 150), (722, 560, 210), (1283, 942, 120),
              (130, 520, 80), (724, 60, 140), (744, 1010, 150)]    # (concept x, y, world radius)
@@ -467,7 +470,6 @@ def main():
         ('PackedScene', "res://scenes/characters/player.tscn", "2_player"),
         ('PackedScene', "res://scenes/ui/hud.tscn", "3_hud"),
         ('PackedScene', "res://scenes/ui/binder.tscn", "4_binder"),
-        ('PackedScene', "res://scenes/systems/card_pickup.tscn", "5_pick"),
         ('PackedScene', "res://scenes/characters/briar_hound.tscn", "7_hound"),
         ('SpriteFrames', "res://assets/sprites/monsters/briar_hound/briar_hound_frames.tres", "8_hound_frames"),
         ('PackedScene', "res://scenes/systems/zone_exit.tscn", "9_exit"),
@@ -610,11 +612,6 @@ texture = ExtResource("10_ground")
         taken.append((x, y))
 
     # Cards and hounds.
-    for card, pos in CARDS:
-        x, y = W(*pos)
-        check_spot(card, x, y)
-        taken.append((x, y))
-        n.append(f'[node name="Card_{card}" parent="." instance=ExtResource("5_pick")]\nposition = Vector2({x}, {y})\ncard_id = &"{card}"\n')
     for k, pos in enumerate(HOUNDS):
         x, y = W(*pos)
         check_spot(f"hound {k + 1}", x, y)
@@ -648,7 +645,7 @@ shop_stock = Array[StringName]([&"second_wind", &"lockbox_seal"])
     taken += [(tx, ty), (fx, fy), (nx, ny)]
 
     # Chests.
-    for cid, pos, gold, hint in CHESTS:
+    for cid, pos, gold, hint, card in CHESTS:
         x, y = W(*pos)
         check_spot(f"chest {cid}", x, y)
         taken.append((x, y))
@@ -657,6 +654,7 @@ shop_stock = Array[StringName]([&"second_wind", &"lockbox_seal"])
 position = Vector2({x}, {y})
 script = ExtResource("20_chest")
 chest_id = &"thornveil_{cid}"
+card_id = &"{card}"
 gold = {gold}
 hint = "{hint}"
 closed_texture = ExtResource("{texture(PROPS + "chest.png")}")
@@ -885,7 +883,7 @@ region_rect = Rect2(0, 0, {w}, {h})
     # Reachability: everything that matters, from the south road.
     errors += reachable_errors(blocked, stairs, solids, spawns["from_kalmora"], {
         **{f"spawn {k}": v for k, v in spawns.items()},
-        **{f"card {c}": W(*p) for c, p in CARDS}, **{f"chest {c}": W(*p) for c, p, *_ in CHESTS},
+        **{f"chest {c}": W(*p) for c, p, *_ in CHESTS},
         **{f"rival {k}": v for k, v in rivals.items()}, "Tobin": W(*CAMP["npc"]),
         "spring": (W(*SHRINE["fountain"])[0], W(*SHRINE["fountain"])[1] + 30),
         **{f"exit {k}": v for k, v in exits.items()},

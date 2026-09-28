@@ -26,6 +26,8 @@ const DIRECTIONS_4: Array[String] = ["east", "south", "west", "north"]
 @export_group("Drops")
 @export var drop_card_ids: Array[StringName] = [&"thorn_sprig", &"moss_lantern", &"veyra_reed", &"hollow_acorn"]
 @export var pickup_scene: PackedScene = preload("res://scenes/systems/card_pickup.tscn")
+
+var _last_hitter: StringName
 @export var respawn_time := 25.0
 
 var health := 0
@@ -152,6 +154,7 @@ func _on_hurt(hitbox: Hitbox) -> void:
 	if _state == State.DEAD:
 		return
 	health -= hitbox.damage
+	_last_hitter = hitbox.source_id
 	_flash = 0.08
 	Combat.pop_number(get_parent(), global_position, hitbox.damage)
 	velocity = hitbox.global_position.direction_to(global_position) * hitbox.knockback
@@ -172,11 +175,8 @@ func _die() -> void:
 	attack_shape.set_deferred(&"disabled", true)
 	body_shape.set_deferred(&"disabled", true)
 	hurtbox.set_deferred(&"monitoring", false)
-	if pickup_scene and not drop_card_ids.is_empty():
-		var pickup := pickup_scene.instantiate() as CardPickup
-		pickup.card_id = drop_card_ids.pick_random()
-		pickup.position = position
-		get_parent().add_child.call_deferred(pickup)
+	if not drop_card_ids.is_empty():
+		Combat.award_card(get_parent(), _last_hitter, drop_card_ids.pick_random(), position, pickup_scene)
 	var tween := create_tween()
 	tween.tween_property(sprite, "modulate:a", 0.0, 0.4)
 	tween.tween_callback(func() -> void: visible = false)

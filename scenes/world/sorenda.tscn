@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
 [ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
-[ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="6_pick"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/tree.tscn" id="7_tree"]
 [ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="8_exit"]
 [ext_resource type="PackedScene" path="res://scenes/systems/merchant.tscn" id="9_merchant"]
@@ -37,6 +36,9 @@
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/harl/harl_frames.tres" id="82_harl"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/pell/pell_frames.tres" id="82_pell"]
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="82_read"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="70_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="70_chest_shut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="70_chest_open"]
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(940, 40)
 
@@ -57,6 +59,9 @@ size = Vector2(660, 480)
 
 [sub_resource type="RectangleShape2D" id="RockBase"]
 size = Vector2(22, 8)
+
+[sub_resource type="RectangleShape2D" id="ChestBase"]
+size = Vector2(30, 10)
 
 [node name="Sorenda" type="Node2D"]
 y_sort_enabled = true
@@ -158,22 +163,62 @@ position = Vector2(-170, 110)
 [node name="Well5" parent="." instance=ExtResource("14_well")]
 position = Vector2(80, -10)
 
-[node name="Card_thatch_charm" parent="." instance=ExtResource("6_pick")]
+[node name="Card_thatch_charm" type="StaticBody2D" parent="."]
 position = Vector2(-70, -70)
+script = ExtResource("70_chest")
+chest_id = &"sorenda_card_thatch_charm"
 card_id = &"thatch_charm"
+gold = 0
+hint = ""
+closed_texture = ExtResource("70_chest_shut")
+open_texture = ExtResource("70_chest_open")
 
-[node name="Card_owl_quill" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_thatch_charm"]
+position = Vector2(0, -5)
+shape = SubResource("ChestBase")
+
+[node name="Card_owl_quill" type="StaticBody2D" parent="."]
 position = Vector2(160, 70)
+script = ExtResource("70_chest")
+chest_id = &"sorenda_card_owl_quill"
 card_id = &"owl_quill"
+gold = 0
+hint = ""
+closed_texture = ExtResource("70_chest_shut")
+open_texture = ExtResource("70_chest_open")
 
-[node name="Card_mushroom_ring" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_owl_quill"]
+position = Vector2(0, -5)
+shape = SubResource("ChestBase")
+
+[node name="Card_mushroom_ring" type="StaticBody2D" parent="."]
 position = Vector2(-350, -300)
+script = ExtResource("70_chest")
+chest_id = &"sorenda_card_mushroom_ring"
 card_id = &"mushroom_ring"
+gold = 0
+hint = ""
+closed_texture = ExtResource("70_chest_shut")
+open_texture = ExtResource("70_chest_open")
 
-[node name="Card_sorenda_star_map" parent="." instance=ExtResource("6_pick")]
+[node name="Base" type="CollisionShape2D" parent="Card_mushroom_ring"]
+position = Vector2(0, -5)
+shape = SubResource("ChestBase")
+
+[node name="Card_sorenda_star_map" type="StaticBody2D" parent="."]
 position = Vector2(395, -375)
+script = ExtResource("70_chest")
+chest_id = &"sorenda_card_sorenda_star_map"
 card_id = &"sorenda_star_map"
+gold = 0
+hint = ""
 behind_gate = &"sorenda_hollow"
+closed_texture = ExtResource("70_chest_shut")
+open_texture = ExtResource("70_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Card_sorenda_star_map"]
+position = Vector2(0, -5)
+shape = SubResource("ChestBase")
 
 [node name="ForestTree1" parent="." instance=ExtResource("80_fir")]
 position = Vector2(-473, -378)

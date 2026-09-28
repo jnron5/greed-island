@@ -1,10 +1,9 @@
-[gd_scene load_steps=188 format=3]
+[gd_scene load_steps=187 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
-[ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="5_pick"]
 [ext_resource type="PackedScene" path="res://scenes/characters/briar_hound.tscn" id="7_hound"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/monsters/briar_hound/briar_hound_frames.tres" id="8_hound_frames"]
 [ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="9_exit"]
@@ -2471,22 +2470,6 @@ shape = SubResource("R46x20")
 position = Vector2(73, -10)
 shape = SubResource("R46x20")
 
-[node name="Card_fern_sigil" parent="." instance=ExtResource("5_pick")]
-position = Vector2(-944, -1210)
-card_id = &"fern_sigil"
-
-[node name="Card_owl_quill" parent="." instance=ExtResource("5_pick")]
-position = Vector2(352, -1111)
-card_id = &"owl_quill"
-
-[node name="Card_bark_rune" parent="." instance=ExtResource("5_pick")]
-position = Vector2(-383, -364)
-card_id = &"bark_rune"
-
-[node name="Card_elderwood_heart" parent="." instance=ExtResource("5_pick")]
-position = Vector2(940, -826)
-card_id = &"elderwood_heart"
-
 [node name="BriarHound1" parent="." instance=ExtResource("7_hound")]
 position = Vector2(-593, -1339)
 sprite_frames = ExtResource("8_hound_frames")
@@ -2561,7 +2544,8 @@ shop_stock = Array[StringName]([&"second_wind", &"lockbox_seal"])
 position = Vector2(355, -1132)
 script = ExtResource("20_chest")
 chest_id = &"thornveil_stone_circle"
-gold = 90
+card_id = &"owl_quill"
+gold = 60
 hint = "The stones hum when you stand among them."
 closed_texture = ExtResource("t6_chest")
 open_texture = ExtResource("t7_chest_open")
@@ -2574,6 +2558,7 @@ shape = SubResource("R32x10")
 position = Vector2(-893, -724)
 script = ExtResource("20_chest")
 chest_id = &"thornveil_lake_island"
+card_id = &""
 gold = 120
 hint = "Salt-stiff rope still ties the lid."
 closed_texture = ExtResource("t6_chest")
@@ -2587,12 +2572,55 @@ shape = SubResource("R32x10")
 position = Vector2(836, -91)
 script = ExtResource("20_chest")
 chest_id = &"thornveil_south_clearing"
+card_id = &""
 gold = 70
 hint = "A hunter's cache, hidden in the ferns."
 closed_texture = ExtResource("t6_chest")
 open_texture = ExtResource("t7_chest_open")
 
 [node name="Base" type="CollisionShape2D" parent="Chest_south_clearing"]
+position = Vector2(0, -5)
+shape = SubResource("R32x10")
+
+[node name="Chest_camp_cache" type="StaticBody2D" parent="."]
+position = Vector2(-944, -1210)
+script = ExtResource("20_chest")
+chest_id = &"thornveil_camp_cache"
+card_id = &"fern_sigil"
+gold = 0
+hint = "Tobin's spare kit, the lid wedged shut with a stone."
+closed_texture = ExtResource("t6_chest")
+open_texture = ExtResource("t7_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_camp_cache"]
+position = Vector2(0, -5)
+shape = SubResource("R32x10")
+
+[node name="Chest_heartwood" type="StaticBody2D" parent="."]
+position = Vector2(940, -826)
+script = ExtResource("20_chest")
+chest_id = &"thornveil_heartwood"
+card_id = &"elderwood_heart"
+gold = 0
+hint = "Cradled in the Heartwood's roots, the wood warm to the touch."
+closed_texture = ExtResource("t6_chest")
+open_texture = ExtResource("t7_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_heartwood"]
+position = Vector2(0, -5)
+shape = SubResource("R32x10")
+
+[node name="Chest_meadow_stump" type="StaticBody2D" parent="."]
+position = Vector2(-383, -364)
+script = ExtResource("20_chest")
+chest_id = &"thornveil_meadow_stump"
+card_id = &"bark_rune"
+gold = 0
+hint = "Stuffed into the hollow of an old stump, under the moss."
+closed_texture = ExtResource("t6_chest")
+open_texture = ExtResource("t7_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_meadow_stump"]
 position = Vector2(0, -5)
 shape = SubResource("R32x10")
 

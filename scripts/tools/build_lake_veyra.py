@@ -18,11 +18,13 @@ import json
 import math
 import os
 import random
+import sys
 
 from PIL import Image
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "..")
 os.chdir(ROOT)
+sys.path.insert(0, os.path.join(ROOT, "scripts", "tools"))
 
 TILE = 32
 COLS, ROWS = 32, 25
@@ -193,9 +195,10 @@ target_spawn = &"from_lake"
 for name, (x, y), gate_id, vertical in gates:
     nodes.append(f'[node name="{name}" parent="." instance=ExtResource("8_gate")]\nposition = Vector2({x}, {y})\n'
                  f'gate_id = &"{gate_id}"\n' + ("vertical = true\n" if vertical else ""))
+# Cards sit in chests (never on the ground), behind the same gates.
+from cards_to_chests import chest_node, ensure_resources  # noqa: E402
 for card, (x, y), gate_id, name in pickups:
-    nodes.append(f'[node name="Card_{name}" parent="." instance=ExtResource("5_pick")]\nposition = Vector2({x}, {y})\n'
-                 f'card_id = &"{card}"\nbehind_gate = &"{gate_id}"\n')
+    nodes.append(chest_node(f"Card_{name}", x, y, card, gate_id, zone="lake_veyra"))
 for k, (x, y) in enumerate(hounds):
     nodes.append(f'[node name="BriarHound{k + 1}" parent="." instance=ExtResource("6_hound")]\nposition = Vector2({x}, {y})\n'
                  f'sprite_frames = ExtResource("9_hound_frames")\ndrop_card_ids = Array[StringName]({drops})\n')
@@ -216,7 +219,6 @@ header = f'''[gd_scene load_steps={16 + len(subs)} format=3]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
-[ext_resource type="PackedScene" path="res://scenes/systems/card_pickup.tscn" id="5_pick"]
 [ext_resource type="PackedScene" path="res://scenes/characters/briar_hound.tscn" id="6_hound"]
 [ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
 [ext_resource type="PackedScene" path="res://scenes/systems/card_gate.tscn" id="8_gate"]
@@ -229,5 +231,6 @@ header = f'''[gd_scene load_steps={16 + len(subs)} format=3]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/fern.png" id="15_fern"]
 
 '''
-open("scenes/world/lake_veyra.tscn", "w", newline="\n").write(header + "\n".join(subs.values()) + "\n" + "\n".join(nodes))
+open("scenes/world/lake_veyra.tscn", "w", newline="\n").write(
+    ensure_resources(header + "\n".join(subs.values()) + "\n" + "\n".join(nodes)))
 print(f"lake: {len(water_rects)} water rects, {len(trees)} trees")
