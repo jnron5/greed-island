@@ -87,6 +87,7 @@ func _physics_process(delta: float) -> void:
 			_process_move()
 		State.DASH:
 			velocity = _dash_dir * dash_speed
+			_leave_afterimage()
 			if _state_time >= dash_duration:
 				hurtbox.invulnerable = false
 				_enter(State.MOVE)
@@ -334,3 +335,22 @@ func _draw_slash() -> void:
 	var sweep := lerpf(-1.1, 1.1, t)
 	# The sword animation draws its own swing; this is just a faint reach marker.
 	_slash.draw_arc(Vector2.ZERO, 20.0, -1.1, sweep, 12, Color(1, 1, 0.9, 0.25), 2.0)
+
+
+## A fading copy of the current frame left behind while dashing (every other physics
+## frame), tinted like the cloak's wind, so the dash reads as a burst of speed.
+func _leave_afterimage() -> void:
+	if Engine.get_physics_frames() % 2 or DisplayServer.get_name() == "headless":
+		return
+	var ghost := Sprite2D.new()
+	ghost.texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
+	ghost.global_position = sprite.global_position
+	ghost.offset = sprite.offset
+	ghost.scale = sprite.scale
+	ghost.flip_h = sprite.flip_h
+	ghost.modulate = Color(1.0, 0.85, 0.6, 0.45)
+	ghost.z_index = -1
+	get_parent().add_child(ghost)
+	var tween := ghost.create_tween()
+	tween.tween_property(ghost, "modulate:a", 0.0, 0.22)
+	tween.tween_callback(ghost.queue_free)
