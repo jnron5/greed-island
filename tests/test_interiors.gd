@@ -2,7 +2,9 @@ extends Node
 ## Every building in Kalmora can be entered: each door leads to an interior whose
 ## door spawn and way out are clear of walls and furniture, the way out lands back on
 ## a Kalmora doorstep that exists, residents stand on open floor, and every readable
-## can be reached from the door on foot.
+## can be reached from the door on foot. Reach is walked with the player's real feet
+## (circle, radius and offset from player.tscn), and the way out counts only if
+## those feet overlap the exit's trigger. Kalmora's doors need the interact key.
 ## Run: godot --headless --path . res://tests/test_interiors.tscn
 
 var _failures := 0
@@ -29,6 +31,11 @@ func _run() -> void:
 				and not String(node.name).begins_with("Tree") and node.name != "Lighthouse":
 			buildings += 1
 	_check("every building has a door (%d doors, %d buildings)" % [doors.size(), buildings], doors.size() == buildings)
+	for door in doors:
+		_check("%s: entered with the interact key" % door.name, door.needs_interact)
+		var step := town.get_node_or_null("Spawns/from_" + String(door.name).trim_suffix("Door").to_lower()) as Node2D
+		_check("%s: doorstep is within reach of the door" % door.name,
+			step != null and step.global_position.distance_to(door.global_position) <= ZoneExit.DOOR_RANGE)
 	var doorsteps := {}
 	for spawn in town.get_node("Spawns").get_children():
 		doorsteps[String(spawn.name)] = true
@@ -52,7 +59,9 @@ func _run() -> void:
 		# Walk the room on a 4px grid from the door spawn: the way out, every resident
 		# and every readable must be reachable.
 		var reach := _flood(space, door_spawn.global_position)
-		_check("%s: the way out is reachable" % label, _near(reach, out.global_position + Vector2(0, -10), 14))
+		_check("%s: the way out is reachable" % label, _touches_exit(reach, out))
+		_check("%s: arriving doesn't stand in the way out" % label, not _in_exit(door_spawn.global_position, out))
+		_check("%s: room is big enough to move in (%d spots)" % [label, reach.size()], reach.size() >= 150)
 		for node in room.get_children():
 			if node is Npc:
 				_check("%s: %s can be walked up to" % [label, node.name], _near(reach, node.global_position, 30))
@@ -62,15 +71,32 @@ func _run() -> void:
 	get_tree().quit(1 if _failures else 0)
 
 
+const FEET_RADIUS := 5.0
+const FEET_OFFSET := Vector2(0, -3)
+var _feet := CircleShape2D.new()
+
+
 func _open(space: PhysicsDirectSpaceState2D, point: Vector2) -> bool:
-	var query := PhysicsPointQueryParameters2D.new()
-	query.position = point
+	_feet.radius = FEET_RADIUS
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = _feet
+	query.transform = Transform2D(0, point + FEET_OFFSET)
 	query.collision_mask = 1
-	for offset in [Vector2.ZERO, Vector2(-5, -3), Vector2(5, -3)]:
-		query.position = point + offset
-		if not space.intersect_point(query, 1).is_empty():
-			return false
-	return true
+	return space.intersect_shape(query, 1).is_empty()
+
+
+func _in_exit(point: Vector2, out: ZoneExit) -> bool:
+	var shape := (out.get_node("CollisionShape2D") as CollisionShape2D)
+	var rect := (shape.shape as RectangleShape2D).get_rect()
+	var box := shape.global_transform * rect
+	return box.grow(FEET_RADIUS).has_point(point + FEET_OFFSET)
+
+
+func _touches_exit(points: Array[Vector2], out: ZoneExit) -> bool:
+	for p in points:
+		if _in_exit(p, out):
+			return true
+	return false
 
 
 func _flood(space: PhysicsDirectSpaceState2D, start: Vector2) -> Array[Vector2]:
@@ -80,7 +106,7 @@ func _flood(space: PhysicsDirectSpaceState2D, start: Vector2) -> Array[Vector2]:
 	var out: Array[Vector2] = []
 	var queue: Array[Vector2] = [first]
 	var head := 0
-	while head < queue.size() and out.size() < 6000:
+	while head < queue.size() and out.size() < 20000:
 		var p: Vector2 = queue[head]
 		head += 1
 		if not _open(space, p):

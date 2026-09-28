@@ -5,10 +5,14 @@ Usage: python scripts/tools/build_interiors.py
 Writes scenes/world/interiors/<id>.tscn. Room images live in
 assets/sprites/tiles/kalmora/interiors/. Coordinates are room-image pixels
 (top-left 0,0). Interiors are safe zones with warm fixed light (Zone.interior).
+The room art is drawn at ROOM_SCALE so furniture and doors match the player's size;
+everything below stays in the image's own pixels and is scaled on the way out.
 """
 import os
 
 os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
+
+ROOM_SCALE = 2
 
 SHOP_STOCK = '[&"pickpockets_whisper", &"lockbox_seal", &"second_wind"]'
 
@@ -97,7 +101,7 @@ INTERIORS = {
         "blocks": [
             (0, 0, 320, 100), (0, 0, 40, 256), (290, 0, 320, 256),       # shelves, side walls
             (38, 104, 240, 170), (38, 140, 122, 180), (30, 178, 92, 236),  # counter, flour sacks, barrels
-            (128, 178, 142, 256), (180, 178, 192, 256),                   # the inner door frame
+            (128, 196, 142, 256), (180, 196, 192, 256),                   # the inner door frame (posts only)
             (0, 236, 142, 256), (180, 236, 320, 256),                     # front wall
         ],
         "npcs": [("greta", "Greta", "greta", (262, 140), [
@@ -142,13 +146,13 @@ INTERIORS = {
         "name": "Harbormaster's Office",
         "image": "assets/sprites/tiles/kalmora/interiors/harbor_office_room.png",
         "size": (320, 256),
-        "exit": (84, 250), "back_to": "from_harbormaster", "spawn": (84, 212),
+        "exit": (161, 252), "back_to": "from_harbormaster", "spawn": (161, 216),
         "blocks": [
             (0, 0, 320, 140), (0, 0, 24, 256), (298, 0, 320, 256),       # back wall and cabinets, sides
             (22, 140, 60, 222),                                           # telescope
-            (108, 118, 218, 176), (140, 200, 182, 228),                   # desk, chair
+            (108, 118, 218, 176),                                         # desk (its chair stands in the doorway, walk past it)
             (210, 193, 254, 225), (258, 55, 300, 225),                    # chest, bookcase
-            (0, 228, 64, 256), (104, 228, 320, 256),                      # front wall around the door
+            (0, 228, 140, 256), (182, 228, 320, 256),                     # front wall around the door
         ],
         "npcs": [],
         "readables": [
@@ -279,7 +283,20 @@ INTERIORS = {
 }
 
 
+def scaled(cfg, k=ROOM_SCALE):
+    """The config in zone coordinates: every position and rect multiplied by k."""
+    pt = lambda p: (p[0] * k, p[1] * k)
+    out = dict(cfg)
+    out["size"] = pt(cfg["size"])
+    out["exit"], out["spawn"] = pt(cfg["exit"]), pt(cfg["spawn"])
+    out["blocks"] = [tuple(v * k for v in b) for b in cfg["blocks"]]
+    out["npcs"] = [(a, b, c, pt(pos), lines, stock) for a, b, c, pos, lines, stock in cfg["npcs"]]
+    out["readables"] = [(t, pt(pos), lines) for t, pos, lines in cfg.get("readables", [])]
+    return out
+
+
 def build(zone_id, cfg):
+    cfg = scaled(cfg)
     w, h = cfg["size"]
     ext = [
         ('Script', "res://scripts/world/zone.gd", "1_zone"),
@@ -310,11 +327,12 @@ interior = true
 [node name="Ground" type="Sprite2D" parent="."]
 z_index = -10
 position = Vector2({w / 2}, {h / 2})
+scale = Vector2({ROOM_SCALE}, {ROOM_SCALE})
 texture = ExtResource("10_room")
 
 [node name="Glow" type="PointLight2D" parent="."]
 position = Vector2({w / 2}, {h / 2})
-texture_scale = 4.0
+texture_scale = {4.0 * ROOM_SCALE}
 script = ExtResource("11_lamp")
 always_on = true
 max_energy = 0.35
@@ -344,6 +362,7 @@ position = Vector2{cfg["spawn"]}
 position = Vector2({ex}, {ey})
 target_scene = "res://scenes/world/kalmora.tscn"
 target_spawn = &"{cfg["back_to"]}"
+exit_hint = true
 ''')
     for npc_id, display, sprite_id, (x, y), lines, stock in cfg["npcs"]:
         rid = f"n_{sprite_id}"

@@ -81,7 +81,7 @@ func _limit_camera(player: Node2D) -> void:
 	var ground := _ground_sprite()
 	if camera == null or ground == null:
 		return
-	var rect := Rect2(ground.position - ground.texture.get_size() / 2.0, ground.texture.get_size())
+	var rect := _ground_rect(ground)
 	camera.limit_left = int(rect.position.x)
 	camera.limit_top = int(rect.position.y)
 	camera.limit_right = int(rect.end.x)
@@ -173,7 +173,7 @@ func _build_nav() -> void:
 	var ground := _ground_sprite()
 	var rect := Rect2(-640, -640, 1280, 1280)
 	if ground:
-		rect = Rect2(ground.position - ground.texture.get_size() / 2.0, ground.texture.get_size())
+		rect = _ground_rect(ground)
 	var cells := Rect2i(Vector2i((rect.position / NAV_CELL).floor()), Vector2i((rect.size / NAV_CELL).ceil()))
 	_nav.region = cells
 	_nav.cell_size = Vector2(NAV_CELL, NAV_CELL)
@@ -189,6 +189,12 @@ func _build_nav() -> void:
 			if not space.intersect_point(query, 1).is_empty():
 				_nav.set_point_solid(Vector2i(x, y))
 	_nav_ready = true
+
+
+## The ground sprite's area in zone coordinates (interiors draw their room at 2x).
+func _ground_rect(ground: Sprite2D) -> Rect2:
+	var size := ground.texture.get_size() * ground.scale
+	return Rect2(ground.position - size / 2.0, size)
 
 
 func _ground_sprite() -> Sprite2D:

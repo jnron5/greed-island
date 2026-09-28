@@ -14,38 +14,38 @@
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/calloway/calloway_frames.tres" id="n_calloway"]
 
-[sub_resource type="RectangleShape2D" id="R320x112"]
-size = Vector2(320, 112)
+[sub_resource type="RectangleShape2D" id="R640x224"]
+size = Vector2(640, 224)
 
-[sub_resource type="RectangleShape2D" id="R70x66"]
-size = Vector2(70, 66)
+[sub_resource type="RectangleShape2D" id="R140x132"]
+size = Vector2(140, 132)
 
-[sub_resource type="RectangleShape2D" id="R58x80"]
-size = Vector2(58, 80)
+[sub_resource type="RectangleShape2D" id="R116x160"]
+size = Vector2(116, 160)
 
-[sub_resource type="RectangleShape2D" id="R32x55"]
-size = Vector2(32, 55)
+[sub_resource type="RectangleShape2D" id="R64x110"]
+size = Vector2(64, 110)
 
-[sub_resource type="RectangleShape2D" id="R54x75"]
-size = Vector2(54, 75)
+[sub_resource type="RectangleShape2D" id="R108x150"]
+size = Vector2(108, 150)
 
-[sub_resource type="RectangleShape2D" id="R52x256"]
-size = Vector2(52, 256)
+[sub_resource type="RectangleShape2D" id="R104x512"]
+size = Vector2(104, 512)
 
-[sub_resource type="RectangleShape2D" id="R24x256"]
-size = Vector2(24, 256)
+[sub_resource type="RectangleShape2D" id="R48x512"]
+size = Vector2(48, 512)
 
-[sub_resource type="RectangleShape2D" id="R128x24"]
-size = Vector2(128, 24)
+[sub_resource type="RectangleShape2D" id="R256x48"]
+size = Vector2(256, 48)
 
-[sub_resource type="RectangleShape2D" id="R400x40"]
-size = Vector2(400, 40)
+[sub_resource type="RectangleShape2D" id="R720x40"]
+size = Vector2(720, 40)
 
-[sub_resource type="RectangleShape2D" id="R40x316"]
-size = Vector2(40, 316)
+[sub_resource type="RectangleShape2D" id="R40x572"]
+size = Vector2(40, 572)
 
-[sub_resource type="RectangleShape2D" id="R320x276"]
-size = Vector2(320, 276)
+[sub_resource type="RectangleShape2D" id="R640x532"]
+size = Vector2(640, 532)
 
 [node name="kalmora_calloway_house" type="Node2D"]
 y_sort_enabled = true
@@ -55,12 +55,13 @@ interior = true
 
 [node name="Ground" type="Sprite2D" parent="."]
 z_index = -10
-position = Vector2(160.0, 128.0)
+position = Vector2(320.0, 256.0)
+scale = Vector2(2, 2)
 texture = ExtResource("10_room")
 
 [node name="Glow" type="PointLight2D" parent="."]
-position = Vector2(160.0, 128.0)
-texture_scale = 4.0
+position = Vector2(320.0, 256.0)
+texture_scale = 8.0
 script = ExtResource("11_lamp")
 always_on = true
 max_energy = 0.35
@@ -68,56 +69,56 @@ max_energy = 0.35
 [node name="Walls" type="StaticBody2D" parent="."]
 
 [node name="W0" type="CollisionShape2D" parent="Walls"]
-position = Vector2(160.0, 56.0)
-shape = SubResource("R320x112")
+position = Vector2(320.0, 112.0)
+shape = SubResource("R640x224")
 
 [node name="W1" type="CollisionShape2D" parent="Walls"]
-position = Vector2(103.0, 117.0)
-shape = SubResource("R70x66")
+position = Vector2(206.0, 234.0)
+shape = SubResource("R140x132")
 
 [node name="W2" type="CollisionShape2D" parent="Walls"]
-position = Vector2(261.0, 150.0)
-shape = SubResource("R58x80")
+position = Vector2(522.0, 300.0)
+shape = SubResource("R116x160")
 
 [node name="W3" type="CollisionShape2D" parent="Walls"]
-position = Vector2(284.0, 197.5)
-shape = SubResource("R32x55")
+position = Vector2(568.0, 395.0)
+shape = SubResource("R64x110")
 
 [node name="W4" type="CollisionShape2D" parent="Walls"]
-position = Vector2(51.0, 187.5)
-shape = SubResource("R54x75")
+position = Vector2(102.0, 375.0)
+shape = SubResource("R108x150")
 
 [node name="W5" type="CollisionShape2D" parent="Walls"]
-position = Vector2(26.0, 128.0)
-shape = SubResource("R52x256")
+position = Vector2(52.0, 256.0)
+shape = SubResource("R104x512")
 
 [node name="W6" type="CollisionShape2D" parent="Walls"]
-position = Vector2(308.0, 128.0)
-shape = SubResource("R24x256")
+position = Vector2(616.0, 256.0)
+shape = SubResource("R48x512")
 
 [node name="W7" type="CollisionShape2D" parent="Walls"]
-position = Vector2(64.0, 244.0)
-shape = SubResource("R128x24")
+position = Vector2(128.0, 488.0)
+shape = SubResource("R256x48")
 
 [node name="W8" type="CollisionShape2D" parent="Walls"]
-position = Vector2(256.0, 244.0)
-shape = SubResource("R128x24")
+position = Vector2(512.0, 488.0)
+shape = SubResource("R256x48")
 
 [node name="W9" type="CollisionShape2D" parent="Walls"]
-position = Vector2(160.0, -20.0)
-shape = SubResource("R400x40")
+position = Vector2(320.0, -20.0)
+shape = SubResource("R720x40")
 
 [node name="W10" type="CollisionShape2D" parent="Walls"]
-position = Vector2(-20.0, 158.0)
-shape = SubResource("R40x316")
+position = Vector2(-20.0, 286.0)
+shape = SubResource("R40x572")
 
 [node name="W11" type="CollisionShape2D" parent="Walls"]
-position = Vector2(340.0, 158.0)
-shape = SubResource("R40x316")
+position = Vector2(660.0, 286.0)
+shape = SubResource("R40x572")
 
 [node name="W12" type="CollisionShape2D" parent="Walls"]
-position = Vector2(160.0, 296.0)
-shape = SubResource("R400x40")
+position = Vector2(320.0, 552.0)
+shape = SubResource("R720x40")
 
 [node name="SafeZone" type="Area2D" parent="."]
 collision_layer = 0
@@ -126,46 +127,47 @@ monitorable = false
 script = ExtResource("8_safe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
-position = Vector2(160.0, 128.0)
-shape = SubResource("R320x276")
+position = Vector2(320.0, 256.0)
+shape = SubResource("R640x532")
 
 [node name="Spawns" type="Node2D" parent="."]
 
 [node name="door" type="Marker2D" parent="Spawns"]
-position = Vector2(160, 214)
+position = Vector2(320, 428)
 
 [node name="Out" parent="." instance=ExtResource("7_exit")]
-position = Vector2(160, 250)
+position = Vector2(320, 500)
 target_scene = "res://scenes/world/kalmora.tscn"
 target_spawn = &"from_hillhouse"
+exit_hint = true
 
 [node name="Npc_calloway" parent="." instance=ExtResource("9_npc")]
-position = Vector2(190, 140)
+position = Vector2(380, 280)
 npc_id = &"calloway"
 display_name = "Lady Calloway"
 sprite_frames = ExtResource("n_calloway")
 lines = PackedStringArray("Another racer. Do wipe your feet. My grandson is racing too, you know. Calloways always race.", "The Duskara trade built this island, dear. Everyone eats from that table. Some of us simply set it.", "The King's race is older than any of us. Old things have their reasons. I wouldn't go digging for them.")
 
 [node name="Read1" type="Node2D" parent="."]
-position = Vector2(160, 118)
+position = Vector2(320, 236)
 script = ExtResource("12_read")
 title = "The family portrait"
 lines = PackedStringArray("Four generations of Calloways, painted in gold leaf. Behind them, very small, a window shows red dunes.")
 
 [node name="Read2" type="Node2D" parent="."]
-position = Vector2(104, 158)
+position = Vector2(208, 316)
 script = ExtResource("12_read")
 title = "A letter on the desk"
 lines = PackedStringArray("'Mother. The Duskara consignment is short again; the foreman blames the heat. Tell him the King's count must be met. Hire younger if he must. - H.'")
 
 [node name="Read3" type="Node2D" parent="."]
-position = Vector2(86, 190)
+position = Vector2(172, 380)
 script = ExtResource("12_read")
 title = "An iron strongbox"
 lines = PackedStringArray("Locked tight. A brass plate on the lid: 'CALLOWAY & DUNE, SHIPPING. Est. the year of the Third Race.'")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector2(160, 214)
+position = Vector2(320, 428)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
 

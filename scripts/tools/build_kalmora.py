@@ -1154,7 +1154,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
             n.append(f'[node name="{name}Lamp" type="PointLight2D" parent="."]\nposition = Vector2({x + dx}, {y - 40})\n'
                      f'texture_scale = 0.9\nscript = ExtResource("20_lamp")\nmax_energy = 0.8\n')
             n.append(f'[node name="{name}Door" parent="." instance=ExtResource("11_exit")]\nposition = Vector2({x + dx}, {y + 4})\n'
-                     f'scale = Vector2(0.5, 1)\ntarget_scene = "{interior}"\ntarget_spawn = &"door"\n')
+                     f'target_scene = "{interior}"\ntarget_spawn = &"door"\nneeds_interact = true\n')
 
     # Residents and the quay's unmarked crates.
     for npc_id, display, sprite_id, pos, wander, lines in NPCS:
