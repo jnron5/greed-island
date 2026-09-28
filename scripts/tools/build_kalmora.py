@@ -27,7 +27,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from terrain import CliffSet, CornerSet, compose, merge_rects, overlay  # noqa: E402
+from terrain import CliffSet, CornerSet, compose, mask_rects, merge_rects, overlay  # noqa: E402
 
 TILE = 32
 SCALE = 1.4                                    # world px per concept px
@@ -798,6 +798,20 @@ region_rect = Rect2(0, 0, {w}, {h})
 ''']
 
 
+def building_depth(path):
+    """How far back from its front wall a building's footprint reaches: the part of
+    the sprite below its roof ridge, roughly (a front-facing house shows its roof
+    above the walls, so its ground plan is a little under half the sprite's height)."""
+    b = Image.open(path).getbbox()
+    return int(min(160, max(40, (b[3] - b[1]) * 0.45)))
+
+
+def prop_depth(path):
+    """A prop's footprint depth from its sprite: a third of its height, 10-32 px."""
+    b = Image.open(path).getbbox()
+    return int(min(32, max(10, (b[3] - b[1]) * 0.33)))
+
+
 def prop_path(name):
     for d in PROP_DIRS:
         if os.path.exists(f"{d}{name}.png"):
@@ -990,6 +1004,12 @@ texture = ExtResource("12_ground")
     walls = merge_rects(blocked, LEFT, TOP, TILE)
     walls = [(x0 + WALL_NUDGE.get((x0, y0, x1, y1), 0), y0, x1 + WALL_NUDGE.get((x0, y0, x1, y1), 0), y1)
              for x0, y0, x1, y1 in walls]
+    # Water blocks exactly where it shows (a few px in from its edge): the grid above
+    # leaves the edges of beach, canal and quay cells open. The canal bridges stay open.
+    a = np.asarray(ground).astype(int)
+    water_px = (a[..., 2] > a[..., 0] + 50) & (a[..., 2] >= a[..., 1] - 10)
+    open_bridges = [(LEFT + c * TILE, TOP + r * TILE, LEFT + (c + 1) * TILE, TOP + (r + 1) * TILE) for r, c in bridge_cells()]
+    walls += mask_rects(water_px, LEFT, TOP, step=8, erode=4, clear=open_bridges, fill=0.5)
     walls += [(LEFT - 40, TOP - 40, -24, TOP), (24, TOP - 40, RIGHT + 40, TOP),
               (-64, TOP - 80, -24, TOP - 40), (24, TOP - 80, 64, TOP - 40),
               # the gate line spans only the forest band (the meadow's cliff and a seal behind the
@@ -1146,7 +1166,9 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         x, y = W(*pos)
         check_spot(name, x, y)
         path = OBJ + sprite + ".png"
-        n.append(solid(name, path, x, y, fw, 40))
+        # The building stands on its whole footprint, not just the foot of its front
+        # wall: you walk round it, never into its walls or under its roof.
+        n.append(solid(name, path, x, y, fw, building_depth(path)))
         shadow("building", path, x, y)
         taken.append((x, y))
         if name in DOORS:
@@ -1244,7 +1266,7 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
                     f'offset = Vector2(0, {bottom_offset(path)})\ntexture = ExtResource("{texture(path)}")\n')
         taken.append((x, y))
         (_, _), b = bbox(path)
-        frac, fh = FOOTPRINT_FRAC.get(name, (0.6, 10))
+        frac, fh = FOOTPRINT_FRAC.get(name, (0.6, prop_depth(path)))
         shadow("prop", path, x, y)
         return solid(node, path, x, y, max(12, int((b[2] - b[0]) * frac)), fh)
 

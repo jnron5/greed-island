@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/sorenda/sorenda_longhouse.png" id="1_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_base"]
-size = Vector2(108, 24)
+size = Vector2(112, 38)
 
 [node name="SorendaLonghouse" type="StaticBody2D"]
 
@@ -12,5 +12,5 @@ position = Vector2(0, -40)
 texture = ExtResource("1_tex")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -12)
+position = Vector2(0, -19)
 shape = SubResource("RectangleShape2D_base")

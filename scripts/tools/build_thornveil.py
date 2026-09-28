@@ -32,7 +32,7 @@ from PIL import Image, ImageDraw, ImageFilter
 os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from terrain import CliffSet, CornerSet, compose, merge_rects  # noqa: E402
+from terrain import CliffSet, CornerSet, compose, mask_rects, merge_rects  # noqa: E402
 import thornveil_layout as L  # noqa: E402
 from build_forest import write_tree_scene  # noqa: E402
 
@@ -112,6 +112,16 @@ def stair_cells():
     return {(r0 + dr, c0 + dc) for c0, r0, rows, _ in STAIR_SPOTS for dr in range(rows) for dc in (0, 1)}
 
 
+def bridge_span(rect):
+    """A bridge's walkable cells: two rows (a comfortable width) centred on its rect,
+    across the columns it spans."""
+    x0, y0, x1, y1 = rect
+    (wx0, wy0), (wx1, wy1) = W(x0, y0), W(x1, y1)
+    r0 = round(((wy0 + wy1) / 2 - TOP) / TILE) - 1
+    c0, c1 = (wx0 - LEFT) // TILE, (wx1 - 1 - LEFT) // TILE
+    return {(r, c) for r in (r0, r0 + 1) for c in range(c0, c1 + 1)}
+
+
 def soft_mask(fn, size, res=4, blur=5, jitter=0.18, seed=0):
     """A pixel mask of fn(cx, cy) (concept px) with rounded, slightly wandering edges."""
     W_, H_ = size
@@ -167,7 +177,7 @@ def build_terrain():
                 decks.add((r, c))
     bridges = {}
     for k, rect in enumerate(L.BRIDGES):
-        for cell in cells_in(rect):
+        for cell in bridge_span(rect):
             bridges[cell] = k
     # Grass everywhere on land, then the paths, then darker forest floor under canopy.
     grass = CornerSet(K2 + "wang/grass_meadow")
@@ -232,6 +242,7 @@ def build_terrain():
     a[..., :3] = np.where(shallow[..., None], np.array([70, 160, 214], np.float32), a[..., :3])
     a[..., 3] = np.where(streams | bank, 255, a[..., 3])
     out = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
+    rail_dock(out, decks, stand)
     out = grade(out, stand, decks)
 
     cover = streams.reshape(ROWS, TILE, COLS, TILE).mean(axis=(1, 3))
@@ -257,7 +268,35 @@ def build_terrain():
             else:
                 lm.putpixel((c, r), (v * 40, 0, 0))
     lm.save(LEVEL_PNG)
-    return out, stand, blocked, stairs, decks, set(bridges), floor, dirt_on
+    water_cells = {(r, c) for r in range(ROWS) for c in range(COLS)
+                   if (stand[r][c] == WATER or (r, c) in wet_cells) and (r, c) not in decks and (r, c) not in bridges}
+    return out, stand, blocked, stairs, decks, set(bridges), floor, dirt_on, water_cells
+
+
+def rail_dock(img, decks, stand):
+    """Wooden railings along every side of the dock that faces open water: a rail with
+    a highlight, posts every 16px, and a shadow on the planks inside."""
+    d = ImageDraw.Draw(img)
+    rail, light, post, shade = (92, 58, 34, 255), (168, 118, 70, 255), (70, 42, 24, 255), (0, 0, 0, 60)
+    for r, c in decks:
+        x, y = c * TILE, r * TILE
+        for dr, dc in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            nr, nc = r + dr, c + dc
+            if (nr, nc) in decks or not (0 <= nr < ROWS and 0 <= nc < COLS) or stand[nr][nc] != WATER:
+                continue
+            if dr:                                               # a rail along the top or bottom edge
+                ry = y + (1 if dr < 0 else TILE - 5)
+                d.rectangle((x, ry + 4, x + TILE - 1, ry + 5), fill=shade if dr < 0 else (0, 0, 0, 0))
+                d.rectangle((x, ry, x + TILE - 1, ry + 2), fill=rail)
+                d.line((x, ry, x + TILE - 1, ry), fill=light)
+                for px in (x + 2, x + 18):
+                    d.rectangle((px, ry - 3, px + 2, ry + 4), fill=post)
+            else:                                                # along the left or right edge
+                rx = x + (1 if dc < 0 else TILE - 4)
+                d.rectangle((rx, y, rx + 2, y + TILE - 1), fill=rail)
+                d.line((rx, y, rx, y + TILE - 1), fill=light)
+                for py in (y + 4, y + 20):
+                    d.rectangle((rx - 1, py, rx + 3, py + 4), fill=post)
 
 
 def grade(img, stand, decks):
@@ -302,20 +341,39 @@ def build_stairs():
     return paths
 
 
-def build_bridge(length):
-    """The plank footbridge stretched (by repeating its middle planks) to `length` px."""
+def build_bridge(length, deck_px=2 * TILE):
+    """A plank footbridge `length` px long whose deck spans `deck_px`: the PixelLab
+    footbridge's back and front rails (stretched by repeating their middle posts) with
+    a deck of Kalmora's planks laid across between them, and its end boards."""
     src = Image.open(PROPS + "footbridge.png").convert("RGBA")
     src = src.crop(src.getbbox())
     w, h = src.size
-    if length <= w:
-        return src
-    end = w // 4
-    mid = src.crop((end, 0, w - end, h))
-    out = Image.new("RGBA", (length, h))
-    out.paste(src.crop((0, 0, end, h)), (0, 0))
-    for x in range(end, length - end, mid.width):
-        out.paste(mid.crop((0, 0, min(mid.width, length - end - x), h)), (x, 0))
-    out.paste(src.crop((w - end, 0, w, h)), (length - end, 0))
+    end = 8
+
+    def stretch(strip):
+        """Repeat a strip's middle to `length` px, keeping its two ends."""
+        mid = strip.crop((end, 0, w - end, strip.height))
+        out = Image.new("RGBA", (length, strip.height))
+        out.paste(strip.crop((0, 0, end, strip.height)), (0, 0))
+        for x in range(end, length - end, mid.width):
+            out.paste(mid.crop((0, 0, min(mid.width, length - end - x), strip.height)), (x, 0))
+        out.paste(strip.crop((w - end, 0, w, strip.height)), (length - end, 0))
+        return out
+    back, front = stretch(src.crop((0, 0, w, 8))), stretch(src.crop((0, 17, w, h)))
+    planks = CornerSet(K2 + "wang/planks").tiles[15].convert("RGBA").rotate(90)
+    deck = Image.new("RGBA", (length, deck_px))
+    for x in range(0, length, planks.width):
+        for y in range(0, deck_px, planks.height):
+            deck.paste(planks, (x, y))
+    # darker boards at each end, and a shadow under the back rail
+    dd = ImageDraw.Draw(deck)
+    for x0 in (0, length - 4):
+        dd.rectangle((x0, 0, x0 + 3, deck_px - 1), fill=(96, 62, 38, 255))
+    dd.rectangle((0, 0, length - 1, 3), fill=(70, 44, 28, 120))
+    out = Image.new("RGBA", (length, 4 + deck_px + front.height))
+    out.paste(deck, (0, 4))
+    out.alpha_composite(back, (0, 0))
+    out.alpha_composite(front, (0, 4 + deck_px - 6))
     return out
 
 
@@ -378,7 +436,7 @@ READABLES = [
 
 
 def main():
-    ground, stand, blocked, stairs, decks, bridge_cells, floor, dirt_on = build_terrain()
+    ground, stand, blocked, stairs, decks, bridge_cells, floor, dirt_on, water_cells = build_terrain()
     stair_png = build_stairs()
     errors = []
 
@@ -462,15 +520,25 @@ texture = ExtResource("10_ground")
         x, top = LEFT + c0 * TILE, TOP + r0 * TILE
         n.append(f'[node name="Stairs{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\n'
                  f'position = Vector2({x + TILE}, {top + rows * TILE / 2})\ntexture = ExtResource("st_{rows}")\n')
-    for k, (x0, y0, x1, y1) in enumerate(L.BRIDGES):
-        (wx0, wy0), (wx1, wy1) = W(x0, y0), W(x1, y1)
-        span = build_bridge(wx1 - wx0 + 24)
+    for k, rect in enumerate(L.BRIDGES):
+        cells = bridge_span(rect)
+        c0, c1 = min(c for _, c in cells), max(c for _, c in cells)
+        r0 = min(r for r, _ in cells)
+        wx0, wx1 = LEFT + c0 * TILE, LEFT + (c1 + 1) * TILE
+        span = build_bridge(wx1 - wx0 + 16)
         path = f"{ART}bridge_{k + 1}.png"
         span.save(path)
-        n.append(f'[node name="Bridge{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\n'
-                 f'position = Vector2({(wx0 + wx1) / 2}, {(wy0 + wy1) / 2})\ntexture = ExtResource("{texture(path)}")\n')
+        top = TOP + r0 * TILE - 6                     # the back rail sits just above the deck rows
+        n.append(f'[node name="Bridge{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\ncentered = false\n'
+                 f'position = Vector2({wx0 - 8}, {top})\ntexture = ExtResource("{texture(path)}")\n')
 
-    walls = merge_rects(blocked, LEFT, TOP, TILE)
+    cliff = [[blocked[r][c] and (r, c) not in water_cells for c in range(COLS)] for r in range(ROWS)]
+    walls = merge_rects(cliff, LEFT, TOP, TILE)
+    # Water blocks exactly where it shows (a few px in from its edge), except under
+    # the bridges and the dock.
+    open_decks = [(LEFT + c * TILE, TOP + r * TILE, LEFT + (c + 1) * TILE, TOP + (r + 1) * TILE)
+                  for r, c in decks | bridge_cells]
+    walls += mask_rects(water_pixels(ground, stand, decks), LEFT, TOP, step=8, erode=2, clear=open_decks)
     # The map's edges; exits leave gaps in them.
     walls += [(LEFT - 40, TOP - 40, RIGHT + 40, TOP), (LEFT - 40, BOTTOM, RIGHT + 40, BOTTOM + 40),
               (LEFT - 40, TOP, LEFT, BOTTOM), (RIGHT, TOP, RIGHT + 40, BOTTOM)]
@@ -654,7 +722,7 @@ shape = SubResource("{shape(32, 10)}")
         n.append(f'[node name="Falls{k + 1}" type="AnimatedSprite2D" parent="."]\nz_index = -7\n'
                  f'position = Vector2({x}, {y + h * SCALE / 2})\nscale = Vector2({min(1.2, max(0.8, scale)):.2f}, {scale:.2f})\n'
                  f'sprite_frames = SubResource("frames_falls")\nautoplay = "default"\nframe = {k * 3 % 8}\n')
-    bx, by = W(330, 516)
+    bx, by = W(302, 472)
     n.append(f'[node name="Rowboat" type="Sprite2D" parent="."]\nz_index = -7\nposition = Vector2({bx}, {by})\n'
              f'rotation = -0.5\ntexture = ExtResource("{texture(K2 + "props/rowboat.png")}")\n')
     rng = random.Random(11)
@@ -762,7 +830,10 @@ shape = SubResource("{shape(32, 10)}")
         if path_near[int(y - TOP), int(x - LEFT)] and prop_ok(x, y, 40):
             props.append((rng.choice(["bush_flowers_g", "bush_flowers_g", "bush_g"]), round(x), round(y)))
     for k, (name, x, y) in enumerate(props):
-        path = (K2 + "props/" if name.startswith("bush") else FOREST) + name + ".png"
+        if name.startswith("bush"):
+            n.append(solid(f"Bush{k + 1}", K2 + "props/" + name + ".png", x, y, 26, 10))
+            continue
+        path = FOREST + name + ".png"
         h = Image.open(path).height
         n.append(f'[node name="Under{k + 1}" type="Sprite2D" parent="."]\nposition = Vector2({x}, {y})\n'
                  f'offset = Vector2(0, {-h / 2 + 2})\n' + ("flip_h = true\n" if (x * 7 + y) % 2 else "")
@@ -778,11 +849,8 @@ shape = SubResource("{shape(32, 10)}")
             n.append(solid(f"Landmark{rocks}", FOREST + name + ".png", x, y, 22, 8))
 
     # Water: the animated wave tile clipped to every water pixel of the ground.
-    a = np.asarray(ground).astype(int)
-    water_px = np.kron(np.array([[1 if (v == WATER and (r, c) not in decks) else 0 for c, v in enumerate(row)]
-                                 for r, row in enumerate(stand)], np.uint8), np.ones((TILE, TILE), np.uint8)).astype(bool)
-    wet = (water_px & (a[..., 2] > a[..., 0] + 50)) | STREAM_PX
-    mask = np.zeros(a.shape[:2] + (4,), np.uint8)
+    wet = water_pixels(ground, stand, decks)
+    mask = np.zeros(wet.shape + (4,), np.uint8)
     mask[wet] = 255
     Image.fromarray(mask, "RGBA").save(WATER_MASK)
     w, h = ground.size
@@ -855,6 +923,14 @@ position = Vector2({sx}, {sy})
     open(SCENE, "w", encoding="utf-8", newline="\n").write(head + "\n".join(subs.values()) + "\n" + "\n".join(n))
     print(f"thornveil: {COLS}x{ROWS} cells, {len(walls)} wall rects, {len(trees)} trees, {len(props)} undergrowth, "
           f"{len(STAIR_SPOTS)} stairs")
+
+
+def water_pixels(ground, stand, decks):
+    """Every pixel of open water in the ground: the lake's blue and the streams."""
+    a = np.asarray(ground).astype(int)
+    lake = np.kron(np.array([[1 if (v == WATER and (r, c) not in decks) else 0 for c, v in enumerate(row)]
+                             for r, row in enumerate(stand)], np.uint8), np.ones((TILE, TILE), np.uint8)).astype(bool)
+    return (lake & (a[..., 2] > a[..., 0] + 50)) | STREAM_PX
 
 
 def debug_view(ground, blocked, stairs, out):

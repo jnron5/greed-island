@@ -58,12 +58,54 @@ func _run() -> void:
 	var north := forest.level_at(forest.get_node("Card_owl_quill").global_position)
 	_check("the plaza (%d) sits below the north terrace (%d)" % [plaza, north], plaza >= 0 and north > plaza)
 
+	_check_water(forest, "res://assets/sprites/tiles/thornveil/thornveil_water_mask.png")
+
 	# Leave and come back: the opened chest is still open.
-	await _load(WorldMap.KALMORA)
+	var town := await _load(WorldMap.KALMORA)
+	_check_water(town, "res://assets/sprites/tiles/kalmora2/kalmora_bay_mask.png")
 	forest = await _load(WorldMap.THORNVEIL)
 	_check("an opened chest stays open", (forest.get_node(opened) as Chest).is_open())
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)
+
+
+## Nobody walks on water: sample the zone's water (its wave mask, a few px in from
+## the edge, away from decks and bridges, which the level map marks green) and every
+## sample must be inside the World collision.
+func _check_water(zone: Zone, mask_path: String) -> void:
+	var mask := (load(mask_path) as Texture2D).get_image()
+	var ground := zone.get_node("GroundTiles") as Sprite2D
+	var origin := ground.global_position - Vector2(mask.get_size()) / 2.0
+	var levels := zone.level_map.get_image() if zone.level_map else null
+	var space := zone.get_world_2d().direct_space_state
+	var query := PhysicsPointQueryParameters2D.new()
+	query.collision_mask = 1
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 7
+	var tested := 0
+	var dry: Array[Vector2] = []
+	for i in 20000:
+		if tested >= 400:
+			break
+		var p := Vector2i(rng.randi_range(8, mask.get_width() - 9), rng.randi_range(8, mask.get_height() - 9))
+		var inside := true
+		for d in [Vector2i(0, 0), Vector2i(8, 0), Vector2i(-8, 0), Vector2i(0, 8), Vector2i(0, -8)]:
+			if mask.get_pixelv(p + d).a < 0.5:
+				inside = false
+		if not inside:
+			continue
+		var world := origin + Vector2(p)
+		if levels:
+			var cell := Vector2i(((world - zone.level_origin) / zone.level_cell).floor())
+			if cell.x >= 0 and cell.y >= 0 and cell.x < levels.get_width() and cell.y < levels.get_height() \
+					and levels.get_pixelv(cell).g > 0.5:
+				continue                                  # a deck or bridge over the water
+		tested += 1
+		query.position = world
+		if space.intersect_point(query, 1).is_empty():
+			dry.append(world)
+	_check("%s: water blocks (%d of %d samples open, e.g. %s)" % [zone.name, dry.size(), tested,
+		str(dry.slice(0, 3))], tested > 50 and dry.is_empty())
 
 
 ## Reads through whatever the dialogue box is showing, the way a player would.

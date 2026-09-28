@@ -216,3 +216,24 @@ def merge_rects(mask, left, top, tile=32):
     for (s, e), r0 in runs.items():
         rects.append((left + s * tile, top + r0 * tile, left + e * tile, top + rows * tile))
     return rects
+
+
+def mask_rects(mask, left, top, step=8, erode=4, clear=(), fill=0.3):
+    """Collision rectangles that follow a pixel mask (e.g. every water pixel of a
+    ground image) at `step` px: a step cell is solid when `fill` of it is still inside
+    the mask after shrinking the mask by `erode` px (so you can walk right up to the
+    water's edge, but never onto it). `clear` is a list of world rects (x0, y0, x1, y1)
+    that stay open, like bridges and decks."""
+    from PIL import Image, ImageFilter
+    import numpy as np
+    m = Image.fromarray(np.asarray(mask, dtype=np.uint8) * 255)
+    if erode:
+        m = m.filter(ImageFilter.MinFilter(erode * 2 + 1))
+    a = np.asarray(m) > 0
+    h, w = a.shape[0] // step, a.shape[1] // step
+    cells = a[:h * step, :w * step].reshape(h, step, w, step).mean(axis=(1, 3)) > fill
+    for x0, y0, x1, y1 in clear:
+        c0, c1 = max(0, int((x0 - left) // step)), min(w, int(-(-(x1 - left) // step)))
+        r0, r1 = max(0, int((y0 - top) // step)), min(h, int(-(-(y1 - top) // step)))
+        cells[r0:r1, c0:c1] = False
+    return merge_rects(cells.tolist(), left, top, step)
