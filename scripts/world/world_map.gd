@@ -32,11 +32,11 @@ const PICKUP_SCENE := "res://scenes/systems/card_pickup.tscn"
 ## Zone scene -> { name, origin on the island, monster drops (for off-screen farming) }
 const ZONES := {
 	KALMORA: { "name": "Kalmora", "origin": Vector2(0, 396), "monster_drops": [] },
-	THORNVEIL: { "name": "Thornveil Forest", "origin": Vector2(0, -485),
+	THORNVEIL: { "name": "Thornveil Forest", "origin": Vector2(-28, -488),
 		"monster_drops": [&"thorn_sprig", &"moss_lantern", &"veyra_reed", &"hollow_acorn"] },
-	SORENDA: { "name": "Sorenda", "origin": Vector2(0, -1490), "monster_drops": [] },
-	WARDENS_GROVE: { "name": "Warden's Grove", "origin": Vector2(1030, -885), "monster_drops": [] },
-	LAKE_VEYRA: { "name": "Lake Veyra", "origin": Vector2(-1070, -985),
+	SORENDA: { "name": "Sorenda", "origin": Vector2(-30, -2163), "monster_drops": [] },
+	WARDENS_GROVE: { "name": "Warden's Grove", "origin": Vector2(1456, -1764), "monster_drops": [] },
+	LAKE_VEYRA: { "name": "Lake Veyra", "origin": Vector2(-1582, -1978),
 		"monster_drops": [&"veyra_reed", &"moss_lantern", &"thorn_sprig"] },
 	# Interiors sit where their buildings stand in town. They have no EDGES, so
 	# rivals never wander in; you enter through the building's door.
@@ -66,21 +66,21 @@ const TOWNS := {
 ## A `gate` must be open (or paid for) to pass in either direction.
 const EDGES: Array[Dictionary] = [
 	{ "from": KALMORA, "to": THORNVEIL, "exit": Vector2(0, -756), "spawn": &"from_kalmora",
-		"entry": Vector2(0, 60), "gate": &"kalmora_north_gate" },
-	{ "from": THORNVEIL, "to": KALMORA, "exit": Vector2(0, 125), "spawn": &"from_thornveil",
+		"entry": Vector2(28, 56), "gate": &"kalmora_north_gate" },
+	{ "from": THORNVEIL, "to": KALMORA, "exit": Vector2(28, 124), "spawn": &"from_thornveil",
 		"entry": Vector2(-13, -609), "gate": &"kalmora_north_gate" },
-	{ "from": THORNVEIL, "to": SORENDA, "exit": Vector2(0, -830), "spawn": &"from_thornveil",
+	{ "from": THORNVEIL, "to": SORENDA, "exit": Vector2(-2, -1500), "spawn": &"from_thornveil",
 		"entry": Vector2(0, 120), "gate": &"" },
 	{ "from": SORENDA, "to": THORNVEIL, "exit": Vector2(0, 175), "spawn": &"from_sorenda",
-		"entry": Vector2(0, -760), "gate": &"" },
-	{ "from": THORNVEIL, "to": WARDENS_GROVE, "exit": Vector2(535, -400), "spawn": &"from_thornveil",
+		"entry": Vector2(-2, -1414), "gate": &"" },
+	{ "from": THORNVEIL, "to": WARDENS_GROVE, "exit": Vector2(1084, -1276), "spawn": &"from_thornveil",
 		"entry": Vector2(-400, 0), "gate": &"" },
 	{ "from": WARDENS_GROVE, "to": THORNVEIL, "exit": Vector2(-495, 0), "spawn": &"from_grove",
-		"entry": Vector2(460, -400), "gate": &"" },
-	{ "from": THORNVEIL, "to": LAKE_VEYRA, "exit": Vector2(-535, -250), "spawn": &"from_thornveil",
+		"entry": Vector2(1027, -1279), "gate": &"" },
+	{ "from": THORNVEIL, "to": LAKE_VEYRA, "exit": Vector2(-1084, -1240), "spawn": &"from_thornveil",
 		"entry": Vector2(470, 250), "gate": &"thornveil_bramble_arch" },
 	{ "from": LAKE_VEYRA, "to": THORNVEIL, "exit": Vector2(535, 250), "spawn": &"from_lake",
-		"entry": Vector2(-460, -250), "gate": &"thornveil_bramble_arch" },
+		"entry": Vector2(-1028, -1240), "gate": &"thornveil_bramble_arch" },
 ]
 
 static var _pickup_cache: Dictionary = {}

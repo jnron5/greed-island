@@ -35,19 +35,7 @@ BIOME_GRADE = (0.62, 0.74, 0.58)
 TREE_SCENE = "res://scenes/world/props/tree.tscn"
 
 ZONES = {
-    "thornveil": {
-        "scene": "scenes/world/thornveil.tscn",
-        "out": "assets/sprites/tiles/thornveil/thornveil_ground.png",
-        "bounds": (-576, -864, 576, 160),
-        "remove": ["Ground", "Path", "NorthPath", "EastPath", "WestPath"],
-        "extra_trees": 70,
-        "paths": [
-            ("line", [(0, 170), (0, -880)], 44),        # Kalmora <-> Sorenda trunk road
-            ("line", [(0, -250), (-600, -250)], 40),    # west to Lake Veyra
-            ("line", [(0, -400), (600, -400)], 40),     # east to Warden's Grove
-            ("ellipse", 0, -250, 70, 46),               # crossroads
-        ],
-    },
+    # Thornveil itself is built by build_thornveil.py (traced from its concept).
     "sorenda": {
         "scene": "scenes/world/sorenda.tscn",
         "out": "assets/sprites/tiles/thornveil/sorenda_ground.png",

@@ -56,7 +56,7 @@ UNDER = [("fern", 5, False), ("grass_clump", 4, False), ("berry_bush", 2, False)
          ("mushrooms", 2, False), ("pale_mushrooms", 1, False), ("clover", 2, False), ("acorns", 1, False),
          ("pinecones", 1, False), ("branch", 1, False)]
 LANDMARKS = [("rock", True), ("log", True), ("stump", True)]
-FORESTS = ["thornveil", "sorenda", "wardens_grove", "lake_veyra"]
+FORESTS = ["sorenda", "wardens_grove", "lake_veyra"]   # Thornveil: build_thornveil.py
 
 # Zones build_ground.py doesn't paint. Lake Veyra's scene comes from
 # build_lake_veyra.py (run that first); its lake is an ellipse with an island, the
@@ -97,27 +97,6 @@ def near_lake(cfg, x, y, margin):
 # Sorenda carries "What the Trees Remember": the village half knows where the Duskara
 # work goes, and the Hollow keeps what a runaway child left behind.
 LIFE = {
-    "thornveil": {
-        "npcs": [],
-        # Placed props: (texture, position, collides). A crossroads sign, and a supply
-        # cart that lost a wheel on the east road, its crates stamped with the red sun.
-        "props": [
-            ("res://assets/sprites/tiles/kalmora/props/signpost.png", (54, -298), True),
-            ("res://assets/sprites/tiles/kalmora/props/cart.png", (300, -448), True),
-            ("res://assets/sprites/tiles/kalmora/props/crates.png", (326, -440), True),
-            ("res://assets/sprites/tiles/kalmora/props/crate.png", (280, -430), False),
-        ],
-        "readables": [
-            ("The crossroads sign", (54, -290), [
-                "North: Sorenda. South: Kalmora and the sea. West: Lake Veyra. East: the Warden's Grove - keep to the path.",
-                "Someone has scratched a small arrow pointing east under the last line, and the word 'Duskara' next to it.",
-            ]),
-            ("An abandoned cart", (300, -436), [
-                "A supply cart with a snapped axle, left where it fell. The crates are stamped with a red sun and nothing else.",
-                "One has split open: lamp glass, rope, and a bundle of tiny work gloves, all bound for somewhere past the Warden's Grove.",
-            ]),
-        ],
-    },
     "sorenda": {
         "npcs": [
             ("moss", "Elder Moss", (0, -126), 0, [

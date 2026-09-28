@@ -60,7 +60,7 @@ func _run() -> void:
 	_check("Runner is in transit", GameState.rival_locations[R].zone == "")
 	RivalDirector.tick_rival(R, RivalDirector.TRAVEL_SECONDS + 1.0)
 	_check("Runner arrived in Thornveil at the entrance", GameState.rival_locations[R].zone == WorldMap.THORNVEIL
-		and GameState.rival_locations[R].position == Vector2(0, 60))
+		and GameState.rival_locations[R].position == Vector2(28, 56))
 
 	# Full hands in the field: head for a town.
 	for i in 6:
