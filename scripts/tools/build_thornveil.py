@@ -162,11 +162,10 @@ def build_terrain():
     levels = [[level_at(LEFT + c * TILE, TOP + r * TILE) for c in range(COLS + 1)] for r in range(ROWS + 1)]
     terrace = CliffSet(ART + "cliff/forest_terrace")
     rock = CliffSet(K2 + "cliff/sea_rock")
-    # Earthen root-bound cliffs between the lower terraces, grey rock columns up on the
-    # ridges and the north terrace, rock over the water: each cliff line one material.
-    roots = CliffSet(ART + "cliff/forest_roots")
-    sets = {(lo, hi): (rock if lo == WATER else terrace if hi >= TERRACE else roots)
-            for lo in range(6) for hi in range(lo + 1, 6)}
+    # Grey rock columns between terraces, rock over the water. (A PixelLab root-bound
+    # earth set was tried for the lower terraces: its side edges came out as loose vine
+    # strands on the grass.)
+    sets = {(lo, hi): (rock if lo == WATER else terrace) for lo in range(6) for hi in range(lo + 1, 6)}
     flat = {WATER: ((0, 1), "lower"), **{lv: ((1, 2), "upper" if lv > 1 else "lower") for lv in range(1, 6)}}
     down = {pair: wall_down(pair) for pair in sets}
     img, stand = compose(levels, sets, flat, TILE, grow_down=down)
@@ -856,7 +855,8 @@ shape = SubResource("{shape(32, 10)}")
         x, y = rng.uniform(LEFT + 40, RIGHT - 40), rng.uniform(TOP + 60, BOTTOM - 20)
         if len([p for p in props if p[0].startswith("bush")]) >= 70:
             break
-        if path_near[int(y - TOP), int(x - LEFT)] and not dirt_px[int(y - TOP), int(x - LEFT)] and prop_ok(x, y, 40):
+        clear_of_decks = not any((x - a) ** 2 + (y - b) ** 2 < rr ** 2 for a, b, rr in keep)
+        if path_near[int(y - TOP), int(x - LEFT)] and not dirt_px[int(y - TOP), int(x - LEFT)] and clear_of_decks                 and prop_ok(x, y, 40):
             props.append((rng.choice(["bush_flowers_g", "bush_flowers_g", "bush_g"]), round(x), round(y)))
     for k, (name, x, y) in enumerate(props):
         if name.startswith("bush"):
