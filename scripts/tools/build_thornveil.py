@@ -390,6 +390,7 @@ EXITS = [  # (node, concept point on the map edge, target scene, target spawn, r
 ]
 GATES = [(724, 44), (744, 1010)]                    # the banner towers on the north and south roads
 HOUNDS = [(330, 110), (560, 250), (1230, 60), (1100, 430), (1000, 640), (420, 800), (1000, 940), (160, 900)]
+BOARS = [(820, 520), (330, 880), (1150, 890)]       # moss boars: tougher, slower, they charge
 RIVAL_SPOTS = {"raider": (540, 236), "runner": (1100, 420), "hoarder": (600, 470)}
 
 # The trapper's camp above the lake: Tobin, a badger-striped hound who traps for the
@@ -476,6 +477,7 @@ def main():
         ('PackedScene', "res://scenes/ui/binder.tscn", "4_binder"),
         ('PackedScene', "res://scenes/characters/briar_hound.tscn", "7_hound"),
         ('SpriteFrames', "res://assets/sprites/monsters/briar_hound/briar_hound_frames.tres", "8_hound_frames"),
+        ('PackedScene', "res://scenes/characters/moss_boar.tscn", "7_boar"),
         ('PackedScene', "res://scenes/systems/zone_exit.tscn", "9_exit"),
         ('Texture2D', "res://" + GROUND_PNG, "10_ground"),
         ('Texture2D', "res://" + LEVEL_PNG, "11_levels"),
@@ -631,6 +633,12 @@ texture = ExtResource("10_ground")
         n.append(f'[node name="BriarHound{k + 1}" parent="." instance=ExtResource("7_hound")]\nposition = Vector2({x}, {y})\n'
                  f'sprite_frames = ExtResource("8_hound_frames")\n')
 
+    for k, pos in enumerate(BOARS):
+        x, y = W(*pos)
+        check_spot(f"boar {k + 1}", x, y)
+        taken.append((x, y))
+        n.append(f'[node name="MossBoar{k + 1}" parent="." instance=ExtResource("7_boar")]\nposition = Vector2({x}, {y})\n')
+
     # The trapper's camp.
     tx, ty = W(*CAMP["tent"])
     n.append(solid("Tent", PROPS + "tent.png", tx, ty, 90, 26))
@@ -784,7 +792,7 @@ shape = SubResource("{shape(32, 10)}")
     fir = "res://" + "scenes/world/props/forest_fir.tscn"
     write_tree_scene("fir"), write_tree_scene("oak")
     ext += [('PackedScene', fir, "30_fir"), ('PackedScene', "res://scenes/world/props/forest_oak.tscn", "30_oak")]
-    keep = [(x, y, 54) for x, y in taken] + [(x, y, 84) for x, y in [W(*p) for p in HOUNDS]] \
+    keep = [(x, y, 54) for x, y in taken] + [(x, y, 84) for x, y in [W(*p) for p in HOUNDS + BOARS]] \
         + [(x, y, 90) for x, y in exits.values()]
     for c0, r0, rows, _ in STAIR_SPOTS:
         keep.append((LEFT + (c0 + 1) * TILE, TOP + (r0 + rows / 2) * TILE, 30 + rows * 16))
