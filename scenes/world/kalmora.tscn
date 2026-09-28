@@ -2843,6 +2843,7 @@ display_name = "Baker Rosa"
 sprite_frames = ExtResource("n_baker")
 lines = PackedStringArray("Warm bread! Two coins a loaf, one if you tell me a good rumor.", "The Runner came through at dawn, all scarf and no manners. Didn't even stop for bread.")
 wander_radius = 0.0
+patrol = PackedVector2Array(0, 0, -56, -84, -154, -98, -224, -84, -154, -98, -56, -84, 0, 0)
 
 [node name="Npc_tomas" parent="." instance=ExtResource("19_npc")]
 position = Vector2(620, 230)
