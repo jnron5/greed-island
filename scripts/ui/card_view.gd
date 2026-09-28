@@ -38,6 +38,8 @@ var _back_name: Label
 var _lore: Label
 
 
+var _placeholder: Label
+
 func _ready() -> void:
 	custom_minimum_size = SIZE
 	size = SIZE
@@ -48,6 +50,19 @@ func _ready() -> void:
 	clip.position = WINDOW.position
 	clip.size = WINDOW.size
 	_front.add_child(clip)
+	# Behind the art: a deep sea-teal ground, and for cards whose art isn't painted
+	# yet, the card's initial in gold, so the window never shows the world through it.
+	var ground := ColorRect.new()
+	ground.color = Color(0.09, 0.2, 0.24)
+	ground.size = WINDOW.size
+	clip.add_child(ground)
+	var glow := ColorRect.new()
+	glow.color = Color(0.2, 0.36, 0.38)
+	glow.position = Vector2(3, 3)
+	glow.size = WINDOW.size - Vector2(6, 6)
+	clip.add_child(glow)
+	_placeholder = _text_label(clip, Rect2(Vector2.ZERO, WINDOW.size), 24, Color(1.0, 0.82, 0.4), HORIZONTAL_ALIGNMENT_CENTER)
+	_placeholder.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_art = TextureRect.new()
 	_art.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 	_art.size = WINDOW.size
@@ -118,6 +133,8 @@ func _refresh() -> void:
 	if card == null:
 		return
 	_art.texture = card.icon
+	_placeholder.visible = card.icon == null
+	_placeholder.text = card.display_name.left(1)
 	_name.text = card.display_name
 	_text.text = card.description
 	_back_name.text = card.display_name
