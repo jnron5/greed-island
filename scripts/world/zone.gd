@@ -82,6 +82,10 @@ func _limit_camera(player: Node2D) -> void:
 	if camera == null or ground == null:
 		return
 	var rect := _ground_rect(ground)
+	# A room smaller than the screen sits centred in it instead of against one edge.
+	var view := get_viewport().get_visible_rect().size / camera.zoom
+	rect = rect.grow_individual(maxf(0.0, (view.x - rect.size.x) / 2.0), maxf(0.0, (view.y - rect.size.y) / 2.0),
+		maxf(0.0, (view.x - rect.size.x) / 2.0), maxf(0.0, (view.y - rect.size.y) / 2.0))
 	camera.limit_left = int(rect.position.x)
 	camera.limit_top = int(rect.position.y)
 	camera.limit_right = int(rect.end.x)
@@ -191,7 +195,7 @@ func _build_nav() -> void:
 	_nav_ready = true
 
 
-## The ground sprite's area in zone coordinates (interiors draw their room at 2x).
+## The ground sprite's area in zone coordinates (interiors draw their room scaled up).
 func _ground_rect(ground: Sprite2D) -> Rect2:
 	var size := ground.texture.get_size() * ground.scale
 	return Rect2(ground.position - size / 2.0, size)

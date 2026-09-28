@@ -12,7 +12,7 @@ import os
 
 os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-ROOM_SCALE = 2
+ROOM_SCALE = 1.5
 
 SHOP_STOCK = '[&"pickpockets_whisper", &"lockbox_seal", &"second_wind"]'
 
@@ -314,7 +314,7 @@ def build(zone_id, cfg):
     ]
     subs = {}
     def shape(sw, sh):
-        key = f"R{sw}x{sh}"
+        key = f"R{sw:g}x{sh:g}".replace(".", "_")
         subs[key] = f'[sub_resource type="RectangleShape2D" id="{key}"]\nsize = Vector2({sw}, {sh})\n'
         return key
     ex, ey = cfg["exit"]

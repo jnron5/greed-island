@@ -13,53 +13,53 @@
 [ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
 
-[sub_resource type="RectangleShape2D" id="R576x184"]
-size = Vector2(576, 184)
+[sub_resource type="RectangleShape2D" id="R432x138"]
+size = Vector2(432.0, 138.0)
 
-[sub_resource type="RectangleShape2D" id="R72x200"]
-size = Vector2(72, 200)
+[sub_resource type="RectangleShape2D" id="R54x150"]
+size = Vector2(54.0, 150.0)
 
-[sub_resource type="RectangleShape2D" id="R184x164"]
-size = Vector2(184, 164)
+[sub_resource type="RectangleShape2D" id="R138x123"]
+size = Vector2(138.0, 123.0)
 
-[sub_resource type="RectangleShape2D" id="R84x100"]
-size = Vector2(84, 100)
+[sub_resource type="RectangleShape2D" id="R63x75"]
+size = Vector2(63.0, 75.0)
 
-[sub_resource type="RectangleShape2D" id="R148x90"]
-size = Vector2(148, 90)
+[sub_resource type="RectangleShape2D" id="R111x67_5"]
+size = Vector2(111.0, 67.5)
 
-[sub_resource type="RectangleShape2D" id="R80x50"]
-size = Vector2(80, 50)
+[sub_resource type="RectangleShape2D" id="R60x37_5"]
+size = Vector2(60.0, 37.5)
 
-[sub_resource type="RectangleShape2D" id="R136x90"]
-size = Vector2(136, 90)
+[sub_resource type="RectangleShape2D" id="R102x67_5"]
+size = Vector2(102.0, 67.5)
 
-[sub_resource type="RectangleShape2D" id="R136x100"]
-size = Vector2(136, 100)
+[sub_resource type="RectangleShape2D" id="R102x75"]
+size = Vector2(102.0, 75.0)
 
-[sub_resource type="RectangleShape2D" id="R76x60"]
-size = Vector2(76, 60)
+[sub_resource type="RectangleShape2D" id="R57x45"]
+size = Vector2(57.0, 45.0)
 
-[sub_resource type="RectangleShape2D" id="R40x448"]
-size = Vector2(40, 448)
+[sub_resource type="RectangleShape2D" id="R30x336"]
+size = Vector2(30.0, 336.0)
 
-[sub_resource type="RectangleShape2D" id="R36x448"]
-size = Vector2(36, 448)
+[sub_resource type="RectangleShape2D" id="R27x336"]
+size = Vector2(27.0, 336.0)
 
-[sub_resource type="RectangleShape2D" id="R260x24"]
-size = Vector2(260, 24)
+[sub_resource type="RectangleShape2D" id="R195x18"]
+size = Vector2(195.0, 18.0)
 
-[sub_resource type="RectangleShape2D" id="R256x24"]
-size = Vector2(256, 24)
+[sub_resource type="RectangleShape2D" id="R192x18"]
+size = Vector2(192.0, 18.0)
 
-[sub_resource type="RectangleShape2D" id="R656x40"]
-size = Vector2(656, 40)
+[sub_resource type="RectangleShape2D" id="R512x40"]
+size = Vector2(512.0, 40.0)
 
-[sub_resource type="RectangleShape2D" id="R40x508"]
-size = Vector2(40, 508)
+[sub_resource type="RectangleShape2D" id="R40x396"]
+size = Vector2(40.0, 396.0)
 
-[sub_resource type="RectangleShape2D" id="R576x468"]
-size = Vector2(576, 468)
+[sub_resource type="RectangleShape2D" id="R432x356"]
+size = Vector2(432.0, 356.0)
 
 [node name="kalmora_mill" type="Node2D"]
 y_sort_enabled = true
@@ -69,13 +69,13 @@ interior = true
 
 [node name="Ground" type="Sprite2D" parent="."]
 z_index = -10
-position = Vector2(288.0, 224.0)
-scale = Vector2(2, 2)
+position = Vector2(216.0, 168.0)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("10_room")
 
 [node name="Glow" type="PointLight2D" parent="."]
-position = Vector2(288.0, 224.0)
-texture_scale = 8.0
+position = Vector2(216.0, 168.0)
+texture_scale = 6.0
 script = ExtResource("11_lamp")
 always_on = true
 max_energy = 0.35
@@ -83,72 +83,72 @@ max_energy = 0.35
 [node name="Walls" type="StaticBody2D" parent="."]
 
 [node name="W0" type="CollisionShape2D" parent="Walls"]
-position = Vector2(288.0, 92.0)
-shape = SubResource("R576x184")
+position = Vector2(216.0, 69.0)
+shape = SubResource("R432x138")
 
 [node name="W1" type="CollisionShape2D" parent="Walls"]
-position = Vector2(108.0, 200.0)
-shape = SubResource("R72x200")
+position = Vector2(81.0, 150.0)
+shape = SubResource("R54x150")
 
 [node name="W2" type="CollisionShape2D" parent="Walls"]
-position = Vector2(284.0, 258.0)
-shape = SubResource("R184x164")
+position = Vector2(213.0, 193.5)
+shape = SubResource("R138x123")
 
 [node name="W3" type="CollisionShape2D" parent="Walls"]
-position = Vector2(78.0, 270.0)
-shape = SubResource("R84x100")
+position = Vector2(58.5, 202.5)
+shape = SubResource("R63x75")
 
 [node name="W4" type="CollisionShape2D" parent="Walls"]
-position = Vector2(126.0, 365.0)
-shape = SubResource("R148x90")
+position = Vector2(94.5, 273.75)
+shape = SubResource("R111x67_5")
 
 [node name="W5" type="CollisionShape2D" parent="Walls"]
-position = Vector2(180.0, 385.0)
-shape = SubResource("R80x50")
+position = Vector2(135.0, 288.75)
+shape = SubResource("R60x37_5")
 
 [node name="W6" type="CollisionShape2D" parent="Walls"]
-position = Vector2(468.0, 235.0)
-shape = SubResource("R136x90")
+position = Vector2(351.0, 176.25)
+shape = SubResource("R102x67_5")
 
 [node name="W7" type="CollisionShape2D" parent="Walls"]
-position = Vector2(460.0, 350.0)
-shape = SubResource("R136x100")
+position = Vector2(345.0, 262.5)
+shape = SubResource("R102x75")
 
 [node name="W8" type="CollisionShape2D" parent="Walls"]
-position = Vector2(382.0, 390.0)
-shape = SubResource("R76x60")
+position = Vector2(286.5, 292.5)
+shape = SubResource("R57x45")
 
 [node name="W9" type="CollisionShape2D" parent="Walls"]
-position = Vector2(20.0, 224.0)
-shape = SubResource("R40x448")
+position = Vector2(15.0, 168.0)
+shape = SubResource("R30x336")
 
 [node name="W10" type="CollisionShape2D" parent="Walls"]
-position = Vector2(558.0, 224.0)
-shape = SubResource("R36x448")
+position = Vector2(418.5, 168.0)
+shape = SubResource("R27x336")
 
 [node name="W11" type="CollisionShape2D" parent="Walls"]
-position = Vector2(130.0, 436.0)
-shape = SubResource("R260x24")
+position = Vector2(97.5, 327.0)
+shape = SubResource("R195x18")
 
 [node name="W12" type="CollisionShape2D" parent="Walls"]
-position = Vector2(448.0, 436.0)
-shape = SubResource("R256x24")
+position = Vector2(336.0, 327.0)
+shape = SubResource("R192x18")
 
 [node name="W13" type="CollisionShape2D" parent="Walls"]
-position = Vector2(288.0, -20.0)
-shape = SubResource("R656x40")
+position = Vector2(216.0, -20.0)
+shape = SubResource("R512x40")
 
 [node name="W14" type="CollisionShape2D" parent="Walls"]
-position = Vector2(-20.0, 254.0)
-shape = SubResource("R40x508")
+position = Vector2(-20.0, 198.0)
+shape = SubResource("R40x396")
 
 [node name="W15" type="CollisionShape2D" parent="Walls"]
-position = Vector2(596.0, 254.0)
-shape = SubResource("R40x508")
+position = Vector2(452.0, 198.0)
+shape = SubResource("R40x396")
 
 [node name="W16" type="CollisionShape2D" parent="Walls"]
-position = Vector2(288.0, 488.0)
-shape = SubResource("R656x40")
+position = Vector2(216.0, 376.0)
+shape = SubResource("R512x40")
 
 [node name="SafeZone" type="Area2D" parent="."]
 collision_layer = 0
@@ -157,28 +157,28 @@ monitorable = false
 script = ExtResource("8_safe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
-position = Vector2(288.0, 224.0)
-shape = SubResource("R576x468")
+position = Vector2(216.0, 168.0)
+shape = SubResource("R432x356")
 
 [node name="Spawns" type="Node2D" parent="."]
 
 [node name="door" type="Marker2D" parent="Spawns"]
-position = Vector2(288, 404)
+position = Vector2(216.0, 303.0)
 
 [node name="Out" parent="." instance=ExtResource("7_exit")]
-position = Vector2(288, 444)
+position = Vector2(216.0, 333.0)
 target_scene = "res://scenes/world/kalmora.tscn"
 target_spawn = &"from_windmill"
 exit_hint = true
 
 [node name="Read1" type="Node2D" parent="."]
-position = Vector2(280, 360)
+position = Vector2(210.0, 270.0)
 script = ExtResource("12_read")
 title = "A note on the mill post"
 lines = PackedStringArray("'Gone to Verdana for the harvest. Grind the Calloway order first. They pay double and never ask the price. - Miller Oake'")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector2(288, 404)
+position = Vector2(216.0, 303.0)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
 
