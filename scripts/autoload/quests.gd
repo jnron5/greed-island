@@ -11,7 +11,11 @@ const DONE := 99
 
 const TITLES := {
 	&"unmarked_cargo": "The Unmarked Cargo",
+	&"trees_remember": "What the Trees Remember",
 }
+## Sorenda: Pell found a child's boot near the Hollow; what's in there is the proof.
+const SATCHEL_TITLE := "A satchel in the moss"
+const TREES_REWARD_GOLD := 50
 const CARGO_CLUES: Array[StringName] = [&"crate_sand", &"crate_glove", &"crate_ledger"]
 const CARGO_REWARD_GOLD := 40
 
@@ -52,6 +56,32 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					])
 				DONE:
 					return PackedStringArray(["Barrel, barrel, barrel. Very normal harbor. Nothing to see."])
+		&"pell":
+			match stage(&"trees_remember"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"You're a racer. You go places the rest of us don't. Will you listen a moment?",
+						"I found a little boot in the moss near the Hollow. Too small to be a racer's. Too far from any house to be one of ours.",
+						"The Hollow's sealed. Needs a card to open, and I haven't got one to spare. You might.",
+						"Whatever's in there, somebody small left it. Please. Go and look.",
+					])
+				1:
+					return PackedStringArray(["The Hollow's up the path, north-east of the green, past the old gate. Look in the moss."])
+				2:
+					return PackedStringArray(["You found something. I can see it on you. Take it to Elder Moss. She keeps the names."])
+				DONE:
+					return PackedStringArray(["Moss carved a new notch. Not low down, this time. Up where the grown ones go. For whoever finds that child."])
+		&"moss":
+			match stage(&"trees_remember"):
+				2:
+					return PackedStringArray([
+						"...A work tag. 'D.M. - No. 117.' And bread, and a carved bird.",
+						"We sent seven children east for the Duskara work last spring. The foreman's men said it was apprentice wages. Room and board and a trade.",
+						"'I ran. Tell mama I ran.' She did, then. One of them did.",
+						"Take these, racer. For the road east. And if you ever stand in Duskara, look for number 117. Tell her Sorenda remembers.",
+					])
+				DONE:
+					return PackedStringArray(["Every notch on that post is a name. I've started carving them larger."])
 		&"mirela":
 			if stage(&"unmarked_cargo") in [1, 2]:
 				return PackedStringArray([
@@ -63,6 +93,10 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 
 ## "!" = has something for you, "?" = waiting on you to report back.
 func marker_for(npc_id: StringName) -> String:
+	if npc_id == &"pell" and stage(&"trees_remember") == NOT_STARTED:
+		return "!"
+	if npc_id == &"moss" and stage(&"trees_remember") == 2:
+		return "?"
 	if npc_id == &"bram":
 		match stage(&"unmarked_cargo"):
 			NOT_STARTED:
@@ -73,6 +107,17 @@ func marker_for(npc_id: StringName) -> String:
 
 
 func talked_to(npc_id: StringName) -> void:
+	if npc_id == &"pell" and stage(&"trees_remember") == NOT_STARTED:
+		set_stage(&"trees_remember", 1)
+		EventBus.notify.emit("Quest started: What the Trees Remember")
+		return
+	if npc_id == &"moss" and stage(&"trees_remember") == 2:
+		GameState.add_item(&"healers_tonic", 2)
+		GameState.add_currency(TREES_REWARD_GOLD)
+		GameState.quest_flags[&"knows_tag_117"] = true
+		set_stage(&"trees_remember", DONE)
+		EventBus.notify.emit("Quest complete: What the Trees Remember (+%d gold, 2 Healer's Tonics)" % TREES_REWARD_GOLD)
+		return
 	if npc_id != &"bram":
 		return
 	match stage(&"unmarked_cargo"):
@@ -106,18 +151,31 @@ func inspect(clue_id: StringName) -> PackedStringArray:
 	return PackedStringArray()
 
 
+## Something was read (Readable): quests that hinge on a letter or an object hear it here.
+func read(title: String) -> void:
+	if title == SATCHEL_TITLE and stage(&"trees_remember") in [NOT_STARTED, 1]:
+		set_stage(&"trees_remember", 2)
+		EventBus.notify.emit("Take what you found to Elder Moss")
+
+
 func clue_found(clue_id: StringName) -> bool:
 	return flag(StringName("clue:%s" % clue_id))
 
 
-## One line for the HUD, or "" when nothing is active.
+## The HUD's quest lines, one per active quest ("" when nothing is active).
 func tracker_text() -> String:
+	var lines: PackedStringArray = []
 	match stage(&"unmarked_cargo"):
 		1:
-			return "%s: inspect the unmarked crates by the jetty (%d/3)" % [TITLES[&"unmarked_cargo"], _clues_found()]
+			lines.append("%s: inspect the unmarked crates by the jetty (%d/3)" % [TITLES[&"unmarked_cargo"], _clues_found()])
 		2:
-			return "%s: report back to Bram" % TITLES[&"unmarked_cargo"]
-	return ""
+			lines.append("%s: report back to Bram" % TITLES[&"unmarked_cargo"])
+	match stage(&"trees_remember"):
+		1:
+			lines.append("%s: search the Hollow in Sorenda" % TITLES[&"trees_remember"])
+		2:
+			lines.append("%s: bring the satchel to Elder Moss" % TITLES[&"trees_remember"])
+	return "\n".join(lines)
 
 
 func _clues_found() -> int:

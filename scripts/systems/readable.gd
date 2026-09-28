@@ -24,6 +24,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	GameState.quest_flags[_read_key()] = true
 	var zone := Zone.current(get_tree())
 	GameState.note(title, zone.display_name if zone else "", lines)
+	Quests.read(title)
 	DialogueBox.say(get_tree(), title, lines)
 
 
