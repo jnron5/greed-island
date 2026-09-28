@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3]
+[gd_scene load_steps=24 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -14,38 +14,35 @@
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/ilse/ilse_frames.tres" id="n_ilse"]
 
-[sub_resource type="RectangleShape2D" id="R360x107_5"]
-size = Vector2(360.0, 107.5)
+[sub_resource type="RectangleShape2D" id="R288x86"]
+size = Vector2(288, 86)
 
-[sub_resource type="RectangleShape2D" id="R40x52_5"]
-size = Vector2(40.0, 52.5)
+[sub_resource type="RectangleShape2D" id="R32x42"]
+size = Vector2(32, 42)
 
-[sub_resource type="RectangleShape2D" id="R37_5x32_5"]
-size = Vector2(37.5, 32.5)
+[sub_resource type="RectangleShape2D" id="R30x26"]
+size = Vector2(30, 26)
 
-[sub_resource type="RectangleShape2D" id="R140x85"]
-size = Vector2(140.0, 85.0)
+[sub_resource type="RectangleShape2D" id="R112x68"]
+size = Vector2(112, 68)
 
-[sub_resource type="RectangleShape2D" id="R60x250"]
-size = Vector2(60.0, 250.0)
+[sub_resource type="RectangleShape2D" id="R48x200"]
+size = Vector2(48, 200)
 
-[sub_resource type="RectangleShape2D" id="R65x250"]
-size = Vector2(65.0, 250.0)
+[sub_resource type="RectangleShape2D" id="R52x200"]
+size = Vector2(52, 200)
 
-[sub_resource type="RectangleShape2D" id="R7_5x72_5"]
-size = Vector2(7.5, 72.5)
+[sub_resource type="RectangleShape2D" id="R122x28"]
+size = Vector2(122, 28)
 
-[sub_resource type="RectangleShape2D" id="R152_5x35"]
-size = Vector2(152.5, 35.0)
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
 
-[sub_resource type="RectangleShape2D" id="R440x40"]
-size = Vector2(440.0, 40.0)
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
 
-[sub_resource type="RectangleShape2D" id="R40x340"]
-size = Vector2(40.0, 340.0)
-
-[sub_resource type="RectangleShape2D" id="R360x300"]
-size = Vector2(360.0, 300.0)
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
 
 [node name="kalmora_teal_house" type="Node2D"]
 y_sort_enabled = true
@@ -55,13 +52,13 @@ interior = true
 
 [node name="Ground" type="Sprite2D" parent="."]
 z_index = -10
-position = Vector2(180.0, 140.0)
-scale = Vector2(1.25, 1.25)
+position = Vector2(144.0, 112.0)
+scale = Vector2(1, 1)
 texture = ExtResource("10_room")
 
 [node name="Glow" type="PointLight2D" parent="."]
-position = Vector2(180.0, 140.0)
-texture_scale = 5.0
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
 script = ExtResource("11_lamp")
 always_on = true
 max_energy = 0.35
@@ -69,60 +66,52 @@ max_energy = 0.35
 [node name="Walls" type="StaticBody2D" parent="."]
 
 [node name="W0" type="CollisionShape2D" parent="Walls"]
-position = Vector2(180.0, 53.75)
-shape = SubResource("R360x107_5")
+position = Vector2(144.0, 43.0)
+shape = SubResource("R288x86")
 
 [node name="W1" type="CollisionShape2D" parent="Walls"]
-position = Vector2(95.0, 108.75)
-shape = SubResource("R40x52_5")
+position = Vector2(76.0, 87.0)
+shape = SubResource("R32x42")
 
 [node name="W2" type="CollisionShape2D" parent="Walls"]
-position = Vector2(278.75, 101.25)
-shape = SubResource("R37_5x32_5")
+position = Vector2(223.0, 81.0)
+shape = SubResource("R30x26")
 
 [node name="W3" type="CollisionShape2D" parent="Walls"]
-position = Vector2(175.0, 152.5)
-shape = SubResource("R140x85")
+position = Vector2(140.0, 122.0)
+shape = SubResource("R112x68")
 
 [node name="W4" type="CollisionShape2D" parent="Walls"]
-position = Vector2(30.0, 125.0)
-shape = SubResource("R60x250")
+position = Vector2(24.0, 100.0)
+shape = SubResource("R48x200")
 
 [node name="W5" type="CollisionShape2D" parent="Walls"]
-position = Vector2(327.5, 125.0)
-shape = SubResource("R65x250")
+position = Vector2(262.0, 100.0)
+shape = SubResource("R52x200")
 
 [node name="W6" type="CollisionShape2D" parent="Walls"]
-position = Vector2(156.25, 243.75)
-shape = SubResource("R7_5x72_5")
+position = Vector2(61.0, 210.0)
+shape = SubResource("R122x28")
 
 [node name="W7" type="CollisionShape2D" parent="Walls"]
-position = Vector2(203.75, 243.75)
-shape = SubResource("R7_5x72_5")
+position = Vector2(227.0, 210.0)
+shape = SubResource("R122x28")
 
 [node name="W8" type="CollisionShape2D" parent="Walls"]
-position = Vector2(76.25, 262.5)
-shape = SubResource("R152_5x35")
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
 
 [node name="W9" type="CollisionShape2D" parent="Walls"]
-position = Vector2(283.75, 262.5)
-shape = SubResource("R152_5x35")
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
 
 [node name="W10" type="CollisionShape2D" parent="Walls"]
-position = Vector2(180.0, -20.0)
-shape = SubResource("R440x40")
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
 
 [node name="W11" type="CollisionShape2D" parent="Walls"]
-position = Vector2(-20.0, 170.0)
-shape = SubResource("R40x340")
-
-[node name="W12" type="CollisionShape2D" parent="Walls"]
-position = Vector2(380.0, 170.0)
-shape = SubResource("R40x340")
-
-[node name="W13" type="CollisionShape2D" parent="Walls"]
-position = Vector2(180.0, 320.0)
-shape = SubResource("R440x40")
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
 
 [node name="SafeZone" type="Area2D" parent="."]
 collision_layer = 0
@@ -131,35 +120,35 @@ monitorable = false
 script = ExtResource("8_safe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
-position = Vector2(180.0, 140.0)
-shape = SubResource("R360x300")
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
 
 [node name="Spawns" type="Node2D" parent="."]
 
 [node name="door" type="Marker2D" parent="Spawns"]
-position = Vector2(180.0, 232.5)
+position = Vector2(144, 186)
 
 [node name="Out" parent="." instance=ExtResource("7_exit")]
-position = Vector2(180.0, 277.5)
+position = Vector2(144, 222)
 target_scene = "res://scenes/world/kalmora.tscn"
 target_spawn = &"from_tealhouse"
 exit_hint = true
 
 [node name="Npc_ilse" parent="." instance=ExtResource("9_npc")]
-position = Vector2(267.5, 162.5)
+position = Vector2(214, 130)
 npc_id = &"ilse"
 display_name = "Ilse"
 sprite_frames = ExtResource("n_ilse")
 lines = PackedStringArray("Ilse Marrow, cartographer. Mind the ink, it never comes out.", "Every map of Virelia has a blank spot in the dunes east of Duskara. Every one. Mine too. I was paid to leave it blank.", "Heading north? Take the forest road. The coast path is prettier, but the Raider likes it.")
 
 [node name="Read1" type="Node2D" parent="."]
-position = Vector2(175.0, 202.5)
+position = Vector2(140, 162)
 script = ExtResource("12_read")
 title = "Ilse's working chart"
 lines = PackedStringArray("The whole isle in fine ink. The Siroth Dunes are drawn dune by dune, except one patch east of Duskara, left blank.", "Across the blank, in red: 'Not to be surveyed. By order of the Crown.'")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector2(180.0, 232.5)
+position = Vector2(144, 186)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
 

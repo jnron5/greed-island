@@ -61,7 +61,7 @@ func _run() -> void:
 		var reach := _flood(space, door_spawn.global_position)
 		_check("%s: the way out is reachable" % label, _touches_exit(reach, out))
 		_check("%s: arriving doesn't stand in the way out" % label, not _in_exit(door_spawn.global_position, out))
-		_check("%s: room is big enough to move in (%d spots)" % [label, reach.size()], reach.size() >= 150)
+		_check("%s: room is big enough to move in (%d spots)" % [label, reach.size()], reach.size() >= 80)
 		for node in room.get_children():
 			if node is Npc:
 				_check("%s: %s can be walked up to" % [label, node.name], _near(reach, node.global_position, 30))

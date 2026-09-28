@@ -12,7 +12,7 @@ import os
 
 os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-ROOM_SCALE = 1.25  # the biggest room (the tavern, 384x288) fills one 640x360 screen
+ROOM_SCALE = 1
 
 SHOP_STOCK = '[&"pickpockets_whisper", &"lockbox_seal", &"second_wind"]'
 
@@ -77,7 +77,7 @@ INTERIORS = {
             (0, 0, 320, 112), (0, 0, 36, 256), (286, 0, 320, 256),       # back wall, sides
             (36, 60, 92, 190),                                            # bunk bed
             (110, 96, 218, 182),                                          # table and benches
-            (242, 90, 280, 138), (232, 188, 266, 208),                    # stove, toy boat
+            (242, 90, 280, 138), (238, 194, 264, 206),                    # stove, toy boat
             (0, 218, 132, 256), (188, 218, 320, 256),                     # front wall around the door
         ],
         "npcs": [("wen", "Wen", "wen", (250, 160), [
@@ -101,7 +101,6 @@ INTERIORS = {
         "blocks": [
             (0, 0, 320, 100), (0, 0, 40, 256), (290, 0, 320, 256),       # shelves, side walls
             (38, 104, 240, 170), (38, 140, 122, 180), (30, 178, 92, 236),  # counter, flour sacks, barrels
-            (128, 196, 142, 256), (180, 196, 192, 256),                   # the inner door frame (posts only)
             (0, 236, 142, 256), (180, 236, 320, 256),                     # front wall
         ],
         "npcs": [("greta", "Greta", "greta", (262, 140), [
@@ -127,7 +126,6 @@ INTERIORS = {
             (0, 0, 30, 256), (270, 0, 320, 256), (36, 128, 70, 176),      # side walls, workbench
             (142, 156, 182, 192), (208, 160, 258, 222),                   # anvil on its stump, quench barrel
             (30, 196, 112, 230), (246, 205, 300, 235),                    # coal heaps
-            (122, 214, 132, 256), (188, 214, 198, 256),                   # door posts
             (0, 234, 122, 256), (198, 234, 320, 256),                     # front wall
         ],
         "npcs": [("brannoc", "Brannoc", "brannoc", (96, 160), [
@@ -150,7 +148,7 @@ INTERIORS = {
         "blocks": [
             (0, 0, 320, 140), (0, 0, 24, 256), (298, 0, 320, 256),       # back wall and cabinets, sides
             (22, 140, 60, 222),                                           # telescope
-            (108, 118, 218, 176),                                         # desk (its chair stands in the doorway, walk past it)
+            (108, 118, 218, 176),                                         # desk
             (210, 193, 254, 225), (258, 55, 300, 225),                    # chest, bookcase
             (0, 228, 140, 256), (182, 228, 320, 256),                     # front wall around the door
         ],
@@ -246,7 +244,6 @@ INTERIORS = {
             (0, 0, 288, 86), (60, 66, 92, 108), (208, 68, 238, 94),       # back wall, globe, scrolls
             (84, 88, 196, 156),                                           # drafting table
             (0, 0, 48, 200), (236, 0, 288, 200),                          # bookshelves on both sides
-            (122, 166, 128, 224), (160, 166, 166, 224),                   # door frame
             (0, 196, 122, 224), (166, 196, 288, 224),                     # front wall
         ],
         "npcs": [("ilse", "Ilse", "ilse", (214, 130), [
@@ -267,9 +264,9 @@ INTERIORS = {
         "size": (288, 224),
         "exit": (144, 222), "back_to": "from_windmill", "spawn": (144, 202),
         "blocks": [
-            (0, 0, 288, 92), (36, 50, 72, 150), (96, 88, 188, 170),       # back wall, ladder, millstone
-            (18, 110, 60, 160), (26, 160, 100, 205), (70, 180, 110, 205),  # flour sacks
-            (200, 95, 268, 140), (196, 150, 264, 200), (172, 180, 210, 210),  # workbench, table, barrel
+            (0, 0, 288, 92), (36, 50, 70, 146), (104, 96, 182, 158),      # back wall, ladder, millstone base
+            (18, 110, 58, 156), (26, 166, 92, 205), (76, 186, 106, 205),   # flour sacks
+            (206, 98, 268, 138), (204, 154, 264, 196), (176, 184, 206, 208),  # workbench, table, barrel
             (0, 0, 20, 224), (270, 0, 288, 224),                          # walls
             (0, 212, 130, 224), (160, 212, 288, 224),                     # front wall
         ],

@@ -14,35 +14,35 @@
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sable/sable_frames.tres" id="n_sable"]
 
-[sub_resource type="RectangleShape2D" id="R162_5x132_5"]
-size = Vector2(162.5, 132.5)
+[sub_resource type="RectangleShape2D" id="R130x106"]
+size = Vector2(130, 106)
 
-[sub_resource type="RectangleShape2D" id="R167_5x132_5"]
-size = Vector2(167.5, 132.5)
+[sub_resource type="RectangleShape2D" id="R134x106"]
+size = Vector2(134, 106)
 
-[sub_resource type="RectangleShape2D" id="R70x112_5"]
-size = Vector2(70.0, 112.5)
+[sub_resource type="RectangleShape2D" id="R56x90"]
+size = Vector2(56, 90)
 
-[sub_resource type="RectangleShape2D" id="R50x320"]
-size = Vector2(50.0, 320.0)
+[sub_resource type="RectangleShape2D" id="R40x256"]
+size = Vector2(40, 256)
 
-[sub_resource type="RectangleShape2D" id="R102_5x65"]
-size = Vector2(102.5, 65.0)
+[sub_resource type="RectangleShape2D" id="R82x52"]
+size = Vector2(82, 52)
 
-[sub_resource type="RectangleShape2D" id="R162_5x20"]
-size = Vector2(162.5, 20.0)
+[sub_resource type="RectangleShape2D" id="R130x16"]
+size = Vector2(130, 16)
 
-[sub_resource type="RectangleShape2D" id="R150x20"]
-size = Vector2(150.0, 20.0)
+[sub_resource type="RectangleShape2D" id="R120x16"]
+size = Vector2(120, 16)
 
-[sub_resource type="RectangleShape2D" id="R480x40"]
-size = Vector2(480.0, 40.0)
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
 
-[sub_resource type="RectangleShape2D" id="R40x380"]
-size = Vector2(40.0, 380.0)
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
 
-[sub_resource type="RectangleShape2D" id="R400x340"]
-size = Vector2(400.0, 340.0)
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
 
 [node name="kalmora_card_shop" type="Node2D"]
 y_sort_enabled = true
@@ -52,13 +52,13 @@ interior = true
 
 [node name="Ground" type="Sprite2D" parent="."]
 z_index = -10
-position = Vector2(200.0, 160.0)
-scale = Vector2(1.25, 1.25)
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
 texture = ExtResource("10_room")
 
 [node name="Glow" type="PointLight2D" parent="."]
-position = Vector2(200.0, 160.0)
-texture_scale = 5.0
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
 script = ExtResource("11_lamp")
 always_on = true
 max_energy = 0.35
@@ -66,52 +66,52 @@ max_energy = 0.35
 [node name="Walls" type="StaticBody2D" parent="."]
 
 [node name="W0" type="CollisionShape2D" parent="Walls"]
-position = Vector2(81.25, 66.25)
-shape = SubResource("R162_5x132_5")
+position = Vector2(65.0, 53.0)
+shape = SubResource("R130x106")
 
 [node name="W1" type="CollisionShape2D" parent="Walls"]
-position = Vector2(316.25, 66.25)
-shape = SubResource("R167_5x132_5")
+position = Vector2(253.0, 53.0)
+shape = SubResource("R134x106")
 
 [node name="W2" type="CollisionShape2D" parent="Walls"]
-position = Vector2(197.5, 56.25)
-shape = SubResource("R70x112_5")
+position = Vector2(158.0, 45.0)
+shape = SubResource("R56x90")
 
 [node name="W3" type="CollisionShape2D" parent="Walls"]
-position = Vector2(25.0, 160.0)
-shape = SubResource("R50x320")
+position = Vector2(20.0, 128.0)
+shape = SubResource("R40x256")
 
 [node name="W4" type="CollisionShape2D" parent="Walls"]
-position = Vector2(375.0, 160.0)
-shape = SubResource("R50x320")
+position = Vector2(300.0, 128.0)
+shape = SubResource("R40x256")
 
 [node name="W5" type="CollisionShape2D" parent="Walls"]
-position = Vector2(101.25, 287.5)
-shape = SubResource("R102_5x65")
+position = Vector2(81.0, 230.0)
+shape = SubResource("R82x52")
 
 [node name="W6" type="CollisionShape2D" parent="Walls"]
-position = Vector2(318.75, 310.0)
-shape = SubResource("R162_5x20")
+position = Vector2(255.0, 248.0)
+shape = SubResource("R130x16")
 
 [node name="W7" type="CollisionShape2D" parent="Walls"]
-position = Vector2(75.0, 310.0)
-shape = SubResource("R150x20")
+position = Vector2(60.0, 248.0)
+shape = SubResource("R120x16")
 
 [node name="W8" type="CollisionShape2D" parent="Walls"]
-position = Vector2(200.0, -20.0)
-shape = SubResource("R480x40")
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
 
 [node name="W9" type="CollisionShape2D" parent="Walls"]
-position = Vector2(-20.0, 190.0)
-shape = SubResource("R40x380")
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
 
 [node name="W10" type="CollisionShape2D" parent="Walls"]
-position = Vector2(420.0, 190.0)
-shape = SubResource("R40x380")
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
 
 [node name="W11" type="CollisionShape2D" parent="Walls"]
-position = Vector2(200.0, 360.0)
-shape = SubResource("R480x40")
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
 
 [node name="SafeZone" type="Area2D" parent="."]
 collision_layer = 0
@@ -120,22 +120,22 @@ monitorable = false
 script = ExtResource("8_safe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
-position = Vector2(200.0, 160.0)
-shape = SubResource("R400x340")
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
 
 [node name="Spawns" type="Node2D" parent="."]
 
 [node name="door" type="Marker2D" parent="Spawns"]
-position = Vector2(193.75, 282.5)
+position = Vector2(155, 226)
 
 [node name="Out" parent="." instance=ExtResource("7_exit")]
-position = Vector2(193.75, 327.5)
+position = Vector2(155, 262)
 target_scene = "res://scenes/world/kalmora.tscn"
 target_spawn = &"from_cardshop"
 exit_hint = true
 
 [node name="Npc_sable" parent="." instance=ExtResource("9_npc")]
-position = Vector2(197.5, 147.5)
+position = Vector2(158, 118)
 npc_id = &"sable"
 display_name = "Sable"
 sprite_frames = ExtResource("n_sable")
@@ -143,7 +143,7 @@ lines = PackedStringArray("Welcome, welcome. Spells, charms, a little luck in ca
 shop_stock = Array[StringName]([&"pickpockets_whisper", &"lockbox_seal", &"second_wind"])
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector2(193.75, 282.5)
+position = Vector2(155, 226)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
 
