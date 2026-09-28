@@ -53,6 +53,27 @@ static func award_card(parent: Node, killer: StringName, card_id: StringName, po
 		parent.add_child.call_deferred(pickup)
 
 
+## A short camera shake (a landed blow, a boss slam).
+static func shake(tree: SceneTree, strength: float, steps := 5) -> void:
+	var camera := tree.root.get_viewport().get_camera_2d()
+	if camera == null or DisplayServer.get_name() == "headless":
+		return
+	var tween := camera.create_tween()
+	for i in steps:
+		tween.tween_property(camera, "offset", Vector2(randf_range(-1, 1), randf_range(-1, 1)) * strength, 0.03)
+	tween.tween_property(camera, "offset", Vector2.ZERO, 0.03)
+
+
+## Hit-stop: the world freezes for a few hundredths of a second so a blow lands with
+## weight. Real-time timer, so it ends even though time is stopped.
+static func hit_stop(tree: SceneTree, seconds := 0.05) -> void:
+	if DisplayServer.get_name() == "headless" or Engine.time_scale < 1.0:
+		return
+	Engine.time_scale = 0.05
+	await tree.create_timer(seconds, true, false, true).timeout
+	Engine.time_scale = 1.0
+
+
 static func pop_number(parent: Node, pos: Vector2, amount: int, color := Color.WHITE) -> void:
 	var label := Label.new()
 	label.text = str(amount)

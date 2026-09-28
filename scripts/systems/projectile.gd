@@ -10,7 +10,10 @@ var direction := Vector2.RIGHT
 
 func _ready() -> void:
 	rotation = direction.angle()
-	hit_landed.connect(func(_h: Hurtbox) -> void: queue_free())
+	hit_landed.connect(func(_h: Hurtbox) -> void:
+		if source_id == GameState.PLAYER:
+			Combat.shake(get_tree(), 1.5, 2)
+		queue_free())
 	body_entered.connect(func(_b: Node2D) -> void: queue_free())
 	get_tree().create_timer(lifetime).timeout.connect(queue_free)
 

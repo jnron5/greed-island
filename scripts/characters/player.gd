@@ -68,6 +68,11 @@ func _ready() -> void:
 	_slash.z_index = 1
 	sword_pivot.add_child(_slash)
 	_slash.draw.connect(_draw_slash)
+	# A blow that lands kicks the camera and stops the world for a heartbeat.
+	for hitbox: Hitbox in find_children("*", "Hitbox", true, false):
+		hitbox.hit_landed.connect(func(_h: Hurtbox) -> void:
+			Combat.shake(get_tree(), 2.0, 3)
+			Combat.hit_stop(get_tree(), 0.04))
 	health_changed.emit(health, max_health)
 
 
@@ -195,6 +200,8 @@ func _on_hurt(hitbox: Hitbox) -> void:
 		_die(hitbox.source_id)
 		return
 	sprite.modulate = Color(1, 0.5, 0.5)
+	Combat.shake(get_tree(), 4.0)
+	Combat.hit_stop(get_tree(), 0.07)
 	await _set_invulnerable_for(hurt_invulnerability)
 	sprite.modulate = Color.WHITE
 
