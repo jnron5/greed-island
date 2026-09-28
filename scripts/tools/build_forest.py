@@ -98,6 +98,36 @@ def near_lake(cfg, x, y, margin):
 # work goes, and the Hollow keeps what a runaway child left behind.
 LIFE = {
     "sorenda": {
+        "props": [
+            ('res://assets/sprites/tiles/sorenda/cabin.png', (-320, -150), True, (84, 44)),
+            ('res://assets/sprites/tiles/sorenda/woodpile.png', (-238, -142), True, (50, 16)),
+            ('res://assets/sprites/tiles/sorenda/herb_hut.png', (340, 40), True, (70, 34)),
+            ('res://assets/sprites/tiles/sorenda/drying_rack.png', (262, 82), True, (40, 10)),
+            ('res://assets/sprites/tiles/sorenda/firepit.png', (40, 70), True, (60, 24)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (-196, -118), True, (10, 8)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (168, -150), True, (10, 8)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (176, 104), True, (10, 8)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (-100, 146), True, (10, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-392, 30), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-392, 128), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-376, 30), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-376, 128), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-360, 30), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-360, 128), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-344, 30), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-344, 128), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-328, 30), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-328, 128), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-312, 30), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-312, 128), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-296, 30), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-296, 128), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-280, 30), True, (16, 8)),
+            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-280, 128), True, (16, 8)),
+        ],
+        # A fenced vegetable garden south-west of the green (the fence above), rows of
+        # crops painted into the ground.
+        "garden": (-392, 30, -272, 128),
         "npcs": [
             ("moss", "Elder Moss", (0, -126), 0, [
                 "Sorenda sits where the old roads cross. Every race, the racers come through. Some are running to something. Some from it.",
@@ -190,7 +220,7 @@ shape = SubResource("Trunk")
     return "res://" + path
 
 
-def paint_ground(cfg, trees, props):
+def paint_ground(cfg, trees, props, garden=None):
     x0, y0, x1, y1 = cfg["bounds"]
     W, H = x1 - x0, y1 - y0
     grass = np.asarray(CornerSet(GRASS).tiles[15].convert("RGBA"))
@@ -220,6 +250,17 @@ def paint_ground(cfg, trees, props):
     out[..., :3] = np.where((on & near_grass)[..., None], out[..., :3] * 0.8, out[..., :3])     # a rim along the path
     near_path = np.asarray(Image.fromarray(on.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(7))) > 0
     out[..., :3] = np.where((~on & near_path)[..., None], out[..., :3] * 0.88, out[..., :3])    # grass lips over it
+    if garden:
+        # Tilled rows of dark earth with green shoots, inside the garden fence.
+        gx0, gy0, gx1, gy1 = garden
+        for y in range(gy0 + 14, gy1 - 6, 12):
+            for x in range(gx0 + 6, gx1 - 6):
+                px, py = x - x0, y - y0
+                out[py:py + 6, px, :3] = np.array([92, 62, 40])
+                out[py + 1, px, :3] = np.array([112, 78, 50])
+                if (x * 7 + y) % 9 == 0:
+                    out[py - 2:py + 1, px, :3] = np.array([88, 150, 60])
+                    out[py - 3, px, :3] = np.array([120, 180, 80])
     # Soft shadows under trees and props.
     mask = Image.new("L", (W, H), 0)
     dr = ImageDraw.Draw(mask)
@@ -385,12 +426,19 @@ def build(zone):
         keep.append((x, y, 40 + wander))
     for _, (x, y), _ in life["readables"]:
         keep.append((x, y, 30))
-    for _, (x, y), _ in life.get("props", []):
-        keep.append((x, y, 34))
+    for prop in life.get("props", []):
+        (x, y), fp = prop[1], (prop[3] if len(prop) > 3 else (22, 8))
+        keep.append((x, y, 34 + fp[0] // 2 + (40 if fp[0] >= 60 else 0)))
+    if life.get("garden"):
+        gx0, gy0, gx1, gy1 = life["garden"]
+        for gx in range(gx0, gx1 + 1, 24):
+            for gy in range(gy0, gy1 + 1, 24):
+                keep.append((gx, gy, 30))
     fronts = [(x, y) for name, (x, y) in scene_nodes(scene).items()
               if any(k in name for k in ("Hut", "Longhouse", "House", "Shrine", "Merchant"))]
+    fronts += [prop[1] for prop in life.get("props", []) if len(prop) > 3 and prop[3][0] >= 60]   # new buildings
     trees, props, landmarks = layout(cfg, keep, fronts)
-    paint_ground(cfg, trees, props + landmarks)
+    paint_ground(cfg, trees, props + landmarks, life.get("garden"))
 
     ids = {}
 
@@ -406,6 +454,13 @@ def build(zone):
     tex = {}
     for name in {n for n, _, _ in props + landmarks}:
         scene, tex[name] = resource(scene, "Texture2D", f"res://{PROPS}{name}.png", f"81_{name}")
+    feet = {}
+
+    def foot(w, h):
+        key = f"Foot{w}x{h}"
+        feet[key] = f'[sub_resource type="RectangleShape2D" id="{key}"]\nsize = Vector2({w}, {h})\n'
+        return key
+    scene = re.sub(r'\[sub_resource type="RectangleShape2D" id="Foot\d+x\d+"\]\nsize = [^\n]*\n\n', "", scene)
     if 'id="RockBase"' not in scene:
         scene = scene.replace("\n\n[node name=", '\n\n[sub_resource type="RectangleShape2D" id="RockBase"]\nsize = Vector2(22, 8)\n\n[node name=', 1)
     nodes = []
@@ -440,7 +495,9 @@ def build(zone):
         nodes.append(f'[node name="Npc_{npc_id}" parent="." instance=ExtResource("{npc_ref.group(1)}")]\nposition = Vector2({x}, {y})\n'
                      f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{frames}")\n'
                      f'lines = PackedStringArray({quote(lines)})\nwander_radius = {float(wander)}\n')
-    for k, (res, (x, y), collides) in enumerate(life.get("props", [])):
+    for k, prop in enumerate(life.get("props", [])):
+        res, (x, y), collides = prop[:3]
+        fw, fh = prop[3] if len(prop) > 3 else (22, 8)
         scene, tid = resource(scene, "Texture2D", res, f"85_{os.path.basename(res)[:-4]}")
         h = Image.open(res.replace("res://", "")).height
         if collides:
@@ -448,7 +505,7 @@ def build(zone):
                          f'[node name="Sprite2D" type="Sprite2D" parent="Landmark{len(landmarks) + k + 1}"]\noffset = Vector2(0, {-h / 2 + 2})\n'
                          f'texture = ExtResource("{tid}")\n\n'
                          f'[node name="CollisionShape2D" type="CollisionShape2D" parent="Landmark{len(landmarks) + k + 1}"]\n'
-                         f'position = Vector2(0, -3)\nshape = SubResource("RockBase")\n')
+                         f'position = Vector2(0, {-fh / 2})\nshape = SubResource("{foot(fw, fh)}")\n')
         else:
             nodes.append(f'[node name="Under{len(props) + k + 1}" type="Sprite2D" parent="."]\nposition = Vector2({x}, {y})\n'
                          f'offset = Vector2(0, {-h / 2 + 2})\ntexture = ExtResource("{tid}")\n')
@@ -472,6 +529,8 @@ def build(zone):
                      f'[node name="Waves" type="Sprite2D" parent="LakeWater"]\nmodulate = Color(0.78, 1, 0.9, 1)\n'
                      f'script = ExtResource("84_tiled")\nstrip = ExtResource("84_waves")\nframe_count = 8\nfps = 4.0\n'
                      f'region_rect = Rect2(0, 0, {x1 - x0}, {y1 - y0})\n')
+    if feet:
+        scene = scene.replace("\n\n[node name=", "\n\n" + "\n".join(feet.values()) + "\n[node name=", 1)
     at = scene.index('[node name="Player"')
     scene = scene[:at] + "\n".join(nodes) + "\n" + scene[at:]
     open(cfg["scene"], "w", encoding="utf-8", newline="\n").write(scene)
