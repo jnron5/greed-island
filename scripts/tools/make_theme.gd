@@ -9,6 +9,9 @@ const CREAM := Color(0.97, 0.92, 0.8)
 const INK := Color(0.24, 0.14, 0.07)
 const GOLD := Color(1.0, 0.84, 0.45)
 const SHADOW := Color(0.06, 0.04, 0.03)
+## Body text size: the 16px pixel fonts at 10 (a little larger than the crisp half
+## size, 8, which read too small).
+const TEXT_SIZE := 10
 
 
 func _init() -> void:
@@ -16,7 +19,7 @@ func _init() -> void:
 	var title_font := _pixel_font("res://assets/fonts/virelia_title.ttf", "res://assets/fonts/virelia_title.tres")
 	var theme := Theme.new()
 	theme.default_font = text_font
-	theme.default_font_size = 8
+	theme.default_font_size = TEXT_SIZE
 
 	# Plain labels: cream with a dark outline, so they read over the world.
 	theme.set_color(&"font_color", &"Label", CREAM)
@@ -33,7 +36,7 @@ func _init() -> void:
 	theme.set_type_variation(&"TitleLabel", &"Label")
 	theme.set_font(&"font", &"TitleLabel", title_font)
 	theme.set_color(&"font_color", &"TitleLabel", GOLD)
-	theme.set_font_size(&"font_size", &"TitleLabel", 8)
+	theme.set_font_size(&"font_size", &"TitleLabel", TEXT_SIZE)
 
 	# Windows: the teal kit window with shell corners.
 	var window := _box("window.png", 9, 9, 9, 9, 10, 9)

@@ -19,6 +19,8 @@ const BOSS_DIR := "res://data/bosses/"
 var active_rivals: Array[StringName] = []
 var collections: Dictionary[StringName, CardCollection] = {}
 var currency := 0
+## The player's satchel: item id -> count (healing items; see ItemData).
+var items: Dictionary[StringName, int] = {}
 var quest_flags: Dictionary[StringName, Variant] = {}
 var opened_gates: Dictionary[StringName, StringName] = {}  # gate id -> opener
 ## Copies that can still exist for finite cards. Consuming or selling a card
@@ -74,6 +76,8 @@ func new_game(rivals: Array[StringName]) -> void:
 	for id in collectors():
 		collections[id] = CardCollection.new(id)
 	currency = STARTING_GOLD
+	items.clear()
+	items[&"bread"] = 2
 	_locks.clear()
 	_robbed_at.clear()
 	collected_pickups.clear()
@@ -381,6 +385,42 @@ func open_gate(gate_id: StringName, by: StringName) -> bool:
 	EventBus.gate_opened.emit(gate_id, by)
 	if gate.respawns_boss != &"":
 		_respawn_boss(gate.respawns_boss, gate_id)
+	return true
+
+
+func add_item(id: StringName, amount := 1) -> void:
+	items[id] = items.get(id, 0) + amount
+	if items[id] <= 0:
+		items.erase(id)
+	EventBus.items_changed.emit()
+
+
+func item_count(id: StringName) -> int:
+	return items.get(id, 0)
+
+
+## Buys one of an item at its price. False when unaffordable or unknown.
+func buy_item(id: StringName) -> bool:
+	var item := Items.get_item(id)
+	if item == null or currency < item.price:
+		return false
+	add_currency(-item.price)
+	add_item(id)
+	return true
+
+
+## Uses one item on the player (heals). False when none are carried, it's unknown,
+## or it would do nothing (already at full health).
+func use_item(id: StringName) -> bool:
+	var item := Items.get_item(id)
+	if item == null or item_count(id) <= 0:
+		return false
+	var player := get_tree().get_first_node_in_group(&"player") as Player
+	if item.heal > 0 and (player == null or player.health >= player.max_health):
+		return false
+	if player and item.heal > 0:
+		player.heal(item.heal)
+	add_item(id, -1)
 	return true
 
 

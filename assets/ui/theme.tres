@@ -11,7 +11,7 @@
 [ext_resource type="FontFile" path="res://assets/fonts/virelia_title.tres" id="9_llups"]
 [ext_resource type="FontFile" path="res://assets/fonts/virelia_text.tres" id="10_iy48a"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ix1fq"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_unkgg"]
 content_margin_left = 6.0
 content_margin_top = 3.0
 content_margin_right = 6.0
@@ -22,7 +22,7 @@ texture_margin_top = 5.0
 texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_acm8m"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_66ixa"]
 content_margin_left = 6.0
 content_margin_top = 3.0
 content_margin_right = 6.0
@@ -33,7 +33,7 @@ texture_margin_top = 5.0
 texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_knjjy"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yda6c"]
 content_margin_left = 6.0
 content_margin_top = 3.0
 content_margin_right = 6.0
@@ -44,7 +44,7 @@ texture_margin_top = 5.0
 texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ngpgj"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_thv0v"]
 content_margin_left = 6.0
 content_margin_top = 3.0
 content_margin_right = 6.0
@@ -55,7 +55,7 @@ texture_margin_top = 5.0
 texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yuyab"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_urds4"]
 content_margin_left = 6.0
 content_margin_top = 3.0
 content_margin_right = 6.0
@@ -66,7 +66,7 @@ texture_margin_top = 5.0
 texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oam8o"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ek3dl"]
 content_margin_left = 20.0
 content_margin_top = 14.0
 content_margin_right = 20.0
@@ -77,7 +77,7 @@ texture_margin_top = 20.0
 texture_margin_right = 22.0
 texture_margin_bottom = 20.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_unbus"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5qnlr"]
 bg_color = Color(0.85, 0.62, 0.3, 1)
 border_width_left = 1
 border_width_top = 1
@@ -85,10 +85,10 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.06, 0.04, 0.03, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tb1mf"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s0eex"]
 bg_color = Color(0.05, 0.16, 0.2, 0.8)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_il2qg"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_llups"]
 content_margin_left = 5.0
 content_margin_top = 4.0
 content_margin_right = 5.0
@@ -99,7 +99,7 @@ texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y7wg7"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iy48a"]
 content_margin_left = 10.0
 content_margin_top = 2.0
 content_margin_right = 10.0
@@ -110,7 +110,7 @@ texture_margin_top = 10.0
 texture_margin_right = 12.0
 texture_margin_bottom = 10.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pk2vs"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ix1fq"]
 content_margin_left = 10.0
 content_margin_top = 9.0
 content_margin_right = 10.0
@@ -123,42 +123,42 @@ texture_margin_bottom = 9.0
 
 [resource]
 default_font = ExtResource("10_iy48a")
-default_font_size = 8
+default_font_size = 10
 Button/colors/font_color = Color(0.97, 0.92, 0.8, 1)
 Button/colors/font_disabled_color = Color(0.62, 0.62, 0.6, 1)
 Button/colors/font_hover_color = Color(1, 0.84, 0.45, 1)
 Button/colors/font_outline_color = Color(0.06, 0.04, 0.03, 1)
 Button/colors/font_pressed_color = Color(1, 0.84, 0.45, 1)
 Button/constants/outline_size = 3
-Button/styles/disabled = SubResource("StyleBoxTexture_ix1fq")
-Button/styles/focus = SubResource("StyleBoxTexture_acm8m")
-Button/styles/hover = SubResource("StyleBoxTexture_knjjy")
-Button/styles/normal = SubResource("StyleBoxTexture_ngpgj")
-Button/styles/pressed = SubResource("StyleBoxTexture_yuyab")
+Button/styles/disabled = SubResource("StyleBoxTexture_unkgg")
+Button/styles/focus = SubResource("StyleBoxTexture_66ixa")
+Button/styles/hover = SubResource("StyleBoxTexture_yda6c")
+Button/styles/normal = SubResource("StyleBoxTexture_thv0v")
+Button/styles/pressed = SubResource("StyleBoxTexture_urds4")
 DialoguePanel/base_type = &"PanelContainer"
-DialoguePanel/styles/panel = SubResource("StyleBoxTexture_oam8o")
-HScrollBar/styles/grabber = SubResource("StyleBoxFlat_unbus")
-HScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_unbus")
-HScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_unbus")
-HScrollBar/styles/scroll = SubResource("StyleBoxFlat_tb1mf")
+DialoguePanel/styles/panel = SubResource("StyleBoxTexture_ek3dl")
+HScrollBar/styles/grabber = SubResource("StyleBoxFlat_5qnlr")
+HScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_5qnlr")
+HScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_5qnlr")
+HScrollBar/styles/scroll = SubResource("StyleBoxFlat_s0eex")
 InkLabel/base_type = &"Label"
 InkLabel/colors/font_color = Color(0.24, 0.14, 0.07, 1)
 InkLabel/constants/outline_size = 0
 InsetPanel/base_type = &"PanelContainer"
-InsetPanel/styles/panel = SubResource("StyleBoxTexture_il2qg")
+InsetPanel/styles/panel = SubResource("StyleBoxTexture_llups")
 Label/colors/font_color = Color(0.97, 0.92, 0.8, 1)
 Label/colors/font_outline_color = Color(0.06, 0.04, 0.03, 1)
 Label/constants/line_spacing = 1
 Label/constants/outline_size = 3
 NamePlate/base_type = &"PanelContainer"
-NamePlate/styles/panel = SubResource("StyleBoxTexture_y7wg7")
-Panel/styles/panel = SubResource("StyleBoxTexture_pk2vs")
-PanelContainer/styles/panel = SubResource("StyleBoxTexture_pk2vs")
+NamePlate/styles/panel = SubResource("StyleBoxTexture_iy48a")
+Panel/styles/panel = SubResource("StyleBoxTexture_ix1fq")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_ix1fq")
 TitleLabel/base_type = &"Label"
 TitleLabel/colors/font_color = Color(1, 0.84, 0.45, 1)
-TitleLabel/font_sizes/font_size = 8
+TitleLabel/font_sizes/font_size = 10
 TitleLabel/fonts/font = ExtResource("9_llups")
-VScrollBar/styles/grabber = SubResource("StyleBoxFlat_unbus")
-VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_unbus")
-VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_unbus")
-VScrollBar/styles/scroll = SubResource("StyleBoxFlat_tb1mf")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_5qnlr")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_5qnlr")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_5qnlr")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_s0eex")

@@ -11,6 +11,10 @@ signal gate_opened(gate_id: StringName, by: StringName)
 ## Public tracker: collector id -> number of final-set cards held (counts only).
 signal tracker_changed(counts: Dictionary)
 signal currency_changed(amount: int)
+## The player arrived in an area (a zone or a room): the HUD shows its title large.
+signal area_entered(title: String, interior: bool)
+## The player's satchel changed (an item bought, used or found).
+signal items_changed()
 signal card_locked(collector: StringName, card_id: StringName, seconds: float)
 signal spell_cast(caster: StringName, spell_id: StringName, target: StringName)
 ## A stealth attempt was caught (the victim noticed).

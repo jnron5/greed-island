@@ -73,9 +73,7 @@ BRIDGES = [  # (x0, y0, x1, y1): a deck across a stream or out to the island
     (620, 790, 690, 814),                  # the south-west meadow over the stream
     (1176, 596, 1240, 620),                # east road over the falls
 ]
-# Falls drawn over cliff faces where a stream drops (concept px: top centre, height).
-FALLS = [(398, 262, 70), (506, 598, 80), (176, 760, 80), (1210, 616, 80), (1256, 440, 110), (846, 704, 60),
-         (1412, 606, 40)]
+# Falls are found where streams cross cliff faces (build_thornveil.find_falls).
 
 
 def classify():

@@ -14,6 +14,8 @@ os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 ROOM_SCALE = 1
 
+# Greta's shelves: satchel items that heal (data/items/).
+PROVISIONS = '[&"smoked_fish", &"bread", &"healers_tonic", &"sea_salt_elixir"]'
 SHOP_STOCK = '[&"pickpockets_whisper", &"lockbox_seal", &"second_wind"]'
 
 INTERIORS = {
@@ -104,10 +106,10 @@ INTERIORS = {
             (0, 236, 142, 256), (180, 236, 320, 256),                     # front wall
         ],
         "npcs": [("greta", "Greta", "greta", (262, 140), [
-            "Greta's Provisions! Rope, lamps, bread, fish hooks. No cards, love. Sable's across the square for that.",
+            "Greta's Provisions! Bread, smoked fish, tonics for the road. Racers come in limping and go out running.",
             "The big house up the hill buys more lamps than the lighthouse. Oil, wicks, the lot. Who needs that many lamps?",
             "Every autumn a whole cart of children's boots goes out on the southern barge. Charity, they say. Funny sort of charity.",
-        ], [])],
+        ], PROVISIONS)],
         "readables": [
             ("Greta's ledger", (205, 176), [
                 "A fat ledger open on the counter.",
@@ -367,7 +369,8 @@ exit_hint = true
         quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
         n.append(f'[node name="Npc_{npc_id}" parent="." instance=ExtResource("9_npc")]\nposition = Vector2({x}, {y})\n'
                  f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{rid}")\n'
-                 f'lines = PackedStringArray({quoted})\n' + (f'shop_stock = Array[StringName]({stock})\n' if stock else ""))
+                 f'lines = PackedStringArray({quoted})\n' + (f'shop_stock = Array[StringName]({stock})\n' if stock else "")
+                 + ('shop_buys_cards = false\nshop_title = "Greta\'s Provisions"\n' if stock == PROVISIONS else ""))
     for k, (title, (x, y), lines) in enumerate(cfg.get("readables", [])):
         quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
         n.append(f'[node name="Read{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\nscript = ExtResource("12_read")\n'

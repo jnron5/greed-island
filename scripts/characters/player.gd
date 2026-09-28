@@ -125,6 +125,9 @@ func _process_move() -> void:
 		_fire_pistol()
 	elif Input.is_action_just_pressed(&"spell"):
 		CardSpells.cast_pickpocket(self)
+	elif Input.is_action_just_pressed(&"quick_heal"):
+		if Items.quick_heal() == null:
+			EventBus.notify.emit("Nothing to heal with." if health < max_health else "You're at full health.")
 	elif Input.is_action_just_pressed(&"interact") and _steal_cd <= 0.0:
 		_try_stealth_steal()
 

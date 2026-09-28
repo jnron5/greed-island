@@ -72,7 +72,7 @@ func _ready() -> void:
 		if GameState.rival_locations.get(id, {}).get("zone") == scene_file_path:
 			spawn_rival(id)
 	if display_name != "":
-		EventBus.notify.emit(display_name)
+		EventBus.area_entered.emit(display_name, interior)
 
 
 ## Keeps the player's camera over the painted ground (no grey void past the edges).

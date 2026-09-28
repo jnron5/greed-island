@@ -6,7 +6,8 @@ extends CanvasLayer
 const TITLE_SCENE := "res://scenes/ui/title_screen.tscn"
 const CONTROLS := [
 	["WASD / Arrows", "Move"], ["J", "Sword"], ["K", "Pistol"], ["Space", "Dash"],
-	["E", "Talk, read, steal"], ["Q", "Cast Pickpocket's Whisper"], ["B", "Binder"], ["Esc", "Pause"],
+	["E", "Talk, read, open, steal"], ["Q", "Cast Pickpocket's Whisper"], ["H", "Eat or drink to heal"],
+	["B / Tab", "Binder"], ["I", "Items"], ["Esc", "Pause"],
 ]
 
 var is_open := false

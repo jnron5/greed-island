@@ -1,4 +1,4 @@
-[gd_scene load_steps=187 format=3]
+[gd_scene load_steps=277 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -38,25 +38,34 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/trail_lantern.png" id="t12_trail_lantern"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/fallen_log.png" id="t13_fallen_log"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/fence.png" id="t14_fence"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/rowboat.png" id="t15_rowboat"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/lily_pads.png" id="t16_lily_pads"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/falls/fall_1.png" id="t15_fall_1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/falls/fall_2.png" id="t16_fall_2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/falls/fall_3.png" id="t17_fall_3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/falls/fall_4.png" id="t18_fall_4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/falls/fall_5.png" id="t19_fall_5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/falls/fall_6.png" id="t20_fall_6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/falls/fall_7.png" id="t21_fall_7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/falls/fall_8.png" id="t22_fall_8"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/falls/fall_9.png" id="t23_fall_9"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/falls/fall_10.png" id="t24_fall_10"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/rowboat.png" id="t25_rowboat"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/lily_pads.png" id="t26_lily_pads"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/forest_fir.tscn" id="30_fir"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/forest_oak.tscn" id="30_oak"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/grass_clump.png" id="t17_grass_clump"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/mushrooms.png" id="t18_mushrooms"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/fern.png" id="t19_fern"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/berry_bush.png" id="t20_berry_bush"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/clover.png" id="t21_clover"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/flowers.png" id="t22_flowers"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/acorns.png" id="t23_acorns"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pinecones.png" id="t24_pinecones"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bush_flowers_g.png" id="t25_bush_flowers_g"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bush_g.png" id="t26_bush_g"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/log.png" id="t27_log"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/stump.png" id="t28_stump"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/rock.png" id="t29_rock"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/waterfall_anim.png" id="t30_waterfall_anim"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/campfire_anim.png" id="t31_campfire_anim"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/grass_clump.png" id="t27_grass_clump"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/mushrooms.png" id="t28_mushrooms"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/fern.png" id="t29_fern"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/berry_bush.png" id="t30_berry_bush"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/clover.png" id="t31_clover"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/flowers.png" id="t32_flowers"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/acorns.png" id="t33_acorns"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pinecones.png" id="t34_pinecones"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bush_flowers_g.png" id="t35_bush_flowers_g"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bush_g.png" id="t36_bush_g"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/log.png" id="t37_log"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/stump.png" id="t38_stump"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/rock.png" id="t39_rock"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/campfire_anim.png" id="t40_campfire_anim"]
 
 [sub_resource type="RectangleShape2D" id="R256x32"]
 size = Vector2(256, 32)
@@ -385,106 +394,682 @@ size = Vector2(10, 8)
 [sub_resource type="RectangleShape2D" id="R90x16"]
 size = Vector2(90, 16)
 
+[sub_resource type="AtlasTexture" id="frames_fall1_0"]
+atlas = ExtResource("t15_fall_1")
+region = Rect2(0, 0, 104, 90)
+
+[sub_resource type="AtlasTexture" id="frames_fall1_1"]
+atlas = ExtResource("t15_fall_1")
+region = Rect2(104, 0, 104, 90)
+
+[sub_resource type="AtlasTexture" id="frames_fall1_2"]
+atlas = ExtResource("t15_fall_1")
+region = Rect2(208, 0, 104, 90)
+
+[sub_resource type="AtlasTexture" id="frames_fall1_3"]
+atlas = ExtResource("t15_fall_1")
+region = Rect2(312, 0, 104, 90)
+
+[sub_resource type="AtlasTexture" id="frames_fall1_4"]
+atlas = ExtResource("t15_fall_1")
+region = Rect2(416, 0, 104, 90)
+
+[sub_resource type="AtlasTexture" id="frames_fall1_5"]
+atlas = ExtResource("t15_fall_1")
+region = Rect2(520, 0, 104, 90)
+
+[sub_resource type="AtlasTexture" id="frames_fall1_6"]
+atlas = ExtResource("t15_fall_1")
+region = Rect2(624, 0, 104, 90)
+
+[sub_resource type="AtlasTexture" id="frames_fall1_7"]
+atlas = ExtResource("t15_fall_1")
+region = Rect2(728, 0, 104, 90)
+
+[sub_resource type="SpriteFrames" id="frames_fall1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frames_fall1_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall1_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall1_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall1_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall1_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall1_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall1_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall1_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12
+}]
+
+[sub_resource type="AtlasTexture" id="frames_fall2_0"]
+atlas = ExtResource("t16_fall_2")
+region = Rect2(0, 0, 112, 122)
+
+[sub_resource type="AtlasTexture" id="frames_fall2_1"]
+atlas = ExtResource("t16_fall_2")
+region = Rect2(112, 0, 112, 122)
+
+[sub_resource type="AtlasTexture" id="frames_fall2_2"]
+atlas = ExtResource("t16_fall_2")
+region = Rect2(224, 0, 112, 122)
+
+[sub_resource type="AtlasTexture" id="frames_fall2_3"]
+atlas = ExtResource("t16_fall_2")
+region = Rect2(336, 0, 112, 122)
+
+[sub_resource type="AtlasTexture" id="frames_fall2_4"]
+atlas = ExtResource("t16_fall_2")
+region = Rect2(448, 0, 112, 122)
+
+[sub_resource type="AtlasTexture" id="frames_fall2_5"]
+atlas = ExtResource("t16_fall_2")
+region = Rect2(560, 0, 112, 122)
+
+[sub_resource type="AtlasTexture" id="frames_fall2_6"]
+atlas = ExtResource("t16_fall_2")
+region = Rect2(672, 0, 112, 122)
+
+[sub_resource type="AtlasTexture" id="frames_fall2_7"]
+atlas = ExtResource("t16_fall_2")
+region = Rect2(784, 0, 112, 122)
+
+[sub_resource type="SpriteFrames" id="frames_fall2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frames_fall2_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall2_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall2_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall2_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall2_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall2_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall2_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall2_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12
+}]
+
+[sub_resource type="AtlasTexture" id="frames_fall3_0"]
+atlas = ExtResource("t17_fall_3")
+region = Rect2(0, 0, 20, 50)
+
+[sub_resource type="AtlasTexture" id="frames_fall3_1"]
+atlas = ExtResource("t17_fall_3")
+region = Rect2(20, 0, 20, 50)
+
+[sub_resource type="AtlasTexture" id="frames_fall3_2"]
+atlas = ExtResource("t17_fall_3")
+region = Rect2(40, 0, 20, 50)
+
+[sub_resource type="AtlasTexture" id="frames_fall3_3"]
+atlas = ExtResource("t17_fall_3")
+region = Rect2(60, 0, 20, 50)
+
+[sub_resource type="AtlasTexture" id="frames_fall3_4"]
+atlas = ExtResource("t17_fall_3")
+region = Rect2(80, 0, 20, 50)
+
+[sub_resource type="AtlasTexture" id="frames_fall3_5"]
+atlas = ExtResource("t17_fall_3")
+region = Rect2(100, 0, 20, 50)
+
+[sub_resource type="AtlasTexture" id="frames_fall3_6"]
+atlas = ExtResource("t17_fall_3")
+region = Rect2(120, 0, 20, 50)
+
+[sub_resource type="AtlasTexture" id="frames_fall3_7"]
+atlas = ExtResource("t17_fall_3")
+region = Rect2(140, 0, 20, 50)
+
+[sub_resource type="SpriteFrames" id="frames_fall3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frames_fall3_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall3_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall3_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall3_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall3_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall3_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall3_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall3_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12
+}]
+
+[sub_resource type="AtlasTexture" id="frames_fall4_0"]
+atlas = ExtResource("t18_fall_4")
+region = Rect2(0, 0, 180, 194)
+
+[sub_resource type="AtlasTexture" id="frames_fall4_1"]
+atlas = ExtResource("t18_fall_4")
+region = Rect2(180, 0, 180, 194)
+
+[sub_resource type="AtlasTexture" id="frames_fall4_2"]
+atlas = ExtResource("t18_fall_4")
+region = Rect2(360, 0, 180, 194)
+
+[sub_resource type="AtlasTexture" id="frames_fall4_3"]
+atlas = ExtResource("t18_fall_4")
+region = Rect2(540, 0, 180, 194)
+
+[sub_resource type="AtlasTexture" id="frames_fall4_4"]
+atlas = ExtResource("t18_fall_4")
+region = Rect2(720, 0, 180, 194)
+
+[sub_resource type="AtlasTexture" id="frames_fall4_5"]
+atlas = ExtResource("t18_fall_4")
+region = Rect2(900, 0, 180, 194)
+
+[sub_resource type="AtlasTexture" id="frames_fall4_6"]
+atlas = ExtResource("t18_fall_4")
+region = Rect2(1080, 0, 180, 194)
+
+[sub_resource type="AtlasTexture" id="frames_fall4_7"]
+atlas = ExtResource("t18_fall_4")
+region = Rect2(1260, 0, 180, 194)
+
+[sub_resource type="SpriteFrames" id="frames_fall4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frames_fall4_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall4_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall4_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall4_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall4_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall4_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall4_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall4_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12
+}]
+
+[sub_resource type="AtlasTexture" id="frames_fall5_0"]
+atlas = ExtResource("t19_fall_5")
+region = Rect2(0, 0, 76, 170)
+
+[sub_resource type="AtlasTexture" id="frames_fall5_1"]
+atlas = ExtResource("t19_fall_5")
+region = Rect2(76, 0, 76, 170)
+
+[sub_resource type="AtlasTexture" id="frames_fall5_2"]
+atlas = ExtResource("t19_fall_5")
+region = Rect2(152, 0, 76, 170)
+
+[sub_resource type="AtlasTexture" id="frames_fall5_3"]
+atlas = ExtResource("t19_fall_5")
+region = Rect2(228, 0, 76, 170)
+
+[sub_resource type="AtlasTexture" id="frames_fall5_4"]
+atlas = ExtResource("t19_fall_5")
+region = Rect2(304, 0, 76, 170)
+
+[sub_resource type="AtlasTexture" id="frames_fall5_5"]
+atlas = ExtResource("t19_fall_5")
+region = Rect2(380, 0, 76, 170)
+
+[sub_resource type="AtlasTexture" id="frames_fall5_6"]
+atlas = ExtResource("t19_fall_5")
+region = Rect2(456, 0, 76, 170)
+
+[sub_resource type="AtlasTexture" id="frames_fall5_7"]
+atlas = ExtResource("t19_fall_5")
+region = Rect2(532, 0, 76, 170)
+
+[sub_resource type="SpriteFrames" id="frames_fall5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frames_fall5_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall5_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall5_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall5_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall5_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall5_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall5_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall5_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12
+}]
+
+[sub_resource type="AtlasTexture" id="frames_fall6_0"]
+atlas = ExtResource("t20_fall_6")
+region = Rect2(0, 0, 24, 106)
+
+[sub_resource type="AtlasTexture" id="frames_fall6_1"]
+atlas = ExtResource("t20_fall_6")
+region = Rect2(24, 0, 24, 106)
+
+[sub_resource type="AtlasTexture" id="frames_fall6_2"]
+atlas = ExtResource("t20_fall_6")
+region = Rect2(48, 0, 24, 106)
+
+[sub_resource type="AtlasTexture" id="frames_fall6_3"]
+atlas = ExtResource("t20_fall_6")
+region = Rect2(72, 0, 24, 106)
+
+[sub_resource type="AtlasTexture" id="frames_fall6_4"]
+atlas = ExtResource("t20_fall_6")
+region = Rect2(96, 0, 24, 106)
+
+[sub_resource type="AtlasTexture" id="frames_fall6_5"]
+atlas = ExtResource("t20_fall_6")
+region = Rect2(120, 0, 24, 106)
+
+[sub_resource type="AtlasTexture" id="frames_fall6_6"]
+atlas = ExtResource("t20_fall_6")
+region = Rect2(144, 0, 24, 106)
+
+[sub_resource type="AtlasTexture" id="frames_fall6_7"]
+atlas = ExtResource("t20_fall_6")
+region = Rect2(168, 0, 24, 106)
+
+[sub_resource type="SpriteFrames" id="frames_fall6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frames_fall6_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall6_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall6_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall6_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall6_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall6_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall6_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall6_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12
+}]
+
+[sub_resource type="AtlasTexture" id="frames_fall7_0"]
+atlas = ExtResource("t21_fall_7")
+region = Rect2(0, 0, 204, 186)
+
+[sub_resource type="AtlasTexture" id="frames_fall7_1"]
+atlas = ExtResource("t21_fall_7")
+region = Rect2(204, 0, 204, 186)
+
+[sub_resource type="AtlasTexture" id="frames_fall7_2"]
+atlas = ExtResource("t21_fall_7")
+region = Rect2(408, 0, 204, 186)
+
+[sub_resource type="AtlasTexture" id="frames_fall7_3"]
+atlas = ExtResource("t21_fall_7")
+region = Rect2(612, 0, 204, 186)
+
+[sub_resource type="AtlasTexture" id="frames_fall7_4"]
+atlas = ExtResource("t21_fall_7")
+region = Rect2(816, 0, 204, 186)
+
+[sub_resource type="AtlasTexture" id="frames_fall7_5"]
+atlas = ExtResource("t21_fall_7")
+region = Rect2(1020, 0, 204, 186)
+
+[sub_resource type="AtlasTexture" id="frames_fall7_6"]
+atlas = ExtResource("t21_fall_7")
+region = Rect2(1224, 0, 204, 186)
+
+[sub_resource type="AtlasTexture" id="frames_fall7_7"]
+atlas = ExtResource("t21_fall_7")
+region = Rect2(1428, 0, 204, 186)
+
+[sub_resource type="SpriteFrames" id="frames_fall7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frames_fall7_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall7_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall7_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall7_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall7_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall7_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall7_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall7_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12
+}]
+
+[sub_resource type="AtlasTexture" id="frames_fall8_0"]
+atlas = ExtResource("t22_fall_8")
+region = Rect2(0, 0, 84, 138)
+
+[sub_resource type="AtlasTexture" id="frames_fall8_1"]
+atlas = ExtResource("t22_fall_8")
+region = Rect2(84, 0, 84, 138)
+
+[sub_resource type="AtlasTexture" id="frames_fall8_2"]
+atlas = ExtResource("t22_fall_8")
+region = Rect2(168, 0, 84, 138)
+
+[sub_resource type="AtlasTexture" id="frames_fall8_3"]
+atlas = ExtResource("t22_fall_8")
+region = Rect2(252, 0, 84, 138)
+
+[sub_resource type="AtlasTexture" id="frames_fall8_4"]
+atlas = ExtResource("t22_fall_8")
+region = Rect2(336, 0, 84, 138)
+
+[sub_resource type="AtlasTexture" id="frames_fall8_5"]
+atlas = ExtResource("t22_fall_8")
+region = Rect2(420, 0, 84, 138)
+
+[sub_resource type="AtlasTexture" id="frames_fall8_6"]
+atlas = ExtResource("t22_fall_8")
+region = Rect2(504, 0, 84, 138)
+
+[sub_resource type="AtlasTexture" id="frames_fall8_7"]
+atlas = ExtResource("t22_fall_8")
+region = Rect2(588, 0, 84, 138)
+
+[sub_resource type="SpriteFrames" id="frames_fall8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frames_fall8_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall8_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall8_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall8_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall8_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall8_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall8_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall8_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12
+}]
+
+[sub_resource type="AtlasTexture" id="frames_fall9_0"]
+atlas = ExtResource("t23_fall_9")
+region = Rect2(0, 0, 248, 286)
+
+[sub_resource type="AtlasTexture" id="frames_fall9_1"]
+atlas = ExtResource("t23_fall_9")
+region = Rect2(248, 0, 248, 286)
+
+[sub_resource type="AtlasTexture" id="frames_fall9_2"]
+atlas = ExtResource("t23_fall_9")
+region = Rect2(496, 0, 248, 286)
+
+[sub_resource type="AtlasTexture" id="frames_fall9_3"]
+atlas = ExtResource("t23_fall_9")
+region = Rect2(744, 0, 248, 286)
+
+[sub_resource type="AtlasTexture" id="frames_fall9_4"]
+atlas = ExtResource("t23_fall_9")
+region = Rect2(992, 0, 248, 286)
+
+[sub_resource type="AtlasTexture" id="frames_fall9_5"]
+atlas = ExtResource("t23_fall_9")
+region = Rect2(1240, 0, 248, 286)
+
+[sub_resource type="AtlasTexture" id="frames_fall9_6"]
+atlas = ExtResource("t23_fall_9")
+region = Rect2(1488, 0, 248, 286)
+
+[sub_resource type="AtlasTexture" id="frames_fall9_7"]
+atlas = ExtResource("t23_fall_9")
+region = Rect2(1736, 0, 248, 286)
+
+[sub_resource type="SpriteFrames" id="frames_fall9"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frames_fall9_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall9_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall9_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall9_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall9_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall9_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall9_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall9_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12
+}]
+
+[sub_resource type="AtlasTexture" id="frames_fall10_0"]
+atlas = ExtResource("t24_fall_10")
+region = Rect2(0, 0, 112, 150)
+
+[sub_resource type="AtlasTexture" id="frames_fall10_1"]
+atlas = ExtResource("t24_fall_10")
+region = Rect2(112, 0, 112, 150)
+
+[sub_resource type="AtlasTexture" id="frames_fall10_2"]
+atlas = ExtResource("t24_fall_10")
+region = Rect2(224, 0, 112, 150)
+
+[sub_resource type="AtlasTexture" id="frames_fall10_3"]
+atlas = ExtResource("t24_fall_10")
+region = Rect2(336, 0, 112, 150)
+
+[sub_resource type="AtlasTexture" id="frames_fall10_4"]
+atlas = ExtResource("t24_fall_10")
+region = Rect2(448, 0, 112, 150)
+
+[sub_resource type="AtlasTexture" id="frames_fall10_5"]
+atlas = ExtResource("t24_fall_10")
+region = Rect2(560, 0, 112, 150)
+
+[sub_resource type="AtlasTexture" id="frames_fall10_6"]
+atlas = ExtResource("t24_fall_10")
+region = Rect2(672, 0, 112, 150)
+
+[sub_resource type="AtlasTexture" id="frames_fall10_7"]
+atlas = ExtResource("t24_fall_10")
+region = Rect2(784, 0, 112, 150)
+
+[sub_resource type="SpriteFrames" id="frames_fall10"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frames_fall10_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall10_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall10_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall10_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall10_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall10_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall10_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frames_fall10_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12
+}]
+
 [sub_resource type="RectangleShape2D" id="R26x10"]
 size = Vector2(26, 10)
 
 [sub_resource type="RectangleShape2D" id="R22x8"]
 size = Vector2(22, 8)
 
-[sub_resource type="AtlasTexture" id="frames_falls_0"]
-atlas = ExtResource("t30_waterfall_anim")
-region = Rect2(0, 0, 48, 96)
-
-[sub_resource type="AtlasTexture" id="frames_falls_1"]
-atlas = ExtResource("t30_waterfall_anim")
-region = Rect2(48, 0, 48, 96)
-
-[sub_resource type="AtlasTexture" id="frames_falls_2"]
-atlas = ExtResource("t30_waterfall_anim")
-region = Rect2(96, 0, 48, 96)
-
-[sub_resource type="AtlasTexture" id="frames_falls_3"]
-atlas = ExtResource("t30_waterfall_anim")
-region = Rect2(144, 0, 48, 96)
-
-[sub_resource type="AtlasTexture" id="frames_falls_4"]
-atlas = ExtResource("t30_waterfall_anim")
-region = Rect2(192, 0, 48, 96)
-
-[sub_resource type="AtlasTexture" id="frames_falls_5"]
-atlas = ExtResource("t30_waterfall_anim")
-region = Rect2(240, 0, 48, 96)
-
-[sub_resource type="AtlasTexture" id="frames_falls_6"]
-atlas = ExtResource("t30_waterfall_anim")
-region = Rect2(288, 0, 48, 96)
-
-[sub_resource type="AtlasTexture" id="frames_falls_7"]
-atlas = ExtResource("t30_waterfall_anim")
-region = Rect2(336, 0, 48, 96)
-
-[sub_resource type="SpriteFrames" id="frames_falls"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("frames_falls_0")
-}, {
-"duration": 1.0,
-"texture": SubResource("frames_falls_1")
-}, {
-"duration": 1.0,
-"texture": SubResource("frames_falls_2")
-}, {
-"duration": 1.0,
-"texture": SubResource("frames_falls_3")
-}, {
-"duration": 1.0,
-"texture": SubResource("frames_falls_4")
-}, {
-"duration": 1.0,
-"texture": SubResource("frames_falls_5")
-}, {
-"duration": 1.0,
-"texture": SubResource("frames_falls_6")
-}, {
-"duration": 1.0,
-"texture": SubResource("frames_falls_7")
-}],
-"loop": true,
-"name": &"default",
-"speed": 10
-}]
-
 [sub_resource type="AtlasTexture" id="frames_campfire_0"]
-atlas = ExtResource("t31_campfire_anim")
+atlas = ExtResource("t40_campfire_anim")
 region = Rect2(0, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="frames_campfire_1"]
-atlas = ExtResource("t31_campfire_anim")
+atlas = ExtResource("t40_campfire_anim")
 region = Rect2(40, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="frames_campfire_2"]
-atlas = ExtResource("t31_campfire_anim")
+atlas = ExtResource("t40_campfire_anim")
 region = Rect2(80, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="frames_campfire_3"]
-atlas = ExtResource("t31_campfire_anim")
+atlas = ExtResource("t40_campfire_anim")
 region = Rect2(120, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="frames_campfire_4"]
-atlas = ExtResource("t31_campfire_anim")
+atlas = ExtResource("t40_campfire_anim")
 region = Rect2(160, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="frames_campfire_5"]
-atlas = ExtResource("t31_campfire_anim")
+atlas = ExtResource("t40_campfire_anim")
 region = Rect2(200, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="frames_campfire_6"]
-atlas = ExtResource("t31_campfire_anim")
+atlas = ExtResource("t40_campfire_anim")
 region = Rect2(240, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="frames_campfire_7"]
-atlas = ExtResource("t31_campfire_anim")
+atlas = ExtResource("t40_campfire_anim")
 region = Rect2(280, 0, 40, 40)
 
 [sub_resource type="SpriteFrames" id="frames_campfire"]
@@ -3666,131 +4251,155 @@ shape = SubResource("R24x8")
 
 [node name="Falls1" type="AnimatedSprite2D" parent="."]
 z_index = -7
-position = Vector2(-491, -1058.5)
-scale = Vector2(1.09, 1.09)
-sprite_frames = SubResource("frames_falls")
+centered = false
+position = Vector2(-528, -1328)
+sprite_frames = SubResource("frames_fall1")
 autoplay = "default"
 frame = 0
 
 [node name="Falls2" type="AnimatedSprite2D" parent="."]
 z_index = -7
-position = Vector2(-329, -547.0)
-scale = Vector2(1.20, 1.25)
-sprite_frames = SubResource("frames_falls")
+centered = false
+position = Vector2(-564, -1184)
+sprite_frames = SubResource("frames_fall2")
 autoplay = "default"
 frame = 3
 
 [node name="Falls3" type="AnimatedSprite2D" parent="."]
 z_index = -7
-position = Vector2(-824, -304.0)
-scale = Vector2(1.20, 1.25)
-sprite_frames = SubResource("frames_falls")
+centered = false
+position = Vector2(636, -1156)
+sprite_frames = SubResource("frames_fall3")
 autoplay = "default"
 frame = 6
 
 [node name="Falls4" type="AnimatedSprite2D" parent="."]
 z_index = -7
-position = Vector2(727, -520.0)
-scale = Vector2(1.20, 1.25)
-sprite_frames = SubResource("frames_falls")
+centered = false
+position = Vector2(-484, -984)
+sprite_frames = SubResource("frames_fall4")
 autoplay = "default"
 frame = 1
 
 [node name="Falls5" type="AnimatedSprite2D" parent="."]
 z_index = -7
-position = Vector2(796, -761.5)
-scale = Vector2(1.20, 1.72)
-sprite_frames = SubResource("frames_falls")
+centered = false
+position = Vector2(732, -800)
+sprite_frames = SubResource("frames_fall5")
 autoplay = "default"
 frame = 4
 
 [node name="Falls6" type="AnimatedSprite2D" parent="."]
 z_index = -7
-position = Vector2(181, -403.0)
-scale = Vector2(0.94, 0.94)
-sprite_frames = SubResource("frames_falls")
+centered = false
+position = Vector2(1068, -736)
+sprite_frames = SubResource("frames_fall6")
 autoplay = "default"
 frame = 7
 
 [node name="Falls7" type="AnimatedSprite2D" parent="."]
 z_index = -7
-position = Vector2(1030, -565.0)
-scale = Vector2(0.80, 0.62)
-sprite_frames = SubResource("frames_falls")
+centered = false
+position = Vector2(-616, -640)
+sprite_frames = SubResource("frames_fall7")
 autoplay = "default"
 frame = 2
+
+[node name="Falls8" type="AnimatedSprite2D" parent="."]
+z_index = -7
+centered = false
+position = Vector2(-368, -608)
+sprite_frames = SubResource("frames_fall8")
+autoplay = "default"
+frame = 5
+
+[node name="Falls9" type="AnimatedSprite2D" parent="."]
+z_index = -7
+centered = false
+position = Vector2(-900, -532)
+sprite_frames = SubResource("frames_fall9")
+autoplay = "default"
+frame = 0
+
+[node name="Falls10" type="AnimatedSprite2D" parent="."]
+z_index = -7
+centered = false
+position = Vector2(160, -428)
+sprite_frames = SubResource("frames_fall10")
+autoplay = "default"
+frame = 3
 
 [node name="Rowboat" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-635, -796)
 rotation = -0.5
-texture = ExtResource("t15_rowboat")
+texture = ExtResource("t25_rowboat")
 
 [node name="Lily1" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-884, -1010)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 flip_h = true
 
 [node name="Lily2" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-899, -962)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 
 [node name="Lily3" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-623, -830)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 flip_h = true
 
 [node name="Lily4" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-911, -1009)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 
 [node name="Lily5" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-549, -915)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 flip_h = true
 
 [node name="Lily6" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-959, -1002)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 
 [node name="Lily7" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-923, -1006)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 flip_h = true
 
 [node name="Lily8" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-1048, -965)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 
 [node name="Lily9" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-603, -1004)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 flip_h = true
 
 [node name="Lily10" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-591, -1014)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 
 [node name="Lily11" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-770, -997)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 flip_h = true
 
 [node name="Lily12" type="Sprite2D" parent="."]
 z_index = -7
 position = Vector2(-996, -992)
-texture = ExtResource("t16_lily_pads")
+texture = ExtResource("t26_lily_pads")
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(-5, -604)
@@ -4674,1186 +5283,1186 @@ position = Vector2(-1050, 60)
 [node name="Under1" type="Sprite2D" parent="."]
 position = Vector2(936, -1408)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under2" type="Sprite2D" parent="."]
 position = Vector2(973, -364)
 offset = Vector2(0, -10.5)
 flip_h = true
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under3" type="Sprite2D" parent="."]
 position = Vector2(-670, 63)
 offset = Vector2(0, -10.5)
 flip_h = true
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under4" type="Sprite2D" parent="."]
 position = Vector2(535, 19)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under5" type="Sprite2D" parent="."]
 position = Vector2(626, -94)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under6" type="Sprite2D" parent="."]
 position = Vector2(969, -457)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under7" type="Sprite2D" parent="."]
 position = Vector2(-313, -333)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under8" type="Sprite2D" parent="."]
 position = Vector2(200, -1439)
 offset = Vector2(0, -10.5)
 flip_h = true
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under9" type="Sprite2D" parent="."]
 position = Vector2(-79, -1101)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under10" type="Sprite2D" parent="."]
 position = Vector2(198, 67)
 offset = Vector2(0, -11.5)
 flip_h = true
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under11" type="Sprite2D" parent="."]
 position = Vector2(-347, -35)
 offset = Vector2(0, -11.5)
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under12" type="Sprite2D" parent="."]
 position = Vector2(978, -3)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under13" type="Sprite2D" parent="."]
 position = Vector2(-495, 96)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under14" type="Sprite2D" parent="."]
 position = Vector2(375, -1415)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under15" type="Sprite2D" parent="."]
 position = Vector2(-289, -1373)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under16" type="Sprite2D" parent="."]
 position = Vector2(-736, 51)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under17" type="Sprite2D" parent="."]
 position = Vector2(580, -1454)
 offset = Vector2(0, -11.5)
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under18" type="Sprite2D" parent="."]
 position = Vector2(-982, 86)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under19" type="Sprite2D" parent="."]
 position = Vector2(578, -539)
 offset = Vector2(0, -11.5)
 flip_h = true
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under20" type="Sprite2D" parent="."]
 position = Vector2(1065, -126)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under21" type="Sprite2D" parent="."]
 position = Vector2(-697, -1298)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under22" type="Sprite2D" parent="."]
 position = Vector2(699, 63)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under23" type="Sprite2D" parent="."]
 position = Vector2(476, 6)
 offset = Vector2(0, -11.5)
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under24" type="Sprite2D" parent="."]
 position = Vector2(-258, -223)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under25" type="Sprite2D" parent="."]
 position = Vector2(889, 33)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under26" type="Sprite2D" parent="."]
 position = Vector2(329, -866)
 offset = Vector2(0, -4.5)
 flip_h = true
-texture = ExtResource("t23_acorns")
+texture = ExtResource("t33_acorns")
 
 [node name="Under27" type="Sprite2D" parent="."]
 position = Vector2(120, -1128)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under28" type="Sprite2D" parent="."]
 position = Vector2(214, -480)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under29" type="Sprite2D" parent="."]
 position = Vector2(596, -133)
 offset = Vector2(0, -4.5)
 flip_h = true
-texture = ExtResource("t24_pinecones")
+texture = ExtResource("t34_pinecones")
 
 [node name="Under30" type="Sprite2D" parent="."]
 position = Vector2(-829, -800)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under31" type="Sprite2D" parent="."]
 position = Vector2(1034, -595)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under32" type="Sprite2D" parent="."]
 position = Vector2(-978, -1429)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under33" type="Sprite2D" parent="."]
 position = Vector2(249, -134)
 offset = Vector2(0, -10.5)
 flip_h = true
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under34" type="Sprite2D" parent="."]
 position = Vector2(923, -198)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under35" type="Sprite2D" parent="."]
 position = Vector2(-79, -68)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under36" type="Sprite2D" parent="."]
 position = Vector2(227, -734)
 offset = Vector2(0, -11.5)
 flip_h = true
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under37" type="Sprite2D" parent="."]
 position = Vector2(751, -215)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under38" type="Sprite2D" parent="."]
 position = Vector2(-492, -1395)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under39" type="Sprite2D" parent="."]
 position = Vector2(341, 17)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under40" type="Sprite2D" parent="."]
 position = Vector2(-873, -225)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under41" type="Sprite2D" parent="."]
 position = Vector2(406, 62)
 offset = Vector2(0, -11.5)
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under42" type="Sprite2D" parent="."]
 position = Vector2(-297, -1062)
 offset = Vector2(0, -4.5)
 flip_h = true
-texture = ExtResource("t24_pinecones")
+texture = ExtResource("t34_pinecones")
 
 [node name="Under43" type="Sprite2D" parent="."]
 position = Vector2(948, -1388)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under44" type="Sprite2D" parent="."]
 position = Vector2(392, -631)
 offset = Vector2(0, -11.5)
 flip_h = true
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under45" type="Sprite2D" parent="."]
 position = Vector2(952, 49)
 offset = Vector2(0, -10.5)
 flip_h = true
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under46" type="Sprite2D" parent="."]
 position = Vector2(-759, -1419)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under47" type="Sprite2D" parent="."]
 position = Vector2(-832, 58)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under48" type="Sprite2D" parent="."]
 position = Vector2(207, -15)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under49" type="Sprite2D" parent="."]
 position = Vector2(-404, -662)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under50" type="Sprite2D" parent="."]
 position = Vector2(977, -392)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under51" type="Sprite2D" parent="."]
 position = Vector2(565, -486)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under52" type="Sprite2D" parent="."]
 position = Vector2(965, -475)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under53" type="Sprite2D" parent="."]
 position = Vector2(-627, -81)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under54" type="Sprite2D" parent="."]
 position = Vector2(970, -525)
 offset = Vector2(0, -10.5)
 flip_h = true
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under55" type="Sprite2D" parent="."]
 position = Vector2(648, -623)
 offset = Vector2(0, -10.5)
 flip_h = true
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under56" type="Sprite2D" parent="."]
 position = Vector2(-830, -1439)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under57" type="Sprite2D" parent="."]
 position = Vector2(-552, 43)
 offset = Vector2(0, -4.5)
 flip_h = true
-texture = ExtResource("t24_pinecones")
+texture = ExtResource("t34_pinecones")
 
 [node name="Under58" type="Sprite2D" parent="."]
 position = Vector2(-99, 59)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under59" type="Sprite2D" parent="."]
 position = Vector2(1016, -150)
 offset = Vector2(0, -4.5)
-texture = ExtResource("t24_pinecones")
+texture = ExtResource("t34_pinecones")
 
 [node name="Under60" type="Sprite2D" parent="."]
 position = Vector2(-724, -310)
 offset = Vector2(0, -4.5)
-texture = ExtResource("t24_pinecones")
+texture = ExtResource("t34_pinecones")
 
 [node name="Under61" type="Sprite2D" parent="."]
 position = Vector2(-112, -1179)
 offset = Vector2(0, -11.5)
 flip_h = true
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under62" type="Sprite2D" parent="."]
 position = Vector2(778, 58)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under63" type="Sprite2D" parent="."]
 position = Vector2(449, -1453)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under64" type="Sprite2D" parent="."]
 position = Vector2(1075, 19)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under65" type="Sprite2D" parent="."]
 position = Vector2(-557, 106)
 offset = Vector2(0, -11.5)
 flip_h = true
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under66" type="Sprite2D" parent="."]
 position = Vector2(1016, -510)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under67" type="Sprite2D" parent="."]
 position = Vector2(-599, -409)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under68" type="Sprite2D" parent="."]
 position = Vector2(-542, -80)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under69" type="Sprite2D" parent="."]
 position = Vector2(117, -839)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under70" type="Sprite2D" parent="."]
 position = Vector2(-924, -1378)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under71" type="Sprite2D" parent="."]
 position = Vector2(-571, 18)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under72" type="Sprite2D" parent="."]
 position = Vector2(570, -1088)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under73" type="Sprite2D" parent="."]
 position = Vector2(-872, -19)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under74" type="Sprite2D" parent="."]
 position = Vector2(-214, 16)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under75" type="Sprite2D" parent="."]
 position = Vector2(-658, -248)
 offset = Vector2(0, -4.5)
-texture = ExtResource("t24_pinecones")
+texture = ExtResource("t34_pinecones")
 
 [node name="Under76" type="Sprite2D" parent="."]
 position = Vector2(-408, -1350)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under77" type="Sprite2D" parent="."]
 position = Vector2(-1051, -108)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under78" type="Sprite2D" parent="."]
 position = Vector2(1064, -445)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under79" type="Sprite2D" parent="."]
 position = Vector2(738, -1315)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under80" type="Sprite2D" parent="."]
 position = Vector2(997, -195)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under81" type="Sprite2D" parent="."]
 position = Vector2(-420, 67)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under82" type="Sprite2D" parent="."]
 position = Vector2(-419, -816)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under83" type="Sprite2D" parent="."]
 position = Vector2(-515, -327)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under84" type="Sprite2D" parent="."]
 position = Vector2(340, -450)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under85" type="Sprite2D" parent="."]
 position = Vector2(-745, -1376)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under86" type="Sprite2D" parent="."]
 position = Vector2(-496, -432)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under87" type="Sprite2D" parent="."]
 position = Vector2(76, -185)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under88" type="Sprite2D" parent="."]
 position = Vector2(-334, -154)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under89" type="Sprite2D" parent="."]
 position = Vector2(-312, -382)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under90" type="Sprite2D" parent="."]
 position = Vector2(589, -19)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under91" type="Sprite2D" parent="."]
 position = Vector2(556, -418)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under92" type="Sprite2D" parent="."]
 position = Vector2(-155, -1317)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under93" type="Sprite2D" parent="."]
 position = Vector2(-880, 38)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under94" type="Sprite2D" parent="."]
 position = Vector2(806, 102)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under95" type="Sprite2D" parent="."]
 position = Vector2(200, -1366)
 offset = Vector2(0, -4.5)
-texture = ExtResource("t23_acorns")
+texture = ExtResource("t33_acorns")
 
 [node name="Under96" type="Sprite2D" parent="."]
 position = Vector2(-738, -19)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under97" type="Sprite2D" parent="."]
 position = Vector2(960, -4)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under98" type="Sprite2D" parent="."]
 position = Vector2(-1037, -381)
 offset = Vector2(0, -11.5)
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under99" type="Sprite2D" parent="."]
 position = Vector2(194, 95)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under100" type="Sprite2D" parent="."]
 position = Vector2(489, -1454)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under101" type="Sprite2D" parent="."]
 position = Vector2(-863, -645)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under102" type="Sprite2D" parent="."]
 position = Vector2(211, 53)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under103" type="Sprite2D" parent="."]
 position = Vector2(311, -16)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under104" type="Sprite2D" parent="."]
 position = Vector2(-974, -50)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under105" type="Sprite2D" parent="."]
 position = Vector2(-918, -639)
 offset = Vector2(0, -11.5)
 flip_h = true
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under106" type="Sprite2D" parent="."]
 position = Vector2(150, -1178)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under107" type="Sprite2D" parent="."]
 position = Vector2(931, -403)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under108" type="Sprite2D" parent="."]
 position = Vector2(-922, -140)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under109" type="Sprite2D" parent="."]
 position = Vector2(197, -788)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under110" type="Sprite2D" parent="."]
 position = Vector2(-858, 85)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under111" type="Sprite2D" parent="."]
 position = Vector2(-224, -323)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under112" type="Sprite2D" parent="."]
 position = Vector2(-1040, 22)
 offset = Vector2(0, -11.5)
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under113" type="Sprite2D" parent="."]
 position = Vector2(676, -61)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under114" type="Sprite2D" parent="."]
 position = Vector2(987, -1217)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under115" type="Sprite2D" parent="."]
 position = Vector2(-897, 12)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under116" type="Sprite2D" parent="."]
 position = Vector2(1057, -171)
 offset = Vector2(0, -4.5)
-texture = ExtResource("t23_acorns")
+texture = ExtResource("t33_acorns")
 
 [node name="Under117" type="Sprite2D" parent="."]
 position = Vector2(-344, 97)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under118" type="Sprite2D" parent="."]
 position = Vector2(-531, -492)
 offset = Vector2(0, -11.5)
 flip_h = true
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under119" type="Sprite2D" parent="."]
 position = Vector2(1019, -79)
 offset = Vector2(0, -11.5)
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under120" type="Sprite2D" parent="."]
 position = Vector2(158, -97)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under121" type="Sprite2D" parent="."]
 position = Vector2(-749, 100)
 offset = Vector2(0, -11.5)
 flip_h = true
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under122" type="Sprite2D" parent="."]
 position = Vector2(227, -177)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under123" type="Sprite2D" parent="."]
 position = Vector2(-877, -1410)
 offset = Vector2(0, -10.5)
 flip_h = true
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under124" type="Sprite2D" parent="."]
 position = Vector2(500, -912)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under125" type="Sprite2D" parent="."]
 position = Vector2(339, -135)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under126" type="Sprite2D" parent="."]
 position = Vector2(271, -416)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under127" type="Sprite2D" parent="."]
 position = Vector2(-893, -408)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under128" type="Sprite2D" parent="."]
 position = Vector2(483, -563)
 offset = Vector2(0, -10.5)
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under129" type="Sprite2D" parent="."]
 position = Vector2(723, -900)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under130" type="Sprite2D" parent="."]
 position = Vector2(827, 52)
 offset = Vector2(0, -4.5)
 flip_h = true
-texture = ExtResource("t23_acorns")
+texture = ExtResource("t33_acorns")
 
 [node name="Under131" type="Sprite2D" parent="."]
 position = Vector2(945, -1453)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under132" type="Sprite2D" parent="."]
 position = Vector2(-478, -15)
 offset = Vector2(0, -10.5)
 flip_h = true
-texture = ExtResource("t18_mushrooms")
+texture = ExtResource("t28_mushrooms")
 
 [node name="Under133" type="Sprite2D" parent="."]
 position = Vector2(-417, -10)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under134" type="Sprite2D" parent="."]
 position = Vector2(-934, 95)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under135" type="Sprite2D" parent="."]
 position = Vector2(-691, -33)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under136" type="Sprite2D" parent="."]
 position = Vector2(-777, -52)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under137" type="Sprite2D" parent="."]
 position = Vector2(-449, 67)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t19_fern")
+texture = ExtResource("t29_fern")
 
 [node name="Under138" type="Sprite2D" parent="."]
 position = Vector2(-752, -228)
 offset = Vector2(0, -11.5)
-texture = ExtResource("t20_berry_bush")
+texture = ExtResource("t30_berry_bush")
 
 [node name="Under139" type="Sprite2D" parent="."]
 position = Vector2(598, -163)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under140" type="Sprite2D" parent="."]
 position = Vector2(-1034, 67)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under141" type="Sprite2D" parent="."]
 position = Vector2(115, -825)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under142" type="Sprite2D" parent="."]
 position = Vector2(107, -811)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under143" type="Sprite2D" parent="."]
 position = Vector2(790, -506)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under144" type="Sprite2D" parent="."]
 position = Vector2(778, -516)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under145" type="Sprite2D" parent="."]
 position = Vector2(687, -36)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under146" type="Sprite2D" parent="."]
 position = Vector2(659, -41)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under147" type="Sprite2D" parent="."]
 position = Vector2(152, -211)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under148" type="Sprite2D" parent="."]
 position = Vector2(140, -245)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under149" type="Sprite2D" parent="."]
 position = Vector2(124, -209)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under150" type="Sprite2D" parent="."]
 position = Vector2(143, -223)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under151" type="Sprite2D" parent="."]
 position = Vector2(262, -562)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under152" type="Sprite2D" parent="."]
 position = Vector2(261, -577)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under153" type="Sprite2D" parent="."]
 position = Vector2(232, -556)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under154" type="Sprite2D" parent="."]
 position = Vector2(-205, -1149)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under155" type="Sprite2D" parent="."]
 position = Vector2(-98, -1292)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under156" type="Sprite2D" parent="."]
 position = Vector2(-113, -1289)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under157" type="Sprite2D" parent="."]
 position = Vector2(-459, -643)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under158" type="Sprite2D" parent="."]
 position = Vector2(-424, -651)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under159" type="Sprite2D" parent="."]
 position = Vector2(-924, -212)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under160" type="Sprite2D" parent="."]
 position = Vector2(-891, -196)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under161" type="Sprite2D" parent="."]
 position = Vector2(-935, -194)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under162" type="Sprite2D" parent="."]
 position = Vector2(-911, -177)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under163" type="Sprite2D" parent="."]
 position = Vector2(-942, -207)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under164" type="Sprite2D" parent="."]
 position = Vector2(176, 82)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under165" type="Sprite2D" parent="."]
 position = Vector2(-282, -1043)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under166" type="Sprite2D" parent="."]
 position = Vector2(-266, -1038)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under167" type="Sprite2D" parent="."]
 position = Vector2(177, -838)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under168" type="Sprite2D" parent="."]
 position = Vector2(157, -821)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under169" type="Sprite2D" parent="."]
 position = Vector2(-819, -120)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under170" type="Sprite2D" parent="."]
 position = Vector2(145, 57)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under171" type="Sprite2D" parent="."]
 position = Vector2(137, 76)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under172" type="Sprite2D" parent="."]
 position = Vector2(114, 78)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under173" type="Sprite2D" parent="."]
 position = Vector2(160, 58)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under174" type="Sprite2D" parent="."]
 position = Vector2(181, -1028)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under175" type="Sprite2D" parent="."]
 position = Vector2(-881, -184)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under176" type="Sprite2D" parent="."]
 position = Vector2(-920, -193)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under177" type="Sprite2D" parent="."]
 position = Vector2(200, 5)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under178" type="Sprite2D" parent="."]
 position = Vector2(195, 24)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under179" type="Sprite2D" parent="."]
 position = Vector2(221, 3)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under180" type="Sprite2D" parent="."]
 position = Vector2(978, -1261)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under181" type="Sprite2D" parent="."]
 position = Vector2(957, -1243)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under182" type="Sprite2D" parent="."]
 position = Vector2(984, -1233)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under183" type="Sprite2D" parent="."]
 position = Vector2(10, -1049)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under184" type="Sprite2D" parent="."]
 position = Vector2(-25, -1030)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under185" type="Sprite2D" parent="."]
 position = Vector2(-997, -214)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under186" type="Sprite2D" parent="."]
 position = Vector2(-999, -230)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under187" type="Sprite2D" parent="."]
 position = Vector2(-879, -413)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under188" type="Sprite2D" parent="."]
 position = Vector2(-188, -54)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under189" type="Sprite2D" parent="."]
 position = Vector2(-162, -71)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under190" type="Sprite2D" parent="."]
 position = Vector2(-145, -60)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under191" type="Sprite2D" parent="."]
 position = Vector2(816, -561)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under192" type="Sprite2D" parent="."]
 position = Vector2(797, -552)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under193" type="Sprite2D" parent="."]
 position = Vector2(828, -549)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under194" type="Sprite2D" parent="."]
 position = Vector2(-284, -447)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under195" type="Sprite2D" parent="."]
 position = Vector2(-276, -412)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under196" type="Sprite2D" parent="."]
 position = Vector2(-264, -424)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under197" type="Sprite2D" parent="."]
 position = Vector2(-283, -432)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under198" type="Sprite2D" parent="."]
 position = Vector2(777, -1451)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under199" type="Sprite2D" parent="."]
 position = Vector2(-853, -619)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under200" type="Sprite2D" parent="."]
 position = Vector2(-823, -611)
 offset = Vector2(0, -12.5)
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under201" type="Sprite2D" parent="."]
 position = Vector2(691, 75)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under202" type="Sprite2D" parent="."]
 position = Vector2(671, 85)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under203" type="Sprite2D" parent="."]
 position = Vector2(709, 79)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under204" type="Sprite2D" parent="."]
 position = Vector2(-378, -1177)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t21_clover")
+texture = ExtResource("t31_clover")
 
 [node name="Under205" type="Sprite2D" parent="."]
 position = Vector2(428, -457)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under206" type="Sprite2D" parent="."]
 position = Vector2(459, -480)
 offset = Vector2(0, -12.5)
 flip_h = true
-texture = ExtResource("t17_grass_clump")
+texture = ExtResource("t27_grass_clump")
 
 [node name="Under207" type="Sprite2D" parent="."]
 position = Vector2(35, -77)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under208" type="Sprite2D" parent="."]
 position = Vector2(74, -85)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under209" type="Sprite2D" parent="."]
 position = Vector2(53, -99)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under210" type="Sprite2D" parent="."]
 position = Vector2(429, -1447)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under211" type="Sprite2D" parent="."]
 position = Vector2(440, -1438)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under212" type="Sprite2D" parent="."]
 position = Vector2(600, -1430)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under213" type="Sprite2D" parent="."]
 position = Vector2(586, -1423)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under214" type="Sprite2D" parent="."]
 position = Vector2(563, -1428)
 offset = Vector2(0, -11.0)
 flip_h = true
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Under215" type="Sprite2D" parent="."]
 position = Vector2(593, -1445)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t22_flowers")
+texture = ExtResource("t32_flowers")
 
 [node name="Bush216" type="StaticBody2D" parent="."]
 position = Vector2(635, -407)
 
 [node name="Sprite" type="Sprite2D" parent="Bush216"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush216"]
 position = Vector2(0, -5.0)
@@ -5864,7 +6473,7 @@ position = Vector2(-8, -459)
 
 [node name="Sprite" type="Sprite2D" parent="Bush217"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush217"]
 position = Vector2(0, -5.0)
@@ -5875,7 +6484,7 @@ position = Vector2(-55, 11)
 
 [node name="Sprite" type="Sprite2D" parent="Bush218"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush218"]
 position = Vector2(0, -5.0)
@@ -5886,7 +6495,7 @@ position = Vector2(-757, -1269)
 
 [node name="Sprite" type="Sprite2D" parent="Bush219"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush219"]
 position = Vector2(0, -5.0)
@@ -5897,7 +6506,7 @@ position = Vector2(-947, -1312)
 
 [node name="Sprite" type="Sprite2D" parent="Bush220"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush220"]
 position = Vector2(0, -5.0)
@@ -5908,7 +6517,7 @@ position = Vector2(-815, -730)
 
 [node name="Sprite" type="Sprite2D" parent="Bush221"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush221"]
 position = Vector2(0, -5.0)
@@ -5919,7 +6528,7 @@ position = Vector2(739, -360)
 
 [node name="Sprite" type="Sprite2D" parent="Bush222"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush222"]
 position = Vector2(0, -5.0)
@@ -5930,7 +6539,7 @@ position = Vector2(672, -215)
 
 [node name="Sprite" type="Sprite2D" parent="Bush223"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush223"]
 position = Vector2(0, -5.0)
@@ -5941,7 +6550,7 @@ position = Vector2(-70, -147)
 
 [node name="Sprite" type="Sprite2D" parent="Bush224"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush224"]
 position = Vector2(0, -5.0)
@@ -5952,7 +6561,7 @@ position = Vector2(-837, -1357)
 
 [node name="Sprite" type="Sprite2D" parent="Bush225"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush225"]
 position = Vector2(0, -5.0)
@@ -5963,7 +6572,7 @@ position = Vector2(-311, -697)
 
 [node name="Sprite" type="Sprite2D" parent="Bush226"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush226"]
 position = Vector2(0, -5.0)
@@ -5974,7 +6583,7 @@ position = Vector2(136, -716)
 
 [node name="Sprite" type="Sprite2D" parent="Bush227"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush227"]
 position = Vector2(0, -5.0)
@@ -5985,7 +6594,7 @@ position = Vector2(-972, -1216)
 
 [node name="Sprite" type="Sprite2D" parent="Bush228"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush228"]
 position = Vector2(0, -5.0)
@@ -5996,7 +6605,7 @@ position = Vector2(920, -638)
 
 [node name="Sprite" type="Sprite2D" parent="Bush229"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush229"]
 position = Vector2(0, -5.0)
@@ -6007,7 +6616,7 @@ position = Vector2(-659, -1280)
 
 [node name="Sprite" type="Sprite2D" parent="Bush230"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush230"]
 position = Vector2(0, -5.0)
@@ -6018,7 +6627,7 @@ position = Vector2(795, -1261)
 
 [node name="Sprite" type="Sprite2D" parent="Bush231"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush231"]
 position = Vector2(0, -5.0)
@@ -6029,7 +6638,7 @@ position = Vector2(430, -817)
 
 [node name="Sprite" type="Sprite2D" parent="Bush232"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush232"]
 position = Vector2(0, -5.0)
@@ -6040,7 +6649,7 @@ position = Vector2(640, -367)
 
 [node name="Sprite" type="Sprite2D" parent="Bush233"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush233"]
 position = Vector2(0, -5.0)
@@ -6051,7 +6660,7 @@ position = Vector2(895, -1270)
 
 [node name="Sprite" type="Sprite2D" parent="Bush234"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush234"]
 position = Vector2(0, -5.0)
@@ -6062,7 +6671,7 @@ position = Vector2(-255, -630)
 
 [node name="Sprite" type="Sprite2D" parent="Bush235"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush235"]
 position = Vector2(0, -5.0)
@@ -6073,7 +6682,7 @@ position = Vector2(537, -688)
 
 [node name="Sprite" type="Sprite2D" parent="Bush236"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush236"]
 position = Vector2(0, -5.0)
@@ -6084,7 +6693,7 @@ position = Vector2(-203, -239)
 
 [node name="Sprite" type="Sprite2D" parent="Bush237"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush237"]
 position = Vector2(0, -5.0)
@@ -6095,7 +6704,7 @@ position = Vector2(740, -1360)
 
 [node name="Sprite" type="Sprite2D" parent="Bush238"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush238"]
 position = Vector2(0, -5.0)
@@ -6106,7 +6715,7 @@ position = Vector2(-790, -1374)
 
 [node name="Sprite" type="Sprite2D" parent="Bush239"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush239"]
 position = Vector2(0, -5.0)
@@ -6117,7 +6726,7 @@ position = Vector2(-113, -535)
 
 [node name="Sprite" type="Sprite2D" parent="Bush240"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush240"]
 position = Vector2(0, -5.0)
@@ -6128,7 +6737,7 @@ position = Vector2(-1004, -1312)
 
 [node name="Sprite" type="Sprite2D" parent="Bush241"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush241"]
 position = Vector2(0, -5.0)
@@ -6139,7 +6748,7 @@ position = Vector2(-1025, -1353)
 
 [node name="Sprite" type="Sprite2D" parent="Bush242"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush242"]
 position = Vector2(0, -5.0)
@@ -6150,7 +6759,7 @@ position = Vector2(-424, -374)
 
 [node name="Sprite" type="Sprite2D" parent="Bush243"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush243"]
 position = Vector2(0, -5.0)
@@ -6161,7 +6770,7 @@ position = Vector2(52, -1300)
 
 [node name="Sprite" type="Sprite2D" parent="Bush244"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush244"]
 position = Vector2(0, -5.0)
@@ -6172,7 +6781,7 @@ position = Vector2(310, 62)
 
 [node name="Sprite" type="Sprite2D" parent="Bush245"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush245"]
 position = Vector2(0, -5.0)
@@ -6183,7 +6792,7 @@ position = Vector2(-261, -269)
 
 [node name="Sprite" type="Sprite2D" parent="Bush246"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush246"]
 position = Vector2(0, -5.0)
@@ -6194,7 +6803,7 @@ position = Vector2(280, -59)
 
 [node name="Sprite" type="Sprite2D" parent="Bush247"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush247"]
 position = Vector2(0, -5.0)
@@ -6205,7 +6814,7 @@ position = Vector2(-55, -994)
 
 [node name="Sprite" type="Sprite2D" parent="Bush248"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush248"]
 position = Vector2(0, -5.0)
@@ -6216,7 +6825,7 @@ position = Vector2(-940, -749)
 
 [node name="Sprite" type="Sprite2D" parent="Bush249"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush249"]
 position = Vector2(0, -5.0)
@@ -6227,7 +6836,7 @@ position = Vector2(-116, -1042)
 
 [node name="Sprite" type="Sprite2D" parent="Bush250"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush250"]
 position = Vector2(0, -5.0)
@@ -6238,7 +6847,7 @@ position = Vector2(123, -572)
 
 [node name="Sprite" type="Sprite2D" parent="Bush251"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush251"]
 position = Vector2(0, -5.0)
@@ -6249,7 +6858,7 @@ position = Vector2(-155, -325)
 
 [node name="Sprite" type="Sprite2D" parent="Bush252"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush252"]
 position = Vector2(0, -5.0)
@@ -6260,7 +6869,7 @@ position = Vector2(-217, -1029)
 
 [node name="Sprite" type="Sprite2D" parent="Bush253"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush253"]
 position = Vector2(0, -5.0)
@@ -6271,7 +6880,7 @@ position = Vector2(-297, -747)
 
 [node name="Sprite" type="Sprite2D" parent="Bush254"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush254"]
 position = Vector2(0, -5.0)
@@ -6282,7 +6891,7 @@ position = Vector2(781, -1206)
 
 [node name="Sprite" type="Sprite2D" parent="Bush255"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush255"]
 position = Vector2(0, -5.0)
@@ -6293,7 +6902,7 @@ position = Vector2(619, -803)
 
 [node name="Sprite" type="Sprite2D" parent="Bush256"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush256"]
 position = Vector2(0, -5.0)
@@ -6304,7 +6913,7 @@ position = Vector2(16, -212)
 
 [node name="Sprite" type="Sprite2D" parent="Bush257"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush257"]
 position = Vector2(0, -5.0)
@@ -6315,7 +6924,7 @@ position = Vector2(-348, -740)
 
 [node name="Sprite" type="Sprite2D" parent="Bush258"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush258"]
 position = Vector2(0, -5.0)
@@ -6326,7 +6935,7 @@ position = Vector2(893, -32)
 
 [node name="Sprite" type="Sprite2D" parent="Bush259"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush259"]
 position = Vector2(0, -5.0)
@@ -6337,7 +6946,7 @@ position = Vector2(835, -1216)
 
 [node name="Sprite" type="Sprite2D" parent="Bush260"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush260"]
 position = Vector2(0, -5.0)
@@ -6348,7 +6957,7 @@ position = Vector2(289, -697)
 
 [node name="Sprite" type="Sprite2D" parent="Bush261"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush261"]
 position = Vector2(0, -5.0)
@@ -6359,7 +6968,7 @@ position = Vector2(64, 93)
 
 [node name="Sprite" type="Sprite2D" parent="Bush262"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush262"]
 position = Vector2(0, -5.0)
@@ -6370,7 +6979,7 @@ position = Vector2(530, -595)
 
 [node name="Sprite" type="Sprite2D" parent="Bush263"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush263"]
 position = Vector2(0, -5.0)
@@ -6381,7 +6990,7 @@ position = Vector2(-34, -1325)
 
 [node name="Sprite" type="Sprite2D" parent="Bush264"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush264"]
 position = Vector2(0, -5.0)
@@ -6392,7 +7001,7 @@ position = Vector2(-641, -1401)
 
 [node name="Sprite" type="Sprite2D" parent="Bush265"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush265"]
 position = Vector2(0, -5.0)
@@ -6403,7 +7012,7 @@ position = Vector2(1042, -1231)
 
 [node name="Sprite" type="Sprite2D" parent="Bush266"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush266"]
 position = Vector2(0, -5.0)
@@ -6414,7 +7023,7 @@ position = Vector2(86, -1036)
 
 [node name="Sprite" type="Sprite2D" parent="Bush267"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush267"]
 position = Vector2(0, -5.0)
@@ -6425,7 +7034,7 @@ position = Vector2(688, -357)
 
 [node name="Sprite" type="Sprite2D" parent="Bush268"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush268"]
 position = Vector2(0, -5.0)
@@ -6436,7 +7045,7 @@ position = Vector2(40, -1356)
 
 [node name="Sprite" type="Sprite2D" parent="Bush269"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush269"]
 position = Vector2(0, -5.0)
@@ -6447,7 +7056,7 @@ position = Vector2(-45, -762)
 
 [node name="Sprite" type="Sprite2D" parent="Bush270"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush270"]
 position = Vector2(0, -5.0)
@@ -6458,7 +7067,7 @@ position = Vector2(709, -91)
 
 [node name="Sprite" type="Sprite2D" parent="Bush271"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush271"]
 position = Vector2(0, -5.0)
@@ -6469,7 +7078,7 @@ position = Vector2(290, -618)
 
 [node name="Sprite" type="Sprite2D" parent="Bush272"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush272"]
 position = Vector2(0, -5.0)
@@ -6480,7 +7089,7 @@ position = Vector2(707, -1390)
 
 [node name="Sprite" type="Sprite2D" parent="Bush273"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush273"]
 position = Vector2(0, -5.0)
@@ -6491,7 +7100,7 @@ position = Vector2(-143, -562)
 
 [node name="Sprite" type="Sprite2D" parent="Bush274"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush274"]
 position = Vector2(0, -5.0)
@@ -6502,7 +7111,7 @@ position = Vector2(839, -1258)
 
 [node name="Sprite" type="Sprite2D" parent="Bush275"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush275"]
 position = Vector2(0, -5.0)
@@ -6513,7 +7122,7 @@ position = Vector2(797, -360)
 
 [node name="Sprite" type="Sprite2D" parent="Bush276"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush276"]
 position = Vector2(0, -5.0)
@@ -6524,7 +7133,7 @@ position = Vector2(-824, -1267)
 
 [node name="Sprite" type="Sprite2D" parent="Bush277"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush277"]
 position = Vector2(0, -5.0)
@@ -6535,7 +7144,7 @@ position = Vector2(-942, -680)
 
 [node name="Sprite" type="Sprite2D" parent="Bush278"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush278"]
 position = Vector2(0, -5.0)
@@ -6546,7 +7155,7 @@ position = Vector2(-411, -302)
 
 [node name="Sprite" type="Sprite2D" parent="Bush279"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush279"]
 position = Vector2(0, -5.0)
@@ -6557,7 +7166,7 @@ position = Vector2(-3, -1106)
 
 [node name="Sprite" type="Sprite2D" parent="Bush280"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush280"]
 position = Vector2(0, -5.0)
@@ -6568,7 +7177,7 @@ position = Vector2(452, -627)
 
 [node name="Sprite" type="Sprite2D" parent="Bush281"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush281"]
 position = Vector2(0, -5.0)
@@ -6579,7 +7188,7 @@ position = Vector2(-389, -261)
 
 [node name="Sprite" type="Sprite2D" parent="Bush282"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush282"]
 position = Vector2(0, -5.0)
@@ -6590,7 +7199,7 @@ position = Vector2(-3, -499)
 
 [node name="Sprite" type="Sprite2D" parent="Bush283"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush283"]
 position = Vector2(0, -5.0)
@@ -6601,7 +7210,7 @@ position = Vector2(-28, -107)
 
 [node name="Sprite" type="Sprite2D" parent="Bush284"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t26_bush_g")
+texture = ExtResource("t36_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush284"]
 position = Vector2(0, -5.0)
@@ -6612,7 +7221,7 @@ position = Vector2(219, -634)
 
 [node name="Sprite" type="Sprite2D" parent="Bush285"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t25_bush_flowers_g")
+texture = ExtResource("t35_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="Bush285"]
 position = Vector2(0, -5.0)
@@ -6623,7 +7232,7 @@ position = Vector2(292, -1376)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark1"]
 position = Vector2(0, -11.5)
-texture = ExtResource("t27_log")
+texture = ExtResource("t37_log")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark1"]
 position = Vector2(0, -4.0)
@@ -6634,7 +7243,7 @@ position = Vector2(301, -256)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark2"]
 position = Vector2(0, -12.5)
-texture = ExtResource("t28_stump")
+texture = ExtResource("t38_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark2"]
 position = Vector2(0, -4.0)
@@ -6645,7 +7254,7 @@ position = Vector2(712, -1080)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark3"]
 position = Vector2(0, -12.0)
-texture = ExtResource("t29_rock")
+texture = ExtResource("t39_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark3"]
 position = Vector2(0, -4.0)
@@ -6656,7 +7265,7 @@ position = Vector2(-574, -202)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark4"]
 position = Vector2(0, -12.0)
-texture = ExtResource("t29_rock")
+texture = ExtResource("t39_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark4"]
 position = Vector2(0, -4.0)
@@ -6667,7 +7276,7 @@ position = Vector2(532, -1179)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark5"]
 position = Vector2(0, -12.0)
-texture = ExtResource("t29_rock")
+texture = ExtResource("t39_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark5"]
 position = Vector2(0, -4.0)
@@ -6678,7 +7287,7 @@ position = Vector2(-407, -918)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark6"]
 position = Vector2(0, -12.5)
-texture = ExtResource("t28_stump")
+texture = ExtResource("t38_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark6"]
 position = Vector2(0, -4.0)
@@ -6689,7 +7298,7 @@ position = Vector2(-3, -341)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark7"]
 position = Vector2(0, -12.0)
-texture = ExtResource("t29_rock")
+texture = ExtResource("t39_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark7"]
 position = Vector2(0, -4.0)
@@ -6700,7 +7309,7 @@ position = Vector2(790, -824)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark8"]
 position = Vector2(0, -12.0)
-texture = ExtResource("t29_rock")
+texture = ExtResource("t39_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark8"]
 position = Vector2(0, -4.0)
@@ -6711,7 +7320,7 @@ position = Vector2(-158, -741)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark9"]
 position = Vector2(0, -12.5)
-texture = ExtResource("t28_stump")
+texture = ExtResource("t38_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark9"]
 position = Vector2(0, -4.0)
@@ -6722,7 +7331,7 @@ position = Vector2(374, -1031)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark10"]
 position = Vector2(0, -12.0)
-texture = ExtResource("t29_rock")
+texture = ExtResource("t39_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark10"]
 position = Vector2(0, -4.0)
@@ -6733,7 +7342,7 @@ position = Vector2(-582, -1203)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark11"]
 position = Vector2(0, -12.0)
-texture = ExtResource("t29_rock")
+texture = ExtResource("t39_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark11"]
 position = Vector2(0, -4.0)
@@ -6744,7 +7353,7 @@ position = Vector2(-691, -150)
 
 [node name="Sprite" type="Sprite2D" parent="Landmark12"]
 position = Vector2(0, -12.5)
-texture = ExtResource("t28_stump")
+texture = ExtResource("t38_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Landmark12"]
 position = Vector2(0, -4.0)

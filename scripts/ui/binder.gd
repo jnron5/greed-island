@@ -6,6 +6,9 @@ extends CanvasLayer
 ## is loose or exposed (stealable); missing ones show their set number. A second tab
 ## holds charms and spells. Open a card to see it large, turn it over (E) and bind,
 ## take out, lock or use it. Binding is instant in towns and slower in the field.
+## The character menu has two pages, picked by the tabs along its top: the Binder,
+## and Items (the satchel: bread, tonics and the like, used here to heal). B opens
+## the binder page, I the items page, Tab switches.
 
 const BINDER := preload("res://assets/ui/binder.png")
 const SLOT := preload("res://assets/ui/slot.png")
@@ -21,6 +24,7 @@ const SAFE := Color(0.95, 0.75, 0.3)
 const DANGER := Color(0.85, 0.22, 0.2)
 
 var is_open := false
+var page := 0                    # 0 the binder, 1 items
 
 var _tab := 0                    # 0 set cards, 1 charms and spells
 var _spread := 0
@@ -42,6 +46,17 @@ var _detail_card: StringName
 var _binding: Dictionary[StringName, bool] = {}
 
 
+var _pages: Array[Button] = []
+var _binder_bits: Control
+var _items_page: Control
+var _item_list: VBoxContainer
+var _item_rows: Array[Control] = []
+var _item_name: Label
+var _item_text: Label
+var _item_icon: TextureRect
+var _item_use: Button
+var _item_selected := 0
+
 func _ready() -> void:
 	layer = 10
 	visible = false
@@ -51,9 +66,10 @@ func _ready() -> void:
 		sig.connect(func(_a = null, _b = null, _c = null, _d = null) -> void: _refresh())
 
 
-func open() -> void:
+func open(on_page := 0) -> void:
 	if is_open:
 		return
+	page = on_page
 	is_open = true
 	visible = true
 	GameState.push_menu()
@@ -71,11 +87,19 @@ func close() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_open:
-		if event.is_action_pressed(&"binder") and GameState.menus_open == 0:
-			open()
+		if GameState.menus_open == 0 and (event.is_action_pressed(&"binder") or event.is_action_pressed(&"items")):
+			open(1 if event.is_action_pressed(&"items") else 0)
 			get_viewport().set_input_as_handled()
 		return
 	get_viewport().set_input_as_handled()
+	# Tab flips between the binder and the satchel; I jumps to the satchel.
+	if (event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_TAB) \
+			or (page == 0 and event.is_action_pressed(&"items")):
+		_set_page(1 - page if event is InputEventKey and event.physical_keycode == KEY_TAB else 1)
+		return
+	if page == 1:
+		_items_input(event)
+		return
 	if _detail.visible:
 		if event.is_action_pressed(&"interact"):
 			_detail_view.showing_back = not _detail_view.showing_back
@@ -151,6 +175,14 @@ func _set_tab(tab: int) -> void:
 
 func _refresh() -> void:
 	if not is_open:
+		return
+	_book.visible = page == 0
+	_binder_bits.visible = page == 0
+	_items_page.visible = page == 1
+	for i in _pages.size():
+		_pages[i].button_pressed = i == page
+	if page == 1:
+		_fill_items()
 		return
 	var col := GameState.collection(GameState.PLAYER)
 	var cards := _cards()
@@ -365,9 +397,23 @@ func _build() -> void:
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	center.add_child(holder)
 
+	# Page tabs along the top: the binder and the satchel.
+	var page_box := HBoxContainer.new()
+	page_box.position = Vector2(4, -6)
+	page_box.add_theme_constant_override(&"separation", 4)
+	holder.add_child(page_box)
+	for i in 2:
+		var tab := Button.new()
+		tab.text = ["Binder", "Items"][i]
+		tab.toggle_mode = true
+		tab.focus_mode = Control.FOCUS_NONE
+		tab.custom_minimum_size.x = 70
+		tab.pressed.connect(_set_page.bind(i))
+		page_box.add_child(tab)
+		_pages.append(tab)
 	_title = Label.new()
 	_title.theme_type_variation = &"TitleLabel"
-	_title.position = Vector2(8, 2)
+	_title.position = Vector2(156, 0)
 	holder.add_child(_title)
 	_status = Label.new()
 	_status.position = Vector2(110, 2)
@@ -401,9 +447,12 @@ func _build() -> void:
 	_book.add_child(_highlight)
 
 	# Tabs as ribbons down the binder's right edge; page turning along the bottom.
+	_binder_bits = Control.new()
+	_binder_bits.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.add_child(_binder_bits)
 	var tab_box := VBoxContainer.new()
 	tab_box.position = Vector2(530, 40)
-	holder.add_child(tab_box)
+	_binder_bits.add_child(tab_box)
 	for i in 2:
 		var tab := Button.new()
 		tab.text = ["Set", "Charms"][i]
@@ -417,23 +466,24 @@ func _build() -> void:
 	prev.focus_mode = Control.FOCUS_NONE
 	prev.position = Vector2(236, 318)
 	prev.pressed.connect(_turn.bind(-1))
-	holder.add_child(prev)
+	_binder_bits.add_child(prev)
 	_page_label = Label.new()
 	_page_label.position = Vector2(268, 322)
 	_page_label.size = Vector2(40, 12)
 	_page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	holder.add_child(_page_label)
+	_binder_bits.add_child(_page_label)
 	var next := Button.new()
 	next.text = ">"
 	next.focus_mode = Control.FOCUS_NONE
 	next.position = Vector2(314, 318)
 	next.pressed.connect(_turn.bind(1))
-	holder.add_child(next)
+	_binder_bits.add_child(next)
 	var hint := Label.new()
-	hint.text = "Arrows: choose   E: open card   B: close"
+	hint.text = "Arrows: choose   E: open card   Tab: items   B: close"
 	hint.modulate = Color(1, 1, 1, 0.7)
 	hint.position = Vector2(8, 340)
-	holder.add_child(hint)
+	_binder_bits.add_child(hint)
+	_build_items(holder)
 
 	# One card, large, over the binder.
 	_detail = Control.new()
@@ -479,3 +529,148 @@ func _build() -> void:
 func _on_pocket_input(event: InputEvent, index: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		_open_detail(index)
+
+
+# ---------------------------------------------------------------- items page
+
+func _set_page(p: int) -> void:
+	page = p
+	_item_selected = 0
+	_refresh()
+
+
+## The satchel: a list of what you carry on the left, the chosen item on a parchment
+## page on the right with a Use button.
+func _build_items(holder: Control) -> void:
+	_items_page = Control.new()
+	_items_page.position = Vector2(20, 22)
+	_items_page.size = Vector2(536, 310)
+	_items_page.visible = false
+	holder.add_child(_items_page)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override(&"separation", 10)
+	row.size = _items_page.size
+	_items_page.add_child(row)
+	var left := PanelContainer.new()
+	left.custom_minimum_size = Vector2(250, 300)
+	row.add_child(left)
+	var left_col := VBoxContainer.new()
+	left.add_child(left_col)
+	var heading := Label.new()
+	heading.theme_type_variation = &"TitleLabel"
+	heading.text = "Satchel"
+	left_col.add_child(heading)
+	_item_list = VBoxContainer.new()
+	_item_list.add_theme_constant_override(&"separation", 2)
+	left_col.add_child(_item_list)
+	var page_panel := PanelContainer.new()
+	page_panel.theme_type_variation = &"DialoguePanel"
+	page_panel.custom_minimum_size = Vector2(270, 300)
+	row.add_child(page_panel)
+	var margin := MarginContainer.new()
+	for side in ["left", "right", "top", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 12)
+	page_panel.add_child(margin)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override(&"separation", 8)
+	margin.add_child(col)
+	_item_icon = TextureRect.new()
+	_item_icon.custom_minimum_size = Vector2(64, 64)
+	_item_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_item_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	col.add_child(_item_icon)
+	_item_name = Label.new()
+	_item_name.theme_type_variation = &"InkLabel"
+	_item_name.add_theme_font_override(&"font", preload("res://assets/fonts/virelia_title.tres"))
+	_item_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	col.add_child(_item_name)
+	_item_text = Label.new()
+	_item_text.theme_type_variation = &"InkLabel"
+	_item_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_item_text.custom_minimum_size.x = 240
+	col.add_child(_item_text)
+	_item_use = Button.new()
+	_item_use.text = "Use"
+	_item_use.focus_mode = Control.FOCUS_NONE
+	_item_use.pressed.connect(_use_selected)
+	col.add_child(_item_use)
+	var hint := Label.new()
+	hint.text = "Up/Down: choose   E: use   H: quick heal   Tab: binder   Esc: close"
+	hint.modulate = Color(1, 1, 1, 0.7)
+	hint.position = Vector2(-12, 318)
+	_items_page.add_child(hint)
+	EventBus.items_changed.connect(_refresh)
+
+
+func _carried() -> Array[ItemData]:
+	var out: Array[ItemData] = []
+	for item in Items.all_items():
+		if GameState.item_count(item.id) > 0:
+			out.append(item)
+	return out
+
+
+func _fill_items() -> void:
+	_title.text = ""
+	var player := get_tree().get_first_node_in_group(&"player") as Player
+	_status.text = "Gold: %d   Hearts: %d / %d" % [GameState.currency, player.health if player else 0,
+		player.max_health if player else 0]
+	for child in _item_list.get_children():
+		child.queue_free()
+	_item_rows.clear()
+	var carried := _carried()
+	_item_selected = clampi(_item_selected, 0, maxi(0, carried.size() - 1))
+	for i in carried.size():
+		var item := carried[i]
+		var line := Button.new()
+		line.toggle_mode = true
+		line.button_pressed = i == _item_selected
+		line.focus_mode = Control.FOCUS_NONE
+		line.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		line.icon = item.icon
+		line.expand_icon = false
+		line.text = "  %s   x%d" % [item.display_name, GameState.item_count(item.id)]
+		line.pressed.connect(func() -> void:
+			_item_selected = i
+			_fill_items())
+		_item_list.add_child(line)
+		_item_rows.append(line)
+	if carried.is_empty():
+		var none := Label.new()
+		none.text = "Nothing in your satchel.\nGreta's Provisions in Kalmora\nsells bread and tonics."
+		_item_list.add_child(none)
+		_item_icon.texture = null
+		_item_name.text = "Empty"
+		_item_text.text = "Healing food and tonics you buy are kept here. Use them from this page, or press H to eat or drink the best one for your wounds."
+		_item_use.disabled = true
+		return
+	var chosen := carried[_item_selected]
+	_item_icon.texture = chosen.icon
+	_item_name.text = chosen.display_name
+	_item_text.text = chosen.description
+	_item_use.disabled = player == null or (chosen.heal > 0 and player.health >= player.max_health)
+	_item_use.text = "Use" if not _item_use.disabled else "You're at full health"
+
+
+func _use_selected() -> void:
+	var carried := _carried()
+	if _item_selected < carried.size() and GameState.use_item(carried[_item_selected].id):
+		EventBus.notify.emit("Used %s." % carried[_item_selected].display_name)
+	_refresh()
+
+
+func _items_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"pause") or event.is_action_pressed(&"binder") or event.is_action_pressed(&"items") \
+			or event.is_action_pressed(&"ui_cancel"):
+		close()
+	elif event.is_action_pressed(&"ui_accept") or event.is_action_pressed(&"interact"):
+		_use_selected()
+	elif event.is_action_pressed(&"ui_up") or event.is_action_pressed(&"move_up"):
+		_item_selected = maxi(0, _item_selected - 1)
+		_fill_items()
+	elif event.is_action_pressed(&"ui_down") or event.is_action_pressed(&"move_down"):
+		_item_selected += 1
+		_fill_items()
+	elif event.is_action_pressed(&"quick_heal"):
+		Items.quick_heal()
+		_refresh()

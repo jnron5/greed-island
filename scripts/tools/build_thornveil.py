@@ -713,13 +713,25 @@ shape = SubResource("{shape(32, 10)}")
         x, y = W(*pos)
         if walk_ok(x, y) and not any((x - a) ** 2 + (y - b) ** 2 < 50 ** 2 for a, b in exits.values()):
             n.append(solid(f"Fence{k + 1}", fence, x, y, 24, 8))
-    # Falls over the cliff faces, the rowboat by the jetty, lily pads on still water.
-    for k, (fcx, fcy, h) in enumerate(L.FALLS):
-        x, y = W(fcx, fcy)
-        scale = h * SCALE / 96
-        n.append(f'[node name="Falls{k + 1}" type="AnimatedSprite2D" parent="."]\nz_index = -7\n'
-                 f'position = Vector2({x}, {y + h * SCALE / 2})\nscale = Vector2({min(1.2, max(0.8, scale)):.2f}, {scale:.2f})\n'
-                 f'sprite_frames = SubResource("frames_falls")\nautoplay = "default"\nframe = {k * 3 % 8}\n')
+    # Falls: wherever a stream crosses a cliff face, an animated fall drawn exactly over
+    # that stretch of the stream, in the stream's own blues.
+    falls, fall_px = find_falls(stand, stairs, decks | bridge_cells)
+    for k, (x0, y0, shape_mask) in enumerate(falls):
+        path = f"{ART}falls/fall_{k + 1}.png"
+        make_fall_strip(shape_mask, k).save(path)
+        fh, fw = shape_mask.shape
+        key = f"frames_fall{k + 1}"
+        atlas = texture(path)
+        refs = []
+        for f in range(FALL_FRAMES):
+            subs[f"{key}_{f}"] = (f'[sub_resource type="AtlasTexture" id="{key}_{f}"]\natlas = ExtResource("{atlas}")\n'
+                                  f'region = Rect2({f * (fw + 8)}, 0, {fw + 8}, {fh + 10})\n')
+            refs.append(f'{{\n"duration": 1.0,\n"texture": SubResource("{key}_{f}")\n}}')
+        subs[key] = (f'[sub_resource type="SpriteFrames" id="{key}"]\nanimations = [{{\n"frames": [{", ".join(refs)}],\n'
+                     f'"loop": true,\n"name": &"default",\n"speed": 12\n}}]\n')
+        n.append(f'[node name="Falls{k + 1}" type="AnimatedSprite2D" parent="."]\nz_index = -7\ncentered = false\n'
+                 f'position = Vector2({LEFT + x0 - 4}, {TOP + y0})\nsprite_frames = SubResource("{key}")\n'
+                 f'autoplay = "default"\nframe = {k * 3 % FALL_FRAMES}\n')
     bx, by = W(302, 472)
     n.append(f'[node name="Rowboat" type="Sprite2D" parent="."]\nz_index = -7\nposition = Vector2({bx}, {by})\n'
              f'rotation = -0.5\ntexture = ExtResource("{texture(K2 + "props/rowboat.png")}")\n')
@@ -847,7 +859,7 @@ shape = SubResource("{shape(32, 10)}")
             n.append(solid(f"Landmark{rocks}", FOREST + name + ".png", x, y, 22, 8))
 
     # Water: the animated wave tile clipped to every water pixel of the ground.
-    wet = water_pixels(ground, stand, decks)
+    wet = water_pixels(ground, stand, decks) & ~fall_px    # falls animate on their own
     mask = np.zeros(wet.shape + (4,), np.uint8)
     mask[wet] = 255
     Image.fromarray(mask, "RGBA").save(WATER_MASK)
@@ -867,8 +879,7 @@ region_rect = Rect2(0, 0, {w}, {h})
 ''')
 
     # Animated strips (falls, campfire).
-    for key, strip, count, fps in (("frames_falls", PROPS + "waterfall_anim.png", 8, 10),
-                                   ("frames_campfire", PROPS + "campfire_anim.png", 8, 9)):
+    for key, strip, count, fps in (("frames_campfire", PROPS + "campfire_anim.png", 8, 9),):
         im = Image.open(strip)
         fw, fh = im.width // count, im.height
         atlas = texture(strip)
@@ -921,6 +932,104 @@ position = Vector2({sx}, {sy})
     open(SCENE, "w", encoding="utf-8", newline="\n").write(head + "\n".join(subs.values()) + "\n" + "\n".join(n))
     print(f"thornveil: {COLS}x{ROWS} cells, {len(walls)} wall rects, {len(trees)} trees, {len(props)} undergrowth, "
           f"{len(STAIR_SPOTS)} stairs")
+
+
+FALL_FRAMES = 8
+
+
+def find_falls(stand, stairs, open_cells):
+    """Every stretch of stream that runs down a cliff face: stream pixels over wall
+    cells, grouped into blobs; the tall ones are falls (a stream merely running along
+    the foot of a cliff makes a wide, flat blob and is left as water). Returns
+    [(x0, y0, mask)] in ground px, and the pixel mask of all of them."""
+    wall = np.kron(np.array([[1 if (v < 0 and (r, c) not in stairs and (r, c) not in open_cells) else 0
+                              for c, v in enumerate(row)] for r, row in enumerate(stand)], np.uint8),
+                   np.ones((TILE, TILE), np.uint8)).astype(bool)
+    over = STREAM_PX & wall
+    step = 4
+    h, w = over.shape[0] // step, over.shape[1] // step
+    grid = over[:h * step, :w * step].reshape(h, step, w, step).mean(axis=(1, 3)) > 0.3
+    seen = np.zeros_like(grid)
+    falls = []
+    all_px = np.zeros(over.shape, bool)
+    for y in range(h):
+        for x in range(w):
+            if not grid[y, x] or seen[y, x]:
+                continue
+            blob, stack = [(y, x)], [(y, x)]
+            seen[y, x] = True
+            while stack:
+                cy, cx = stack.pop()
+                for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    ny, nx = cy + dy, cx + dx
+                    if 0 <= ny < h and 0 <= nx < w and grid[ny, nx] and not seen[ny, nx]:
+                        seen[ny, nx] = True
+                        blob.append((ny, nx))
+                        stack.append((ny, nx))
+            ys, xs = [b[0] for b in blob], [b[1] for b in blob]
+            y0, y1, x0, x1 = min(ys) * step, (max(ys) + 1) * step, min(xs) * step, (max(xs) + 1) * step
+            if y1 - y0 < 40 or (y1 - y0) < 0.7 * (x1 - x0):
+                continue
+            # The fall covers the stream's full width through that drop.
+            shape_mask = STREAM_PX[y0:y1, x0:x1].copy()
+            falls.append((x0, y0, shape_mask))
+            all_px[y0:y1, x0:x1] |= shape_mask
+    return falls, all_px
+
+
+def make_fall_strip(shape_mask, seed):
+    """An 8-frame falling-water strip shaped to `shape_mask` (the stream's pixels down
+    the cliff): streams of white and pale blue that slide downward frame by frame
+    (so it reads as falling), a bright lip where the water tips over, darker edges,
+    and churning foam spilling past its foot. Frames are 8px wider and 10px taller
+    than the mask for the spray."""
+    rng = np.random.default_rng(seed + 3)
+    h, w = shape_mask.shape
+    W_, H_ = w + 8, h + 10
+    deep, mid, light, foam = (np.array(c, np.float32) for c in ((28, 78, 158), (46, 114, 192), (196, 228, 242), (238, 248, 252)))
+    period = 32                              # streak pattern repeats every 32px: 8 frames x 4px
+    phase = rng.integers(0, period, w)       # each column's streaks start at their own height
+    length = rng.integers(6, 14, w)          # and have their own length
+    cols = np.arange(w)
+    frames = []
+    for f in range(FALL_FRAMES):
+        img = np.zeros((H_, W_, 4), np.uint8)
+        for y in range(h):
+            row = shape_mask[y]
+            if not row.any():
+                continue
+            inside = np.nonzero(row)[0]
+            left, right = inside.min(), inside.max()
+            span = max(1, right - left)
+            t = (cols - left) / span                          # 0..1 across the fall
+            edge = np.clip(np.minimum(t, 1 - t) * 4, 0, 1)    # darker at the sides
+            streak = ((y - f * (period // FALL_FRAMES) + phase) % period) < length
+            c = deep[None] * (1 - edge[:, None]) + mid[None] * edge[:, None]
+            c = np.where(streak[:, None], c * 0.3 + light[None] * 0.7, c)
+            if y < 4:                                          # the lip, where it tips over
+                c = c * 0.4 + foam[None] * 0.6
+            for x in inside:
+                img[y, x + 4, :3] = c[x].astype(np.uint8)
+                img[y, x + 4, 3] = 255
+        # Foam at the foot: blobs that bubble up and fade, different each frame.
+        bottom = [x for x in range(w) if shape_mask[max(0, h - 6):, x].any()]
+        if bottom:
+            x_lo, x_hi = min(bottom), max(bottom)
+            frng = np.random.default_rng(seed * 31 + f)
+            for _ in range(10 + (x_hi - x_lo) // 3):
+                bx = int(frng.integers(x_lo - 3, x_hi + 4)) + 4
+                by = h - 3 + int(frng.integers(0, 9))
+                r = int(frng.integers(1, 4))
+                for dy in range(-r, r + 1):
+                    for dx in range(-r, r + 1):
+                        if dx * dx + dy * dy <= r * r and 0 <= by + dy < H_ and 0 <= bx + dx < W_:
+                            a = 230 if by + dy < h + 3 else 170
+                            img[by + dy, bx + dx] = (*foam.astype(np.uint8), a)
+        frames.append(Image.fromarray(img, "RGBA"))
+    strip = Image.new("RGBA", (W_ * FALL_FRAMES, H_))
+    for f, im in enumerate(frames):
+        strip.paste(im, (f * W_, 0))
+    return strip
 
 
 def water_pixels(ground, stand, decks):

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlhg1qddyqssu"
-path="res://.godot/imported/waterfall.png-18f636cdbe565a01a1e2fc765f0a3e3d.ctex"
+uid="uid://dy042u1qyy816"
+path="res://.godot/imported/fall_5.png-b9827198016f04b9b0adc042bcd5466a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/tiles/thornveil/props/waterfall.png"
-dest_files=["res://.godot/imported/waterfall.png-18f636cdbe565a01a1e2fc765f0a3e3d.ctex"]
+source_file="res://assets/sprites/tiles/thornveil/falls/fall_5.png"
+dest_files=["res://.godot/imported/fall_5.png-b9827198016f04b9b0adc042bcd5466a.ctex"]
 
 [params]
 

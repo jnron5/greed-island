@@ -17,7 +17,7 @@ const LONG_BAR := preload("res://assets/ui/bar_long.png")
 const COIN := preload("res://assets/ui/medal_star.png")
 const SLOT := preload("res://assets/ui/slot.png")
 const BAR_FILL := Rect2(15, 5, 37, 4)        # inside bar_heart.png
-const HINT := "J Sword   K Pistol   Space Dash   Q Pickpocket   E Talk/Steal   B Binder"
+const HINT := "J Sword   K Pistol   Space Dash   Q Pickpocket   E Talk/Steal   H Heal   B Binder   I Items"
 
 var health_label: Label
 var currency_label: Label
@@ -32,6 +32,10 @@ var _quest_panel: PanelContainer
 var _spell_box: Control
 var _toast_plate: PanelContainer
 var _toast_tween: Tween
+var _area_box: VBoxContainer
+var _area_title: Label
+var _area_sub: Label
+var _area_tween: Tween
 var _boss_bar: Control
 var _boss_fill: ColorRect
 var _boss_label: Label
@@ -55,6 +59,7 @@ func _ready() -> void:
 	RivalDirector.rival_departed.connect(_on_rival_departed)
 	RivalDirector.rival_arrived.connect(_on_rival_arrived)
 	EventBus.notify.connect(_toast)
+	EventBus.area_entered.connect(_show_area)
 	EventBus.card_added.connect(_update_spells.unbind(2))
 	EventBus.card_consumed.connect(_update_spells.unbind(3))
 	EventBus.card_stolen.connect(_update_spells.unbind(4))
@@ -165,6 +170,57 @@ func _build() -> void:
 	toast_label = Label.new()
 	toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_toast_plate.add_child(toast_label)
+	_build_area_banner()
+
+
+## The area's name, large, in the upper third: a gold title (the part before a comma)
+## over a smaller subtitle (the rest), between two gold rules; it fades in, holds and
+## fades out. Rooms get a smaller one.
+func _show_area(area: String, interior: bool) -> void:
+	var parts := area.split(",", false, 1)
+	_area_title.text = parts[0].strip_edges()
+	_area_title.add_theme_font_size_override(&"font_size", 20 if interior else 32)
+	_area_sub.text = parts[1].strip_edges() if parts.size() > 1 else ""
+	_area_sub.visible = _area_sub.text != ""
+	if _area_tween:
+		_area_tween.kill()
+	_area_box.modulate.a = 0.0
+	_area_tween = create_tween()
+	_area_tween.tween_property(_area_box, "modulate:a", 1.0, 0.5)
+	_area_tween.tween_interval(2.4)
+	_area_tween.tween_property(_area_box, "modulate:a", 0.0, 0.9)
+
+
+func _build_area_banner() -> void:
+	_area_box = VBoxContainer.new()
+	_area_box.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_area_box.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_area_box.offset_top = 58
+	_area_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	_area_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_area_box.add_theme_constant_override(&"separation", 2)
+	_area_box.modulate.a = 0.0
+	_root.add_child(_area_box)
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override(&"separation", 10)
+	_area_box.add_child(row)
+	for side in 2:
+		var rule := ColorRect.new()
+		rule.color = Color(1.0, 0.84, 0.45, 0.85)
+		rule.custom_minimum_size = Vector2(46, 2)
+		rule.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(rule)
+		if side == 0:
+			_area_title = Label.new()
+			_area_title.theme_type_variation = &"TitleLabel"
+			_area_title.add_theme_constant_override(&"outline_size", 6)
+			_area_title.add_theme_color_override(&"font_outline_color", Color(0.08, 0.05, 0.03))
+			row.add_child(_area_title)
+	_area_sub = Label.new()
+	_area_sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_area_sub.add_theme_font_size_override(&"font_size", 12)
+	_area_box.add_child(_area_sub)
 
 
 func _on_health_changed(current: int, maximum: int) -> void:

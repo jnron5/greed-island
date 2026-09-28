@@ -142,7 +142,10 @@ position = Vector2(262, 140)
 npc_id = &"greta"
 display_name = "Greta"
 sprite_frames = ExtResource("n_greta")
-lines = PackedStringArray("Greta's Provisions! Rope, lamps, bread, fish hooks. No cards, love. Sable's across the square for that.", "The big house up the hill buys more lamps than the lighthouse. Oil, wicks, the lot. Who needs that many lamps?", "Every autumn a whole cart of children's boots goes out on the southern barge. Charity, they say. Funny sort of charity.")
+lines = PackedStringArray("Greta's Provisions! Bread, smoked fish, tonics for the road. Racers come in limping and go out running.", "The big house up the hill buys more lamps than the lighthouse. Oil, wicks, the lot. Who needs that many lamps?", "Every autumn a whole cart of children's boots goes out on the southern barge. Charity, they say. Funny sort of charity.")
+shop_stock = Array[StringName]([&"smoked_fish", &"bread", &"healers_tonic", &"sea_salt_elixir"])
+shop_buys_cards = false
+shop_title = "Greta's Provisions"
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(205, 176)

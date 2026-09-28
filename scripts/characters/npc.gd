@@ -23,6 +23,10 @@ const TALK_RANGE := 34.0
 @export var patrol_pause := 3.0
 ## Shopkeepers: after talking, open the shop with this stock.
 @export var shop_stock: Array[StringName] = []
+## Whether this shopkeeper also buys set cards (card merchants do; a baker doesn't).
+@export var shop_buys_cards := true
+## The shop's name on its window (defaults to the shopkeeper's).
+@export var shop_title := ""
 
 var facing := Vector2.DOWN
 
@@ -108,7 +112,7 @@ func _done_talking() -> void:
 	if not shop_stock.is_empty():
 		var shop := get_tree().get_first_node_in_group(&"shop_panel") as ShopPanel
 		if shop:
-			shop.open_with(shop_stock)
+			shop.open_with(shop_stock, shop_title if shop_title != "" else display_name, shop_buys_cards)
 
 
 func _update_animation() -> void:

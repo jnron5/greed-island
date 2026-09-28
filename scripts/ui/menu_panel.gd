@@ -22,6 +22,8 @@ var _status: Label
 var _refresh := 0.0
 
 
+var _title_label: Label
+
 func _ready() -> void:
 	layer = 10
 	visible = false
@@ -89,6 +91,12 @@ func _status_text() -> String:
 	return ""
 
 
+func set_title(text: String) -> void:
+	title = text
+	if _title_label:
+		_title_label.text = text
+
+
 func add_header(text: String) -> void:
 	var label := Label.new()
 	label.text = text
@@ -98,8 +106,15 @@ func add_header(text: String) -> void:
 
 ## One row: a coloured name, a detail column, then buttons given as
 ## [text, callable, enabled] triples.
-func add_row(name_text: String, color: Color, detail: String, buttons: Array) -> void:
+func add_row(name_text: String, color: Color, detail: String, buttons: Array, icon: Texture2D = null) -> void:
 	var row := HBoxContainer.new()
+	if icon:
+		var pic := TextureRect.new()
+		pic.texture = icon
+		pic.custom_minimum_size = Vector2(20, 20)
+		pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		row.add_child(pic)
 	var name_label := Label.new()
 	name_label.text = name_text
 	name_label.modulate = color
@@ -161,6 +176,7 @@ func _build_frame() -> void:
 	var header := HBoxContainer.new()
 	vbox.add_child(header)
 	var title_label := Label.new()
+	_title_label = title_label
 	title_label.text = title
 	title_label.theme_type_variation = &"TitleLabel"
 	title_label.add_theme_font_size_override("font_size", 16)
