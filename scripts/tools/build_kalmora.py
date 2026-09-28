@@ -561,7 +561,7 @@ DOORS = {
 # warehouse door to the stack on the deck and back, then out along the pier.
 PATROLS = {"sailor": [(0, 0), (-190, -20), (-120, 0), (-60, -10), (0, 0), (20, 50), (0, 0)],
            # Rosa carries bread from her stall up the market lane and back.
-           "baker": [(0, 0), (-40, -60), (-110, -70), (-160, -60), (-110, -70), (-40, -60), (0, 0)]}
+           "baker": [(0, 0), (0, -42), (-70, -42), (-150, -46), (-70, -42), (0, -42), (0, 0)]}
 # Residents (dogs and cats). (id, name, sprite id, concept position, wander radius, lines)
 NPCS = [
     ("bram", "Bram", "bram", (640, 700), 0, ["Tide's good today. Good for ships, anyway."]),
