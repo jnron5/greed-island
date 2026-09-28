@@ -5832,18 +5832,24 @@ title = "The notice board"
 lines = PackedStringArray("ROYAL PROCLAMATION. The Race of Cards is open to all who reach Kalmora by sea. The first to present the full set at Vetrassa shall receive what the Crown has promised.", "Pinned beneath it, newer: 'WORKERS WANTED - DUSKARA. Good pay, in cards. Small hands preferred. Enquire at the harbor.'")
 
 [node name="Read2" type="Node2D" parent="."]
+position = Vector2(-198, -151)
+script = ExtResource("30_read")
+title = "Greta's Provisions"
+lines = PackedStringArray("A painted board by the door: a loaf, a fish and a green bottle.", "'GRETA'S PROVISIONS - Bread, smoked fish, tonics & elixirs for the road. Racers welcome. Bleeding racers especially welcome.'")
+
+[node name="Read3" type="Node2D" parent="."]
 position = Vector2(-13, -19)
 script = ExtResource("30_read")
 title = "The fountain's plaque"
 lines = PackedStringArray("'Gift of the Calloway family to the people of Kalmora, in the year of the Sixth Race. Drink freely.'")
 
-[node name="Read3" type="Node2D" parent="."]
+[node name="Read4" type="Node2D" parent="."]
 position = Vector2(670, 345)
 script = ExtResource("30_read")
 title = "The keeper's log"
 lines = PackedStringArray("Nailed by the lighthouse door: 'Lamp lit 212 nights this year. The southern barges run dark. I am told not to log them. I log them anyway. - Tomas'")
 
-[node name="Read4" type="Node2D" parent="."]
+[node name="Read5" type="Node2D" parent="."]
 position = Vector2(242, 373)
 script = ExtResource("30_read")
 title = "A barred archway"

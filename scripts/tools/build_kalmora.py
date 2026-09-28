@@ -761,6 +761,10 @@ TOWN_READABLES = [
         "ROYAL PROCLAMATION. The Race of Cards is open to all who reach Kalmora by sea. The first to present the full set at Vetrassa shall receive what the Crown has promised.",
         "Pinned beneath it, newer: 'WORKERS WANTED - DUSKARA. Good pay, in cards. Small hands preferred. Enquire at the harbor.'",
     ]),
+    ("Greta's Provisions", (636, 418), [
+        "A painted board by the door: a loaf, a fish and a green bottle.",
+        "'GRETA'S PROVISIONS - Bread, smoked fish, tonics & elixirs for the road. Racers welcome. Bleeding racers especially welcome.'",
+    ]),
     ("The fountain's plaque", (768, 512), [
         "'Gift of the Calloway family to the people of Kalmora, in the year of the Sixth Race. Drink freely.'",
     ]),
