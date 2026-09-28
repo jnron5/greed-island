@@ -533,12 +533,16 @@ def build(zone):
     if feet:
         scene = scene.replace("\n\n[node name=", "\n\n" + "\n".join(feet.values()) + "\n[node name=", 1)
     # Butterflies over the village green and glades.
-    scene = re.sub(r'\[node name="Butterflies\d+"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*', "", scene)
+    scene = re.sub(r'\[node name="(?:Butterflies|Fireflies)\d+"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*', "", scene)
     if life.get("butterflies"):
         scene, bid = resource(scene, "Script", "res://scripts/world/butterflies.gd", "86_butterflies")
         for k, ((x, y), count) in enumerate(life["butterflies"]):
             nodes.append(f'[node name="Butterflies{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                          f'script = ExtResource("{bid}")\ncount = {count}\nseed = {k + 2}\n')
+        scene, fid = resource(scene, "Script", "res://scripts/world/fireflies.gd", "86_fireflies")
+        for k, ((x, y), count) in enumerate(life["butterflies"]):
+            nodes.append(f'[node name="Fireflies{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                         f'script = ExtResource("{fid}")\ncount = {count * 3}\nseed = {k + 7}\n')
     at = scene.index('[node name="Player"')
     scene = scene[:at] + "\n".join(nodes) + "\n" + scene[at:]
     open(cfg["scene"], "w", encoding="utf-8", newline="\n").write(scene)

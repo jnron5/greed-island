@@ -47,6 +47,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/trail_lantern.png" id="85_trail_lantern"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/fence.png" id="85_fence"]
 [ext_resource type="Script" path="res://scripts/world/butterflies.gd" id="86_butterflies"]
+[ext_resource type="Script" path="res://scripts/world/fireflies.gd" id="86_fireflies"]
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(940, 40)
 
@@ -1450,6 +1451,24 @@ position = Vector2(360, -20)
 script = ExtResource("86_butterflies")
 count = 2
 seed = 4
+
+[node name="Fireflies1" type="Node2D" parent="."]
+position = Vector2(-330, 80)
+script = ExtResource("86_fireflies")
+count = 9
+seed = 7
+
+[node name="Fireflies2" type="Node2D" parent="."]
+position = Vector2(120, -60)
+script = ExtResource("86_fireflies")
+count = 6
+seed = 8
+
+[node name="Fireflies3" type="Node2D" parent="."]
+position = Vector2(360, -20)
+script = ExtResource("86_fireflies")
+count = 6
+seed = 9
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 120)

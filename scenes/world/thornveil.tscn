@@ -1,4 +1,4 @@
-[gd_scene load_steps=278 format=3]
+[gd_scene load_steps=279 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -51,6 +51,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/rowboat.png" id="t25_rowboat"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/lily_pads.png" id="t26_lily_pads"]
 [ext_resource type="Script" path="res://scripts/world/butterflies.gd" id="s0_butterflies"]
+[ext_resource type="Script" path="res://scripts/world/fireflies.gd" id="s1_fireflies"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/forest_fir.tscn" id="30_fir"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/forest_oak.tscn" id="30_oak"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/clover.png" id="t27_clover"]
@@ -4408,11 +4409,23 @@ script = ExtResource("s0_butterflies")
 count = 3
 seed = 5
 
+[node name="Fireflies1" type="Node2D" parent="."]
+position = Vector2(-5, -724)
+script = ExtResource("s1_fireflies")
+count = 9
+seed = 11
+
 [node name="Butterflies2" type="Node2D" parent="."]
 position = Vector2(352, -1054)
 script = ExtResource("s0_butterflies")
 count = 2
 seed = 6
+
+[node name="Fireflies2" type="Node2D" parent="."]
+position = Vector2(352, -1054)
+script = ExtResource("s1_fireflies")
+count = 6
+seed = 12
 
 [node name="Butterflies3" type="Node2D" parent="."]
 position = Vector2(940, -799)
@@ -4420,11 +4433,23 @@ script = ExtResource("s0_butterflies")
 count = 3
 seed = 7
 
+[node name="Fireflies3" type="Node2D" parent="."]
+position = Vector2(940, -799)
+script = ExtResource("s1_fireflies")
+count = 9
+seed = 13
+
 [node name="Butterflies4" type="Node2D" parent="."]
 position = Vector2(-788, -1129)
 script = ExtResource("s0_butterflies")
 count = 2
 seed = 8
+
+[node name="Fireflies4" type="Node2D" parent="."]
+position = Vector2(-788, -1129)
+script = ExtResource("s1_fireflies")
+count = 6
+seed = 14
 
 [node name="Butterflies5" type="Node2D" parent="."]
 position = Vector2(-248, -274)
@@ -4432,11 +4457,23 @@ script = ExtResource("s0_butterflies")
 count = 2
 seed = 9
 
+[node name="Fireflies5" type="Node2D" parent="."]
+position = Vector2(-248, -274)
+script = ExtResource("s1_fireflies")
+count = 6
+seed = 15
+
 [node name="Butterflies6" type="Node2D" parent="."]
 position = Vector2(832, -109)
 script = ExtResource("s0_butterflies")
 count = 2
 seed = 10
+
+[node name="Fireflies6" type="Node2D" parent="."]
+position = Vector2(832, -109)
+script = ExtResource("s1_fireflies")
+count = 6
+seed = 16
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(-5, -604)

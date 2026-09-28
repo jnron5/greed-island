@@ -768,6 +768,9 @@ shape = SubResource("{shape(32, 10)}")
         x, y = W(bcx, bcy)
         n.append(f'[node name="Butterflies{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                  f'script = ExtResource("{script_res("res://scripts/world/butterflies.gd")}")\ncount = {count}\nseed = {k + 5}\n')
+        # ...and fireflies over the same glades after dusk.
+        n.append(f'[node name="Fireflies{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                 f'script = ExtResource("{script_res("res://scripts/world/fireflies.gd")}")\ncount = {count * 3}\nseed = {k + 11}\n')
 
     # Readables.
     for k, (title, pos, lines) in enumerate(READABLES):
