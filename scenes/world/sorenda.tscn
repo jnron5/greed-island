@@ -46,6 +46,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/sorenda/firepit.png" id="85_firepit"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/trail_lantern.png" id="85_trail_lantern"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/fence.png" id="85_fence"]
+[ext_resource type="Script" path="res://scripts/world/butterflies.gd" id="86_butterflies"]
 [sub_resource type="RectangleShape2D" id="Wall_h"]
 size = Vector2(940, 40)
 
@@ -1431,6 +1432,24 @@ position = Vector2(392, -364)
 script = ExtResource("82_read")
 title = "A satchel in the moss"
 lines = PackedStringArray("A canvas satchel, stiff with old rain. Inside: a heel of bread gone to stone, a little carved wooden bird, and a tin work tag stamped 'D.M. - No. 117'.", "Scratched into the bark above it, low down, where a small hand could reach: 'I ran. Tell mama I ran.'")
+
+[node name="Butterflies1" type="Node2D" parent="."]
+position = Vector2(-330, 80)
+script = ExtResource("86_butterflies")
+count = 3
+seed = 2
+
+[node name="Butterflies2" type="Node2D" parent="."]
+position = Vector2(120, -60)
+script = ExtResource("86_butterflies")
+count = 2
+seed = 3
+
+[node name="Butterflies3" type="Node2D" parent="."]
+position = Vector2(360, -20)
+script = ExtResource("86_butterflies")
+count = 2
+seed = 4
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 120)

@@ -406,6 +406,7 @@ CHESTS = [
     ("heartwood", (1352, 452), 0, "Cradled in the Heartwood's roots, the wood warm to the touch.", "elderwood_heart"),
     ("meadow_stump", (470, 760), 0, "Stuffed into the hollow of an old stump, under the moss.", "bark_rune"),
 ]
+BUTTERFLIES = [(722, 520, 3), (960, 300, 2), (1352, 470, 3), (200, 250, 2), (560, 820, 2), (1280, 930, 2)]
 CLEARINGS = [(962, 250, 190), (1352, 450, 200), (160, 215, 150), (722, 560, 210), (1283, 942, 120),
              (130, 520, 80), (724, 60, 140), (744, 1010, 150)]    # (concept x, y, world radius)
 SHRINE = {"fountain": (1352, 488), "tree": (1352, 412)}
@@ -501,6 +502,14 @@ def main():
             tex[path] = f"t{len(tex)}_{os.path.basename(path)[:-4]}"
             ext.append(('Texture2D', "res://" + path, tex[path]))
         return tex[path]
+
+    scripts = {}
+
+    def script_res(path):
+        if path not in scripts:
+            scripts[path] = f"s{len(scripts)}_{os.path.basename(path)[:-3]}"
+            ext.append(('Script', path, scripts[path]))
+        return scripts[path]
 
     def bottom_offset(path):
         im = Image.open(path)
@@ -755,6 +764,12 @@ shape = SubResource("{shape(32, 10)}")
             n.append(f'[node name="Lily{lily}" type="Sprite2D" parent="."]\nz_index = -7\nposition = Vector2({x}, {y})\n'
                      f'texture = ExtResource("{texture(PROPS + "lily_pads.png")}")\n' + ("flip_h = true\n" if lily % 2 else ""))
 
+    # Butterflies over the open glades and clearings.
+    for k, (bcx, bcy, count) in enumerate(BUTTERFLIES):
+        x, y = W(bcx, bcy)
+        n.append(f'[node name="Butterflies{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                 f'script = ExtResource("{script_res("res://scripts/world/butterflies.gd")}")\ncount = {count}\nseed = {k + 5}\n')
+
     # Readables.
     for k, (title, pos, lines) in enumerate(READABLES):
         x, y = W(*pos)
@@ -836,12 +851,12 @@ shape = SubResource("{shape(32, 10)}")
             if prop_ok(px, py, 14):
                 props.append((kind, px, py))
     # Flowering bushes along the paths and round the clearings, the concept's colour.
-    path_near = np.asarray(Image.fromarray(dirt_on.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(61))) > 0
+    path_near = np.asarray(Image.fromarray(dirt_on.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(81))) > 0
     for _ in range(4000):
         x, y = rng.uniform(LEFT + 40, RIGHT - 40), rng.uniform(TOP + 60, BOTTOM - 20)
         if len([p for p in props if p[0].startswith("bush")]) >= 70:
             break
-        if path_near[int(y - TOP), int(x - LEFT)] and prop_ok(x, y, 40):
+        if path_near[int(y - TOP), int(x - LEFT)] and not dirt_px[int(y - TOP), int(x - LEFT)] and prop_ok(x, y, 40):
             props.append((rng.choice(["bush_flowers_g", "bush_flowers_g", "bush_g"]), round(x), round(y)))
     for k, (name, x, y) in enumerate(props):
         if name.startswith("bush"):

@@ -128,6 +128,7 @@ LIFE = {
         # A fenced vegetable garden south-west of the green (the fence above), rows of
         # crops painted into the ground.
         "garden": (-392, 30, -272, 128),
+        "butterflies": [((-330, 80), 3), ((120, -60), 2), ((360, -20), 2)],
         "npcs": [
             ("moss", "Elder Moss", (0, -126), 0, [
                 "Sorenda sits where the old roads cross. Every race, the racers come through. Some are running to something. Some from it.",
@@ -531,6 +532,13 @@ def build(zone):
                      f'region_rect = Rect2(0, 0, {x1 - x0}, {y1 - y0})\n')
     if feet:
         scene = scene.replace("\n\n[node name=", "\n\n" + "\n".join(feet.values()) + "\n[node name=", 1)
+    # Butterflies over the village green and glades.
+    scene = re.sub(r'\[node name="Butterflies\d+"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*', "", scene)
+    if life.get("butterflies"):
+        scene, bid = resource(scene, "Script", "res://scripts/world/butterflies.gd", "86_butterflies")
+        for k, ((x, y), count) in enumerate(life["butterflies"]):
+            nodes.append(f'[node name="Butterflies{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                         f'script = ExtResource("{bid}")\ncount = {count}\nseed = {k + 2}\n')
     at = scene.index('[node name="Player"')
     scene = scene[:at] + "\n".join(nodes) + "\n" + scene[at:]
     open(cfg["scene"], "w", encoding="utf-8", newline="\n").write(scene)
