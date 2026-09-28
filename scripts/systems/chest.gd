@@ -1,8 +1,8 @@
 class_name Chest
 extends StaticBody2D
 ## A chest out in the world: press interact beside it to open it and take what's
-## inside (a card, gold, or both). Opened once per game by whoever gets there first,
-## player or rival (GameState.collected_pickups, keyed like the old card pickups, so
+## inside (a card, gold, a satchel item, or several). Opened once per game by
+## whoever gets there first, player or rival (GameState.collected_pickups, keyed like the old card pickups, so
 ## WorldMap reads chests straight from the scene files and off-screen rivals can
 ## loot them too). A chest behind a gate only opens once that gate is open.
 ## Its Base collider is a child in the scene; the sprite is set up here.
@@ -12,6 +12,9 @@ const RANGE := 30.0
 @export var chest_id: StringName
 @export var card_id: StringName
 @export var gold := 0
+## A satchel item inside (bread, a tonic), and how many.
+@export var item_id: StringName
+@export var item_count := 1
 @export var hint := ""
 ## The gate you must open to reach this chest, if any (rivals pay it like a pickup's).
 @export var behind_gate: StringName
@@ -73,6 +76,9 @@ func open() -> void:
 	if card_id != &"":
 		var card := CardDatabase.get_card(card_id)
 		found.append("a card: %s" % (card.display_name if card else String(card_id)))
+	if item_id != &"" and Items.get_item(item_id):
+		var item := Items.get_item(item_id)
+		found.append(("%s x%d" % [item.display_name, item_count]) if item_count > 1 else item.display_name)
 	if gold > 0:
 		found.append("%d gold" % gold)
 	lines.append("Inside: %s." % (" and ".join(found) if not found.is_empty() else "nothing but dust"))
@@ -88,8 +94,11 @@ func open_for(collector: StringName) -> bool:
 	remove_from_group(&"card_pickups")
 	if card_id != &"":
 		GameState.add_loose_card(collector, card_id)
-	if gold > 0 and collector == GameState.PLAYER:
-		GameState.add_currency(gold)
+	if collector == GameState.PLAYER:
+		if gold > 0:
+			GameState.add_currency(gold)
+		if item_id != &"":
+			GameState.add_item(item_id, item_count)
 	_refresh()
 	queue_redraw()
 	return true

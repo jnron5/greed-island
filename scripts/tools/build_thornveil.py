@@ -400,8 +400,8 @@ CAMP = {"tent": (140, 224), "fire": (196, 236), "npc": (190, 212)}
 # lying on the ground; whoever opens one first (player or rival) takes it.
 CHESTS = [
     ("stone_circle", (962, 248), 60, "The stones hum when you stand among them.", "owl_quill"),
-    ("lake_island", (130, 520), 120, "Salt-stiff rope still ties the lid.", ""),
-    ("south_clearing", (1283, 942), 70, "A hunter's cache, hidden in the ferns.", ""),
+    ("lake_island", (130, 520), 120, "Salt-stiff rope still ties the lid.", "", ("sea_salt_elixir", 1)),
+    ("south_clearing", (1283, 942), 70, "A hunter's cache, hidden in the ferns.", "", ("smoked_fish", 3)),
     ("camp_cache", (96, 196), 0, "Tobin's spare kit, the lid wedged shut with a stone.", "fern_sigil"),
     ("heartwood", (1352, 452), 0, "Cradled in the Heartwood's roots, the wood warm to the touch.", "elderwood_heart"),
     ("meadow_stump", (470, 760), 0, "Stuffed into the hollow of an old stump, under the moss.", "bark_rune"),
@@ -665,7 +665,8 @@ shop_stock = Array[StringName]([&"second_wind", &"lockbox_seal"])
     taken += [(tx, ty), (fx, fy), (nx, ny)]
 
     # Chests.
-    for cid, pos, gold, hint, card in CHESTS:
+    for cid, pos, gold, hint, card, *extra in CHESTS:
+        item, item_n = extra[0] if extra else ("", 1)
         x, y = W(*pos)
         check_spot(f"chest {cid}", x, y)
         taken.append((x, y))
@@ -676,6 +677,8 @@ script = ExtResource("20_chest")
 chest_id = &"thornveil_{cid}"
 card_id = &"{card}"
 gold = {gold}
+item_id = &"{item}"
+item_count = {item_n}
 hint = "{hint}"
 closed_texture = ExtResource("{texture(PROPS + "chest.png")}")
 open_texture = ExtResource("{texture(PROPS + "chest_open.png")}")
