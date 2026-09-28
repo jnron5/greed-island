@@ -12,7 +12,7 @@ import os
 
 os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-ROOM_SCALE = 1.5
+ROOM_SCALE = 1.25  # the biggest room (the tavern, 384x288) fills one 640x360 screen
 
 SHOP_STOCK = '[&"pickpockets_whisper", &"lockbox_seal", &"second_wind"]'
 

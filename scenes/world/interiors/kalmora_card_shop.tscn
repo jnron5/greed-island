@@ -14,35 +14,35 @@
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sable/sable_frames.tres" id="n_sable"]
 
-[sub_resource type="RectangleShape2D" id="R195x159"]
-size = Vector2(195.0, 159.0)
+[sub_resource type="RectangleShape2D" id="R162_5x132_5"]
+size = Vector2(162.5, 132.5)
 
-[sub_resource type="RectangleShape2D" id="R201x159"]
-size = Vector2(201.0, 159.0)
+[sub_resource type="RectangleShape2D" id="R167_5x132_5"]
+size = Vector2(167.5, 132.5)
 
-[sub_resource type="RectangleShape2D" id="R84x135"]
-size = Vector2(84.0, 135.0)
+[sub_resource type="RectangleShape2D" id="R70x112_5"]
+size = Vector2(70.0, 112.5)
 
-[sub_resource type="RectangleShape2D" id="R60x384"]
-size = Vector2(60.0, 384.0)
+[sub_resource type="RectangleShape2D" id="R50x320"]
+size = Vector2(50.0, 320.0)
 
-[sub_resource type="RectangleShape2D" id="R123x78"]
-size = Vector2(123.0, 78.0)
+[sub_resource type="RectangleShape2D" id="R102_5x65"]
+size = Vector2(102.5, 65.0)
 
-[sub_resource type="RectangleShape2D" id="R195x24"]
-size = Vector2(195.0, 24.0)
+[sub_resource type="RectangleShape2D" id="R162_5x20"]
+size = Vector2(162.5, 20.0)
 
-[sub_resource type="RectangleShape2D" id="R180x24"]
-size = Vector2(180.0, 24.0)
+[sub_resource type="RectangleShape2D" id="R150x20"]
+size = Vector2(150.0, 20.0)
 
-[sub_resource type="RectangleShape2D" id="R560x40"]
-size = Vector2(560.0, 40.0)
+[sub_resource type="RectangleShape2D" id="R480x40"]
+size = Vector2(480.0, 40.0)
 
-[sub_resource type="RectangleShape2D" id="R40x444"]
-size = Vector2(40.0, 444.0)
+[sub_resource type="RectangleShape2D" id="R40x380"]
+size = Vector2(40.0, 380.0)
 
-[sub_resource type="RectangleShape2D" id="R480x404"]
-size = Vector2(480.0, 404.0)
+[sub_resource type="RectangleShape2D" id="R400x340"]
+size = Vector2(400.0, 340.0)
 
 [node name="kalmora_card_shop" type="Node2D"]
 y_sort_enabled = true
@@ -52,13 +52,13 @@ interior = true
 
 [node name="Ground" type="Sprite2D" parent="."]
 z_index = -10
-position = Vector2(240.0, 192.0)
-scale = Vector2(1.5, 1.5)
+position = Vector2(200.0, 160.0)
+scale = Vector2(1.25, 1.25)
 texture = ExtResource("10_room")
 
 [node name="Glow" type="PointLight2D" parent="."]
-position = Vector2(240.0, 192.0)
-texture_scale = 6.0
+position = Vector2(200.0, 160.0)
+texture_scale = 5.0
 script = ExtResource("11_lamp")
 always_on = true
 max_energy = 0.35
@@ -66,52 +66,52 @@ max_energy = 0.35
 [node name="Walls" type="StaticBody2D" parent="."]
 
 [node name="W0" type="CollisionShape2D" parent="Walls"]
-position = Vector2(97.5, 79.5)
-shape = SubResource("R195x159")
+position = Vector2(81.25, 66.25)
+shape = SubResource("R162_5x132_5")
 
 [node name="W1" type="CollisionShape2D" parent="Walls"]
-position = Vector2(379.5, 79.5)
-shape = SubResource("R201x159")
+position = Vector2(316.25, 66.25)
+shape = SubResource("R167_5x132_5")
 
 [node name="W2" type="CollisionShape2D" parent="Walls"]
-position = Vector2(237.0, 67.5)
-shape = SubResource("R84x135")
+position = Vector2(197.5, 56.25)
+shape = SubResource("R70x112_5")
 
 [node name="W3" type="CollisionShape2D" parent="Walls"]
-position = Vector2(30.0, 192.0)
-shape = SubResource("R60x384")
+position = Vector2(25.0, 160.0)
+shape = SubResource("R50x320")
 
 [node name="W4" type="CollisionShape2D" parent="Walls"]
-position = Vector2(450.0, 192.0)
-shape = SubResource("R60x384")
+position = Vector2(375.0, 160.0)
+shape = SubResource("R50x320")
 
 [node name="W5" type="CollisionShape2D" parent="Walls"]
-position = Vector2(121.5, 345.0)
-shape = SubResource("R123x78")
+position = Vector2(101.25, 287.5)
+shape = SubResource("R102_5x65")
 
 [node name="W6" type="CollisionShape2D" parent="Walls"]
-position = Vector2(382.5, 372.0)
-shape = SubResource("R195x24")
+position = Vector2(318.75, 310.0)
+shape = SubResource("R162_5x20")
 
 [node name="W7" type="CollisionShape2D" parent="Walls"]
-position = Vector2(90.0, 372.0)
-shape = SubResource("R180x24")
+position = Vector2(75.0, 310.0)
+shape = SubResource("R150x20")
 
 [node name="W8" type="CollisionShape2D" parent="Walls"]
-position = Vector2(240.0, -20.0)
-shape = SubResource("R560x40")
+position = Vector2(200.0, -20.0)
+shape = SubResource("R480x40")
 
 [node name="W9" type="CollisionShape2D" parent="Walls"]
-position = Vector2(-20.0, 222.0)
-shape = SubResource("R40x444")
+position = Vector2(-20.0, 190.0)
+shape = SubResource("R40x380")
 
 [node name="W10" type="CollisionShape2D" parent="Walls"]
-position = Vector2(500.0, 222.0)
-shape = SubResource("R40x444")
+position = Vector2(420.0, 190.0)
+shape = SubResource("R40x380")
 
 [node name="W11" type="CollisionShape2D" parent="Walls"]
-position = Vector2(240.0, 424.0)
-shape = SubResource("R560x40")
+position = Vector2(200.0, 360.0)
+shape = SubResource("R480x40")
 
 [node name="SafeZone" type="Area2D" parent="."]
 collision_layer = 0
@@ -120,22 +120,22 @@ monitorable = false
 script = ExtResource("8_safe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
-position = Vector2(240.0, 192.0)
-shape = SubResource("R480x404")
+position = Vector2(200.0, 160.0)
+shape = SubResource("R400x340")
 
 [node name="Spawns" type="Node2D" parent="."]
 
 [node name="door" type="Marker2D" parent="Spawns"]
-position = Vector2(232.5, 339.0)
+position = Vector2(193.75, 282.5)
 
 [node name="Out" parent="." instance=ExtResource("7_exit")]
-position = Vector2(232.5, 393.0)
+position = Vector2(193.75, 327.5)
 target_scene = "res://scenes/world/kalmora.tscn"
 target_spawn = &"from_cardshop"
 exit_hint = true
 
 [node name="Npc_sable" parent="." instance=ExtResource("9_npc")]
-position = Vector2(237.0, 177.0)
+position = Vector2(197.5, 147.5)
 npc_id = &"sable"
 display_name = "Sable"
 sprite_frames = ExtResource("n_sable")
@@ -143,7 +143,7 @@ lines = PackedStringArray("Welcome, welcome. Spells, charms, a little luck in ca
 shop_stock = Array[StringName]([&"pickpockets_whisper", &"lockbox_seal", &"second_wind"])
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector2(232.5, 339.0)
+position = Vector2(193.75, 282.5)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
 
