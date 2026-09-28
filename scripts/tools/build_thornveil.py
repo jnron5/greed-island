@@ -162,7 +162,11 @@ def build_terrain():
     levels = [[level_at(LEFT + c * TILE, TOP + r * TILE) for c in range(COLS + 1)] for r in range(ROWS + 1)]
     terrace = CliffSet(ART + "cliff/forest_terrace")
     rock = CliffSet(K2 + "cliff/sea_rock")
-    sets = {(lo, hi): (rock if lo == WATER else terrace) for lo in range(6) for hi in range(lo + 1, 6)}
+    # Earthen root-bound cliffs between the lower terraces, grey rock columns up on the
+    # ridges and the north terrace, rock over the water: each cliff line one material.
+    roots = CliffSet(ART + "cliff/forest_roots")
+    sets = {(lo, hi): (rock if lo == WATER else terrace if hi >= TERRACE else roots)
+            for lo in range(6) for hi in range(lo + 1, 6)}
     flat = {WATER: ((0, 1), "lower"), **{lv: ((1, 2), "upper" if lv > 1 else "lower") for lv in range(1, 6)}}
     down = {pair: wall_down(pair) for pair in sets}
     img, stand = compose(levels, sets, flat, TILE, grow_down=down)
@@ -799,7 +803,7 @@ shape = SubResource("{shape(32, 10)}")
         px, py = int(x - LEFT), int(y - TOP)
         at_edge = min(x - LEFT, RIGHT - x, y - TOP, BOTTOM - y) < edge_band
         dense = floor_px[py, px] or at_edge
-        gap = 44 if dense else 84
+        gap = 44 if at_edge else 58 if dense else 84   # inner woods a little airier than the edges
         if not dense and rng.random() > 0.5:
             continue
         if tree_ok(x, y) and all((x - a) ** 2 + (y - b) ** 2 >= gap ** 2 for _, a, b in trees):
