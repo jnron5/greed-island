@@ -9,6 +9,19 @@ extends StaticBody2D
 @export var width := 40.0
 ## Stands across an east-west passage instead of a north-south one.
 @export var vertical := false
+## How it looks: "gate" (stone posts and a sealed wooden gate, PixelLab art),
+## "bars" (iron bars with a card seal, for an archway that is already drawn, like
+## Kalmora's north gate) or "seal" (only a glowing card seal, on a drawn door).
+@export var look: StringName = &"gate"
+
+const CLOSED := preload("res://assets/sprites/gates/card_gate_closed.png")
+const OPEN := preload("res://assets/sprites/gates/card_gate_open.png")
+const GAP := 40.0                          # px between the posts in the gate art
+const IRON := Color(0.16, 0.15, 0.17)
+const IRON_LIGHT := Color(0.42, 0.4, 0.44)
+const GOLD := Color(1.0, 0.8, 0.35)
+
+var _time := 0.0
 
 var _player_near := false
 
@@ -58,22 +71,46 @@ func _apply_open() -> void:
 	queue_redraw()
 
 
-func _draw() -> void:
-	if vertical:
-		draw_set_transform(Vector2(0, -10), PI / 2.0)
-	var half := width / 2.0
-	var stone := Color(0.55, 0.52, 0.48)
-	draw_rect(Rect2(-half - 8, -28, 8, 36), stone)
-	draw_rect(Rect2(half, -28, 8, 36), stone)
-	draw_rect(Rect2(-half - 8, -34, width + 16, 8), stone.darkened(0.15))
+func _process(delta: float) -> void:
+	_time += delta
 	if not is_open():
-		# Closed bars with a glowing card slot.
-		for i in 5:
-			draw_rect(Rect2(-half + 2 + i * (width - 4) / 4.0 - 1, -26, 3, 32), Color(0.3, 0.25, 0.2))
-		draw_rect(Rect2(-5, -32, 10, 5), Color(0.95, 0.8, 0.35))
-	draw_set_transform(Vector2.ZERO)
+		queue_redraw()
+
+
+func _draw() -> void:
+	var glow := 0.75 + 0.25 * sin(_time * 3.0)
+	match look:
+		&"bars":
+			if not is_open():
+				var half := width / 2.0
+				for i in 6:
+					var x := roundf(-half + 3 + i * (width - 6) / 5.0)
+					draw_rect(Rect2(x - 1, -30, 3, 34), IRON)
+					draw_rect(Rect2(x - 1, -30, 1, 34), IRON_LIGHT)
+					draw_rect(Rect2(x - 1, -33, 3, 3), GOLD.darkened(0.3))          # spear tips
+				draw_rect(Rect2(-half, -22, width, 3), IRON)
+				draw_rect(Rect2(-half, -6, width, 3), IRON)
+				_draw_seal(Vector2(0, -16), glow)
+		&"seal":
+			if not is_open():
+				_draw_seal(Vector2(0, -14), glow)
+		_:
+			var tex := OPEN if is_open() else CLOSED
+			var sx := width / GAP
+			var size := Vector2(tex.get_width() * sx, tex.get_height())
+			draw_texture_rect(tex, Rect2(Vector2(-size.x / 2.0, 8 - 72), size), false)
+			if not is_open():
+				draw_circle(Vector2(0, -38), 7.0, Color(1.0, 0.8, 0.35, 0.18 * glow))   # the seal's glow
 	if _player_near and not is_open():
 		var gate := CardDatabase.get_gate(gate_id)
 		var card := CardDatabase.get_card(gate.cost_card_id) if gate else null
 		if card:
 			WorldPrompt.draw(self, Vector2(0, -44), "E", "Open (%d %s)" % [gate.cost_amount, card.display_name])
+
+
+## A small card-shaped plate glowing gold: pay a card here to open.
+func _draw_seal(at: Vector2, glow: float) -> void:
+	draw_circle(at, 9.0, Color(1.0, 0.8, 0.35, 0.18 * glow))
+	draw_rect(Rect2(at + Vector2(-4, -6), Vector2(8, 11)), Color(0.18, 0.1, 0.05))
+	draw_rect(Rect2(at + Vector2(-3, -5), Vector2(6, 9)), GOLD * Color(glow, glow, glow))
+	draw_rect(Rect2(at + Vector2(-1, -2), Vector2(2, 3)), Color(0.45, 0.2, 0.1))

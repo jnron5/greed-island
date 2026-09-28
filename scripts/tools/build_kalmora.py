@@ -1088,6 +1088,7 @@ max_energy = 1.2
 [node name="LighthouseDoor" parent="." instance=ExtResource("10_gate")]
 position = Vector2({lx}, {ly + 6})
 gate_id = &"kalmora_lighthouse_door"
+look = &"seal"
 
 ''' + chest_node("Card_lighthouse_lens", lx, ly - 10, "lighthouse_lens", gate="kalmora_lighthouse_door",
                   hint="The keeper's old lens case, tucked just inside the door.", width=22, shape=shape))
@@ -1113,6 +1114,7 @@ texture = ExtResource("{texture(gp)}")
 [node name="NorthGate" parent="." instance=ExtResource("10_gate")]
 position = Vector2(0, {GATE_Y})
 gate_id = &"kalmora_north_gate"
+look = &"bars"
 
 [node name="ToThornveil" parent="." instance=ExtResource("11_exit")]
 position = Vector2(0, {TOP - 20})

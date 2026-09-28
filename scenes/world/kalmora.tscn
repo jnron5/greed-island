@@ -2260,6 +2260,7 @@ max_energy = 1.2
 [node name="LighthouseDoor" parent="." instance=ExtResource("10_gate")]
 position = Vector2(718, 306)
 gate_id = &"kalmora_lighthouse_door"
+look = &"seal"
 
 [node name="Card_lighthouse_lens" type="StaticBody2D" parent="."]
 position = Vector2(718, 290)
@@ -2291,6 +2292,7 @@ texture = ExtResource("t3_gate_pillars")
 [node name="NorthGate" parent="." instance=ExtResource("10_gate")]
 position = Vector2(0, -632)
 gate_id = &"kalmora_north_gate"
+look = &"bars"
 
 [node name="ToThornveil" parent="." instance=ExtResource("11_exit")]
 position = Vector2(0, -756)
