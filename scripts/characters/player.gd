@@ -325,5 +325,5 @@ func _draw_slash() -> void:
 		return
 	var t := clampf(_state_time / sword_active_time, 0.0, 1.0)
 	var sweep := lerpf(-1.1, 1.1, t)
-	_slash.draw_arc(Vector2.ZERO, 20.0, -1.1, sweep, 12, Color(1, 1, 0.9, 0.9), 3.0)
-	_slash.draw_arc(Vector2.ZERO, 16.0, -1.1, sweep, 12, Color(1, 0.95, 0.7, 0.4), 2.0)
+	# The sword animation draws its own swing; this is just a faint reach marker.
+	_slash.draw_arc(Vector2.ZERO, 20.0, -1.1, sweep, 12, Color(1, 1, 0.9, 0.25), 2.0)
