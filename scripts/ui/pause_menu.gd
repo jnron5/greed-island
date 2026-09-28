@@ -23,6 +23,8 @@ var _journal_text: Label
 var _journal_title: Label
 var _journal_place: Label
 var _journal_button: Button
+var _map: IslandMap
+var _map_button: Button
 
 
 func _ready() -> void:
@@ -57,7 +59,7 @@ func open() -> void:
 		var who := "You" if id == GameState.PLAYER else "The " + String(id).capitalize()
 		lines.append("%s   %d / %d" % [who, counts[id], total])
 	_race.text = "\n".join(lines)
-	_show_journal(false)
+	_show_page(&"controls")
 	_resume.grab_focus()
 
 
@@ -117,9 +119,13 @@ func _build() -> void:
 	_resume.text = "Resume"
 	_resume.pressed.connect(close)
 	left.add_child(_resume)
+	_map_button = Button.new()
+	_map_button.text = "Map"
+	_map_button.pressed.connect(func() -> void: _show_page(&"controls" if _map.visible else &"map"))
+	left.add_child(_map_button)
 	_journal_button = Button.new()
 	_journal_button.text = "Journal"
-	_journal_button.pressed.connect(func() -> void: _show_journal(not _journal.visible))
+	_journal_button.pressed.connect(func() -> void: _show_page(&"controls" if _journal.visible else &"journal"))
 	left.add_child(_journal_button)
 	var title_button := Button.new()
 	title_button.text = "Quit to title"
@@ -131,6 +137,10 @@ func _build() -> void:
 	row.add_child(right)
 	_controls = right
 	_build_journal(row)
+	_map = IslandMap.new()
+	_map.custom_minimum_size = Vector2(380, 230)
+	_map.visible = false
+	row.add_child(_map)
 	var controls := Label.new()
 	controls.theme_type_variation = &"TitleLabel"
 	controls.text = "Controls"
@@ -201,9 +211,16 @@ func _build_journal(row: HBoxContainer) -> void:
 	text_col.add_child(_journal_text)
 
 
+## The right side shows one page: the controls, the island map or the journal.
+func _show_page(page: StringName) -> void:
+	_map.visible = page == &"map"
+	_map_button.text = "Controls" if page == &"map" else "Map"
+	_show_journal(page == &"journal")
+	_controls.visible = page == &"controls"
+
+
 func _show_journal(on: bool) -> void:
 	_journal.visible = on
-	_controls.visible = not on
 	_journal_button.text = "Controls" if on else "Journal"
 	if not on:
 		return
