@@ -1,12 +1,14 @@
 [gd_resource type="Resource" script_class="CardData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/hollowpoint_charm.png" id="2_art"]
 
 [resource]
 script = ExtResource("1_card")
 id = &"hollowpoint_charm"
 display_name = "Hollowpoint Charm"
-description = "Passive buff: pistol shots deal more damage while equipped."
+description = "Passive: your pistol shots hit harder while it is equipped."
 category = 2
 source = 4
 sell_value = 40
+icon = ExtResource("2_art")

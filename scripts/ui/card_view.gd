@@ -12,6 +12,8 @@ const FRONT := preload("res://assets/cards/frames/card_front.png")
 const BACK := preload("res://assets/cards/frames/card_back.png")
 const WINDOW := Rect2(21, 26, 66, 47)
 const NAME_Y := 90
+## Room for the name inside the banner's scroll ends.
+const NAME_WIDTH := 64.0
 const TEXT := Rect2(22, 108, 64, 28)
 const LORE := Rect2(22, 28, 64, 107)
 const INK := Color(0.28, 0.16, 0.08)
@@ -118,6 +120,17 @@ func _text_label(parent: Control, rect: Rect2, font_size: int, color: Color, ali
 	return label
 
 
+## Shrinks a one-line label's font until its text fits `width` (long names on the
+## banner, like "Sorenda Star Map").
+func _fit(label: Label, width: float, largest: int) -> void:
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	var font := ThemeDB.fallback_font
+	var size := largest
+	while size > 5 and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x > width:
+		size -= 1
+	label.add_theme_font_size_override(&"font_size", size)
+
+
 ## The card's outline as a solid shape (the frame with its window filled in), for
 ## effects that should stay on the card, like the reveal's shine.
 static func silhouette() -> Texture2D:
@@ -136,6 +149,7 @@ func _refresh() -> void:
 	_placeholder.visible = card.icon == null
 	_placeholder.text = card.display_name.left(1)
 	_name.text = card.display_name
+	_fit(_name, NAME_WIDTH, 9)
 	_text.text = card.description
 	_back_name.text = card.display_name
 	_lore.text = card.lore

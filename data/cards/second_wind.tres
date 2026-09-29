@@ -1,13 +1,15 @@
 [gd_resource type="Resource" script_class="CardData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/second_wind.png" id="2_art"]
 
 [resource]
 script = ExtResource("1_card")
 id = &"second_wind"
 display_name = "Second Wind"
-description = "Temporary buff: restores health instantly. Consumed on use."
+description = "Restores your health at once. Used up."
 category = 1
 source = 3
 sell_value = 15
+icon = ExtResource("2_art")
 shop_price = 15
