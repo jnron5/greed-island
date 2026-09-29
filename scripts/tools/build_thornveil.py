@@ -50,6 +50,9 @@ K2 = "assets/sprites/tiles/kalmora2/"
 GROUND_PNG = ART + "thornveil_ground.png"
 LEVEL_PNG = ART + "thornveil_levels.png"
 WATER_MASK = ART + "thornveil_water_mask.png"
+STREAM_MASK = ART + "thornveil_stream_mask.png"
+# Water frames (make_forest_water.py): the calm lake, the flowing streams, the falls.
+WATER_ART = ART + "water/"
 SCENE = "scenes/world/thornveil.tscn"
 
 
@@ -488,7 +491,9 @@ def main():
         ('PackedScene', "res://scenes/ui/shop_panel.tscn", "16_shop"),
         ('Texture2D', "res://" + WATER_MASK, "17_watermask"),
         ('Script', "res://scripts/world/tiled_animation.gd", "18_tiled"),
-        ('Texture2D', "res://" + K2 + "anim/bay_water.png", "19_waves"),
+        ('Texture2D', "res://" + WATER_ART + "lake.png", "19_waves"),
+        ('Texture2D', "res://" + STREAM_MASK, "17_streammask"),
+        ('Texture2D', "res://" + WATER_ART + "stream_flow.png", "19_flow"),
         ('Script', "res://scripts/systems/chest.gd", "20_chest"),
         ('Script', "res://scripts/systems/healing_spring.gd", "21_spring"),
         ('PackedScene', "res://scenes/world/props/great_tree.tscn", "22_great"),
@@ -893,9 +898,12 @@ shape = SubResource("{shape(32, 10)}")
 
     # Water: the animated wave tile clipped to every water pixel of the ground.
     wet = water_pixels(ground, stand, decks) & ~fall_px    # falls animate on their own
-    mask = np.zeros(wet.shape + (4,), np.uint8)
-    mask[wet] = 255
-    Image.fromarray(mask, "RGBA").save(WATER_MASK)
+    lake_px = wet & ~STREAM_PX
+    stream_px = wet & STREAM_PX
+    for px, path in ((lake_px, WATER_MASK), (stream_px, STREAM_MASK)):
+        mask = np.zeros(wet.shape + (4,), np.uint8)
+        mask[px] = 255
+        Image.fromarray(mask, "RGBA").save(path)
     w, h = ground.size
     n.append(f'''[node name="Lake" type="Sprite2D" parent="."]
 z_index = -9
@@ -907,7 +915,20 @@ texture = ExtResource("17_watermask")
 script = ExtResource("18_tiled")
 strip = ExtResource("19_waves")
 frame_count = 8
-fps = 5.0
+fps = 3.0
+region_rect = Rect2(0, 0, {w}, {h})
+
+[node name="Streams" type="Sprite2D" parent="."]
+z_index = -9
+clip_children = 1
+position = Vector2({cx}, {cy})
+texture = ExtResource("17_streammask")
+
+[node name="Flow" type="Sprite2D" parent="Streams"]
+script = ExtResource("18_tiled")
+strip = ExtResource("19_flow")
+frame_count = 8
+fps = 8.0
 region_rect = Rect2(0, 0, {w}, {h})
 ''')
 
@@ -946,6 +967,13 @@ region_rect = Rect2(0, 0, {w}, {h})
     m = np.asarray(m.filter(ImageFilter.GaussianBlur(5))).astype(np.float32)[..., None] / 255.0
     g = np.asarray(ground).astype(np.float32)
     g[..., :3] = g[..., :3] * (1 - m * 0.7) + np.array([20, 32, 40]) * m * 0.7 * 0.35
+    # The ground's own painted water (under the animated layers, and peeking out at
+    # their edges): into the forest water's teal, so no bright sea-blue rims show.
+    blue = (g[..., 2] > g[..., 0] + 50) & (g[..., 2] > g[..., 1] + 15)
+    lum = g[..., :3].mean(axis=-1) / 255.0
+    teal = np.array([(14, 52, 70), (22, 78, 96), (34, 108, 124), (60, 140, 150), (112, 182, 186)], np.float32)
+    idx = np.clip((lum * 1.6 * (len(teal) - 1)).round().astype(int), 0, len(teal) - 1)
+    g[..., :3] = np.where(blue[..., None], teal[idx], g[..., :3])
     Image.fromarray(np.clip(g, 0, 255).astype(np.uint8), "RGBA").save(GROUND_PNG)
 
     sx, sy = spawns["from_kalmora"]
@@ -1012,37 +1040,36 @@ def find_falls(stand, stairs, open_cells):
 
 def make_fall_strip(shape_mask, seed):
     """An 8-frame falling-water strip shaped to `shape_mask` (the stream's pixels down
-    the cliff): streams of white and pale blue that slide downward frame by frame
-    (so it reads as falling), a bright lip where the water tips over, darker edges,
-    and churning foam spilling past its foot. Frames are 8px wider and 10px taller
-    than the mask for the spray."""
-    rng = np.random.default_rng(seed + 3)
+    the cliff): the PixelLab falling-water tile (make_forest_water.py, water/fall_flow.png,
+    ribbons dropping a quarter tile a frame) poured through the fall's shape, shaded
+    darker toward its sides, a bright lip where the water tips over, and churning foam
+    spilling past its foot. Frames are 8px wider and 10px taller than the mask for the
+    spray."""
+    flow = np.asarray(Image.open(WATER_ART + "fall_flow.png").convert("RGB")).astype(np.float32)
+    tw = flow.shape[1] // FALL_FRAMES
+    th = flow.shape[0]
     h, w = shape_mask.shape
     W_, H_ = w + 8, h + 10
-    deep, mid, light, foam = (np.array(c, np.float32) for c in ((28, 78, 158), (46, 114, 192), (196, 228, 242), (238, 248, 252)))
-    period = 32                              # streak pattern repeats every 32px: 8 frames x 4px
-    phase = rng.integers(0, period, w)       # each column's streaks start at their own height
-    length = rng.integers(6, 14, w)          # and have their own length
-    cols = np.arange(w)
+    foam = np.array((236, 248, 248), np.float32)
+    rng = np.random.default_rng(seed + 3)
+    ox = int(rng.integers(0, tw))                       # each fall starts at its own spot in the tile
     frames = []
     for f in range(FALL_FRAMES):
+        tile = flow[:, f * tw:(f + 1) * tw]
         img = np.zeros((H_, W_, 4), np.uint8)
         for y in range(h):
-            row = shape_mask[y]
-            if not row.any():
+            inside = np.nonzero(shape_mask[y])[0]
+            if not len(inside):
                 continue
-            inside = np.nonzero(row)[0]
             left, right = inside.min(), inside.max()
             span = max(1, right - left)
-            t = (cols - left) / span                          # 0..1 across the fall
-            edge = np.clip(np.minimum(t, 1 - t) * 4, 0, 1)    # darker at the sides
-            streak = ((y - f * (period // FALL_FRAMES) + phase) % period) < length
-            c = deep[None] * (1 - edge[:, None]) + mid[None] * edge[:, None]
-            c = np.where(streak[:, None], c * 0.3 + light[None] * 0.7, c)
-            if y < 4:                                          # the lip, where it tips over
-                c = c * 0.4 + foam[None] * 0.6
             for x in inside:
-                img[y, x + 4, :3] = c[x].astype(np.uint8)
+                c = tile[y % th, (x + ox) % tw].copy()
+                t = (x - left) / span
+                c *= 0.72 + 0.28 * min(1.0, min(t, 1 - t) * 5)     # rounder: darker at the sides
+                if y < 3:
+                    c = c * 0.35 + foam * 0.65                    # the lip, where it tips over
+                img[y, x + 4, :3] = np.clip(c, 0, 255).astype(np.uint8)
                 img[y, x + 4, 3] = 255
         # Foam at the foot: blobs that bubble up and fade, different each frame.
         bottom = [x for x in range(w) if shape_mask[max(0, h - 6):, x].any()]

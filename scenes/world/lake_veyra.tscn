@@ -30,10 +30,10 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/stump.png" id="81_stump"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/lake_veyra_water_mask.png" id="84_lakemask"]
 [ext_resource type="Script" path="res://scripts/world/tiled_animation.gd" id="84_tiled"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/bay_water.png" id="84_waves"]
 [ext_resource type="Script" path="res://scripts/systems/chest.gd" id="70_chest"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="70_chest_shut"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="70_chest_open"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/water/lake.png" id="84_waves"]
 
 [sub_resource type="RectangleShape2D" id="R192x8"]
 size = Vector2(192, 8)
@@ -2256,11 +2256,10 @@ position = Vector2(0.0, 0.0)
 texture = ExtResource("84_lakemask")
 
 [node name="Waves" type="Sprite2D" parent="LakeWater"]
-modulate = Color(0.78, 1, 0.9, 1)
 script = ExtResource("84_tiled")
 strip = ExtResource("84_waves")
 frame_count = 8
-fps = 4.0
+fps = 3.0
 region_rect = Rect2(0, 0, 1024, 800)
 
 [node name="Player" parent="." instance=ExtResource("2_player")]

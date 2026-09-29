@@ -95,17 +95,46 @@ func _draw() -> void:
 			if not is_open():
 				_draw_seal(Vector2(0, -14), glow)
 		_:
-			var tex := OPEN if is_open() else CLOSED
-			var sx := width / GAP
-			var size := Vector2(tex.get_width() * sx, tex.get_height())
-			draw_texture_rect(tex, Rect2(Vector2(-size.x / 2.0, 8 - 72), size), false)
-			if not is_open():
-				draw_circle(Vector2(0, -38), 7.0, Color(1.0, 0.8, 0.35, 0.18 * glow))   # the seal's glow
+			if vertical:
+				_draw_side_on(glow)
+			else:
+				var tex := OPEN if is_open() else CLOSED
+				var sx := width / GAP
+				var size := Vector2(tex.get_width() * sx, tex.get_height())
+				draw_texture_rect(tex, Rect2(Vector2(-size.x / 2.0, 8 - 72), size), false)
+				if not is_open():
+					draw_circle(Vector2(0, -38), 7.0, Color(1.0, 0.8, 0.35, 0.18 * glow))   # the seal's glow
 	if _player_near and not is_open():
 		var gate := CardDatabase.get_gate(gate_id)
 		var card := CardDatabase.get_card(gate.cost_card_id) if gate else null
 		if card:
 			WorldPrompt.draw(self, Vector2(0, -44), "E", "Open (%d %s)" % [gate.cost_amount, card.display_name])
+
+
+## Across an east-west passage the same gate is seen from the side: one post behind
+## the other (north further up the screen), and between them the gate itself edge-on,
+## a narrow wooden panel with iron bands and the gold seal on its face. Opened, the
+## two leaves stand folded back against the posts.
+func _draw_side_on(glow: float) -> void:
+	var half := width / 2.0
+	var post := Rect2(8, 10, 24, 62)                  # the left post in the gate art, with its moss
+	var wood := Color(0.36, 0.2, 0.13)
+	var wood_light := Color(0.5, 0.3, 0.18)
+	var iron := Color(0.2, 0.2, 0.24)
+	# The north post first (it's further away), then the gate, then the south post.
+	draw_texture_rect_region(CLOSED, Rect2(Vector2(-post.size.x / 2.0, -half - post.size.y + 6), post.size), post)
+	if is_open():
+		for y0 in [-half + 2.0, half - 10.0]:
+			draw_rect(Rect2(-2, y0 - 26, 4, 34), wood)
+			draw_rect(Rect2(-2, y0 - 26, 1, 34), wood_light)
+	else:
+		var top := -half - 30.0
+		draw_rect(Rect2(-3, top, 6, width + 30), wood)
+		draw_rect(Rect2(-3, top, 2, width + 30), wood_light)
+		for y in [top + 8.0, half - 10.0]:
+			draw_rect(Rect2(-4, y, 8, 3), iron)
+		_draw_seal(Vector2(0, top + (width + 30) / 2.0), glow)
+	draw_texture_rect_region(CLOSED, Rect2(Vector2(-post.size.x / 2.0, half - post.size.y + 6), post.size), post)
 
 
 ## A small card-shaped plate glowing gold: pay a card here to open.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=280 format=3]
+[gd_scene load_steps=282 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -17,7 +17,9 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="16_shop"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/thornveil_water_mask.png" id="17_watermask"]
 [ext_resource type="Script" path="res://scripts/world/tiled_animation.gd" id="18_tiled"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/bay_water.png" id="19_waves"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/water/lake.png" id="19_waves"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/thornveil_stream_mask.png" id="17_streammask"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/water/stream_flow.png" id="19_flow"]
 [ext_resource type="Script" path="res://scripts/systems/chest.gd" id="20_chest"]
 [ext_resource type="Script" path="res://scripts/systems/healing_spring.gd" id="21_spring"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/great_tree.tscn" id="22_great"]
@@ -7260,7 +7262,20 @@ texture = ExtResource("17_watermask")
 script = ExtResource("18_tiled")
 strip = ExtResource("19_waves")
 frame_count = 8
-fps = 5.0
+fps = 3.0
+region_rect = Rect2(0, 0, 2176, 1632)
+
+[node name="Streams" type="Sprite2D" parent="."]
+z_index = -9
+clip_children = 1
+position = Vector2(0.0, -688.0)
+texture = ExtResource("17_streammask")
+
+[node name="Flow" type="Sprite2D" parent="Streams"]
+script = ExtResource("18_tiled")
+strip = ExtResource("19_flow")
+frame_count = 8
+fps = 8.0
 region_rect = Rect2(0, 0, 2176, 1632)
 
 [node name="Player" parent="." instance=ExtResource("2_player")]

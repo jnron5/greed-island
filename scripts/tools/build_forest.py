@@ -511,21 +511,22 @@ def build(zone):
         nodes.append(f'[node name="Read{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                      f'script = ExtResource("{read_ref.group(1)}")\ntitle = "{title}"\nlines = PackedStringArray({quote(lines)})\n')
     if "lake" in cfg:
-        # The lake's water: Kalmora's animated wave tile, clipped to the lake, a little
-        # greener and calmer for fresh water.
+        # The lake's water: the forest lake's animated tile (make_forest_water.py, the
+        # same calm teal as Thornveil's lake), clipped to the lake.
         scene = re.sub(r'\[node name="LakeWater"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*', "", scene)
         scene = re.sub(r'\[node name="Waves"[^\n]*parent="LakeWater"[^\n]*\]\n(?:(?!\[node )[^\n]*\n)*', "", scene)
+        scene = re.sub(r'\[ext_resource [^\n]*id="84_waves"\]\n', "", scene)
         mask_res = "res://" + cfg["out"].replace("_ground.png", "_water_mask.png")
         for line in (f'[ext_resource type="Texture2D" path="{mask_res}" id="84_lakemask"]',
                      '[ext_resource type="Script" path="res://scripts/world/tiled_animation.gd" id="84_tiled"]',
-                     '[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/bay_water.png" id="84_waves"]'):
+                     '[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/water/lake.png" id="84_waves"]'):
             if line.split('path="')[1].split('"')[0] not in scene:
                 scene = add_ext(scene, line)
         x0, y0, x1, y1 = cfg["bounds"]
         nodes.append(f'[node name="LakeWater" type="Sprite2D" parent="."]\nz_index = -9\nclip_children = 1\n'
                      f'position = Vector2({(x0 + x1) / 2}, {(y0 + y1) / 2})\ntexture = ExtResource("84_lakemask")\n\n'
-                     f'[node name="Waves" type="Sprite2D" parent="LakeWater"]\nmodulate = Color(0.78, 1, 0.9, 1)\n'
-                     f'script = ExtResource("84_tiled")\nstrip = ExtResource("84_waves")\nframe_count = 8\nfps = 4.0\n'
+                     f'[node name="Waves" type="Sprite2D" parent="LakeWater"]\n'
+                     f'script = ExtResource("84_tiled")\nstrip = ExtResource("84_waves")\nframe_count = 8\nfps = 3.0\n'
                      f'region_rect = Rect2(0, 0, {x1 - x0}, {y1 - y0})\n')
     if feet:
         scene = scene.replace("\n\n[node name=", "\n\n" + "\n".join(feet.values()) + "\n[node name=", 1)
