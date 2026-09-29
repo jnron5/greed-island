@@ -731,7 +731,18 @@ CLUTTER = (
 SMALL = {"crate", "barrel", "sack", "flour_sack", "rope", "buoy", "bucket", "lobster_trap", "apples_crate",
          "oranges_basket", "lemons_crate", "amphora"}
 # Bushes packed along walls, beds and building sides (concept px).
-BUSHES = [(1430, 450), (1420, 790), (1230, 800), (1350, 800)]
+BUSHES = ([(1430, 450), (1420, 790), (1230, 800), (1350, 800)]
+          # Greenery in every gap, as the concept packs it: flanking each building,
+          # along the foot of the gate wall, round the plaza's lower edge.
+          + [(392, 330), (516, 330), (522, 392), (660, 392), (404, 480), (556, 480), (846, 392), (1016, 392),
+             (964, 510), (1102, 512), (1256, 214), (1452, 214)]
+          + [(x, 168) for x in (380, 450, 520, 1010, 1070)]
+          + [(420, 530), (520, 532), (620, 532), (880, 540), (1180, 540)]
+          + [(80, 330), (250, 470), (300, 290)])
+# Cargo on the harbor decks: goods waiting for the boats, the way the concept piles them.
+DOCK_GOODS = [("crates", 420, 692), ("barrels", 470, 700), ("fish_crates", 600, 760), ("net_crate", 716, 760),
+              ("rope", 740, 700), ("barrel", 690, 812), ("lobster_trap", 612, 820), ("crate", 668, 868),
+              ("oars", 800, 800), ("buoy", 860, 800), ("anchor", 910, 796), ("tackle_box", 930, 840)]
 
 # Walking corridors (concept px polylines, half-width): the routes people actually take.
 # No decoration may stand in them, so every district stays easy to cross.
@@ -1433,6 +1444,10 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
     for k, (pcx, pcy) in enumerate(BUSHES):
         name = ("bush_g", "bush_flowers_g")[k % 3 == 0]
         spot = place_check(name, *W(pcx, pcy), 22)
+        if spot:
+            n.append(prop_node(name, *spot))
+    for name, pcx, pcy in DOCK_GOODS:
+        spot = place_check(name, *W(pcx, pcy), 14 if name in SMALL else 18)
         if spot:
             n.append(prop_node(name, *spot))
     for name, pcx, pcy in FLOATING:
