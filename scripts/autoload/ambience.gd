@@ -70,3 +70,10 @@ func _play(bed: StringName) -> void:
 	new.volume_db = -60.0
 	new.play()
 	create_tween().tween_property(new, "volume_db", volume_db, FADE)
+
+
+func set_volume(db: float) -> void:
+	volume_db = db
+	for p in [_a, _b]:
+		if p.playing and p.volume_db > -59.0:
+			p.volume_db = db

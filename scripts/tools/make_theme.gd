@@ -79,6 +79,32 @@ func _init() -> void:
 		theme.set_stylebox(&"grabber_pressed", bar, grabber)
 		theme.set_stylebox(&"scroll", bar, track)
 
+	# Sliders: a dark teal groove filled with gold, a small gold knob.
+	var groove := StyleBoxFlat.new()
+	groove.bg_color = Color(0.03, 0.12, 0.15)
+	groove.border_color = Color(0.85, 0.62, 0.3, 0.6)
+	groove.set_border_width_all(1)
+	groove.set_corner_radius_all(2)
+	groove.content_margin_top = 3
+	groove.content_margin_bottom = 3
+	var filled := StyleBoxFlat.new()
+	filled.bg_color = Color(0.85, 0.62, 0.3)
+	filled.set_corner_radius_all(2)
+	filled.content_margin_top = 3
+	filled.content_margin_bottom = 3
+	theme.set_stylebox(&"slider", &"HSlider", groove)
+	theme.set_stylebox(&"grabber_area", &"HSlider", filled)
+	theme.set_stylebox(&"grabber_area_highlight", &"HSlider", filled)
+	var knob := Image.create(10, 10, false, Image.FORMAT_RGBA8)
+	for y in 10:
+		for x in 10:
+			var d := Vector2(x - 4.5, y - 4.5).length()
+			if d <= 4.6:
+				knob.set_pixel(x, y, SHADOW if d > 3.6 else (GOLD if d > 1.5 else CREAM))
+	var knob_tex := ImageTexture.create_from_image(knob)
+	theme.set_icon(&"grabber", &"HSlider", knob_tex)
+	theme.set_icon(&"grabber_highlight", &"HSlider", knob_tex)
+
 	var err := ResourceSaver.save(theme, UI + "theme.tres")
 	print("theme saved" if err == OK else "theme save failed: %d" % err)
 	quit()

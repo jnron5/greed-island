@@ -163,6 +163,30 @@ func _build() -> void:
 		var what := Label.new()
 		what.text = pair[1]
 		grid.add_child(what)
+	var sound := Label.new()
+	sound.theme_type_variation = &"TitleLabel"
+	sound.text = "Sound"
+	right.add_child(sound)
+	_volume_row(right, "Effects", Settings.sfx_volume, func(v: float) -> void: Settings.set_sfx(v))
+	_volume_row(right, "Ambience", Settings.ambience_volume, func(v: float) -> void: Settings.set_ambience(v))
+
+
+func _volume_row(parent: Control, label: String, value: float, on_change: Callable) -> void:
+	var row := HBoxContainer.new()
+	parent.add_child(row)
+	var name_label := Label.new()
+	name_label.text = label
+	name_label.custom_minimum_size.x = 70
+	row.add_child(name_label)
+	var slider := HSlider.new()
+	slider.min_value = 0.0
+	slider.max_value = 1.0
+	slider.step = 0.05
+	slider.value = value
+	slider.custom_minimum_size = Vector2(120, 12)
+	slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	slider.value_changed.connect(on_change)
+	row.add_child(slider)
 
 
 # ---------------------------------------------------------------- journal

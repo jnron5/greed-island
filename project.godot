@@ -30,6 +30,7 @@ PauseMenu="*res://scripts/ui/pause_menu.gd"
 SaveGame="*res://scripts/autoload/save_game.gd"
 Sfx="*res://scripts/autoload/sfx.gd"
 Ambience="*res://scripts/autoload/ambience.gd"
+Settings="*res://scripts/autoload/settings.gd"
 
 [display]
 
