@@ -54,7 +54,7 @@ func _ready() -> void:
 	title.offset_top = 70
 	add_child(title)
 	var sub := Label.new()
-	sub.text = "A race for the crown of Virelia Isle"
+	sub.text = "A race for riches beyond measure"
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sub.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	sub.offset_top = 112
@@ -69,6 +69,8 @@ func _ready() -> void:
 	_menu.offset_right = 60
 	_menu.add_theme_constant_override(&"separation", 6)
 	add_child(_menu)
+	if SaveGame.has_save():
+		_menu_button("Continue", func() -> void: SaveGame.continue_game())
 	_menu_button("New Game", _show_pick)
 	_menu_button("Quit", func() -> void: get_tree().quit())
 	(_menu.get_child(0) as Button).grab_focus.call_deferred()

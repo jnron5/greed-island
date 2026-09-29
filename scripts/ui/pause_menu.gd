@@ -131,6 +131,11 @@ func _build() -> void:
 	title_button.text = "Quit to title"
 	title_button.pressed.connect(_to_title)
 	left.add_child(title_button)
+	var saved := Label.new()
+	saved.text = "Saved each time you\narrive somewhere."
+	saved.add_theme_font_size_override(&"font_size", 8)
+	saved.modulate = Color(1, 1, 1, 0.7)
+	left.add_child(saved)
 
 	var right := VBoxContainer.new()
 	right.add_theme_constant_override(&"separation", 3)

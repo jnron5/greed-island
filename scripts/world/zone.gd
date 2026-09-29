@@ -59,6 +59,8 @@ func _ready() -> void:
 		var camera := player.get_node_or_null(^"Camera2D") as Camera2D
 		if camera:
 			camera.reset_smoothing()
+	if player:
+		SaveGame.place_player(player)
 	_limit_camera(player)
 	# Every zone can talk: residents, signs and readables need the dialogue box.
 	if get_tree().get_first_node_in_group(&"dialogue_box") == null:
