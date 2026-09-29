@@ -60,6 +60,10 @@ var journal: Array[Dictionary] = []
 ## Passive buff cards the player wears (the loadout), at most EQUIP_SLOTS. A worn
 ## card is held Exposed, so it can be stolen like any card in use.
 var equipped: Array[StringName] = []
+## Set cards the player spent on gates: card id -> copies. The card merchant sells
+## them back (the rebuy safety net), at REBUY_MARKUP x the card's worth.
+var spent_on_gates: Dictionary[StringName, int] = {}
+const REBUY_MARKUP := 5
 const EQUIP_SLOTS := 2
 
 
@@ -89,6 +93,7 @@ func new_game(rivals: Array[StringName]) -> void:
 	seen_cards.clear()
 	journal.clear()
 	equipped.clear()
+	spent_on_gates.clear()
 	pending_spawn = &""
 	rival_locations.clear()
 	bosses.clear()
@@ -182,6 +187,8 @@ func consume_card(collector: StringName, card_id: StringName, reason: StringName
 	for state in [CardCollection.State.LOOSE, CardCollection.State.EXPOSED, CardCollection.State.BOUND]:
 		if col.remove(card_id, state):
 			_reduce_supply(card_id)
+			if collector == PLAYER and reason == &"gate":
+				spent_on_gates[card_id] = spent_on_gates.get(card_id, 0) + 1
 			EventBus.card_consumed.emit(collector, card_id, reason)
 			_emit_tracker()
 			return true
@@ -272,6 +279,26 @@ func buy_card(collector: StringName, card_id: StringName) -> bool:
 		return false
 	add_currency(-card.shop_price)
 	return add_loose_card(collector, card_id)
+
+
+## What buying back a spent card costs.
+func rebuy_price(card_id: StringName) -> int:
+	var card := CardDatabase.get_card(card_id)
+	return maxi(card.sell_value, 10) * REBUY_MARKUP if card else 0
+
+
+## Buys back one copy of a card the player spent on a gate (it comes back Loose).
+func rebuy_card(card_id: StringName) -> bool:
+	var price := rebuy_price(card_id)
+	if spent_on_gates.get(card_id, 0) <= 0 or currency < price:
+		return false
+	add_currency(-price)
+	spent_on_gates[card_id] -= 1
+	if spent_on_gates[card_id] <= 0:
+		spent_on_gates.erase(card_id)
+	if world_supply.has(card_id):
+		world_supply[card_id] += 1
+	return add_loose_card(PLAYER, card_id)
 
 
 func set_in_safe_zone(collector: StringName, inside: bool) -> void:

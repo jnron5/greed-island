@@ -80,6 +80,7 @@ const TOPICS := {
 		["Should I sell my cards?", [
 			"I'll buy set cards. But mind: a card I buy leaves the island. Forever. There'll be one fewer for anybody to find.",
 			"Sell the spares. Never the last copy of anything.",
+			"And if a gate ate a card you needed after all: I buy up what the gates take. I'll sell it back to you. Not cheaply.",
 		]],
 	],
 	&"greta": [

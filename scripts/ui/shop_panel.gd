@@ -52,6 +52,17 @@ func _build_rows() -> void:
 
 	if not _buys_cards:
 		return
+	# The rebuy shelf: cards you spent on gates, at a steep price.
+	if not GameState.spent_on_gates.is_empty():
+		add_header("Buy back (cards you spent on gates)")
+		for id: StringName in GameState.spent_on_gates:
+			var spent := CardDatabase.get_card(id)
+			if spent == null:
+				continue
+			var price := GameState.rebuy_price(id)
+			add_row(spent.display_name, card_color(spent), "%dg   (spent %d)" % [price, GameState.spent_on_gates[id]], [
+				["Buy back", func() -> void: GameState.rebuy_card(id); rebuild(), GameState.currency >= price],
+			], spent.icon)
 	add_header("Sell (sold cards leave the island for good)")
 	var col := GameState.collection(GameState.PLAYER)
 	var any := false

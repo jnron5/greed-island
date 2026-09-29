@@ -47,6 +47,16 @@ func _run() -> void:
 	for i in 60 * 14:
 		player._mossheart(1.0 / 60.0)
 	_check("a Mossheart closes wounds out of danger", player.health >= 3)
+	# The rebuy shelf: a card spent on a gate can be bought back, at a price.
+	GameState.add_loose_card(P, &"salt_compass")
+	GameState.open_gate(&"kalmora_north_gate", P)
+	_check("a gate card spent is remembered", GameState.spent_on_gates.get(&"salt_compass", 0) == 1)
+	GameState.currency = 0
+	_check("can't buy it back broke", not GameState.rebuy_card(&"salt_compass"))
+	GameState.currency = 1000
+	var price := GameState.rebuy_price(&"salt_compass")
+	_check("buying it back", GameState.rebuy_card(&"salt_compass") and col.count(&"salt_compass") == 1
+		and GameState.currency == 1000 - price and not GameState.spent_on_gates.has(&"salt_compass"))
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)
 
