@@ -242,6 +242,17 @@ func _on_health_changed(current: int, maximum: int) -> void:
 
 
 func _on_tracker_changed(counts: Dictionary) -> void:
+	# A rival passing every fifth set card is news: the whole island hears of it.
+	for id in counts:
+		if id == GameState.PLAYER:
+			continue
+		# (Announced milestones live in the quest flags: they reset with a new game and save with it.)
+		var key := StringName("race_announced:%s" % id)
+		var step: int = counts[id] / 5
+		var seen: int = GameState.quest_flags.get(key, 0)
+		if step > seen:
+			GameState.quest_flags[key] = step
+			_toast("The %s now holds %d set cards" % [NAMES.get(id, String(id)), step * 5])
 	for child in _race_rows.get_children():
 		child.queue_free()
 	for id in counts:
