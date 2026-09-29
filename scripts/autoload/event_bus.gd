@@ -15,6 +15,8 @@ signal currency_changed(amount: int)
 signal area_entered(title: String, interior: bool)
 ## The player's satchel changed (an item bought, used or found).
 signal items_changed()
+## The player's worn passive cards changed (GameState.equipped).
+signal loadout_changed()
 signal card_locked(collector: StringName, card_id: StringName, seconds: float)
 signal spell_cast(caster: StringName, spell_id: StringName, target: StringName)
 ## A stealth attempt was caught (the victim noticed).

@@ -323,6 +323,9 @@ func _fill_detail() -> void:
 	var info := "Bound %d  (safe)\nLoose %d\nExposed %d" % [bound, loose, exposed]
 	if GameState.is_locked(GameState.PLAYER, id):
 		info += "\nLocked for %ds" % ceili(GameState.lock_time_left(GameState.PLAYER, id))
+	var worn := GameState.is_equipped(id)
+	if worn:
+		info += "\nWorn (%d/%d slots). Worn cards can be stolen." % [GameState.equipped.size(), GameState.EQUIP_SLOTS]
 	_detail_info.text = info
 	for child in _detail_actions.get_children():
 		child.queue_free()
@@ -331,7 +334,13 @@ func _fill_detail() -> void:
 		buttons.append(["Binding...", Callable(), false])
 	elif loose > 0:
 		buttons.append(["Bind", _bind.bind(id, CardCollection.State.LOOSE), true])
-	if exposed > 0 and not _binding.has(id):
+	var card := CardDatabase.get_card(id)
+	if card and card.category == CardData.Category.BUFF_PASSIVE:
+		if worn:
+			buttons.append(["Take off", _take_off.bind(id), true])
+		else:
+			buttons.append(["Wear", _wear.bind(id), loose + bound > 0 and GameState.equipped.size() < GameState.EQUIP_SLOTS])
+	if exposed > 0 and not _binding.has(id) and not worn:
 		buttons.append(["Put back", _bind.bind(id, CardCollection.State.EXPOSED), true])
 	if bound > 0:
 		buttons.append(["Take out", func() -> void: GameState.expose_card(GameState.PLAYER, id), true])
@@ -361,6 +370,18 @@ func _bind(id: StringName, from: CardCollection.State) -> void:
 		await get_tree().create_timer(delay).timeout
 		_binding.erase(id)
 	GameState.change_state(GameState.PLAYER, id, from, CardCollection.State.BOUND)
+	_refresh()
+
+
+func _wear(id: StringName) -> void:
+	if GameState.equip(id):
+		var card := CardDatabase.get_card(id)
+		EventBus.notify.emit("Wearing %s" % card.display_name)
+	_refresh()
+
+
+func _take_off(id: StringName) -> void:
+	GameState.unequip(id)
 	_refresh()
 
 

@@ -16,7 +16,7 @@ ROOM_SCALE = 1
 
 # Greta's shelves: satchel items that heal (data/items/).
 PROVISIONS = '[&"smoked_fish", &"bread", &"healers_tonic", &"sea_salt_elixir"]'
-SHOP_STOCK = '[&"pickpockets_whisper", &"lockbox_seal", &"second_wind"]'
+SHOP_STOCK = '[&"pickpockets_whisper", &"lockbox_seal", &"second_wind", &"hollowpoint_charm", &"tidewalker_anklet"]'
 
 INTERIORS = {
     "kalmora_tavern": {

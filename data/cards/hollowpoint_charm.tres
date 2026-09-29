@@ -7,8 +7,10 @@
 script = ExtResource("1_card")
 id = &"hollowpoint_charm"
 display_name = "Hollowpoint Charm"
-description = "Passive: your pistol shots hit harder while it is equipped."
+description = "Passive: your pistol shots hit harder while worn."
+lore = "Cast by Brannoc from a spent musket ball and a star he swears fell in his forge. He sells them to Sable at cost. He says it helps him sleep."
 category = 2
-source = 4
-sell_value = 40
+source = 3
+sell_value = 30
+shop_price = 60
 icon = ExtResource("2_art")

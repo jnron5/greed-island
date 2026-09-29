@@ -17,6 +17,14 @@ const DIRECTIONS: Array[String] = [
 ]
 
 @export var collector_id: StringName = &"player"
+
+## Passive buff cards (worn in the loadout, GameState.equipped).
+const HOLLOWPOINT := &"hollowpoint_charm"
+const TIDEWALKER := &"tidewalker_anklet"
+const MOSSHEART := &"mossheart_charm"
+const MOSSHEART_CALM := 8.0        # seconds without a hit before it starts
+const MOSSHEART_EVERY := 5.0       # then a heart every this many seconds
+var _calm_time := 0.0
 @export var move_speed := 145.0
 @export_group("Dash")
 @export var dash_speed := 340.0
@@ -90,6 +98,7 @@ func _physics_process(delta: float) -> void:
 	_dash_cd -= delta
 	_pistol_cd -= delta
 	_steal_cd -= delta
+	_mossheart(delta)
 
 	match _state:
 		State.MOVE:
@@ -129,7 +138,7 @@ func _process_move() -> void:
 
 	if Input.is_action_just_pressed(&"dash") and _dash_cd <= 0.0:
 		_dash_dir = facing if input == Vector2.ZERO else input.normalized()
-		_dash_cd = dash_cooldown
+		_dash_cd = dash_cooldown * (0.5 if GameState.is_equipped(TIDEWALKER) else 1.0)
 		hurtbox.invulnerable = true
 		_enter(State.DASH)
 	elif Input.is_action_just_pressed(&"sword"):
@@ -183,7 +192,7 @@ func _fire_pistol() -> void:
 	_pistol_cd = pistol_cooldown
 	var shot := projectile_scene.instantiate() as Projectile
 	shot.direction = facing
-	shot.damage = pistol_damage
+	shot.damage = pistol_damage + (1 if GameState.is_equipped(HOLLOWPOINT) else 0)
 	shot.source_id = collector_id
 	var zone := Zone.current(get_tree())
 	shot.level = zone.level_at(global_position) if zone else -1
@@ -203,6 +212,7 @@ func _on_hurt(hitbox: Hitbox) -> void:
 	if _state == State.DEAD:
 		return
 	health = maxi(health - hitbox.damage, 0)
+	_calm_time = 0.0
 	health_changed.emit(health, max_health)
 	Combat.pop_number(get_parent(), global_position, hitbox.damage, Color(1, 0.45, 0.4))
 	velocity = hitbox.global_position.direction_to(global_position) * hitbox.knockback
@@ -274,6 +284,16 @@ func _set_invulnerable_for(seconds: float) -> void:
 ## Down players don't grab cards (including the one they just dropped).
 func can_pick_up() -> bool:
 	return _state != State.DEAD
+
+
+## Mossheart Charm: out of danger for a while, one heart grows back every few seconds.
+func _mossheart(delta: float) -> void:
+	_calm_time += delta
+	if not GameState.is_equipped(MOSSHEART) or health >= max_health or _state == State.DEAD:
+		return
+	if _calm_time >= MOSSHEART_CALM:
+		_calm_time = MOSSHEART_CALM - MOSSHEART_EVERY
+		heal(1)
 
 
 func heal(amount: int) -> void:

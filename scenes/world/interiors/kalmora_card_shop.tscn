@@ -140,7 +140,7 @@ npc_id = &"sable"
 display_name = "Sable"
 sprite_frames = ExtResource("n_sable")
 lines = PackedStringArray("Welcome, welcome. Spells, charms, a little luck in card form. Have a look.")
-shop_stock = Array[StringName]([&"pickpockets_whisper", &"lockbox_seal", &"second_wind"])
+shop_stock = Array[StringName]([&"pickpockets_whisper", &"lockbox_seal", &"second_wind", &"hollowpoint_charm", &"tidewalker_anklet"])
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(155, 226)

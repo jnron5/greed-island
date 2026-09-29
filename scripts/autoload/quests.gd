@@ -119,9 +119,10 @@ func talked_to(npc_id: StringName) -> void:
 		GameState.add_item(&"healers_tonic", 2)
 		GameState.add_currency(TREES_REWARD_GOLD)
 		GameState.add_loose_card(GameState.PLAYER, TREES_REWARD_CARD)
+		GameState.add_loose_card(GameState.PLAYER, &"mossheart_charm")
 		GameState.quest_flags[&"knows_tag_117"] = true
 		set_stage(&"trees_remember", DONE)
-		EventBus.notify.emit("Quest complete: What the Trees Remember (+%d gold, 2 Healer's Tonics, Sorenda Star Map)" % TREES_REWARD_GOLD)
+		EventBus.notify.emit("Quest complete: What the Trees Remember (+%d gold, 2 Healer's Tonics, Sorenda Star Map, Mossheart Charm)" % TREES_REWARD_GOLD)
 		return
 	if npc_id != &"bram":
 		return

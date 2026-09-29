@@ -64,6 +64,7 @@ func save(force := false) -> void:
 		"zone_drops": GameState.zone_drops,
 		"seen_cards": GameState.seen_cards,
 		"journal": GameState.journal,
+		"equipped": GameState.equipped,
 	}
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file:
@@ -104,6 +105,7 @@ func continue_game() -> bool:
 	GameState.zone_drops.assign(data.zone_drops)
 	GameState.seen_cards.assign(data.seen_cards)
 	GameState.journal.assign(data.journal)
+	GameState.equipped.assign(data.get("equipped", []))
 	TimeOfDay.set_hour(data.hour)
 	GameState.pending_spawn = &""
 	pending_position = data.position

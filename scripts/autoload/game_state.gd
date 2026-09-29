@@ -57,6 +57,10 @@ var seen_cards: Dictionary[StringName, bool] = {}
 ## Things the player has read (letters, ledgers, signs), in the order found:
 ## Array of { "title": String, "place": String, "lines": PackedStringArray }.
 var journal: Array[Dictionary] = []
+## Passive buff cards the player wears (the loadout), at most EQUIP_SLOTS. A worn
+## card is held Exposed, so it can be stolen like any card in use.
+var equipped: Array[StringName] = []
+const EQUIP_SLOTS := 2
 
 
 func _ready() -> void:
@@ -84,6 +88,7 @@ func new_game(rivals: Array[StringName]) -> void:
 	zone_drops.clear()
 	seen_cards.clear()
 	journal.clear()
+	equipped.clear()
 	pending_spawn = &""
 	rival_locations.clear()
 	bosses.clear()
@@ -163,6 +168,8 @@ func steal_card(thief: StringName, victim: StringName, card_id: StringName, meth
 			_robbed_at[victim] = Time.get_ticks_msec()
 			EventBus.card_stolen.emit(thief, victim, card_id, method)
 			_emit_tracker()
+			if victim == PLAYER:
+				check_loadout()
 			return true
 	return false
 
@@ -386,6 +393,45 @@ func open_gate(gate_id: StringName, by: StringName) -> bool:
 	if gate.respawns_boss != &"":
 		_respawn_boss(gate.respawns_boss, gate_id)
 	return true
+
+
+## Wears a passive buff card (moves one copy to Exposed). False if the slots are
+## full, it isn't a passive card, or no free copy is held.
+func equip(card_id: StringName) -> bool:
+	var card := CardDatabase.get_card(card_id)
+	var col := collection(PLAYER)
+	if card == null or card.category != CardData.Category.BUFF_PASSIVE or equipped.size() >= EQUIP_SLOTS \
+			or equipped.has(card_id):
+		return false
+	var from := CardCollection.State.LOOSE if col.count(card_id, CardCollection.State.LOOSE) > 0 else CardCollection.State.BOUND
+	if not col.move(card_id, from, CardCollection.State.EXPOSED):
+		return false
+	equipped.append(card_id)
+	EventBus.loadout_changed.emit()
+	return true
+
+
+## Takes a worn card off, back into the binder (Bound).
+func unequip(card_id: StringName) -> bool:
+	if not equipped.has(card_id):
+		return false
+	equipped.erase(card_id)
+	collection(PLAYER).move(card_id, CardCollection.State.EXPOSED, CardCollection.State.BOUND)
+	EventBus.loadout_changed.emit()
+	return true
+
+
+func is_equipped(card_id: StringName) -> bool:
+	return equipped.has(card_id)
+
+
+## Drops worn cards the player no longer holds (stolen while worn).
+func check_loadout() -> void:
+	var col := collection(PLAYER)
+	for id in equipped.duplicate():
+		if col.count(id, CardCollection.State.EXPOSED) == 0:
+			equipped.erase(id)
+			EventBus.loadout_changed.emit()
 
 
 func add_item(id: StringName, amount := 1) -> void:

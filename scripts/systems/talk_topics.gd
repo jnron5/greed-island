@@ -75,6 +75,7 @@ const TOPICS := {
 			"Spell and buff cards. They don't count toward the set; they're tools.",
 			"A Pickpocket's Whisper steals one loose card from a racer near you, no roll, no risk. Q to cast it.",
 			"A Lockbox Seal keeps one card safe for a while. Second Wind puts you back on your feet mid-fight.",
+			"And charms. Wear a charm and it works for you all the time: a Hollowpoint makes your shots bite, a Tidewalker's Anklet puts spring in your dash. Two at a time, and mind: a charm you're wearing can be stolen.",
 		]],
 		["Should I sell my cards?", [
 			"I'll buy set cards. But mind: a card I buy leaves the island. Forever. There'll be one fewer for anybody to find.",

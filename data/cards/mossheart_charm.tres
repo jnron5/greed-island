@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/mossheart_charm.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"mossheart_charm"
+display_name = "Mossheart Charm"
+description = "Passive: out of danger, your wounds slowly close."
+lore = "Elder Moss carves one for every child who leaves Sorenda, so the forest can find them again. She has carved a great many."
+category = 2
+source = 4
+sell_value = 40
+icon = ExtResource("2_art")
+shop_price = 0
