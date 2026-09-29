@@ -30,6 +30,24 @@ static func draw(ci: CanvasItem, center: Vector2, key: String, text: String) -> 
 	ci.draw_string(font, Vector2(cap.end.x + 4, origin.y + 10), text, HORIZONTAL_ALIGNMENT_LEFT, -1, SIZE, CREAM)
 
 
+## A speech bubble: a parchment plate with dark text and a little tail, centred on
+## `center` (its bottom middle), fading with `alpha`.
+static func bubble(ci: CanvasItem, center: Vector2, text: String, alpha := 1.0) -> void:
+	var font := _font()
+	var w := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, SIZE).x + 10
+	var h := 14.0
+	var origin := (center - Vector2(w / 2.0, h)).round()
+	var paper := Color(0.96, 0.9, 0.76, 0.95 * alpha)
+	var edge := Color(0.36, 0.22, 0.12, alpha)
+	ci.draw_rect(Rect2(origin + Vector2(1, -1), Vector2(w - 2, h + 2)), edge)
+	ci.draw_rect(Rect2(origin + Vector2(-1, 1), Vector2(w + 2, h - 2)), edge)
+	ci.draw_rect(Rect2(origin + Vector2(1, 0), Vector2(w - 2, h)), paper)
+	ci.draw_rect(Rect2(origin + Vector2(0, 1), Vector2(w, h - 2)), paper)
+	var tip := (center + Vector2(0, 4)).round()
+	ci.draw_colored_polygon(PackedVector2Array([tip, tip + Vector2(-4, -5), tip + Vector2(4, -5)]), paper)
+	ci.draw_string(font, origin + Vector2(5, 10), text, HORIZONTAL_ALIGNMENT_LEFT, -1, SIZE, Color(INK, alpha))
+
+
 ## A bobbing marker ("!" for news, "?" for suspicion) above a character.
 static func marker(ci: CanvasItem, at: Vector2, mark: String, color: Color) -> void:
 	var bob := roundf(sin(Time.get_ticks_msec() / 220.0) * 1.5)

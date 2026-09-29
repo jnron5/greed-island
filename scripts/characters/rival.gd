@@ -70,6 +70,10 @@ var _path := PackedVector2Array()
 var _path_goal := Vector2.INF
 var _path_age := 0.0
 const LEAVE_TIMEOUT := 25.0
+## A line said out loud (RivalLines), shown in a bubble for a moment.
+var _speech := ""
+var _speech_time := 0.0
+var _greeted := false
 ## Draws the sight cone on the ground layer, under every character.
 var _cone := Node2D.new()
 
@@ -102,6 +106,36 @@ func _ready() -> void:
 	attack_hitbox.source_id = collector_id
 	attack_hitbox.damage = attack_damage
 	attack_shape.disabled = true
+	EventBus.card_stolen.connect(_on_card_stolen_line)
+
+
+## Says a line out loud for a couple of seconds (a speech bubble over the hood).
+func say(moment: StringName) -> void:
+	var line := RivalLines.pick(collector_id, moment)
+	if line != "":
+		_speech = line
+		_speech_time = RivalLines.SHOW_SECONDS
+		queue_redraw()
+
+
+func _on_card_stolen_line(thief: StringName, victim: StringName, _card: StringName, _method: StringName) -> void:
+	if thief == collector_id and victim == GameState.PLAYER:
+		say(&"stole")
+	elif victim == collector_id and thief == GameState.PLAYER:
+		say(&"robbed")
+
+
+## The first time the player comes near in this zone, a word.
+func _greet_check(delta: float) -> void:
+	if _speech_time > 0.0:
+		_speech_time -= delta
+		queue_redraw()
+	if _greeted:
+		return
+	var player := get_tree().get_first_node_in_group(&"player") as Node2D
+	if player and player.global_position.distance_to(global_position) < 110.0:
+		_greeted = true
+		say(&"greet")
 
 
 func _exit_tree() -> void:
@@ -156,6 +190,7 @@ func _revive() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	_greet_check(delta)
 	_state_time += delta
 	_sneak_cd -= delta
 	_attack_cd -= delta
@@ -257,7 +292,8 @@ func _process_seek() -> void:
 	if gate != &"" and not GameState.opened_gates.has(gate):
 		GameState.open_gate(gate, collector_id)  # Pays like anyone else.
 	if _target is Chest and global_position.distance_to(_target.global_position) <= Chest.RANGE:
-		(_target as Chest).open_for(collector_id)
+		if (_target as Chest).open_for(collector_id):
+			say(&"chest")
 		_target = null
 		return
 	_steer_toward(_target.global_position, get_physics_process_delta_time())
@@ -517,6 +553,8 @@ func _update_animation() -> void:
 
 func _draw() -> void:
 	_cone.queue_redraw()
+	if _speech_time > 0.0 and _speech != "":
+		WorldPrompt.bubble(self, Vector2(0, -80), _speech, minf(1.0, _speech_time * 2.0))
 	# Carried (loose, stealable) cards fan out above the hood.
 	var n := carried_count()
 	for i in n:
