@@ -698,7 +698,17 @@ PROPS = (
     + [("signpost", 24, 344)]
     # Beach and headland.
     + [("parasol_table", 1340, 520), ("candle_shrine", 1430, 700)]
-    # The hill: flowers at doors, gardens between the houses.
+    # The hill: flowers at doors, gardens between the houses, a washing line and a well.
+    + [("laundry_line", 1375, 196), ("small_well", 1236, 206), ("laundry_basket", 1398, 214),
+       ("bougainvillea_box", 1300, 150), ("geraniums", 1352, 150)]
+    # Round the fountain: benches facing it, flower beds and lavender either side of the gate road.
+    + [("bench", 704, 300), ("bench", 832, 300), ("flower_bed", 640, 250), ("lavender_planter", 606, 252),
+       ("flower_bed", 894, 250), ("lavender_planter", 928, 252)]
+    # Doorsteps: potted palms at the store, geraniums at the red house, a café terrace at the inn.
+    + [("potted_palm", 556, 398), ("potted_palm", 624, 398), ("geraniums", 426, 396), ("geraniums", 484, 396),
+       ("menu_board", 962, 404), ("cafe_table", 990, 426), ("lemon_tree_pot", 896, 404)]
+    # The north lawn under the gate wall: a bench and flower beds along the fence.
+    + [("bench_wood", 560, 182), ("flower_bed", 650, 184), ("flower_bed", 886, 184), ("lavender_planter", 1000, 184)]
 
     # Gate band.
 
