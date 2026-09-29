@@ -69,11 +69,11 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					return PackedStringArray([
 						"You're a racer. You go places the rest of us don't. Will you listen a moment?",
 						"I found a little boot in the moss by the Hollow. That's the cave under the roots, north-east of the green. Too small to be a racer's boot. Too far from any house to be one of ours.",
-						"The moss gate in front of it needs a card to open, and I haven't got one to spare. You might.",
+						"The moss gate in front of it wants a Hollow Acorn card to open. The boars down in Thornveil carry them, and so do the hounds, now and then. I haven't one to spare.",
 						"Something big has moved in down there this year. We hear it at night. Whatever's in there, somebody small went in first. Please. Go and look.",
 					])
 				1:
-					return PackedStringArray(["The Hollow's up the path, north-east of the green, through the moss gate and down under the roots. Mind whatever's living in it."])
+					return PackedStringArray(["The Hollow's up the path, north-east of the green: the moss gate takes a Hollow Acorn, then down under the roots. Mind whatever's living in it."])
 				2:
 					return PackedStringArray(["You found something. I can see it on you. Take it to Elder Moss. She keeps the names."])
 				DONE:
