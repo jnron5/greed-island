@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"mushroom_ring"
 display_name = "Mushroom Ring"
 description = "Step inside and the forest goes quiet."
+lore = "Step inside a ring and the forest goes quiet. Juniper the herbalist says the rings grow over places where someone once stood very still for a very long time."
 rarity = 0
 source = 1
 is_final_set_member = true

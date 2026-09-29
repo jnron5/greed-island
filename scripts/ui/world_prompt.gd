@@ -1,13 +1,12 @@
 class_name WorldPrompt
 ## Small in-world hints in the game's UI style, drawn by the node they belong to:
 ## a dark plate with a gold key cap and the action ("[E] Talk"), and bobbing quest
-## or alert markers. The pixel font is drawn at its native 16px size under a half
-## scale (drawing it at size 8 in the world drops its 1px strokes).
+## or alert markers. Text uses the theme's smooth body font (sharp under the 2x
+## canvas scale); markers use the gold pixel title font at its native 16px.
 
-const FONT := preload("res://assets/fonts/virelia_text.tres")
 const TITLE_FONT := preload("res://assets/fonts/virelia_title.tres")
 const NATIVE := 16
-const SCALE := 0.625
+const SIZE := 9
 const PLATE := Color(0.05, 0.13, 0.16, 0.9)
 const RIM := Color(0.85, 0.62, 0.3)
 const CREAM := Color(0.97, 0.92, 0.8)
@@ -16,8 +15,9 @@ const INK := Color(0.2, 0.11, 0.05)
 
 ## "[key] action" centred on `center` (the plate's middle), e.g. key "E", text "Talk".
 static func draw(ci: CanvasItem, center: Vector2, key: String, text: String) -> void:
-	var text_w := FONT.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, NATIVE).x * SCALE
-	var cap_w := FONT.get_string_size(key, HORIZONTAL_ALIGNMENT_LEFT, -1, NATIVE).x * SCALE + 4.0
+	var font := _font()
+	var text_w := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, SIZE).x
+	var cap_w := font.get_string_size(key, HORIZONTAL_ALIGNMENT_LEFT, -1, SIZE).x + 4.0
 	var w := roundf(cap_w + text_w + 10)
 	var h := 13.0
 	var origin := (center - Vector2(w / 2.0, h / 2.0)).round()
@@ -26,8 +26,8 @@ static func draw(ci: CanvasItem, center: Vector2, key: String, text: String) -> 
 	ci.draw_rect(Rect2(origin + Vector2(1, h - 1), Vector2(w - 2, 1)), RIM)      # gold underline
 	var cap := Rect2(origin + Vector2(2, 2), Vector2(cap_w, h - 4))
 	ci.draw_rect(cap, RIM)
-	_text(ci, FONT, Vector2(cap.position.x + 2, origin.y + 10), key, INK)
-	_text(ci, FONT, Vector2(cap.end.x + 4, origin.y + 10), text, CREAM)
+	ci.draw_string(font, Vector2(cap.position.x + 2, origin.y + 10), key, HORIZONTAL_ALIGNMENT_LEFT, -1, SIZE, INK)
+	ci.draw_string(font, Vector2(cap.end.x + 4, origin.y + 10), text, HORIZONTAL_ALIGNMENT_LEFT, -1, SIZE, CREAM)
 
 
 ## A bobbing marker ("!" for news, "?" for suspicion) above a character.
@@ -38,8 +38,6 @@ static func marker(ci: CanvasItem, at: Vector2, mark: String, color: Color) -> v
 	ci.draw_string(TITLE_FONT, pos, mark, HORIZONTAL_ALIGNMENT_LEFT, -1, NATIVE, color)
 
 
-## Text at 10px: the 16px font under a 0.625 scale (8px read too small).
-static func _text(ci: CanvasItem, font: Font, baseline: Vector2, text: String, color: Color) -> void:
-	ci.draw_set_transform(baseline, 0.0, Vector2(SCALE, SCALE))
-	ci.draw_string(font, Vector2.ZERO, text, HORIZONTAL_ALIGNMENT_LEFT, -1, NATIVE, color)
-	ci.draw_set_transform(Vector2.ZERO)
+static func _font() -> Font:
+	var theme := ThemeDB.get_project_theme()
+	return theme.default_font if theme and theme.default_font else ThemeDB.fallback_font

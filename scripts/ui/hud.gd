@@ -1,8 +1,9 @@
 extends CanvasLayer
 ## Health, currency, the public race tracker (card counts only, never which cards),
 ## the active quest, and short messages. Built from the UI kit (assets/ui/): a heart
-## bar and purse in a small window top-left, the race in a window top-right with the
-## quest under it, messages on a name plate at the bottom.
+## bar, purse and race counts in a small window top-left with the quests under it
+## (nothing on the right, so the view stays clear), messages on a name plate at the
+## bottom.
 
 const NAMES: Dictionary[StringName, String] = {
 	&"player": "You", &"hoarder": "Hoarder", &"raider": "Raider", &"runner": "Runner",
@@ -27,7 +28,7 @@ var quest_label: Label
 
 var _root: Control
 var _heart_fill: ColorRect
-var _race_rows: VBoxContainer
+var _race_rows: HBoxContainer
 var _quest_panel: PanelContainer
 var _spell_box: Control
 var _toast_plate: PanelContainer
@@ -39,9 +40,13 @@ var _area_tween: Tween
 var _boss_bar: Control
 var _boss_fill: ColorRect
 var _boss_label: Label
+var _corner: Array[Control] = []
+var _hint: Label
+var _hint_time := 90.0
 
 
 func _ready() -> void:
+	layer = 3  # above the night grade (NightGrade, layer 1)
 	_root = $Root
 	_build()
 	EventBus.tracker_changed.connect(_on_tracker_changed)
@@ -55,6 +60,12 @@ func _ready() -> void:
 	EventBus.boss_returned.connect(_on_boss_returned)
 	_build_boss_bar()
 	Quests.quest_changed.connect(_update_quest.unbind(2))
+	# Favours count items, gold, cards and kills: refresh the tracker when those change.
+	EventBus.items_changed.connect(_update_quest)
+	EventBus.currency_changed.connect(_update_quest.unbind(1))
+	EventBus.card_added.connect(_update_quest.unbind(2))
+	EventBus.monster_defeated.connect(_update_quest.unbind(2))
+	EventBus.notify.connect(_update_quest.unbind(1))
 	_update_quest()
 	RivalDirector.rival_departed.connect(_on_rival_departed)
 	RivalDirector.rival_arrived.connect(_on_rival_arrived)
@@ -78,9 +89,13 @@ func _ready() -> void:
 
 func _build() -> void:
 	# Top-left: hearts and purse.
+	var left := VBoxContainer.new()
+	left.position = Vector2(4, 4)
+	left.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_root.add_child(left)
 	var status := PanelContainer.new()
-	status.position = Vector2(4, 4)
-	_root.add_child(status)
+	status.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	left.add_child(status)
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override(&"separation", 2)
 	status.add_child(col)
@@ -110,33 +125,28 @@ func _build() -> void:
 	currency_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	gold_row.add_child(currency_label)
 
-	# Top-right: the race, then the active quest.
-	var right := VBoxContainer.new()
-	right.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	right.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	right.offset_left = -150
-	right.offset_right = -4
-	right.offset_top = 4
-	right.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_root.add_child(right)
-	var race := PanelContainer.new()
-	right.add_child(race)
-	var race_col := VBoxContainer.new()
-	race_col.add_theme_constant_override(&"separation", 1)
-	race.add_child(race_col)
-	var race_title := Label.new()
-	race_title.theme_type_variation = &"TitleLabel"
-	race_title.text = "The Race"
-	race_col.add_child(race_title)
-	_race_rows = VBoxContainer.new()
-	_race_rows.add_theme_constant_override(&"separation", 0)
-	race_col.add_child(_race_rows)
+	# Under the hearts and purse: the race as one slim row (a dot and a count per
+	# collector), then the quests as plain outlined text. Everything sits in the
+	# top-left corner and fades when the player walks behind it (_process), so no
+	# window covers the play area.
+	_race_rows = HBoxContainer.new()
+	_race_rows.add_theme_constant_override(&"separation", 6)
+	col.add_child(_race_rows)
 	_quest_panel = PanelContainer.new()
-	right.add_child(_quest_panel)
+	var backing := StyleBoxFlat.new()
+	backing.bg_color = Color(0.02, 0.08, 0.1, 0.45)
+	backing.set_corner_radius_all(3)
+	backing.set_content_margin_all(4)
+	_quest_panel.add_theme_stylebox_override(&"panel", backing)
+	_quest_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	left.add_child(_quest_panel)
 	quest_label = Label.new()
 	quest_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	quest_label.custom_minimum_size.x = 120
+	quest_label.custom_minimum_size.x = 170
+	quest_label.add_theme_font_size_override(&"font_size", 10)
+	quest_label.add_theme_color_override(&"font_color", Color(1.0, 0.93, 0.72))
 	_quest_panel.add_child(quest_label)
+	_corner = [status, _quest_panel]
 
 	# Bottom-left: the spell ready to cast, and the controls.
 	_spell_box = HBoxContainer.new()
@@ -150,13 +160,15 @@ func _build() -> void:
 	spell_label = Label.new()
 	spell_label.add_theme_color_override(&"font_color", Color(0.6, 0.92, 0.96))
 	_spell_box.add_child(spell_label)
-	var hint := Label.new()
-	hint.text = HINT
-	hint.modulate = Color(1, 1, 1, 0.65)
-	hint.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	hint.offset_left = 6
-	hint.offset_top = -16
-	_root.add_child(hint)
+	# The controls, for the first minute and a half of play (the pause menu keeps them).
+	_hint = Label.new()
+	_hint.text = HINT
+	_hint.modulate = Color(1, 1, 1, 0.65)
+	_hint.add_theme_font_size_override(&"font_size", 9)
+	_hint.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	_hint.offset_left = 6
+	_hint.offset_top = -16
+	_root.add_child(_hint)
 
 	# Messages on a name plate at the bottom centre.
 	_toast_plate = PanelContainer.new()
@@ -230,34 +242,34 @@ func _on_health_changed(current: int, maximum: int) -> void:
 
 
 func _on_tracker_changed(counts: Dictionary) -> void:
-	var total := CardDatabase.final_set().size()
 	for child in _race_rows.get_children():
 		child.queue_free()
 	for id in counts:
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override(&"separation", 4)
-		_race_rows.add_child(row)
 		var dot := ColorRect.new()
 		dot.color = COLORS.get(id, Color.WHITE)
 		dot.custom_minimum_size = Vector2(5, 5)
 		dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		row.add_child(dot)
-		var name_label := Label.new()
-		name_label.text = NAMES.get(id, String(id))
-		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_child(name_label)
+		dot.tooltip_text = NAMES.get(id, String(id))
+		_race_rows.add_child(dot)
 		var count := Label.new()
-		count.text = "%d/%d" % [counts[id], total]
-		row.add_child(count)
-		# A slim progress line under each collector.
-		var track := ColorRect.new()
-		track.color = Color(0.03, 0.12, 0.15)
-		track.custom_minimum_size = Vector2(0, 2)
-		_race_rows.add_child(track)
-		var fill := ColorRect.new()
-		fill.color = COLORS.get(id, Color.WHITE)
-		fill.size = Vector2(118.0 * counts[id] / maxi(total, 1), 2)
-		track.add_child(fill)
+		count.text = "%s %d" % [NAMES.get(id, String(id)), counts[id]]
+		count.add_theme_font_size_override(&"font_size", 9)
+		_race_rows.add_child(count)
+
+
+## The corner UI fades while the player stands behind it; the controls hint fades
+## out after a while.
+func _process(delta: float) -> void:
+	var player := get_tree().get_first_node_in_group(&"player") as Node2D
+	if player:
+		var at := player.get_global_transform_with_canvas().origin
+		for panel in _corner:
+			var r := panel.get_global_rect().grow(18)
+			panel.modulate.a = move_toward(panel.modulate.a, 0.3 if r.has_point(at) else 1.0, delta * 4.0)
+	if _hint_time > 0.0:
+		_hint_time -= delta
+		_hint.modulate.a = clampf(_hint_time / 3.0, 0.0, 0.65)
+		_hint.visible = _hint_time > 0.0
 
 
 func _on_card_added(collector: StringName, card_id: StringName) -> void:

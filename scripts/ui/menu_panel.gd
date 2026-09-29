@@ -104,6 +104,17 @@ func add_header(text: String) -> void:
 	_list.add_child(label)
 
 
+## A short muted line of explanation under the row above it (what an item does).
+func add_note(text: String) -> void:
+	var label := Label.new()
+	label.text = text
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.modulate = Color(0.85, 0.85, 0.8, 0.8)
+	label.add_theme_font_size_override(&"font_size", 8)
+	_list.add_child(label)
+	_list.move_child(label, _list.get_child_count() - 2)  # above the row's divider
+
+
 ## One row: a coloured name, a detail column, then buttons given as
 ## [text, callable, enabled] triples.
 func add_row(name_text: String, color: Color, detail: String, buttons: Array, icon: Texture2D = null) -> void:

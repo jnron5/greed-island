@@ -10,7 +10,7 @@ const PAPER := Color(0.93, 0.85, 0.68)
 const PAPER_DARK := Color(0.8, 0.68, 0.48)
 const SEA := Color(0.16, 0.36, 0.46)
 const GOLD := Color(1.0, 0.8, 0.35)
-const FONT := preload("res://assets/fonts/virelia_text.tres")
+var FONT: Font = get_theme_default_font()
 
 var _time := 0.0
 

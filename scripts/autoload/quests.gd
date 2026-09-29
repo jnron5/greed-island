@@ -43,10 +43,11 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 						"Oi, cloak. You're one of those card racers, aren't you?",
 						"Three crates came in on the night tide. No manifest. No harbor stamp. Nothing.",
 						"Harbormaster says that's none of my business. Makes it my business, if you ask me.",
-						"Take a look at 'em for me? They're stacked by the jetty. Just look. Don't open anything that bites.",
+						"Somebody split 'em up before dawn, like they didn't want 'em seen together. One here on the quay, one on the west dock by the harbor office, one out on the pier.",
+						"Take a look at 'em for me? Just look. Don't open anything that bites.",
 					])
 				1:
-					return PackedStringArray(["Three crates, by the jetty. I'll be here, pretending to coil rope. (%d/3 checked)" % _clues_found()])
+					return PackedStringArray(["One on the quay, one on the west dock, one out on the pier. I'll be here, pretending to coil rope. (%d/3 checked)" % _clues_found()])
 				2:
 					return PackedStringArray([
 						"Desert sand in the straw... a glove that small... and 'D.M.' on a ledger scrap?",
@@ -167,7 +168,7 @@ func tracker_text() -> String:
 	var lines: PackedStringArray = []
 	match stage(&"unmarked_cargo"):
 		1:
-			lines.append("%s: inspect the unmarked crates by the jetty (%d/3)" % [TITLES[&"unmarked_cargo"], _clues_found()])
+			lines.append("%s: inspect the unmarked crates on the quay, west dock and pier (%d/3)" % [TITLES[&"unmarked_cargo"], _clues_found()])
 		2:
 			lines.append("%s: report back to Bram" % TITLES[&"unmarked_cargo"])
 	match stage(&"trees_remember"):
@@ -175,6 +176,7 @@ func tracker_text() -> String:
 			lines.append("%s: search the Hollow in Sorenda" % TITLES[&"trees_remember"])
 		2:
 			lines.append("%s: bring the satchel to Elder Moss" % TITLES[&"trees_remember"])
+	lines.append_array(Errands.tracker_lines())
 	return "\n".join(lines)
 
 

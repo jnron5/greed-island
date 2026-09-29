@@ -1,15 +1,18 @@
 [gd_resource type="Resource" script_class="CardData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/gull_feather.png" id="2_art"]
 
 [resource]
 script = ExtResource("1_card")
 id = &"gull_feather"
 display_name = "Gull Feather"
 description = "Dockhands trade these for luck before a long haul."
+lore = "Deckhands trade one before every long haul. The luck is said to last until the feather is lost, or until you give it to someone who needs it more."
 rarity = 0
 source = 0
 is_final_set_member = true
 sell_value = 10
+icon = ExtResource("2_art")
 copies_in_world = 6
 sale_allowance = 1

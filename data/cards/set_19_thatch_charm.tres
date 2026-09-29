@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"thatch_charm"
 display_name = "Thatch Charm"
 description = "Woven from a Sorenda roof to keep rain out."
+lore = "Woven from a Sorenda roof to keep the rain out. Every house hangs one by its door, and one more for anyone in the family who is far away."
 rarity = 0
 source = 1
 is_final_set_member = true

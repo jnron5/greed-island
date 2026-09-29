@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"veyra_reed"
 display_name = "Veyra Reed"
 description = "Cut from the shallows of Lake Veyra."
+lore = "Cut from the shallows of Lake Veyra, where the water is so still you can hear the reeds grow. Sorenda's pipers will play nothing else."
 rarity = 0
 source = 1
 is_final_set_member = true

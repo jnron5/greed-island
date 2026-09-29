@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"briar_wren"
 display_name = "Briar Wren"
 description = "A small bird that nests only among thorns."
+lore = "A small brown bird that nests only among thorns, where nothing can reach it. It sings loudest when the hounds are near, which is why hunters listen for it."
 rarity = 0
 source = 1
 is_final_set_member = true

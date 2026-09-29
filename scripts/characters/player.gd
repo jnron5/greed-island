@@ -57,6 +57,15 @@ var _slash := Node2D.new()
 
 
 func _ready() -> void:
+	# A faint cool glow round the wanderer after dark (the glyph band), so you can
+	# always see yourself on an unlit street.
+	var glow := LampLight.new()
+	glow.max_energy = 0.55
+	glow.tint = Color(0.75, 0.85, 1.0)
+	glow.flicker = 0.0
+	glow.texture_scale = 0.55
+	glow.position = Vector2(0, -10)
+	add_child(glow)
 	add_to_group(&"player")
 	add_to_group(&"collectors")
 	health = max_health

@@ -33,7 +33,7 @@ INTERIORS = {
         ],
         "npcs": [("otto", "Otto", "otto", (112, 122), [
             "Welcome to the Salted Lantern. Sit anywhere that isn't sticky.",
-            "Racers, eh? Last one through here swore the prize was a crown. Laughed all the way to the north gate.",
+            "Racers, eh? Last one through here swore the prize would make him richer than the King. Laughed all the way to the north gate.",
             "The Hoarder's family? Old money. Shipping money. Don't ask them what they ship.",
         ], [])],
     },

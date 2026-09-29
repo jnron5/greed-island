@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"verdant_crest"
 display_name = "Verdant Crest"
 description = "The mark of whatever the Warden guards."
+lore = "The mark of whatever the Warden guards: a leaf over a closed hand. The same mark is cut into Sorenda's oldest doorpost, below the notches Elder Moss carves."
 rarity = 2
 source = 2
 is_final_set_member = true

@@ -175,21 +175,28 @@ static func reachable(from: String, collector: StringName, will_pay: bool) -> Ar
 	return out
 
 
-## Cards placed in `zone` (in chests) that nobody has taken yet:
-## Array of { "key": persist key, "card_id": StringName, "gate": guarding gate or &"" }.
-static func remaining_pickups(zone: String) -> Array[Dictionary]:
+## Cards placed in `zone` (in chests) that `collector` hasn't taken yet. Every
+## collector opens each chest once, so one collector emptying it leaves it full for
+## the others: Array of { "key": persist key, "card_id": StringName, "gate": guarding gate or &"" }.
+static func remaining_pickups(zone: String, collector: StringName = &"player") -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for pickup: Dictionary in _all_pickups(zone):
-		if not GameState.collected_pickups.has(pickup.key):
+		if not GameState.collected_pickups.has(taken_key(pickup.key, collector)):
 			out.append(pickup)
 	return out
+
+
+## The GameState.collected_pickups key for `collector` having emptied pickup `key`
+## (the player's is the bare key, as it always was).
+static func taken_key(key: String, collector: StringName) -> String:
+	return key if collector == &"player" else "%s@%s" % [key, collector]
 
 
 ## Remaining pickups `collector` can actually get to: behind no gate, an open
 ## one, or one it's willing and able to pay for.
 static func reachable_pickups(zone: String, collector: StringName, will_pay: bool) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
-	for pickup in remaining_pickups(zone):
+	for pickup in remaining_pickups(zone, collector):
 		if can_use({ "gate": pickup.gate }, collector, will_pay):
 			out.append(pickup)
 	return out
@@ -231,5 +238,6 @@ static func _all_pickups(zone: String) -> Array:
 				continue
 			var path := String(state.get_node_path(i)).trim_prefix("./")
 			found.append({ "key": CardPickup.persist_key(zone, path), "card_id": card_id, "gate": gate })
+	found.append_array(Errands.pickups_in(zone))
 	_pickup_cache[zone] = found
 	return found

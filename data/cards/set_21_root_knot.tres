@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"root_knot"
 display_name = "Root Knot"
 description = "A tangle of roots that looks almost like a hand."
+lore = "A tangle of roots grown almost into a hand, reaching up out of the soil. The Warden's roots grow like this. So, the elders say, did the first Sorenda children."
 rarity = 0
 source = 1
 is_final_set_member = true

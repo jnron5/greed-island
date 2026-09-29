@@ -1,15 +1,18 @@
 [gd_resource type="Resource" script_class="CardData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/harbor_lantern.png" id="2_art"]
 
 [resource]
 script = ExtResource("1_card")
 id = &"harbor_lantern"
 display_name = "Harbor Lantern"
 description = "Hung on every Kalmora pier to guide the night boats."
+lore = "Every Kalmora pier hangs one, and every one is lit at dusk by hand. The night the southern barges run dark, the lanterns on the far quay stay out. Nobody is told why."
 rarity = 0
 source = 0
 is_final_set_member = true
 sell_value = 10
+icon = ExtResource("2_art")
 copies_in_world = 6
 sale_allowance = 1

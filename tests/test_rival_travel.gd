@@ -28,7 +28,8 @@ func _run() -> void:
 		live_keys.append(node.persist_key() if node is Chest else (node as CardPickup)._persist_key())
 	var scanned_keys: Array[String] = []
 	for p in WorldMap.remaining_pickups(WorldMap.KALMORA):
-		scanned_keys.append(p.key)
+		if not String(p.key).begins_with("errand:"):  # residents' cards aren't scene nodes
+			scanned_keys.append(p.key)
 	live_keys.sort()
 	scanned_keys.sort()
 	_check("scene scan finds Kalmora's pickups (%d)" % scanned_keys.size(), not scanned_keys.is_empty() and live_keys == scanned_keys)
@@ -45,12 +46,13 @@ func _run() -> void:
 
 	# --- Off-screen: the player is away in Sorenda.
 	RivalDirector.player_zone_override = WorldMap.SORENDA
-	var start_left := WorldMap.remaining_pickups(WorldMap.KALMORA).size()
+	var start_left := WorldMap.remaining_pickups(WorldMap.KALMORA, R).size()
 	for i in start_left + 2:
 		if GameState.rival_locations[R].zone != WorldMap.KALMORA:
 			break
 		RivalDirector.act_offscreen(R, WorldMap.KALMORA)
-	_check("Runner cleared Kalmora's cards off-screen", WorldMap.remaining_pickups(WorldMap.KALMORA).is_empty())
+	_check("Runner cleared Kalmora's cards off-screen", WorldMap.remaining_pickups(WorldMap.KALMORA, R).is_empty())
+	_check("and left every chest and favour there for the player", WorldMap.remaining_pickups(WorldMap.KALMORA).size() == start_left)
 	var col := GameState.collection(R)
 	var loose := 0
 	for id in col.card_ids():
@@ -84,8 +86,8 @@ func _run() -> void:
 
 	# --- On-screen: a fresh game, Kalmora picked clean except what the Runner holds.
 	GameState.new_game(GameState.DEFAULT_RIVALS)
-	for p in WorldMap.remaining_pickups(WorldMap.KALMORA):
-		GameState.collected_pickups[p.key] = true
+	for p in WorldMap.remaining_pickups(WorldMap.KALMORA, R):
+		GameState.collected_pickups[WorldMap.taken_key(p.key, R)] = true
 	GameState.add_loose_card(R, &"salt_compass")
 	RivalDirector.enabled = true
 	get_tree().change_scene_to_file(WorldMap.KALMORA)

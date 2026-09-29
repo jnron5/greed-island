@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"bark_rune"
 display_name = "Bark Rune"
 description = "A symbol carved into bark, older than Sorenda."
+lore = "A symbol carved into bark, older than Sorenda. The same rune is carved on the stone circle, and, a traveller once swore, on a door deep under the dunes."
 rarity = 0
 source = 1
 is_final_set_member = true

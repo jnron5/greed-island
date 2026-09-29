@@ -32,5 +32,7 @@ signal boss_bar(boss_name: String, current: int, maximum: int, shown: bool)
 signal safe_zone_changed(collector: StringName, inside: bool)
 ## Short player-facing message for the HUD.
 signal notify(text: String)
+## A monster (not a boss) went down; `kind` is its scene's file name (briar_hound, moss_boar).
+signal monster_defeated(kind: StringName, killer: StringName)
 ## A menu opened or closed; the player ignores gameplay input while any is open.
 signal menus_changed(open_count: int)

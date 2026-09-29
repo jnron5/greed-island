@@ -1,16 +1,19 @@
 [gd_resource type="Resource" script_class="CardData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/thorn_sprig.png" id="2_art"]
 
 [resource]
 script = ExtResource("1_card")
 id = &"thorn_sprig"
 display_name = "Thorn Sprig"
 description = "Snapped from a bramble that grows back overnight."
+lore = "Snapped from a Thornveil bramble that grows back overnight. The hounds nest in them, which is why the hounds so often carry one."
 rarity = 0
 source = 1
 is_final_set_member = true
 gate_card = true
 sell_value = 8
+icon = ExtResource("2_art")
 copies_in_world = 4
 respawning_monster_drop = true

@@ -4,6 +4,8 @@ extends CanvasLayer
 ## name plate and portrait, typewriter text, and a bobbing arrow when the line is
 ## done; interact/accept advances. One per zone (group "dialogue_box").
 ## Start a conversation with DialogueBox.say(tree, speaker, lines, on_done, portrait).
+## DialogueBox.ask() puts a question with a short list of answers on screen (a
+## resident's "Ask about..." topics); up/down picks, interact chooses, cancel backs out.
 
 signal finished
 
@@ -22,6 +24,11 @@ var _portrait_box: Control
 var _portrait: TextureRect
 var _arrow: Polygon2D
 var _time := 0.0
+var _choices: PanelContainer
+var _choice_list: VBoxContainer
+var _options: PackedStringArray = []
+var _choice := 0
+var _on_pick: Callable
 
 
 func _ready() -> void:
@@ -96,6 +103,23 @@ func _ready() -> void:
 	_speaker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_plate.add_child(_speaker)
 
+	# Choice list: a small panel standing on the dialogue box's right-hand corner.
+	_choices = PanelContainer.new()
+	_choices.theme_type_variation = &"DialoguePanel"
+	_choices.anchor_left = 0.5
+	_choices.anchor_right = 0.5
+	_choices.anchor_top = 1.0
+	_choices.anchor_bottom = 1.0
+	_choices.offset_right = 230
+	_choices.offset_bottom = -96
+	_choices.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_choices.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_choices.visible = false
+	root.add_child(_choices)
+	_choice_list = VBoxContainer.new()
+	_choice_list.add_theme_constant_override(&"separation", 1)
+	_choices.add_child(_choice_list)
+
 	_arrow = Polygon2D.new()
 	_arrow.polygon = PackedVector2Array([Vector2(-4, 0), Vector2(4, 0), Vector2(0, 5)])
 	_arrow.color = Color(0.55, 0.3, 0.1)
@@ -112,9 +136,25 @@ static func say(tree: SceneTree, speaker: String, lines: PackedStringArray, on_d
 	box.open(speaker, lines, on_done, portrait)
 
 
+## A question with answers: `prompt` is spoken, then `options` are listed; picking one
+## closes the box and calls on_pick(index). Cancel picks the last option.
+static func ask(tree: SceneTree, speaker: String, prompt: String, options: PackedStringArray,
+		on_pick: Callable, portrait: Texture2D = null) -> void:
+	var box := tree.get_first_node_in_group(&"dialogue_box") as DialogueBox
+	if box == null or options.is_empty():
+		return
+	box.open(speaker, PackedStringArray([prompt]), Callable(), portrait)
+	box._options = options
+	box._on_pick = on_pick
+	box._choice = 0
+	box._fill_choices()
+
+
 func open(speaker: String, lines: PackedStringArray, on_done: Callable, portrait: Texture2D = null) -> void:
 	if visible:
 		return
+	_options = PackedStringArray()
+	_choices.visible = false
 	_speaker.text = speaker
 	_plate.visible = speaker != ""
 	_portrait.texture = portrait
@@ -139,12 +179,18 @@ func _process(delta: float) -> void:
 	if _shown < line.length():
 		_shown = minf(_shown + CHARS_PER_SECOND * delta, line.length())
 		_text.visible_characters = int(_shown)
-	_arrow.visible = _shown >= line.length()
+	_arrow.visible = _shown >= line.length() and _options.is_empty()
+	_choices.visible = not _options.is_empty() and _shown >= line.length()
 	_arrow.position = Vector2(_panel.size.x - 22, _panel.size.y - 18 + roundf(sin(_time * 6.0) * 1.5))
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not visible or not (event.is_action_pressed(&"interact") or event.is_action_pressed(&"ui_accept")):
+	if not visible:
+		return
+	if not _options.is_empty() and _shown >= _lines[_index].length():
+		_choice_input(event)
+		return
+	if not (event.is_action_pressed(&"interact") or event.is_action_pressed(&"ui_accept")):
 		return
 	get_viewport().set_input_as_handled()
 	if _shown < _lines[_index].length():
@@ -160,6 +206,44 @@ func _unhandled_input(event: InputEvent) -> void:
 	finished.emit()
 	if _on_done.is_valid():
 		_on_done.call()
+
+
+func _choice_input(event: InputEvent) -> void:
+	var pick := -1
+	if event.is_action_pressed(&"ui_up") or event.is_action_pressed(&"move_up"):
+		_choice = wrapi(_choice - 1, 0, _options.size())
+	elif event.is_action_pressed(&"ui_down") or event.is_action_pressed(&"move_down"):
+		_choice = wrapi(_choice + 1, 0, _options.size())
+	elif event.is_action_pressed(&"interact") or event.is_action_pressed(&"ui_accept"):
+		pick = _choice
+	elif event.is_action_pressed(&"ui_cancel"):
+		pick = _options.size() - 1
+	else:
+		return
+	get_viewport().set_input_as_handled()
+	if pick < 0:
+		_fill_choices()
+		return
+	var on_pick := _on_pick
+	_options = PackedStringArray()
+	_choices.visible = false
+	visible = false
+	GameState.pop_menu()
+	finished.emit()
+	if on_pick.is_valid():
+		on_pick.call(pick)
+
+
+func _fill_choices() -> void:
+	for child in _choice_list.get_children():
+		child.queue_free()
+	for i in _options.size():
+		var label := Label.new()
+		label.theme_type_variation = &"InkLabel"
+		label.text = ("> " if i == _choice else "   ") + _options[i]
+		if i == _choice:
+			label.add_theme_color_override(&"font_color", Color(0.62, 0.22, 0.08))
+		_choice_list.add_child(label)
 
 
 func _show_line() -> void:

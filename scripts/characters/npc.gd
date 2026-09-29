@@ -3,7 +3,9 @@ extends CharacterBody2D
 ## A resident of the island (a dog or cat townsperson). Idles or wanders near
 ## home, turns to face you, and talks when you press interact nearby. What it
 ## says comes from the quest system first (Quests.dialogue_for), then its own
-## ambient lines, cycling. 4-directional animations "idle_<dir>" / "walk_<dir>".
+## ambient lines, cycling. Then, if they have topics (TalkTopics) or a shop, a
+## question list: ask about something, browse their wares, or say goodbye.
+## 4-directional animations "idle_<dir>" / "walk_<dir>".
 
 const DIRECTIONS_4: Array[String] = ["east", "south", "west", "north"]
 const TALK_RANGE := 34.0
@@ -98,8 +100,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func talk(player: Node2D) -> void:
 	_talking = true
 	facing = global_position.direction_to(player.global_position)
-	var quest_lines := Quests.dialogue_for(npc_id)
-	var said: PackedStringArray = quest_lines
+	var said: PackedStringArray = Quests.dialogue_for(npc_id)
+	if said.is_empty():
+		said = Errands.dialogue_for(npc_id)
 	if said.is_empty() and not lines.is_empty():
 		said = PackedStringArray([lines[_line_index % lines.size()]])
 		_line_index += 1
@@ -107,9 +110,35 @@ func talk(player: Node2D) -> void:
 
 
 func _done_talking() -> void:
-	_talking = false
 	Quests.talked_to(npc_id)
+	Errands.talked_to(npc_id)
+	_offer_topics()
+
+
+## The question list after a chat: this resident's topics, their shop, goodbye.
+func _offer_topics() -> void:
+	var topics := TalkTopics.for_npc(npc_id)
+	if topics.is_empty() and shop_stock.is_empty():
+		_talking = false
+		return
+	var options := PackedStringArray()
+	for topic: Array in topics:
+		options.append(topic[0])
 	if not shop_stock.is_empty():
+		options.append("Let me see your wares")
+	options.append("Goodbye")
+	DialogueBox.ask(get_tree(), display_name, "Anything else?", options, _on_topic,
+		DialogueBox.portrait_from(sprite.sprite_frames))
+
+
+func _on_topic(index: int) -> void:
+	var topics := TalkTopics.for_npc(npc_id)
+	if index < topics.size():
+		DialogueBox.say(get_tree(), display_name, PackedStringArray(topics[index][1]), _offer_topics,
+			DialogueBox.portrait_from(sprite.sprite_frames))
+		return
+	_talking = false
+	if index == topics.size() and not shop_stock.is_empty():
 		var shop := get_tree().get_first_node_in_group(&"shop_panel") as ShopPanel
 		if shop:
 			shop.open_with(shop_stock, shop_title if shop_title != "" else display_name, shop_buys_cards)
@@ -133,6 +162,8 @@ func _update_animation() -> void:
 func _draw() -> void:
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
 	var marker := Quests.marker_for(npc_id)
+	if marker == "":
+		marker = Errands.marker_for(npc_id)
 	if marker != "":
 		WorldPrompt.marker(self, Vector2(0, sprite_offset_y * 2 - 8), marker, Color(1, 0.85, 0.3))
 	if player and not _talking and player.global_position.distance_to(global_position) <= TALK_RANGE:

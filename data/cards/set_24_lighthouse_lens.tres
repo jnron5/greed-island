@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"lighthouse_lens"
 display_name = "Lighthouse Lens"
 description = "Focuses light into a beam that shows hidden things."
+lore = "Ground from a single piece of glass by the first keeper. Focused through it, light shows what's hidden: writing under paint, footprints on stone, a door in a wall."
 rarity = 1
 source = 0
 is_final_set_member = true

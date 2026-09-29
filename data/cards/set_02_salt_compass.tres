@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"salt_compass"
 display_name = "Salt Compass"
 description = "Its needle drifts toward the sea, never north."
+lore = "Old fishers swear the needle points to whatever you have lost at sea. Guard Rook's north arch opens for no other card, by an order older than anyone can remember."
 rarity = 0
 source = 0
 is_final_set_member = true

@@ -226,7 +226,7 @@ func _collect_offscreen(id: StringName, zone: String) -> void:
 		var pickup: Dictionary = pickups.pick_random()
 		_pay_gate(id, pickup)
 		if GameState.add_loose_card(id, pickup.card_id):
-			GameState.collected_pickups[pickup.key] = true
+			GameState.collected_pickups[WorldMap.taken_key(pickup.key, id)] = true
 		return
 	var drops: Array = WorldMap.ZONES.get(zone, {}).get("monster_drops", [])
 	if not drops.is_empty() and randf() < FARM_CHANCE:

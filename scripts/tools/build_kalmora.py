@@ -582,7 +582,7 @@ NPCS = [
         "The Runner came through at dawn, all scarf and no manners. Didn't even stop for bread.",
     ]),
     ("tomas", "Keeper Tomas", "tomas", (1220, 690), 0, [
-        "Lost my lighthouse wick somewhere up on the hill houses. Can't light the lamp without it.",
+        "Lent my spare wick to Ilse the mapmaker and never got it back. Good thing I keep three.",
         "That lens up there's worth more than my whole cottage. Door stays locked, wick or no wick.",
     ]),
     ("rook", "Guard Rook", "rook", (808, 92), 0, [
@@ -591,13 +591,23 @@ NPCS = [
     ]),
 ]
 # The unmarked shipment: three crates piled on the quay, where Bram works.
-CLUE_CRATES = [("crate_sand", (680, 700)), ("crate_glove", (700, 690)), ("crate_ledger", (714, 704))]
+# Spread about the harbor so the search takes a look round: one by Bram on the quay,
+# one on the west dock by the harbormaster's, one out on the pier.
+CLUE_CRATES = [("crate_sand", (690, 700)), ("crate_glove", (440, 736)), ("crate_ledger", (660, 815))]
 CARDS = [  # (card, concept position)
     ("harbor_lantern", (400, 740)), ("coral_coin", (1330, 540)), ("gull_feather", (1360, 790)),
     ("sea_glass", (1400, 560)), ("sunken_crown_shard", (934, 935)),
     ("salt_compass", (150, 280)), ("tide_bell", (1000, 600)), ("terracotta_tile", (560, 216)),
     ("lighthouse_wick", (1390, 290)), ("fishers_knot", (636, 850)),
 ]
+# Most of Kalmora's cards are handed out by residents (scripts/autoload/errands.gd);
+# only these chests hold one. The rest hold gold or satchel items.
+CARD_CHESTS = {"sea_glass", "sunken_crown_shard", "salt_compass"}
+LOOT = {  # chest -> (gold, item, count)
+    "harbor_lantern": (12, "", 0), "coral_coin": (20, "", 0), "gull_feather": (0, "bread", 2),
+    "tide_bell": (8, "smoked_fish", 1), "terracotta_tile": (15, "", 0),
+    "lighthouse_wick": (0, "healers_tonic", 1), "fishers_knot": (10, "smoked_fish", 1),
+}
 EXTRA_SALT_COMPASS = (60, 400)
 DUMMIES = [(80, 420), (130, 420), (180, 420)]           # a sparring spot in the meadow
 RIVAL_SPOTS = {"runner": (200, 420), "raider": (1300, 160), "hoarder": (950, 560)}
@@ -758,7 +768,7 @@ BAY_MASK = ART + "kalmora_bay_mask.png"
 # They carry the story quietly: the race, the Calloways' money, the southern barges.
 TOWN_READABLES = [
     ("The notice board", (704, 462), [
-        "ROYAL PROCLAMATION. The Race of Cards is open to all who reach Kalmora by sea. The first to present the full set at Vetrassa shall receive what the Crown has promised.",
+        "ROYAL PROCLAMATION. The Race of Cards is open to all who reach Kalmora by sea. The first to present the full set at Vetrassa shall receive riches beyond measure, by the King's own hand.",
         "Pinned beneath it, newer: 'WORKERS WANTED - DUSKARA. Good pay, in cards. Small hands preferred. Enquire at the harbor.'",
     ]),
     ("Greta's Provisions", (636, 418), [
@@ -804,6 +814,53 @@ region_rect = Rect2(0, 0, {w}, {h})
 ''']
 
 
+# Night: every building's windows glow from inside (WindowGlow overlays). Window glass
+# rects per building sprite, in sprite px (x0, y0, x1, y1), marked by hand; "all"
+# rects light every pixel (shop displays), the rest only the glass (bluish/dark
+# pixels, so frames, mullions, shutters and flower boxes stay as drawn).
+WINDOWS = {
+    "townhouse_red": [(89, 66, 103, 84), (52, 100, 73, 114), (86, 100, 105, 114), (120, 100, 139, 114),
+                      (52, 140, 73, 160), (120, 140, 139, 160)],
+    "general_store": [(52, 88, 75, 109), (99, 88, 124, 109), (147, 88, 172, 109), (101, 147, 122, 160)],
+    "blacksmith": [(100, 100, 120, 120)],
+    "inn": [(122, 73, 134, 86), (56, 108, 81, 129), (115, 108, 141, 129), (176, 108, 202, 129),
+            (54, 169, 88, 187), (169, 169, 202, 187), (122, 174, 134, 185)],
+    "item_shop": [("all", 49, 135, 90, 163), ("all", 139, 135, 176, 163)],
+    "harbormaster2": [(50, 113, 72, 135), (153, 113, 174, 135), ("all", 102, 82, 120, 99)],
+    "cottage_blue": [(79, 67, 94, 80), (51, 99, 65, 117), (110, 99, 124, 117)],
+    "cottage_red": [(77, 67, 97, 82), (46, 102, 65, 121), (109, 102, 128, 121)],
+    "townhouse_blue": [(64, 98, 80, 111), (31, 125, 49, 143), (64, 125, 80, 143), (96, 125, 113, 143),
+                       (31, 160, 49, 175), (95, 160, 113, 175)],
+    "townhouse_teal": [(63, 72, 82, 94), (37, 101, 58, 126), (85, 101, 106, 126)],
+    "windmill2": [(74, 101, 86, 116), (47, 145, 56, 156), (103, 145, 112, 156)],
+}
+NIGHT = ART + "night/"
+
+
+def window_glow(sprite):
+    """The warm lit-window overlay for a building sprite (same size, only the glass)."""
+    src = np.array(Image.open(OBJ + sprite + ".png").convert("RGBA")).astype(int)
+    out = np.zeros_like(src)
+    lum = src[..., :3].mean(axis=2)
+    for rect in WINDOWS.get(sprite, []):
+        every = rect[0] == "all"
+        x0, y0, x1, y1 = rect[1:] if every else rect
+        r, g, b, a = (src[y0:y1, x0:x1, i] for i in range(4))
+        glass = (a > 200) & (every | (b >= r - 8) | (lum[y0:y1, x0:x1] < 70)) & ~((r > 150) & (g < 110))
+        # Warm lamplight, brighter toward the middle of each pane and where the glass was bright.
+        t = np.clip(lum[y0:y1, x0:x1] / 200.0, 0.0, 1.0)
+        warm = np.stack([255 - 10 * (1 - t), 196 + 40 * t, 96 + 70 * t], axis=-1)
+        if every:
+            warm = np.clip(src[y0:y1, x0:x1, :3] * 0.5 + np.array([140, 105, 45]), 0, 255)
+        block = out[y0:y1, x0:x1]
+        block[glass, :3] = warm[glass]
+        block[glass, 3] = 235
+    os.makedirs(NIGHT, exist_ok=True)
+    path = NIGHT + sprite + "_windows.png"
+    Image.fromarray(out.astype(np.uint8)).save(path)
+    return path
+
+
 def building_depth(path):
     """How far back from its front wall a building's footprint reaches: the part of
     the sprite below its roof ridge, roughly (a front-facing house shows its roof
@@ -820,29 +877,17 @@ def prop_depth(path):
 
 CHEST_PNG = "assets/sprites/tiles/thornveil/props/chest.png"
 CHEST_OPEN_PNG = "assets/sprites/tiles/thornveil/props/chest_open.png"
-# Cards aren't left lying about: each sits in a chest (anyone can open it, rivals too).
-CHEST_HINTS = {
-    "harbor_lantern": "A dock chest of spare lamp parts, its padlock rusted open.",
-    "coral_coin": "A child's treasure box, half buried in the sand.",
-    "gull_feather": "Nailed shut long ago; the gulls have been at the lid.",
-    "sea_glass": "A beachcomber's box full of smooth green glass.",
-    "sunken_crown_shard": "Hauled up in a fishing net and never claimed.",
-    "salt_compass": "A farmer's tool chest, smelling of salt and rope.",
-    "salt_compass_2": "Somebody's forgotten stash by the cliff fence.",
-    "tide_bell": "A stall-keeper's lockbox, left unlocked.",
-    "terracotta_tile": "Roofer's spares, and something wrapped in oilcloth.",
-    "lighthouse_wick": "The keeper's spare-parts chest.",
-    "fishers_knot": "A net-mender's kit at the end of the pier.",
-}
-CHEST_GOLD = {"sunken_crown_shard": 25, "coral_coin": 15, "gull_feather": 10}
+# Chests: a few hold cards, most gold or satchel items (anyone can open one, once each).
+CHEST_GOLD = {"sunken_crown_shard": 25}
 
 
-def chest_node(name, x, y, card, gold=0, hint="", gate="", width=30, shape=None):
-    """A chest holding `card` (scripts/systems/chest.gd) with a small visible base."""
-    quoted = hint.replace('"', '\\"')
+def chest_node(name, x, y, card, gold=0, gate="", width=30, shape=None, item="", count=0, chest_id=""):
+    """A chest holding `card` and/or gold or a satchel item (scripts/systems/chest.gd)
+    with a small visible base."""
     return (f'[node name="{name}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n'
-            f'script = ExtResource("6_chest")\nchest_id = &"kalmora_{card}"\ncard_id = &"{card}"\ngold = {gold}\n'
-            f'hint = "{quoted}"\n' + (f'behind_gate = &"{gate}"\n' if gate else "")
+            f'script = ExtResource("6_chest")\nchest_id = &"kalmora_{chest_id or card}"\ncard_id = &"{card}"\ngold = {gold}\n'
+            + (f'item_id = &"{item}"\nitem_count = {count}\n' if item else "")
+            + (f'behind_gate = &"{gate}"\n' if gate else "")
             + f'closed_texture = ExtResource("6_chest_shut")\nopen_texture = ExtResource("6_chest_open")\n\n'
             f'[node name="Base" type="CollisionShape2D" parent="{name}"]\nposition = Vector2(0, -5)\n'
             f'shape = SubResource("{shape(width, 10)}")\n')
@@ -979,6 +1024,7 @@ def main():
         ('Script', "res://scripts/world/gull_flock.gd", "28_gulls"),
         ('Texture2D', "res://" + ART + "anim/gull_flap.png", "29_gull"),
         ('Script', "res://scripts/systems/readable.gd", "30_read"),
+        ('Script', "res://scripts/world/window_glow.gd", "31_windows"),
     ]
     for rows, path in stair_png.items():
         ext.append(('Texture2D', "res://" + path, f"st_{rows}"))
@@ -1096,8 +1142,7 @@ position = Vector2({lx}, {ly + 6})
 gate_id = &"kalmora_lighthouse_door"
 look = &"seal"
 
-''' + chest_node("Card_lighthouse_lens", lx, ly - 10, "lighthouse_lens", gate="kalmora_lighthouse_door",
-                  hint="The keeper's old lens case, tucked just inside the door.", width=22, shape=shape))
+''' + chest_node("Card_lighthouse_lens", lx, ly - 10, "lighthouse_lens", gate="kalmora_lighthouse_door", width=22, shape=shape))
     shadow("building", lh, lx, ly)
     check_spot("lighthouse lens", lx, ly - 10, TOWN)
 
@@ -1152,8 +1197,12 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
     taken = [p for _, p in cards] + list(rival_spots.values()) + list(spawns.values()) \
         + [(ex, ey), (mx, my), (fx, fy), (lx, ly + 6), (lx, ly - 10), (0, GATE_Y)]
     for card, (x, y) in cards:
-        n.append(chest_node(f"Card_{card}", x, y, card, gold=CHEST_GOLD.get(card, 0), hint=CHEST_HINTS.get(card, ""), shape=shape))
-    n.append(chest_node("Card_salt_compass_2", ex, ey, "salt_compass", hint=CHEST_HINTS.get("salt_compass_2", ""), shape=shape))
+        if card in CARD_CHESTS:
+            n.append(chest_node(f"Card_{card}", x, y, card, gold=CHEST_GOLD.get(card, 0), shape=shape))
+        else:
+            gold, item, count = LOOT[card]
+            n.append(chest_node(f"Chest_{card}", x, y, "", gold=gold, item=item, count=count, chest_id=card, shape=shape))
+    n.append(chest_node("Chest_cliff_stash", ex, ey, "", gold=18, chest_id="cliff_stash", shape=shape))
     for k, p in enumerate(DUMMIES):
         x, y = W(*p)
         check_spot("dummy", x, y)
@@ -1206,6 +1255,10 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         # The building stands on its whole footprint, not just the foot of its front
         # wall: you walk round it, never into its walls or under its roof.
         n.append(solid(name, path, x, y, fw, building_depth(path)))
+        if sprite in WINDOWS:
+            n.append(f'[node name="Windows" type="Sprite2D" parent="{name}"]\nposition = Vector2(0, {bottom_offset(path)})\n'
+                     f'texture = ExtResource("{texture(window_glow(sprite))}")\nscript = ExtResource("31_windows")\n'
+                     f'lights_out = {round(random.Random(name).uniform(0.5, 3.5), 1)}\n')
         shadow("building", path, x, y)
         taken.append((x, y))
         if name in DOORS:

@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"sorenda_star_map"
 display_name = "Sorenda Star Map"
 description = "Charts stars that are not in tonight's sky."
+lore = "Charts stars that are not in tonight's sky. Elder Moss says they were there when the first race was run, and went out one by one with every race since."
 rarity = 1
 source = 0
 is_final_set_member = true

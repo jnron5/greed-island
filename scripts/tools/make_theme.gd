@@ -9,13 +9,19 @@ const CREAM := Color(0.97, 0.92, 0.8)
 const INK := Color(0.24, 0.14, 0.07)
 const GOLD := Color(1.0, 0.84, 0.45)
 const SHADOW := Color(0.06, 0.04, 0.03)
-## Body text size: the 16px pixel fonts at 10 (a little larger than the crisp half
-## size, 8, which read too small).
-const TEXT_SIZE := 10
+## Body text: a clean smooth sans (Godot's built-in Open Sans, SIL OFL) rather than
+## the pixel font, which distorts at any size but its native 8/16 and read poorly in
+## long dialogue. The viewport is scaled 2x with canvas_items stretching, so smooth
+## text is rasterised at screen resolution and stays sharp. Titles keep the gold
+## pixel font at its native 16.
+const TEXT_SIZE := 11
+const TITLE_SIZE := 16
 
 
 func _init() -> void:
-	var text_font := _pixel_font("res://assets/fonts/virelia_text.ttf", "res://assets/fonts/virelia_text.tres")
+	var text_font := FontVariation.new()
+	text_font.base_font = ThemeDB.fallback_font
+	text_font.variation_embolden = 0.35
 	var title_font := _pixel_font("res://assets/fonts/virelia_title.ttf", "res://assets/fonts/virelia_title.tres")
 	var theme := Theme.new()
 	theme.default_font = text_font
@@ -24,7 +30,7 @@ func _init() -> void:
 	# Plain labels: cream with a dark outline, so they read over the world.
 	theme.set_color(&"font_color", &"Label", CREAM)
 	theme.set_color(&"font_outline_color", &"Label", SHADOW)
-	theme.set_constant(&"outline_size", &"Label", 3)
+	theme.set_constant(&"outline_size", &"Label", 2)
 	theme.set_constant(&"line_spacing", &"Label", 1)
 
 	# Text on parchment (dialogue, cards): dark ink, no outline.
@@ -36,7 +42,7 @@ func _init() -> void:
 	theme.set_type_variation(&"TitleLabel", &"Label")
 	theme.set_font(&"font", &"TitleLabel", title_font)
 	theme.set_color(&"font_color", &"TitleLabel", GOLD)
-	theme.set_font_size(&"font_size", &"TitleLabel", TEXT_SIZE)
+	theme.set_font_size(&"font_size", &"TitleLabel", TITLE_SIZE)
 
 	# Windows: the teal kit window with shell corners.
 	var window := _box("window.png", 9, 9, 9, 9, 10, 9)
@@ -58,7 +64,7 @@ func _init() -> void:
 	theme.set_color(&"font_pressed_color", &"Button", GOLD)
 	theme.set_color(&"font_disabled_color", &"Button", Color(0.62, 0.62, 0.6))
 	theme.set_color(&"font_outline_color", &"Button", SHADOW)
-	theme.set_constant(&"outline_size", &"Button", 3)
+	theme.set_constant(&"outline_size", &"Button", 2)
 
 	# Slim gold scroll bars.
 	var grabber := StyleBoxFlat.new()

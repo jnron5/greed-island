@@ -241,7 +241,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _process_seek() -> void:
-	if not is_instance_valid(_target) or _target.is_queued_for_deletion() 			or (_target is Chest and (_target as Chest).is_open()):
+	if not is_instance_valid(_target) or _target.is_queued_for_deletion() 			or (_target is Chest and (_target as Chest).is_open_for(collector_id)):
 		_target = null
 		if carried_count() >= carry_limit:
 			_enter(State.RETURN)
@@ -446,7 +446,7 @@ func _find_nearest_pickup() -> Node2D:
 	var best_dist := search_radius
 	for node in get_tree().get_nodes_in_group(&"card_pickups"):
 		var pickup := node as Node2D
-		if pickup == null or pickup.is_queued_for_deletion() or (pickup is Chest and (pickup as Chest).is_open()):
+		if pickup == null or pickup.is_queued_for_deletion() or (pickup is Chest and (pickup as Chest).is_open_for(collector_id)):
 			continue
 		if not WorldMap.can_use({ "gate": pickup.get(&"behind_gate") }, collector_id, _pays_gates()):
 			continue

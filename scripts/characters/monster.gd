@@ -175,6 +175,7 @@ func _die() -> void:
 	attack_shape.set_deferred(&"disabled", true)
 	body_shape.set_deferred(&"disabled", true)
 	hurtbox.set_deferred(&"monitoring", false)
+	EventBus.monster_defeated.emit(StringName(scene_file_path.get_file().get_basename()), _last_hitter)
 	if not drop_card_ids.is_empty():
 		Combat.award_card(get_parent(), _last_hitter, drop_card_ids.pick_random(), position, pickup_scene)
 	var tween := create_tween()

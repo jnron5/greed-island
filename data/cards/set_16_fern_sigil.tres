@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"fern_sigil"
 display_name = "Fern Sigil"
 description = "A pressed fern arranged into a deliberate shape."
+lore = "Pressed ferns arranged into a deliberate shape by someone patient. Hunters leave them at their camps to say: I was here, I'm coming back, leave my things alone."
 rarity = 0
 source = 1
 is_final_set_member = true

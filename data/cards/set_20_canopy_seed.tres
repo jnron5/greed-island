@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"canopy_seed"
 display_name = "Canopy Seed"
 description = "Falls from the highest trees once a season."
+lore = "Falls once a season from the highest trees, spinning so slowly it can take an hour to land. Catch one before it touches the ground and it's yours to keep."
 rarity = 0
 source = 1
 is_final_set_member = true

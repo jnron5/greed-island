@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"sunken_crown_shard"
 display_name = "Sunken Crown Shard"
 description = "A sliver of gold from a crown no history mentions."
+lore = "A sliver of gold from a crown no history mentions, hauled up in a fishing net off Kalmora. The harbormaster logged it, then tore the page out of her own log."
 rarity = 1
 source = 0
 is_final_set_member = true

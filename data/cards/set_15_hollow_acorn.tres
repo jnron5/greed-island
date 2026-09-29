@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"hollow_acorn"
 display_name = "Hollow Acorn"
 description = "Something has been living in it."
+lore = "Something has been living in it. Something small, that left in a hurry and took its supper with it. Forest children keep them as tiny houses for wishes."
 rarity = 0
 source = 1
 is_final_set_member = true

@@ -1,16 +1,19 @@
 [gd_resource type="Resource" script_class="CardData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/moss_lantern.png" id="2_art"]
 
 [resource]
 script = ExtResource("1_card")
 id = &"moss_lantern"
 display_name = "Moss Lantern"
 description = "Glowing moss packed into a hollow gourd."
+lore = "Sorenda's glowing moss packed into a hollow gourd. It needs no oil and no flame. It dims, the villagers say, when someone nearby is lying."
 rarity = 0
 source = 1
 is_final_set_member = true
 gate_card = true
 sell_value = 8
+icon = ExtResource("2_art")
 copies_in_world = 4
 respawning_monster_drop = true

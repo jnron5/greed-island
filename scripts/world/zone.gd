@@ -105,6 +105,7 @@ func _setup_atmosphere() -> void:
 	else:
 		_apply_tint(TimeOfDay.hour)
 		TimeOfDay.hour_changed.connect(_apply_tint)
+		add_child(NightGrade.new())
 	if level_map and water_shimmer and not interior:
 		var water := ColorRect.new()
 		water.z_index = -9

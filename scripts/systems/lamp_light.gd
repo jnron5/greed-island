@@ -4,7 +4,8 @@ extends PointLight2D
 ## (TimeOfDay.night_factor) with a gentle candle flicker; `always_on` lights
 ## (interiors, fires) ignore the clock.
 
-@export var max_energy := 1.1
+@export var max_energy := 1.35
+@export var tint := Color(1.0, 0.7, 0.38)
 @export var always_on := false
 @export var flicker := 0.08
 
@@ -14,8 +15,7 @@ var _t := randf() * 10.0
 func _ready() -> void:
 	if texture == null:
 		texture = LampLight.glow_texture()
-	color = Color(1.0, 0.78, 0.45)
-	texture_scale = 1.0
+	color = tint
 
 
 func _process(delta: float) -> void:

@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"veyra_pearl"
 display_name = "Veyra Pearl"
 description = "Lake Veyra gives up one only when it chooses to."
+lore = "Lake Veyra gives up one only when it chooses to. Divers who go looking for pearls come up with nothing; the pearls turn up in the nets of people who weren't."
 rarity = 1
 source = 0
 is_final_set_member = true

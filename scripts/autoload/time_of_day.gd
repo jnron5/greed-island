@@ -5,20 +5,21 @@ extends Node
 
 signal hour_changed(hour: float)
 
-const DAY_SECONDS := 720.0
+## 30 minutes of play per day (12 was too quick to enjoy either half).
+const DAY_SECONDS := 1800.0
 const START_HOUR := 16.0
 
 ## Colour of the world at each hour (wraps at 24).
 const KEYS := [
-	[0.0, Color(0.36, 0.42, 0.62)],
-	[5.0, Color(0.42, 0.46, 0.66)],
+	[0.0, Color(0.3, 0.36, 0.56)],
+	[5.0, Color(0.36, 0.4, 0.6)],
 	[6.5, Color(0.95, 0.78, 0.7)],
 	[8.0, Color(1.0, 0.97, 0.92)],
 	[16.0, Color(1.0, 0.95, 0.86)],
 	[18.5, Color(1.0, 0.78, 0.6)],
 	[20.0, Color(0.62, 0.58, 0.78)],
-	[21.5, Color(0.38, 0.43, 0.64)],
-	[24.0, Color(0.36, 0.42, 0.62)],
+	[21.5, Color(0.32, 0.37, 0.58)],
+	[24.0, Color(0.3, 0.36, 0.56)],
 ]
 
 var hour := START_HOUR

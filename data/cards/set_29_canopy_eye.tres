@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"canopy_eye"
 display_name = "Canopy Eye"
 description = "It still blinks."
+lore = "It still blinks. Whatever the Warden saw through it, it goes on seeing, and on quiet nights it turns in your hand toward the east, toward the dunes."
 rarity = 2
 source = 2
 is_final_set_member = true

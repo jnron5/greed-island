@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"owl_quill"
 display_name = "Owl Quill"
 description = "Sorenda's scribes write only with these."
+lore = "Sorenda's scribes write only with these. They say an owl quill can't write a lie; the ink simply won't take. The foreman's ledgers are written in ordinary pen."
 rarity = 0
 source = 1
 is_final_set_member = true

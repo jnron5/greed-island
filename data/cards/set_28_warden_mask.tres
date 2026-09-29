@@ -7,6 +7,7 @@ script = ExtResource("1_card")
 id = &"warden_mask"
 display_name = "Warden's Mask"
 description = "Bark and leaves grown into the shape of a face."
+lore = "Bark and leaves grown into the shape of a face. The Warden wears a new one every season. Nobody has ever seen what's underneath, and nobody who tried came back to say."
 rarity = 2
 source = 2
 is_final_set_member = true

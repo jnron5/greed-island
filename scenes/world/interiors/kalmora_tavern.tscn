@@ -153,7 +153,7 @@ position = Vector2(112, 122)
 npc_id = &"otto"
 display_name = "Otto"
 sprite_frames = ExtResource("n_otto")
-lines = PackedStringArray("Welcome to the Salted Lantern. Sit anywhere that isn't sticky.", "Racers, eh? Last one through here swore the prize was a crown. Laughed all the way to the north gate.", "The Hoarder's family? Old money. Shipping money. Don't ask them what they ship.")
+lines = PackedStringArray("Welcome to the Salted Lantern. Sit anywhere that isn't sticky.", "Racers, eh? Last one through here swore the prize would make him richer than the King. Laughed all the way to the north gate.", "The Hoarder's family? Old money. Shipping money. Don't ask them what they ship.")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(188, 244)
