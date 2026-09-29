@@ -75,6 +75,10 @@ def wall_down(pair):
 # ------------------------------------------------------------------ terrain
 LV = L.level_image()
 WET_C, PATH_C = L.classify()
+# The concept's paths, joined up where trees and shading break them and a little
+# wider, so they read as the concept's broad golden roads.
+from scipy import ndimage as _nd  # noqa: E402
+PATH_C = _nd.binary_closing(_nd.binary_dilation(PATH_C, iterations=2), iterations=6) & ~WET_C
 CANOPY_C = L.canopy()
 STREAM_C = L.stream_mask()
 STREAM_PX = None
@@ -207,6 +211,9 @@ def build_terrain():
     a = np.where((land | grassy)[..., None] & grassy[..., None], lawn, a)
     a = np.where(land[..., None], lawn, a)
     dirt_on = soft_mask(path_c, size, seed=2) & land
+    # Warm, sunlit dirt, toward the concept's golden paths.
+    soil = soil.copy()
+    soil[..., :3] = np.clip(soil[..., :3] * np.array([1.1, 1.08, 0.92]) + np.array([14, 12, 6]), 0, 255)
     a = np.where(dirt_on[..., None], soil, a)
     near_grass = np.asarray(Image.fromarray((~dirt_on).astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(5))) > 0
     a[..., :3] = np.where((dirt_on & near_grass)[..., None], a[..., :3] * 0.8, a[..., :3])
@@ -971,7 +978,7 @@ region_rect = Rect2(0, 0, {w}, {h})
     # their edges): into the forest water's teal, so no bright sea-blue rims show.
     blue = (g[..., 2] > g[..., 0] + 50) & (g[..., 2] > g[..., 1] + 15)
     lum = g[..., :3].mean(axis=-1) / 255.0
-    teal = np.array([(14, 52, 70), (22, 78, 96), (34, 108, 124), (60, 140, 150), (112, 182, 186)], np.float32)
+    teal = np.array([(18, 46, 110), (24, 72, 160), (36, 104, 200), (64, 142, 224), (130, 196, 240)], np.float32)
     idx = np.clip((lum * 1.6 * (len(teal) - 1)).round().astype(int), 0, len(teal) - 1)
     g[..., :3] = np.where(blue[..., None], teal[idx], g[..., :3])
     Image.fromarray(np.clip(g, 0, 255).astype(np.uint8), "RGBA").save(GROUND_PNG)

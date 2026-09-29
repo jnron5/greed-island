@@ -1,7 +1,8 @@
 """Thornveil's water, as frame animations (never shader warping):
 
 - lake.png: Kalmora's PixelLab-animated wave tile, recoloured to a calm forest lake:
-  deep teal, the whitecaps softened to pale glints (a lake doesn't break like the sea).
+  the concept's clear blue, the whitecaps softened to pale glints (a lake doesn't
+  break like the sea).
 - stream_flow.png: a PixelLab stream tile (water/stream_tile.png, fine ripple lines
   running downstream), made seamless and moved one step downstream per frame, so the
   streams visibly flow.
@@ -22,7 +23,7 @@ D = "assets/sprites/tiles/thornveil/water/"
 BAY = "assets/sprites/tiles/kalmora2/anim/bay_water.png"
 FRAMES = 8
 # The forest water ramp, dark to light (by brightness).
-RAMP = np.array([(14, 52, 70), (22, 78, 96), (34, 108, 124), (60, 140, 150), (112, 182, 186), (176, 222, 220)], np.float32)
+RAMP = np.array([(18, 46, 110), (24, 72, 160), (36, 104, 200), (64, 142, 224), (130, 196, 240), (210, 236, 252)], np.float32)
 
 
 def ramp(lum):
@@ -78,7 +79,7 @@ def main():
     # Lake: the sea's rolling tile, dimmed and tinted; its brightest foam becomes soft glints.
     bay = np.asarray(Image.open(BAY).convert("RGB")).astype(np.float32)
     lum = bay.mean(axis=-1) / 255.0
-    lum = np.where(lum > 0.7, 0.66 + (lum - 0.7) * 0.5, lum * 0.9 + 0.06)
+    lum = np.where(lum > 0.7, 0.78 + (lum - 0.7) * 0.4, lum * 0.75 + 0.24)
     lake = ramp(np.round(lum * 10) / 10)
     Image.fromarray(lake.clip(0, 255).astype(np.uint8)).save(D + "lake.png")
     # Streams: bright, shallow water, the ripple lines lighter than the lake.
