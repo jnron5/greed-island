@@ -825,11 +825,8 @@ shape = SubResource("{shape(32, 10)}")
         r, c = cell_of(x, y)
         if not all(0 <= r + dr < ROWS and 0 <= c + dc < COLS and not blocked[r + dr][c + dc] and (r + dr, c + dc) not in stairs
                    and (r + dr, c + dc) not in decks and (r + dr, c + dc) not in bridge_cells
-                   for dr in (0, 1) for dc in (-1, 0, 1)):
-            return False
-        # A trunk must stand on its own terrace, clear of the wall below it.
-        if r + 2 < ROWS and stand[r + 2][c] != stand[r][c] and stand[r + 2][c] != -1 and False:
-            return False
+                   for dr in (-1, 0, 1) for dc in (-1, 0, 1)):
+            return False                              # (-1: open ground behind the trunk, so it never grows up a cliff face)
         px, py = int(x - LEFT), int(y - TOP)
         if dirt_px[py, px]:
             return False
