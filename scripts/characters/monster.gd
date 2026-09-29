@@ -29,6 +29,8 @@ const DIRECTIONS_4: Array[String] = ["east", "south", "west", "north"]
 
 var _last_hitter: StringName
 @export var respawn_time := 25.0
+## Big beasts roar (and the ground shakes) when they notice you.
+@export var roar := false
 
 var health := 0
 var facing := Vector2.DOWN
@@ -100,6 +102,9 @@ func _physics_process(delta: float) -> void:
 func _process_wander() -> void:
 	_target = _find_target()
 	if _target:
+		if roar and _target.is_in_group(&"player"):
+			Sfx.play(&"roar")
+			Combat.shake(get_tree(), 5.0, 8)
 		_enter(State.CHASE)
 		return
 	if global_position.distance_to(_wander_target) < 4.0 or _state_time > 4.0:

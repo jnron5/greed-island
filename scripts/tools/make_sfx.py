@@ -118,6 +118,10 @@ def main():
     # Door: a latch and a soft swing.
     save("door", np.concatenate([tone(700, 0.03, "square") * env(int(RATE * 0.03), 0.001, 0.01),
                                  sweep(240, 160, 0.3, "tri") * env(int(RATE * 0.3), 0.03, 0.2) * 0.6]), 0.4)
+    # Roar: a big beast noticing you: a growling low sweep with rough noise.
+    n = noise(0.9)
+    growl = sweep(110, 70, 0.9, "square") * (0.6 + 0.4 * np.sin(t_(0.9) * 2 * math.pi * 31))
+    save("roar", (growl * 0.6 + lowpass(n, 0.12) * 0.8) * env(len(n), 0.08, 0.5, 0.3), 0.6)
     # Steal: a sly little two-note flick.
     save("steal", np.concatenate([tone(1175, 0.06) * env(int(RATE * 0.06), 0.001, 0.03),
                                   tone(880, 0.1) * env(int(RATE * 0.1), 0.001, 0.05)]), 0.35)

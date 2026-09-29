@@ -35,6 +35,7 @@ lunge_time = 0.36
 recover_time = 1.2
 drop_card_ids = Array[StringName]([&"root_knot", &"briar_wren"])
 respawn_time = 240.0
+roar = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_none")
