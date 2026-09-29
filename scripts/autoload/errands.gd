@@ -128,6 +128,18 @@ const ERRANDS := {
 		],
 		"after": "Every map of Virelia has a blank where Duskara's mine should be. I'm working on that.",
 	},
+	# ---- Thornveil ----
+	&"tobin_sigil": {
+		"npc": &"tobin", "zone": "res://scenes/world/thornveil.tscn", "card": &"fern_sigil", "need": "gold",
+		"gold": 40,
+		"ask": [
+			"A racer! Sit, sit, the kettle's on. I trade in whatever the forest gives up.",
+			"Hunters leave these fern sigils at their camps. I've a spare. Forty gold, and it's yours: a card's a card.",
+		],
+		"waiting": "Forty gold for the sigil. I'll keep the kettle on.",
+		"give": ["A pleasure. Mind the boars on the way down; they don't like strangers."],
+		"after": "Every racer who's ever passed has stopped for tea. Most of them.",
+	},
 	# ---- Sorenda ----
 	&"harl_charm": {
 		"npc": &"harl", "zone": "res://scenes/world/sorenda.tscn", "card": &"thatch_charm", "need": "kills",
@@ -194,7 +206,9 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 				return PackedStringArray(e.give)
 			return PackedStringArray([String(e.waiting) % _progress(id) if "%d" in String(e.waiting) else e.waiting])
 		_:
-			if e.need == "talk" or is_met(id):
+			# Favours that cost you something (an item, gold) always ask first; the
+			# handing over happens next time you talk, never by surprise.
+			if e.need == "talk" or (is_met(id) and not _costly(id)):
 				return PackedStringArray(e.give)
 			return PackedStringArray(e.ask)
 
@@ -204,7 +218,10 @@ func talked_to(npc_id: StringName) -> void:
 	var id := errand_for(npc_id)
 	if id == &"" or state(id) == DONE:
 		return
-	if is_met(id):
+	if state(id) != ASKED and _costly(id):
+		GameState.quest_flags[StringName("errand:%s" % id)] = ASKED
+		EventBus.notify.emit("Favour: %s" % summary(id))
+	elif is_met(id):
 		_complete(id)
 	elif state(id) != ASKED:
 		GameState.quest_flags[StringName("errand:%s" % id)] = ASKED
@@ -219,6 +236,11 @@ func marker_for(npc_id: StringName) -> String:
 	if is_met(id) or (state(id) != ASKED and ERRANDS[id].need == "talk"):
 		return "?" if state(id) == ASKED else "!"
 	return "!" if state(id) != ASKED else ""
+
+
+## Favours paid for with your own things (satchel items, gold).
+func _costly(id: StringName) -> bool:
+	return ERRANDS[id].need in ["item", "gold"]
 
 
 func is_met(id: StringName) -> bool:
@@ -334,6 +356,6 @@ func _npc_name(npc_id: StringName) -> String:
 	const NAMES := {
 		&"sailor": "Luca", &"pip": "Pip", &"baker": "Rosa", &"tomas": "Keeper Tomas", &"mirela": "Mirela",
 		&"otto": "Otto", &"nonna": "Nonna Vess", &"brannoc": "Brannoc", &"ilse": "Ilse",
-		&"harl": "Harl", &"wren": "Wren", &"juniper": "Juniper",
+		&"harl": "Harl", &"wren": "Wren", &"juniper": "Juniper", &"tobin": "Tobin",
 	}
 	return NAMES.get(npc_id, String(npc_id).capitalize())

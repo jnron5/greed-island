@@ -58,6 +58,12 @@ func _run() -> void:
 	_check("with a fish, she's ready", Errands.marker_for(&"nonna") == "?")
 	Errands.talked_to(&"nonna")
 	_check("the fish for the tile", col.count(&"terracotta_tile") == 1 and GameState.item_count(&"smoked_fish") == 0)
+	# Paid favours never take your gold on the first chat, even when you could afford it.
+	var purse := GameState.currency
+	Errands.talked_to(&"brannoc")
+	_check("Brannoc asks before he takes your gold", GameState.currency == purse and col.count(&"net_mender") == 0)
+	Errands.talked_to(&"brannoc")
+	_check("and sells it the next time", GameState.currency == purse - 30 and col.count(&"net_mender") == 1)
 	# Kills: Tomas counts briar hounds the player puts down.
 	Errands.talked_to(&"tomas")
 	for i in 2:
