@@ -248,6 +248,45 @@ exit_hint = true
                  f'[node name="CrystalGlow{k}" type="PointLight2D" parent="."]\nposition = Vector2({x}, {y - 20})\n'
                  f'texture_scale = 1.0\nscript = ExtResource("15_lamp")\nalways_on = true\nmax_energy = 0.7\n'
                  f'tint = Color(0.4, 0.85, 1.0, 1)\nflicker = 0.02\n')
+    # Cave litter: rocks, pale mushrooms, fallen branches and old roots on the floor,
+    # tinted cave-dark, never on the way through (kept off a clear line down every
+    # tunnel) and clear of everything placed above.
+    import random
+    rng = random.Random(4)
+    placed = [SPAWN_IN, BEAR, EXIT_AT] + [c[1] for c in CHESTS] + [r[1] for r in READABLES] \
+        + GLOW_MUSHROOMS + CRYSTAL_ROCKS
+    litter = []
+    kinds = [("rock", True), ("pale_mushrooms", False), ("branch", False), ("rock", True), ("log", True), ("stump", True)]
+    for _ in range(3000):
+        if len(litter) >= 34:
+            break
+        cx, cy = rng.uniform(1, COLS - 1), rng.uniform(1, ROWS - 1)
+        c, r = int(cx), int(cy)
+        if not all(0 <= r + dr < ROWS and 0 <= c + dc < COLS and stand[r + dr][c + dc] == 0
+                   for dr in (-1, 0, 1) for dc in (-1, 0, 1)):
+            continue
+        if any(seg_dist(cx, cy, *a, *b) < 0.9 for a, b, _ in TUNNELS):
+            continue
+        if any(math.hypot(cx - px, cy - py) < 2.2 for px, py in placed + [(x, y) for _, x, y, _ in litter]):
+            continue
+        name, solid = rng.choice(kinds)
+        litter.append((name, cx, cy, solid))
+    for k, (name, cx, cy, solid) in enumerate(litter):
+        x, y = cell_px(cx, cy)
+        tex = f"res://assets/sprites/tiles/forest/props/{name}.png"
+        if ("Texture2D", tex, f"19_{name}") not in ext:
+            ext.append(("Texture2D", tex, f"19_{name}"))
+        h = Image.open(tex.replace("res://", "")).height
+        tint = "modulate = Color(0.62, 0.7, 0.8, 1)\n"
+        if solid:
+            n.append(f'[node name="Litter{k}" type="StaticBody2D" parent="."]\nposition = Vector2({x:.0f}, {y:.0f})\n\n'
+                     f'[node name="Sprite" type="Sprite2D" parent="Litter{k}"]\n{tint}offset = Vector2(0, {-h / 2 + 2})\n'
+                     f'texture = ExtResource("19_{name}")\n\n'
+                     f'[node name="Base" type="CollisionShape2D" parent="Litter{k}"]\nposition = Vector2(0, -3)\n'
+                     f'shape = SubResource("{shape(22, 8)}")\n')
+        else:
+            n.append(f'[node name="Litter{k}" type="Sprite2D" parent="."]\nposition = Vector2({x:.0f}, {y:.0f})\n'
+                     f'{tint}offset = Vector2(0, {-h / 2 + 2})\ntexture = ExtResource("19_{name}")\n')
     for k, (cx, cy) in enumerate(FIREFLIES):
         x, y = cell_px(cx, cy)
         n.append(f'[node name="Fireflies{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'

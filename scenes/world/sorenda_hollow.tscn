@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3]
+[gd_scene load_steps=62 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -18,6 +18,11 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/hollow/glow_mushrooms.png" id="16_mushroom"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/hollow/crystal_rock.png" id="17_rock"]
 [ext_resource type="Script" path="res://scripts/world/fireflies.gd" id="18_fireflies"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/log.png" id="19_log"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/branch.png" id="19_branch"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/rock.png" id="19_rock"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/stump.png" id="19_stump"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pale_mushrooms.png" id="19_pale_mushrooms"]
 
 [sub_resource type="RectangleShape2D" id="R1472x224"]
 size = Vector2(1472, 224)
@@ -129,6 +134,9 @@ size = Vector2(30, 10)
 
 [sub_resource type="RectangleShape2D" id="R44x16"]
 size = Vector2(44, 16)
+
+[sub_resource type="RectangleShape2D" id="R22x8"]
+size = Vector2(22, 8)
 
 [node name="SorendaHollow" type="Node2D"]
 y_sort_enabled = true
@@ -713,6 +721,132 @@ always_on = true
 max_energy = 0.7
 tint = Color(0.4, 0.85, 1.0, 1)
 flicker = 0.02
+
+[node name="Litter0" type="StaticBody2D" parent="."]
+position = Vector2(149, 176)
+
+[node name="Sprite" type="Sprite2D" parent="Litter0"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -9.5)
+texture = ExtResource("19_log")
+
+[node name="Base" type="CollisionShape2D" parent="Litter0"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter1" type="Sprite2D" parent="."]
+position = Vector2(-429, -78)
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -13.0)
+texture = ExtResource("19_branch")
+
+[node name="Litter2" type="StaticBody2D" parent="."]
+position = Vector2(304, -16)
+
+[node name="Sprite" type="Sprite2D" parent="Litter2"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -10.0)
+texture = ExtResource("19_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Litter2"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter3" type="StaticBody2D" parent="."]
+position = Vector2(-426, 301)
+
+[node name="Sprite" type="Sprite2D" parent="Litter3"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -10.5)
+texture = ExtResource("19_stump")
+
+[node name="Base" type="CollisionShape2D" parent="Litter3"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter4" type="StaticBody2D" parent="."]
+position = Vector2(247, 251)
+
+[node name="Sprite" type="Sprite2D" parent="Litter4"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -9.5)
+texture = ExtResource("19_log")
+
+[node name="Base" type="CollisionShape2D" parent="Litter4"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter5" type="StaticBody2D" parent="."]
+position = Vector2(247, 145)
+
+[node name="Sprite" type="Sprite2D" parent="Litter5"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -9.5)
+texture = ExtResource("19_log")
+
+[node name="Base" type="CollisionShape2D" parent="Litter5"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter6" type="StaticBody2D" parent="."]
+position = Vector2(451, 383)
+
+[node name="Sprite" type="Sprite2D" parent="Litter6"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -10.0)
+texture = ExtResource("19_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Litter6"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter7" type="StaticBody2D" parent="."]
+position = Vector2(333, 74)
+
+[node name="Sprite" type="Sprite2D" parent="Litter7"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -9.5)
+texture = ExtResource("19_log")
+
+[node name="Base" type="CollisionShape2D" parent="Litter7"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter8" type="Sprite2D" parent="."]
+position = Vector2(174, 14)
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -11.5)
+texture = ExtResource("19_pale_mushrooms")
+
+[node name="Litter9" type="StaticBody2D" parent="."]
+position = Vector2(330, 222)
+
+[node name="Sprite" type="Sprite2D" parent="Litter9"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -10.0)
+texture = ExtResource("19_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Litter9"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter10" type="StaticBody2D" parent="."]
+position = Vector2(-394, 112)
+
+[node name="Sprite" type="Sprite2D" parent="Litter10"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -9.5)
+texture = ExtResource("19_log")
+
+[node name="Base" type="CollisionShape2D" parent="Litter10"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter11" type="Sprite2D" parent="."]
+position = Vector2(-442, 40)
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -13.0)
+texture = ExtResource("19_branch")
 
 [node name="Fireflies0" type="Node2D" parent="."]
 position = Vector2(-384, -64)
