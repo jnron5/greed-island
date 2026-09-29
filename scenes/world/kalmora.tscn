@@ -2451,6 +2451,9 @@ position = Vector2(-13, -8)
 [node name="from_thornveil" type="Marker2D" parent="Spawns"]
 position = Vector2(-13, -609)
 
+[node name="arrival" type="Marker2D" parent="Spawns"]
+position = Vector2(-198, 384)
+
 [node name="from_redhouse" type="Marker2D" parent="Spawns"]
 position = Vector2(-451, -223)
 

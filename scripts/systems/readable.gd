@@ -12,6 +12,11 @@ const RANGE := 26.0
 var _time := randf() * TAU
 
 
+func _ready() -> void:
+	# Only a sparkle and a prompt are drawn here: keep them over whoever stands close.
+	z_index = 20
+
+
 func _process(delta: float) -> void:
 	_time += delta
 	queue_redraw()

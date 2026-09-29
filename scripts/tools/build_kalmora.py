@@ -616,7 +616,8 @@ LOOT = {  # chest -> (gold, item, count)
 EXTRA_SALT_COMPASS = (60, 400)
 DUMMIES = [(80, 420), (130, 420), (180, 420)]           # a sparring spot in the meadow
 RIVAL_SPOTS = {"runner": (200, 420), "raider": (1300, 160), "hoarder": (950, 560)}
-SPAWNS = {"town": (768, 520), "from_thornveil": (768, 91)}
+# "arrival": where a new game begins, stepping off the morning boat at the end of the pier.
+SPAWNS = {"town": (768, 520), "from_thornveil": (768, 91), "arrival": (636, 800)}
 LIGHTHOUSE = (1290, 740)      # yard centre; the gate faces north toward the market
 MERCHANT = (880, 600)
 FOUNTAIN = (768, 486)

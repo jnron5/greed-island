@@ -109,6 +109,13 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 				DONE:
 					return PackedStringArray(["She'll float. I tried her in the bath. Well. Half of her."])
 		&"mirela":
+			if not flag(&"met_mirela"):
+				return PackedStringArray([
+					"Another one off the morning boat. Welcome to Kalmora, racer. I'm Mirela, harbormaster. Everything that lands here, I stamp. Including you.",
+					"You're here for the race, same as the other two cloaks who came in this week. Thirty cards makes a set. Carry the whole set into Vetrassa, far up the north-west coast, and it's yours: riches beyond anything, so they say.",
+					"Talk to folk. Kalmora's people know things, and some of them have cards put by for a racer who asks nicely. Come back with three cards in hand and I'll give you one of mine.",
+					"Ask me anything you like before you go.",
+				])
 			if stage(&"unmarked_cargo") in [1, 2]:
 				return PackedStringArray([
 					"Unmarked crates? I don't know what Bram's been telling you.",
@@ -135,10 +142,14 @@ func marker_for(npc_id: StringName) -> String:
 				return "!"
 			2:
 				return "?"
+	if npc_id == &"mirela" and not flag(&"met_mirela"):
+		return "!"
 	return ""
 
 
 func talked_to(npc_id: StringName) -> void:
+	if npc_id == &"mirela":
+		GameState.quest_flags[&"met_mirela"] = true
 	if npc_id == &"wen":
 		match stage(&"wens_boat"):
 			NOT_STARTED:

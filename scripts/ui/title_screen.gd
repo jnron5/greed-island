@@ -237,6 +237,7 @@ func _begin() -> void:
 	var rivals: Array[StringName] = []
 	rivals.assign(_chosen)
 	GameState.new_game(rivals)
+	GameState.pending_spawn = &"arrival"      # off the boat, at the end of the pier
 	Transition.go(START_SCENE)
 
 
