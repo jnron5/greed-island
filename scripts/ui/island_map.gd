@@ -56,7 +56,7 @@ func _here() -> String:
 	var scene := get_tree().current_scene
 	var path := scene.scene_file_path if scene else ""
 	if "interiors" in path:
-		return WorldMap.KALMORA
+		return WorldMap.SORENDA if "sorenda" in path else WorldMap.KALMORA
 	return path
 
 
@@ -102,10 +102,17 @@ func _draw() -> void:
 		if WorldMap.is_town(zone):
 			draw_rect(Rect2(p + Vector2(-3, 10), Vector2(6, 5)), INK)       # a little house for towns
 			draw_colored_polygon(PackedVector2Array([p + Vector2(-5, 10), p + Vector2(5, 10), p + Vector2(0, 5)]), INK)
+	# Where a quest or favour needs you: a bobbing gold "!".
+	for zone in Quests.map_goals():
+		if zone in WorldMap.ZONES:
+			var q := _at(zone, layout) + Vector2(26, -22 + roundf(sin(_time * 3.0 + zone.length()) * 1.5))
+			draw_circle(q, 7.0, INK)
+			draw_circle(q, 6.0, GOLD)
+			draw_string(FONT, q + Vector2(-2, 4), "!", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, INK)
 	# You are here.
 	if here in WorldMap.ZONES:
 		var p := _at(here, layout) + Vector2(0, -20 + roundf(sin(_time * 4.0) * 2.0))
 		draw_colored_polygon(PackedVector2Array([p + Vector2(-5, -7), p + Vector2(5, -7), p]), GOLD)
 		draw_polyline(PackedVector2Array([p + Vector2(-5, -7), p + Vector2(5, -7), p, p + Vector2(-5, -7)]), INK, 1.0)
-	draw_string(FONT, Vector2(8, size.y - 8), "Virelia Isle   (dashed: a gate still shut)", HORIZONTAL_ALIGNMENT_LEFT, -1, 10,
+	draw_string(FONT, Vector2(8, size.y - 8), "Virelia Isle   (dashed: a gate still shut   !: a quest or favour)", HORIZONTAL_ALIGNMENT_LEFT, -1, 10,
 		Color(1, 1, 1, 0.75))

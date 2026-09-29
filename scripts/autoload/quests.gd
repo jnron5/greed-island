@@ -259,6 +259,36 @@ func tracker_text() -> String:
 	return "\n".join(lines)
 
 
+## For the island map: the areas where an active quest or favour needs you next.
+func map_goals() -> Array[String]:
+	var out: Array[String] = []
+	var add := func(zone: String) -> void:
+		if not out.has(zone):
+			out.append(zone)
+	if stage(&"unmarked_cargo") in [1, 2]:
+		add.call(WorldMap.KALMORA)
+	if stage(&"wens_boat") in [1, 2]:
+		add.call(WorldMap.KALMORA)
+	match stage(&"trees_remember"):
+		1:
+			add.call(WorldMap.SORENDA_HOLLOW)
+		2:
+			add.call(WorldMap.SORENDA)
+	for id: StringName in Errands.ERRANDS:
+		if Errands.state(id) != Errands.ASKED:
+			continue
+		var e: Dictionary = Errands.ERRANDS[id]
+		if Errands.is_met(id):
+			add.call(e.zone)
+		elif e.need == "kills":
+			add.call(WorldMap.THORNVEIL)
+		elif e.need == "visit":
+			add.call(e.place)
+		else:
+			add.call(e.zone)
+	return out
+
+
 func _parts_found() -> int:
 	return BOAT_PARTS.filter(func(c: StringName) -> bool: return clue_found(c)).size()
 
