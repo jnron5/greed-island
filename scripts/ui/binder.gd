@@ -69,6 +69,7 @@ func _ready() -> void:
 func open(on_page := 0) -> void:
 	if is_open:
 		return
+	Sfx.play(&"ui_click")
 	page = on_page
 	is_open = true
 	visible = true

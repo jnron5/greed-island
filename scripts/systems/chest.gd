@@ -76,6 +76,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func open() -> void:
 	if is_open() or not open_for(GameState.PLAYER):
 		return
+	Sfx.play(&"chest")
 	var found := PackedStringArray()
 	if card_id != &"":
 		var card := CardDatabase.get_card(card_id)

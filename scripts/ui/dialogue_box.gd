@@ -177,8 +177,11 @@ func _process(delta: float) -> void:
 	_time += delta
 	var line := _lines[_index]
 	if _shown < line.length():
+		var before := int(_shown)
 		_shown = minf(_shown + CHARS_PER_SECOND * delta, line.length())
 		_text.visible_characters = int(_shown)
+		if int(_shown) / 3 != before / 3:
+			Sfx.play(&"talk", 0.0, 0.1)
 	_arrow.visible = _shown >= line.length() and _options.is_empty()
 	_choices.visible = not _options.is_empty() and _shown >= line.length()
 	_arrow.position = Vector2(_panel.size.x - 22, _panel.size.y - 18 + roundf(sin(_time * 6.0) * 1.5))
@@ -221,6 +224,7 @@ func _choice_input(event: InputEvent) -> void:
 	else:
 		return
 	get_viewport().set_input_as_handled()
+	Sfx.play(&"ui_tick" if pick < 0 else &"ui_click")
 	if pick < 0:
 		_fill_choices()
 		return

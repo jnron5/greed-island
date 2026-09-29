@@ -155,6 +155,7 @@ func _on_hurt(hitbox: Hitbox) -> void:
 		return
 	health -= hitbox.damage
 	_last_hitter = hitbox.source_id
+	Sfx.play(&"hit")
 	_flash = 0.08
 	Combat.pop_number(get_parent(), global_position, hitbox.damage)
 	velocity = hitbox.global_position.direction_to(global_position) * hitbox.knockback

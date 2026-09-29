@@ -56,6 +56,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func open() -> void:
+	Sfx.play(&"ui_click")
 	if is_open:
 		return
 	is_open = true

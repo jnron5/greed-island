@@ -493,6 +493,7 @@ func use_item(id: StringName) -> bool:
 		return false
 	if player and item.heal > 0:
 		player.heal(item.heal)
+		Sfx.play(&"heal")
 	add_item(id, -1)
 	return true
 

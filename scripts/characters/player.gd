@@ -141,10 +141,12 @@ func _process_move() -> void:
 		_dash_cd = dash_cooldown * (0.5 if GameState.is_equipped(TIDEWALKER) else 1.0)
 		hurtbox.invulnerable = true
 		_enter(State.DASH)
+		Sfx.play(&"dash")
 	elif Input.is_action_just_pressed(&"sword"):
 		sword_pivot.rotation = facing.angle()
 		sword_shape.set_deferred(&"disabled", false)
 		_enter(State.SWORD)
+		Sfx.play(&"sword")
 	elif Input.is_action_just_pressed(&"pistol") and _pistol_cd <= 0.0:
 		_fire_pistol()
 	elif Input.is_action_just_pressed(&"spell"):
@@ -190,6 +192,7 @@ func _fire_pistol() -> void:
 	if projectile_scene == null:
 		return
 	_pistol_cd = pistol_cooldown
+	Sfx.play(&"pistol")
 	var shot := projectile_scene.instantiate() as Projectile
 	shot.direction = facing
 	shot.damage = pistol_damage + (1 if GameState.is_equipped(HOLLOWPOINT) else 0)
@@ -221,6 +224,7 @@ func _on_hurt(hitbox: Hitbox) -> void:
 		return
 	sprite.modulate = Color(1, 0.5, 0.5)
 	Combat.shake(get_tree(), 4.0)
+	Sfx.play(&"hurt")
 	Combat.hit_stop(get_tree(), 0.07)
 	await _set_invulnerable_for(hurt_invulnerability)
 	sprite.modulate = Color.WHITE
@@ -328,7 +332,24 @@ static func pick_animation(frames: SpriteFrames, action: String, dir: Vector2, f
 	return &""
 
 
+## Soft footsteps while running, two alternating sounds.
+var _step_time := 0.0
+var _step_k := 0
+
+
+func _footsteps(delta: float) -> void:
+	if _state != State.MOVE or velocity.length() < 10.0:
+		_step_time = 0.0
+		return
+	_step_time -= delta
+	if _step_time <= 0.0:
+		_step_time = 0.27
+		_step_k = 1 - _step_k
+		Sfx.play(&"step1" if _step_k == 0 else &"step2", -4.0, 0.12)
+
+
 func _update_animation() -> void:
+	_footsteps(get_physics_process_delta_time())
 	var action := "idle"
 	match _state:
 		State.MOVE:

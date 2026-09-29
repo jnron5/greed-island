@@ -51,6 +51,8 @@ func _go() -> void:
 	if target_scene == "":
 		return
 	GameState.pending_spawn = target_spawn
+	if needs_interact:
+		Sfx.play(&"door")
 	Transition.go(target_scene)
 
 
