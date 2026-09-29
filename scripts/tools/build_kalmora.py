@@ -620,7 +620,11 @@ PALM, TREE, CYPRESS = "palm_g", "tree3_g", "cypress_g"
 # Plants that move in the sea breeze: PixelLab-animated frame strips (strip, frames, fps).
 ANIMATED = {PALM: (ART + "anim/palm_sway.png", 8, 7), TREE: (ART + "anim/tree_sway.png", 8, 6),
             CYPRESS: (ART + "anim/cypress_sway.png", 8, 5),
-            "tuft": (ART + "anim/tuft_sway.png", 8, 7), "tuft_flowers": (ART + "anim/tuft_flowers_sway.png", 8, 6)}
+            "tuft": (ART + "anim/tuft_sway.png", 8, 7), "tuft_flowers": (ART + "anim/tuft_flowers_sway.png", 8, 6),
+            # The windmill's sails (drawn by make_windmill_sails.py): a quarter turn loops.
+            "windmill_sails": (ART + "anim/windmill_sails.png", 12, 7)}
+# Where the sails' hub sits on the windmill sprite (sprite px).
+WINDMILL_HUB = (80, 78)
 # Where grass tufts grow around each kind of tree (offsets from its base, world px).
 TUFT_RING = {TREE: [(-26, 4), (24, 2), (-12, 16), (14, 18)], PALM: [(-16, 6), (15, 10)], CYPRESS: [(-12, 6), (12, 8)]}
 
@@ -751,6 +755,16 @@ FLOATING = HARBOR_DETAIL + GATE_FENCE + ROCKS + [("ship", 470, 960), ("rowboat",
 LAMPS = ([(x, y) for x, y in [(690, 380), (846, 380), (690, 560), (846, 560), (768, 200)]]
          + [(x, 606) for x in (400, 720)] + [(x, 716) for x in (500, 760)] + [(1140, 620), (1180, 700)]
          + [(x, 300) for x in (500, 1000)] + [(1230, 180), (1420, 180), (330, 190)])
+# Night lights beyond the street lamps (concept px). Strings of paper lanterns slung
+# over the market lane and round the fountain square (StringLights: from, to, sag), and
+# warm lights where people work late: the market stalls, the tavern's terrace, the
+# harbor pilings, the beach shrine's candles.
+STRING_LIGHTS = [((930, 566), (934, 664), 10), ((1000, 572), (1030, 662), 10), ((1080, 580), (1090, 664), 10),
+                 ((700, 404), (836, 404), 16), ((700, 544), (836, 544), 16), ((868, 400), (990, 400), 12)]
+NIGHT_LIGHTS = ([(960, 592), (1000, 682), (1080, 682), (912, 682)]            # stalls
+                + [(880, 424), (1340, 524)]                                    # parasol tables
+                + [(x, 782) for x in (390, 520, 700)] + [(840, 846), (604, 880), (966, 988)]  # pilings
+                + [(1430, 704)])                                              # beach shrine
 PROP_DIRS = [ART + "props/", OBJ, "assets/sprites/tiles/kalmora/props/"]
 FOOTPRINT_FRAC = {"fence": (1.0, 16), "bench": (0.8, 10), "parasol_table": (0.5, 10), "lamp_post": (0.3, 8), "banner": (0.3, 8),
                   "flower_bed": (0.9, 14), "bush_g": (0.7, 14), "bush_flowers_g": (0.7, 14), "boulder": (0.8, 16)}
@@ -1025,6 +1039,8 @@ def main():
         ('Texture2D', "res://" + ART + "anim/gull_flap.png", "29_gull"),
         ('Script', "res://scripts/systems/readable.gd", "30_read"),
         ('Script', "res://scripts/world/window_glow.gd", "31_windows"),
+        ('Script', "res://scripts/world/lighthouse_beam.gd", "32_beam"),
+        ('Script', "res://scripts/world/string_lights.gd", "33_strings"),
     ]
     for rows, path in stair_png.items():
         ext.append(('Texture2D', "res://" + path, f"st_{rows}"))
@@ -1132,10 +1148,14 @@ position = Vector2(0, -25)
 shape = SubResource("{shape(30, 10)}")
 
 [node name="LighthouseLight" type="PointLight2D" parent="."]
-position = Vector2({lx}, {ly - 230})
-texture_scale = 3.0
+position = Vector2({lx}, {ly - 209})
+texture_scale = 2.2
 script = ExtResource("20_lamp")
-max_energy = 1.2
+max_energy = 0.75
+
+[node name="LighthouseBeam" type="Node2D" parent="."]
+position = Vector2({lx}, {ly - 209})
+script = ExtResource("32_beam")
 
 [node name="LighthouseDoor" parent="." instance=ExtResource("10_gate")]
 position = Vector2({lx}, {ly + 6})
@@ -1259,6 +1279,12 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
             n.append(f'[node name="Windows" type="Sprite2D" parent="{name}"]\nposition = Vector2(0, {bottom_offset(path)})\n'
                      f'texture = ExtResource("{texture(window_glow(sprite))}")\nscript = ExtResource("31_windows")\n'
                      f'lights_out = {round(random.Random(name).uniform(0.5, 3.5), 1)}\n')
+        if sprite == "windmill2":
+            key, _, _ = frames("windmill_sails")
+            sw, sh = Image.open(path).size
+            hx, hy = WINDMILL_HUB[0] - sw / 2, WINDMILL_HUB[1] - sh / 2 + bottom_offset(path)
+            n.append(f'[node name="Sails" type="AnimatedSprite2D" parent="{name}"]\nposition = Vector2({hx}, {hy})\n'
+                     f'sprite_frames = SubResource("{key}")\nautoplay = "default"\n')
         shadow("building", path, x, y)
         taken.append((x, y))
         if name in DOORS:
@@ -1367,6 +1393,15 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
             n.append(prop_node("lamp_post", x, y))
             n.append(f'[node name="Light{count[0]}" type="PointLight2D" parent="."]\nposition = Vector2({x + 18}, {y - 47})\n'
                      f'texture_scale = 1.4\nscript = ExtResource("20_lamp")\n')
+    for k, (a, b, sag) in enumerate(STRING_LIGHTS):
+        (ax, ay), (bx, by) = W(*a), W(*b)
+        n.append(f'[node name="StringLights{k}" type="Node2D" parent="."]\nposition = Vector2({ax}, {ay - 44})\n'
+                 f'script = ExtResource("33_strings")\nto = Vector2({bx - ax}, {by - ay})\nsag = {sag}\n'
+                 f'count = {max(4, int(math.hypot(bx - ax, by - ay) / 22))}\n')
+    for k, p in enumerate(NIGHT_LIGHTS):
+        x, y = W(*p)
+        n.append(f'[node name="NightLight{k}" type="PointLight2D" parent="."]\nposition = Vector2({x}, {y - 14})\n'
+                 f'texture_scale = 0.8\nscript = ExtResource("20_lamp")\nmax_energy = 0.9\n')
     for name, pcx, pcy in PROPS + CLUTTER:
         spot = place_check(name, *W(pcx, pcy), 16 if name in SMALL else 18)
         if spot:

@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="CardData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/veyra_pearl.png" id="2_art"]
 
 [resource]
 script = ExtResource("1_card")
@@ -13,4 +14,5 @@ source = 0
 is_final_set_member = true
 gate_card = true
 sell_value = 60
+icon = ExtResource("2_art")
 copies_in_world = 4

@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="CardData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/canopy_seed.png" id="2_art"]
 
 [resource]
 script = ExtResource("1_card")
@@ -12,5 +13,6 @@ rarity = 0
 source = 1
 is_final_set_member = true
 sell_value = 8
+icon = ExtResource("2_art")
 copies_in_world = 4
 respawning_monster_drop = true
