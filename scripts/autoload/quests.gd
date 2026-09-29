@@ -16,6 +16,8 @@ const TITLES := {
 ## Sorenda: Pell found a child's boot near the Hollow; what's in there is the proof.
 const SATCHEL_TITLE := "A satchel in the moss"
 const TREES_REWARD_GOLD := 50
+## Elder Moss's own card, for bringing the child's things home.
+const TREES_REWARD_CARD := &"sorenda_star_map"
 const CARGO_CLUES: Array[StringName] = [&"crate_sand", &"crate_glove", &"crate_ledger"]
 const CARGO_REWARD_GOLD := 40
 
@@ -62,12 +64,12 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 				NOT_STARTED:
 					return PackedStringArray([
 						"You're a racer. You go places the rest of us don't. Will you listen a moment?",
-						"I found a little boot in the moss near the Hollow. Too small to be a racer's. Too far from any house to be one of ours.",
-						"The Hollow's sealed. Needs a card to open, and I haven't got one to spare. You might.",
-						"Whatever's in there, somebody small left it. Please. Go and look.",
+						"I found a little boot in the moss by the Hollow. That's the cave under the roots, north-east of the green. Too small to be a racer's boot. Too far from any house to be one of ours.",
+						"The moss gate in front of it needs a card to open, and I haven't got one to spare. You might.",
+						"Something big has moved in down there this year. We hear it at night. Whatever's in there, somebody small went in first. Please. Go and look.",
 					])
 				1:
-					return PackedStringArray(["The Hollow's up the path, north-east of the green, past the old gate. Look in the moss."])
+					return PackedStringArray(["The Hollow's up the path, north-east of the green, through the moss gate and down under the roots. Mind whatever's living in it."])
 				2:
 					return PackedStringArray(["You found something. I can see it on you. Take it to Elder Moss. She keeps the names."])
 				DONE:
@@ -79,7 +81,8 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 						"...A work tag. 'D.M. - No. 117.' And bread, and a carved bird.",
 						"We sent seven children east for the Duskara work last spring. The foreman's men said it was apprentice wages. Room and board and a trade.",
 						"'I ran. Tell mama I ran.' She did, then. One of them did.",
-						"Take these, racer. For the road east. And if you ever stand in Duskara, look for number 117. Tell her Sorenda remembers.",
+						"Take these, racer. For the road east. And this: the star map my mother drew. The stars on it aren't in our sky anymore. Perhaps you'll find where they went.",
+						"And if you ever stand in Duskara, look for number 117. Tell her Sorenda remembers.",
 					])
 				DONE:
 					return PackedStringArray(["Every notch on that post is a name. I've started carving them larger."])
@@ -115,9 +118,10 @@ func talked_to(npc_id: StringName) -> void:
 	if npc_id == &"moss" and stage(&"trees_remember") == 2:
 		GameState.add_item(&"healers_tonic", 2)
 		GameState.add_currency(TREES_REWARD_GOLD)
+		GameState.add_loose_card(GameState.PLAYER, TREES_REWARD_CARD)
 		GameState.quest_flags[&"knows_tag_117"] = true
 		set_stage(&"trees_remember", DONE)
-		EventBus.notify.emit("Quest complete: What the Trees Remember (+%d gold, 2 Healer's Tonics)" % TREES_REWARD_GOLD)
+		EventBus.notify.emit("Quest complete: What the Trees Remember (+%d gold, 2 Healer's Tonics, Sorenda Star Map)" % TREES_REWARD_GOLD)
 		return
 	if npc_id != &"bram":
 		return
@@ -173,7 +177,7 @@ func tracker_text() -> String:
 			lines.append("%s: report back to Bram" % TITLES[&"unmarked_cargo"])
 	match stage(&"trees_remember"):
 		1:
-			lines.append("%s: search the Hollow in Sorenda" % TITLES[&"trees_remember"])
+			lines.append("%s: search the Hollow, the cave past Sorenda's moss gate" % TITLES[&"trees_remember"])
 		2:
 			lines.append("%s: bring the satchel to Elder Moss" % TITLES[&"trees_remember"])
 	lines.append_array(Errands.tracker_lines())

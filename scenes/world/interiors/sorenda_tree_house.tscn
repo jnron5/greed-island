@@ -1,0 +1,165 @@
+[gd_scene load_steps=25 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/sorenda/interiors/tree_house_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R288x100"]
+size = Vector2(288, 100)
+
+[sub_resource type="RectangleShape2D" id="R70x52"]
+size = Vector2(70, 52)
+
+[sub_resource type="RectangleShape2D" id="R55x32"]
+size = Vector2(55, 32)
+
+[sub_resource type="RectangleShape2D" id="R94x64"]
+size = Vector2(94, 64)
+
+[sub_resource type="RectangleShape2D" id="R28x224"]
+size = Vector2(28, 224)
+
+[sub_resource type="RectangleShape2D" id="R26x224"]
+size = Vector2(26, 224)
+
+[sub_resource type="RectangleShape2D" id="R60x74"]
+size = Vector2(60, 74)
+
+[sub_resource type="RectangleShape2D" id="R116x34"]
+size = Vector2(116, 34)
+
+[sub_resource type="RectangleShape2D" id="R122x34"]
+size = Vector2(122, 34)
+
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
+
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
+
+[node name="sorenda_tree_house" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Old Tree House"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(144.0, 112.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 50.0)
+shape = SubResource("R288x100")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(75.0, 86.0)
+shape = SubResource("R70x52")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(227.5, 120.0)
+shape = SubResource("R55x32")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(143.0, 144.0)
+shape = SubResource("R94x64")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(14.0, 112.0)
+shape = SubResource("R28x224")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(275.0, 112.0)
+shape = SubResource("R26x224")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(30.0, 187.0)
+shape = SubResource("R60x74")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(258.0, 187.0)
+shape = SubResource("R60x74")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(58.0, 207.0)
+shape = SubResource("R116x34")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(227.0, 207.0)
+shape = SubResource("R122x34")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(142, 186)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(142, 222)
+target_scene = "res://scenes/world/sorenda.tscn"
+target_spawn = &"from_housetree"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(206, 150)
+script = ExtResource("12_read")
+title = "A stargazer's journal"
+lines = PackedStringArray("'Another star gone from the Wreath tonight. That's nine since the last race. Mother's map shows all of them.'", "'The old stories say the stars go out when the island takes more than it gives. I think the old stories were being polite.'")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(142, 186)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

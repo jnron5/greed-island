@@ -6,7 +6,7 @@ extends Node
 ## the gate (the walk opens every gate first).
 ## Run: godot --headless --path . res://tests/test_forest_reach.tscn
 
-const ZONES := ["res://scenes/world/thornveil.tscn", "res://scenes/world/sorenda.tscn", "res://scenes/world/wardens_grove.tscn", "res://scenes/world/lake_veyra.tscn"]
+const ZONES := ["res://scenes/world/thornveil.tscn", "res://scenes/world/sorenda.tscn", "res://scenes/world/sorenda_hollow.tscn", "res://scenes/world/wardens_grove.tscn", "res://scenes/world/lake_veyra.tscn"]
 const STEP := 8.0
 
 var _failures := 0

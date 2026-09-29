@@ -98,62 +98,59 @@ def near_lake(cfg, x, y, margin):
 # work goes, and the Hollow keeps what a runaway child left behind.
 LIFE = {
     "sorenda": {
+        # The homes themselves are placed by build_sorenda.py; these are the things
+        # round them: the woodcutter's pile, the herbalist's drying rack, the fire pit
+        # on the green, lanterns along the paths, and a fenced vegetable garden.
         "props": [
-            ('res://assets/sprites/tiles/sorenda/cabin.png', (-320, -150), True, (84, 44)),
-            ('res://assets/sprites/tiles/sorenda/woodpile.png', (-238, -142), True, (50, 16)),
-            ('res://assets/sprites/tiles/sorenda/herb_hut.png', (340, 40), True, (70, 34)),
-            ('res://assets/sprites/tiles/sorenda/drying_rack.png', (262, 82), True, (40, 10)),
-            ('res://assets/sprites/tiles/sorenda/firepit.png', (40, 70), True, (60, 24)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (-196, -118), True, (10, 8)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (168, -150), True, (10, 8)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (176, 104), True, (10, 8)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (-100, 146), True, (10, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-392, 30), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-392, 128), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-376, 30), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-376, 128), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-360, 30), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-360, 128), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-344, 30), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-344, 128), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-328, 30), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-328, 128), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-312, 30), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-312, 128), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-296, 30), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-296, 128), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-280, 30), True, (16, 8)),
-            ('res://assets/sprites/tiles/kalmora/props/fence.png', (-280, 128), True, (16, 8)),
-        ],
-        # A fenced vegetable garden south-west of the green (the fence above), rows of
+            ('res://assets/sprites/tiles/sorenda/woodpile.png', (-540, 30), True, (50, 16)),
+            ('res://assets/sprites/tiles/sorenda/drying_rack.png', (470, -170), True, (40, 10)),
+            ('res://assets/sprites/tiles/sorenda/firepit.png', (60, 70), True, (60, 24)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (-200, -110), True, (10, 8)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (190, -128), True, (10, 8)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (196, 88), True, (10, 8)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (-150, 118), True, (10, 8)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (40, 200), True, (10, 8)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (470, -330), True, (10, 8)),
+            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (-300, -16), True, (10, 8)),
+        ] + [('res://assets/sprites/tiles/kalmora/props/fence.png', (x, y), True, (16, 8))
+             for x in range(140, 290, 16) for y in (136, 232)],
+        # A fenced vegetable garden south-east of the green (the fence above), rows of
         # crops painted into the ground.
-        "garden": (-392, 30, -272, 128),
-        "butterflies": [((-330, 80), 3), ((120, -60), 2), ((360, -20), 2)],
+        "garden": (140, 136, 284, 232),
+        "butterflies": [((200, 180), 3), ((120, -60), 2), ((-420, -200), 2)],
         "npcs": [
-            ("moss", "Elder Moss", (0, -126), 0, [
+            ("moss", "Elder Moss", (40, -226), 0, [
                 "Sorenda sits where the old roads cross. Every race, the racers come through. Some are running to something. Some from it.",
                 "The trees here remember everyone who passes. That's not a story, dear. Put your hand on the bark by the Hollow and you'll see.",
                 "We carve a notch in the longhouse post for every one of ours who goes east for the Duskara work. We haven't had to carve a homecoming in years.",
             ]),
-            ("harl", "Harl", (262, -40), 20, [
+            ("harl", "Harl", (-420, 70), 20, [
                 "Cut timber for the Duskara road three winters running. Good coin. Then they wanted timber for pens. Small pens. I came home.",
                 "Hounds are bolder this year. Something out east has them spooked, or hungry. Keep your cards bound on the road.",
                 "The Runner came through last week, fast as ever. Stopped at the Hollow, though. Stood there a long time. Didn't say why.",
             ]),
-            ("pell", "Pell", (-150, -18), 30, [
-                "Mushrooms by the well are fine to eat. The red ones by the Hollow aren't. Trust me.",
-                "I found a little boot in the moss near the Hollow. Too small to be a racer's. Too far from any house to be one of ours.",
+            ("pell", "Pell", (-190, 214), 30, [
+                "Mushrooms by the well are fine to eat. The glowing ones down in the Hollow aren't. Trust me.",
+                "I found a little boot in the moss by the Hollow. Too small to be a racer's. Too far from any house to be one of ours.",
                 "The Hollow gate wants a card to open. Elder Moss says it's to keep the forest's secrets. I think it's to keep us from finding them.",
+            ]),
+            ("wren", "Wren", (-300, -176), 12, [
+                "I copy the village's stories out every winter, so they don't fade. Some of them I'd rather let fade.",
+                "Seven children went east last spring. I wrote their names in the book. I write a lot of names in the book.",
+            ]),
+            ("juniper", "Juniper", (390, -150), 12, [
+                "Mind the drying rack. That's feverfew, and it doesn't like being walked through.",
+                "Something in the Hollow has been clawing at the roots. The whole hill smells of bear.",
             ]),
         ],
         "readables": [
-            ("The longhouse post", (0, -140), [
+            ("The longhouse post", (-70, -236), [
                 "A carved post by the longhouse door, covered in names. Beside each name, a notch.",
                 "The oldest notches are wide and deep. The newest ones are small, low down, and there are a great many of them.",
             ]),
-            ("A satchel in the moss", (392, -364), [
-                "A canvas satchel, stiff with old rain. Inside: a heel of bread gone to stone, a little carved wooden bird, and a tin work tag stamped 'D.M. - No. 117'.",
-                "Scratched into the bark above it, low down, where a small hand could reach: 'I ran. Tell mama I ran.'",
+            ("A child's boot", (560, -420), [
+                "A little leather boot, stiff with mud, caught in the moss by the gate. Too small to be a racer's.",
+                "Small footprints lead from it to the cave mouth, and don't come back.",
             ]),
         ],
     },

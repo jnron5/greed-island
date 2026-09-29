@@ -22,6 +22,10 @@ extends Node2D
 @export var rival_scene: PackedScene = preload("res://scenes/characters/rival.tscn")
 ## Indoors: fixed warm light instead of the day/night tint.
 @export var interior := false
+## Caves: the scene's own (dark) CanvasModulate, no day or night; light comes from
+## the glowing moss and lanterns placed in it. Unlike interiors, caves are reached
+## along WorldMap.EDGES, so rivals can go in too.
+@export var underground := false
 @export var water_shimmer := true
 @export_group("Elevation")
 ## One pixel per cell; red channel = level * 40, 255 = not walkable (cliff).
@@ -102,6 +106,8 @@ func _setup_atmosphere() -> void:
 		add_child(_modulate)
 	if interior:
 		_modulate.color = _base_tint * Color(1.0, 0.93, 0.84)
+	elif underground:
+		_modulate.color = _base_tint
 	else:
 		_apply_tint(TimeOfDay.hour)
 		TimeOfDay.hour_changed.connect(_apply_tint)

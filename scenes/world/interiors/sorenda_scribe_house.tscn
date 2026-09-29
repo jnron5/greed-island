@@ -1,0 +1,207 @@
+[gd_scene load_steps=31 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/sorenda/interiors/scribe_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R288x62"]
+size = Vector2(288, 62)
+
+[sub_resource type="RectangleShape2D" id="R132x94"]
+size = Vector2(132, 94)
+
+[sub_resource type="RectangleShape2D" id="R32x50"]
+size = Vector2(32, 50)
+
+[sub_resource type="RectangleShape2D" id="R72x40"]
+size = Vector2(72, 40)
+
+[sub_resource type="RectangleShape2D" id="R34x44"]
+size = Vector2(34, 44)
+
+[sub_resource type="RectangleShape2D" id="R18x26"]
+size = Vector2(18, 26)
+
+[sub_resource type="RectangleShape2D" id="R25x28"]
+size = Vector2(25, 28)
+
+[sub_resource type="RectangleShape2D" id="R17x22"]
+size = Vector2(17, 22)
+
+[sub_resource type="RectangleShape2D" id="R46x88"]
+size = Vector2(46, 88)
+
+[sub_resource type="RectangleShape2D" id="R81x50"]
+size = Vector2(81, 50)
+
+[sub_resource type="RectangleShape2D" id="R18x32"]
+size = Vector2(18, 32)
+
+[sub_resource type="RectangleShape2D" id="R32x38"]
+size = Vector2(32, 38)
+
+[sub_resource type="RectangleShape2D" id="R10x224"]
+size = Vector2(10, 224)
+
+[sub_resource type="RectangleShape2D" id="R118x26"]
+size = Vector2(118, 26)
+
+[sub_resource type="RectangleShape2D" id="R122x26"]
+size = Vector2(122, 26)
+
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
+
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
+
+[node name="sorenda_scribe_house" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Wren's House"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(144.0, 112.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 31.0)
+shape = SubResource("R288x62")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(214.0, 47.0)
+shape = SubResource("R132x94")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(16.0, 65.0)
+shape = SubResource("R32x50")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(86.0, 78.0)
+shape = SubResource("R72x40")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(83.0, 104.0)
+shape = SubResource("R34x44")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(129.0, 89.0)
+shape = SubResource("R18x26")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(192.5, 114.0)
+shape = SubResource("R25x28")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(216.5, 117.0)
+shape = SubResource("R17x22")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(255.0, 152.0)
+shape = SubResource("R46x88")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(54.5, 171.0)
+shape = SubResource("R81x50")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(109.0, 180.0)
+shape = SubResource("R18x32")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(216.0, 179.0)
+shape = SubResource("R32x38")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(5.0, 112.0)
+shape = SubResource("R10x224")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(283.0, 112.0)
+shape = SubResource("R10x224")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(59.0, 211.0)
+shape = SubResource("R118x26")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(227.0, 211.0)
+shape = SubResource("R122x26")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(142, 188)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(142, 222)
+target_scene = "res://scenes/world/sorenda.tscn"
+target_spawn = &"from_housescribe"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(86, 96)
+script = ExtResource("12_read")
+title = "Wren's book of names"
+lines = PackedStringArray("A thick book, bound in bark. Every page is a list of names, and beside each, a year and a place.", "The places change over the years: Vetrassa, Verdana, the Starfall mines. For the last forty years, they all say Duskara.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(142, 188)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

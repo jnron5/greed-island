@@ -7,6 +7,8 @@ extends Node2D
 @export var count := 8
 @export var radius := 90.0
 @export var seed := 1
+## Glow regardless of the hour (in caves, where there's no day).
+@export var always := false
 
 const GLOW := Color(0.85, 1.0, 0.45)
 
@@ -34,7 +36,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	modulate.a = clampf(TimeOfDay.night_factor() * 1.4 - 0.15, 0.0, 1.0)
+	modulate.a = 1.0 if always else clampf(TimeOfDay.night_factor() * 1.4 - 0.15, 0.0, 1.0)
 	visible = modulate.a > 0.01
 	if not visible:
 		return

@@ -1,0 +1,179 @@
+[gd_scene load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/sorenda/interiors/herbalist_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R288x78"]
+size = Vector2(288, 78)
+
+[sub_resource type="RectangleShape2D" id="R74x42"]
+size = Vector2(74, 42)
+
+[sub_resource type="RectangleShape2D" id="R30x70"]
+size = Vector2(30, 70)
+
+[sub_resource type="RectangleShape2D" id="R78x56"]
+size = Vector2(78, 56)
+
+[sub_resource type="RectangleShape2D" id="R66x58"]
+size = Vector2(66, 58)
+
+[sub_resource type="RectangleShape2D" id="R32x138"]
+size = Vector2(32, 138)
+
+[sub_resource type="RectangleShape2D" id="R55x40"]
+size = Vector2(55, 40)
+
+[sub_resource type="RectangleShape2D" id="R53x26"]
+size = Vector2(53, 26)
+
+[sub_resource type="RectangleShape2D" id="R10x224"]
+size = Vector2(10, 224)
+
+[sub_resource type="RectangleShape2D" id="R118x26"]
+size = Vector2(118, 26)
+
+[sub_resource type="RectangleShape2D" id="R122x26"]
+size = Vector2(122, 26)
+
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
+
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
+
+[node name="sorenda_herbalist_house" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Juniper's Cottage"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(144.0, 112.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 39.0)
+shape = SubResource("R288x78")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(149.0, 61.0)
+shape = SubResource("R74x42")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(15.0, 125.0)
+shape = SubResource("R30x70")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(99.0, 140.0)
+shape = SubResource("R78x56")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(195.0, 133.0)
+shape = SubResource("R66x58")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(272.0, 121.0)
+shape = SubResource("R32x138")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(27.5, 178.0)
+shape = SubResource("R55x40")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(231.5, 185.0)
+shape = SubResource("R53x26")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(5.0, 112.0)
+shape = SubResource("R10x224")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(283.0, 112.0)
+shape = SubResource("R10x224")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(59.0, 211.0)
+shape = SubResource("R118x26")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(227.0, 211.0)
+shape = SubResource("R122x26")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(142, 188)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(142, 222)
+target_scene = "res://scenes/world/sorenda.tscn"
+target_spawn = &"from_househerbalist"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(100, 170)
+script = ExtResource("12_read")
+title = "A remedy list"
+lines = PackedStringArray("'Feverfew for heat. Willow bark for aches. Moss poultice for cuts that won't close.'", "At the bottom, underlined twice: 'Send the good salve east with the next children. They come back with their hands cracked from the dust. If they come back.'")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(142, 188)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

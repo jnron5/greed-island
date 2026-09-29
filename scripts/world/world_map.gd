@@ -14,6 +14,13 @@ const THORNVEIL := "res://scenes/world/thornveil.tscn"
 const SORENDA := "res://scenes/world/sorenda.tscn"
 const WARDENS_GROVE := "res://scenes/world/wardens_grove.tscn"
 const LAKE_VEYRA := "res://scenes/world/lake_veyra.tscn"
+const SORENDA_HOLLOW := "res://scenes/world/sorenda_hollow.tscn"
+const SORENDA_LONGHOUSE := "res://scenes/world/interiors/sorenda_longhouse.tscn"
+const SORENDA_SCRIBE := "res://scenes/world/interiors/sorenda_scribe_house.tscn"
+const SORENDA_HERBALIST := "res://scenes/world/interiors/sorenda_herbalist_house.tscn"
+const SORENDA_WOODCUTTER := "res://scenes/world/interiors/sorenda_woodcutter.tscn"
+const SORENDA_FAMILY := "res://scenes/world/interiors/sorenda_family_home.tscn"
+const SORENDA_TREE_HOUSE := "res://scenes/world/interiors/sorenda_tree_house.tscn"
 const KALMORA_TAVERN := "res://scenes/world/interiors/kalmora_tavern.tscn"
 const KALMORA_CARD_SHOP := "res://scenes/world/interiors/kalmora_card_shop.tscn"
 const KALMORA_NONNA_HOUSE := "res://scenes/world/interiors/kalmora_nonna_house.tscn"
@@ -35,7 +42,10 @@ const ZONES := {
 	KALMORA: { "name": "Kalmora", "origin": Vector2(0, 396), "monster_drops": [] },
 	THORNVEIL: { "name": "Thornveil Forest", "origin": Vector2(-28, -488),
 		"monster_drops": [&"thorn_sprig", &"moss_lantern", &"veyra_reed", &"hollow_acorn"] },
-	SORENDA: { "name": "Sorenda", "origin": Vector2(-30, -2163), "monster_drops": [] },
+	SORENDA: { "name": "Sorenda", "origin": Vector2(-30, -2268), "monster_drops": [] },
+	# The cave under Sorenda's roots, past the moss gate. A real zone (rivals can go in).
+	SORENDA_HOLLOW: { "name": "The Hollow", "origin": Vector2(1070, -3340),
+		"monster_drops": [&"root_knot", &"briar_wren"] },
 	WARDENS_GROVE: { "name": "Warden's Grove", "origin": Vector2(1456, -1764), "monster_drops": [] },
 	LAKE_VEYRA: { "name": "Lake Veyra", "origin": Vector2(-1582, -1978),
 		"monster_drops": [&"veyra_reed", &"moss_lantern", &"thorn_sprig"] },
@@ -53,6 +63,12 @@ const ZONES := {
 	KALMORA_CALLOWAY_HOUSE: { "name": "Calloway House", "origin": Vector2(757, 27), "monster_drops": [] },
 	KALMORA_TEAL_HOUSE: { "name": "Ilse's Map House", "origin": Vector2(872, 27), "monster_drops": [] },
 	KALMORA_MILL: { "name": "The Windmill", "origin": Vector2(-766, 142), "monster_drops": [] },
+	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2518), "monster_drops": [] },
+	SORENDA_SCRIBE: { "name": "Wren's House", "origin": Vector2(-370, -2482), "monster_drops": [] },
+	SORENDA_HERBALIST: { "name": "Juniper's Cottage", "origin": Vector2(320, -2454), "monster_drops": [] },
+	SORENDA_WOODCUTTER: { "name": "Harl's Cottage", "origin": Vector2(-480, -2244), "monster_drops": [] },
+	SORENDA_FAMILY: { "name": "Pell's Home", "origin": Vector2(-270, -2092), "monster_drops": [] },
+	SORENDA_TREE_HOUSE: { "name": "The Old Tree House", "origin": Vector2(350, -2148), "monster_drops": [] },
 }
 
 ## Town scene -> { spawn marker (under "Spawns") people wake at, the local point
@@ -71,9 +87,13 @@ const EDGES: Array[Dictionary] = [
 	{ "from": THORNVEIL, "to": KALMORA, "exit": Vector2(28, 124), "spawn": &"from_thornveil",
 		"entry": Vector2(-13, -609), "gate": &"kalmora_north_gate" },
 	{ "from": THORNVEIL, "to": SORENDA, "exit": Vector2(-2, -1500), "spawn": &"from_thornveil",
-		"entry": Vector2(0, 120), "gate": &"" },
-	{ "from": SORENDA, "to": THORNVEIL, "exit": Vector2(0, 175), "spawn": &"from_sorenda",
+		"entry": Vector2(0, 236), "gate": &"" },
+	{ "from": SORENDA, "to": THORNVEIL, "exit": Vector2(0, 282), "spawn": &"from_sorenda",
 		"entry": Vector2(-2, -1414), "gate": &"" },
+	{ "from": SORENDA, "to": SORENDA_HOLLOW, "exit": Vector2(604, -532), "spawn": &"from_sorenda",
+		"entry": Vector2(-496, 448), "gate": &"sorenda_hollow" },
+	{ "from": SORENDA_HOLLOW, "to": SORENDA, "exit": Vector2(-496, 540), "spawn": &"from_hollow",
+		"entry": Vector2(604, -498), "gate": &"sorenda_hollow" },
 	{ "from": THORNVEIL, "to": WARDENS_GROVE, "exit": Vector2(1084, -1276), "spawn": &"from_thornveil",
 		"entry": Vector2(-400, 0), "gate": &"" },
 	{ "from": WARDENS_GROVE, "to": THORNVEIL, "exit": Vector2(-495, 0), "spawn": &"from_grove",

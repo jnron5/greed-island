@@ -39,14 +39,22 @@ ZONES = {
     "sorenda": {
         "scene": "scenes/world/sorenda.tscn",
         "out": "assets/sprites/tiles/thornveil/sorenda_ground.png",
-        "bounds": (-480, -448, 480, 224),
+        # The village layout (homes, the Hollow's pocket) is scripts/tools/build_sorenda.py;
+        # these are its green and paths, in the same coordinates.
+        "bounds": (-704, -640, 704, 288),
         "remove": ["Ground", "Clearing", "Path", "GroveFloor"],
         "extra_trees": 20,
         "paths": [
-            ("ellipse", 0, -40, 190, 120),              # village green
-            ("line", [(0, -20), (0, 240)], 44),         # south road
-            ("line", [(120, -110), (395, -290)], 32),   # to the Hollow
-            ("rect", 345, -410, 440, -310),             # the Hollow grove
+            ("ellipse", 0, -50, 240, 140),              # village green
+            ("line", [(0, -20), (0, 300)], 44),         # south road
+            ("line", [(0, -150), (0, -246)], 30),       # to the elder's longhouse
+            ("line", [(-150, -110), (-270, -170), (-336, -200)], 26),   # to the scribe's
+            ("line", [(170, -100), (290, -150), (350, -176)], 26),      # to the herbalist's
+            ("line", [(-200, -40), (-330, -10), (-444, 34)], 26),       # to the woodcutter's
+            ("line", [(-120, 40), (-200, 120), (-244, 186)], 26),       # to the family home
+            ("line", [(150, 40), (300, 100), (380, 130)], 26),          # to the tree house
+            ("line", [(200, -110), (420, -300), (560, -400), (600, -440)], 30),  # to the moss gate
+            ("rect", 540, -560, 670, -440),             # the Hollow's pocket
         ],
     },
     "wardens_grove": {

@@ -1,0 +1,742 @@
+[gd_scene load_steps=56 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/hollow/hollow_ground.png" id="8_ground"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/hollow/hollow_levels.png" id="9_levels"]
+[ext_resource type="PackedScene" path="res://scenes/characters/hollow_bear.tscn" id="10_bear"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="11_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="12_chest_shut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="13_chest_open"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="14_read"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="15_lamp"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/hollow/glow_mushrooms.png" id="16_mushroom"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/hollow/crystal_rock.png" id="17_rock"]
+[ext_resource type="Script" path="res://scripts/world/fireflies.gd" id="18_fireflies"]
+
+[sub_resource type="RectangleShape2D" id="R1472x224"]
+size = Vector2(1472, 224)
+
+[sub_resource type="RectangleShape2D" id="R128x64"]
+size = Vector2(128, 64)
+
+[sub_resource type="RectangleShape2D" id="R1152x96"]
+size = Vector2(1152, 96)
+
+[sub_resource type="RectangleShape2D" id="R672x32"]
+size = Vector2(672, 32)
+
+[sub_resource type="RectangleShape2D" id="R416x32"]
+size = Vector2(416, 32)
+
+[sub_resource type="RectangleShape2D" id="R96x64"]
+size = Vector2(96, 64)
+
+[sub_resource type="RectangleShape2D" id="R320x32"]
+size = Vector2(320, 32)
+
+[sub_resource type="RectangleShape2D" id="R224x32"]
+size = Vector2(224, 32)
+
+[sub_resource type="RectangleShape2D" id="R384x32"]
+size = Vector2(384, 32)
+
+[sub_resource type="RectangleShape2D" id="R128x32"]
+size = Vector2(128, 32)
+
+[sub_resource type="RectangleShape2D" id="R288x32"]
+size = Vector2(288, 32)
+
+[sub_resource type="RectangleShape2D" id="R352x32"]
+size = Vector2(352, 32)
+
+[sub_resource type="RectangleShape2D" id="R96x32"]
+size = Vector2(96, 32)
+
+[sub_resource type="RectangleShape2D" id="R256x64"]
+size = Vector2(256, 64)
+
+[sub_resource type="RectangleShape2D" id="R256x32"]
+size = Vector2(256, 32)
+
+[sub_resource type="RectangleShape2D" id="R64x32"]
+size = Vector2(64, 32)
+
+[sub_resource type="RectangleShape2D" id="R192x128"]
+size = Vector2(192, 128)
+
+[sub_resource type="RectangleShape2D" id="R352x64"]
+size = Vector2(352, 64)
+
+[sub_resource type="RectangleShape2D" id="R288x160"]
+size = Vector2(288, 160)
+
+[sub_resource type="RectangleShape2D" id="R256x128"]
+size = Vector2(256, 128)
+
+[sub_resource type="RectangleShape2D" id="R448x64"]
+size = Vector2(448, 64)
+
+[sub_resource type="RectangleShape2D" id="R480x32"]
+size = Vector2(480, 32)
+
+[sub_resource type="RectangleShape2D" id="R224x128"]
+size = Vector2(224, 128)
+
+[sub_resource type="RectangleShape2D" id="R512x32"]
+size = Vector2(512, 32)
+
+[sub_resource type="RectangleShape2D" id="R288x128"]
+size = Vector2(288, 128)
+
+[sub_resource type="RectangleShape2D" id="R608x32"]
+size = Vector2(608, 32)
+
+[sub_resource type="RectangleShape2D" id="R192x32"]
+size = Vector2(192, 32)
+
+[sub_resource type="RectangleShape2D" id="R160x64"]
+size = Vector2(160, 64)
+
+[sub_resource type="RectangleShape2D" id="R800x32"]
+size = Vector2(800, 32)
+
+[sub_resource type="RectangleShape2D" id="R768x32"]
+size = Vector2(768, 32)
+
+[sub_resource type="RectangleShape2D" id="R832x32"]
+size = Vector2(832, 32)
+
+[sub_resource type="RectangleShape2D" id="R1552x40"]
+size = Vector2(1552, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x1088"]
+size = Vector2(40, 1088)
+
+[sub_resource type="RectangleShape2D" id="R240x40"]
+size = Vector2(240.0, 40)
+
+[sub_resource type="RectangleShape2D" id="R1232x40"]
+size = Vector2(1232.0, 40)
+
+[sub_resource type="RectangleShape2D" id="R30x10"]
+size = Vector2(30, 10)
+
+[sub_resource type="RectangleShape2D" id="R44x16"]
+size = Vector2(44, 16)
+
+[node name="SorendaHollow" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Hollow, under Sorenda"
+underground = true
+water_shimmer = false
+level_map = ExtResource("9_levels")
+level_cell = 32
+level_origin = Vector2(-736, -544)
+
+[node name="Dark" type="CanvasModulate" parent="."]
+color = Color(0.34, 0.38, 0.46, 1)
+
+[node name="GroundTiles" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(0.0, 0.0)
+texture = ExtResource("8_ground")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0.0, -432.0)
+shape = SubResource("R1472x224")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(672.0, -288.0)
+shape = SubResource("R128x64")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-160.0, -272.0)
+shape = SubResource("R1152x96")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-400.0, -208.0)
+shape = SubResource("R672x32")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(176.0, -208.0)
+shape = SubResource("R416x32")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(688.0, -224.0)
+shape = SubResource("R96x64")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-576.0, -176.0)
+shape = SubResource("R320x32")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-272.0, -176.0)
+shape = SubResource("R224x32")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(192.0, -176.0)
+shape = SubResource("R384x32")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(672.0, -176.0)
+shape = SubResource("R128x32")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-592.0, -144.0)
+shape = SubResource("R288x32")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(208.0, -144.0)
+shape = SubResource("R352x32")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(624.0, -144.0)
+shape = SubResource("R224x32")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-80.0, -112.0)
+shape = SubResource("R96x32")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(224.0, -112.0)
+shape = SubResource("R320x32")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-112.0, -80.0)
+shape = SubResource("R224x32")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -80.0)
+shape = SubResource("R128x32")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(304.0, -80.0)
+shape = SubResource("R96x32")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(608.0, -96.0)
+shape = SubResource("R256x64")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-96.0, -48.0)
+shape = SubResource("R256x32")
+
+[node name="W20" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -48.0)
+shape = SubResource("R64x32")
+
+[node name="W21" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-640.0, -64.0)
+shape = SubResource("R192x128")
+
+[node name="W22" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-96.0, -16.0)
+shape = SubResource("R320x32")
+
+[node name="W23" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-624.0, 16.0)
+shape = SubResource("R224x32")
+
+[node name="W24" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-112.0, 32.0)
+shape = SubResource("R352x64")
+
+[node name="W25" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-144.0, 80.0)
+shape = SubResource("R352x32")
+
+[node name="W26" type="CollisionShape2D" parent="Walls"]
+position = Vector2(592.0, 16.0)
+shape = SubResource("R288x160")
+
+[node name="W27" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-160.0, 112.0)
+shape = SubResource("R384x32")
+
+[node name="W28" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-608.0, 96.0)
+shape = SubResource("R256x128")
+
+[node name="W29" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-144.0, 144.0)
+shape = SubResource("R416x32")
+
+[node name="W30" type="CollisionShape2D" parent="Walls"]
+position = Vector2(608.0, 128.0)
+shape = SubResource("R256x64")
+
+[node name="W31" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-160.0, 192.0)
+shape = SubResource("R448x64")
+
+[node name="W32" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-144.0, 240.0)
+shape = SubResource("R480x32")
+
+[node name="W33" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-624.0, 224.0)
+shape = SubResource("R224x128")
+
+[node name="W34" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-128.0, 272.0)
+shape = SubResource("R512x32")
+
+[node name="W35" type="CollisionShape2D" parent="Walls"]
+position = Vector2(592.0, 224.0)
+shape = SubResource("R288x128")
+
+[node name="W36" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-80.0, 304.0)
+shape = SubResource("R608x32")
+
+[node name="W37" type="CollisionShape2D" parent="Walls"]
+position = Vector2(320.0, 304.0)
+shape = SubResource("R128x32")
+
+[node name="W38" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640.0, 304.0)
+shape = SubResource("R192x32")
+
+[node name="W39" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-656.0, 320.0)
+shape = SubResource("R160x64")
+
+[node name="W40" type="CollisionShape2D" parent="Walls"]
+position = Vector2(16.0, 336.0)
+shape = SubResource("R800x32")
+
+[node name="W41" type="CollisionShape2D" parent="Walls"]
+position = Vector2(32.0, 368.0)
+shape = SubResource("R768x32")
+
+[node name="W42" type="CollisionShape2D" parent="Walls"]
+position = Vector2(672.0, 352.0)
+shape = SubResource("R128x64")
+
+[node name="W43" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-672.0, 384.0)
+shape = SubResource("R128x64")
+
+[node name="W44" type="CollisionShape2D" parent="Walls"]
+position = Vector2(16.0, 400.0)
+shape = SubResource("R800x32")
+
+[node name="W45" type="CollisionShape2D" parent="Walls"]
+position = Vector2(32.0, 432.0)
+shape = SubResource("R832x32")
+
+[node name="W46" type="CollisionShape2D" parent="Walls"]
+position = Vector2(656.0, 416.0)
+shape = SubResource("R160x64")
+
+[node name="W47" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-640.0, 480.0)
+shape = SubResource("R192x128")
+
+[node name="W48" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 496.0)
+shape = SubResource("R1152x96")
+
+[node name="W49" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0.0, -564.0)
+shape = SubResource("R1552x40")
+
+[node name="W50" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-756.0, 0.0)
+shape = SubResource("R40x1088")
+
+[node name="W51" type="CollisionShape2D" parent="Walls"]
+position = Vector2(756.0, 0.0)
+shape = SubResource("R40x1088")
+
+[node name="W52" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-656.0, 564.0)
+shape = SubResource("R240x40")
+
+[node name="W53" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 564.0)
+shape = SubResource("R1232x40")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="from_sorenda" type="Marker2D" parent="Spawns"]
+position = Vector2(-496.0, 448)
+
+[node name="RivalSpots" type="Node2D" parent="."]
+
+[node name="ToSorenda" parent="." instance=ExtResource("7_exit")]
+position = Vector2(-496.0, 540)
+target_scene = "res://scenes/world/sorenda.tscn"
+target_spawn = &"from_hollow"
+exit_hint = true
+
+[node name="runner" type="Marker2D" parent="RivalSpots"]
+position = Vector2(-496.0, 428)
+
+[node name="raider" type="Marker2D" parent="RivalSpots"]
+position = Vector2(-496.0, 428)
+
+[node name="hoarder" type="Marker2D" parent="RivalSpots"]
+position = Vector2(-496.0, 428)
+
+[node name="HollowBear" parent="." instance=ExtResource("10_bear")]
+position = Vector2(256, 64)
+
+[node name="Chest_grotto_cache" type="StaticBody2D" parent="."]
+position = Vector2(-288, -112.0)
+script = ExtResource("11_chest")
+chest_id = &"hollow_grotto_cache"
+card_id = &""
+gold = 30
+item_id = &"healers_tonic"
+item_count = 1
+closed_texture = ExtResource("12_chest_shut")
+open_texture = ExtResource("13_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_grotto_cache"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Chest_pool_ledge" type="StaticBody2D" parent="."]
+position = Vector2(544, 384)
+script = ExtResource("11_chest")
+chest_id = &"hollow_pool_ledge"
+card_id = &""
+gold = 0
+item_id = &"sea_salt_elixir"
+item_count = 1
+closed_texture = ExtResource("12_chest_shut")
+open_texture = ExtResource("13_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_pool_ledge"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Chest_childs_hiding" type="StaticBody2D" parent="."]
+position = Vector2(544, -240.0)
+script = ExtResource("11_chest")
+chest_id = &"hollow_childs_hiding"
+card_id = &"sorenda_star_map"
+gold = 20
+closed_texture = ExtResource("12_chest_shut")
+open_texture = ExtResource("13_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_childs_hiding"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Read0" type="Node2D" parent="."]
+position = Vector2(-480, 240.0)
+script = ExtResource("14_read")
+title = "Scratches on the wall"
+lines = PackedStringArray("Tally marks, scratched low on the rock with a stone. Seven of them. Then the scratches stop being tallies and start being a small, careful drawing of a door.")
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(-64, -144.0)
+script = ExtResource("14_read")
+title = "A torn sleeve"
+lines = PackedStringArray("A strip of rough cloth caught on the rock where the passage narrows. It's stamped, like a sack: 'D.M. - issue'.", "Someone small squeezed through here. Something much bigger has been rubbing the rock smooth trying to follow.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(496.0, -272.0)
+script = ExtResource("14_read")
+title = "A satchel in the moss"
+lines = PackedStringArray("A canvas satchel, stiff with old rain, tucked into the driest corner of the cave. Inside: a heel of bread gone to stone, a little carved wooden bird, and a tin work tag stamped 'D.M. - No. 117'.", "Scratched into the rock above it, low down, where a small hand could reach: 'I ran. Tell mama I ran.'")
+
+[node name="Mushrooms0" type="Sprite2D" parent="."]
+position = Vector2(-528.0, -112.0)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow0" type="PointLight2D" parent="."]
+position = Vector2(-528.0, -126.0)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms1" type="Sprite2D" parent="."]
+position = Vector2(-256, -144.0)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow1" type="PointLight2D" parent="."]
+position = Vector2(-256, -158.0)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms2" type="Sprite2D" parent="."]
+position = Vector2(-512, 16.0)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow2" type="PointLight2D" parent="."]
+position = Vector2(-512, 2.0)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms3" type="Sprite2D" parent="."]
+position = Vector2(-352, -32)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow3" type="PointLight2D" parent="."]
+position = Vector2(-352, -46)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms4" type="Sprite2D" parent="."]
+position = Vector2(-576, 336.0)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow4" type="PointLight2D" parent="."]
+position = Vector2(-576, 322.0)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms5" type="Sprite2D" parent="."]
+position = Vector2(-400.0, 384)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow5" type="PointLight2D" parent="."]
+position = Vector2(-400.0, 370)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms6" type="Sprite2D" parent="."]
+position = Vector2(96, -32)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow6" type="PointLight2D" parent="."]
+position = Vector2(96, -46)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms7" type="Sprite2D" parent="."]
+position = Vector2(416, 0)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow7" type="PointLight2D" parent="."]
+position = Vector2(416, -14)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms8" type="Sprite2D" parent="."]
+position = Vector2(80.0, 160)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow8" type="PointLight2D" parent="."]
+position = Vector2(80.0, 146)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms9" type="Sprite2D" parent="."]
+position = Vector2(432.0, 192)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow9" type="PointLight2D" parent="."]
+position = Vector2(432.0, 178)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms10" type="Sprite2D" parent="."]
+position = Vector2(560.0, 368.0)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow10" type="PointLight2D" parent="."]
+position = Vector2(560.0, 354.0)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms11" type="Sprite2D" parent="."]
+position = Vector2(448, -288)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow11" type="PointLight2D" parent="."]
+position = Vector2(448, -302)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Mushrooms12" type="Sprite2D" parent="."]
+position = Vector2(592.0, -224)
+offset = Vector2(0, -18)
+texture = ExtResource("16_mushroom")
+
+[node name="Glow12" type="PointLight2D" parent="."]
+position = Vector2(592.0, -238)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(0.45, 0.95, 0.85, 1)
+flicker = 0.04
+
+[node name="Crystal0" type="StaticBody2D" parent="."]
+position = Vector2(-304.0, -80.0)
+
+[node name="Sprite" type="Sprite2D" parent="Crystal0"]
+offset = Vector2(0, -22)
+texture = ExtResource("17_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Crystal0"]
+position = Vector2(0, -8)
+shape = SubResource("R44x16")
+
+[node name="CrystalGlow0" type="PointLight2D" parent="."]
+position = Vector2(-304.0, -100.0)
+texture_scale = 1.0
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.7
+tint = Color(0.4, 0.85, 1.0, 1)
+flicker = 0.02
+
+[node name="Crystal1" type="StaticBody2D" parent="."]
+position = Vector2(112.0, 80.0)
+
+[node name="Sprite" type="Sprite2D" parent="Crystal1"]
+offset = Vector2(0, -22)
+texture = ExtResource("17_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Crystal1"]
+position = Vector2(0, -8)
+shape = SubResource("R44x16")
+
+[node name="CrystalGlow1" type="PointLight2D" parent="."]
+position = Vector2(112.0, 60.0)
+texture_scale = 1.0
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.7
+tint = Color(0.4, 0.85, 1.0, 1)
+flicker = 0.02
+
+[node name="Crystal2" type="StaticBody2D" parent="."]
+position = Vector2(384, 128)
+
+[node name="Sprite" type="Sprite2D" parent="Crystal2"]
+offset = Vector2(0, -22)
+texture = ExtResource("17_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Crystal2"]
+position = Vector2(0, -8)
+shape = SubResource("R44x16")
+
+[node name="CrystalGlow2" type="PointLight2D" parent="."]
+position = Vector2(384, 108)
+texture_scale = 1.0
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.7
+tint = Color(0.4, 0.85, 1.0, 1)
+flicker = 0.02
+
+[node name="Crystal3" type="StaticBody2D" parent="."]
+position = Vector2(400.0, -176.0)
+
+[node name="Sprite" type="Sprite2D" parent="Crystal3"]
+offset = Vector2(0, -22)
+texture = ExtResource("17_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Crystal3"]
+position = Vector2(0, -8)
+shape = SubResource("R44x16")
+
+[node name="CrystalGlow3" type="PointLight2D" parent="."]
+position = Vector2(400.0, -196.0)
+texture_scale = 1.0
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.7
+tint = Color(0.4, 0.85, 1.0, 1)
+flicker = 0.02
+
+[node name="Fireflies0" type="Node2D" parent="."]
+position = Vector2(-384, -64)
+script = ExtResource("18_fireflies")
+count = 7
+seed = 40
+radius = 70.0
+always = true
+
+[node name="Fireflies1" type="Node2D" parent="."]
+position = Vector2(512, -256)
+script = ExtResource("18_fireflies")
+count = 7
+seed = 41
+radius = 70.0
+always = true
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(-496.0, 448)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

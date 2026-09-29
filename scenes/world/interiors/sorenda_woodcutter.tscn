@@ -1,0 +1,183 @@
+[gd_scene load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/sorenda/interiors/woodcutter_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R288x62"]
+size = Vector2(288, 62)
+
+[sub_resource type="RectangleShape2D" id="R82x112"]
+size = Vector2(82, 112)
+
+[sub_resource type="RectangleShape2D" id="R16x128"]
+size = Vector2(16, 128)
+
+[sub_resource type="RectangleShape2D" id="R30x74"]
+size = Vector2(30, 74)
+
+[sub_resource type="RectangleShape2D" id="R32x34"]
+size = Vector2(32, 34)
+
+[sub_resource type="RectangleShape2D" id="R38x44"]
+size = Vector2(38, 44)
+
+[sub_resource type="RectangleShape2D" id="R68x43"]
+size = Vector2(68, 43)
+
+[sub_resource type="RectangleShape2D" id="R23x24"]
+size = Vector2(23, 24)
+
+[sub_resource type="RectangleShape2D" id="R67x75"]
+size = Vector2(67, 75)
+
+[sub_resource type="RectangleShape2D" id="R118x28"]
+size = Vector2(118, 28)
+
+[sub_resource type="RectangleShape2D" id="R122x28"]
+size = Vector2(122, 28)
+
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
+
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
+
+[node name="sorenda_woodcutter" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Harl's Cottage"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(144.0, 112.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 31.0)
+shape = SubResource("R288x62")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(209.0, 56.0)
+shape = SubResource("R82x112")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(8.0, 126.0)
+shape = SubResource("R16x128")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(280.0, 126.0)
+shape = SubResource("R16x128")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(15.0, 187.0)
+shape = SubResource("R30x74")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(273.0, 187.0)
+shape = SubResource("R30x74")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(66.0, 99.0)
+shape = SubResource("R32x34")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(33.0, 118.0)
+shape = SubResource("R38x44")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 133.5)
+shape = SubResource("R68x43")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(146.5, 158.0)
+shape = SubResource("R23x24")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(238.5, 147.5)
+shape = SubResource("R67x75")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(59.0, 210.0)
+shape = SubResource("R118x28")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(227.0, 210.0)
+shape = SubResource("R122x28")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(142, 188)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(142, 222)
+target_scene = "res://scenes/world/sorenda.tscn"
+target_spawn = &"from_housewoodcutter"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(92, 100)
+script = ExtResource("12_read")
+title = "A timber order"
+lines = PackedStringArray("'Forty lengths of oak, cut and planed, for pens. Small pens, four foot by four. Deliver to the red-sun crates at Kalmora. D.M.'", "Harl has written 'NO' across it, so hard the pencil went through.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(142, 188)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

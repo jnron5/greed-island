@@ -279,6 +279,136 @@ INTERIORS = {
             ]),
         ],
     },
+    # ---- Sorenda's homes (the village: build_sorenda.py). Same rules: 1x, doorway gap
+    # at the bottom middle, furniture blocks only its footprint.
+    "sorenda_longhouse": {
+        "town": "res://scenes/world/sorenda.tscn",
+        "name": "The Elder's Longhouse",
+        "image": "assets/sprites/tiles/sorenda/interiors/longhouse_room.png",
+        "size": (352, 256),
+        "exit": (173, 254), "back_to": "from_houselonghouse", "spawn": (173, 206),
+        "blocks": [
+            (0, 0, 352, 78), (198, 0, 290, 92), (26, 60, 56, 100),         # back wall, carved post and pot shelves, pots
+            (26, 100, 44, 214), (62, 84, 154, 194),                         # bench on the west wall, the long table and benches
+            (196, 124, 262, 180), (286, 70, 326, 214),                      # fire pit, sleeping furs
+            (0, 0, 24, 256), (326, 0, 352, 256),                            # walls
+            (0, 214, 150, 256), (196, 214, 352, 256),                       # front wall
+        ],
+        "npcs": [],
+        "readables": [
+            ("The notched post", (209, 100), [
+                "The longhouse's own post, older than the one outside. Every notch here has a name cut beside it, in a hand that changes every few generations.",
+                "The last forty years are all small notches. The last forty years are all children.",
+            ]),
+        ],
+    },
+    "sorenda_scribe_house": {
+        "town": "res://scenes/world/sorenda.tscn",
+        "name": "Wren's House",
+        "image": "assets/sprites/tiles/sorenda/interiors/scribe_room.png",
+        "size": (288, 224),
+        "exit": (142, 222), "back_to": "from_housescribe", "spawn": (142, 188),
+        "blocks": [
+            (0, 0, 288, 62), (148, 0, 280, 94), (0, 40, 32, 90),           # back wall, bookshelves, hearth
+            (50, 58, 122, 98), (66, 82, 100, 126), (120, 76, 138, 102),     # desk, chair, scroll stack
+            (180, 100, 205, 128), (208, 106, 225, 128),                     # book stacks
+            (232, 108, 278, 196), (14, 146, 95, 196),                       # beds
+            (100, 164, 118, 196), (200, 160, 232, 198),                     # more books
+            (0, 0, 10, 224), (278, 0, 288, 224),
+            (0, 198, 118, 224), (166, 198, 288, 224),
+        ],
+        "npcs": [],
+        "readables": [
+            ("Wren's book of names", (86, 96), [
+                "A thick book, bound in bark. Every page is a list of names, and beside each, a year and a place.",
+                "The places change over the years: Vetrassa, Verdana, the Starfall mines. For the last forty years, they all say Duskara.",
+            ]),
+        ],
+    },
+    "sorenda_herbalist_house": {
+        "town": "res://scenes/world/sorenda.tscn",
+        "name": "Juniper's Cottage",
+        "image": "assets/sprites/tiles/sorenda/interiors/herbalist_room.png",
+        "size": (288, 224),
+        "exit": (142, 222), "back_to": "from_househerbalist", "spawn": (142, 188),
+        "blocks": [
+            (0, 0, 288, 78), (112, 40, 186, 82), (0, 90, 30, 160),         # back wall and shelves, jars, bottles
+            (60, 112, 138, 168), (162, 104, 228, 162),                      # work table, cauldron
+            (256, 52, 288, 190), (0, 158, 55, 198), (205, 172, 258, 198),   # bed, potted plants
+            (0, 0, 10, 224), (278, 0, 288, 224),
+            (0, 198, 118, 224), (166, 198, 288, 224),
+        ],
+        "npcs": [],
+        "readables": [
+            ("A remedy list", (100, 170), [
+                "'Feverfew for heat. Willow bark for aches. Moss poultice for cuts that won't close.'",
+                "At the bottom, underlined twice: 'Send the good salve east with the next children. They come back with their hands cracked from the dust. If they come back.'",
+            ]),
+        ],
+    },
+    "sorenda_woodcutter": {
+        "town": "res://scenes/world/sorenda.tscn",
+        "name": "Harl's Cottage",
+        "image": "assets/sprites/tiles/sorenda/interiors/woodcutter_room.png",
+        "size": (288, 224),
+        "exit": (142, 222), "back_to": "from_housewoodcutter", "spawn": (142, 188),
+        "blocks": [
+            (0, 0, 288, 62), (168, 0, 250, 112), (0, 62, 16, 190), (272, 62, 288, 190),   # back wall, hearth, curved walls
+            (0, 150, 30, 224), (258, 150, 288, 224),
+            (50, 82, 82, 116), (14, 96, 52, 140),                           # chopping block, firewood
+            (110, 112, 178, 155), (135, 146, 158, 170), (205, 110, 272, 185),  # table, stool, bed
+            (0, 196, 118, 224), (166, 196, 288, 224),
+        ],
+        "npcs": [],
+        "readables": [
+            ("A timber order", (92, 100), [
+                "'Forty lengths of oak, cut and planed, for pens. Small pens, four foot by four. Deliver to the red-sun crates at Kalmora. D.M.'",
+                "Harl has written 'NO' across it, so hard the pencil went through.",
+            ]),
+        ],
+    },
+    "sorenda_family_home": {
+        "town": "res://scenes/world/sorenda.tscn",
+        "name": "Pell's Home",
+        "image": "assets/sprites/tiles/sorenda/interiors/family_room.png",
+        "size": (288, 224),
+        "exit": (142, 222), "back_to": "from_housefamily", "spawn": (142, 188),
+        "blocks": [
+            (0, 0, 288, 50), (10, 44, 82, 95), (10, 80, 30, 100), (92, 44, 130, 86),    # back wall, stove, wood, cupboard
+            (238, 56, 278, 128), (250, 128, 275, 158),                      # child's bed, toys
+            (50, 122, 108, 172), (28, 128, 48, 170), (110, 128, 130, 170),  # table and chairs
+            (70, 100, 90, 126), (70, 165, 90, 196),
+            (0, 0, 10, 224), (278, 0, 288, 224),
+            (0, 198, 118, 224), (166, 198, 288, 224),
+        ],
+        "npcs": [],
+        "readables": [
+            ("A child's drawing", (226, 140), [
+                "Crayon on bark paper: two children holding hands under a big tree. One of them is labelled 'me'. The other is labelled 'Tansy'.",
+                "On the back, in a grown-up's hand: 'Tansy went east in the spring. Keep it for her.'",
+            ]),
+        ],
+    },
+    "sorenda_tree_house": {
+        "town": "res://scenes/world/sorenda.tscn",
+        "name": "The Old Tree House",
+        "image": "assets/sprites/tiles/sorenda/interiors/tree_house_room.png",
+        "size": (288, 224),
+        "exit": (142, 222), "back_to": "from_housetree", "spawn": (142, 186),
+        "blocks": [
+            (0, 0, 288, 100), (40, 60, 110, 112), (200, 104, 255, 136),    # the trunk and stair, hammock, tea table
+            (96, 112, 190, 176),                                            # ring of stump seats
+            (0, 0, 28, 224), (262, 0, 288, 224), (0, 150, 60, 224), (228, 150, 288, 224),   # curved walls
+            (0, 190, 116, 224), (166, 190, 288, 224),
+        ],
+        "npcs": [],
+        "readables": [
+            ("A stargazer's journal", (206, 150), [
+                "'Another star gone from the Wreath tonight. That's nine since the last race. Mother's map shows all of them.'",
+                "'The old stories say the stars go out when the island takes more than it gives. I think the old stories were being polite.'",
+            ]),
+        ],
+    },
 }
 
 
@@ -359,7 +489,7 @@ position = Vector2{cfg["spawn"]}
 
 [node name="Out" parent="." instance=ExtResource("7_exit")]
 position = Vector2({ex}, {ey})
-target_scene = "res://scenes/world/kalmora.tscn"
+target_scene = "{cfg.get("town", "res://scenes/world/kalmora.tscn")}"
 target_spawn = &"{cfg["back_to"]}"
 exit_hint = true
 ''')
