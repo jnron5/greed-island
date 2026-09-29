@@ -1,4 +1,4 @@
-[gd_scene load_steps=335 format=3]
+[gd_scene load_steps=338 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -67,51 +67,54 @@
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/baker/baker_frames.tres" id="n_baker"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/tomas/tomas_frames.tres" id="n_tomas"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/rook/rook_frames.tres" id="n_rook"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/palm_sway.png" id="t28_palm_sway"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/tree_sway.png" id="t29_tree_sway"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/cypress_sway.png" id="t30_cypress_sway"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/tuft_sway.png" id="t31_tuft_sway"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/tuft_flowers_sway.png" id="t32_tuft_flowers_sway"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/lamp_post.png" id="t33_lamp_post"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/banner.png" id="t34_banner"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/parasol_table.png" id="t35_parasol_table"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/notice_board.png" id="t36_notice_board"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/barrels.png" id="t37_barrels"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/stall_fish.png" id="t38_stall_fish"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/ice_crates.png" id="t39_ice_crates"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/fish_basket.png" id="t40_fish_basket"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/stall_bread.png" id="t41_stall_bread"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/bread_basket.png" id="t42_bread_basket"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/stall_pottery.png" id="t43_stall_pottery"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/amphorae.png" id="t44_amphorae"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/cart.png" id="t45_cart"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/apples_crate.png" id="t46_apples_crate"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/oranges_basket.png" id="t47_oranges_basket"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/crates.png" id="t48_crates"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/fish_crates.png" id="t49_fish_crates"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/fence.png" id="t50_fence"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/signpost.png" id="t51_signpost"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/candle_shrine.png" id="t52_candle_shrine"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/laundry_line.png" id="t53_laundry_line"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/small_well.png" id="t54_small_well"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/laundry_basket.png" id="t55_laundry_basket"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/bougainvillea_box.png" id="t56_bougainvillea_box"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/geraniums.png" id="t57_geraniums"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bench.png" id="t58_bench"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/flower_bed.png" id="t59_flower_bed"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/lavender_planter.png" id="t60_lavender_planter"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/potted_palm.png" id="t61_potted_palm"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/menu_board.png" id="t62_menu_board"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/lemon_tree_pot.png" id="t63_lemon_tree_pot"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/bench_wood.png" id="t64_bench_wood"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/barrel.png" id="t65_barrel"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bush_flowers_g.png" id="t66_bush_flowers_g"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bush_g.png" id="t67_bush_g"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/objects/wall_arch.png" id="t68_wall_arch"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/objects/pilings.png" id="t69_pilings"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/sea_rocks.png" id="t70_sea_rocks"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/objects/ship.png" id="t71_ship"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/rowboat.png" id="t72_rowboat"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/sack.png" id="t28_sack"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/oars.png" id="t29_oars"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/rope.png" id="t30_rope"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/palm_sway.png" id="t31_palm_sway"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/tree_sway.png" id="t32_tree_sway"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/cypress_sway.png" id="t33_cypress_sway"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/tuft_sway.png" id="t34_tuft_sway"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/tuft_flowers_sway.png" id="t35_tuft_flowers_sway"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/lamp_post.png" id="t36_lamp_post"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/banner.png" id="t37_banner"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/parasol_table.png" id="t38_parasol_table"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/notice_board.png" id="t39_notice_board"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/barrels.png" id="t40_barrels"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/stall_fish.png" id="t41_stall_fish"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/ice_crates.png" id="t42_ice_crates"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/fish_basket.png" id="t43_fish_basket"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/stall_bread.png" id="t44_stall_bread"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/bread_basket.png" id="t45_bread_basket"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/stall_pottery.png" id="t46_stall_pottery"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/amphorae.png" id="t47_amphorae"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/cart.png" id="t48_cart"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/apples_crate.png" id="t49_apples_crate"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/oranges_basket.png" id="t50_oranges_basket"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/crates.png" id="t51_crates"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/fish_crates.png" id="t52_fish_crates"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/fence.png" id="t53_fence"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/signpost.png" id="t54_signpost"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/candle_shrine.png" id="t55_candle_shrine"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/laundry_line.png" id="t56_laundry_line"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/small_well.png" id="t57_small_well"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/laundry_basket.png" id="t58_laundry_basket"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/bougainvillea_box.png" id="t59_bougainvillea_box"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/geraniums.png" id="t60_geraniums"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bench.png" id="t61_bench"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/flower_bed.png" id="t62_flower_bed"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/lavender_planter.png" id="t63_lavender_planter"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/potted_palm.png" id="t64_potted_palm"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/menu_board.png" id="t65_menu_board"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/lemon_tree_pot.png" id="t66_lemon_tree_pot"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/bench_wood.png" id="t67_bench_wood"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/barrel.png" id="t68_barrel"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bush_flowers_g.png" id="t69_bush_flowers_g"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/bush_g.png" id="t70_bush_g"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/objects/wall_arch.png" id="t71_wall_arch"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/objects/pilings.png" id="t72_pilings"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/sea_rocks.png" id="t73_sea_rocks"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/objects/ship.png" id="t74_ship"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/rowboat.png" id="t75_rowboat"]
 
 [sub_resource type="RectangleShape2D" id="R32x192"]
 size = Vector2(32, 192)
@@ -638,35 +641,35 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="frames_palm_g_0"]
-atlas = ExtResource("t28_palm_sway")
+atlas = ExtResource("t31_palm_sway")
 region = Rect2(0, 0, 128, 160)
 
 [sub_resource type="AtlasTexture" id="frames_palm_g_1"]
-atlas = ExtResource("t28_palm_sway")
+atlas = ExtResource("t31_palm_sway")
 region = Rect2(128, 0, 128, 160)
 
 [sub_resource type="AtlasTexture" id="frames_palm_g_2"]
-atlas = ExtResource("t28_palm_sway")
+atlas = ExtResource("t31_palm_sway")
 region = Rect2(256, 0, 128, 160)
 
 [sub_resource type="AtlasTexture" id="frames_palm_g_3"]
-atlas = ExtResource("t28_palm_sway")
+atlas = ExtResource("t31_palm_sway")
 region = Rect2(384, 0, 128, 160)
 
 [sub_resource type="AtlasTexture" id="frames_palm_g_4"]
-atlas = ExtResource("t28_palm_sway")
+atlas = ExtResource("t31_palm_sway")
 region = Rect2(512, 0, 128, 160)
 
 [sub_resource type="AtlasTexture" id="frames_palm_g_5"]
-atlas = ExtResource("t28_palm_sway")
+atlas = ExtResource("t31_palm_sway")
 region = Rect2(640, 0, 128, 160)
 
 [sub_resource type="AtlasTexture" id="frames_palm_g_6"]
-atlas = ExtResource("t28_palm_sway")
+atlas = ExtResource("t31_palm_sway")
 region = Rect2(768, 0, 128, 160)
 
 [sub_resource type="AtlasTexture" id="frames_palm_g_7"]
-atlas = ExtResource("t28_palm_sway")
+atlas = ExtResource("t31_palm_sway")
 region = Rect2(896, 0, 128, 160)
 
 [sub_resource type="SpriteFrames" id="frames_palm_g"]
@@ -705,35 +708,35 @@ animations = [{
 size = Vector2(16, 10)
 
 [sub_resource type="AtlasTexture" id="frames_tree3_g_0"]
-atlas = ExtResource("t29_tree_sway")
+atlas = ExtResource("t32_tree_sway")
 region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="frames_tree3_g_1"]
-atlas = ExtResource("t29_tree_sway")
+atlas = ExtResource("t32_tree_sway")
 region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="frames_tree3_g_2"]
-atlas = ExtResource("t29_tree_sway")
+atlas = ExtResource("t32_tree_sway")
 region = Rect2(256, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="frames_tree3_g_3"]
-atlas = ExtResource("t29_tree_sway")
+atlas = ExtResource("t32_tree_sway")
 region = Rect2(384, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="frames_tree3_g_4"]
-atlas = ExtResource("t29_tree_sway")
+atlas = ExtResource("t32_tree_sway")
 region = Rect2(512, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="frames_tree3_g_5"]
-atlas = ExtResource("t29_tree_sway")
+atlas = ExtResource("t32_tree_sway")
 region = Rect2(640, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="frames_tree3_g_6"]
-atlas = ExtResource("t29_tree_sway")
+atlas = ExtResource("t32_tree_sway")
 region = Rect2(768, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="frames_tree3_g_7"]
-atlas = ExtResource("t29_tree_sway")
+atlas = ExtResource("t32_tree_sway")
 region = Rect2(896, 0, 128, 128)
 
 [sub_resource type="SpriteFrames" id="frames_tree3_g"]
@@ -772,35 +775,35 @@ animations = [{
 size = Vector2(28, 10)
 
 [sub_resource type="AtlasTexture" id="frames_cypress_g_0"]
-atlas = ExtResource("t30_cypress_sway")
+atlas = ExtResource("t33_cypress_sway")
 region = Rect2(0, 0, 64, 128)
 
 [sub_resource type="AtlasTexture" id="frames_cypress_g_1"]
-atlas = ExtResource("t30_cypress_sway")
+atlas = ExtResource("t33_cypress_sway")
 region = Rect2(64, 0, 64, 128)
 
 [sub_resource type="AtlasTexture" id="frames_cypress_g_2"]
-atlas = ExtResource("t30_cypress_sway")
+atlas = ExtResource("t33_cypress_sway")
 region = Rect2(128, 0, 64, 128)
 
 [sub_resource type="AtlasTexture" id="frames_cypress_g_3"]
-atlas = ExtResource("t30_cypress_sway")
+atlas = ExtResource("t33_cypress_sway")
 region = Rect2(192, 0, 64, 128)
 
 [sub_resource type="AtlasTexture" id="frames_cypress_g_4"]
-atlas = ExtResource("t30_cypress_sway")
+atlas = ExtResource("t33_cypress_sway")
 region = Rect2(256, 0, 64, 128)
 
 [sub_resource type="AtlasTexture" id="frames_cypress_g_5"]
-atlas = ExtResource("t30_cypress_sway")
+atlas = ExtResource("t33_cypress_sway")
 region = Rect2(320, 0, 64, 128)
 
 [sub_resource type="AtlasTexture" id="frames_cypress_g_6"]
-atlas = ExtResource("t30_cypress_sway")
+atlas = ExtResource("t33_cypress_sway")
 region = Rect2(384, 0, 64, 128)
 
 [sub_resource type="AtlasTexture" id="frames_cypress_g_7"]
-atlas = ExtResource("t30_cypress_sway")
+atlas = ExtResource("t33_cypress_sway")
 region = Rect2(448, 0, 64, 128)
 
 [sub_resource type="SpriteFrames" id="frames_cypress_g"]
@@ -839,35 +842,35 @@ animations = [{
 size = Vector2(12, 10)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_0"]
-atlas = ExtResource("t31_tuft_sway")
+atlas = ExtResource("t34_tuft_sway")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_1"]
-atlas = ExtResource("t31_tuft_sway")
+atlas = ExtResource("t34_tuft_sway")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_2"]
-atlas = ExtResource("t31_tuft_sway")
+atlas = ExtResource("t34_tuft_sway")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_3"]
-atlas = ExtResource("t31_tuft_sway")
+atlas = ExtResource("t34_tuft_sway")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_4"]
-atlas = ExtResource("t31_tuft_sway")
+atlas = ExtResource("t34_tuft_sway")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_5"]
-atlas = ExtResource("t31_tuft_sway")
+atlas = ExtResource("t34_tuft_sway")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_6"]
-atlas = ExtResource("t31_tuft_sway")
+atlas = ExtResource("t34_tuft_sway")
 region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_7"]
-atlas = ExtResource("t31_tuft_sway")
+atlas = ExtResource("t34_tuft_sway")
 region = Rect2(224, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="frames_tuft"]
@@ -903,35 +906,35 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="frames_tuft_flowers_0"]
-atlas = ExtResource("t32_tuft_flowers_sway")
+atlas = ExtResource("t35_tuft_flowers_sway")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_flowers_1"]
-atlas = ExtResource("t32_tuft_flowers_sway")
+atlas = ExtResource("t35_tuft_flowers_sway")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_flowers_2"]
-atlas = ExtResource("t32_tuft_flowers_sway")
+atlas = ExtResource("t35_tuft_flowers_sway")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_flowers_3"]
-atlas = ExtResource("t32_tuft_flowers_sway")
+atlas = ExtResource("t35_tuft_flowers_sway")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_flowers_4"]
-atlas = ExtResource("t32_tuft_flowers_sway")
+atlas = ExtResource("t35_tuft_flowers_sway")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_flowers_5"]
-atlas = ExtResource("t32_tuft_flowers_sway")
+atlas = ExtResource("t35_tuft_flowers_sway")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_flowers_6"]
-atlas = ExtResource("t32_tuft_flowers_sway")
+atlas = ExtResource("t35_tuft_flowers_sway")
 region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="frames_tuft_flowers_7"]
-atlas = ExtResource("t32_tuft_flowers_sway")
+atlas = ExtResource("t35_tuft_flowers_sway")
 region = Rect2(224, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="frames_tuft_flowers"]
@@ -3072,6 +3075,27 @@ clue_id = &"crate_glove"
 position = Vector2(-164, 405)
 clue_id = &"crate_ledger"
 
+[node name="Clue_boat_sail" parent="." instance=ExtResource("21_clue")]
+position = Vector2(718, 160)
+clue_id = &"boat_sail"
+quest_id = &"wens_boat"
+title = "An old sail"
+texture = ExtResource("t28_sack")
+
+[node name="Clue_boat_oars" parent="." instance=ExtResource("21_clue")]
+position = Vector2(-388, 307)
+clue_id = &"boat_oars"
+quest_id = &"wens_boat"
+title = "A pair of oars"
+texture = ExtResource("t29_oars")
+
+[node name="Clue_boat_rope" parent="." instance=ExtResource("21_clue")]
+position = Vector2(242, 538)
+clue_id = &"boat_rope"
+quest_id = &"wens_boat"
+title = "A coil of rope"
+texture = ExtResource("t30_rope")
+
 [node name="Palm_G1" type="StaticBody2D" parent="."]
 position = Vector2(-178, 0)
 
@@ -4557,7 +4581,7 @@ position = Vector2(-122, -204)
 
 [node name="Sprite" type="Sprite2D" parent="P1_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P1_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4573,7 +4597,7 @@ position = Vector2(96, -204)
 
 [node name="Sprite" type="Sprite2D" parent="P2_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P2_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4589,7 +4613,7 @@ position = Vector2(-139, 31)
 
 [node name="Sprite" type="Sprite2D" parent="P3_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P3_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4605,7 +4629,7 @@ position = Vector2(96, 32)
 
 [node name="Sprite" type="Sprite2D" parent="P4_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P4_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4621,7 +4645,7 @@ position = Vector2(-528, 160)
 
 [node name="Sprite" type="Sprite2D" parent="P5_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P5_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4637,7 +4661,7 @@ position = Vector2(-388, 218)
 
 [node name="Sprite" type="Sprite2D" parent="P6_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P6_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4653,7 +4677,7 @@ position = Vector2(8, 266)
 
 [node name="Sprite" type="Sprite2D" parent="P7_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P7_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4669,7 +4693,7 @@ position = Vector2(564, 244)
 
 [node name="Sprite" type="Sprite2D" parent="P8_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P8_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4685,7 +4709,7 @@ position = Vector2(-388, -316)
 
 [node name="Sprite" type="Sprite2D" parent="P9_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P9_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4701,7 +4725,7 @@ position = Vector2(312, -316)
 
 [node name="Sprite" type="Sprite2D" parent="P10_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P10_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4717,7 +4741,7 @@ position = Vector2(634, -444)
 
 [node name="Sprite" type="Sprite2D" parent="P11_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P11_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4733,7 +4757,7 @@ position = Vector2(900, -484)
 
 [node name="Sprite" type="Sprite2D" parent="P12_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P12_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4749,7 +4773,7 @@ position = Vector2(-642, -470)
 
 [node name="Sprite" type="Sprite2D" parent="P13_lamp_post"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t33_lamp_post")
+texture = ExtResource("t36_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="P13_lamp_post"]
 position = Vector2(0, -4.0)
@@ -4885,7 +4909,7 @@ position = Vector2(-108, -165)
 
 [node name="Sprite" type="Sprite2D" parent="P14_banner"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t34_banner")
+texture = ExtResource("t37_banner")
 
 [node name="Base" type="CollisionShape2D" parent="P14_banner"]
 position = Vector2(0, -4.0)
@@ -4896,7 +4920,7 @@ position = Vector2(82, -165)
 
 [node name="Sprite" type="Sprite2D" parent="P15_banner"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t34_banner")
+texture = ExtResource("t37_banner")
 
 [node name="Base" type="CollisionShape2D" parent="P15_banner"]
 position = Vector2(0, -4.0)
@@ -4907,7 +4931,7 @@ position = Vector2(-108, 20)
 
 [node name="Sprite" type="Sprite2D" parent="P16_banner"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t34_banner")
+texture = ExtResource("t37_banner")
 
 [node name="Base" type="CollisionShape2D" parent="P16_banner"]
 position = Vector2(0, -4.0)
@@ -4918,7 +4942,7 @@ position = Vector2(82, 20)
 
 [node name="Sprite" type="Sprite2D" parent="P17_banner"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t34_banner")
+texture = ExtResource("t37_banner")
 
 [node name="Base" type="CollisionShape2D" parent="P17_banner"]
 position = Vector2(0, -4.0)
@@ -4929,7 +4953,7 @@ position = Vector2(144, -196)
 
 [node name="Sprite" type="Sprite2D" parent="P18_parasol_table"]
 position = Vector2(0, -35.5)
-texture = ExtResource("t35_parasol_table")
+texture = ExtResource("t38_parasol_table")
 
 [node name="Base" type="CollisionShape2D" parent="P18_parasol_table"]
 position = Vector2(0, -5.0)
@@ -4940,7 +4964,7 @@ position = Vector2(-102, -55)
 
 [node name="Sprite" type="Sprite2D" parent="P19_notice_board"]
 position = Vector2(0, -23.0)
-texture = ExtResource("t36_notice_board")
+texture = ExtResource("t39_notice_board")
 
 [node name="Base" type="CollisionShape2D" parent="P19_notice_board"]
 position = Vector2(0, -7.0)
@@ -4951,7 +4975,7 @@ position = Vector2(-543, -8)
 
 [node name="Sprite" type="Sprite2D" parent="P20_barrels"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t37_barrels")
+texture = ExtResource("t40_barrels")
 
 [node name="Base" type="CollisionShape2D" parent="P20_barrels"]
 position = Vector2(0, -5.0)
@@ -4962,7 +4986,7 @@ position = Vector2(245, 76)
 
 [node name="Sprite" type="Sprite2D" parent="P21_stall_fish"]
 position = Vector2(0, -36.5)
-texture = ExtResource("t38_stall_fish")
+texture = ExtResource("t41_stall_fish")
 
 [node name="Base" type="CollisionShape2D" parent="P21_stall_fish"]
 position = Vector2(0, -12.5)
@@ -4973,7 +4997,7 @@ position = Vector2(200, 85)
 
 [node name="Sprite" type="Sprite2D" parent="P22_ice_crates"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t39_ice_crates")
+texture = ExtResource("t42_ice_crates")
 
 [node name="Base" type="CollisionShape2D" parent="P22_ice_crates"]
 position = Vector2(0, -5.0)
@@ -4984,7 +5008,7 @@ position = Vector2(298, 85)
 
 [node name="Sprite" type="Sprite2D" parent="P23_fish_basket"]
 position = Vector2(0, -14.0)
-texture = ExtResource("t40_fish_basket")
+texture = ExtResource("t43_fish_basket")
 
 [node name="Base" type="CollisionShape2D" parent="P23_fish_basket"]
 position = Vector2(0, -5.0)
@@ -4995,7 +5019,7 @@ position = Vector2(312, 213)
 
 [node name="Sprite" type="Sprite2D" parent="P24_stall_bread"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t41_stall_bread")
+texture = ExtResource("t44_stall_bread")
 
 [node name="Base" type="CollisionShape2D" parent="P24_stall_bread"]
 position = Vector2(0, -13.0)
@@ -5006,7 +5030,7 @@ position = Vector2(354, 219)
 
 [node name="Sprite" type="Sprite2D" parent="P25_bread_basket"]
 position = Vector2(0, -14.0)
-texture = ExtResource("t42_bread_basket")
+texture = ExtResource("t45_bread_basket")
 
 [node name="Base" type="CollisionShape2D" parent="P25_bread_basket"]
 position = Vector2(0, -5.0)
@@ -5017,7 +5041,7 @@ position = Vector2(424, 213)
 
 [node name="Sprite" type="Sprite2D" parent="P26_stall_pottery"]
 position = Vector2(0, -39.5)
-texture = ExtResource("t43_stall_pottery")
+texture = ExtResource("t46_stall_pottery")
 
 [node name="Base" type="CollisionShape2D" parent="P26_stall_pottery"]
 position = Vector2(0, -13.0)
@@ -5028,7 +5052,7 @@ position = Vector2(463, 219)
 
 [node name="Sprite" type="Sprite2D" parent="P27_amphorae"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t44_amphorae")
+texture = ExtResource("t47_amphorae")
 
 [node name="Base" type="CollisionShape2D" parent="P27_amphorae"]
 position = Vector2(0, -5.0)
@@ -5039,7 +5063,7 @@ position = Vector2(189, 213)
 
 [node name="Sprite" type="Sprite2D" parent="P28_cart"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t45_cart")
+texture = ExtResource("t48_cart")
 
 [node name="Base" type="CollisionShape2D" parent="P28_cart"]
 position = Vector2(0, -5.0)
@@ -5050,7 +5074,7 @@ position = Vector2(228, 222)
 
 [node name="Sprite" type="Sprite2D" parent="P29_apples_crate"]
 position = Vector2(0, -12.0)
-texture = ExtResource("t46_apples_crate")
+texture = ExtResource("t49_apples_crate")
 
 [node name="Base" type="CollisionShape2D" parent="P29_apples_crate"]
 position = Vector2(0, -5.0)
@@ -5061,7 +5085,7 @@ position = Vector2(253, 216)
 
 [node name="Sprite" type="Sprite2D" parent="P30_oranges_basket"]
 position = Vector2(0, -14.0)
-texture = ExtResource("t47_oranges_basket")
+texture = ExtResource("t50_oranges_basket")
 
 [node name="Base" type="CollisionShape2D" parent="P30_oranges_basket"]
 position = Vector2(0, -5.0)
@@ -5072,7 +5096,7 @@ position = Vector2(-528, 188)
 
 [node name="Sprite" type="Sprite2D" parent="P31_crates"]
 position = Vector2(0, -16.0)
-texture = ExtResource("t48_crates")
+texture = ExtResource("t51_crates")
 
 [node name="Base" type="CollisionShape2D" parent="P31_crates"]
 position = Vector2(0, -5.0)
@@ -5083,7 +5107,7 @@ position = Vector2(-360, 220)
 
 [node name="Sprite" type="Sprite2D" parent="P32_fish_crates"]
 position = Vector2(0, -31.5)
-texture = ExtResource("t49_fish_crates")
+texture = ExtResource("t52_fish_crates")
 
 [node name="Base" type="CollisionShape2D" parent="P32_fish_crates"]
 position = Vector2(0, -9.5)
@@ -5094,7 +5118,7 @@ position = Vector2(-1070, -504)
 
 [node name="Sprite" type="Sprite2D" parent="P33_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P33_fence"]
 position = Vector2(0, -8.0)
@@ -5105,7 +5129,7 @@ position = Vector2(-1047, -504)
 
 [node name="Sprite" type="Sprite2D" parent="P34_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P34_fence"]
 position = Vector2(0, -8.0)
@@ -5116,7 +5140,7 @@ position = Vector2(-1003, -504)
 
 [node name="Sprite" type="Sprite2D" parent="P35_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P35_fence"]
 position = Vector2(0, -8.0)
@@ -5127,7 +5151,7 @@ position = Vector2(-980, -504)
 
 [node name="Sprite" type="Sprite2D" parent="P36_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P36_fence"]
 position = Vector2(0, -8.0)
@@ -5138,7 +5162,7 @@ position = Vector2(-958, -504)
 
 [node name="Sprite" type="Sprite2D" parent="P37_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P37_fence"]
 position = Vector2(0, -8.0)
@@ -5149,7 +5173,7 @@ position = Vector2(-935, -504)
 
 [node name="Sprite" type="Sprite2D" parent="P38_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P38_fence"]
 position = Vector2(0, -8.0)
@@ -5160,7 +5184,7 @@ position = Vector2(-1070, -392)
 
 [node name="Sprite" type="Sprite2D" parent="P39_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P39_fence"]
 position = Vector2(0, -8.0)
@@ -5171,7 +5195,7 @@ position = Vector2(-1047, -392)
 
 [node name="Sprite" type="Sprite2D" parent="P40_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P40_fence"]
 position = Vector2(0, -8.0)
@@ -5182,7 +5206,7 @@ position = Vector2(-1003, -392)
 
 [node name="Sprite" type="Sprite2D" parent="P41_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P41_fence"]
 position = Vector2(0, -8.0)
@@ -5193,7 +5217,7 @@ position = Vector2(-980, -392)
 
 [node name="Sprite" type="Sprite2D" parent="P42_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P42_fence"]
 position = Vector2(0, -8.0)
@@ -5204,7 +5228,7 @@ position = Vector2(-958, -392)
 
 [node name="Sprite" type="Sprite2D" parent="P43_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P43_fence"]
 position = Vector2(0, -8.0)
@@ -5215,7 +5239,7 @@ position = Vector2(-935, -392)
 
 [node name="Sprite" type="Sprite2D" parent="P44_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P44_fence"]
 position = Vector2(0, -8.0)
@@ -5226,7 +5250,7 @@ position = Vector2(-1070, -274)
 
 [node name="Sprite" type="Sprite2D" parent="P45_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P45_fence"]
 position = Vector2(0, -8.0)
@@ -5237,7 +5261,7 @@ position = Vector2(-1047, -274)
 
 [node name="Sprite" type="Sprite2D" parent="P46_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P46_fence"]
 position = Vector2(0, -8.0)
@@ -5248,7 +5272,7 @@ position = Vector2(-1003, -274)
 
 [node name="Sprite" type="Sprite2D" parent="P47_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P47_fence"]
 position = Vector2(0, -8.0)
@@ -5259,7 +5283,7 @@ position = Vector2(-980, -274)
 
 [node name="Sprite" type="Sprite2D" parent="P48_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P48_fence"]
 position = Vector2(0, -8.0)
@@ -5270,7 +5294,7 @@ position = Vector2(-958, -274)
 
 [node name="Sprite" type="Sprite2D" parent="P49_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P49_fence"]
 position = Vector2(0, -8.0)
@@ -5281,7 +5305,7 @@ position = Vector2(-935, -274)
 
 [node name="Sprite" type="Sprite2D" parent="P50_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P50_fence"]
 position = Vector2(0, -8.0)
@@ -5292,7 +5316,7 @@ position = Vector2(-1070, -165)
 
 [node name="Sprite" type="Sprite2D" parent="P51_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P51_fence"]
 position = Vector2(0, -8.0)
@@ -5303,7 +5327,7 @@ position = Vector2(-1047, -165)
 
 [node name="Sprite" type="Sprite2D" parent="P52_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P52_fence"]
 position = Vector2(0, -8.0)
@@ -5314,7 +5338,7 @@ position = Vector2(-958, -165)
 
 [node name="Sprite" type="Sprite2D" parent="P53_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P53_fence"]
 position = Vector2(0, -8.0)
@@ -5325,7 +5349,7 @@ position = Vector2(-935, -165)
 
 [node name="Sprite" type="Sprite2D" parent="P54_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P54_fence"]
 position = Vector2(0, -8.0)
@@ -5336,7 +5360,7 @@ position = Vector2(-891, -165)
 
 [node name="Sprite" type="Sprite2D" parent="P55_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P55_fence"]
 position = Vector2(0, -8.0)
@@ -5347,7 +5371,7 @@ position = Vector2(-868, -165)
 
 [node name="Sprite" type="Sprite2D" parent="P56_fence"]
 position = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="Base" type="CollisionShape2D" parent="P56_fence"]
 position = Vector2(0, -8.0)
@@ -5358,7 +5382,7 @@ position = Vector2(-1054, -254)
 
 [node name="Sprite" type="Sprite2D" parent="P57_signpost"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t51_signpost")
+texture = ExtResource("t54_signpost")
 
 [node name="Base" type="CollisionShape2D" parent="P57_signpost"]
 position = Vector2(0, -5.0)
@@ -5369,7 +5393,7 @@ position = Vector2(799, 3)
 
 [node name="Sprite" type="Sprite2D" parent="P58_parasol_table"]
 position = Vector2(0, -35.5)
-texture = ExtResource("t35_parasol_table")
+texture = ExtResource("t38_parasol_table")
 
 [node name="Base" type="CollisionShape2D" parent="P58_parasol_table"]
 position = Vector2(0, -5.0)
@@ -5380,7 +5404,7 @@ position = Vector2(914, 244)
 
 [node name="Sprite" type="Sprite2D" parent="P59_candle_shrine"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t52_candle_shrine")
+texture = ExtResource("t55_candle_shrine")
 
 [node name="Base" type="CollisionShape2D" parent="P59_candle_shrine"]
 position = Vector2(0, -5.0)
@@ -5391,7 +5415,7 @@ position = Vector2(837, -454)
 
 [node name="Sprite" type="Sprite2D" parent="P60_laundry_line"]
 position = Vector2(0, -13.0)
-texture = ExtResource("t53_laundry_line")
+texture = ExtResource("t56_laundry_line")
 
 [node name="Base" type="CollisionShape2D" parent="P60_laundry_line"]
 position = Vector2(0, -5.0)
@@ -5402,7 +5426,7 @@ position = Vector2(658, -448)
 
 [node name="Sprite" type="Sprite2D" parent="P61_small_well"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t54_small_well")
+texture = ExtResource("t57_small_well")
 
 [node name="Base" type="CollisionShape2D" parent="P61_small_well"]
 position = Vector2(0, -5.0)
@@ -5413,7 +5437,7 @@ position = Vector2(869, -436)
 
 [node name="Sprite" type="Sprite2D" parent="P62_laundry_basket"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t55_laundry_basket")
+texture = ExtResource("t58_laundry_basket")
 
 [node name="Base" type="CollisionShape2D" parent="P62_laundry_basket"]
 position = Vector2(0, -5.0)
@@ -5424,7 +5448,7 @@ position = Vector2(732, -574)
 
 [node name="Sprite" type="Sprite2D" parent="P63_bougainvillea_box"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t56_bougainvillea_box")
+texture = ExtResource("t59_bougainvillea_box")
 
 [node name="Base" type="CollisionShape2D" parent="P63_bougainvillea_box"]
 position = Vector2(0, -5.0)
@@ -5435,7 +5459,7 @@ position = Vector2(805, -574)
 
 [node name="Sprite" type="Sprite2D" parent="P64_geraniums"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t57_geraniums")
+texture = ExtResource("t60_geraniums")
 
 [node name="Base" type="CollisionShape2D" parent="P64_geraniums"]
 position = Vector2(0, -5.0)
@@ -5446,7 +5470,7 @@ position = Vector2(-102, -316)
 
 [node name="Sprite" type="Sprite2D" parent="P65_bench"]
 position = Vector2(0, -31.5)
-texture = ExtResource("t58_bench")
+texture = ExtResource("t61_bench")
 
 [node name="Base" type="CollisionShape2D" parent="P65_bench"]
 position = Vector2(0, -5.0)
@@ -5457,7 +5481,7 @@ position = Vector2(77, -316)
 
 [node name="Sprite" type="Sprite2D" parent="P66_bench"]
 position = Vector2(0, -31.5)
-texture = ExtResource("t58_bench")
+texture = ExtResource("t61_bench")
 
 [node name="Base" type="CollisionShape2D" parent="P66_bench"]
 position = Vector2(0, -5.0)
@@ -5468,7 +5492,7 @@ position = Vector2(-192, -386)
 
 [node name="Sprite" type="Sprite2D" parent="P67_flower_bed"]
 position = Vector2(0, -32.5)
-texture = ExtResource("t59_flower_bed")
+texture = ExtResource("t62_flower_bed")
 
 [node name="Base" type="CollisionShape2D" parent="P67_flower_bed"]
 position = Vector2(0, -7.0)
@@ -5479,7 +5503,7 @@ position = Vector2(-240, -383)
 
 [node name="Sprite" type="Sprite2D" parent="P68_lavender_planter"]
 position = Vector2(0, -14.0)
-texture = ExtResource("t60_lavender_planter")
+texture = ExtResource("t63_lavender_planter")
 
 [node name="Base" type="CollisionShape2D" parent="P68_lavender_planter"]
 position = Vector2(0, -5.0)
@@ -5490,7 +5514,7 @@ position = Vector2(164, -386)
 
 [node name="Sprite" type="Sprite2D" parent="P69_flower_bed"]
 position = Vector2(0, -32.5)
-texture = ExtResource("t59_flower_bed")
+texture = ExtResource("t62_flower_bed")
 
 [node name="Base" type="CollisionShape2D" parent="P69_flower_bed"]
 position = Vector2(0, -7.0)
@@ -5501,7 +5525,7 @@ position = Vector2(211, -383)
 
 [node name="Sprite" type="Sprite2D" parent="P70_lavender_planter"]
 position = Vector2(0, -14.0)
-texture = ExtResource("t60_lavender_planter")
+texture = ExtResource("t63_lavender_planter")
 
 [node name="Base" type="CollisionShape2D" parent="P70_lavender_planter"]
 position = Vector2(0, -5.0)
@@ -5512,7 +5536,7 @@ position = Vector2(-310, -195)
 
 [node name="Sprite" type="Sprite2D" parent="P71_potted_palm"]
 position = Vector2(0, -38.5)
-texture = ExtResource("t61_potted_palm")
+texture = ExtResource("t64_potted_palm")
 
 [node name="Base" type="CollisionShape2D" parent="P71_potted_palm"]
 position = Vector2(0, -12.5)
@@ -5523,7 +5547,7 @@ position = Vector2(-214, -195)
 
 [node name="Sprite" type="Sprite2D" parent="P72_potted_palm"]
 position = Vector2(0, -38.5)
-texture = ExtResource("t61_potted_palm")
+texture = ExtResource("t64_potted_palm")
 
 [node name="Base" type="CollisionShape2D" parent="P72_potted_palm"]
 position = Vector2(0, -12.5)
@@ -5534,7 +5558,7 @@ position = Vector2(259, -194)
 
 [node name="Sprite" type="Sprite2D" parent="P73_menu_board"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t62_menu_board")
+texture = ExtResource("t65_menu_board")
 
 [node name="Base" type="CollisionShape2D" parent="P73_menu_board"]
 position = Vector2(0, -5.0)
@@ -5545,7 +5569,7 @@ position = Vector2(166, -194)
 
 [node name="Sprite" type="Sprite2D" parent="P74_lemon_tree_pot"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t63_lemon_tree_pot")
+texture = ExtResource("t66_lemon_tree_pot")
 
 [node name="Base" type="CollisionShape2D" parent="P74_lemon_tree_pot"]
 position = Vector2(0, -5.0)
@@ -5556,7 +5580,7 @@ position = Vector2(-270, -447)
 
 [node name="Sprite" type="Sprite2D" parent="P75_bench_wood"]
 position = Vector2(0, -12.0)
-texture = ExtResource("t64_bench_wood")
+texture = ExtResource("t67_bench_wood")
 
 [node name="Base" type="CollisionShape2D" parent="P75_bench_wood"]
 position = Vector2(0, -5.0)
@@ -5567,7 +5591,7 @@ position = Vector2(-178, -446)
 
 [node name="Sprite" type="Sprite2D" parent="P76_flower_bed"]
 position = Vector2(0, -32.5)
-texture = ExtResource("t59_flower_bed")
+texture = ExtResource("t62_flower_bed")
 
 [node name="Base" type="CollisionShape2D" parent="P76_flower_bed"]
 position = Vector2(0, -7.0)
@@ -5578,7 +5602,7 @@ position = Vector2(152, -446)
 
 [node name="Sprite" type="Sprite2D" parent="P77_flower_bed"]
 position = Vector2(0, -32.5)
-texture = ExtResource("t59_flower_bed")
+texture = ExtResource("t62_flower_bed")
 
 [node name="Base" type="CollisionShape2D" parent="P77_flower_bed"]
 position = Vector2(0, -7.0)
@@ -5589,7 +5613,7 @@ position = Vector2(312, -446)
 
 [node name="Sprite" type="Sprite2D" parent="P78_lavender_planter"]
 position = Vector2(0, -14.0)
-texture = ExtResource("t60_lavender_planter")
+texture = ExtResource("t63_lavender_planter")
 
 [node name="Base" type="CollisionShape2D" parent="P78_lavender_planter"]
 position = Vector2(0, -5.0)
@@ -5600,7 +5624,7 @@ position = Vector2(-162, 440)
 
 [node name="Sprite" type="Sprite2D" parent="P79_barrel"]
 position = Vector2(0, -15.0)
-texture = ExtResource("t65_barrel")
+texture = ExtResource("t68_barrel")
 
 [node name="Base" type="CollisionShape2D" parent="P79_barrel"]
 position = Vector2(0, -5.0)
@@ -5611,7 +5635,7 @@ position = Vector2(914, -130)
 
 [node name="Sprite" type="Sprite2D" parent="P80_bush_flowers_g"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t66_bush_flowers_g")
+texture = ExtResource("t69_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="P80_bush_flowers_g"]
 position = Vector2(0, -7.0)
@@ -5622,7 +5646,7 @@ position = Vector2(900, 370)
 
 [node name="Sprite" type="Sprite2D" parent="P81_bush_g"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t67_bush_g")
+texture = ExtResource("t70_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="P81_bush_g"]
 position = Vector2(0, -7.0)
@@ -5633,7 +5657,7 @@ position = Vector2(634, 392)
 
 [node name="Sprite" type="Sprite2D" parent="P82_bush_g"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t67_bush_g")
+texture = ExtResource("t70_bush_g")
 
 [node name="Base" type="CollisionShape2D" parent="P82_bush_g"]
 position = Vector2(0, -7.0)
@@ -5644,7 +5668,7 @@ position = Vector2(802, 392)
 
 [node name="Sprite" type="Sprite2D" parent="P83_bush_flowers_g"]
 position = Vector2(0, -37.5)
-texture = ExtResource("t66_bush_flowers_g")
+texture = ExtResource("t69_bush_flowers_g")
 
 [node name="Base" type="CollisionShape2D" parent="P83_bush_flowers_g"]
 position = Vector2(0, -7.0)
@@ -5654,691 +5678,691 @@ shape = SubResource("R51x14")
 position = Vector2(242, 346)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -27.0)
-texture = ExtResource("t68_wall_arch")
+texture = ExtResource("t71_wall_arch")
 
 [node name="P85_wall_arch" type="Sprite2D" parent="."]
 position = Vector2(382, 346)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -27.0)
-texture = ExtResource("t68_wall_arch")
+texture = ExtResource("t71_wall_arch")
 
 [node name="P86_pilings" type="Sprite2D" parent="."]
 position = Vector2(-542, 359)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P87_pilings" type="Sprite2D" parent="."]
 position = Vector2(-458, 359)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P88_pilings" type="Sprite2D" parent="."]
 position = Vector2(-360, 359)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P89_pilings" type="Sprite2D" parent="."]
 position = Vector2(-276, 359)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P90_pilings" type="Sprite2D" parent="."]
 position = Vector2(-108, 359)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P91_pilings" type="Sprite2D" parent="."]
 position = Vector2(4, 448)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P92_pilings" type="Sprite2D" parent="."]
 position = Vector2(88, 448)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P93_pilings" type="Sprite2D" parent="."]
 position = Vector2(-242, 496)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P94_pilings" type="Sprite2D" parent="."]
 position = Vector2(-153, 496)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P95_pilings" type="Sprite2D" parent="."]
 position = Vector2(175, 647)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P96_pilings" type="Sprite2D" parent="."]
 position = Vector2(264, 647)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P97_pilings" type="Sprite2D" parent="."]
 position = Vector2(172, 468)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P98_pilings" type="Sprite2D" parent="."]
 position = Vector2(264, 468)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -24.0)
-texture = ExtResource("t69_pilings")
+texture = ExtResource("t72_pilings")
 
 [node name="P99_fence" type="Sprite2D" parent="."]
 position = Vector2(-604, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P100_fence" type="Sprite2D" parent="."]
 position = Vector2(-581, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P101_fence" type="Sprite2D" parent="."]
 position = Vector2(-559, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P102_fence" type="Sprite2D" parent="."]
 position = Vector2(-536, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P103_fence" type="Sprite2D" parent="."]
 position = Vector2(-514, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P104_fence" type="Sprite2D" parent="."]
 position = Vector2(-492, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P105_fence" type="Sprite2D" parent="."]
 position = Vector2(-469, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P106_fence" type="Sprite2D" parent="."]
 position = Vector2(-447, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P107_fence" type="Sprite2D" parent="."]
 position = Vector2(-424, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P108_fence" type="Sprite2D" parent="."]
 position = Vector2(-402, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P109_fence" type="Sprite2D" parent="."]
 position = Vector2(-380, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P110_fence" type="Sprite2D" parent="."]
 position = Vector2(-357, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P111_fence" type="Sprite2D" parent="."]
 position = Vector2(-335, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P112_fence" type="Sprite2D" parent="."]
 position = Vector2(-312, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P113_fence" type="Sprite2D" parent="."]
 position = Vector2(-290, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P114_fence" type="Sprite2D" parent="."]
 position = Vector2(-268, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P115_fence" type="Sprite2D" parent="."]
 position = Vector2(-245, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P116_fence" type="Sprite2D" parent="."]
 position = Vector2(-223, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P117_fence" type="Sprite2D" parent="."]
 position = Vector2(-200, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P118_fence" type="Sprite2D" parent="."]
 position = Vector2(-178, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P119_fence" type="Sprite2D" parent="."]
 position = Vector2(-156, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P120_fence" type="Sprite2D" parent="."]
 position = Vector2(-133, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P121_fence" type="Sprite2D" parent="."]
 position = Vector2(-111, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P122_fence" type="Sprite2D" parent="."]
 position = Vector2(-88, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P123_fence" type="Sprite2D" parent="."]
 position = Vector2(68, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P124_fence" type="Sprite2D" parent="."]
 position = Vector2(91, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P125_fence" type="Sprite2D" parent="."]
 position = Vector2(113, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P126_fence" type="Sprite2D" parent="."]
 position = Vector2(136, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P127_fence" type="Sprite2D" parent="."]
 position = Vector2(158, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P128_fence" type="Sprite2D" parent="."]
 position = Vector2(180, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P129_fence" type="Sprite2D" parent="."]
 position = Vector2(203, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P130_fence" type="Sprite2D" parent="."]
 position = Vector2(225, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P131_fence" type="Sprite2D" parent="."]
 position = Vector2(248, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P132_fence" type="Sprite2D" parent="."]
 position = Vector2(270, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P133_fence" type="Sprite2D" parent="."]
 position = Vector2(292, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P134_fence" type="Sprite2D" parent="."]
 position = Vector2(315, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P135_fence" type="Sprite2D" parent="."]
 position = Vector2(337, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P136_fence" type="Sprite2D" parent="."]
 position = Vector2(360, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P137_fence" type="Sprite2D" parent="."]
 position = Vector2(382, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P138_fence" type="Sprite2D" parent="."]
 position = Vector2(404, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P139_fence" type="Sprite2D" parent="."]
 position = Vector2(427, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P140_fence" type="Sprite2D" parent="."]
 position = Vector2(449, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P141_fence" type="Sprite2D" parent="."]
 position = Vector2(472, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P142_fence" type="Sprite2D" parent="."]
 position = Vector2(494, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P143_fence" type="Sprite2D" parent="."]
 position = Vector2(516, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P144_fence" type="Sprite2D" parent="."]
 position = Vector2(539, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P145_fence" type="Sprite2D" parent="."]
 position = Vector2(561, -627)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P146_fence" type="Sprite2D" parent="."]
 position = Vector2(-595, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P147_fence" type="Sprite2D" parent="."]
 position = Vector2(-573, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P148_fence" type="Sprite2D" parent="."]
 position = Vector2(-550, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P149_fence" type="Sprite2D" parent="."]
 position = Vector2(-528, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P150_fence" type="Sprite2D" parent="."]
 position = Vector2(-438, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P151_fence" type="Sprite2D" parent="."]
 position = Vector2(-416, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P152_fence" type="Sprite2D" parent="."]
 position = Vector2(-394, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P153_fence" type="Sprite2D" parent="."]
 position = Vector2(-371, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P154_fence" type="Sprite2D" parent="."]
 position = Vector2(-349, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P155_fence" type="Sprite2D" parent="."]
 position = Vector2(-326, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P156_fence" type="Sprite2D" parent="."]
 position = Vector2(-304, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P157_fence" type="Sprite2D" parent="."]
 position = Vector2(-282, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P158_fence" type="Sprite2D" parent="."]
 position = Vector2(-259, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P159_fence" type="Sprite2D" parent="."]
 position = Vector2(-237, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P160_fence" type="Sprite2D" parent="."]
 position = Vector2(-214, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P161_fence" type="Sprite2D" parent="."]
 position = Vector2(-192, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P162_fence" type="Sprite2D" parent="."]
 position = Vector2(-170, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P163_fence" type="Sprite2D" parent="."]
 position = Vector2(-147, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P164_fence" type="Sprite2D" parent="."]
 position = Vector2(-125, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P165_fence" type="Sprite2D" parent="."]
 position = Vector2(-102, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P166_fence" type="Sprite2D" parent="."]
 position = Vector2(-80, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P167_fence" type="Sprite2D" parent="."]
 position = Vector2(-58, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P168_fence" type="Sprite2D" parent="."]
 position = Vector2(49, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P169_fence" type="Sprite2D" parent="."]
 position = Vector2(71, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P170_fence" type="Sprite2D" parent="."]
 position = Vector2(94, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P171_fence" type="Sprite2D" parent="."]
 position = Vector2(116, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P172_fence" type="Sprite2D" parent="."]
 position = Vector2(138, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P173_fence" type="Sprite2D" parent="."]
 position = Vector2(161, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P174_fence" type="Sprite2D" parent="."]
 position = Vector2(183, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P175_fence" type="Sprite2D" parent="."]
 position = Vector2(206, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P176_fence" type="Sprite2D" parent="."]
 position = Vector2(228, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P177_fence" type="Sprite2D" parent="."]
 position = Vector2(250, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P178_fence" type="Sprite2D" parent="."]
 position = Vector2(273, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P179_fence" type="Sprite2D" parent="."]
 position = Vector2(295, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P180_fence" type="Sprite2D" parent="."]
 position = Vector2(318, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P181_fence" type="Sprite2D" parent="."]
 position = Vector2(340, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P182_fence" type="Sprite2D" parent="."]
 position = Vector2(362, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P183_fence" type="Sprite2D" parent="."]
 position = Vector2(385, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P184_fence" type="Sprite2D" parent="."]
 position = Vector2(407, -529)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -11.0)
-texture = ExtResource("t50_fence")
+texture = ExtResource("t53_fence")
 
 [node name="P185_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-1060, 524)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t70_sea_rocks")
+texture = ExtResource("t73_sea_rocks")
 
 [node name="P186_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-990, 587)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t70_sea_rocks")
+texture = ExtResource("t73_sea_rocks")
 
 [node name="P187_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-808, 580)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t70_sea_rocks")
+texture = ExtResource("t73_sea_rocks")
 
 [node name="P188_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-721, 527)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t70_sea_rocks")
+texture = ExtResource("t73_sea_rocks")
 
 [node name="P189_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(-699, 454)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t70_sea_rocks")
+texture = ExtResource("t73_sea_rocks")
 
 [node name="P190_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(550, 471)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t70_sea_rocks")
+texture = ExtResource("t73_sea_rocks")
 
 [node name="P191_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(802, 476)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t70_sea_rocks")
+texture = ExtResource("t73_sea_rocks")
 
 [node name="P192_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(928, 398)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t70_sea_rocks")
+texture = ExtResource("t73_sea_rocks")
 
 [node name="P193_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(976, 286)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t70_sea_rocks")
+texture = ExtResource("t73_sea_rocks")
 
 [node name="P194_sea_rocks" type="Sprite2D" parent="."]
 position = Vector2(984, -8)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -34.5)
-texture = ExtResource("t70_sea_rocks")
+texture = ExtResource("t73_sea_rocks")
 
 [node name="P195_ship" type="Sprite2D" parent="."]
 position = Vector2(-430, 608)
 scale = Vector2(1.5, 1.5)
 offset = Vector2(0, -79.0)
-texture = ExtResource("t71_ship")
+texture = ExtResource("t74_ship")
 
 [node name="P196_rowboat" type="Sprite2D" parent="."]
 position = Vector2(-738, 174)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -28.5)
-texture = ExtResource("t72_rowboat")
+texture = ExtResource("t75_rowboat")
 
 [node name="P197_rowboat" type="Sprite2D" parent="."]
 position = Vector2(326, 496)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -28.5)
-texture = ExtResource("t72_rowboat")
+texture = ExtResource("t75_rowboat")
 
 [node name="P198_rowboat" type="Sprite2D" parent="."]
 position = Vector2(130, 608)
 scale = Vector2(1.0, 1.0)
 offset = Vector2(0, -28.5)
-texture = ExtResource("t72_rowboat")
+texture = ExtResource("t75_rowboat")
 
 [node name="Bay" type="Sprite2D" parent="."]
 z_index = -9

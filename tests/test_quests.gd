@@ -70,6 +70,23 @@ func _run() -> void:
 	# Rivals can do the favours too, off screen: the favour is listed with the zone's pickups.
 	var in_kalmora := WorldMap.remaining_pickups(WorldMap.KALMORA, &"runner").map(func(p: Dictionary) -> String: return p.key)
 	_check("rivals can still get Luca's feather", "errand:luca_feather" in in_kalmora)
+	# "A Boat for Wen": three parts round the harbor, then back to Wen.
+	var kalmora: Node = load(WorldMap.KALMORA).instantiate()
+	var parts := 0
+	for node in kalmora.get_children():
+		if node is ClueObject and node.clue_id in Quests.BOAT_PARTS:
+			parts += 1
+	kalmora.free()
+	_check("the boat parts are in Kalmora", parts == 3)
+	_check("Wen has something to ask", Quests.marker_for(&"wen") == "!")
+	Quests.talked_to(&"wen")
+	_check("talking to Wen starts it", Quests.stage(&"wens_boat") == 1)
+	for part in Quests.BOAT_PARTS:
+		Quests.inspect(part)
+	_check("all three found: back to Wen", Quests.stage(&"wens_boat") == 2 and Quests.marker_for(&"wen") == "?")
+	var seals := col.count(&"lockbox_seal")
+	Quests.talked_to(&"wen")
+	_check("Wen's thanks", Quests.stage(&"wens_boat") == Quests.DONE and col.count(&"lockbox_seal") == seals + 1)
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)
 

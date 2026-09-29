@@ -12,7 +12,11 @@ const DONE := 99
 const TITLES := {
 	&"unmarked_cargo": "The Unmarked Cargo",
 	&"trees_remember": "What the Trees Remember",
+	&"wens_boat": "A Boat for Wen",
 }
+## Kalmora: Wen is building a boat to fetch her papa home from the Duskara work.
+const BOAT_PARTS: Array[StringName] = [&"boat_sail", &"boat_oars", &"boat_rope"]
+const BOAT_REWARD_GOLD := 35
 ## Sorenda: Pell found a child's boot near the Hollow; what's in there is the proof.
 const SATCHEL_TITLE := "A satchel in the moss"
 const TREES_REWARD_GOLD := 50
@@ -86,6 +90,24 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					])
 				DONE:
 					return PackedStringArray(["Every notch on that post is a name. I've started carving them larger."])
+		&"wen":
+			match stage(&"wens_boat"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"You're a racer! You go everywhere. Will you help me?",
+						"I'm building a boat, to sail round to the dunes and bring Papa home. I've got the hull. I need a sail, oars and rope.",
+						"There's an old sail somebody left on the beach, a pair of oars down on the west quay, and a coil of rope out on the pier. Nobody wants them. I asked.",
+					])
+				1:
+					return PackedStringArray(["A sail from the beach, oars from the west quay, rope from the pier. (%d/3 found)" % _parts_found()])
+				2:
+					return PackedStringArray([
+						"You found them all! Look, the sail's hardly torn at all.",
+						"Papa always said a boat's only as good as its knots. I'll tie them the way he showed me.",
+						"Here. It's not much. When the boat's done, I'll write to you from the dunes.",
+					])
+				DONE:
+					return PackedStringArray(["She'll float. I tried her in the bath. Well. Half of her."])
 		&"mirela":
 			if stage(&"unmarked_cargo") in [1, 2]:
 				return PackedStringArray([
@@ -107,10 +129,27 @@ func marker_for(npc_id: StringName) -> String:
 				return "!"
 			2:
 				return "?"
+	if npc_id == &"wen":
+		match stage(&"wens_boat"):
+			NOT_STARTED:
+				return "!"
+			2:
+				return "?"
 	return ""
 
 
 func talked_to(npc_id: StringName) -> void:
+	if npc_id == &"wen":
+		match stage(&"wens_boat"):
+			NOT_STARTED:
+				set_stage(&"wens_boat", 1)
+				EventBus.notify.emit("Quest started: A Boat for Wen")
+			2:
+				GameState.add_currency(BOAT_REWARD_GOLD)
+				GameState.add_loose_card(GameState.PLAYER, &"lockbox_seal")
+				set_stage(&"wens_boat", DONE)
+				EventBus.notify.emit("Quest complete: A Boat for Wen (+%d gold, Lockbox Seal)" % BOAT_REWARD_GOLD)
+		return
 	if npc_id == &"pell" and stage(&"trees_remember") == NOT_STARTED:
 		set_stage(&"trees_remember", 1)
 		EventBus.notify.emit("Quest started: What the Trees Remember")
@@ -140,6 +179,25 @@ func talked_to(npc_id: StringName) -> void:
 
 ## A clue object was examined. Returns what the player learns.
 func inspect(clue_id: StringName) -> PackedStringArray:
+	if clue_id in BOAT_PARTS:
+		if stage(&"wens_boat") != 1:
+			return PackedStringArray([{
+				&"boat_sail": "An old sail, folded and left on the sand.",
+				&"boat_oars": "A pair of worn oars, propped against the quay wall.",
+				&"boat_rope": "A coil of good rope, going green at one end.",
+			}[clue_id]])
+		if clue_found(clue_id):
+			return PackedStringArray(["You've already got this for Wen."])
+		GameState.quest_flags[StringName("clue:%s" % clue_id)] = true
+		if _parts_found() >= BOAT_PARTS.size():
+			set_stage(&"wens_boat", 2)
+		else:
+			quest_changed.emit(&"wens_boat", 1)
+		return PackedStringArray([{
+			&"boat_sail": "You fold the old sail under your arm. Patched, but it'll catch the wind.",
+			&"boat_oars": "You take the oars. One is carved with a little fish: somebody's once.",
+			&"boat_rope": "You sling the rope over your shoulder. Good hemp, Kalmora-twisted.",
+		}[clue_id]])
 	if clue_id in CARGO_CLUES:
 		if stage(&"unmarked_cargo") != 1:
 			return PackedStringArray(["An unmarked crate. No harbor stamp, no manifest tag."])
@@ -176,6 +234,11 @@ func tracker_text() -> String:
 			lines.append("%s: inspect the unmarked crates on the quay, west dock and pier (%d/3)" % [TITLES[&"unmarked_cargo"], _clues_found()])
 		2:
 			lines.append("%s: report back to Bram" % TITLES[&"unmarked_cargo"])
+	match stage(&"wens_boat"):
+		1:
+			lines.append("%s: find a sail, oars and rope (%d/3)" % [TITLES[&"wens_boat"], _parts_found()])
+		2:
+			lines.append("%s: bring the parts to Wen" % TITLES[&"wens_boat"])
 	match stage(&"trees_remember"):
 		1:
 			lines.append("%s: search the Hollow, the cave past Sorenda's moss gate" % TITLES[&"trees_remember"])
@@ -183,6 +246,10 @@ func tracker_text() -> String:
 			lines.append("%s: bring the satchel to Elder Moss" % TITLES[&"trees_remember"])
 	lines.append_array(Errands.tracker_lines())
 	return "\n".join(lines)
+
+
+func _parts_found() -> int:
+	return BOAT_PARTS.filter(func(c: StringName) -> bool: return clue_found(c)).size()
 
 
 func _clues_found() -> int:

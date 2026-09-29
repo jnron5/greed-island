@@ -594,7 +594,12 @@ NPCS = [
 # Spread about the harbor so the search takes a look round: one by Bram on the quay,
 # one on the west dock by the harbormaster's, one out on the pier.
 CLUE_CRATES = [("crate_sand", (690, 700)), ("crate_glove", (440, 736)), ("crate_ledger", (660, 815))]
-CARDS = [  # (card, concept position)
+# "A Boat for Wen": (clue, concept position, prop sprite, title): a sail left on the
+# beach, oars against the west quay wall, a coil of rope out on the pier.
+BOAT_PARTS = [("boat_sail", (1290, 640), "sack", "An old sail"), ("boat_oars", (500, 745), "oars", "A pair of oars"),
+              ("boat_rope", (950, 910), "rope", "A coil of rope")]
+# Chests (name, concept position); only CARD_CHESTS hold a card, the rest LOOT.
+CARDS = [
     ("harbor_lantern", (400, 740)), ("coral_coin", (1330, 540)), ("gull_feather", (1360, 790)),
     ("sea_glass", (1400, 560)), ("sunken_crown_shard", (934, 935)),
     ("salt_compass", (150, 280)), ("tide_bell", (1000, 600)), ("terracotta_tile", (560, 216)),
@@ -1321,6 +1326,14 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
         x, y = W(*pos)
         check_spot(clue, x, y)
         n.append(f'[node name="Clue_{clue}" parent="." instance=ExtResource("21_clue")]\nposition = Vector2({x}, {y})\nclue_id = &"{clue}"\n')
+        taken.append((x, y))
+    # "A Boat for Wen": the three parts she asks for, lying where she says.
+    for clue, (pcx, pcy), prop, title in BOAT_PARTS:
+        x, y = W(pcx, pcy)
+        check_spot(clue, x, y)
+        n.append(f'[node name="Clue_{clue}" parent="." instance=ExtResource("21_clue")]\nposition = Vector2({x}, {y})\n'
+                 f'clue_id = &"{clue}"\nquest_id = &"wens_boat"\ntitle = "{title}"\n'
+                 f'texture = ExtResource("{texture(prop_path(prop))}")\n')
         taken.append((x, y))
 
     # Trees, then props. Everything is placed on purpose; a spot that lands on a wall,

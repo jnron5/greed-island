@@ -9,6 +9,9 @@ const RANGE := 30.0
 @export var clue_id: StringName
 @export var title := "Unmarked crate"
 @export var texture: Texture2D
+## The quest this belongs to: it sparkles while that quest is under way and this
+## clue is still to be found.
+@export var quest_id: StringName = &"unmarked_cargo"
 
 
 func _ready() -> void:
@@ -39,7 +42,7 @@ func _draw() -> void:
 	if texture:
 		var bottom := texture.get_height()
 		draw_texture(texture, Vector2(-texture.get_width() / 2.0, -bottom + 2))
-	var fresh := Quests.stage(&"unmarked_cargo") == 1 and not Quests.clue_found(clue_id)
+	var fresh := Quests.stage(quest_id) == 1 and not Quests.clue_found(clue_id)
 	if fresh:
 		var t := Time.get_ticks_msec() / 300.0
 		draw_circle(Vector2(0, -28 + sin(t) * 2.0), 2.0 + sin(t * 1.7), Color(1, 0.95, 0.6, 0.9))
