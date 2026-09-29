@@ -98,20 +98,12 @@ def near_lake(cfg, x, y, margin):
 # work goes, and the Hollow keeps what a runaway child left behind.
 LIFE = {
     "sorenda": {
-        # The homes themselves are placed by build_sorenda.py; these are the things
-        # round them: the woodcutter's pile, the herbalist's drying rack, the fire pit
-        # on the green, lanterns along the paths, and a fenced vegetable garden.
+        # The homes, lanterns and campfire are placed by build_sorenda.py; these are the
+        # things round them: the woodcutter's pile, the herbalist's drying rack, and a
+        # fenced vegetable garden.
         "props": [
             ('res://assets/sprites/tiles/sorenda/woodpile.png', (-540, 30), True, (50, 16)),
             ('res://assets/sprites/tiles/sorenda/drying_rack.png', (470, -170), True, (40, 10)),
-            ('res://assets/sprites/tiles/sorenda/firepit.png', (60, 70), True, (60, 24)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (-200, -110), True, (10, 8)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (190, -128), True, (10, 8)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (196, 88), True, (10, 8)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (-150, 118), True, (10, 8)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (40, 200), True, (10, 8)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (470, -330), True, (10, 8)),
-            ('res://assets/sprites/tiles/thornveil/props/trail_lantern.png', (-300, -16), True, (10, 8)),
         ] + [('res://assets/sprites/tiles/kalmora/props/fence.png', (x, y), True, (16, 8))
              for x in range(140, 290, 16) for y in (136, 232)],
         # A fenced vegetable garden south-east of the green (the fence above), rows of

@@ -15,7 +15,9 @@ Edit the layout here and the residents/props in build_forest.py LIFE, not the ed
 import os
 import sys
 
+import numpy as np
 from PIL import Image
+from scipy import ndimage
 
 os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, "scripts/tools")
@@ -47,6 +49,15 @@ EXIT_SOUTH = (0, 282)
 RIVALS = {"runner": (-120, 70), "raider": (200, 40), "hoarder": (-40, -120)}
 WELL = (96, -20)
 MERCHANT = (-110, 40)
+# Lanterns on posts along the paths (each a real light after dark), the campfire on
+# the green (animated, always burning), and benches round it.
+LANTERNS = [(-200, -110), (190, -128), (196, 88), (-150, 118), (40, 200), (470, -330), (-300, -16), (-40, -170), (120, -150)]
+CAMPFIRE = (60, 64)
+BENCHES = [(10, 96), (112, 96)]
+LANTERN_PNG = "assets/sprites/tiles/thornveil/props/trail_lantern.png"
+CAMPFIRE_STRIP = "assets/sprites/tiles/thornveil/props/campfire_anim.png"
+BENCH_PNG = "assets/sprites/tiles/kalmora/props/bench_wood.png"
+NIGHT = ART + "night/"
 # A traveller's cache in the south-west woods, for anyone who looks off the paths.
 CHESTS = [("old_stump", (-620, 180), 25, "bread", 2)]
 
@@ -54,6 +65,28 @@ CHESTS = [("old_stump", (-620, 180), 25, "bread", 2)]
 def bottom_offset(path):
     im = Image.open(path)
     return im.height / 2 - im.getbbox()[3]
+
+
+def window_glow(sprite):
+    """The lit-window overlay for a home: the warm window panes and lanterns already
+    painted on the sprite (bright cream-yellow, in small compact blobs, so thatch
+    highlights don't count), brightened; WindowGlow fades it in at night."""
+    a = np.array(Image.open(ART + sprite + ".png").convert("RGBA")).astype(int)
+    r, g, b, al = (a[..., i] for i in range(4))
+    lit = (al > 200) & (r > 185) & (g > 145) & (b < 170) & (r - b > 45) & (r - g < 75)
+    lab, _ = ndimage.label(ndimage.binary_dilation(lit, iterations=1))
+    keep = np.zeros_like(lit)
+    for i, sl in enumerate(ndimage.find_objects(lab), 1):
+        h, w = sl[0].stop - sl[0].start, sl[1].stop - sl[1].start
+        blob = (lab[sl] == i) & lit[sl]
+        if 3 <= blob.sum() <= 220 and h <= 26 and w <= 26 and blob.sum() >= 0.22 * h * w:
+            keep[sl] |= blob
+    out = np.zeros_like(a)
+    out[keep] = (255, 214, 130, 240)
+    os.makedirs(NIGHT, exist_ok=True)
+    path = NIGHT + sprite + "_windows.png"
+    Image.fromarray(out.astype(np.uint8)).save(path)
+    return path
 
 
 def depth(path):
@@ -89,6 +122,7 @@ def main():
         ('Texture2D', "res://assets/sprites/tiles/thornveil/props/chest.png", "70_chest_shut"),
         ('Texture2D', "res://assets/sprites/tiles/thornveil/props/chest_open.png", "70_chest_open"),
         ('PackedScene', "res://scenes/ui/dialogue_box.tscn", "22_dialogue"),
+        ('Script', "res://scripts/world/window_glow.gd", "24_windows"),
     ]
     tex = {}
 
@@ -201,7 +235,44 @@ position = Vector2({WELL[0]}, {WELL[1]})
                  f'[node name="{node}Door" parent="." instance=ExtResource("8_exit")]\nposition = Vector2({x + dx}, {y + 4})\n'
                  f'target_scene = "{interior}"\ntarget_spawn = &"door"\nneeds_interact = true\n\n'
                  f'[node name="{node}Lamp" type="PointLight2D" parent="."]\nposition = Vector2({x + dx}, {y - 30})\n'
-                 f'texture_scale = 0.9\nscript = ExtResource("20_lamp")\nmax_energy = 0.9\n')
+                 f'texture_scale = 0.9\nscript = ExtResource("20_lamp")\nmax_energy = 0.9\n\n'
+                 f'[node name="Windows" type="Sprite2D" parent="{node}"]\nposition = Vector2(0, {bottom_offset(path)})\n'
+                 f'texture = ExtResource("{texture(window_glow(sprite))}")\nscript = ExtResource("24_windows")\n'
+                 f'lights_out = {1.0 + (len(node) % 5) * 0.6:.1f}\n')
+    # Lanterns along the paths, each with its light.
+    for k, (x, y) in enumerate(LANTERNS):
+        n.append(f'[node name="PathLantern{k}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
+                 f'[node name="Sprite" type="Sprite2D" parent="PathLantern{k}"]\nposition = Vector2(0, {bottom_offset(LANTERN_PNG)})\n'
+                 f'texture = ExtResource("{texture(LANTERN_PNG)}")\n\n'
+                 f'[node name="Base" type="CollisionShape2D" parent="PathLantern{k}"]\nposition = Vector2(0, -4)\n'
+                 f'shape = SubResource("{shape(10, 8)}")\n\n'
+                 f'[node name="PathLight{k}" type="PointLight2D" parent="."]\nposition = Vector2({x + 6}, {y - 44})\n'
+                 f'texture_scale = 1.2\nscript = ExtResource("20_lamp")\n')
+    # The campfire on the green: always burning, lighting the benches round it.
+    frames = Image.open(CAMPFIRE_STRIP)
+    fw, fh = frames.width // 8, frames.height
+    strip = texture(CAMPFIRE_STRIP)
+    refs = []
+    for f in range(8):
+        subs[f"fire_{f}"] = (f'[sub_resource type="AtlasTexture" id="fire_{f}"]\natlas = ExtResource("{strip}")\n'
+                             f'region = Rect2({f * fw}, 0, {fw}, {fh})\n')
+        refs.append(f'{{\n"duration": 1.0,\n"texture": SubResource("fire_{f}")\n}}')
+    subs["fire_frames"] = (f'[sub_resource type="SpriteFrames" id="fire_frames"]\nanimations = [{{\n"frames": [{", ".join(refs)}],\n'
+                           f'"loop": true,\n"name": &"default",\n"speed": 9\n}}]\n')
+    cx, cy = CAMPFIRE
+    n.append(f'[node name="Campfire" type="StaticBody2D" parent="."]\nposition = Vector2({cx}, {cy})\n\n'
+             f'[node name="Fire" type="AnimatedSprite2D" parent="Campfire"]\nscale = Vector2(2, 2)\nposition = Vector2(0, -{fh - 4})\n'
+             f'sprite_frames = SubResource("fire_frames")\nautoplay = "default"\n\n'
+             f'[node name="Base" type="CollisionShape2D" parent="Campfire"]\nposition = Vector2(0, -16)\n'
+             f'shape = SubResource("{shape(64, 30)}")\n\n'
+             f'[node name="CampfireLight" type="PointLight2D" parent="."]\nposition = Vector2({cx}, {cy - 30})\n'
+             f'texture_scale = 2.2\nscript = ExtResource("20_lamp")\nalways_on = true\nmax_energy = 0.9\nflicker = 0.18\n')
+    for k, (x, y) in enumerate(BENCHES):
+        n.append(f'[node name="Bench{k}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
+                 f'[node name="Sprite" type="Sprite2D" parent="Bench{k}"]\nposition = Vector2(0, {bottom_offset(BENCH_PNG)})\n'
+                 f'texture = ExtResource("{texture(BENCH_PNG)}")\n\n'
+                 f'[node name="Base" type="CollisionShape2D" parent="Bench{k}"]\nposition = Vector2(0, -5)\n'
+                 f'shape = SubResource("{shape(36, 10)}")\n')
     # The tree house's sprite stops at the trunk: a whole oak stands behind it, so the
     # tree carries on up into a crown.
     tx, ty = next(pos for node, _, pos, *_ in HOMES if node == "HouseTree")

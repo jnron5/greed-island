@@ -45,15 +45,15 @@ ZONES = {
         "remove": ["Ground", "Clearing", "Path", "GroveFloor"],
         "extra_trees": 20,
         "paths": [
-            ("ellipse", 0, -50, 240, 140),              # village green
-            ("line", [(0, -20), (0, 300)], 44),         # south road
-            ("line", [(0, -150), (0, -246)], 30),       # to the elder's longhouse
-            ("line", [(-150, -110), (-270, -170), (-336, -200)], 26),   # to the scribe's
-            ("line", [(170, -100), (290, -150), (350, -176)], 26),      # to the herbalist's
-            ("line", [(-200, -40), (-330, -10), (-444, 34)], 26),       # to the woodcutter's
-            ("line", [(-120, 40), (-200, 120), (-244, 186)], 26),       # to the family home
-            ("line", [(150, 40), (300, 100), (380, 130)], 26),          # to the tree house
-            ("line", [(200, -110), (420, -300), (560, -400), (600, -440)], 30),  # to the moss gate
+            ("ellipse", 0, 10, 170, 100),               # the dirt square round the well and fire (the rest of the green is grass)
+            ("line", [(0, 60), (0, 300)], 44),          # south road
+            ("line", [(0, -60), (0, -246)], 30),        # to the elder's longhouse
+            ("line", [(-100, -40), (-270, -170), (-336, -200)], 26),    # to the scribe's
+            ("line", [(100, -40), (290, -150), (350, -176)], 26),       # to the herbalist's
+            ("line", [(-150, 0), (-330, -10), (-444, 34)], 26),         # to the woodcutter's
+            ("line", [(-120, 60), (-200, 120), (-244, 186)], 26),       # to the family home
+            ("line", [(140, 50), (300, 100), (380, 130)], 26),          # to the tree house
+            ("line", [(120, -60), (420, -300), (560, -400), (600, -440)], 30),  # to the moss gate
             ("rect", 540, -560, 670, -440),             # the Hollow's pocket
         ],
     },

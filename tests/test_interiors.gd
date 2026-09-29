@@ -31,7 +31,8 @@ func _run() -> void:
 			if node is StaticBody2D and node.get_node_or_null("Sprite") is Sprite2D and node.name.is_valid_identifier() \
 					and not String(node.name).begins_with("P") and not String(node.name).begins_with("Palm") \
 					and not String(node.name).begins_with("Tree") and node.name != "Lighthouse" \
-					and node.name != "CaveMouth" and not String(node.name).begins_with("Chest"):
+					and node.name != "CaveMouth" and not String(node.name).begins_with("Chest") \
+					and not String(node.name).begins_with("Bench"):
 				buildings += 1
 		_check("every building has a door (%d doors, %d buildings)" % [doors.size(), buildings], doors.size() == buildings)
 		for door in doors:
