@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/monster.gd" id="1_monster"]
+[ext_resource type="Script" path="res://scripts/systems/hurtbox.gd" id="2_hurt"]
+[ext_resource type="Script" path="res://scripts/systems/hitbox.gd" id="3_hit"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/monsters/frost_wolf/frost_wolf_frames.tres" id="4_frames"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_feet"]
+radius = 10.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(44, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bite"]
+radius = 15.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_none"]
+
+[node name="FrostWolf" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 1
+motion_mode = 1
+script = ExtResource("1_monster")
+sprite_frames = ExtResource("4_frames")
+max_health = 7
+wander_speed = 34.0
+chase_speed = 96.0
+aggro_radius = 150.0
+leash_radius = 320.0
+attack_range = 60.0
+windup_time = 0.4
+lunge_speed = 330.0
+lunge_time = 0.22
+recover_time = 0.6
+drop_card_ids = Array[StringName]([&"owl_quill", &"briar_wren"])
+respawn_time = 50.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_none")
+offset = Vector2(0, -36)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_feet")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 192
+monitorable = false
+script = ExtResource("2_hurt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_bite")
+disabled = true

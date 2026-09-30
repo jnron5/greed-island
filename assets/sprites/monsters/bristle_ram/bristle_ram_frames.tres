@@ -1,0 +1,432 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/monsters/bristle_ram/bristle_ram_attack.png" id="1_attack"]
+[ext_resource type="Texture2D" path="res://assets/sprites/monsters/bristle_ram/bristle_ram_idle.png" id="2_idle"]
+[ext_resource type="Texture2D" path="res://assets/sprites/monsters/bristle_ram/bristle_ram_walk.png" id="3_walk"]
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_south_0"]
+atlas = ExtResource("1_attack")
+region = Rect2(0, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_south_1"]
+atlas = ExtResource("1_attack")
+region = Rect2(105, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_south_2"]
+atlas = ExtResource("1_attack")
+region = Rect2(210, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_south_3"]
+atlas = ExtResource("1_attack")
+region = Rect2(315, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_south_4"]
+atlas = ExtResource("1_attack")
+region = Rect2(420, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_south_5"]
+atlas = ExtResource("1_attack")
+region = Rect2(525, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_south_6"]
+atlas = ExtResource("1_attack")
+region = Rect2(630, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_south_7"]
+atlas = ExtResource("1_attack")
+region = Rect2(735, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_east_0"]
+atlas = ExtResource("1_attack")
+region = Rect2(0, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_east_1"]
+atlas = ExtResource("1_attack")
+region = Rect2(105, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_east_2"]
+atlas = ExtResource("1_attack")
+region = Rect2(210, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_east_3"]
+atlas = ExtResource("1_attack")
+region = Rect2(315, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_east_4"]
+atlas = ExtResource("1_attack")
+region = Rect2(420, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_east_5"]
+atlas = ExtResource("1_attack")
+region = Rect2(525, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_east_6"]
+atlas = ExtResource("1_attack")
+region = Rect2(630, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_east_7"]
+atlas = ExtResource("1_attack")
+region = Rect2(735, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_north_0"]
+atlas = ExtResource("1_attack")
+region = Rect2(0, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_north_1"]
+atlas = ExtResource("1_attack")
+region = Rect2(105, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_north_2"]
+atlas = ExtResource("1_attack")
+region = Rect2(210, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_north_3"]
+atlas = ExtResource("1_attack")
+region = Rect2(315, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_north_4"]
+atlas = ExtResource("1_attack")
+region = Rect2(420, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_north_5"]
+atlas = ExtResource("1_attack")
+region = Rect2(525, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_north_6"]
+atlas = ExtResource("1_attack")
+region = Rect2(630, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_north_7"]
+atlas = ExtResource("1_attack")
+region = Rect2(735, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_west_0"]
+atlas = ExtResource("1_attack")
+region = Rect2(0, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_west_1"]
+atlas = ExtResource("1_attack")
+region = Rect2(105, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_west_2"]
+atlas = ExtResource("1_attack")
+region = Rect2(210, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_west_3"]
+atlas = ExtResource("1_attack")
+region = Rect2(315, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_west_4"]
+atlas = ExtResource("1_attack")
+region = Rect2(420, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_west_5"]
+atlas = ExtResource("1_attack")
+region = Rect2(525, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_west_6"]
+atlas = ExtResource("1_attack")
+region = Rect2(630, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_attack_west_7"]
+atlas = ExtResource("1_attack")
+region = Rect2(735, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_south_0"]
+atlas = ExtResource("2_idle")
+region = Rect2(0, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_east_0"]
+atlas = ExtResource("2_idle")
+region = Rect2(0, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_north_0"]
+atlas = ExtResource("2_idle")
+region = Rect2(0, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_west_0"]
+atlas = ExtResource("2_idle")
+region = Rect2(0, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_south_0"]
+atlas = ExtResource("3_walk")
+region = Rect2(0, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_south_1"]
+atlas = ExtResource("3_walk")
+region = Rect2(105, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_south_2"]
+atlas = ExtResource("3_walk")
+region = Rect2(210, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_south_3"]
+atlas = ExtResource("3_walk")
+region = Rect2(315, 0, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_east_0"]
+atlas = ExtResource("3_walk")
+region = Rect2(0, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_east_1"]
+atlas = ExtResource("3_walk")
+region = Rect2(105, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_east_2"]
+atlas = ExtResource("3_walk")
+region = Rect2(210, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_east_3"]
+atlas = ExtResource("3_walk")
+region = Rect2(315, 180, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_north_0"]
+atlas = ExtResource("3_walk")
+region = Rect2(0, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_north_1"]
+atlas = ExtResource("3_walk")
+region = Rect2(105, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_north_2"]
+atlas = ExtResource("3_walk")
+region = Rect2(210, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_north_3"]
+atlas = ExtResource("3_walk")
+region = Rect2(315, 360, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_west_0"]
+atlas = ExtResource("3_walk")
+region = Rect2(0, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_west_1"]
+atlas = ExtResource("3_walk")
+region = Rect2(105, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_west_2"]
+atlas = ExtResource("3_walk")
+region = Rect2(210, 540, 105, 90)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_west_3"]
+atlas = ExtResource("3_walk")
+region = Rect2(315, 540, 105, 90)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_south_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_south_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_south_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_south_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_south_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_south_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_south_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_south_7")
+}],
+"loop": false,
+"name": &"attack_south",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_east_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_east_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_east_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_east_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_east_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_east_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_east_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_east_7")
+}],
+"loop": false,
+"name": &"attack_east",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_north_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_north_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_north_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_north_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_north_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_north_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_north_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_north_7")
+}],
+"loop": false,
+"name": &"attack_north",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_west_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_west_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_west_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_west_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_west_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_west_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_west_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_attack_west_7")
+}],
+"loop": false,
+"name": &"attack_west",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_south_0")
+}],
+"loop": true,
+"name": &"idle_south",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_east_0")
+}],
+"loop": true,
+"name": &"idle_east",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_north_0")
+}],
+"loop": true,
+"name": &"idle_north",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_west_0")
+}],
+"loop": true,
+"name": &"idle_west",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_south_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_south_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_south_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_south_3")
+}],
+"loop": true,
+"name": &"walk_south",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_east_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_east_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_east_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_east_3")
+}],
+"loop": true,
+"name": &"walk_east",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_north_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_north_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_north_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_north_3")
+}],
+"loop": true,
+"name": &"walk_north",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_west_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_west_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_west_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_west_3")
+}],
+"loop": true,
+"name": &"walk_west",
+"speed": 8.0
+}]

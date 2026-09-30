@@ -1,5 +1,7 @@
 extends Node
-## Every building in Kalmora and Sorenda can be entered: each door leads to an interior whose
+## Every building in Kalmora and Sorenda, and every home in Verdana, by Lake Serin and
+## in the Starfall Range, can be entered (barns and mills, the Working* buildings, stay
+## shut): each door leads to an interior whose
 ## door spawn and way out are clear of walls and furniture, the way out lands back on
 ## a doorstep in its own town that exists, residents stand on open floor, and every readable
 ## can be reached from the door on foot. Reach is walked with the player's real feet
@@ -19,7 +21,7 @@ func _run() -> void:
 	RivalDirector.enabled = false
 	TimeOfDay.paused = true
 	GameState.new_game(GameState.DEFAULT_RIVALS)
-	for town_path: String in [WorldMap.KALMORA, WorldMap.SORENDA]:
+	for town_path: String in [WorldMap.KALMORA, WorldMap.SORENDA, WorldMap.VERDANA, WorldMap.LAKE_SERIN, WorldMap.STARFALL]:
 		GameState.pending_spawn = &""
 		var town := await _load(town_path)
 		var doors: Array[ZoneExit] = []
@@ -32,7 +34,8 @@ func _run() -> void:
 					and not String(node.name).begins_with("P") and not String(node.name).begins_with("Palm") \
 					and not String(node.name).begins_with("Tree") and node.name != "Lighthouse" \
 					and node.name != "CaveMouth" and not String(node.name).begins_with("Chest") \
-					and not String(node.name).begins_with("Bench"):
+					and not String(node.name).begins_with("Bench") and not String(node.name).begins_with("Lantern") \
+					and not String(node.name).begins_with("Under") and not String(node.name).begins_with("Working"):
 				buildings += 1
 		_check("every building has a door (%d doors, %d buildings)" % [doors.size(), buildings], doors.size() == buildings)
 		for door in doors:

@@ -102,6 +102,23 @@ def main():
         i = rng.integers(0, N - 60)
         crackle[i:i + 30] += rng.uniform(-1, 1, 30) * np.exp(-np.arange(30) / 6) * rng.uniform(0.05, 0.3)
     save("room", looped_noise(0.015) * 0.3 + crackle, 0.2)
+    # Meadow (the Aurewind Plains, Verdana): grass hissing in long gusts and skylarks.
+    gusts = looped_noise(0.09) * (0.35 + 0.65 * np.clip(slow(7.0) * 0.6 + slow(3.0, 1.0) * 0.4, 0, 1))
+    larks = np.zeros(N)
+    for _ in range(14):
+        t0 = rng.uniform(0, SECONDS)
+        for k in range(rng.integers(6, 12)):
+            f = rng.uniform(3000, 5200)
+            larks += chirp(t0 + k * 0.07, f, f * rng.uniform(0.9, 1.3), 0.05, 0.035)
+    save("meadow", gusts * 0.7 + larks, 0.28)
+    # Lake: slow lapping at the shore, a low breeze, a few water birds.
+    lap = looped_noise(0.04) * (0.4 + 0.6 * np.clip(slow(3.0), 0, 1) ** 3)
+    calls = sum(chirp(t0, 900, 700, 0.35, 0.06) + chirp(t0 + 0.45, 950, 650, 0.3, 0.05) for t0 in (4.2, 15.8))
+    save("lake", lap + looped_noise(0.015) * 0.4 + calls, 0.3)
+    # Mountain: wind moaning over the ridges (a slow whistling tone riding the gusts).
+    gust = np.clip(slow(8.0) * 0.5 + slow(3.4, 2.0) * 0.3 + 0.5, 0, 1)
+    moan = np.sin(2 * math.pi * np.cumsum(420 + 90 * slow(8.0)) / RATE) * gust ** 2 * 0.06
+    save("mountain", looped_noise(0.06) * (0.3 + 0.7 * gust) + moan, 0.3)
     print("ambience:", sorted(os.listdir(OUT)))
 
 

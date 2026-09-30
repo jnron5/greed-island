@@ -1,0 +1,169 @@
+[gd_scene load_steps=25 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/starfall/interiors/cabin_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R248x67"]
+size = Vector2(248, 67)
+
+[sub_resource type="RectangleShape2D" id="R60x79"]
+size = Vector2(60, 79)
+
+[sub_resource type="RectangleShape2D" id="R42x26"]
+size = Vector2(42, 26)
+
+[sub_resource type="RectangleShape2D" id="R20x64"]
+size = Vector2(20, 64)
+
+[sub_resource type="RectangleShape2D" id="R54x64"]
+size = Vector2(54, 64)
+
+[sub_resource type="RectangleShape2D" id="R20x66"]
+size = Vector2(20, 66)
+
+[sub_resource type="RectangleShape2D" id="R58x102"]
+size = Vector2(58, 102)
+
+[sub_resource type="RectangleShape2D" id="R10x175"]
+size = Vector2(10, 175)
+
+[sub_resource type="RectangleShape2D" id="R108x10"]
+size = Vector2(108, 10)
+
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
+
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
+
+[node name="starfall_cabin" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Hald's Cabin"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(144.0, 112.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 58.5)
+shape = SubResource("R248x67")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 64.5)
+shape = SubResource("R60x79")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(95.0, 91.0)
+shape = SubResource("R42x26")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(186.0, 68.0)
+shape = SubResource("R20x64")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(77.0, 138.0)
+shape = SubResource("R54x64")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(40.0, 145.0)
+shape = SubResource("R20x66")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(229.0, 139.0)
+shape = SubResource("R58x102")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(25.0, 112.5)
+shape = SubResource("R10x175")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(263.0, 112.5)
+shape = SubResource("R10x175")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(74.0, 195.0)
+shape = SubResource("R108x10")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(214.0, 195.0)
+shape = SubResource("R108x10")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(144, 172)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(144, 207)
+target_scene = "res://scenes/world/starfall_range.tscn"
+target_spawn = &"from_househald"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(118, 140)
+script = ExtResource("12_read")
+title = "A map of the pass"
+lines = PackedStringArray("Hald's map of the Starfall pass, marked in pencil: the old road north to Frisalle, the slide, and a second route drawn and rubbed out again, round the east shoulder of the mountain.", "In the margin: 'Company men came up with powder. Came down without it.'")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(144, 172)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

@@ -1,0 +1,179 @@
+[gd_scene load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/verdana/interiors/scholar_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R236x83"]
+size = Vector2(236, 83)
+
+[sub_resource type="RectangleShape2D" id="R76x82"]
+size = Vector2(76, 82)
+
+[sub_resource type="RectangleShape2D" id="R30x22"]
+size = Vector2(30, 22)
+
+[sub_resource type="RectangleShape2D" id="R30x36"]
+size = Vector2(30, 36)
+
+[sub_resource type="RectangleShape2D" id="R34x52"]
+size = Vector2(34, 52)
+
+[sub_resource type="RectangleShape2D" id="R18x32"]
+size = Vector2(18, 32)
+
+[sub_resource type="RectangleShape2D" id="R30x44"]
+size = Vector2(30, 44)
+
+[sub_resource type="RectangleShape2D" id="R24x30"]
+size = Vector2(24, 30)
+
+[sub_resource type="RectangleShape2D" id="R8x159"]
+size = Vector2(8, 159)
+
+[sub_resource type="RectangleShape2D" id="R98x8"]
+size = Vector2(98, 8)
+
+[sub_resource type="RectangleShape2D" id="R100x8"]
+size = Vector2(100, 8)
+
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
+
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
+
+[node name="verdana_scholar" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Aldous's House"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(144.0, 112.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 62.5)
+shape = SubResource("R236x83")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(70.0, 129.0)
+shape = SubResource("R76x82")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(47.0, 167.0)
+shape = SubResource("R30x22")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(151.0, 114.0)
+shape = SubResource("R30x36")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(185.0, 124.0)
+shape = SubResource("R34x52")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(205.0, 144.0)
+shape = SubResource("R18x32")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(235.0, 130.0)
+shape = SubResource("R30x44")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(246.0, 163.0)
+shape = SubResource("R24x30")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(30.0, 100.5)
+shape = SubResource("R8x159")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(258.0, 100.5)
+shape = SubResource("R8x159")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(75.0, 176.0)
+shape = SubResource("R98x8")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(212.0, 176.0)
+shape = SubResource("R100x8")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(143, 166)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(143, 205)
+target_scene = "res://scenes/world/verdana.tscn"
+target_spawn = &"from_housescholar"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(120, 116)
+script = ExtResource("12_read")
+title = "Rubbings of the stones"
+lines = PackedStringArray("Charcoal rubbings of three standing stones, pinned side by side. On each, a crown and a line of figures beneath it. Aldous has numbered the figures in red ink.", "The numbers go into the hundreds. Beside the last one he has written, very small: 'still counting'.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(143, 166)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

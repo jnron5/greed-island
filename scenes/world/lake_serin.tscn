@@ -1,0 +1,5507 @@
+[gd_scene load_steps=159 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="8_lamp"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/lake_serin/lake_serin_levels.png" id="r0_lake_serin_level"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/lake_serin/lake_serin_ground.png" id="r1_lake_serin_groun"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/lake_serin/stairs_3.png" id="r2_stairs_3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/lake_serin/lake_serin_water_mask.png" id="r3_lake_serin_water"]
+[ext_resource type="Script" path="res://scripts/world/tiled_animation.gd" id="r4_tiled_animation"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/water/lake.png" id="r5_lake"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/lake_serin/fisher_hut.png" id="r6_fisher_hut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/lake_serin/night/fisher_hut_windows.png" id="r7_fisher_hut_windo"]
+[ext_resource type="Script" path="res://scripts/world/window_glow.gd" id="r8_window_glow"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/aurewind/standing_stone.png" id="r9_standing_stone"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/barrel.png" id="r10_barrel"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/net_crate.png" id="r11_net_crate"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/fishing_rods.png" id="r12_fishing_rods"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/boulder.png" id="r13_boulder"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/trail_lantern.png" id="r14_trail_lantern"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/forest_oak.tscn" id="r15_forest_oak"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/forest_fir.tscn" id="r16_forest_fir"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/grass_clump.png" id="r17_grass_clump"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/flowers.png" id="r18_flowers"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/mushrooms.png" id="r19_mushrooms"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/rock.png" id="r20_rock"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/log.png" id="r21_log"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/fern.png" id="r22_fern"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/cattails.png" id="r23_cattails"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/tuft_sway.png" id="r24_tuft_sway"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/tuft_flowers_sway.png" id="r25_tuft_flowers_swa"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="r26_npc"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/neri/neri_frames.tres" id="r27_neri_frames"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="r28_readable"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="r29_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="r30_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="r31_chest_open"]
+[ext_resource type="PackedScene" path="res://scenes/characters/moss_boar.tscn" id="r32_moss_boar"]
+[ext_resource type="PackedScene" path="res://scenes/characters/briar_hound.tscn" id="r33_briar_hound"]
+[ext_resource type="PackedScene" path="res://scenes/characters/bristle_ram.tscn" id="r34_bristle_ram"]
+[ext_resource type="Script" path="res://scripts/world/butterflies.gd" id="r35_butterflies"]
+[ext_resource type="Script" path="res://scripts/world/fireflies.gd" id="r36_fireflies"]
+
+[sub_resource type="RectangleShape2D" id="R32x288"]
+size = Vector2(32, 288)
+
+[sub_resource type="RectangleShape2D" id="R64x96"]
+size = Vector2(64, 96)
+
+[sub_resource type="RectangleShape2D" id="R32x32"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="R32x96"]
+size = Vector2(32, 96)
+
+[sub_resource type="RectangleShape2D" id="R64x64"]
+size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="R96x32"]
+size = Vector2(96, 32)
+
+[sub_resource type="RectangleShape2D" id="R32x224"]
+size = Vector2(32, 224)
+
+[sub_resource type="RectangleShape2D" id="R64x32"]
+size = Vector2(64, 32)
+
+[sub_resource type="RectangleShape2D" id="R192x32"]
+size = Vector2(192, 32)
+
+[sub_resource type="RectangleShape2D" id="R224x32"]
+size = Vector2(224, 32)
+
+[sub_resource type="RectangleShape2D" id="R32x8"]
+size = Vector2(32, 8)
+
+[sub_resource type="RectangleShape2D" id="R64x8"]
+size = Vector2(64, 8)
+
+[sub_resource type="RectangleShape2D" id="R80x8"]
+size = Vector2(80, 8)
+
+[sub_resource type="RectangleShape2D" id="R88x8"]
+size = Vector2(88, 8)
+
+[sub_resource type="RectangleShape2D" id="R104x8"]
+size = Vector2(104, 8)
+
+[sub_resource type="RectangleShape2D" id="R72x8"]
+size = Vector2(72, 8)
+
+[sub_resource type="RectangleShape2D" id="R112x8"]
+size = Vector2(112, 8)
+
+[sub_resource type="RectangleShape2D" id="R216x8"]
+size = Vector2(216, 8)
+
+[sub_resource type="RectangleShape2D" id="R128x8"]
+size = Vector2(128, 8)
+
+[sub_resource type="RectangleShape2D" id="R232x8"]
+size = Vector2(232, 8)
+
+[sub_resource type="RectangleShape2D" id="R152x8"]
+size = Vector2(152, 8)
+
+[sub_resource type="RectangleShape2D" id="R248x8"]
+size = Vector2(248, 8)
+
+[sub_resource type="RectangleShape2D" id="R272x8"]
+size = Vector2(272, 8)
+
+[sub_resource type="RectangleShape2D" id="R288x8"]
+size = Vector2(288, 8)
+
+[sub_resource type="RectangleShape2D" id="R264x8"]
+size = Vector2(264, 8)
+
+[sub_resource type="RectangleShape2D" id="R312x8"]
+size = Vector2(312, 8)
+
+[sub_resource type="RectangleShape2D" id="R280x8"]
+size = Vector2(280, 8)
+
+[sub_resource type="RectangleShape2D" id="R328x8"]
+size = Vector2(328, 8)
+
+[sub_resource type="RectangleShape2D" id="R296x8"]
+size = Vector2(296, 8)
+
+[sub_resource type="RectangleShape2D" id="R336x8"]
+size = Vector2(336, 8)
+
+[sub_resource type="RectangleShape2D" id="R352x8"]
+size = Vector2(352, 8)
+
+[sub_resource type="RectangleShape2D" id="R344x8"]
+size = Vector2(344, 8)
+
+[sub_resource type="RectangleShape2D" id="R368x8"]
+size = Vector2(368, 8)
+
+[sub_resource type="RectangleShape2D" id="R360x8"]
+size = Vector2(360, 8)
+
+[sub_resource type="RectangleShape2D" id="R376x8"]
+size = Vector2(376, 8)
+
+[sub_resource type="RectangleShape2D" id="R384x8"]
+size = Vector2(384, 8)
+
+[sub_resource type="RectangleShape2D" id="R392x8"]
+size = Vector2(392, 8)
+
+[sub_resource type="RectangleShape2D" id="R416x8"]
+size = Vector2(416, 8)
+
+[sub_resource type="RectangleShape2D" id="R400x8"]
+size = Vector2(400, 8)
+
+[sub_resource type="RectangleShape2D" id="R440x8"]
+size = Vector2(440, 8)
+
+[sub_resource type="RectangleShape2D" id="R424x8"]
+size = Vector2(424, 8)
+
+[sub_resource type="RectangleShape2D" id="R904x8"]
+size = Vector2(904, 8)
+
+[sub_resource type="RectangleShape2D" id="R912x8"]
+size = Vector2(912, 8)
+
+[sub_resource type="RectangleShape2D" id="R936x8"]
+size = Vector2(936, 8)
+
+[sub_resource type="RectangleShape2D" id="R944x8"]
+size = Vector2(944, 8)
+
+[sub_resource type="RectangleShape2D" id="R960x8"]
+size = Vector2(960, 8)
+
+[sub_resource type="RectangleShape2D" id="R968x8"]
+size = Vector2(968, 8)
+
+[sub_resource type="RectangleShape2D" id="R976x8"]
+size = Vector2(976, 8)
+
+[sub_resource type="RectangleShape2D" id="R992x16"]
+size = Vector2(992, 16)
+
+[sub_resource type="RectangleShape2D" id="R1000x8"]
+size = Vector2(1000, 8)
+
+[sub_resource type="RectangleShape2D" id="R1008x8"]
+size = Vector2(1008, 8)
+
+[sub_resource type="RectangleShape2D" id="R888x40"]
+size = Vector2(888, 40)
+
+[sub_resource type="RectangleShape2D" id="R1024x8"]
+size = Vector2(1024, 8)
+
+[sub_resource type="RectangleShape2D" id="R1032x16"]
+size = Vector2(1032, 16)
+
+[sub_resource type="RectangleShape2D" id="R1024x16"]
+size = Vector2(1024, 16)
+
+[sub_resource type="RectangleShape2D" id="R1016x8"]
+size = Vector2(1016, 8)
+
+[sub_resource type="RectangleShape2D" id="R1008x16"]
+size = Vector2(1008, 16)
+
+[sub_resource type="RectangleShape2D" id="R984x8"]
+size = Vector2(984, 8)
+
+[sub_resource type="RectangleShape2D" id="R952x8"]
+size = Vector2(952, 8)
+
+[sub_resource type="RectangleShape2D" id="R928x8"]
+size = Vector2(928, 8)
+
+[sub_resource type="RectangleShape2D" id="R920x8"]
+size = Vector2(920, 8)
+
+[sub_resource type="RectangleShape2D" id="R888x8"]
+size = Vector2(888, 8)
+
+[sub_resource type="RectangleShape2D" id="R872x8"]
+size = Vector2(872, 8)
+
+[sub_resource type="RectangleShape2D" id="R840x8"]
+size = Vector2(840, 8)
+
+[sub_resource type="RectangleShape2D" id="R816x8"]
+size = Vector2(816, 8)
+
+[sub_resource type="RectangleShape2D" id="R792x8"]
+size = Vector2(792, 8)
+
+[sub_resource type="RectangleShape2D" id="R768x8"]
+size = Vector2(768, 8)
+
+[sub_resource type="RectangleShape2D" id="R744x8"]
+size = Vector2(744, 8)
+
+[sub_resource type="RectangleShape2D" id="R712x8"]
+size = Vector2(712, 8)
+
+[sub_resource type="RectangleShape2D" id="R688x8"]
+size = Vector2(688, 8)
+
+[sub_resource type="RectangleShape2D" id="R664x8"]
+size = Vector2(664, 8)
+
+[sub_resource type="RectangleShape2D" id="R640x8"]
+size = Vector2(640, 8)
+
+[sub_resource type="RectangleShape2D" id="R616x8"]
+size = Vector2(616, 8)
+
+[sub_resource type="RectangleShape2D" id="R576x8"]
+size = Vector2(576, 8)
+
+[sub_resource type="RectangleShape2D" id="R536x8"]
+size = Vector2(536, 8)
+
+[sub_resource type="RectangleShape2D" id="R504x8"]
+size = Vector2(504, 8)
+
+[sub_resource type="RectangleShape2D" id="R472x8"]
+size = Vector2(472, 8)
+
+[sub_resource type="RectangleShape2D" id="R208x8"]
+size = Vector2(208, 8)
+
+[sub_resource type="RectangleShape2D" id="R168x8"]
+size = Vector2(168, 8)
+
+[sub_resource type="RectangleShape2D" id="R8x8"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="R720x40"]
+size = Vector2(720, 40)
+
+[sub_resource type="RectangleShape2D" id="R1320x40"]
+size = Vector2(1320, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x40"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="R1720x40"]
+size = Vector2(1720, 40)
+
+[sub_resource type="RectangleShape2D" id="R320x40"]
+size = Vector2(320, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x1536"]
+size = Vector2(40, 1536)
+
+[sub_resource type="RectangleShape2D" id="R120x57"]
+size = Vector2(120, 57)
+
+[sub_resource type="RectangleShape2D" id="R26x12"]
+size = Vector2(26, 12)
+
+[sub_resource type="RectangleShape2D" id="R14x8"]
+size = Vector2(14, 8)
+
+[sub_resource type="RectangleShape2D" id="R24x10"]
+size = Vector2(24, 10)
+
+[sub_resource type="RectangleShape2D" id="R14x6"]
+size = Vector2(14, 6)
+
+[sub_resource type="RectangleShape2D" id="R40x18"]
+size = Vector2(40, 18)
+
+[sub_resource type="RectangleShape2D" id="R10x8"]
+size = Vector2(10, 8)
+
+[sub_resource type="RectangleShape2D" id="R22x8"]
+size = Vector2(22, 8)
+
+[sub_resource type="AtlasTexture" id="tuft_0"]
+atlas = ExtResource("r24_tuft_sway")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_1"]
+atlas = ExtResource("r24_tuft_sway")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_2"]
+atlas = ExtResource("r24_tuft_sway")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_3"]
+atlas = ExtResource("r24_tuft_sway")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_4"]
+atlas = ExtResource("r24_tuft_sway")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_5"]
+atlas = ExtResource("r24_tuft_sway")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_6"]
+atlas = ExtResource("r24_tuft_sway")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_7"]
+atlas = ExtResource("r24_tuft_sway")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="tuft_frames"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("tuft_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6
+}]
+
+[sub_resource type="AtlasTexture" id="tuft_flowers_0"]
+atlas = ExtResource("r25_tuft_flowers_swa")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_flowers_1"]
+atlas = ExtResource("r25_tuft_flowers_swa")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_flowers_2"]
+atlas = ExtResource("r25_tuft_flowers_swa")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_flowers_3"]
+atlas = ExtResource("r25_tuft_flowers_swa")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_flowers_4"]
+atlas = ExtResource("r25_tuft_flowers_swa")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_flowers_5"]
+atlas = ExtResource("r25_tuft_flowers_swa")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_flowers_6"]
+atlas = ExtResource("r25_tuft_flowers_swa")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="tuft_flowers_7"]
+atlas = ExtResource("r25_tuft_flowers_swa")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="tuft_flowers_frames"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("tuft_flowers_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_flowers_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_flowers_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_flowers_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_flowers_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_flowers_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_flowers_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("tuft_flowers_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6
+}]
+
+[sub_resource type="RectangleShape2D" id="R30x10"]
+size = Vector2(30, 10)
+
+[node name="LakeSerin" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Lake Serin, the Still Water"
+water_shimmer = false
+level_map = ExtResource("r0_lake_serin_level")
+level_cell = 32
+level_origin = Vector2(-1024, -768)
+
+[node name="GroundTiles" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(0.0, 0.0)
+texture = ExtResource("r1_lake_serin_groun")
+
+[node name="Stairs1" type="Sprite2D" parent="."]
+z_index = -8
+position = Vector2(-960, 336.0)
+texture = ExtResource("r2_stairs_3")
+
+[node name="LakeWater" type="Sprite2D" parent="."]
+z_index = -9
+clip_children = 1
+position = Vector2(0.0, 0.0)
+texture = ExtResource("r3_lake_serin_water")
+self_modulate = Color(1, 1, 1, 1)
+
+[node name="Waves" type="Sprite2D" parent="LakeWater"]
+modulate = Color(0.9, 1.0, 1.12, 1)
+script = ExtResource("r4_tiled_animation")
+strip = ExtResource("r5_lake")
+frame_count = 8
+fps = 3.0
+region_rect = Rect2(0, 0, 2048, 1536)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-592.0, -624.0)
+shape = SubResource("R32x288")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-608.0, -432.0)
+shape = SubResource("R64x96")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-624.0, -368.0)
+shape = SubResource("R32x32")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-640.0, -304.0)
+shape = SubResource("R64x96")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-656.0, -208.0)
+shape = SubResource("R32x96")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-672.0, -128.0)
+shape = SubResource("R64x64")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-688.0, -80.0)
+shape = SubResource("R96x32")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-704.0, -32.0)
+shape = SubResource("R64x64")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-720.0, 112.0)
+shape = SubResource("R32x224")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-736.0, 240.0)
+shape = SubResource("R64x32")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-800.0, 272.0)
+shape = SubResource("R192x32")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-816.0, 304.0)
+shape = SubResource("R224x32")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-832.0, 336.0)
+shape = SubResource("R192x32")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-1008.0, 336.0)
+shape = SubResource("R32x96")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-896.0, 368.0)
+shape = SubResource("R64x32")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-64.0, -324.0)
+shape = SubResource("R32x8")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -324.0)
+shape = SubResource("R32x8")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-80.0, -316.0)
+shape = SubResource("R64x8")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(168.0, -316.0)
+shape = SubResource("R64x8")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-88.0, -308.0)
+shape = SubResource("R80x8")
+
+[node name="W20" type="CollisionShape2D" parent="Walls"]
+position = Vector2(184.0, -308.0)
+shape = SubResource("R80x8")
+
+[node name="W21" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-92.0, -300.0)
+shape = SubResource("R88x8")
+
+[node name="W22" type="CollisionShape2D" parent="Walls"]
+position = Vector2(196.0, -300.0)
+shape = SubResource("R104x8")
+
+[node name="W23" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, -300.0)
+shape = SubResource("R72x8")
+
+[node name="W24" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-96.0, -292.0)
+shape = SubResource("R112x8")
+
+[node name="W25" type="CollisionShape2D" parent="Walls"]
+position = Vector2(252.0, -292.0)
+shape = SubResource("R216x8")
+
+[node name="W26" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-104.0, -284.0)
+shape = SubResource("R128x8")
+
+[node name="W27" type="CollisionShape2D" parent="Walls"]
+position = Vector2(260.0, -284.0)
+shape = SubResource("R232x8")
+
+[node name="W28" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-116.0, -276.0)
+shape = SubResource("R152x8")
+
+[node name="W29" type="CollisionShape2D" parent="Walls"]
+position = Vector2(268.0, -276.0)
+shape = SubResource("R248x8")
+
+[node name="W30" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-148.0, -268.0)
+shape = SubResource("R232x8")
+
+[node name="W31" type="CollisionShape2D" parent="Walls"]
+position = Vector2(280.0, -268.0)
+shape = SubResource("R272x8")
+
+[node name="W32" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-156.0, -260.0)
+shape = SubResource("R248x8")
+
+[node name="W33" type="CollisionShape2D" parent="Walls"]
+position = Vector2(288.0, -260.0)
+shape = SubResource("R288x8")
+
+[node name="W34" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-156.0, -252.0)
+shape = SubResource("R264x8")
+
+[node name="W35" type="CollisionShape2D" parent="Walls"]
+position = Vector2(292.0, -252.0)
+shape = SubResource("R312x8")
+
+[node name="W36" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-164.0, -244.0)
+shape = SubResource("R280x8")
+
+[node name="W37" type="CollisionShape2D" parent="Walls"]
+position = Vector2(300.0, -244.0)
+shape = SubResource("R328x8")
+
+[node name="W38" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-172.0, -236.0)
+shape = SubResource("R296x8")
+
+[node name="W39" type="CollisionShape2D" parent="Walls"]
+position = Vector2(296.0, -236.0)
+shape = SubResource("R336x8")
+
+[node name="W40" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-180.0, -228.0)
+shape = SubResource("R312x8")
+
+[node name="W41" type="CollisionShape2D" parent="Walls"]
+position = Vector2(296.0, -228.0)
+shape = SubResource("R352x8")
+
+[node name="W42" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-188.0, -220.0)
+shape = SubResource("R344x8")
+
+[node name="W43" type="CollisionShape2D" parent="Walls"]
+position = Vector2(296.0, -220.0)
+shape = SubResource("R368x8")
+
+[node name="W44" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-188.0, -212.0)
+shape = SubResource("R360x8")
+
+[node name="W45" type="CollisionShape2D" parent="Walls"]
+position = Vector2(300.0, -212.0)
+shape = SubResource("R376x8")
+
+[node name="W46" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-184.0, -204.0)
+shape = SubResource("R384x8")
+
+[node name="W47" type="CollisionShape2D" parent="Walls"]
+position = Vector2(300.0, -204.0)
+shape = SubResource("R392x8")
+
+[node name="W48" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-176.0, -196.0)
+shape = SubResource("R416x8")
+
+[node name="W49" type="CollisionShape2D" parent="Walls"]
+position = Vector2(304.0, -196.0)
+shape = SubResource("R400x8")
+
+[node name="W50" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-164.0, -188.0)
+shape = SubResource("R440x8")
+
+[node name="W51" type="CollisionShape2D" parent="Walls"]
+position = Vector2(300.0, -188.0)
+shape = SubResource("R424x8")
+
+[node name="W52" type="CollisionShape2D" parent="Walls"]
+position = Vector2(68.0, -180.0)
+shape = SubResource("R904x8")
+
+[node name="W53" type="CollisionShape2D" parent="Walls"]
+position = Vector2(72.0, -172.0)
+shape = SubResource("R912x8")
+
+[node name="W54" type="CollisionShape2D" parent="Walls"]
+position = Vector2(76.0, -164.0)
+shape = SubResource("R936x8")
+
+[node name="W55" type="CollisionShape2D" parent="Walls"]
+position = Vector2(80.0, -156.0)
+shape = SubResource("R944x8")
+
+[node name="W56" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.0, -148.0)
+shape = SubResource("R960x8")
+
+[node name="W57" type="CollisionShape2D" parent="Walls"]
+position = Vector2(92.0, -140.0)
+shape = SubResource("R968x8")
+
+[node name="W58" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.0, -132.0)
+shape = SubResource("R976x8")
+
+[node name="W59" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.0, -120.0)
+shape = SubResource("R992x16")
+
+[node name="W60" type="CollisionShape2D" parent="Walls"]
+position = Vector2(84.0, -108.0)
+shape = SubResource("R1000x8")
+
+[node name="W61" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.0, -100.0)
+shape = SubResource("R1008x8")
+
+[node name="W62" type="CollisionShape2D" parent="Walls"]
+position = Vector2(20.0, -76.0)
+shape = SubResource("R888x40")
+
+[node name="W63" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.0, -52.0)
+shape = SubResource("R1024x8")
+
+[node name="W64" type="CollisionShape2D" parent="Walls"]
+position = Vector2(92.0, -40.0)
+shape = SubResource("R1032x16")
+
+[node name="W65" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.0, -24.0)
+shape = SubResource("R1024x16")
+
+[node name="W66" type="CollisionShape2D" parent="Walls"]
+position = Vector2(80.0, -12.0)
+shape = SubResource("R1024x8")
+
+[node name="W67" type="CollisionShape2D" parent="Walls"]
+position = Vector2(76.0, -4.0)
+shape = SubResource("R1016x8")
+
+[node name="W68" type="CollisionShape2D" parent="Walls"]
+position = Vector2(72.0, 4.0)
+shape = SubResource("R1024x8")
+
+[node name="W69" type="CollisionShape2D" parent="Walls"]
+position = Vector2(68.0, 12.0)
+shape = SubResource("R1016x8")
+
+[node name="W70" type="CollisionShape2D" parent="Walls"]
+position = Vector2(64.0, 24.0)
+shape = SubResource("R1008x16")
+
+[node name="W71" type="CollisionShape2D" parent="Walls"]
+position = Vector2(68.0, 36.0)
+shape = SubResource("R1000x8")
+
+[node name="W72" type="CollisionShape2D" parent="Walls"]
+position = Vector2(68.0, 44.0)
+shape = SubResource("R984x8")
+
+[node name="W73" type="CollisionShape2D" parent="Walls"]
+position = Vector2(72.0, 52.0)
+shape = SubResource("R976x8")
+
+[node name="W74" type="CollisionShape2D" parent="Walls"]
+position = Vector2(76.0, 60.0)
+shape = SubResource("R968x8")
+
+[node name="W75" type="CollisionShape2D" parent="Walls"]
+position = Vector2(84.0, 68.0)
+shape = SubResource("R952x8")
+
+[node name="W76" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.0, 76.0)
+shape = SubResource("R944x8")
+
+[node name="W77" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.0, 84.0)
+shape = SubResource("R928x8")
+
+[node name="W78" type="CollisionShape2D" parent="Walls"]
+position = Vector2(92.0, 92.0)
+shape = SubResource("R920x8")
+
+[node name="W79" type="CollisionShape2D" parent="Walls"]
+position = Vector2(92.0, 100.0)
+shape = SubResource("R904x8")
+
+[node name="W80" type="CollisionShape2D" parent="Walls"]
+position = Vector2(84.0, 108.0)
+shape = SubResource("R888x8")
+
+[node name="W81" type="CollisionShape2D" parent="Walls"]
+position = Vector2(84.0, 116.0)
+shape = SubResource("R872x8")
+
+[node name="W82" type="CollisionShape2D" parent="Walls"]
+position = Vector2(76.0, 124.0)
+shape = SubResource("R840x8")
+
+[node name="W83" type="CollisionShape2D" parent="Walls"]
+position = Vector2(72.0, 132.0)
+shape = SubResource("R816x8")
+
+[node name="W84" type="CollisionShape2D" parent="Walls"]
+position = Vector2(68.0, 140.0)
+shape = SubResource("R792x8")
+
+[node name="W85" type="CollisionShape2D" parent="Walls"]
+position = Vector2(64.0, 148.0)
+shape = SubResource("R768x8")
+
+[node name="W86" type="CollisionShape2D" parent="Walls"]
+position = Vector2(68.0, 156.0)
+shape = SubResource("R744x8")
+
+[node name="W87" type="CollisionShape2D" parent="Walls"]
+position = Vector2(76.0, 164.0)
+shape = SubResource("R712x8")
+
+[node name="W88" type="CollisionShape2D" parent="Walls"]
+position = Vector2(80.0, 172.0)
+shape = SubResource("R688x8")
+
+[node name="W89" type="CollisionShape2D" parent="Walls"]
+position = Vector2(84.0, 180.0)
+shape = SubResource("R664x8")
+
+[node name="W90" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.0, 188.0)
+shape = SubResource("R640x8")
+
+[node name="W91" type="CollisionShape2D" parent="Walls"]
+position = Vector2(84.0, 196.0)
+shape = SubResource("R616x8")
+
+[node name="W92" type="CollisionShape2D" parent="Walls"]
+position = Vector2(80.0, 204.0)
+shape = SubResource("R576x8")
+
+[node name="W93" type="CollisionShape2D" parent="Walls"]
+position = Vector2(68.0, 212.0)
+shape = SubResource("R536x8")
+
+[node name="W94" type="CollisionShape2D" parent="Walls"]
+position = Vector2(60.0, 220.0)
+shape = SubResource("R504x8")
+
+[node name="W95" type="CollisionShape2D" parent="Walls"]
+position = Vector2(60.0, 228.0)
+shape = SubResource("R472x8")
+
+[node name="W96" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-36.0, 236.0)
+shape = SubResource("R88x8")
+
+[node name="W97" type="CollisionShape2D" parent="Walls"]
+position = Vector2(164.0, 236.0)
+shape = SubResource("R248x8")
+
+[node name="W98" type="CollisionShape2D" parent="Walls"]
+position = Vector2(168.0, 244.0)
+shape = SubResource("R208x8")
+
+[node name="W99" type="CollisionShape2D" parent="Walls"]
+position = Vector2(172.0, 252.0)
+shape = SubResource("R168x8")
+
+[node name="W100" type="CollisionShape2D" parent="Walls"]
+position = Vector2(124.0, 260.0)
+shape = SubResource("R8x8")
+
+[node name="W101" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-704.0, -788.0)
+shape = SubResource("R720x40")
+
+[node name="W102" type="CollisionShape2D" parent="Walls"]
+position = Vector2(404.0, -788.0)
+shape = SubResource("R1320x40")
+
+[node name="W103" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-364.0, -828.0)
+shape = SubResource("R40x40")
+
+[node name="W104" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-236.0, -828.0)
+shape = SubResource("R40x40")
+
+[node name="W105" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-204.0, 788.0)
+shape = SubResource("R1720x40")
+
+[node name="W106" type="CollisionShape2D" parent="Walls"]
+position = Vector2(904.0, 788.0)
+shape = SubResource("R320x40")
+
+[node name="W107" type="CollisionShape2D" parent="Walls"]
+position = Vector2(636.0, 828.0)
+shape = SubResource("R40x40")
+
+[node name="W108" type="CollisionShape2D" parent="Walls"]
+position = Vector2(764.0, 828.0)
+shape = SubResource("R40x40")
+
+[node name="W109" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-1044.0, 0.0)
+shape = SubResource("R40x1536")
+
+[node name="W110" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1044.0, 0.0)
+shape = SubResource("R40x1536")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="from_aurewind" type="Marker2D" parent="Spawns"]
+position = Vector2(700, 720)
+
+[node name="from_starfall" type="Marker2D" parent="Spawns"]
+position = Vector2(-300, -710)
+
+[node name="from_houseneri" type="Marker2D" parent="Spawns"]
+position = Vector2(820, -84)
+
+[node name="RivalSpots" type="Node2D" parent="."]
+
+[node name="runner" type="Marker2D" parent="RivalSpots"]
+position = Vector2(660, 660)
+
+[node name="raider" type="Marker2D" parent="RivalSpots"]
+position = Vector2(740, 660)
+
+[node name="hoarder" type="Marker2D" parent="RivalSpots"]
+position = Vector2(700, 620)
+
+[node name="ToAurewind" parent="." instance=ExtResource("7_exit")]
+position = Vector2(700, 788)
+target_scene = "res://scenes/world/aurewind_plains.tscn"
+target_spawn = &"from_lake_serin"
+
+[node name="ToStarfall" parent="." instance=ExtResource("7_exit")]
+position = Vector2(-300, -788)
+target_scene = "res://scenes/world/starfall_range.tscn"
+target_spawn = &"from_lake_serin"
+
+[node name="HouseNeri" type="StaticBody2D" parent="."]
+position = Vector2(820, -110)
+
+[node name="Sprite" type="Sprite2D" parent="HouseNeri"]
+position = Vector2(0, -70.0)
+texture = ExtResource("r6_fisher_hut")
+
+[node name="Base" type="CollisionShape2D" parent="HouseNeri"]
+position = Vector2(0, -28.5)
+shape = SubResource("R120x57")
+
+[node name="Windows" type="Sprite2D" parent="HouseNeri"]
+position = Vector2(0, -70.0)
+texture = ExtResource("r7_fisher_hut_windo")
+script = ExtResource("r8_window_glow")
+lights_out = 3.4
+
+[node name="HouseNeriDoor" parent="." instance=ExtResource("7_exit")]
+position = Vector2(820, -106)
+target_scene = "res://scenes/world/interiors/serin_fisher_hut.tscn"
+target_spawn = &"door"
+needs_interact = true
+
+[node name="HouseNeriLamp" type="PointLight2D" parent="."]
+position = Vector2(820, -140)
+texture_scale = 0.9
+script = ExtResource("8_lamp")
+max_energy = 0.9
+
+[node name="Prop0" type="StaticBody2D" parent="."]
+position = Vector2(60, -300)
+
+[node name="Sprite" type="Sprite2D" parent="Prop0"]
+scale = Vector2(1.2, 1.2)
+position = Vector2(0, -52.8)
+texture = ExtResource("r9_standing_stone")
+
+[node name="Base" type="CollisionShape2D" parent="Prop0"]
+position = Vector2(0, -6.0)
+shape = SubResource("R26x12")
+
+[node name="PropLight0" type="PointLight2D" parent="."]
+position = Vector2(60, -320)
+texture_scale = 1.0
+script = ExtResource("8_lamp")
+always_on = true
+max_energy = 0.35
+tint = Color(0.7, 0.85, 1.0, 1)
+flicker = 0.03
+
+[node name="Prop1" type="StaticBody2D" parent="."]
+position = Vector2(610, -100)
+
+[node name="Sprite" type="Sprite2D" parent="Prop1"]
+position = Vector2(0, -13.0)
+texture = ExtResource("r10_barrel")
+
+[node name="Base" type="CollisionShape2D" parent="Prop1"]
+position = Vector2(0, -4.0)
+shape = SubResource("R14x8")
+
+[node name="Prop2" type="StaticBody2D" parent="."]
+position = Vector2(740, -60)
+
+[node name="Sprite" type="Sprite2D" parent="Prop2"]
+position = Vector2(0, -12.0)
+texture = ExtResource("r11_net_crate")
+
+[node name="Base" type="CollisionShape2D" parent="Prop2"]
+position = Vector2(0, -5.0)
+shape = SubResource("R24x10")
+
+[node name="Prop3" type="StaticBody2D" parent="."]
+position = Vector2(700, -40)
+
+[node name="Sprite" type="Sprite2D" parent="Prop3"]
+position = Vector2(0, -14.0)
+texture = ExtResource("r12_fishing_rods")
+
+[node name="Base" type="CollisionShape2D" parent="Prop3"]
+position = Vector2(0, -3.0)
+shape = SubResource("R14x6")
+
+[node name="Prop4" type="StaticBody2D" parent="."]
+position = Vector2(-380, 250)
+
+[node name="Sprite" type="Sprite2D" parent="Prop4"]
+position = Vector2(0, -31.5)
+texture = ExtResource("r13_boulder")
+
+[node name="Base" type="CollisionShape2D" parent="Prop4"]
+position = Vector2(0, -9.0)
+shape = SubResource("R40x18")
+
+[node name="Prop5" type="StaticBody2D" parent="."]
+position = Vector2(330, 330)
+
+[node name="Sprite" type="Sprite2D" parent="Prop5"]
+position = Vector2(0, -31.5)
+texture = ExtResource("r13_boulder")
+
+[node name="Base" type="CollisionShape2D" parent="Prop5"]
+position = Vector2(0, -9.0)
+shape = SubResource("R40x18")
+
+[node name="Lantern0" type="StaticBody2D" parent="."]
+position = Vector2(610, 420)
+
+[node name="Sprite" type="Sprite2D" parent="Lantern0"]
+position = Vector2(0, -28.0)
+texture = ExtResource("r14_trail_lantern")
+
+[node name="Base" type="CollisionShape2D" parent="Lantern0"]
+position = Vector2(0, -4)
+shape = SubResource("R10x8")
+
+[node name="LanternLight0" type="PointLight2D" parent="."]
+position = Vector2(616, 376)
+texture_scale = 1.2
+script = ExtResource("8_lamp")
+
+[node name="Lantern1" type="StaticBody2D" parent="."]
+position = Vector2(600, -140)
+
+[node name="Sprite" type="Sprite2D" parent="Lantern1"]
+position = Vector2(0, -28.0)
+texture = ExtResource("r14_trail_lantern")
+
+[node name="Base" type="CollisionShape2D" parent="Lantern1"]
+position = Vector2(0, -4)
+shape = SubResource("R10x8")
+
+[node name="LanternLight1" type="PointLight2D" parent="."]
+position = Vector2(606, -184)
+texture_scale = 1.2
+script = ExtResource("8_lamp")
+
+[node name="Lantern2" type="StaticBody2D" parent="."]
+position = Vector2(130, -470)
+
+[node name="Sprite" type="Sprite2D" parent="Lantern2"]
+position = Vector2(0, -28.0)
+texture = ExtResource("r14_trail_lantern")
+
+[node name="Base" type="CollisionShape2D" parent="Lantern2"]
+position = Vector2(0, -4)
+shape = SubResource("R10x8")
+
+[node name="LanternLight2" type="PointLight2D" parent="."]
+position = Vector2(136, -514)
+texture_scale = 1.2
+script = ExtResource("8_lamp")
+
+[node name="Lantern3" type="StaticBody2D" parent="."]
+position = Vector2(-420, -560)
+
+[node name="Sprite" type="Sprite2D" parent="Lantern3"]
+position = Vector2(0, -28.0)
+texture = ExtResource("r14_trail_lantern")
+
+[node name="Base" type="CollisionShape2D" parent="Lantern3"]
+position = Vector2(0, -4)
+shape = SubResource("R10x8")
+
+[node name="LanternLight3" type="PointLight2D" parent="."]
+position = Vector2(-414, -604)
+texture_scale = 1.2
+script = ExtResource("8_lamp")
+
+[node name="Tree0" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-1014, -708)
+
+[node name="Tree1" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1010, 754)
+
+[node name="Tree2" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-984, -701)
+
+[node name="Tree3" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-979, 764)
+
+[node name="Tree4" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-941, -710)
+
+[node name="Tree5" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-940, 764)
+
+[node name="Tree6" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-914, -710)
+
+[node name="Tree7" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-908, 762)
+
+[node name="Tree8" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-881, -709)
+
+[node name="Tree9" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-874, 760)
+
+[node name="Tree10" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-841, -702)
+
+[node name="Tree11" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-838, 762)
+
+[node name="Tree12" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-808, -703)
+
+[node name="Tree13" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-808, 766)
+
+[node name="Tree14" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-773, -706)
+
+[node name="Tree15" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-772, 761)
+
+[node name="Tree16" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-736, -699)
+
+[node name="Tree17" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-737, 758)
+
+[node name="Tree18" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-680, -708)
+
+[node name="Tree19" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-677, 761)
+
+[node name="Tree20" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-636, -698)
+
+[node name="Tree21" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-636, 766)
+
+[node name="Tree22" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-607, 757)
+
+[node name="Tree23" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-566, -708)
+
+[node name="Tree24" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-570, 754)
+
+[node name="Tree25" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-536, -708)
+
+[node name="Tree26" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-536, 757)
+
+[node name="Tree27" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-504, -698)
+
+[node name="Tree28" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-501, 756)
+
+[node name="Tree29" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-471, -705)
+
+[node name="Tree30" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-468, 763)
+
+[node name="Tree31" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-437, -707)
+
+[node name="Tree32" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-431, 764)
+
+[node name="Tree33" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-404, -700)
+
+[node name="Tree34" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-400, 763)
+
+[node name="Tree35" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-371, -710)
+
+[node name="Tree36" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-369, 757)
+
+[node name="Tree37" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-336, 765)
+
+[node name="Tree38" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-304, 759)
+
+[node name="Tree39" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-266, 758)
+
+[node name="Tree40" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-226, 756)
+
+[node name="Tree41" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-198, 760)
+
+[node name="Tree42" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-164, 755)
+
+[node name="Tree43" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-134, 756)
+
+[node name="Tree44" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-99, 758)
+
+[node name="Tree45" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-58, 760)
+
+[node name="Tree46" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-22, 760)
+
+[node name="Tree47" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(12, -710)
+
+[node name="Tree48" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(6, 757)
+
+[node name="Tree49" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(46, -702)
+
+[node name="Tree50" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(44, 763)
+
+[node name="Tree51" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(75, 759)
+
+[node name="Tree52" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(111, -703)
+
+[node name="Tree53" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(104, 765)
+
+[node name="Tree54" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(141, -705)
+
+[node name="Tree55" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(137, 754)
+
+[node name="Tree56" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(181, -708)
+
+[node name="Tree57" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(173, 765)
+
+[node name="Tree58" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(213, -708)
+
+[node name="Tree59" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(206, 757)
+
+[node name="Tree60" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(245, -702)
+
+[node name="Tree61" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(242, 762)
+
+[node name="Tree62" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(284, -710)
+
+[node name="Tree63" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(275, 766)
+
+[node name="Tree64" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(317, -700)
+
+[node name="Tree65" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(316, 764)
+
+[node name="Tree66" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(352, 756)
+
+[node name="Tree67" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(385, -710)
+
+[node name="Tree68" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(381, 761)
+
+[node name="Tree69" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(418, -706)
+
+[node name="Tree70" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(409, 759)
+
+[node name="Tree71" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(444, -702)
+
+[node name="Tree72" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(451, 754)
+
+[node name="Tree73" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(479, -705)
+
+[node name="Tree74" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(477, 756)
+
+[node name="Tree75" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(520, -709)
+
+[node name="Tree76" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(522, 764)
+
+[node name="Tree77" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(556, -705)
+
+[node name="Tree78" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(549, 766)
+
+[node name="Tree79" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(590, 757)
+
+[node name="Tree80" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(617, -705)
+
+[node name="Tree81" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(622, 759)
+
+[node name="Tree82" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(646, -700)
+
+[node name="Tree83" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(690, -704)
+
+[node name="Tree84" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(721, -709)
+
+[node name="Tree85" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(755, -709)
+
+[node name="Tree86" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(783, -699)
+
+[node name="Tree87" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(784, 755)
+
+[node name="Tree88" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(818, -698)
+
+[node name="Tree89" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(825, 755)
+
+[node name="Tree90" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(862, -703)
+
+[node name="Tree91" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(860, 765)
+
+[node name="Tree92" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(896, 762)
+
+[node name="Tree93" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(925, -705)
+
+[node name="Tree94" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(954, -700)
+
+[node name="Tree95" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(952, 765)
+
+[node name="Tree96" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(987, -703)
+
+[node name="Tree97" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(990, 756)
+
+[node name="Tree98" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1008, -674)
+
+[node name="Tree99" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1004, -676)
+
+[node name="Tree100" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1005, -643)
+
+[node name="Tree101" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1013, -637)
+
+[node name="Tree102" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1011, -602)
+
+[node name="Tree103" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1014, -608)
+
+[node name="Tree104" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1014, -568)
+
+[node name="Tree105" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1011, -536)
+
+[node name="Tree106" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1016, -532)
+
+[node name="Tree107" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-1013, -503)
+
+[node name="Tree108" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1007, -502)
+
+[node name="Tree109" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1005, -474)
+
+[node name="Tree110" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1012, -471)
+
+[node name="Tree111" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1014, -431)
+
+[node name="Tree112" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1010, -442)
+
+[node name="Tree113" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1013, -406)
+
+[node name="Tree114" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-1016, -374)
+
+[node name="Tree115" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1012, -371)
+
+[node name="Tree116" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1015, -337)
+
+[node name="Tree117" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1015, -328)
+
+[node name="Tree118" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-1013, -304)
+
+[node name="Tree119" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1011, -299)
+
+[node name="Tree120" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-1006, -260)
+
+[node name="Tree121" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1005, -263)
+
+[node name="Tree122" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1013, -228)
+
+[node name="Tree123" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1015, -202)
+
+[node name="Tree124" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1005, -202)
+
+[node name="Tree125" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1016, -165)
+
+[node name="Tree126" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1005, -168)
+
+[node name="Tree127" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1008, -131)
+
+[node name="Tree128" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1012, -129)
+
+[node name="Tree129" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-1014, -98)
+
+[node name="Tree130" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1010, -95)
+
+[node name="Tree131" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1010, -60)
+
+[node name="Tree132" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1013, -64)
+
+[node name="Tree133" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1011, -24)
+
+[node name="Tree134" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1012, -25)
+
+[node name="Tree135" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1012, 9)
+
+[node name="Tree136" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1013, 8)
+
+[node name="Tree137" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1015, 42)
+
+[node name="Tree138" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1004, 42)
+
+[node name="Tree139" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-1015, 73)
+
+[node name="Tree140" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1012, 71)
+
+[node name="Tree141" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1010, 108)
+
+[node name="Tree142" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1007, 106)
+
+[node name="Tree143" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1004, 137)
+
+[node name="Tree144" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1006, 145)
+
+[node name="Tree145" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1007, 175)
+
+[node name="Tree146" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1004, 177)
+
+[node name="Tree147" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1004, 216)
+
+[node name="Tree148" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1004, 213)
+
+[node name="Tree149" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1013, 241)
+
+[node name="Tree150" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1006, 279)
+
+[node name="Tree151" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1012, 281)
+
+[node name="Tree152" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1012, 317)
+
+[node name="Tree153" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1009, 343)
+
+[node name="Tree154" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1007, 374)
+
+[node name="Tree155" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1008, 412)
+
+[node name="Tree156" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1009, 452)
+
+[node name="Tree157" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1005, 447)
+
+[node name="Tree158" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-1010, 478)
+
+[node name="Tree159" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1015, 481)
+
+[node name="Tree160" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1010, 512)
+
+[node name="Tree161" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1014, 514)
+
+[node name="Tree162" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1006, 551)
+
+[node name="Tree163" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1005, 555)
+
+[node name="Tree164" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1010, 584)
+
+[node name="Tree165" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1008, 620)
+
+[node name="Tree166" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1010, 616)
+
+[node name="Tree167" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-1005, 657)
+
+[node name="Tree168" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(1013, 651)
+
+[node name="Tree169" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1005, 685)
+
+[node name="Tree170" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1010, 689)
+
+[node name="Tree171" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-1014, 719)
+
+[node name="Tree172" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(1009, 724)
+
+[node name="Tree173" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-971, -678)
+
+[node name="Tree174" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-981, 729)
+
+[node name="Tree175" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-942, -672)
+
+[node name="Tree176" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-925, 725)
+
+[node name="Tree177" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-897, -677)
+
+[node name="Tree178" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-889, 735)
+
+[node name="Tree179" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-856, -665)
+
+[node name="Tree180" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-847, 731)
+
+[node name="Tree181" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-813, -666)
+
+[node name="Tree182" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-804, 722)
+
+[node name="Tree183" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-775, -680)
+
+[node name="Tree184" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-727, -663)
+
+[node name="Tree185" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-744, 722)
+
+[node name="Tree186" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-703, -681)
+
+[node name="Tree187" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-693, 727)
+
+[node name="Tree188" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-653, -678)
+
+[node name="Tree189" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-650, 727)
+
+[node name="Tree190" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-617, -674)
+
+[node name="Tree191" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-621, 719)
+
+[node name="Tree192" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-531, -670)
+
+[node name="Tree193" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-542, 721)
+
+[node name="Tree194" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-487, -667)
+
+[node name="Tree195" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-484, 724)
+
+[node name="Tree196" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-459, -666)
+
+[node name="Tree197" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-458, 722)
+
+[node name="Tree198" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-409, 726)
+
+[node name="Tree199" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-368, -677)
+
+[node name="Tree200" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-364, 719)
+
+[node name="Tree201" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-330, 732)
+
+[node name="Tree202" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-293, 731)
+
+[node name="Tree203" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-249, -667)
+
+[node name="Tree204" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-250, 725)
+
+[node name="Tree205" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-208, -679)
+
+[node name="Tree206" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-214, 732)
+
+[node name="Tree207" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-164, 725)
+
+[node name="Tree208" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-86, 732)
+
+[node name="Tree209" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-51, 732)
+
+[node name="Tree210" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-19, 719)
+
+[node name="Tree211" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(36, 723)
+
+[node name="Tree212" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(65, 730)
+
+[node name="Tree213" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(101, 729)
+
+[node name="Tree214" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(147, -673)
+
+[node name="Tree215" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(151, 719)
+
+[node name="Tree216" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(180, -667)
+
+[node name="Tree217" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(193, 725)
+
+[node name="Tree218" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(231, -665)
+
+[node name="Tree219" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(227, 722)
+
+[node name="Tree220" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(259, -668)
+
+[node name="Tree221" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(257, 734)
+
+[node name="Tree222" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(300, -672)
+
+[node name="Tree223" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(303, 727)
+
+[node name="Tree224" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(354, -666)
+
+[node name="Tree225" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(341, 722)
+
+[node name="Tree226" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(388, -677)
+
+[node name="Tree227" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(380, 728)
+
+[node name="Tree228" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(433, -671)
+
+[node name="Tree229" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(426, 738)
+
+[node name="Tree230" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(461, -678)
+
+[node name="Tree231" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(467, 730)
+
+[node name="Tree232" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(514, -662)
+
+[node name="Tree233" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(512, 736)
+
+[node name="Tree234" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(543, -665)
+
+[node name="Tree235" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(539, 734)
+
+[node name="Tree236" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(578, 718)
+
+[node name="Tree237" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(622, 727)
+
+[node name="Tree238" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(674, -664)
+
+[node name="Tree239" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(712, -670)
+
+[node name="Tree240" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(756, -671)
+
+[node name="Tree241" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(753, 728)
+
+[node name="Tree242" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(787, -668)
+
+[node name="Tree243" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(833, -675)
+
+[node name="Tree244" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(833, 726)
+
+[node name="Tree245" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(873, -679)
+
+[node name="Tree246" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(869, 722)
+
+[node name="Tree247" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(915, -680)
+
+[node name="Tree248" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(908, 727)
+
+[node name="Tree249" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(938, -666)
+
+[node name="Tree250" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(936, 733)
+
+[node name="Tree251" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-982, -630)
+
+[node name="Tree252" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(981, -625)
+
+[node name="Tree253" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-981, -579)
+
+[node name="Tree254" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(970, -590)
+
+[node name="Tree255" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(988, -541)
+
+[node name="Tree256" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-974, -517)
+
+[node name="Tree257" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-977, -466)
+
+[node name="Tree258" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-988, -422)
+
+[node name="Tree259" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(973, -421)
+
+[node name="Tree260" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(985, -397)
+
+[node name="Tree261" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-971, -350)
+
+[node name="Tree262" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(985, -348)
+
+[node name="Tree263" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-983, -300)
+
+[node name="Tree264" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(978, -318)
+
+[node name="Tree265" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-971, -262)
+
+[node name="Tree266" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(980, -272)
+
+[node name="Tree267" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-974, -230)
+
+[node name="Tree268" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-987, -183)
+
+[node name="Tree269" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(977, -195)
+
+[node name="Tree270" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-976, -144)
+
+[node name="Tree271" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-985, -111)
+
+[node name="Tree272" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(974, -103)
+
+[node name="Tree273" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-980, -71)
+
+[node name="Tree274" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(984, -60)
+
+[node name="Tree275" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-974, -36)
+
+[node name="Tree276" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(977, -28)
+
+[node name="Tree277" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-972, 20)
+
+[node name="Tree278" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(981, 12)
+
+[node name="Tree279" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-982, 51)
+
+[node name="Tree280" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(968, 48)
+
+[node name="Tree281" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-977, 85)
+
+[node name="Tree282" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(974, 100)
+
+[node name="Tree283" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(977, 131)
+
+[node name="Tree284" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-970, 170)
+
+[node name="Tree285" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(973, 164)
+
+[node name="Tree286" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-973, 221)
+
+[node name="Tree287" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(979, 204)
+
+[node name="Tree288" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(979, 260)
+
+[node name="Tree289" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(975, 299)
+
+[node name="Tree290" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(981, 339)
+
+[node name="Tree291" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(970, 368)
+
+[node name="Tree292" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-980, 419)
+
+[node name="Tree293" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(977, 408)
+
+[node name="Tree294" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-983, 452)
+
+[node name="Tree295" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(974, 445)
+
+[node name="Tree296" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-978, 486)
+
+[node name="Tree297" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(975, 500)
+
+[node name="Tree298" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-978, 535)
+
+[node name="Tree299" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(971, 537)
+
+[node name="Tree300" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-971, 564)
+
+[node name="Tree301" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(969, 580)
+
+[node name="Tree302" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-975, 611)
+
+[node name="Tree303" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(975, 619)
+
+[node name="Tree304" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-974, 648)
+
+[node name="Tree305" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(968, 645)
+
+[node name="Tree306" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-971, 702)
+
+[node name="Tree307" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(968, 702)
+
+[node name="Tree308" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-900, -518)
+
+[node name="Tree309" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-820, -488)
+
+[node name="Tree310" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-945, -627)
+
+[node name="Tree311" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-880, -574)
+
+[node name="Tree312" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-848, -541)
+
+[node name="Tree313" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-769, -503)
+
+[node name="Tree314" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-856, -500)
+
+[node name="Tree315" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-751, -588)
+
+[node name="Tree316" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-795, -447)
+
+[node name="Tree317" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-736, -504)
+
+[node name="Tree318" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-875, -451)
+
+[node name="Tree319" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-823, -527)
+
+[node name="Tree320" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-951, -450)
+
+[node name="Tree321" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-913, -471)
+
+[node name="Tree322" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-805, 4)
+
+[node name="Tree323" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-772, -1)
+
+[node name="Tree324" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-796, -65)
+
+[node name="Tree325" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-772, 57)
+
+[node name="Tree326" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(875, -468)
+
+[node name="Tree327" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(830, -505)
+
+[node name="Tree328" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(843, -538)
+
+[node name="Tree329" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(853, -592)
+
+[node name="Tree330" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(919, -461)
+
+[node name="Tree331" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(772, -448)
+
+[node name="Tree332" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(952, -512)
+
+[node name="Tree333" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(793, -508)
+
+[node name="Tree334" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-556, 551)
+
+[node name="Tree335" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(-508, 566)
+
+[node name="Tree336" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-328, 491)
+
+[node name="Tree337" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-489, 513)
+
+[node name="Tree338" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-511, 537)
+
+[node name="Tree339" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-548, 638)
+
+[node name="Tree340" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-649, 629)
+
+[node name="Tree341" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-408, 482)
+
+[node name="Tree342" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-331, 540)
+
+[node name="Tree343" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-406, 567)
+
+[node name="Tree344" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-476, 563)
+
+[node name="Tree345" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(-551, 501)
+
+[node name="Tree346" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(352, 609)
+
+[node name="Tree347" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(416, 694)
+
+[node name="Tree348" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(367, 668)
+
+[node name="Tree349" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(169, 646)
+
+[node name="Tree350" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(391, 630)
+
+[node name="Tree351" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(293, 648)
+
+[node name="Tree352" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(320, 561)
+
+[node name="Tree353" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(298, 616)
+
+[node name="Tree354" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(873, 469)
+
+[node name="Tree355" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(919, 508)
+
+[node name="Tree356" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(847, 450)
+
+[node name="Tree357" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(882, 435)
+
+[node name="Tree358" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(847, 409)
+
+[node name="Tree359" parent="." instance=ExtResource("r15_forest_oak")]
+position = Vector2(809, 430)
+
+[node name="Tree360" parent="." instance=ExtResource("r16_forest_fir")]
+position = Vector2(920, 443)
+
+[node name="Under0" type="Sprite2D" parent="."]
+position = Vector2(-1001, -689)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under1" type="Sprite2D" parent="."]
+position = Vector2(-893, 764)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under2" type="Sprite2D" parent="."]
+position = Vector2(-856, 764)
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under3" type="Sprite2D" parent="."]
+position = Vector2(-787, -698)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under4" type="StaticBody2D" parent="."]
+position = Vector2(-699, -702)
+
+[node name="Sprite" type="Sprite2D" parent="Under4"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under4"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under5" type="Sprite2D" parent="."]
+position = Vector2(-514, 762)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under6" type="Sprite2D" parent="."]
+position = Vector2(-480, -693)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under7" type="StaticBody2D" parent="."]
+position = Vector2(-485, 766)
+
+[node name="Sprite" type="Sprite2D" parent="Under7"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under7"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under8" type="Sprite2D" parent="."]
+position = Vector2(-421, -691)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under9" type="Sprite2D" parent="."]
+position = Vector2(-114, 761)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under10" type="Sprite2D" parent="."]
+position = Vector2(300, -692)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under11" type="Sprite2D" parent="."]
+position = Vector2(333, 759)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under12" type="Sprite2D" parent="."]
+position = Vector2(361, -707)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under13" type="Sprite2D" parent="."]
+position = Vector2(435, 758)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under14" type="Sprite2D" parent="."]
+position = Vector2(497, -698)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under15" type="Sprite2D" parent="."]
+position = Vector2(800, -693)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under16" type="Sprite2D" parent="."]
+position = Vector2(762, 762)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under17" type="Sprite2D" parent="."]
+position = Vector2(804, 757)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under18" type="Sprite2D" parent="."]
+position = Vector2(887, -701)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under19" type="Sprite2D" parent="."]
+position = Vector2(966, 760)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under20" type="Sprite2D" parent="."]
+position = Vector2(-986, -668)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under21" type="Sprite2D" parent="."]
+position = Vector2(990, -599)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under22" type="StaticBody2D" parent="."]
+position = Vector2(996, -461)
+
+[node name="Sprite" type="Sprite2D" parent="Under22"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under22"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under23" type="Sprite2D" parent="."]
+position = Vector2(-995, -216)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under24" type="Sprite2D" parent="."]
+position = Vector2(980, -165)
+flip_h = true
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under25" type="Sprite2D" parent="."]
+position = Vector2(986, -125)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under26" type="Sprite2D" parent="."]
+position = Vector2(991, -13)
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under27" type="StaticBody2D" parent="."]
+position = Vector2(988, 111)
+
+[node name="Sprite" type="Sprite2D" parent="Under27"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under27"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under28" type="Sprite2D" parent="."]
+position = Vector2(-985, 520)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under29" type="Sprite2D" parent="."]
+position = Vector2(997, 516)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under30" type="Sprite2D" parent="."]
+position = Vector2(-1023, 562)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under31" type="Sprite2D" parent="."]
+position = Vector2(-987, 596)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under32" type="Sprite2D" parent="."]
+position = Vector2(-988, 667)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under33" type="StaticBody2D" parent="."]
+position = Vector2(984, 731)
+
+[node name="Sprite" type="Sprite2D" parent="Under33"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under33"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under34" type="Sprite2D" parent="."]
+position = Vector2(-1000, 736)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under35" type="Sprite2D" parent="."]
+position = Vector2(-919, -661)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under36" type="Sprite2D" parent="."]
+position = Vector2(-941, 727)
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under37" type="Sprite2D" parent="."]
+position = Vector2(-825, 734)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under38" type="Sprite2D" parent="."]
+position = Vector2(-707, -658)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under39" type="StaticBody2D" parent="."]
+position = Vector2(-720, 726)
+
+[node name="Sprite" type="Sprite2D" parent="Under39"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under39"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under40" type="Sprite2D" parent="."]
+position = Vector2(-669, -669)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under41" type="StaticBody2D" parent="."]
+position = Vector2(-666, 739)
+
+[node name="Sprite" type="Sprite2D" parent="Under41"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under41"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under42" type="Sprite2D" parent="."]
+position = Vector2(-506, -658)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under43" type="StaticBody2D" parent="."]
+position = Vector2(-559, 726)
+
+[node name="Sprite" type="Sprite2D" parent="Under43"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under43"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under44" type="Sprite2D" parent="."]
+position = Vector2(-438, 724)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under45" type="Sprite2D" parent="."]
+position = Vector2(-189, 739)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under46" type="StaticBody2D" parent="."]
+position = Vector2(-68, 735)
+
+[node name="Sprite" type="Sprite2D" parent="Under46"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under46"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under47" type="Sprite2D" parent="."]
+position = Vector2(7, 723)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under48" type="Sprite2D" parent="."]
+position = Vector2(204, 734)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under49" type="Sprite2D" parent="."]
+position = Vector2(279, -657)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under50" type="Sprite2D" parent="."]
+position = Vector2(274, 741)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under51" type="Sprite2D" parent="."]
+position = Vector2(316, -661)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under52" type="Sprite2D" parent="."]
+position = Vector2(417, -666)
+flip_h = true
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under53" type="StaticBody2D" parent="."]
+position = Vector2(477, -673)
+
+[node name="Sprite" type="Sprite2D" parent="Under53"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under53"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under54" type="Sprite2D" parent="."]
+position = Vector2(559, 727)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under55" type="Sprite2D" parent="."]
+position = Vector2(651, -652)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under56" type="Sprite2D" parent="."]
+position = Vector2(730, -663)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under57" type="Sprite2D" parent="."]
+position = Vector2(810, -665)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under58" type="StaticBody2D" parent="."]
+position = Vector2(807, 733)
+
+[node name="Sprite" type="Sprite2D" parent="Under58"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under58"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under59" type="Sprite2D" parent="."]
+position = Vector2(893, 729)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under60" type="Sprite2D" parent="."]
+position = Vector2(961, -655)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under61" type="Sprite2D" parent="."]
+position = Vector2(918, 742)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under62" type="Sprite2D" parent="."]
+position = Vector2(1004, -618)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under63" type="StaticBody2D" parent="."]
+position = Vector2(946, -578)
+
+[node name="Sprite" type="Sprite2D" parent="Under63"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under63"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under64" type="Sprite2D" parent="."]
+position = Vector2(-995, -461)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under65" type="Sprite2D" parent="."]
+position = Vector2(-963, -418)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under66" type="Sprite2D" parent="."]
+position = Vector2(947, -411)
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under67" type="Sprite2D" parent="."]
+position = Vector2(961, -395)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under68" type="StaticBody2D" parent="."]
+position = Vector2(1007, -344)
+
+[node name="Sprite" type="Sprite2D" parent="Under68"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under68"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under69" type="Sprite2D" parent="."]
+position = Vector2(952, -308)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under70" type="StaticBody2D" parent="."]
+position = Vector2(-991, -260)
+
+[node name="Sprite" type="Sprite2D" parent="Under70"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under70"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under71" type="Sprite2D" parent="."]
+position = Vector2(-957, -225)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under72" type="StaticBody2D" parent="."]
+position = Vector2(959, -186)
+
+[node name="Sprite" type="Sprite2D" parent="Under72"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under72"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under73" type="Sprite2D" parent="."]
+position = Vector2(-965, -107)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under74" type="Sprite2D" parent="."]
+position = Vector2(-960, -59)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under75" type="Sprite2D" parent="."]
+position = Vector2(-951, -27)
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under76" type="Sprite2D" parent="."]
+position = Vector2(-998, 22)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under77" type="Sprite2D" parent="."]
+position = Vector2(965, 18)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under78" type="StaticBody2D" parent="."]
+position = Vector2(-959, 63)
+
+[node name="Sprite" type="Sprite2D" parent="Under78"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under78"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under79" type="Sprite2D" parent="."]
+position = Vector2(-960, 90)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under80" type="Sprite2D" parent="."]
+position = Vector2(-946, 173)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under81" type="Sprite2D" parent="."]
+position = Vector2(990, 175)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under82" type="StaticBody2D" parent="."]
+position = Vector2(958, 305)
+
+[node name="Sprite" type="Sprite2D" parent="Under82"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under82"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under83" type="Sprite2D" parent="."]
+position = Vector2(964, 342)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under84" type="Sprite2D" parent="."]
+position = Vector2(952, 418)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under85" type="Sprite2D" parent="."]
+position = Vector2(956, 512)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under86" type="Sprite2D" parent="."]
+position = Vector2(-1000, 538)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under87" type="Sprite2D" parent="."]
+position = Vector2(987, 547)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under88" type="Sprite2D" parent="."]
+position = Vector2(-948, 567)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under89" type="Sprite2D" parent="."]
+position = Vector2(995, 592)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under90" type="Sprite2D" parent="."]
+position = Vector2(-952, 615)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under91" type="Sprite2D" parent="."]
+position = Vector2(949, 651)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under92" type="StaticBody2D" parent="."]
+position = Vector2(950, 706)
+
+[node name="Sprite" type="Sprite2D" parent="Under92"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under92"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under93" type="Sprite2D" parent="."]
+position = Vector2(-800, -484)
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under94" type="Sprite2D" parent="."]
+position = Vector2(-856, -572)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under95" type="Sprite2D" parent="."]
+position = Vector2(-974, -442)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under96" type="Sprite2D" parent="."]
+position = Vector2(-939, -469)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under97" type="StaticBody2D" parent="."]
+position = Vector2(-750, 60)
+
+[node name="Sprite" type="Sprite2D" parent="Under97"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under97"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under98" type="StaticBody2D" parent="."]
+position = Vector2(855, -456)
+
+[node name="Sprite" type="Sprite2D" parent="Under98"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under98"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under99" type="Sprite2D" parent="."]
+position = Vector2(826, -535)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under100" type="Sprite2D" parent="."]
+position = Vector2(827, -581)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under101" type="StaticBody2D" parent="."]
+position = Vector2(898, -458)
+
+[node name="Sprite" type="Sprite2D" parent="Under101"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under101"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under102" type="Sprite2D" parent="."]
+position = Vector2(976, -500)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under103" type="Sprite2D" parent="."]
+position = Vector2(-576, 562)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under104" type="Sprite2D" parent="."]
+position = Vector2(-349, 495)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under105" type="Sprite2D" parent="."]
+position = Vector2(-493, 543)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under106" type="Sprite2D" parent="."]
+position = Vector2(-668, 634)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under107" type="Sprite2D" parent="."]
+position = Vector2(-458, 575)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under108" type="Sprite2D" parent="."]
+position = Vector2(438, 703)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under109" type="Sprite2D" parent="."]
+position = Vector2(152, 653)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under110" type="StaticBody2D" parent="."]
+position = Vector2(298, 567)
+
+[node name="Sprite" type="Sprite2D" parent="Under110"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under110"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under111" type="StaticBody2D" parent="."]
+position = Vector2(320, 618)
+
+[node name="Sprite" type="Sprite2D" parent="Under111"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under111"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under112" type="Sprite2D" parent="."]
+position = Vector2(852, 474)
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under113" type="Sprite2D" parent="."]
+position = Vector2(936, 520)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under114" type="Sprite2D" parent="."]
+position = Vector2(822, 462)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under115" type="Sprite2D" parent="."]
+position = Vector2(944, 448)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under116" type="StaticBody2D" parent="."]
+position = Vector2(-666, 198)
+
+[node name="Sprite" type="Sprite2D" parent="Under116"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under116"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under117" type="StaticBody2D" parent="."]
+position = Vector2(-657, 175)
+
+[node name="Sprite" type="Sprite2D" parent="Under117"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under117"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under118" type="Sprite2D" parent="."]
+position = Vector2(803, -30)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under119" type="Sprite2D" parent="."]
+position = Vector2(774, -54)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under120" type="Sprite2D" parent="."]
+position = Vector2(-599, 418)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under121" type="Sprite2D" parent="."]
+position = Vector2(-957, -588)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under122" type="Sprite2D" parent="."]
+position = Vector2(-929, -593)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under123" type="Sprite2D" parent="."]
+position = Vector2(-417, -360)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under124" type="Sprite2D" parent="."]
+position = Vector2(-396, -374)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under125" type="StaticBody2D" parent="."]
+position = Vector2(99, 660)
+
+[node name="Sprite" type="Sprite2D" parent="Under125"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under125"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under126" type="StaticBody2D" parent="."]
+position = Vector2(111, 639)
+
+[node name="Sprite" type="Sprite2D" parent="Under126"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under126"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under127" type="StaticBody2D" parent="."]
+position = Vector2(84, 646)
+
+[node name="Sprite" type="Sprite2D" parent="Under127"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under127"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under128" type="StaticBody2D" parent="."]
+position = Vector2(-429, 532)
+
+[node name="Sprite" type="Sprite2D" parent="Under128"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under128"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under129" type="StaticBody2D" parent="."]
+position = Vector2(-466, 551)
+
+[node name="Sprite" type="Sprite2D" parent="Under129"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under129"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under130" type="StaticBody2D" parent="."]
+position = Vector2(-909, -21)
+
+[node name="Sprite" type="Sprite2D" parent="Under130"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under130"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under131" type="Sprite2D" parent="."]
+position = Vector2(409, 384)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under132" type="Sprite2D" parent="."]
+position = Vector2(405, 404)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under133" type="Sprite2D" parent="."]
+position = Vector2(384, 399)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under134" type="Sprite2D" parent="."]
+position = Vector2(879, -453)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under135" type="Sprite2D" parent="."]
+position = Vector2(609, -170)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under136" type="Sprite2D" parent="."]
+position = Vector2(618, -187)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under137" type="StaticBody2D" parent="."]
+position = Vector2(-620, 321)
+
+[node name="Sprite" type="Sprite2D" parent="Under137"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under137"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under138" type="StaticBody2D" parent="."]
+position = Vector2(-596, 349)
+
+[node name="Sprite" type="Sprite2D" parent="Under138"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under138"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under139" type="StaticBody2D" parent="."]
+position = Vector2(-620, 343)
+
+[node name="Sprite" type="Sprite2D" parent="Under139"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under139"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under140" type="StaticBody2D" parent="."]
+position = Vector2(-600, 367)
+
+[node name="Sprite" type="Sprite2D" parent="Under140"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under140"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under141" type="Sprite2D" parent="."]
+position = Vector2(748, 588)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under142" type="StaticBody2D" parent="."]
+position = Vector2(710, 382)
+
+[node name="Sprite" type="Sprite2D" parent="Under142"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under142"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under143" type="StaticBody2D" parent="."]
+position = Vector2(731, 366)
+
+[node name="Sprite" type="Sprite2D" parent="Under143"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under143"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under144" type="Sprite2D" parent="."]
+position = Vector2(791, -525)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under145" type="Sprite2D" parent="."]
+position = Vector2(768, -502)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under146" type="StaticBody2D" parent="."]
+position = Vector2(865, -416)
+
+[node name="Sprite" type="Sprite2D" parent="Under146"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under146"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under147" type="StaticBody2D" parent="."]
+position = Vector2(881, -386)
+
+[node name="Sprite" type="Sprite2D" parent="Under147"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under147"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under148" type="Sprite2D" parent="."]
+position = Vector2(611, 274)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under149" type="Sprite2D" parent="."]
+position = Vector2(593, 281)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under150" type="Sprite2D" parent="."]
+position = Vector2(-605, -187)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under151" type="Sprite2D" parent="."]
+position = Vector2(-565, -203)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under152" type="Sprite2D" parent="."]
+position = Vector2(817, 242)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under153" type="Sprite2D" parent="."]
+position = Vector2(621, 243)
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under154" type="Sprite2D" parent="."]
+position = Vector2(153, 623)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under155" type="Sprite2D" parent="."]
+position = Vector2(136, 617)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under156" type="Sprite2D" parent="."]
+position = Vector2(145, 323)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under157" type="Sprite2D" parent="."]
+position = Vector2(146, 342)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under158" type="StaticBody2D" parent="."]
+position = Vector2(-746, 568)
+
+[node name="Sprite" type="Sprite2D" parent="Under158"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under158"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under159" type="StaticBody2D" parent="."]
+position = Vector2(445, -565)
+
+[node name="Sprite" type="Sprite2D" parent="Under159"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under159"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under160" type="StaticBody2D" parent="."]
+position = Vector2(469, -579)
+
+[node name="Sprite" type="Sprite2D" parent="Under160"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under160"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under161" type="StaticBody2D" parent="."]
+position = Vector2(495, -590)
+
+[node name="Sprite" type="Sprite2D" parent="Under161"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under161"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under162" type="StaticBody2D" parent="."]
+position = Vector2(-216, -368)
+
+[node name="Sprite" type="Sprite2D" parent="Under162"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under162"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under163" type="StaticBody2D" parent="."]
+position = Vector2(-183, -373)
+
+[node name="Sprite" type="Sprite2D" parent="Under163"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under163"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under164" type="Sprite2D" parent="."]
+position = Vector2(779, 459)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under165" type="Sprite2D" parent="."]
+position = Vector2(759, 434)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under166" type="Sprite2D" parent="."]
+position = Vector2(-146, 656)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under167" type="Sprite2D" parent="."]
+position = Vector2(-769, -153)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under168" type="Sprite2D" parent="."]
+position = Vector2(-757, -134)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under169" type="Sprite2D" parent="."]
+position = Vector2(-778, -233)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under170" type="Sprite2D" parent="."]
+position = Vector2(-808, -244)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under171" type="StaticBody2D" parent="."]
+position = Vector2(-580, 195)
+
+[node name="Sprite" type="Sprite2D" parent="Under171"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under171"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under172" type="Sprite2D" parent="."]
+position = Vector2(119, -535)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under173" type="Sprite2D" parent="."]
+position = Vector2(72, -534)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under174" type="Sprite2D" parent="."]
+position = Vector2(153, -631)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under175" type="Sprite2D" parent="."]
+position = Vector2(-447, -478)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under176" type="Sprite2D" parent="."]
+position = Vector2(-416, -492)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under177" type="Sprite2D" parent="."]
+position = Vector2(-151, -333)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under178" type="Sprite2D" parent="."]
+position = Vector2(-173, -352)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under179" type="Sprite2D" parent="."]
+position = Vector2(-121, -342)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under180" type="Sprite2D" parent="."]
+position = Vector2(195, 353)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under181" type="Sprite2D" parent="."]
+position = Vector2(178, 364)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under182" type="Sprite2D" parent="."]
+position = Vector2(-902, 487)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under183" type="Sprite2D" parent="."]
+position = Vector2(174, -422)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under184" type="StaticBody2D" parent="."]
+position = Vector2(-460, -542)
+
+[node name="Sprite" type="Sprite2D" parent="Under184"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under184"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under185" type="StaticBody2D" parent="."]
+position = Vector2(-468, -523)
+
+[node name="Sprite" type="Sprite2D" parent="Under185"]
+flip_h = true
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under185"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under186" type="Sprite2D" parent="."]
+position = Vector2(367, 627)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under187" type="Sprite2D" parent="."]
+position = Vector2(-855, 616)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under188" type="Sprite2D" parent="."]
+position = Vector2(-872, 628)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under189" type="Sprite2D" parent="."]
+position = Vector2(-292, -461)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under190" type="Sprite2D" parent="."]
+position = Vector2(-134, 366)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under191" type="Sprite2D" parent="."]
+position = Vector2(-150, 357)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under192" type="Sprite2D" parent="."]
+position = Vector2(-506, -543)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under193" type="Sprite2D" parent="."]
+position = Vector2(-515, -523)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under194" type="Sprite2D" parent="."]
+position = Vector2(-201, 676)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under195" type="Sprite2D" parent="."]
+position = Vector2(-173, 655)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under196" type="Sprite2D" parent="."]
+position = Vector2(-531, 507)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under197" type="Sprite2D" parent="."]
+position = Vector2(-950, 635)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under198" type="Sprite2D" parent="."]
+position = Vector2(-804, -631)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under199" type="Sprite2D" parent="."]
+position = Vector2(-850, -619)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under200" type="Sprite2D" parent="."]
+position = Vector2(-828, -619)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under201" type="Sprite2D" parent="."]
+position = Vector2(-783, -631)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under202" type="Sprite2D" parent="."]
+position = Vector2(766, -642)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under203" type="Sprite2D" parent="."]
+position = Vector2(715, -622)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under204" type="Sprite2D" parent="."]
+position = Vector2(760, -625)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under205" type="StaticBody2D" parent="."]
+position = Vector2(455, 659)
+
+[node name="Sprite" type="Sprite2D" parent="Under205"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under205"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under206" type="StaticBody2D" parent="."]
+position = Vector2(489, 663)
+
+[node name="Sprite" type="Sprite2D" parent="Under206"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under206"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under207" type="Sprite2D" parent="."]
+position = Vector2(695, -397)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r18_flowers")
+
+[node name="Under208" type="Sprite2D" parent="."]
+position = Vector2(-905, -153)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under209" type="Sprite2D" parent="."]
+position = Vector2(612, -353)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under210" type="StaticBody2D" parent="."]
+position = Vector2(727, 319)
+
+[node name="Sprite" type="Sprite2D" parent="Under210"]
+offset = Vector2(0, -9.5)
+texture = ExtResource("r21_log")
+
+[node name="Base" type="CollisionShape2D" parent="Under210"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under211" type="Sprite2D" parent="."]
+position = Vector2(-828, -234)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under212" type="Sprite2D" parent="."]
+position = Vector2(-834, -178)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under213" type="Sprite2D" parent="."]
+position = Vector2(456, -428)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under214" type="Sprite2D" parent="."]
+position = Vector2(617, 501)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under215" type="StaticBody2D" parent="."]
+position = Vector2(-388, -412)
+
+[node name="Sprite" type="Sprite2D" parent="Under215"]
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under215"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under216" type="Sprite2D" parent="."]
+position = Vector2(737, 254)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under217" type="Sprite2D" parent="."]
+position = Vector2(-584, 35)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under218" type="StaticBody2D" parent="."]
+position = Vector2(713, 592)
+
+[node name="Sprite" type="Sprite2D" parent="Under218"]
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r20_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under218"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under219" type="Sprite2D" parent="."]
+position = Vector2(677, -426)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under220" type="Sprite2D" parent="."]
+position = Vector2(625, 324)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under221" type="Sprite2D" parent="."]
+position = Vector2(727, -197)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r22_fern")
+
+[node name="Under222" type="Sprite2D" parent="."]
+position = Vector2(-852, -87)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r17_grass_clump")
+
+[node name="Under223" type="Sprite2D" parent="."]
+position = Vector2(-855, 47)
+offset = Vector2(0, -10.5)
+texture = ExtResource("r19_mushrooms")
+
+[node name="Under224" type="Sprite2D" parent="."]
+position = Vector2(609, -5)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under225" type="Sprite2D" parent="."]
+position = Vector2(607, 13)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under226" type="Sprite2D" parent="."]
+position = Vector2(599, 30)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under227" type="Sprite2D" parent="."]
+position = Vector2(597, 48)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under228" type="Sprite2D" parent="."]
+position = Vector2(585, 64)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under229" type="Sprite2D" parent="."]
+position = Vector2(420, 200)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under230" type="Sprite2D" parent="."]
+position = Vector2(394, 209)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under231" type="Sprite2D" parent="."]
+position = Vector2(372, 222)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under232" type="Sprite2D" parent="."]
+position = Vector2(345, 231)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under233" type="Sprite2D" parent="."]
+position = Vector2(328, 232)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under234" type="Sprite2D" parent="."]
+position = Vector2(304, 243)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under235" type="Sprite2D" parent="."]
+position = Vector2(288, 244)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under236" type="Sprite2D" parent="."]
+position = Vector2(202, 263)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under237" type="Sprite2D" parent="."]
+position = Vector2(186, 261)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under238" type="Sprite2D" parent="."]
+position = Vector2(171, 264)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under239" type="Sprite2D" parent="."]
+position = Vector2(-100, 251)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under240" type="Sprite2D" parent="."]
+position = Vector2(-128, 244)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under241" type="Sprite2D" parent="."]
+position = Vector2(-144, 243)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under242" type="Sprite2D" parent="."]
+position = Vector2(-195, 224)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under243" type="Sprite2D" parent="."]
+position = Vector2(-211, 222)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under244" type="Sprite2D" parent="."]
+position = Vector2(-234, 210)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under245" type="Sprite2D" parent="."]
+position = Vector2(-260, 200)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under246" type="Sprite2D" parent="."]
+position = Vector2(-285, 190)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under247" type="Sprite2D" parent="."]
+position = Vector2(-303, 175)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under248" type="Sprite2D" parent="."]
+position = Vector2(-328, 164)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under249" type="Sprite2D" parent="."]
+position = Vector2(-450, 13)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under250" type="Sprite2D" parent="."]
+position = Vector2(-449, -5)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under251" type="Sprite2D" parent="."]
+position = Vector2(-453, -22)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under252" type="Sprite2D" parent="."]
+position = Vector2(-457, -40)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under253" type="Sprite2D" parent="."]
+position = Vector2(-457, -58)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under254" type="Sprite2D" parent="."]
+position = Vector2(-454, -75)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under255" type="Sprite2D" parent="."]
+position = Vector2(-452, -93)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under256" type="Sprite2D" parent="."]
+position = Vector2(-442, -110)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under257" type="Sprite2D" parent="."]
+position = Vector2(-434, -127)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under258" type="Sprite2D" parent="."]
+position = Vector2(-421, -143)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under259" type="Sprite2D" parent="."]
+position = Vector2(-261, -281)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under260" type="Sprite2D" parent="."]
+position = Vector2(-246, -284)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under261" type="Sprite2D" parent="."]
+position = Vector2(-222, -295)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under262" type="Sprite2D" parent="."]
+position = Vector2(-195, -304)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under263" type="Sprite2D" parent="."]
+position = Vector2(-172, -316)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under264" type="Sprite2D" parent="."]
+position = Vector2(-158, -319)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under265" type="Sprite2D" parent="."]
+position = Vector2(-141, -320)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under266" type="Sprite2D" parent="."]
+position = Vector2(-114, -327)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under267" type="Sprite2D" parent="."]
+position = Vector2(-100, -331)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under268" type="Sprite2D" parent="."]
+position = Vector2(-86, -335)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under269" type="Sprite2D" parent="."]
+position = Vector2(-72, -338)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under270" type="Sprite2D" parent="."]
+position = Vector2(-57, -341)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under271" type="Sprite2D" parent="."]
+position = Vector2(-41, -340)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under272" type="Sprite2D" parent="."]
+position = Vector2(-26, -342)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under273" type="Sprite2D" parent="."]
+position = Vector2(-11, -344)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under274" type="Sprite2D" parent="."]
+position = Vector2(260, -331)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under275" type="Sprite2D" parent="."]
+position = Vector2(276, -330)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under276" type="Sprite2D" parent="."]
+position = Vector2(302, -321)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under277" type="Sprite2D" parent="."]
+position = Vector2(317, -318)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under278" type="Sprite2D" parent="."]
+position = Vector2(344, -310)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under279" type="Sprite2D" parent="."]
+position = Vector2(359, -307)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under280" type="Sprite2D" parent="."]
+position = Vector2(382, -296)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under281" type="Sprite2D" parent="."]
+position = Vector2(407, -285)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under282" type="Sprite2D" parent="."]
+position = Vector2(433, -275)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under283" type="Sprite2D" parent="."]
+position = Vector2(452, -261)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under284" type="Sprite2D" parent="."]
+position = Vector2(473, -248)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Under285" type="Sprite2D" parent="."]
+position = Vector2(495, -236)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r23_cattails")
+
+[node name="Tuft0" type="AnimatedSprite2D" parent="."]
+position = Vector2(-230, 274)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 0.85
+
+[node name="Tuft1" type="AnimatedSprite2D" parent="."]
+position = Vector2(-244, 293)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 0.98
+
+[node name="Tuft2" type="AnimatedSprite2D" parent="."]
+position = Vector2(-292, 272)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 1.12
+
+[node name="Tuft3" type="AnimatedSprite2D" parent="."]
+position = Vector2(534, 187)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 0.88
+
+[node name="Tuft4" type="AnimatedSprite2D" parent="."]
+position = Vector2(487, 178)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 1.02
+
+[node name="Tuft5" type="AnimatedSprite2D" parent="."]
+position = Vector2(470, 192)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.15
+
+[node name="Tuft6" type="AnimatedSprite2D" parent="."]
+position = Vector2(450, 193)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 0.92
+
+[node name="Tuft7" type="AnimatedSprite2D" parent="."]
+position = Vector2(781, -538)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 1.05
+
+[node name="Tuft8" type="AnimatedSprite2D" parent="."]
+position = Vector2(-95, 366)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.18
+
+[node name="Tuft9" type="AnimatedSprite2D" parent="."]
+position = Vector2(-79, 350)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 0.95
+
+[node name="Tuft10" type="AnimatedSprite2D" parent="."]
+position = Vector2(-78, 373)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 1.08
+
+[node name="Tuft11" type="AnimatedSprite2D" parent="."]
+position = Vector2(-135, 389)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 0.85
+
+[node name="Tuft12" type="AnimatedSprite2D" parent="."]
+position = Vector2(-97, 388)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 0.98
+
+[node name="Tuft13" type="AnimatedSprite2D" parent="."]
+position = Vector2(-64, 377)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.12
+
+[node name="Tuft14" type="AnimatedSprite2D" parent="."]
+position = Vector2(-539, -612)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 0.88
+
+[node name="Tuft15" type="AnimatedSprite2D" parent="."]
+position = Vector2(-551, -598)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 1.02
+
+[node name="Tuft16" type="AnimatedSprite2D" parent="."]
+position = Vector2(-536, -591)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.15
+
+[node name="Tuft17" type="AnimatedSprite2D" parent="."]
+position = Vector2(-514, -632)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 0.92
+
+[node name="Tuft18" type="AnimatedSprite2D" parent="."]
+position = Vector2(-553, 287)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 1.05
+
+[node name="Tuft19" type="AnimatedSprite2D" parent="."]
+position = Vector2(-537, 277)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.18
+
+[node name="Tuft20" type="AnimatedSprite2D" parent="."]
+position = Vector2(529, -562)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 0.95
+
+[node name="Tuft21" type="AnimatedSprite2D" parent="."]
+position = Vector2(549, -549)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.08
+
+[node name="Tuft22" type="AnimatedSprite2D" parent="."]
+position = Vector2(-103, -519)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 0.85
+
+[node name="Tuft23" type="AnimatedSprite2D" parent="."]
+position = Vector2(-136, -507)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 0.98
+
+[node name="Tuft24" type="AnimatedSprite2D" parent="."]
+position = Vector2(-667, 575)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.12
+
+[node name="Tuft25" type="AnimatedSprite2D" parent="."]
+position = Vector2(-620, 576)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 0.88
+
+[node name="Tuft26" type="AnimatedSprite2D" parent="."]
+position = Vector2(-650, 583)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 1.02
+
+[node name="Tuft27" type="AnimatedSprite2D" parent="."]
+position = Vector2(187, 479)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.15
+
+[node name="Tuft28" type="AnimatedSprite2D" parent="."]
+position = Vector2(215, 468)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 0.92
+
+[node name="Tuft29" type="AnimatedSprite2D" parent="."]
+position = Vector2(191, 464)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.05
+
+[node name="Tuft30" type="AnimatedSprite2D" parent="."]
+position = Vector2(162, 491)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.18
+
+[node name="Tuft31" type="AnimatedSprite2D" parent="."]
+position = Vector2(-858, -522)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 0.95
+
+[node name="Tuft32" type="AnimatedSprite2D" parent="."]
+position = Vector2(-881, -501)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.08
+
+[node name="Tuft33" type="AnimatedSprite2D" parent="."]
+position = Vector2(-917, -534)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 0.85
+
+[node name="Tuft34" type="AnimatedSprite2D" parent="."]
+position = Vector2(-880, -537)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 0.98
+
+[node name="Tuft35" type="AnimatedSprite2D" parent="."]
+position = Vector2(-784, -133)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.12
+
+[node name="Tuft36" type="AnimatedSprite2D" parent="."]
+position = Vector2(917, 492)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 0.88
+
+[node name="Tuft37" type="AnimatedSprite2D" parent="."]
+position = Vector2(938, 478)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.02
+
+[node name="Tuft38" type="AnimatedSprite2D" parent="."]
+position = Vector2(698, -444)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.15
+
+[node name="Tuft39" type="AnimatedSprite2D" parent="."]
+position = Vector2(734, -443)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 0.92
+
+[node name="Tuft40" type="AnimatedSprite2D" parent="."]
+position = Vector2(720, -434)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.05
+
+[node name="Tuft41" type="AnimatedSprite2D" parent="."]
+position = Vector2(-946, 508)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 1.18
+
+[node name="Tuft42" type="AnimatedSprite2D" parent="."]
+position = Vector2(-940, 544)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 0.95
+
+[node name="Tuft43" type="AnimatedSprite2D" parent="."]
+position = Vector2(-973, 512)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.08
+
+[node name="Tuft44" type="AnimatedSprite2D" parent="."]
+position = Vector2(-912, 522)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 0.85
+
+[node name="Tuft45" type="AnimatedSprite2D" parent="."]
+position = Vector2(532, -504)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 0.98
+
+[node name="Tuft46" type="AnimatedSprite2D" parent="."]
+position = Vector2(606, -486)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.12
+
+[node name="Tuft47" type="AnimatedSprite2D" parent="."]
+position = Vector2(574, -517)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 0.88
+
+[node name="Tuft48" type="AnimatedSprite2D" parent="."]
+position = Vector2(593, -522)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.02
+
+[node name="Tuft49" type="AnimatedSprite2D" parent="."]
+position = Vector2(583, -498)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 1.15
+
+[node name="Tuft50" type="AnimatedSprite2D" parent="."]
+position = Vector2(-563, 422)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 0.92
+
+[node name="Tuft51" type="AnimatedSprite2D" parent="."]
+position = Vector2(-561, 396)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.05
+
+[node name="Tuft52" type="AnimatedSprite2D" parent="."]
+position = Vector2(-539, 432)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 1.18
+
+[node name="Tuft53" type="AnimatedSprite2D" parent="."]
+position = Vector2(-575, 414)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 0.95
+
+[node name="Tuft54" type="AnimatedSprite2D" parent="."]
+position = Vector2(-3, -698)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.08
+
+[node name="Tuft55" type="AnimatedSprite2D" parent="."]
+position = Vector2(133, 310)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 0.85
+
+[node name="Tuft56" type="AnimatedSprite2D" parent="."]
+position = Vector2(87, 323)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 0.98
+
+[node name="Tuft57" type="AnimatedSprite2D" parent="."]
+position = Vector2(122, 330)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 1.12
+
+[node name="Tuft58" type="AnimatedSprite2D" parent="."]
+position = Vector2(95, 309)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 0.88
+
+[node name="Tuft59" type="AnimatedSprite2D" parent="."]
+position = Vector2(697, 517)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.02
+
+[node name="Tuft60" type="AnimatedSprite2D" parent="."]
+position = Vector2(693, 489)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 1.15
+
+[node name="Tuft61" type="AnimatedSprite2D" parent="."]
+position = Vector2(713, 475)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 0.92
+
+[node name="Tuft62" type="AnimatedSprite2D" parent="."]
+position = Vector2(-687, 231)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.05
+
+[node name="Tuft63" type="AnimatedSprite2D" parent="."]
+position = Vector2(-683, 209)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 1.18
+
+[node name="Tuft64" type="AnimatedSprite2D" parent="."]
+position = Vector2(-704, 205)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 0.95
+
+[node name="Tuft65" type="AnimatedSprite2D" parent="."]
+position = Vector2(-666, 216)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 1.08
+
+[node name="Tuft66" type="AnimatedSprite2D" parent="."]
+position = Vector2(-946, 206)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 0.85
+
+[node name="Tuft67" type="AnimatedSprite2D" parent="."]
+position = Vector2(451, -399)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 0.98
+
+[node name="Tuft68" type="AnimatedSprite2D" parent="."]
+position = Vector2(434, -385)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 1.12
+
+[node name="Tuft69" type="AnimatedSprite2D" parent="."]
+position = Vector2(468, -399)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 0.88
+
+[node name="Tuft70" type="AnimatedSprite2D" parent="."]
+position = Vector2(958, 149)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.02
+
+[node name="Tuft71" type="AnimatedSprite2D" parent="."]
+position = Vector2(948, 129)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 1.15
+
+[node name="Tuft72" type="AnimatedSprite2D" parent="."]
+position = Vector2(943, 159)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 0.92
+
+[node name="Tuft73" type="AnimatedSprite2D" parent="."]
+position = Vector2(221, -380)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 1.05
+
+[node name="Tuft74" type="AnimatedSprite2D" parent="."]
+position = Vector2(177, -394)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 1.18
+
+[node name="Tuft75" type="AnimatedSprite2D" parent="."]
+position = Vector2(197, -395)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 0.95
+
+[node name="Tuft76" type="AnimatedSprite2D" parent="."]
+position = Vector2(111, -246)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 1.08
+
+[node name="Tuft77" type="AnimatedSprite2D" parent="."]
+position = Vector2(924, 252)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 0.85
+
+[node name="Tuft78" type="AnimatedSprite2D" parent="."]
+position = Vector2(938, 275)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 0.98
+
+[node name="Tuft79" type="AnimatedSprite2D" parent="."]
+position = Vector2(905, 280)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 1.12
+
+[node name="Tuft80" type="AnimatedSprite2D" parent="."]
+position = Vector2(953, 250)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 0.88
+
+[node name="Tuft81" type="AnimatedSprite2D" parent="."]
+position = Vector2(888, 230)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 1.02
+
+[node name="Tuft82" type="AnimatedSprite2D" parent="."]
+position = Vector2(728, 622)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 1.15
+
+[node name="Tuft83" type="AnimatedSprite2D" parent="."]
+position = Vector2(754, 631)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 0.92
+
+[node name="Tuft84" type="AnimatedSprite2D" parent="."]
+position = Vector2(778, 624)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 1.05
+
+[node name="Tuft85" type="AnimatedSprite2D" parent="."]
+position = Vector2(61, -216)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.18
+
+[node name="Tuft86" type="AnimatedSprite2D" parent="."]
+position = Vector2(-40, 412)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 0.95
+
+[node name="Tuft87" type="AnimatedSprite2D" parent="."]
+position = Vector2(-67, 407)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 1.08
+
+[node name="Tuft88" type="AnimatedSprite2D" parent="."]
+position = Vector2(-100, 437)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 0.85
+
+[node name="Tuft89" type="AnimatedSprite2D" parent="."]
+position = Vector2(-84, 408)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 0.98
+
+[node name="Tuft90" type="AnimatedSprite2D" parent="."]
+position = Vector2(-86, 426)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 1.12
+
+[node name="Tuft91" type="AnimatedSprite2D" parent="."]
+position = Vector2(-112, 410)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 0.88
+
+[node name="Tuft92" type="AnimatedSprite2D" parent="."]
+position = Vector2(302, -656)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 1.02
+
+[node name="Tuft93" type="AnimatedSprite2D" parent="."]
+position = Vector2(341, -677)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.15
+
+[node name="Tuft94" type="AnimatedSprite2D" parent="."]
+position = Vector2(326, -678)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 0.92
+
+[node name="Tuft95" type="AnimatedSprite2D" parent="."]
+position = Vector2(175, 565)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 1.05
+
+[node name="Tuft96" type="AnimatedSprite2D" parent="."]
+position = Vector2(192, 583)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.18
+
+[node name="Tuft97" type="AnimatedSprite2D" parent="."]
+position = Vector2(152, 552)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 0.95
+
+[node name="Tuft98" type="AnimatedSprite2D" parent="."]
+position = Vector2(171, 544)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 1.08
+
+[node name="Tuft99" type="AnimatedSprite2D" parent="."]
+position = Vector2(679, -513)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 0.85
+
+[node name="Tuft100" type="AnimatedSprite2D" parent="."]
+position = Vector2(733, -529)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 0.98
+
+[node name="Tuft101" type="AnimatedSprite2D" parent="."]
+position = Vector2(655, -533)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.12
+
+[node name="Tuft102" type="AnimatedSprite2D" parent="."]
+position = Vector2(707, -514)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 0.88
+
+[node name="Tuft103" type="AnimatedSprite2D" parent="."]
+position = Vector2(703, -530)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 1.02
+
+[node name="Tuft104" type="AnimatedSprite2D" parent="."]
+position = Vector2(416, -372)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.15
+
+[node name="Tuft105" type="AnimatedSprite2D" parent="."]
+position = Vector2(378, -394)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 0.92
+
+[node name="Tuft106" type="AnimatedSprite2D" parent="."]
+position = Vector2(397, -381)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 1.05
+
+[node name="Tuft107" type="AnimatedSprite2D" parent="."]
+position = Vector2(-478, -30)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.18
+
+[node name="Tuft108" type="AnimatedSprite2D" parent="."]
+position = Vector2(-441, -38)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 0.95
+
+[node name="Tuft109" type="AnimatedSprite2D" parent="."]
+position = Vector2(-501, -15)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.08
+
+[node name="Tuft110" type="AnimatedSprite2D" parent="."]
+position = Vector2(120, 547)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 0.85
+
+[node name="Tuft111" type="AnimatedSprite2D" parent="."]
+position = Vector2(106, 536)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 0.98
+
+[node name="Tuft112" type="AnimatedSprite2D" parent="."]
+position = Vector2(-457, 54)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.12
+
+[node name="Tuft113" type="AnimatedSprite2D" parent="."]
+position = Vector2(520, 499)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 0.88
+
+[node name="Tuft114" type="AnimatedSprite2D" parent="."]
+position = Vector2(531, 484)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 1.02
+
+[node name="Tuft115" type="AnimatedSprite2D" parent="."]
+position = Vector2(514, 512)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.15
+
+[node name="Tuft116" type="AnimatedSprite2D" parent="."]
+position = Vector2(274, -641)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 0.92
+
+[node name="Tuft117" type="AnimatedSprite2D" parent="."]
+position = Vector2(-59, -368)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.05
+
+[node name="Tuft118" type="AnimatedSprite2D" parent="."]
+position = Vector2(-44, -401)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.18
+
+[node name="Tuft119" type="AnimatedSprite2D" parent="."]
+position = Vector2(-92, -369)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 0.95
+
+[node name="Tuft120" type="AnimatedSprite2D" parent="."]
+position = Vector2(-33, -388)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.08
+
+[node name="Tuft121" type="AnimatedSprite2D" parent="."]
+position = Vector2(340, 400)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 0.85
+
+[node name="Tuft122" type="AnimatedSprite2D" parent="."]
+position = Vector2(356, 350)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 0.98
+
+[node name="Tuft123" type="AnimatedSprite2D" parent="."]
+position = Vector2(290, 387)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.12
+
+[node name="Tuft124" type="AnimatedSprite2D" parent="."]
+position = Vector2(215, 594)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 0.88
+
+[node name="Tuft125" type="AnimatedSprite2D" parent="."]
+position = Vector2(173, 584)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 1.02
+
+[node name="Tuft126" type="AnimatedSprite2D" parent="."]
+position = Vector2(236, 583)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.15
+
+[node name="Tuft127" type="AnimatedSprite2D" parent="."]
+position = Vector2(249, 596)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 0.92
+
+[node name="Tuft128" type="AnimatedSprite2D" parent="."]
+position = Vector2(263, 585)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.05
+
+[node name="Tuft129" type="AnimatedSprite2D" parent="."]
+position = Vector2(195, -474)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 1.18
+
+[node name="Tuft130" type="AnimatedSprite2D" parent="."]
+position = Vector2(174, -467)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 0.95
+
+[node name="Tuft131" type="AnimatedSprite2D" parent="."]
+position = Vector2(200, -457)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.08
+
+[node name="Tuft132" type="AnimatedSprite2D" parent="."]
+position = Vector2(-346, -435)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 0.85
+
+[node name="Tuft133" type="AnimatedSprite2D" parent="."]
+position = Vector2(-355, -418)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 0.98
+
+[node name="Tuft134" type="AnimatedSprite2D" parent="."]
+position = Vector2(-323, -432)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.12
+
+[node name="Tuft135" type="AnimatedSprite2D" parent="."]
+position = Vector2(-837, 719)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 0.88
+
+[node name="Tuft136" type="AnimatedSprite2D" parent="."]
+position = Vector2(-861, 718)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 1.02
+
+[node name="Tuft137" type="AnimatedSprite2D" parent="."]
+position = Vector2(-26, 416)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 1.15
+
+[node name="Tuft138" type="AnimatedSprite2D" parent="."]
+position = Vector2(21, 419)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 0.92
+
+[node name="Tuft139" type="AnimatedSprite2D" parent="."]
+position = Vector2(29, 439)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.05
+
+[node name="Tuft140" type="AnimatedSprite2D" parent="."]
+position = Vector2(37, 376)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 1.18
+
+[node name="Tuft141" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 364)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 0.95
+
+[node name="Tuft142" type="AnimatedSprite2D" parent="."]
+position = Vector2(63, 385)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.08
+
+[node name="Tuft143" type="AnimatedSprite2D" parent="."]
+position = Vector2(-507, -574)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 0.85
+
+[node name="Tuft144" type="AnimatedSprite2D" parent="."]
+position = Vector2(-472, -572)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 0.98
+
+[node name="Tuft145" type="AnimatedSprite2D" parent="."]
+position = Vector2(-563, -586)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 1.12
+
+[node name="Tuft146" type="AnimatedSprite2D" parent="."]
+position = Vector2(-111, -657)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 0.88
+
+[node name="Tuft147" type="AnimatedSprite2D" parent="."]
+position = Vector2(-147, -608)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 1.02
+
+[node name="Tuft148" type="AnimatedSprite2D" parent="."]
+position = Vector2(-131, -617)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 1.15
+
+[node name="Tuft149" type="AnimatedSprite2D" parent="."]
+position = Vector2(-112, -621)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 0.92
+
+[node name="Tuft150" type="AnimatedSprite2D" parent="."]
+position = Vector2(-82, -619)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.05
+
+[node name="Tuft151" type="AnimatedSprite2D" parent="."]
+position = Vector2(-142, -643)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 1.18
+
+[node name="Tuft152" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1020, 128)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 0
+speed_scale = 0.95
+
+[node name="Tuft153" type="AnimatedSprite2D" parent="."]
+position = Vector2(-992, 165)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 3
+speed_scale = 1.08
+
+[node name="Tuft154" type="AnimatedSprite2D" parent="."]
+position = Vector2(-934, 156)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 6
+speed_scale = 0.85
+
+[node name="Tuft155" type="AnimatedSprite2D" parent="."]
+position = Vector2(-955, 127)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 1
+speed_scale = 0.98
+
+[node name="Tuft156" type="AnimatedSprite2D" parent="."]
+position = Vector2(904, -598)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_flowers_frames")
+autoplay = "default"
+frame = 4
+speed_scale = 1.12
+
+[node name="Tuft157" type="AnimatedSprite2D" parent="."]
+position = Vector2(935, -617)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 7
+speed_scale = 0.88
+
+[node name="Tuft158" type="AnimatedSprite2D" parent="."]
+position = Vector2(953, -621)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 2
+speed_scale = 1.02
+
+[node name="Tuft159" type="AnimatedSprite2D" parent="."]
+position = Vector2(953, -603)
+offset = Vector2(0, -12)
+sprite_frames = SubResource("tuft_frames")
+autoplay = "default"
+frame = 5
+speed_scale = 1.15
+
+[node name="Npc_neri" parent="." instance=ExtResource("r26_npc")]
+position = Vector2(680, -20)
+npc_id = &"neri"
+display_name = "Neri"
+sprite_frames = ExtResource("r27_neri_frames")
+lines = PackedStringArray("Serin's the stillest water on the island. You can hear a fish change its mind.", "Barges used to cross here at night, low in the water. Heading north. They don't cross any more. One of them never got across.")
+wander_radius = 30.0
+
+[node name="Read0" type="Node2D" parent="."]
+position = Vector2(60, -260)
+script = ExtResource("r28_readable")
+title = "The stone on Stone Point"
+lines = PackedStringArray("A lone standing stone at the tip of the point, the water all round it. The carving is the one from the circle: a crown, and a line of figures under it.", "Here the line goes on round the back of the stone. The last figures are no bigger than a thumbnail, and there are more of them than you can count.")
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(-380, 290)
+script = ExtResource("r28_readable")
+title = "A drowned barge"
+lines = PackedStringArray("A flat barge, sunk at its mooring in the shallows. Its hold was lined with straw, and fitted with rings for chains.", "Stencilled on the stern, under the weed: 'D.M.C. - NORTH'.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(760, -30)
+script = ExtResource("r28_readable")
+title = "Neri's tally board"
+lines = PackedStringArray("A board of chalk tallies: fish, by the day. On the back, a different tally, not fish. Barges crossing, by the night. It stops last spring.")
+
+[node name="Chest_bluff_nest" type="StaticBody2D" parent="."]
+position = Vector2(-850, -300)
+script = ExtResource("r29_chest")
+chest_id = &"lake_serin_bluff_nest"
+card_id = &""
+gold = 35
+item_id = &"sea_salt_elixir"
+item_count = 1
+closed_texture = ExtResource("r30_chest")
+open_texture = ExtResource("r31_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_bluff_nest"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Chest_reed_bed" type="StaticBody2D" parent="."]
+position = Vector2(-470, 380)
+script = ExtResource("r29_chest")
+chest_id = &"lake_serin_reed_bed"
+card_id = &""
+gold = 0
+item_id = &"smoked_fish"
+item_count = 2
+closed_texture = ExtResource("r30_chest")
+open_texture = ExtResource("r31_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_reed_bed"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Chest_point_cache" type="StaticBody2D" parent="."]
+position = Vector2(110, -420)
+script = ExtResource("r29_chest")
+chest_id = &"lake_serin_point_cache"
+card_id = &""
+gold = 25
+closed_texture = ExtResource("r30_chest")
+open_texture = ExtResource("r31_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_point_cache"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="MossBoar0" parent="." instance=ExtResource("r32_moss_boar")]
+position = Vector2(-300, 330)
+
+[node name="MossBoar1" parent="." instance=ExtResource("r32_moss_boar")]
+position = Vector2(320, 470)
+
+[node name="BriarHound2" parent="." instance=ExtResource("r33_briar_hound")]
+position = Vector2(-200, -560)
+
+[node name="BriarHound3" parent="." instance=ExtResource("r33_briar_hound")]
+position = Vector2(620, -600)
+
+[node name="BristleRam4" parent="." instance=ExtResource("r34_bristle_ram")]
+position = Vector2(-40, 600)
+
+[node name="Butterflies0" type="Node2D" parent="."]
+position = Vector2(600, 300)
+script = ExtResource("r35_butterflies")
+count = 3
+seed = 3
+
+[node name="Fireflies0" type="Node2D" parent="."]
+position = Vector2(600, 300)
+script = ExtResource("r36_fireflies")
+count = 9
+seed = 9
+
+[node name="Butterflies1" type="Node2D" parent="."]
+position = Vector2(-800, -200)
+script = ExtResource("r35_butterflies")
+count = 2
+seed = 4
+
+[node name="Fireflies1" type="Node2D" parent="."]
+position = Vector2(-800, -200)
+script = ExtResource("r36_fireflies")
+count = 6
+seed = 10
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(700, 720)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

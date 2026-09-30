@@ -2,7 +2,8 @@ extends Node
 ## The background soundscape (assets/audio/ambience/, made by make_ambience.py): each
 ## place gets a looping bed, crossfaded as you arrive: the harbor's surf and gulls in
 ## Kalmora, wind and birds in the forest (crickets after dark), a hum and drips in
-## caves, a hearth's crackle indoors.
+## caves, a hearth's crackle indoors; wind and larks on the plains, lapping water at Lake
+## Serin, wind moaning over the Starfall Range.
 
 const DIR := "res://assets/audio/ambience/"
 const FADE := 1.5
@@ -43,6 +44,12 @@ func _pick() -> void:
 		_play(&"cave")
 	elif zone.scene_file_path == WorldMap.KALMORA:
 		_play(&"harbor")
+	elif zone.scene_file_path in [WorldMap.AUREWIND, WorldMap.VERDANA]:
+		_play(&"meadow")
+	elif zone.scene_file_path == WorldMap.LAKE_SERIN:
+		_play(&"lake")
+	elif zone.scene_file_path == WorldMap.STARFALL:
+		_play(&"mountain")
 	else:
 		_outdoor_forest = true
 		_play(&"forest_night" if TimeOfDay.night_factor() > 0.6 else &"forest_day")

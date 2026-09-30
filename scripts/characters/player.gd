@@ -23,6 +23,8 @@ const HOLLOWPOINT := &"hollowpoint_charm"
 const TIDEWALKER := &"tidewalker_anklet"
 const MOSSHEART := &"mossheart_charm"
 const EMBERBURST := &"emberburst_rounds"
+const STONESONG := &"stonesong_charm"
+const STONESONG_HEARTS := 2
 const CHARGE_TIME := 0.7            # hold the pistol this long for an Emberburst round
 const BURST_DAMAGE := 3
 const MOSSHEART_CALM := 8.0        # seconds without a hit before it starts
@@ -42,7 +44,10 @@ var _calm_time := 0.0
 @export var pistol_damage := 1
 @export var pistol_cooldown := 0.35
 @export_group("Health")
-@export var max_health := 6
+## Hearts; a Stonesong Charm adds STONESONG_HEARTS while worn.
+@export var max_health := 6:
+	get:
+		return max_health + (STONESONG_HEARTS if GameState.is_equipped(STONESONG) else 0)
 @export var hurt_invulnerability := 0.6
 ## How long the fall lasts before waking in town.
 @export var down_time := 1.2
@@ -83,6 +88,9 @@ func _ready() -> void:
 	add_to_group(&"player")
 	add_to_group(&"collectors")
 	health = max_health
+	EventBus.loadout_changed.connect(func() -> void:
+		health = mini(health, max_health)
+		health_changed.emit(health, max_health))
 	sword_hitbox.damage = sword_damage
 	sword_hitbox.source_id = collector_id
 	sword_shape.disabled = true

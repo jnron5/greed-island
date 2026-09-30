@@ -13,6 +13,7 @@ const TITLES := {
 	&"unmarked_cargo": "The Unmarked Cargo",
 	&"trees_remember": "What the Trees Remember",
 	&"wens_boat": "A Boat for Wen",
+	&"stones_remember": "Stones That Remember",
 }
 ## Kalmora: Wen is building a boat to fetch her papa home from the Duskara work.
 const BOAT_PARTS: Array[StringName] = [&"boat_sail", &"boat_oars", &"boat_rope"]
@@ -22,6 +23,14 @@ const SATCHEL_TITLE := "A satchel in the moss"
 const TREES_REWARD_GOLD := 50
 ## Elder Moss's own card, for bringing the child's things home.
 const TREES_REWARD_CARD := &"sorenda_star_map"
+## Verdana: Aldous wants eyes on the three standing stones (Readables with these titles).
+const STONES := {
+	"The Aurewind circle": "res://scenes/world/aurewind_plains.tscn",
+	"The stone on Stone Point": "res://scenes/world/lake_serin.tscn",
+	"The Starfall stone": "res://scenes/world/starfall_range.tscn",
+}
+const STONES_REWARD_GOLD := 60
+const STONES_REWARD_CARD := &"stonesong_charm"
 const CARGO_CLUES: Array[StringName] = [&"crate_sand", &"crate_glove", &"crate_ledger"]
 const CARGO_REWARD_GOLD := 40
 
@@ -119,6 +128,26 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					])
 				DONE:
 					return PackedStringArray(["She'll float. I tried her in the bath. Well. Half of her."])
+		&"aldous":
+			match stage(&"stones_remember"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"A racer. Good. You go places an old cat's knees won't take him any more.",
+						"There are three standing stones left on this side of the island: the circle on the Stonewatch Downs, north-west of the King's Road; the stone out on Stone Point in Lake Serin; and the Starfall stone, up under the pass.",
+						"They all tell one story, carved smaller and smaller down the stone. I've read two of them in my life. I want to know how the last one ends.",
+						"Go and look at all three. Read them properly. Then come back and tell me what's at the bottom.",
+					])
+				1:
+					return PackedStringArray(["The circle on the downs, Stone Point in Lake Serin, and the Starfall stone under the pass. (%d/3 read)" % _stones_read()])
+				2:
+					return PackedStringArray([
+						"All three? Tell me. Slowly.",
+						"...A crown, and a line of figures under it, each smaller than the last. On the Starfall stone, the line runs into the snow. And someone has crossed out the crown.",
+						"Then it's not a history. It's a ledger. Every king, and under each one, what it cost. Carved where anyone could read it, and nobody did.",
+						"Take this. It was my teacher's, and hers before that. It hums when you're near the stones, and keeps you on your feet a little longer than you'd manage alone.",
+					])
+				DONE:
+					return PackedStringArray(["A ledger in stone. I've read it forty years and never once added it up."])
 		&"mirela":
 			if not flag(&"met_mirela"):
 				return PackedStringArray([
@@ -154,6 +183,12 @@ func marker_for(npc_id: StringName) -> String:
 				return "!"
 			2:
 				return "?"
+	if npc_id == &"aldous":
+		match stage(&"stones_remember"):
+			NOT_STARTED:
+				return "!"
+			2:
+				return "?"
 	if npc_id == &"mirela" and not flag(&"met_mirela"):
 		return "!"
 	return ""
@@ -172,6 +207,17 @@ func talked_to(npc_id: StringName) -> void:
 				GameState.add_loose_card(GameState.PLAYER, &"lockbox_seal")
 				set_stage(&"wens_boat", DONE)
 				EventBus.notify.emit("Quest complete: A Boat for Wen (+%d gold, Lockbox Seal)" % BOAT_REWARD_GOLD)
+		return
+	if npc_id == &"aldous":
+		match stage(&"stones_remember"):
+			NOT_STARTED:
+				set_stage(&"stones_remember", 2 if _stones_read() == STONES.size() else 1)
+				EventBus.notify.emit("Quest started: Stones That Remember")
+			2:
+				GameState.add_currency(STONES_REWARD_GOLD)
+				GameState.add_loose_card(GameState.PLAYER, STONES_REWARD_CARD)
+				set_stage(&"stones_remember", DONE)
+				EventBus.notify.emit("Quest complete: Stones That Remember (+%d gold, Stonesong Charm)" % STONES_REWARD_GOLD)
 		return
 	if npc_id == &"pell" and stage(&"trees_remember") == NOT_STARTED:
 		set_stage(&"trees_remember", 1)
@@ -245,6 +291,15 @@ func inspect(clue_id: StringName) -> PackedStringArray:
 
 ## Something was read (Readable): quests that hinge on a letter or an object hear it here.
 func read(title: String) -> void:
+	if STONES.has(title) and not flag(StringName("stone:%s" % title)):
+		GameState.quest_flags[StringName("stone:%s" % title)] = true
+		if stage(&"stones_remember") == 1:
+			if _stones_read() == STONES.size():
+				set_stage(&"stones_remember", 2)
+				EventBus.notify.emit("All three stones read. Take what you saw to Aldous in Verdana")
+			else:
+				quest_changed.emit(&"stones_remember", 1)
+				EventBus.notify.emit("Stones That Remember: %d of 3 stones read" % _stones_read())
 	if title == SATCHEL_TITLE and stage(&"trees_remember") in [NOT_STARTED, 1]:
 		set_stage(&"trees_remember", 2)
 		EventBus.notify.emit("Take what you found to Elder Moss")
@@ -272,6 +327,11 @@ func tracker_text() -> String:
 			lines.append("%s: search the Hollow, the cave past Sorenda's moss gate" % TITLES[&"trees_remember"])
 		2:
 			lines.append("%s: bring the satchel to Elder Moss" % TITLES[&"trees_remember"])
+	match stage(&"stones_remember"):
+		1:
+			lines.append("%s: read the three standing stones (%d/3)" % [TITLES[&"stones_remember"], _stones_read()])
+		2:
+			lines.append("%s: tell Aldous in Verdana what you read" % TITLES[&"stones_remember"])
 	lines.append_array(Errands.tracker_lines())
 	return "\n".join(lines)
 
@@ -291,6 +351,13 @@ func map_goals() -> Array[String]:
 			add.call(WorldMap.SORENDA_HOLLOW)
 		2:
 			add.call(WorldMap.SORENDA)
+	match stage(&"stones_remember"):
+		1:
+			for title: String in STONES:
+				if not flag(StringName("stone:%s" % title)):
+					add.call(STONES[title])
+		2:
+			add.call(WorldMap.VERDANA)
 	for id: StringName in Errands.ERRANDS:
 		if Errands.state(id) != Errands.ASKED:
 			continue
@@ -298,12 +365,16 @@ func map_goals() -> Array[String]:
 		if Errands.is_met(id):
 			add.call(e.zone)
 		elif e.need == "kills":
-			add.call(WorldMap.THORNVEIL)
+			add.call(e.get("hunt", WorldMap.THORNVEIL))
 		elif e.need == "visit":
 			add.call(e.place)
 		else:
 			add.call(e.zone)
 	return out
+
+
+func _stones_read() -> int:
+	return STONES.keys().filter(func(t: String) -> bool: return flag(StringName("stone:%s" % t))).size()
 
 
 func _parts_found() -> int:

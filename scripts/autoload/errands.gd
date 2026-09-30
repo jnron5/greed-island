@@ -172,6 +172,53 @@ const ERRANDS := {
 		"give": ["Hm. Sugar, sea salt, and... not bad, actually. Here's your ring."],
 		"after": "Moss is the best medicine. Mostly.",
 	},
+	# ---- Past Kalmora's west gate ----
+	&"tilly_rams": {
+		"npc": &"tilly", "zone": "res://scenes/world/aurewind_plains.tscn", "card": &"canopy_seed", "need": "kills",
+		"monster": &"bristle_ram", "count": 3, "hunt": "res://scenes/world/aurewind_plains.tscn",
+		"ask": [
+			"The bristle rams are wild ones. They charge my flock and scatter it halfway to the downs.",
+			"They lower their horns before they come at you, and they can't turn once they're running. Step aside and they'll go right past.",
+			"Drive off three and I'll give you the seed I found in one's fleece. Grandad says it's a card. It glows a bit.",
+		],
+		"waiting": "%d of 3 rams. They graze all over the plains.",
+		"give": ["The flock's settling already. Here's the seed. It's warm, feel."],
+		"after": "Count them for me? One, two... never mind, they keep moving.",
+	},
+	&"marta_bread": {
+		"npc": &"marta", "zone": "res://scenes/world/verdana.tscn", "card": &"terracotta_tile", "need": "item",
+		"item": &"smoked_fish", "count": 1,
+		"ask": [
+			"Our own bread's all sold to the Company before it's out of the oven. Imagine that. A baker's town with no bread.",
+			"I'd kill for something that isn't flour. Bring me a smoked fish from the coast? I've a card from my mother's roof in Kalmora I'll trade.",
+		],
+		"waiting": "A smoked fish. Greta in Kalmora has them, or Bruno at the inn when he's feeling generous.",
+		"give": ["Oh, that smells like the harbor. Here: a tile off my mother's roof. She'd want it to see the world."],
+		"after": "Harvest waits for nobody. Mind the rams on your way.",
+	},
+	&"neri_tonic": {
+		"npc": &"neri", "zone": "res://scenes/world/lake_serin.tscn", "card": &"veyra_reed", "need": "item",
+		"item": &"healers_tonic", "count": 1,
+		"ask": [
+			"Bad leg. Cold water, forty years. Don't get old by a lake.",
+			"If you've a Healer's Tonic spare, I'll trade a reed card for it. Cut it myself, from the reeds by Veyra, back when I could walk that far.",
+		],
+		"waiting": "A Healer's Tonic, if you've one. The leg's not getting younger.",
+		"give": ["Ahh. Better already, or I'm imagining it. Here's the reed."],
+		"after": "Still water, still fish, still me.",
+	},
+	&"hald_wolves": {
+		"npc": &"hald", "zone": "res://scenes/world/starfall_range.tscn", "card": &"root_knot", "need": "kills",
+		"monster": &"frost_wolf", "count": 3, "hunt": "res://scenes/world/starfall_range.tscn",
+		"ask": [
+			"The wolves have been circling the cabin since the slide. Hungry. Something drove them down off the pass.",
+			"They come in low and fast, and they don't give up. Keep your back to a rock and your pistol ready.",
+			"Thin the pack by three and I'll give you a root knot from the old pine. It's kept me warm twenty winters.",
+		],
+		"waiting": "%d of 3 wolves. They hunt the shelf below the pass.",
+		"give": ["Quiet out there at last. Take the knot. I'll carve another."],
+		"after": "Snow's coming. Snow's always coming.",
+	},
 }
 
 
@@ -357,5 +404,6 @@ func _npc_name(npc_id: StringName) -> String:
 		&"sailor": "Luca", &"pip": "Pip", &"baker": "Rosa", &"tomas": "Keeper Tomas", &"mirela": "Mirela",
 		&"otto": "Otto", &"nonna": "Nonna Vess", &"brannoc": "Brannoc", &"ilse": "Ilse",
 		&"harl": "Harl", &"wren": "Wren", &"juniper": "Juniper", &"tobin": "Tobin",
+		&"tilly": "Tilly", &"marta": "Marta", &"neri": "Neri", &"hald": "Hald",
 	}
 	return NAMES.get(npc_id, String(npc_id).capitalize())

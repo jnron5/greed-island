@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/stonesong_charm.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"stonesong_charm"
+display_name = "Stonesong Charm"
+description = "Passive: while worn, you have an extra heart."
+lore = "A thumb of standing stone on a cord, worn smooth by scholars' fingers. It hums near the old stones. Aldous's teacher said it was humming a tally."
+category = 2
+source = 4
+sell_value = 45
+icon = ExtResource("2_art")
+shop_price = 0

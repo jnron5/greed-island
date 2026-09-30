@@ -99,6 +99,42 @@ func _run() -> void:
 	var seals := col.count(&"lockbox_seal")
 	Quests.talked_to(&"wen")
 	_check("Wen's thanks", Quests.stage(&"wens_boat") == Quests.DONE and col.count(&"lockbox_seal") == seals + 1)
+
+	# "Stones That Remember": each stone is a Readable in its own zone; read all three,
+	# then back to Aldous in Verdana.
+	for title: String in Quests.STONES:
+		var zone: Node = load(Quests.STONES[title]).instantiate()
+		_check("'%s' stands in %s" % [title, zone.name],
+			zone.get_children().any(func(n: Node) -> bool: return n is Readable and n.title == title))
+		zone.free()
+	_check("Aldous has something to ask", Quests.marker_for(&"aldous") == "!")
+	Quests.read("The Aurewind circle")     # read before being asked: it still counts
+	Quests.talked_to(&"aldous")
+	_check("talking to Aldous starts it, one stone already read", Quests.stage(&"stones_remember") == 1
+		and "(1/3)" in Quests.tracker_text())
+	_check("the unread stones' zones show on the map", WorldMap.LAKE_SERIN in Quests.map_goals()
+		and WorldMap.STARFALL in Quests.map_goals() and not WorldMap.AUREWIND in Quests.map_goals())
+	Quests.read("The stone on Stone Point")
+	Quests.read("The Starfall stone")
+	_check("all three read: back to Aldous", Quests.stage(&"stones_remember") == 2 and Quests.marker_for(&"aldous") == "?")
+	gold = GameState.currency
+	Quests.talked_to(&"aldous")
+	_check("Aldous's reward: gold and the Stonesong Charm", Quests.stage(&"stones_remember") == Quests.DONE
+		and col.count(&"stonesong_charm") == 1 and GameState.currency == gold + Quests.STONES_REWARD_GOLD)
+	# A kill favour past the west gate points the map at its own hunting ground.
+	Errands.talked_to(&"tilly")
+	_check("Tilly's rams send you to the plains", Errands.state(&"tilly_rams") == Errands.ASKED
+		and WorldMap.AUREWIND in Quests.map_goals())
+	for i in 3:
+		EventBus.monster_defeated.emit(&"bristle_ram", GameState.PLAYER)
+	Errands.talked_to(&"tilly")
+	_check("three rams: Tilly's seed", col.count(&"canopy_seed") >= 1 and Errands.state(&"tilly_rams") == Errands.DONE)
+	# The west gate: the Warden's Verdant Crest opens the road to the plains.
+	var gate := CardDatabase.get_gate(&"kalmora_west_gate")
+	_check("Kalmora's west gate takes a Verdant Crest", gate != null and gate.cost_card_id == &"verdant_crest")
+	var west := WorldMap.edges_from(WorldMap.KALMORA).filter(func(e: Dictionary) -> bool: return e.to == WorldMap.AUREWIND)
+	_check("and it's the only way west", west.size() == 1 and west[0].gate == &"kalmora_west_gate"
+		and not WorldMap.AUREWIND in WorldMap.reachable(WorldMap.KALMORA, GameState.PLAYER, false))
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)
 

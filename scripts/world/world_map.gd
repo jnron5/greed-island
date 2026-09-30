@@ -15,6 +15,15 @@ const SORENDA := "res://scenes/world/sorenda.tscn"
 const WARDENS_GROVE := "res://scenes/world/wardens_grove.tscn"
 const LAKE_VEYRA := "res://scenes/world/lake_veyra.tscn"
 const SORENDA_HOLLOW := "res://scenes/world/sorenda_hollow.tscn"
+const AUREWIND := "res://scenes/world/aurewind_plains.tscn"
+const VERDANA := "res://scenes/world/verdana.tscn"
+const LAKE_SERIN := "res://scenes/world/lake_serin.tscn"
+const STARFALL := "res://scenes/world/starfall_range.tscn"
+const VERDANA_INN := "res://scenes/world/interiors/verdana_inn.tscn"
+const VERDANA_FARMHOUSE := "res://scenes/world/interiors/verdana_farmhouse.tscn"
+const VERDANA_SCHOLAR := "res://scenes/world/interiors/verdana_scholar.tscn"
+const SERIN_FISHER_HUT := "res://scenes/world/interiors/serin_fisher_hut.tscn"
+const STARFALL_CABIN := "res://scenes/world/interiors/starfall_cabin.tscn"
 const SORENDA_LONGHOUSE := "res://scenes/world/interiors/sorenda_longhouse.tscn"
 const SORENDA_SCRIBE := "res://scenes/world/interiors/sorenda_scribe_house.tscn"
 const SORENDA_HERBALIST := "res://scenes/world/interiors/sorenda_herbalist_house.tscn"
@@ -49,6 +58,15 @@ const ZONES := {
 	WARDENS_GROVE: { "name": "Warden's Grove", "origin": Vector2(1456, -1764), "monster_drops": [] },
 	LAKE_VEYRA: { "name": "Lake Veyra", "origin": Vector2(-1582, -1978),
 		"monster_drops": [&"veyra_reed", &"moss_lantern", &"thorn_sprig"] },
+	# Past Kalmora's west gate (built by build_region.py): the plains west of Kalmora,
+	# Verdana in their south, Lake Serin north of them, the Starfall Range beyond.
+	AUREWIND: { "name": "Aurewind Plains", "origin": Vector2(-2344, 79),
+		"monster_drops": [&"thatch_charm", &"fern_sigil", &"thorn_sprig"] },
+	VERDANA: { "name": "Verdana", "origin": Vector2(-2644, 1623), "monster_drops": [] },
+	LAKE_SERIN: { "name": "Lake Serin", "origin": Vector2(-2894, -1625),
+		"monster_drops": [&"hollow_acorn", &"moss_lantern", &"thorn_sprig"] },
+	STARFALL: { "name": "Starfall Range", "origin": Vector2(-3194, -3201),
+		"monster_drops": [&"owl_quill", &"briar_wren"] },
 	# Interiors sit where their buildings stand in town. They have no EDGES, so
 	# rivals never wander in; you enter through the building's door.
 	KALMORA_TAVERN: { "name": "The Salted Lantern", "origin": Vector2(214, 220), "monster_drops": [] },
@@ -63,6 +81,11 @@ const ZONES := {
 	KALMORA_CALLOWAY_HOUSE: { "name": "Calloway House", "origin": Vector2(757, 27), "monster_drops": [] },
 	KALMORA_TEAL_HOUSE: { "name": "Ilse's Map House", "origin": Vector2(872, 27), "monster_drops": [] },
 	KALMORA_MILL: { "name": "The Windmill", "origin": Vector2(-766, 142), "monster_drops": [] },
+	VERDANA_INN: { "name": "The Sheaf & Sickle", "origin": Vector2(-2644, 1393), "monster_drops": [] },
+	VERDANA_FARMHOUSE: { "name": "Marta's Farmhouse", "origin": Vector2(-3104, 1503), "monster_drops": [] },
+	VERDANA_SCHOLAR: { "name": "Aldous's House", "origin": Vector2(-2024, 1293), "monster_drops": [] },
+	SERIN_FISHER_HUT: { "name": "Neri's Hut", "origin": Vector2(-2074, -1735), "monster_drops": [] },
+	STARFALL_CABIN: { "name": "Hald's Cabin", "origin": Vector2(-2574, -3311), "monster_drops": [] },
 	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2518), "monster_drops": [] },
 	SORENDA_SCRIBE: { "name": "Wren's House", "origin": Vector2(-370, -2482), "monster_drops": [] },
 	SORENDA_HERBALIST: { "name": "Juniper's Cottage", "origin": Vector2(320, -2454), "monster_drops": [] },
@@ -76,6 +99,7 @@ const ZONES := {
 const TOWNS := {
 	KALMORA: { "spawn": &"town", "position": Vector2(-13, -609) },
 	SORENDA: { "spawn": &"town", "position": Vector2(0, 0) },
+	VERDANA: { "spawn": &"town", "position": Vector2(-200, -600) },
 }
 
 ## Walkable connections. `exit` is where you leave `from` (local position of its
@@ -102,6 +126,23 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(470, 250), "gate": &"thornveil_bramble_arch" },
 	{ "from": LAKE_VEYRA, "to": THORNVEIL, "exit": Vector2(535, 250), "spawn": &"from_lake",
 		"entry": Vector2(-1028, -1240), "gate": &"thornveil_bramble_arch" },
+	# West of Kalmora: the Warden's card opens the west gate.
+	{ "from": KALMORA, "to": AUREWIND, "exit": Vector2(-1108, -277), "spawn": &"from_kalmora",
+		"entry": Vector2(1160, 40), "gate": &"kalmora_west_gate" },
+	{ "from": AUREWIND, "to": KALMORA, "exit": Vector2(1236, 40), "spawn": &"from_aurewind",
+		"entry": Vector2(-1032, -277), "gate": &"kalmora_west_gate" },
+	{ "from": AUREWIND, "to": VERDANA, "exit": Vector2(-500, 884), "spawn": &"from_aurewind",
+		"entry": Vector2(-200, -600), "gate": &"" },
+	{ "from": VERDANA, "to": AUREWIND, "exit": Vector2(-200, -660), "spawn": &"from_verdana",
+		"entry": Vector2(-500, 820), "gate": &"" },
+	{ "from": AUREWIND, "to": LAKE_SERIN, "exit": Vector2(150, -916), "spawn": &"from_aurewind",
+		"entry": Vector2(700, 720), "gate": &"" },
+	{ "from": LAKE_SERIN, "to": AUREWIND, "exit": Vector2(700, 788), "spawn": &"from_lake_serin",
+		"entry": Vector2(150, -840), "gate": &"" },
+	{ "from": LAKE_SERIN, "to": STARFALL, "exit": Vector2(-300, -788), "spawn": &"from_lake_serin",
+		"entry": Vector2(0, 720), "gate": &"" },
+	{ "from": STARFALL, "to": LAKE_SERIN, "exit": Vector2(0, 788), "spawn": &"from_starfall",
+		"entry": Vector2(-300, -710), "gate": &"" },
 ]
 
 static var _pickup_cache: Dictionary = {}

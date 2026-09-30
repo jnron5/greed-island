@@ -409,6 +409,109 @@ INTERIORS = {
             ]),
         ],
     },
+    # ---- Verdana, Lake Serin, the Starfall Range (outdoor zones: build_region.py) ----
+    "verdana_inn": {
+        "town": "res://scenes/world/verdana.tscn",
+        "name": "The Sheaf & Sickle",
+        "image": "assets/sprites/tiles/verdana/interiors/inn_room.png",
+        "size": (288, 224),
+        "exit": (143, 196), "back_to": "from_houseinn", "spawn": (143, 168),
+        "blocks": [
+            (39, 24, 249, 56), (39, 24, 80, 112), (96, 24, 144, 90),       # back wall, stair, hearth
+            (160, 60, 243, 100), (170, 98, 236, 114),                       # bar counter and its stools
+            (60, 122, 102, 170), (136, 116, 182, 150), (192, 136, 234, 172),   # tables with stools
+            (39, 24, 48, 194), (240, 24, 249, 194),                          # side walls
+            (39, 180, 128, 194), (158, 180, 249, 194),                       # front wall round the door
+        ],
+        "npcs": [],
+        "readables": [
+            ("The slate behind the bar", (118, 104), [
+                "Chalked prices: cider, bread, a bed. Under them, a column headed 'Company men - on account'. It's very long, and nothing on it has been crossed off.",
+            ]),
+        ],
+    },
+    "verdana_farmhouse": {
+        "town": "res://scenes/world/verdana.tscn",
+        "name": "Marta's Farmhouse",
+        "image": "assets/sprites/tiles/verdana/interiors/farmhouse_room.png",
+        "size": (288, 224),
+        "exit": (145, 200), "back_to": "from_housefarm", "spawn": (145, 166),
+        "blocks": [
+            (51, 25, 237, 84), (74, 60, 122, 104), (56, 78, 76, 100),        # back wall, stove, kindling
+            (134, 76, 200, 100), (204, 70, 232, 112),                        # churn, baskets, rocking chair
+            (152, 104, 220, 158), (208, 152, 232, 178),                      # table and benches, bucket
+            (51, 25, 60, 184), (229, 25, 237, 184),
+            (51, 176, 124, 184), (166, 176, 237, 184),
+        ],
+        "npcs": [],
+        "readables": [
+            ("A letter on the table", (130, 130), [
+                "'Dear Marta. The Company will take the whole harvest again at the agreed rate. Scrip enclosed. Your son is well and learning a trade. You may write to him care of the Duskara office.'",
+                "Every letter from the last two years is in the drawer. None of them has an answer from her son.",
+            ]),
+        ],
+    },
+    "verdana_scholar": {
+        "town": "res://scenes/world/verdana.tscn",
+        "name": "Aldous's House",
+        "image": "assets/sprites/tiles/verdana/interiors/scholar_room.png",
+        "size": (288, 224),
+        "exit": (143, 205), "back_to": "from_housescholar", "spawn": (143, 166),
+        "blocks": [
+            (26, 21, 262, 104), (32, 88, 108, 170), (32, 156, 62, 178),       # shelves, desk, book piles
+            (136, 96, 166, 132), (168, 98, 202, 150), (196, 128, 214, 160),  # candle and books, armchair
+            (220, 108, 250, 152), (234, 148, 258, 178),                      # telescope, books
+            (26, 21, 34, 180), (254, 21, 262, 180),
+            (26, 172, 124, 180), (162, 172, 262, 180),
+        ],
+        "npcs": [],
+        "readables": [
+            ("Rubbings of the stones", (120, 116), [
+                "Charcoal rubbings of three standing stones, pinned side by side. On each, a crown and a line of figures beneath it. Aldous has numbered the figures in red ink.",
+                "The numbers go into the hundreds. Beside the last one he has written, very small: 'still counting'.",
+            ]),
+        ],
+    },
+    "serin_fisher_hut": {
+        "town": "res://scenes/world/lake_serin.tscn",
+        "name": "Neri's Hut",
+        "image": "assets/sprites/tiles/lake_serin/interiors/fisher_room.png",
+        "size": (288, 224),
+        "exit": (144, 214), "back_to": "from_houseneri", "spawn": (144, 158),
+        "blocks": [
+            (24, 8, 264, 72), (48, 64, 82, 112), (86, 76, 106, 98),          # back wall, stove, bucket
+            (148, 68, 232, 112), (180, 118, 246, 166), (38, 122, 84, 170),   # bed, table, barrel and buckets
+            (24, 8, 44, 216), (244, 8, 264, 216),
+            (24, 168, 124, 216), (164, 168, 264, 216),
+        ],
+        "npcs": [],
+        "readables": [
+            ("Neri's night tally", (166, 140), [
+                "The back of the tally board: 'Barges, north, by night.' Four or five a week, all last year. Beside the last mark: 'Didn't make it across. Heard them. Didn't go out.'",
+            ]),
+        ],
+    },
+    "starfall_cabin": {
+        "town": "res://scenes/world/starfall_range.tscn",
+        "name": "Hald's Cabin",
+        "image": "assets/sprites/tiles/starfall/interiors/cabin_room.png",
+        "size": (288, 224),
+        "exit": (144, 207), "back_to": "from_househald", "spawn": (144, 172),
+        "blocks": [
+            (20, 25, 268, 92), (114, 25, 174, 104), (74, 78, 116, 104),      # back wall, fireplace, firewood
+            (176, 36, 196, 100), (50, 106, 104, 170), (30, 112, 50, 178),    # skis, table, bench
+            (200, 88, 258, 190),                                             # bunk
+            (20, 25, 30, 200), (258, 25, 268, 200),
+            (20, 190, 128, 200), (160, 190, 268, 200),
+        ],
+        "npcs": [],
+        "readables": [
+            ("A map of the pass", (118, 140), [
+                "Hald's map of the Starfall pass, marked in pencil: the old road north to Frisalle, the slide, and a second route drawn and rubbed out again, round the east shoulder of the mountain.",
+                "In the margin: 'Company men came up with powder. Came down without it.'",
+            ]),
+        ],
+    },
 }
 
 

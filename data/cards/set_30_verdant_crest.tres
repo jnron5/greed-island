@@ -12,6 +12,7 @@ lore = "The mark of whatever the Warden guards: a leaf over a closed hand. The s
 rarity = 2
 source = 2
 is_final_set_member = true
+gate_card = true
 sell_value = 120
 icon = ExtResource("2_art")
 boss_drops_per_kill = 1

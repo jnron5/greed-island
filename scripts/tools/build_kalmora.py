@@ -43,7 +43,8 @@ SURFACE_PNG = ART + "kalmora_surface.png"      # green = sand (takes footprints)
 SURFACE = ART + "surface/"
 GRASS = os.environ.get("KALMORA_GRASS", "grass_meadow")   # which wang/<name> grass set the lawns use
 SCENE = "scenes/world/kalmora.tscn"
-GATE_Y = TOP + 104                             # the north gate; only way out of town
+GATE_Y = TOP + 104                             # the north gate
+WEST_GATE_Y = round(TOP + 328 * SCALE)         # the west gate, out to the Aurewind Plains
 
 # Cliff heights: extra wall rows per pair of levels that meet.
 WALL_EXTRA = {(0, 1): 0, (0, 2): 0, (0, 3): 0, (1, 2): 1, (1, 3): 2, (2, 3): 1}   # grow up, into the plateau
@@ -161,12 +162,14 @@ def seg_dist(px, py, ax, ay, bx, by):
     return ((px - ax - t * dx) ** 2 + (py - ay - t * dy) ** 2) ** 0.5
 
 
+WEST_GATE_CY = 328                             # concept y of the west gate (the road to the Aurewind Plains)
 # Dirt paths (concept px polylines, half-width): the north road and the meadow's tracks.
 PATHS = [
     ([(768, 0), (768, 176)], 28),
     ([(236, 352), (236, 396), (336, 396), (352, 340)], 14),                  # windmill door to town
     ([(300, 396), (300, 488)], 12),                                          # lane down past the south plot
     ([(318, 0), (318, 120), (360, 150), (416, 168)], 20),                    # up from the west gate
+    ([(0, WEST_GATE_CY), (160, WEST_GATE_CY), (236, 352)], 13),             # the west road, out to the plains
 ]
 
 
@@ -617,7 +620,7 @@ EXTRA_SALT_COMPASS = (60, 400)
 DUMMIES = [(80, 420), (130, 420), (180, 420)]           # a sparring spot in the meadow
 RIVAL_SPOTS = {"runner": (200, 420), "raider": (1300, 160), "hoarder": (950, 560)}
 # "arrival": where a new game begins, stepping off the morning boat at the end of the pier.
-SPAWNS = {"town": (768, 520), "from_thornveil": (768, 91), "arrival": (636, 800)}
+SPAWNS = {"town": (768, 520), "from_thornveil": (768, 91), "arrival": (636, 800), "from_aurewind": (40, 328)}
 LIGHTHOUSE = (1290, 740)      # yard centre; the gate faces north toward the market
 MERCHANT = (880, 600)
 FOUNTAIN = (768, 486)
@@ -666,10 +669,13 @@ def row(name, x0, x1, y, step):
 
 # The windmill farm (concept px rects): golden wheat and vegetable plots, fenced along
 # their tops and bottoms; plus a kitchen garden east of the hill houses.
-WHEAT = [(5, 180, 130, 228), (5, 346, 125, 386)]
-CROPS = [(5, 262, 120, 312), (65, 424, 225, 490), (1466, 200, 1530, 325)]
+WHEAT = [(40, 180, 150, 228), (40, 348, 140, 386)]
+CROPS = [(40, 262, 140, 308), (65, 424, 225, 490), (1466, 200, 1530, 325)]
 # One fence line per plot edge (shared edges get a single line): (x0, x1, y), concept px.
-FARM_FENCES = [(5, 140, 166), (5, 140, 246), (5, 140, 330), (5, 235, 408)]
+# The west road runs between the middle plots, so there's no fence across it.
+FARM_FENCES = [(40, 160, 166), (40, 160, 246), (40, 235, 408)]
+# The meadow's west edge is a hedge, gapped only for the west gate.
+WEST_HEDGE = [(8, y) for y in range(20, 480, 34) if abs(y - WEST_GATE_CY) > 40]
 
 
 def in_field(cx, cy, fields):
@@ -701,7 +707,7 @@ PROPS = (
     + [("crates", 400, 660), ("fish_crates", 520, 700)]
     # The west meadow: fenced fields around the windmill.
     + farm_fences()
-    + [("signpost", 24, 344)]
+    + [("signpost", 150, 352)]
     # Beach and headland.
     + [("parasol_table", 1340, 520), ("candle_shrine", 1430, 700)]
     # The hill: flowers at doors, gardens between the houses, a washing line and a well.
@@ -738,7 +744,8 @@ BUSHES = ([(1430, 450), (1420, 790), (1230, 800), (1350, 800)]
              (964, 510), (1102, 512), (1256, 214), (1452, 214)]
           + [(x, 168) for x in (380, 450, 520, 1010, 1070)]
           + [(420, 530), (520, 532), (620, 532), (880, 540), (1180, 540)]
-          + [(80, 330), (250, 470), (300, 290)])
+          + [(250, 470), (300, 290)]
+          + WEST_HEDGE)
 # Cargo on the harbor decks: goods waiting for the boats, the way the concept piles them.
 DOCK_GOODS = [("crates", 420, 692), ("barrels", 470, 700), ("fish_crates", 600, 760), ("net_crate", 716, 760),
               ("rope", 740, 700), ("barrel", 690, 812), ("lobster_trap", 612, 820), ("crate", 668, 868),
@@ -749,6 +756,7 @@ DOCK_GOODS = [("crates", 420, 692), ("barrels", 470, 700), ("fish_crates", 600, 
 ROUTES = [
     ([(768, 90), (768, 560)], 24),                                        # gate road down through the square
     ([(768, 450), (560, 450), (380, 430), (340, 330), (200, 400)], 20),   # west street out to the meadow
+    ([(20, WEST_GATE_CY), (160, WEST_GATE_CY), (236, 352)], 14),         # the west road to the gate
     ([(768, 450), (1000, 450), (1080, 350), (1210, 350), (1296, 330), (1296, 150), (1400, 150)], 20),  # east bank and hill
     ([(1210, 276), (1210, 350)], 16),                                    # along the canal strip
     ([(1080, 350), (1080, 276), (1200, 276)], 16),                        # the upper bridge
@@ -1143,7 +1151,9 @@ texture = ExtResource("12_ground")
               # blue cottage's roof close its ends), so no open ground is walled off by it
               (W(336, 0)[0], GATE_Y - 12, -22, GATE_Y + 4), (22, GATE_Y - 12, W(1196, 0)[0], GATE_Y + 4),
               (W(1196, 0)[0] - 8, TOP, W(1196, 0)[0] + 8, GATE_Y + 4),
-              (LEFT - 40, TOP, LEFT, BOTTOM), (RIGHT, TOP, RIGHT + 40, BOTTOM),
+              (LEFT - 40, TOP, LEFT, WEST_GATE_Y - 22), (LEFT - 40, WEST_GATE_Y + 22, LEFT, BOTTOM),
+              (LEFT - 80, WEST_GATE_Y - 62, LEFT - 40, WEST_GATE_Y - 22), (LEFT - 80, WEST_GATE_Y + 22, LEFT - 40, WEST_GATE_Y + 62),
+              (RIGHT, TOP, RIGHT + 40, BOTTOM),
               (LEFT - 40, BOTTOM, RIGHT + 40, BOTTOM + 40)]
     n.append('[node name="Walls" type="StaticBody2D" parent="."]\n')
     for k, (x0, y0, x1, y1) in enumerate(walls):
@@ -1213,6 +1223,17 @@ texture = ExtResource("{texture(gp)}")
 position = Vector2(0, {GATE_Y})
 gate_id = &"kalmora_north_gate"
 look = &"bars"
+
+[node name="WestGate" parent="." instance=ExtResource("10_gate")]
+position = Vector2({LEFT + 24}, {WEST_GATE_Y})
+gate_id = &"kalmora_west_gate"
+vertical = true
+width = 44.0
+
+[node name="ToAurewind" parent="." instance=ExtResource("11_exit")]
+position = Vector2({LEFT - 20}, {WEST_GATE_Y})
+target_scene = "res://scenes/world/aurewind_plains.tscn"
+target_spawn = &"from_kalmora"
 
 [node name="ToThornveil" parent="." instance=ExtResource("11_exit")]
 position = Vector2(0, {TOP - 20})

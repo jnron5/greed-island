@@ -10,6 +10,10 @@ const PAPER := Color(0.93, 0.85, 0.68)
 const PAPER_DARK := Color(0.8, 0.68, 0.48)
 const SEA := Color(0.16, 0.36, 0.46)
 const GOLD := Color(1.0, 0.8, 0.35)
+const ROOM_AREAS := {
+	"kalmora_": WorldMap.KALMORA, "sorenda_": WorldMap.SORENDA, "verdana_": WorldMap.VERDANA,
+	"serin_": WorldMap.LAKE_SERIN, "starfall_": WorldMap.STARFALL,
+}
 var FONT: Font = get_theme_default_font()
 
 var _time := 0.0
@@ -56,7 +60,11 @@ func _here() -> String:
 	var scene := get_tree().current_scene
 	var path := scene.scene_file_path if scene else ""
 	if "interiors" in path:
-		return WorldMap.SORENDA if "sorenda" in path else WorldMap.KALMORA
+		# A room shows as the area it stands in (interiors are named after it).
+		for prefix: String in ROOM_AREAS:
+			if path.get_file().begins_with(prefix):
+				return ROOM_AREAS[prefix]
+		return WorldMap.KALMORA
 	return path
 
 

@@ -1,0 +1,162 @@
+[gd_scene load_steps=24 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/lake_serin/interiors/fisher_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R240x64"]
+size = Vector2(240, 64)
+
+[sub_resource type="RectangleShape2D" id="R34x48"]
+size = Vector2(34, 48)
+
+[sub_resource type="RectangleShape2D" id="R20x22"]
+size = Vector2(20, 22)
+
+[sub_resource type="RectangleShape2D" id="R84x44"]
+size = Vector2(84, 44)
+
+[sub_resource type="RectangleShape2D" id="R66x48"]
+size = Vector2(66, 48)
+
+[sub_resource type="RectangleShape2D" id="R46x48"]
+size = Vector2(46, 48)
+
+[sub_resource type="RectangleShape2D" id="R20x208"]
+size = Vector2(20, 208)
+
+[sub_resource type="RectangleShape2D" id="R100x48"]
+size = Vector2(100, 48)
+
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
+
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
+
+[node name="serin_fisher_hut" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Neri's Hut"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(144.0, 112.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 40.0)
+shape = SubResource("R240x64")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(65.0, 88.0)
+shape = SubResource("R34x48")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(96.0, 87.0)
+shape = SubResource("R20x22")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(190.0, 90.0)
+shape = SubResource("R84x44")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(213.0, 142.0)
+shape = SubResource("R66x48")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(61.0, 146.0)
+shape = SubResource("R46x48")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(34.0, 112.0)
+shape = SubResource("R20x208")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(254.0, 112.0)
+shape = SubResource("R20x208")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(74.0, 192.0)
+shape = SubResource("R100x48")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(214.0, 192.0)
+shape = SubResource("R100x48")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(144, 158)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(144, 214)
+target_scene = "res://scenes/world/lake_serin.tscn"
+target_spawn = &"from_houseneri"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(166, 140)
+script = ExtResource("12_read")
+title = "Neri's night tally"
+lines = PackedStringArray("The back of the tally board: 'Barges, north, by night.' Four or five a week, all last year. Beside the last mark: 'Didn't make it across. Heard them. Didn't go out.'")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(144, 158)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]
