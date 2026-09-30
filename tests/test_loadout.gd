@@ -47,6 +47,36 @@ func _run() -> void:
 	for i in 60 * 14:
 		player._mossheart(1.0 / 60.0)
 	_check("a Mossheart closes wounds out of danger", player.health >= 3)
+	# Emberburst: a charged round bursts where it lands and hurts everything round it.
+	GameState.add_loose_card(P, &"emberburst_rounds")
+	GameState.unequip(&"mossheart_charm")
+	_check("wear Emberburst Rounds", GameState.equip(&"emberburst_rounds"))
+	var hounds: Array[Monster] = []
+	for x in [300.0, 330.0]:
+		var hound: Monster = load("res://scenes/characters/briar_hound.tscn").instantiate()
+		hound.position = Vector2(x, 200)
+		add_child(hound)
+		hounds.append(hound)
+	await get_tree().physics_frame
+	var full := [hounds[0].health, hounds[1].health]
+	var burst := Explosion.new()
+	burst.damage = 1
+	burst.source_id = P
+	burst.position = Vector2(315, 190)
+	add_child(burst)
+	for i in 4:
+		await get_tree().physics_frame
+	_check("a burst hurts every monster round it", hounds[0].health < full[0] and hounds[1].health < full[1])
+	player.global_position = Vector2(-400, 0)
+	var shot: Projectile = load("res://scenes/systems/projectile.tscn").instantiate()
+	shot.explosive = true
+	shot.source_id = P
+	shot.lifetime = 0.05
+	add_child(shot)
+	await get_tree().create_timer(0.15).timeout
+	_check("a charged round bursts where it stops", get_children().any(func(c: Node) -> bool: return c is Explosion))
+	for hound in hounds:
+		hound.queue_free()
 	# The rebuy shelf: a card spent on a gate can be bought back, at a price.
 	GameState.add_loose_card(P, &"salt_compass")
 	GameState.open_gate(&"kalmora_north_gate", P)

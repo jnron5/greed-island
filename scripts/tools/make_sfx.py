@@ -125,6 +125,14 @@ def main():
     # Steal: a sly little two-note flick.
     save("steal", np.concatenate([tone(1175, 0.06) * env(int(RATE * 0.06), 0.001, 0.03),
                                   tone(880, 0.1) * env(int(RATE * 0.1), 0.001, 0.05)]), 0.35)
+    # Explosion (an Emberburst round): a hard crack, then a rolling low boom and crackle.
+    n = noise(0.9)
+    boom = sweep(90, 30, 0.9) * env(len(n), 0.002, 0.35)
+    save("explosion", lowpass(n, 0.9) * env(len(n), 0.001, 0.03) + lowpass(n, 0.08) * env(len(n), 0.005, 0.4) * 1.2
+         + boom * 1.1 + lowpass(noise(0.9), 0.5) * env(len(n), 0.1, 0.3) * 0.25, 0.7)
+    # Charged: a quick rising hum that says the round is ready.
+    s = sweep(330, 880, 0.18, "tri") * env(int(RATE * 0.18), 0.01, 0.12)
+    save("charged", s + tone(1320, 0.18) * env(int(RATE * 0.18), 0.1, 0.06) * 0.3, 0.3)
     print("sfx:", sorted(f[:-4] for f in os.listdir(OUT) if f.endswith(".wav")))
 
 

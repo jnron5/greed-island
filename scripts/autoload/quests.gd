@@ -77,7 +77,18 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 				2:
 					return PackedStringArray(["You found something. I can see it on you. Take it to Elder Moss. She keeps the names."])
 				DONE:
-					return PackedStringArray(["Moss carved a new notch. Not low down, this time. Up where the grown ones go. For whoever finds that child."])
+					if not flag(&"pell_gift"):
+						return PackedStringArray([
+							"You came back up out of there. With the bear still down there, and you still walking. I didn't think anyone would.",
+							"Moss told me about the tag. One-one-seven. She ran, and she made it as far as our roots. That's further than the rest of them got.",
+							"I used to make fireworks for the solstice, before the spring. I've been packing something meaner since. Resin off the Hollow roots, and a pinch of what I won't say.",
+							"Here. Emberburst rounds. Wear the card, then hold your pistol and let it gather before you loose it. It bursts where it lands, and anything close by feels it.",
+							"If you ever get as far as Duskara, you'll want them. Whatever's taking children out there won't come quietly.",
+						])
+					return PackedStringArray([
+						"Hold the shot until it glows, then let go. Mind you're not standing next to where it lands.",
+						"Moss carved a new notch. Not low down, this time. Up where the grown ones go. For whoever finds that child.",
+					])
 		&"moss":
 			match stage(&"trees_remember"):
 				2:
@@ -126,7 +137,8 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 
 ## "!" = has something for you, "?" = waiting on you to report back.
 func marker_for(npc_id: StringName) -> String:
-	if npc_id == &"pell" and stage(&"trees_remember") == NOT_STARTED:
+	if npc_id == &"pell" and (stage(&"trees_remember") == NOT_STARTED
+			or stage(&"trees_remember") == DONE and not flag(&"pell_gift")):
 		return "!"
 	if npc_id == &"moss" and stage(&"trees_remember") == 2:
 		return "?"
@@ -164,6 +176,11 @@ func talked_to(npc_id: StringName) -> void:
 	if npc_id == &"pell" and stage(&"trees_remember") == NOT_STARTED:
 		set_stage(&"trees_remember", 1)
 		EventBus.notify.emit("Quest started: What the Trees Remember")
+		return
+	if npc_id == &"pell" and stage(&"trees_remember") == DONE and not flag(&"pell_gift"):
+		GameState.quest_flags[&"pell_gift"] = true
+		GameState.add_loose_card(GameState.PLAYER, &"emberburst_rounds")
+		EventBus.notify.emit("Pell gave you Emberburst Rounds. Wear it from the binder, then hold the pistol to charge.")
 		return
 	if npc_id == &"moss" and stage(&"trees_remember") == 2:
 		GameState.add_item(&"healers_tonic", 2)

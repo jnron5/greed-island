@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/emberburst_rounds.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"emberburst_rounds"
+display_name = "Emberburst Rounds"
+description = "Passive: hold the pistol to charge a round that bursts where it lands, hurting everything round it."
+lore = "Pell packs them himself from the resin the Hollow bear leaves on the roots, and a pinch of something he won't name. He used to make fireworks for the solstice. He hasn't since the spring."
+category = 2
+source = 4
+sell_value = 45
+icon = ExtResource("2_art")
+shop_price = 0

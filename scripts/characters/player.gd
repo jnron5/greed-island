@@ -22,6 +22,9 @@ const DIRECTIONS: Array[String] = [
 const HOLLOWPOINT := &"hollowpoint_charm"
 const TIDEWALKER := &"tidewalker_anklet"
 const MOSSHEART := &"mossheart_charm"
+const EMBERBURST := &"emberburst_rounds"
+const CHARGE_TIME := 0.7            # hold the pistol this long for an Emberburst round
+const BURST_DAMAGE := 3
 const MOSSHEART_CALM := 8.0        # seconds without a hit before it starts
 const MOSSHEART_EVERY := 5.0       # then a heart every this many seconds
 var _calm_time := 0.0
@@ -53,6 +56,9 @@ var _state := State.MOVE
 var _state_time := 0.0
 var _dash_cd := 0.0
 var _pistol_cd := 0.0
+## Seconds the pistol has been held with Emberburst worn; -1 = not charging.
+var _charge := -1.0
+var _charge_ring := Node2D.new()
 var _dash_dir := Vector2.ZERO
 var _steal_cd := 0.0
 var _slash := Node2D.new()
@@ -85,6 +91,10 @@ func _ready() -> void:
 	_slash.z_index = 1
 	sword_pivot.add_child(_slash)
 	_slash.draw.connect(_draw_slash)
+	_charge_ring.z_index = 2
+	_charge_ring.position = Vector2(0, -12)
+	add_child(_charge_ring)
+	_charge_ring.draw.connect(_draw_charge)
 	# A blow that lands kicks the camera and stops the world for a heartbeat.
 	for hitbox: Hitbox in find_children("*", "Hitbox", true, false):
 		hitbox.hit_landed.connect(func(_h: Hurtbox) -> void:
@@ -133,6 +143,9 @@ func _process_move() -> void:
 		return
 	var input := Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
 	velocity = input * move_speed
+	if _charge >= 0.0:
+		_process_charge(input)
+		return
 	if input != Vector2.ZERO:
 		facing = input.normalized()
 
@@ -148,7 +161,10 @@ func _process_move() -> void:
 		_enter(State.SWORD)
 		Sfx.play(&"sword")
 	elif Input.is_action_just_pressed(&"pistol") and _pistol_cd <= 0.0:
-		_fire_pistol()
+		if GameState.is_equipped(EMBERBURST):
+			_charge = 0.0  # fires on release: a tap is a normal shot, a hold a burst
+		else:
+			_fire_pistol()
 	elif Input.is_action_just_pressed(&"spell"):
 		CardSpells.cast_pickpocket(self)
 	elif Input.is_action_just_pressed(&"quick_heal"):
@@ -188,14 +204,50 @@ func noise() -> float:
 	return 1.0 if velocity.length() > 1.0 else 0.4
 
 
-func _fire_pistol() -> void:
+## Emberburst: aim while holding (half speed), release to fire. Held long enough,
+## the round bursts where it lands; let go early and it's an ordinary shot.
+func _process_charge(input: Vector2) -> void:
+	velocity *= 0.5
+	_charge += get_physics_process_delta_time()
+	_charge_ring.queue_redraw()
+	if _charge >= CHARGE_TIME and _charge - get_physics_process_delta_time() < CHARGE_TIME:
+		Sfx.play(&"charged")
+	if not GameState.is_equipped(EMBERBURST):
+		_charge = -1.0
+	elif not Input.is_action_pressed(&"pistol"):
+		var full := _charge >= CHARGE_TIME
+		_charge = -1.0
+		_charge_ring.queue_redraw()
+		_fire_pistol(full)
+	elif Input.is_action_just_pressed(&"dash"):
+		_charge = -1.0  # dodging lets the charge go
+		_charge_ring.queue_redraw()
+	if input != Vector2.ZERO:
+		facing = input.normalized()
+
+
+func _draw_charge() -> void:
+	if _charge < 0.0:
+		return
+	var t := minf(_charge / CHARGE_TIME, 1.0)
+	var full := t >= 1.0
+	var col := Color(1.0, 0.85, 0.4, 0.9) if full else Color(1.0, 0.6, 0.25, 0.6)
+	_charge_ring.draw_arc(Vector2.ZERO, 14.0, -PI / 2, -PI / 2 + TAU * t, 24, col, 1.5)
+	if full:
+		var pulse := 0.5 + 0.5 * sin(_charge * 18.0)
+		_charge_ring.draw_circle(facing * 12.0, 2.5 + pulse, Color(1.0, 0.8, 0.4, 0.8))
+
+
+func _fire_pistol(burst := false) -> void:
 	if projectile_scene == null:
 		return
-	_pistol_cd = pistol_cooldown
+	_pistol_cd = pistol_cooldown * (2.0 if burst else 1.0)
 	Sfx.play(&"pistol")
 	var shot := projectile_scene.instantiate() as Projectile
 	shot.direction = facing
 	shot.damage = pistol_damage + (1 if GameState.is_equipped(HOLLOWPOINT) else 0)
+	shot.explosive = burst
+	shot.burst_damage = BURST_DAMAGE
 	shot.source_id = collector_id
 	var zone := Zone.current(get_tree())
 	shot.level = zone.level_at(global_position) if zone else -1

@@ -39,6 +39,12 @@ func _run() -> void:
 	var tonics := GameState.item_count(&"healers_tonic")
 	Quests.talked_to(&"moss")
 	_check("Moss completes it", Quests.stage(&"trees_remember") == Quests.DONE)
+	_check("then Pell has something for you", Quests.marker_for(&"pell") == "!")
+	Quests.talked_to(&"pell")
+	_check("Pell gives Emberburst Rounds, once", GameState.collection(GameState.PLAYER).count(&"emberburst_rounds") == 1
+		and Quests.marker_for(&"pell") == "")
+	Quests.talked_to(&"pell")
+	_check("and only once", GameState.collection(GameState.PLAYER).count(&"emberburst_rounds") == 1)
 	_check("reward: gold, two tonics and the star map", GameState.currency == gold + Quests.TREES_REWARD_GOLD
 		and GameState.item_count(&"healers_tonic") == tonics + 2
 		and GameState.collection(GameState.PLAYER).count(Quests.TREES_REWARD_CARD) == 1)
