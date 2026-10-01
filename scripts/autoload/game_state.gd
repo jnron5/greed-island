@@ -346,13 +346,22 @@ func kill_boss(id: StringName, killer: StringName) -> bool:
 	bosses[id].kills += 1
 	bosses[id].alive = false
 	EventBus.boss_defeated.emit(id, killer)
+	# A respawn gate opened while it was still alive wasn't wasted: it comes back
+	# (the next time anyone walks into its lair) for each one owed.
+	if int(bosses[id].get("owed", 0)) > 0 and boss_kills_left(id) > 0:
+		bosses[id].owed = int(bosses[id].owed) - 1
+		bosses[id].alive = true
 	return true
 
 
 func _respawn_boss(id: StringName, gate_id: StringName) -> void:
-	if bosses.has(id) and not bosses[id].alive and boss_kills_left(id) > 0:
-		bosses[id].alive = true
-		EventBus.boss_returned.emit(id, gate_id)
+	if not bosses.has(id) or boss_kills_left(id) <= 0:
+		return
+	if bosses[id].alive:
+		bosses[id].owed = int(bosses[id].get("owed", 0)) + 1
+		return
+	bosses[id].alive = true
+	EventBus.boss_returned.emit(id, gate_id)
 
 
 func rival_profile(id: StringName) -> RivalProfile:

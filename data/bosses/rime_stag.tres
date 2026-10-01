@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BossData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/boss_data.gd" id="1_boss"]
+
+[resource]
+script = ExtResource("1_boss")
+id = &"rime_stag"
+display_name = "Rime Stag"
+zone = "res://scenes/world/starfall_range.tscn"
+kill_cap = 3
+drop_card_ids = Array[StringName]([&"rime_antler"])

@@ -70,6 +70,14 @@ func _run() -> void:
 	_check("four kills used up", GameState.boss_kills_left(WARDEN) == 0 and not GameState.is_boss_alive(WARDEN))
 	GameState._respawn_boss(WARDEN, &"any_gate")
 	_check("won't respawn past the kill cap", not GameState.is_boss_alive(WARDEN))
+	# A respawn gate opened while the boss lives is owed, not wasted.
+	GameState.new_game(GameState.DEFAULT_RIVALS)
+	GameState.add_loose_card(P, &"moss_lantern")
+	GameState.open_gate(&"thornveil_moss_bridge", P)
+	_check("a gate opened while it lives is owed", GameState.is_boss_alive(WARDEN)
+		and int(GameState.bosses[WARDEN].get("owed", 0)) == 1)
+	GameState.kill_boss(WARDEN, P)
+	_check("so after the kill it comes back", GameState.is_boss_alive(WARDEN) and GameState.boss_kills_left(WARDEN) == 3)
 
 	# Rivals: hunters go for it only while they still need its cards.
 	GameState.new_game(GameState.DEFAULT_RIVALS)

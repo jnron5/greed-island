@@ -9,3 +9,4 @@ display_name = "Kalmora West Gate"
 zone = &"kalmora"
 cost_card_id = &"verdant_crest"
 cost_amount = 1
+respawns_boss = &"rime_stag"

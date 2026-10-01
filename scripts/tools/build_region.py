@@ -586,6 +586,11 @@ class Zone:
             targets["chest " + ch["id"]] = (x, y + 16)
         for scene_path, (x, y) in c.get("monsters", []):
             keep.append((x, y, 80))
+        if c.get("boss"):
+            # A boss fights in the open: its arena stays clear of trees and clutter.
+            x, y = c["boss"]["pos"]
+            keep.append((x, y, c["boss"].get("arena", 170)))
+            targets["boss"] = (x, y + 40)
         if c.get("merchant"):
             keep.append((*c["merchant"][0], 60))
         for ex in c.get("exits", []) + c.get("portals", []):
@@ -940,6 +945,12 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
             name = os.path.basename(scene_path)[:-5].title().replace("_", "")
             n.append(f'[node name="{name}{k}" parent="." instance=ExtResource("{res("PackedScene", scene_path)}")]\n'
                      f'position = Vector2({x}, {y})\n')
+        if c.get("boss"):
+            bx, by = c["boss"]["pos"]
+            n.append(f'[node name="{c["boss"]["node"]}" parent="." instance=ExtResource("{res("PackedScene", c["boss"]["scene"])}")]
+'
+                     f'position = Vector2({bx}, {by})
+')
         for k, ((x, y), count) in enumerate(c.get("butterflies", [])):
             n.append(f'[node name="Butterflies{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                      f'script = ExtResource("{res("Script", "res://scripts/world/butterflies.gd")}")\ncount = {count}\nseed = {k + 3}\n\n'

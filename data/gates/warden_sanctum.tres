@@ -9,3 +9,4 @@ display_name = "Warden's Sanctum"
 zone = &"thornveil"
 cost_card_id = &"warden_mask"
 cost_amount = 1
+respawns_boss = &"rime_stag"

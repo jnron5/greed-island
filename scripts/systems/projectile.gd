@@ -10,6 +10,8 @@ var direction := Vector2.RIGHT
 ## Set before adding: bursts into an Explosion of this damage where it stops.
 var explosive := false
 var burst_damage := 3
+## An ice shard (the Rime Stag's stamp) rather than a bullet: drawn pale blue.
+var ice := false
 
 var _done := false
 
@@ -52,6 +54,10 @@ func _physics_process(delta: float) -> void:
 
 
 func _draw() -> void:
+	if ice:
+		draw_colored_polygon(PackedVector2Array([Vector2(6, 0), Vector2(-2, -3), Vector2(-6, 0), Vector2(-2, 3)]), Color(0.75, 0.92, 1.0))
+		draw_line(Vector2(-5, 0), Vector2(5, 0), Color(1, 1, 1, 0.9), 1.0)
+		return
 	if explosive:
 		draw_circle(Vector2.ZERO, 4.0, Color(1.0, 0.55, 0.2, 0.5))
 		draw_circle(Vector2.ZERO, 2.5, Color(1.0, 0.9, 0.55))

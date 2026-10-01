@@ -183,6 +183,15 @@ const TOPICS := {
 			"Whatever was going east along that road is going some other way now. Ask yourself which way a thing goes when it doesn't want to be counted.",
 		]],
 	],
+	# ---------------- The Starfall Range ----------------
+	&"hald": [
+		["What lives up by the pass?", [
+			"The Rime Stag. Big as a barn door, antlers of ice. It keeps the high snow east of the pass and lets nobody up there in peace.",
+			"It charges. Watch its front hoof: when it paws the snow it's picking its line. Step off the line and it'll go right past you and skid. That's your moment.",
+			"Get it angry and it rears and stamps, and the ice flies off it in a ring. Keep your distance then.",
+			"Kill it and it'll leave you an antler. It comes back, mind. It always has.",
+		]],
+	],
 }
 
 

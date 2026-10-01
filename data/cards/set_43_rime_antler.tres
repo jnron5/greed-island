@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/rime_antler.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"rime_antler"
+display_name = "Rime Antler"
+description = "Shed by the Rime Stag. It never melts."
+lore = "The Rime Stag sheds one antler for every winter it outlives. Hald says it was old when his grandfather was a boy, and that it only fights people who come up the mountain to take something."
+rarity = 2
+source = 2
+is_final_set_member = false
+sell_value = 120
+icon = ExtResource("2_art")
+boss_drops_per_kill = 1
+boss_kill_cap = 3

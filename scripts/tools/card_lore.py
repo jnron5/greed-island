@@ -48,6 +48,7 @@ LORE = {
     "iron_wolf_collar": "Found on the frost wolves of the Starfall Range. Nobody collars a wild wolf. The tags carry a number and a small red sun, and the wolves won't let anyone near the north road.",
     "starfall_edelweiss": "Grows where nothing else will, on the windward rocks above the tarn. Mountain folk give one to someone leaving for good. Hald has three pressed in his window, all from the same year.",
     "fallen_star_shard": "The range is named for nights when stars fall into the snow. Sorenda's star map marks the stars that have gone out. This shard is the shape of one of them.",
+    "rime_antler": "The Rime Stag sheds one antler for every winter it outlives. Hald says it was old when his grandfather was a boy, and that it only fights people who come up the mountain to take something.",
 }
 
 

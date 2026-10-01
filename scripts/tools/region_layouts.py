@@ -467,8 +467,8 @@ STARFALL = {
     "tree_kinds": ["pine"],
     # Pines stand in windbreaks: tucked under each terrace wall and round the cabin,
     # thinning out onto the open snowfields.
-    "groves": [(-800, -600, 8, 60), (700, -650, 8, 60), (-600, 520, 7, 60), (600, 420, 8, 60), (800, 0, 5, 50), (-850, -200, 5, 50),
-               (-420, -560, 6, 55), (520, -520, 5, 50), (-140, 560, 5, 50), (420, 230, 5, 50), (-820, 140, 5, 50),
+    "groves": [(-800, -600, 8, 60), (880, -790, 6, 50), (-600, 520, 7, 60), (600, 420, 8, 60), (800, 0, 5, 50), (-850, -200, 5, 50),
+               (-420, -560, 6, 55), (-140, 560, 5, 50), (420, 230, 5, 50), (-820, 140, 5, 50),
                (760, -240, 4, 40), (-40, -420, 4, 45)],
     # What pokes up through the snow: frosted juniper, winter grass, rocks.
     "under": [("snow_shrub", 3), ("frost_grass", 3), ("snow_rocks", 1)],
@@ -530,7 +530,11 @@ STARFALL = {
         {"id": "pass_cairn", "pos": (330, -700), "gold": 50, "card": "fallen_star_shard"},
         {"id": "valley_pack", "pos": (700, 520), "item": "bread", "count": 2},
     ],
-    "monsters": [(WOLF, (-400, 420)), (WOLF, (420, 450)), (WOLF, (-620, -200)), (WOLF, (240, -560)), (WOLF, (720, -520))],
+    "monsters": [(WOLF, (-400, 420)), (WOLF, (420, 450)), (WOLF, (-620, -200)), (WOLF, (240, -560)), (WOLF, (-700, -450))],
+    # The Rime Stag keeps the high snowfield east of the pass.
+    # Not placed yet: its sprite frames aren't imported (PixelLab character
+    # 1299a111-4115-498f-8375-d8b57ff95183). Uncomment once they are.
+    # "boss": {"node": "RimeStag", "scene": "res://scenes/characters/rime_stag.tscn", "pos": (610, -620), "arena": 170},
 }
 
 ZONES = {"aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL}
