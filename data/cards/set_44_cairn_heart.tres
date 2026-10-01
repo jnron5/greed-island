@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/cairn_heart.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"cairn_heart"
+display_name = "Cairn Heart"
+description = "The Colossus's core, still warm, still glowing."
+lore = "A stone from the Colossus's chest, carved with the crown of the circles and warm as a hearth. Aldous says the circles were built to keep it asleep, and somebody has been taking them apart."
+rarity = 2
+source = 2
+is_final_set_member = true
+sell_value = 120
+icon = ExtResource("2_art")
+boss_drops_per_kill = 1
+boss_kill_cap = 3

@@ -49,6 +49,7 @@ LORE = {
     "starfall_edelweiss": "Grows where nothing else will, on the windward rocks above the tarn. Mountain folk give one to someone leaving for good. Hald has three pressed in his window, all from the same year.",
     "fallen_star_shard": "The range is named for nights when stars fall into the snow. Sorenda's star map marks the stars that have gone out. This shard is the shape of one of them.",
     "rime_antler": "The Rime Stag sheds one antler for every winter it outlives. Hald says it was old when his grandfather was a boy, and that it only fights people who come up the mountain to take something.",
+    "cairn_heart": "A stone from the Colossus's chest, carved with the crown of the circles and warm as a hearth. Aldous says the circles were built to keep it asleep, and somebody has been taking them apart.",
 }
 
 

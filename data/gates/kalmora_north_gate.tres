@@ -9,3 +9,4 @@ display_name = "Kalmora North Gate"
 zone = &"kalmora"
 cost_card_id = &"salt_compass"
 cost_amount = 1
+respawns_boss = &"cairn_colossus"

@@ -199,6 +199,8 @@ AUREWIND = {
         {"id": "circle_offering", "pos": (-560, -600), "gold": 25, "item": "healers_tonic"},
         {"id": "hay_loft", "pos": (1150, -30), "gold": 10, "item": "bread"},
     ],
+    # The Cairn Colossus sleeps on Kestrel Rise, west of the watchtower.
+    "boss": {"node": "CairnColossus", "scene": "res://scenes/characters/cairn_colossus.tscn", "pos": (720, -730), "arena": 160},
     "monsters": [(RAM, (420, -180)), (RAM, (-220, -330)), (RAM, (-700, 380)), (RAM, (300, 700)), (RAM, (-950, -640)),
                  (HOUND, (-1000, 520)), (HOUND, (620, 780))],
     "butterflies": [((950, 300), 4), ((-600, -700), 3), ((150, 300), 3), ((-400, 600), 3)],

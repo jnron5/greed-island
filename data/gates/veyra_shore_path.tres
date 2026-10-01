@@ -9,3 +9,4 @@ display_name = "Veyra Shore Path"
 zone = &"thornveil"
 cost_card_id = &"veyra_reed"
 cost_amount = 2
+respawns_boss = &"cairn_colossus"

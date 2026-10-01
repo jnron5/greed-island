@@ -16,7 +16,7 @@ const TOPICS := {
 	&"mirela": [
 		["What is the race?", [
 			"Every generation the King calls a race. Collectors from off-island come to Kalmora and try to gather one full set of cards.",
-			"Forty-three of them. Harbor cards, forest cards, plains and lake and mountain cards, rare ones only a monster gives up. First to carry the whole set into Vetrassa, on the far north-west coast, wins.",
+			"Forty-four of them. Harbor cards, forest cards, plains and lake and mountain cards, rare ones only a monster gives up. First to carry the whole set into Vetrassa, on the far north-west coast, wins.",
 			"Wins what? Riches beyond anything, is all anyone says. The winners never come back to tell it.",
 		]],
 		["Who am I racing?", [
@@ -72,7 +72,7 @@ const TOPICS := {
 	],
 	&"sable": [
 		["How do cards work?", [
-			"Sit, sit. Cards are the whole of it. Forty-three make the set, and the set is the race.",
+			"Sit, sit. Cards are the whole of it. Forty-four make the set, and the set is the race.",
 			"Commons turn up everywhere: residents, chests, monsters. Rares are scarce. Boss cards only fall from the forest's Warden, and only so many times.",
 			"Every card you carry is either loose, bound or exposed. Loose can be stolen. Bound, in your binder, is safe. Exposed is a card you're using, a gate or a spell, and thieves love those.",
 		]],
@@ -190,6 +190,14 @@ const TOPICS := {
 			"It charges. Watch its front hoof: when it paws the snow it's picking its line. Step off the line and it'll go right past you and skid. That's your moment.",
 			"Get it angry and it rears and stamps, and the ice flies off it in a ring. Keep your distance then.",
 			"Kill it and it'll leave you an antler. It comes back, mind. It always has.",
+		]],
+	],
+	# ---------------- Verdana ----------------
+	&"aldous": [
+		["What's on Kestrel Rise?", [
+			"The Colossus. Folk call it a heap of old stones by the watchtower. It isn't. It stands up when you come close.",
+			"The circles were raised to keep it sleeping, I think. Someone's been taking stones from them, and it doesn't sleep so well these days.",
+			"Its hide turns a blade. Wait until it rises out of the earth with its rune glowing: that's when it's open. Mind the boulders, and when it sinks, keep moving.",
 		]],
 	],
 }
