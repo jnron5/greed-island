@@ -264,7 +264,7 @@ Zone layout lives in the scene files, plus `scripts/world/world_map.gd` (origins
 
 ## Major characters
 
-Nine residents are the island's major characters (Jordan's list: breeds and coats are fixed). Use them whenever a role fits instead of inventing someone new.
+Twelve residents are the island's major characters (Jordan's list: breeds, coats, families and personalities are fixed). Use them whenever a role fits instead of inventing someone new.
 
 | Name | Breed / coat | Role | In game |
 |---|---|---|---|
@@ -277,5 +277,8 @@ Nine residents are the island's major characters (Jordan's list: breeds and coat
 | Tally | Australian Shepherd, black/white/brown | Keeps the Sheaf & Sickle in Verdana and its tally of the Company's unpaid debts. Highly energetic, hates men (Bruno is the only one allowed in her kitchen), and dinner is at FIVE sharp, every day | yes: serves dinner 17:00-18:00 (it mends every heart), warns you the hour before |
 | Jobelle | tabby cat | Kalmora's innkeeper (the Salted Lantern; Otto keeps the bar). Sweet and caring; the eldest sister, she worries over Mate and Tilly | yes |
 | Mate | tabby cat, female | Sorenda's innkeeper (the Copper Kettle), Jobelle's and Tilly's sister. Missing her left arm (lost to a Thornveil hound). Abrasive; HATES Chef and insists her inn food beats his restaurant | yes |
+| Sparkle | Maltese, white | The royal family's cousin, Sassy's sister. Fearless | later (Vetrassa, round the court) |
+| Sassy | Schnauzer, gray | The royal family's cousin, Sparkle's sister. Slightly airheaded | later (Vetrassa, round the court) |
+| Duke | Dachshund | A wealthy aristocrat in Vetrassa, Chef's best friend and his number one customer. Part of shady dealings with the Duskara mines (a buyer or backer of what comes out of them; ties to the Hoarder's family's trade) | later (Vetrassa) |
 
 **Inns:** every town has one, and its keeper (`Npc.inn_rooms`, set by `"inn"` in build_interiors.py) rents a room for half a day or a full day (`scripts/systems/inn.gd`: 10 / 18 gold). Sleeping fades out (`Transition.rest`), moves `TimeOfDay` on, lets the rivals roam a sixth of that time off screen (`RivalDirector.pass_time`) and mends every heart. **Hearts carry from area to area** (`GameState.player_health`, saved): changing zone never heals. Rest, food, the Heartwood spring, Mossheart and waking in town after fainting do. Keepers are set up by `"inn"`/`"keeper"` in build_interiors.py: their own room prompt and broke line, food and tonics over the counter (`INN_STOCK`), and a `meal_hour` (Tally's dinner). Every resident's ambient `lines` rotate one per conversation and carry on across visits (`Npc.next_line`, starting at a random line), so write keepers long lists of lines in their own voice. A new town needs an inn keeper; `tests/test_inn` checks them. **Fishing:** `fishing` spots in a region layout (`scripts/systems/fishing_spot.gd`; one off Neri's dock on Lake Serin): cast, wait for the float to go under, reel in on the bite (early spooks it, late loses it); mostly Lake Trout (heals 2, not sold), now and then a coin. Food that costs time instead of gold.
