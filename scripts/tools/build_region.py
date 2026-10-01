@@ -166,6 +166,20 @@ class Zone:
         a[..., :3] = np.asarray(rgb).astype(np.float32) * np.array(mul, np.float32)
         flat = np.kron(np.array([[1 if (v >= 0) else 0 for v in row] for row in self.stand], np.uint8),
                        np.ones((TILE, TILE), np.uint8)).astype(bool)
+        # Break the grass tile's repetition: flip each open flat cell at random (only
+        # cells whose neighbours are flat too, so cliff edges stay as drawn).
+        if c.get("palette") and not c.get("snow"):
+            rng = np.random.default_rng(len(self.key) * 13)
+            for r in range(1, self.rows - 1):
+                for cc in range(1, self.cols - 1):
+                    if all(self.stand[r + dr][cc + dc] >= 0 for dr in (-1, 0, 1) for dc in (-1, 0, 1)) \
+                            and (r, cc) not in self.stair_cells:
+                        k = rng.integers(0, 4)
+                        if k:
+                            block = a[r * TILE:(r + 1) * TILE, cc * TILE:(cc + 1) * TILE]
+                            block = block[:, ::-1] if k & 1 else block
+                            block = block[::-1] if k & 2 else block
+                            a[r * TILE:(r + 1) * TILE, cc * TILE:(cc + 1) * TILE] = block
         tile = lambda t: np.tile(np.asarray(t.convert("RGBA")), (H // 32 + 1, W // 32 + 1, 1))[:H, :W].astype(np.float32)
         broad = np.clip(self.noise(140) * 0.65 + self.noise(46) * 0.35, 0, 1)
         # Grass: mapped onto the biome's palette by brightness (the tile's detail stays,
