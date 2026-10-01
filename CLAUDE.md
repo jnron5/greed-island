@@ -272,7 +272,7 @@ Nine residents are the island's major characters (Jordan's list: breeds and coat
 | Freya | German Shepherd, black and brown | Chef's sister. Captain of the King's Guard in Vetrassa; keeps the throne room for "An Audience Before the Throne" | later |
 | Loki | German Shepherd, black and brown | Chef's younger brother. A charming card sharp and fence running the Smuggler's Route out of Halmeer; trades in stolen cards | yes: plays cards by the travellers' fire on the Aurewind Plains (Loki's Table: whispers, seals, second winds; buys cards) |
 | Xena | German Shepherd, all black | Forewoman of the Duskara mine: hard, capable, believes she protects her laborers by keeping them working ("The Foreman's Names") | later |
-| Sully | German Shepherd, all black | Xena's twin, who runs the escape line out of the mine ("Beneath the Dunes"); the siblings haven't spoken in years | later |
+| Sully | German Shepherd, all black | Xena's twin, who runs the escape line out of the mine ("Beneath the Dunes"); the siblings haven't spoken in years | yes: keeps the escape line's way-station in the Frost Grotto (errand: two lake trout for a moss lantern; `NPCS` in build_grotto.py) |
 | Tilly | Labrador, yellow | Shepherd on the Aurewind Plains, Tally's best friend (errand: the bristle rams) | yes |
 | Tally | Australian Shepherd, black/white/brown | Keeps the Sheaf & Sickle in Verdana and its tally of the Company's unpaid debts | yes |
 | Jobelle | tabby cat | Kalmora's innkeeper (the Salted Lantern; Otto keeps the bar) | yes |

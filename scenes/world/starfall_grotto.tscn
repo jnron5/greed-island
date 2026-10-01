@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3]
+[gd_scene load_steps=53 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -16,6 +16,8 @@
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="14_read"]
 [ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="15_lamp"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/starfall/ice_crystals.png" id="16_ice"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="17_npc"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sully/sully_frames.tres" id="n_sully"]
 
 [sub_resource type="RectangleShape2D" id="R1344x128"]
 size = Vector2(1344, 128)
@@ -390,6 +392,22 @@ position = Vector2(384, -288)
 script = ExtResource("14_read")
 title = "An ice wall"
 lines = PackedStringArray("The tunnel ends in a wall of clear ice, thick as a house. Through it, faint and blue: daylight, and a road going down the far side of the mountain.", "Frisalle is that way. Somebody sealed this from the other side.")
+
+[node name="Npc_sully" parent="." instance=ExtResource("17_npc")]
+position = Vector2(-224, 19.19999999999999)
+npc_id = &"sully"
+display_name = "Sully"
+sprite_frames = ExtResource("n_sully")
+lines = PackedStringArray("Mind the wolves past the hall. They don't bother me. They know whose side I'm on.", "Everything in this cave walked here. Remember that, whatever the stencils say.")
+
+[node name="Lantern_sully" type="PointLight2D" parent="."]
+position = Vector2(-210, 1.1999999999999886)
+texture_scale = 1.3
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(1.0, 0.78, 0.45, 1)
+flicker = 0.12
 
 [node name="Crystal0" type="StaticBody2D" parent="."]
 position = Vector2(-288, -80.0)

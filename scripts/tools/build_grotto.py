@@ -93,6 +93,14 @@ CHESTS = [
     ("hall_crate", (19, 17), 30, "", "healers_tonic", 1),
     ("smugglers_cache", (35, 9), 40, "frostfang_charm", "", 0),
 ]
+# Residents: (id, name, cell, lines). Sully keeps a way-station for the escape line
+# among the frozen crates, by a lantern.
+NPCS = [
+    ("sully", "Sully", (14, 15.6), [
+        "Mind the wolves past the hall. They don't bother me. They know whose side I'm on.",
+        "Everything in this cave walked here. Remember that, whatever the stencils say.",
+    ]),
+]
 READABLES = [
     ("Frozen crates", (16.5, 12.5), [
         "Crates frozen into the floor, their lids split by the cold. Stencilled: 'D.M.C. - NORTH - BY THE SHOULDER'.",
@@ -115,7 +123,7 @@ def main():
 
     for name, (cx, cy) in [("spawn", SPAWN_IN)] + [(f"wolf{k}", p) for k, p in enumerate(WOLVES)] \
             + [(f"chest {c[0]}", c[1]) for c in CHESTS] + [(f"readable {t}", p) for t, p, _ in READABLES] \
-            + [("crystal", p) for p in CRYSTALS]:
+            + [("crystal", p) for p in CRYSTALS] + [(f"npc {c[0]}", c[2]) for c in NPCS]:
         check(name, cx, cy)
 
     subs = {}
@@ -142,6 +150,7 @@ def main():
         ('Script', "res://scripts/systems/readable.gd", "14_read"),
         ('Script', "res://scripts/systems/lamp_light.gd", "15_lamp"),
         ('Texture2D', "res://" + ART + "ice_crystals.png", "16_ice"),
+        ('PackedScene', "res://scenes/characters/npc.tscn", "17_npc"),
     ]
     n = [f'''[node name="StarfallGrotto" type="Node2D"]
 y_sort_enabled = true
@@ -203,6 +212,16 @@ exit_hint = true
         quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
         n.append(f'[node name="Read{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                  f'script = ExtResource("14_read")\ntitle = "{title}"\nlines = PackedStringArray({quoted})\n')
+    for npc_id, display, (cx, cy), lines in NPCS:
+        x, y = cell_px(cx, cy)
+        ext.append(('SpriteFrames', f"res://assets/sprites/npcs/{npc_id}/{npc_id}_frames.tres", f"n_{npc_id}"))
+        quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
+        n.append(f'[node name="Npc_{npc_id}" parent="." instance=ExtResource("17_npc")]\nposition = Vector2({x}, {y})\n'
+                 f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("n_{npc_id}")\n'
+                 f'lines = PackedStringArray({quoted})\n\n'
+                 f'[node name="Lantern_{npc_id}" type="PointLight2D" parent="."]\nposition = Vector2({x + 14}, {y - 18})\n'
+                 f'texture_scale = 1.3\nscript = ExtResource("15_lamp")\nalways_on = true\nmax_energy = 0.9\n'
+                 f'tint = Color(1.0, 0.78, 0.45, 1)\nflicker = 0.12\n')
     h = Image.open(ART + "ice_crystals.png").height
     for k, (cx, cy) in enumerate(CRYSTALS):
         x, y = cell_px(cx, cy)

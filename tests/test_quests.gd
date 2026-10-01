@@ -129,6 +129,13 @@ func _run() -> void:
 		EventBus.monster_defeated.emit(&"bristle_ram", GameState.PLAYER)
 	Errands.talked_to(&"tilly")
 	_check("three rams: Tilly's bell", col.count(&"shepherds_bell") >= 1 and Errands.state(&"tilly_rams") == Errands.DONE)
+	# Sully, in the Frost Grotto: two lake trout (fished off Neri's dock) for a moss lantern.
+	Errands.talked_to(&"sully")
+	_check("Sully asks for trout", Errands.state(&"sully_trout") == Errands.ASKED)
+	var lanterns := col.count(&"moss_lantern")
+	GameState.add_item(&"lake_trout", 2)
+	Errands.talked_to(&"sully")
+	_check("two trout for a lantern", col.count(&"moss_lantern") == lanterns + 1 and GameState.item_count(&"lake_trout") == 0)
 	# The west gate: the Warden's Verdant Crest opens the road to the plains.
 	var gate := CardDatabase.get_gate(&"kalmora_west_gate")
 	_check("Kalmora's west gate takes a Verdant Crest", gate != null and gate.cost_card_id == &"verdant_crest")
