@@ -242,7 +242,9 @@ VERDANA = {
     # Hens scratching round the farmhouse and the barn.
     "decor": [{"strip": VD + "hen_anim.png", "frames": 6, "fps": 5, "pos": p, "flip": f}
               for p, f in [((-360, -40), False), ((-400, -10), True), ((-330, -5), False), ((-480, 350), True), ((-440, 340), False)]],                                           # the square, cobbled
-    "instances": [("res://scenes/world/props/forest_oak.tscn", (0, 50), 1)],  # the Harvest Oak
+    "instances": [("res://scenes/world/props/forest_oak.tscn", (0, 50), 1)]    # the Harvest Oak
+                 + [("res://scenes/world/props/forest_oak.tscn", (x, y), 0.6)       # the orchard, in rows
+                    for x in (180, 260, 340) for y in (-470, -395)],
     "fields": [(-790, -40, -640, 200), (-790, 360, -640, 540), (560, 380, 800, 540), (-420, 400, -220, 540)],
     "tree_kinds": ["oak"],
     "groves": [(-700, -500, 5, 50), (760, 200, 4, 40), (300, -560, 4, 40), (-40, 480, 3, 30)],
@@ -290,6 +292,37 @@ VERDANA = {
         + [{"sprite": HAY, "pos": p, "foot": (34, 14)} for p in [(-420, 330), (-690, 300), (-460, 360)]]
         + [{"sprite": SCARECROW, "pos": p, "foot": (10, 6)} for p in [(-720, 80), (680, 460)]]
         + fence_row(-790, -640, -52) + fence_row(-790, -640, 212) + fence_row(560, 800, 372, gap_at=(680,))
+        # Every door has its own clutter: what each household does, left outside.
+        # The inn: barrels and crates for the cellar, a bench for the regulars.
+        + [{"sprite": KP + "barrels.png", "pos": (104, -226), "foot": (26, 8), "scale": 1.2},
+           {"sprite": KP + "crates.png", "pos": (130, -214), "foot": (26, 8), "scale": 1.1},
+           {"sprite": K2 + "props/bench.png", "pos": (-112, -222), "foot": (36, 8)}]
+        # Marta's farmhouse: washing on the line, the wheelbarrow and sacks, geraniums at the door.
+        + [{"sprite": KP + "laundry_line.png", "pos": (-610, -150), "foot": (30, 6), "scale": 1.5},
+           {"sprite": KP + "laundry_basket.png", "pos": (-580, -128), "foot": (16, 6)},
+           {"sprite": KP + "wheelbarrow.png", "pos": (-372, -110), "foot": (24, 8), "scale": 1.2},
+           {"sprite": KP + "sack.png", "pos": (-392, -96), "foot": (14, 6)},
+           {"sprite": KP + "geraniums.png", "pos": (-506, -106), "foot": (12, 6)},
+           {"sprite": KP + "geraniums.png", "pos": (-414, -106), "foot": (12, 6)}]
+        # Pim's bakery: flour sacks by the side, bread cooling by the door.
+        + [{"sprite": KP + "flour_sack.png", "pos": p, "foot": (14, 6)} for p in [(296, 128), (278, 136)]]
+        + [{"sprite": KP + "bread_basket.png", "pos": (432, 132), "foot": (14, 6)}]
+        # Oda's cottage: dyed wool drying on a line, lavender in a box.
+        + [{"sprite": KP + "laundry_line.png", "pos": (210, 380), "foot": (30, 6), "scale": 1.5},
+           {"sprite": KP + "laundry_basket.png", "pos": (232, 402), "foot": (16, 6)},
+           {"sprite": KP + "lavender_planter.png", "pos": (26, 412), "foot": (22, 6)},
+           {"sprite": KP + "lavender_planter.png", "pos": (140, 412), "foot": (22, 6)}]
+        # The barn and the mill: a cart, buckets, the day's flour.
+        + [{"sprite": KP + "cart.png", "pos": (-460, 312), "foot": (40, 10), "scale": 1.3},
+           {"sprite": KP + "bucket.png", "pos": (-494, 286), "foot": (12, 6)},
+           {"sprite": KP + "sack.png", "pos": (-648, 306), "foot": (14, 6)},
+           {"sprite": KP + "flour_sack.png", "pos": (532, 352), "foot": (14, 6)},
+           {"sprite": KP + "flour_sack.png", "pos": (548, 340), "foot": (14, 6)}]
+        # Flowering hedges along the lanes, where the lawns were bare.
+        + [{"sprite": K2 + "props/bush_flowers_g.png" if i % 2 else K2 + "props/bush_g.png", "pos": p, "foot": (40, 12), "scale": 0.7}
+           for i, p in enumerate([(-300, -200), (-252, -222), (300, 40), (344, 22), (-300, 176), (-256, 196)])]
+        # The orchard north-east of the inn, fenced along the lane.
+        + fence_row(150, 370, -332, gap_at=(260,))
     ),
     "merchant": ((200, 40), "assets/sprites/tiles/kalmora/market_stall.png"),
     "lanterns": [(-230, -20), (230, -20), (-230, 170), (230, 170), (-200, -380), (380, -120), (560, -280), (-380, -60), (380, 280),
