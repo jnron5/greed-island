@@ -799,7 +799,7 @@ tint = Color(0.55, 0.85, 1.0, 1)
 flicker = 0.03
 
 [node name="Lantern0" type="StaticBody2D" parent="."]
-position = Vector2(-50, 260)
+position = Vector2(-80, 260)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern0"]
 position = Vector2(0, -28.0)
@@ -810,7 +810,7 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight0" type="PointLight2D" parent="."]
-position = Vector2(-44, 216)
+position = Vector2(-74, 216)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
@@ -3291,7 +3291,7 @@ position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
 [node name="Under150" type="StaticBody2D" parent="."]
-position = Vector2(-167, 48)
+position = Vector2(-305, 110)
 
 [node name="Sprite" type="Sprite2D" parent="Under150"]
 modulate = Color(0.86, 0.92, 1.0, 1)
@@ -3316,27 +3316,28 @@ texture = ExtResource("r15_rock")
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Under152" type="StaticBody2D" parent="."]
-position = Vector2(33, -24)
+[node name="Under152" type="Sprite2D" parent="."]
+position = Vector2(-478, 25)
+modulate = Color(0.86, 0.92, 1.0, 1)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r16_branch")
 
-[node name="Sprite" type="Sprite2D" parent="Under152"]
+[node name="Under153" type="StaticBody2D" parent="."]
+position = Vector2(-87, 58)
+
+[node name="Sprite" type="Sprite2D" parent="Under153"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
 texture = ExtResource("r15_rock")
 
-[node name="Base" type="CollisionShape2D" parent="Under152"]
+[node name="Base" type="CollisionShape2D" parent="Under153"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Under153" type="Sprite2D" parent="."]
-position = Vector2(-340, 88)
-modulate = Color(0.86, 0.92, 1.0, 1)
-offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
-
 [node name="Under154" type="StaticBody2D" parent="."]
-position = Vector2(62, -545)
+position = Vector2(-22, -759)
 
 [node name="Sprite" type="Sprite2D" parent="Under154"]
 modulate = Color(0.86, 0.92, 1.0, 1)
@@ -3348,67 +3349,11 @@ texture = ExtResource("r15_rock")
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Under155" type="StaticBody2D" parent="."]
-position = Vector2(-22, -759)
-
-[node name="Sprite" type="Sprite2D" parent="Under155"]
-modulate = Color(0.86, 0.92, 1.0, 1)
-flip_h = true
-offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
-
-[node name="Base" type="CollisionShape2D" parent="Under155"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
-
-[node name="Under156" type="Sprite2D" parent="."]
+[node name="Under155" type="Sprite2D" parent="."]
 position = Vector2(142, -102)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
 texture = ExtResource("r14_pinecones")
-
-[node name="Under157" type="StaticBody2D" parent="."]
-position = Vector2(-733, 267)
-
-[node name="Sprite" type="Sprite2D" parent="Under157"]
-modulate = Color(0.86, 0.92, 1.0, 1)
-offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
-
-[node name="Base" type="CollisionShape2D" parent="Under157"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
-
-[node name="Under158" type="Sprite2D" parent="."]
-position = Vector2(340, -58)
-modulate = Color(0.86, 0.92, 1.0, 1)
-offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
-
-[node name="Under159" type="StaticBody2D" parent="."]
-position = Vector2(-134, 47)
-
-[node name="Sprite" type="Sprite2D" parent="Under159"]
-modulate = Color(0.86, 0.92, 1.0, 1)
-flip_h = true
-offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
-
-[node name="Base" type="CollisionShape2D" parent="Under159"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
-
-[node name="Under160" type="StaticBody2D" parent="."]
-position = Vector2(29, -567)
-
-[node name="Sprite" type="Sprite2D" parent="Under160"]
-modulate = Color(0.86, 0.92, 1.0, 1)
-offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
-
-[node name="Base" type="CollisionShape2D" parent="Under160"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
 
 [node name="Npc_goat0" parent="." instance=ExtResource("r18_npc")]
 position = Vector2(-620, 470)

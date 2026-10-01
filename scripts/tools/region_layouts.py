@@ -12,7 +12,15 @@ titled as in Quests.STONES).
 """
 import math
 
-from build_region import in_poly
+
+
+def in_poly(x, y, pts):
+    """Point in polygon (even-odd rule)."""
+    inside = False
+    for (ax, ay), (bx, by) in zip(pts, pts[1:] + pts[:1]):
+        if (ay > y) != (by > y) and x < ax + (y - ay) * (bx - ax) / (by - ay):
+            inside = not inside
+    return inside
 
 K2 = "assets/sprites/tiles/kalmora2/"
 KP = "assets/sprites/tiles/kalmora/props/"
@@ -73,6 +81,7 @@ def aurewind_level(x, y):
 
 
 CIRCLE = (-700, -700)
+YELLOW, WHITE, PURPLE, RED, BLUE = (240, 210, 70), (240, 240, 228), (170, 120, 210), (214, 58, 48), (110, 150, 230)
 
 AUREWIND = {
     "scene": "scenes/world/aurewind_plains.tscn",
@@ -83,18 +92,20 @@ AUREWIND = {
     "cliff": "assets/sprites/tiles/thornveil/cliff/forest_terrace",
     "level": aurewind_level,
     "tall_walls": {(1, 2): 1},
-    "stairs": [(-620, -450, 1, 2), (900, -496, 1, 2)],
+    "stairs": [(-620, -450, 1, 2), (992, -496, 1, 2)],
     "grade": (1.0, (1.0, 1.0, 1.0)),
     "palette": ((96, 132, 56), (176, 160, 78)),
     "paths": [
         ([(1240, 40), (900, 60), (600, 20), (200, 0), (-200, 60), (-600, 120), (-1000, 140), (-1140, 140)], 30),  # the King's Road
         ([(200, 0), (160, -400), (150, -920)], 24),                         # north, to Lake Serin
         ([(-200, 60), (-350, 400), (-500, 890)], 24),                       # south-west, to Verdana
-        ([(-400, 90), (-560, -200), (-600, -380), (-640, -560)], 18),       # up to the stone circle
-        ([(700, 40), (860, -250), (900, -420), (900, -650)], 18),           # up Kestrel Rise
+        ([(-400, 90), (-600, -250), (-640, -400), (-640, -560)], 18),       # up to the stone circle
+        ([(700, 40), (900, -250), (992, -400), (992, -580), (930, -650)], 18),  # up Kestrel Rise
         ([(600, 20), (700, 300), (760, 560)], 16),                          # the farm lane
     ],
     "fields": [(820, 200, 1100, 380), (820, 440, 1100, 620), (470, 560, 700, 720)],
+    "meadows": [(-900, 330, 190, 110, [YELLOW, WHITE, YELLOW]), (470, -260, 170, 100, [PURPLE, WHITE]),
+                (-320, 640, 210, 120, [RED, RED, WHITE]), (-950, -620, 150, 90, [BLUE, WHITE]), (30, -560, 140, 90, [YELLOW, PURPLE])],
     "lakes": [(150, 470, 200, 110)],
     "tree_kinds": ["oak", "oak", "fir"],
     "groves": [(-300, -180, 6, 50), (480, -300, 7, 60), (-820, 620, 10, 70), (350, 760, 5, 50), (-1000, -120, 8, 60),
@@ -127,6 +138,8 @@ AUREWIND = {
         + [{"sprite": KP + "cart.png", "pos": (-1080, 206), "foot": (44, 14), "flip": True}]
         # Tilly's sheepfold: a dry-stone pen by the road, open to the south.
         + wall_row(-270, -30, -260) + wall_row(-270, -30, -50, gap_at=(-150,)) + wall_col(-270, -260, -50) + wall_col(-30, -260, -50)
+        # The old watchtower on Kestrel Rise.
+        + [{"sprite": AW + "watchtower.png", "pos": (900, -700), "foot": (64, 30)}]
         # The travellers' camp.
         + [{"sprite": TV + "tent.png", "pos": (-120, 300), "foot": (60, 20)}]
         + [{"sprite": KP + "signpost.png", "pos": (-240, 120), "foot": (8, 6)}]
@@ -157,6 +170,10 @@ AUREWIND = {
             "An ore cart with a split axle, left where it broke. No ore in it: straw, a water skin, and a length of chain with small cuffs.",
             "Stencilled on the side: 'D.M.C. - RETURN EMPTY'.",
         ]),
+        ("The Kestrel tower", (860, -660), [
+            "A watchtower older than the King's Road, half fallen. From the top of the rubble you can see the whole of the plains, the dune road west, and the smoke from somewhere beyond the dunes that never seems to stop.",
+            "A sentry once scratched a tally here of carts going west. The tally fills the wall.",
+        ]),
         ("A wayside shrine", (-60, -20), [
             "A little cairn of stacked stones by the King's Road, heaped with wheat and ribbons. A board says: 'For the ones who walked west.'",
             "Nobody has written who they were.",
@@ -164,7 +181,7 @@ AUREWIND = {
     ],
     "chests": [
         {"id": "camp_pack", "pos": (-190, 330), "gold": 15, "item": "bread", "count": 2},
-        {"id": "kestrel_cache", "pos": (900, -720), "gold": 40, "card": "sunken_crown_shard"},
+        {"id": "kestrel_cache", "pos": (980, -640), "gold": 40, "card": "sunken_crown_shard"},
         {"id": "circle_offering", "pos": (-560, -600), "gold": 25, "item": "healers_tonic"},
         {"id": "hay_loft", "pos": (1150, -30), "gold": 10, "item": "bread"},
     ],
@@ -190,7 +207,7 @@ VERDANA = {
     "cliff": "assets/sprites/tiles/thornveil/cliff/forest_terrace",
     "level": verdana_level,
     "tall_walls": {(1, 2): 1},
-    "stairs": [(420, -170, 1, 2)],
+    "stairs": [(608, -150, 1, 2)],
     "grade": (1.0, (1.0, 1.0, 1.0)),
     "palette": ((92, 136, 58), (150, 152, 70)),
     "paths": [
@@ -199,12 +216,13 @@ VERDANA = {
         ([(-120, 20), (-300, -40), (-460, -100)], 18),                       # to the farmhouse
         ([(-100, 140), (-330, 260), (-560, 300)], 18),                       # to the barn
         ([(100, 140), (300, 250), (470, 350)], 18),                          # to the windmill
-        ([(140, -20), (420, -110), (420, -180)], 18),                        # to the stairs
-        ([(430, -260), (600, -300), (620, -320)], 16),                       # up on the green, to the scholar's door
+        ([(140, -20), (450, -40), (608, -50), (608, -170)], 18),            # to the stairs
+        ([(608, -170), (612, -320)], 16),                                    # up on the green, to the scholar's door
         ([(240, 110), (394, 140)], 16),                                      # to the bakery door
         ([(40, 200), (86, 410)], 16),                                        # to the weaver's door
     ],
     "plazas": [(0, 60, 250, 150)],
+    "meadows": [(-600, -460, 150, 100, [RED, YELLOW, WHITE]), (650, 120, 120, 70, [PURPLE, WHITE])],
     # Hens scratching round the farmhouse and the barn.
     "decor": [{"strip": VD + "hen_anim.png", "frames": 6, "fps": 5, "pos": p, "flip": f}
               for p, f in [((-360, -40), False), ((-400, -10), True), ((-330, -5), False), ((-480, 350), True), ((-440, 340), False)]],                                           # the square, cobbled
@@ -318,28 +336,29 @@ LAKE_SERIN = {
     "cliff": "assets/sprites/tiles/thornveil/cliff/forest_terrace",
     "level": serin_level,
     "tall_walls": {(1, 2): 1},
-    "stairs": [(-900, 310, 1, 2)],
+    "stairs": [(-960, 310, 1, 2)],
     "grade": (1.0, (1.0, 1.0, 1.0)),
     "palette": ((64, 112, 64), (104, 136, 68)),
     "paths": [
         ([(700, 790), (650, 450), (720, 100), (650, -400), (200, -560), (-300, -790)], 26),   # round the east shore, north to the Range
         ([(40, -470), (60, -250)], 18),                                     # out onto Stone Point
         ([(720, 60), (660, -60), (560, -74)], 16),                          # to Neri's dock
-        ([(-300, -700), (-600, 0), (-900, 360), (-900, 250)], 18),          # the west trail to the bluffs
-        ([(-900, 180), (-860, -300)], 14),                                  # up on the bluffs
+        ([(-300, -700), (-600, 0), (-960, 400), (-960, 250)], 18),          # the west trail to the bluffs
+        ([(-960, 270), (-880, -300)], 14),                                  # up on the bluffs
     ],
     "lakes": [(80, -40, 520, 300)],
+    "meadows": [(420, 480, 160, 90, [WHITE, YELLOW]), (-420, -560, 140, 80, [BLUE, WHITE])],
     "land": [(60, -330, 90, 150)],
     "docks": [(470, -90, 640, -58)],
     # Lily pads in the shallows and Neri's boats tied up at his dock.
-    "afloat": [(TV + "lily_pads.png", p, f) for p, f in [((-300, 120), False), ((-340, 60), True), ((-250, -250), False),
+    "afloat": [(LS + "barge.png", (-330, 95), False)] + [(TV + "lily_pads.png", p, f) for p, f in [((-250, 180), False), ((-200, -200), True), ((-250, -250), False),
                                                          ((300, 200), True), ((380, 150), False), ((-100, 200), True),
                                                          ((420, -250), False), ((-400, -120), True)]]
               + [(K2 + "props/rowboat.png", (520, -20), False), (K2 + "props/rowboat.png", (515, -150), True)],
     "deep": (26, 72, 104),
     # Herons fishing in the shallows.
     "decor": [{"strip": LS + "heron_anim.png", "frames": 8, "fps": 3, "pos": p, "afloat": True, "flip": f}
-              for p, f in [((-395, 130), False), ((350, 215), True)]],
+              for p, f in [((-350, 30), False), ((330, 190), True)]],
     "water_tint": (0.9, 1.0, 1.12, 1),
     "tree_kinds": ["fir", "fir", "oak"],
     "groves": [(-850, -500, 10, 70), (-850, 0, 8, 60), (850, -500, 7, 60), (-500, 560, 8, 60), (350, 620, 6, 50), (880, 450, 5, 40)],
@@ -376,7 +395,7 @@ LAKE_SERIN = {
             "A lone standing stone at the tip of the point, the water all round it. The carving is the one from the circle: a crown, and a line of figures under it.",
             "Here the line goes on round the back of the stone. The last figures are no bigger than a thumbnail, and there are more of them than you can count.",
         ]),
-        ("A drowned barge", (-380, 290), [
+        ("A drowned barge", (-400, 160), [
             "A flat barge, sunk at its mooring in the shallows. Its hold was lined with straw, and fitted with rings for chains.",
             "Stencilled on the stern, under the weed: 'D.M.C. - NORTH'.",
         ]),
@@ -412,15 +431,15 @@ STARFALL = {
     "cliff": SF + "cliff/snow",
     "level": starfall_level,
     "tall_walls": {(0, 1): 1, (1, 2): 2},
-    "stairs": [(-100, 150, 0, 1), (300, -350, 1, 2), (-700, 150, 0, 1)],
+    "stairs": [(-224, 150, 0, 1), (288, -350, 1, 2), (-544, 150, 0, 1)],
     "grade": (0.95, (1.0, 1.0, 1.04)),
     "dapple": 0.08,
     "snow": True,
     "snowfall": True,
     "paths": [
-        ([(0, 790), (-60, 420), (-100, 200), (-100, 60), (100, -150), (300, -300), (300, -450), (0, -640), (-100, -820)], 24),
+        ([(0, 790), (-60, 420), (-224, 300), (-224, 130), (100, -150), (288, -300), (288, -470), (0, -640), (-100, -820)], 24),
         ([(100, -150), (450, -60), (550, -60)], 16),                        # to the hermit's cabin
-        ([(-100, 100), (-450, 40), (-700, 120), (-700, 250)], 16),          # round the tarn, down the west stairs
+        ([(-224, 100), (-450, 40), (-544, 100), (-544, 260)], 16),          # round the tarn, down the west stairs
     ],
     "ice": [(-480, -120, 170, 90)],
     "tree_kinds": ["pine"],

@@ -1365,7 +1365,7 @@ texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern5" type="StaticBody2D" parent="."]
-position = Vector2(350, -120)
+position = Vector2(380, -120)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern5"]
 position = Vector2(0, -28.0)
@@ -1376,12 +1376,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight5" type="PointLight2D" parent="."]
-position = Vector2(356, -164)
+position = Vector2(386, -164)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern6" type="StaticBody2D" parent="."]
-position = Vector2(626, -280)
+position = Vector2(560, -280)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern6"]
 position = Vector2(0, -28.0)
@@ -1392,7 +1392,7 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight6" type="PointLight2D" parent="."]
-position = Vector2(632, -324)
+position = Vector2(566, -324)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
@@ -2609,360 +2609,355 @@ offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under81" type="Sprite2D" parent="."]
-position = Vector2(589, -236)
-flip_h = true
-offset = Vector2(0, -11.0)
-texture = ExtResource("r36_clover")
+position = Vector2(486, 208)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
 
 [node name="Under82" type="Sprite2D" parent="."]
-position = Vector2(136, -387)
-flip_h = true
+position = Vector2(507, 207)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under83" type="Sprite2D" parent="."]
-position = Vector2(158, -391)
-flip_h = true
-offset = Vector2(0, -12.5)
-texture = ExtResource("r37_grass_clump")
+position = Vector2(561, -535)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r36_clover")
 
 [node name="Under84" type="Sprite2D" parent="."]
-position = Vector2(130, -406)
+position = Vector2(-535, 433)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under85" type="Sprite2D" parent="."]
-position = Vector2(738, 61)
-flip_h = true
-offset = Vector2(0, -11.0)
-texture = ExtResource("r35_flowers")
+position = Vector2(-559, 443)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
 
 [node name="Under86" type="Sprite2D" parent="."]
-position = Vector2(710, 52)
+position = Vector2(-543, -405)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under87" type="Sprite2D" parent="."]
-position = Vector2(-602, 10)
+position = Vector2(-517, -387)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under88" type="Sprite2D" parent="."]
-position = Vector2(-583, 23)
+position = Vector2(154, 504)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under89" type="Sprite2D" parent="."]
-position = Vector2(-627, 2)
-flip_h = true
+position = Vector2(162, 532)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under90" type="Sprite2D" parent="."]
-position = Vector2(-490, -241)
-flip_h = true
-offset = Vector2(0, -12.5)
-texture = ExtResource("r37_grass_clump")
+position = Vector2(-240, 332)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r35_flowers")
 
 [node name="Under91" type="Sprite2D" parent="."]
-position = Vector2(-453, -253)
-offset = Vector2(0, -12.5)
-texture = ExtResource("r37_grass_clump")
+position = Vector2(-262, 333)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r35_flowers")
 
 [node name="Under92" type="Sprite2D" parent="."]
-position = Vector2(528, -233)
-flip_h = true
-offset = Vector2(0, -12.5)
-texture = ExtResource("r37_grass_clump")
+position = Vector2(159, -243)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r36_clover")
 
 [node name="Under93" type="Sprite2D" parent="."]
-position = Vector2(478, -228)
-offset = Vector2(0, -12.5)
-texture = ExtResource("r37_grass_clump")
+position = Vector2(121, -177)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r36_clover")
 
 [node name="Under94" type="Sprite2D" parent="."]
-position = Vector2(523, -393)
+position = Vector2(124, -82)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under95" type="Sprite2D" parent="."]
-position = Vector2(503, -368)
-flip_h = true
+position = Vector2(160, -100)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under96" type="Sprite2D" parent="."]
-position = Vector2(479, -369)
+position = Vector2(135, -107)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under97" type="Sprite2D" parent="."]
-position = Vector2(502, -394)
+position = Vector2(-300, -376)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
+
+[node name="Under98" type="Sprite2D" parent="."]
+position = Vector2(-275, -377)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
+
+[node name="Under99" type="Sprite2D" parent="."]
+position = Vector2(-313, 46)
+flip_h = true
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
-[node name="Under98" type="Sprite2D" parent="."]
-position = Vector2(-412, -543)
-flip_h = true
-offset = Vector2(0, -11.0)
-texture = ExtResource("r36_clover")
-
-[node name="Under99" type="Sprite2D" parent="."]
-position = Vector2(-421, -527)
-offset = Vector2(0, -11.0)
-texture = ExtResource("r36_clover")
-
 [node name="Under100" type="Sprite2D" parent="."]
-position = Vector2(-639, 288)
-flip_h = true
+position = Vector2(-263, 23)
 offset = Vector2(0, -11.0)
-texture = ExtResource("r36_clover")
+texture = ExtResource("r35_flowers")
 
 [node name="Under101" type="Sprite2D" parent="."]
-position = Vector2(331, -436)
+position = Vector2(-308, 23)
 flip_h = true
-offset = Vector2(0, -11.5)
-texture = ExtResource("r38_berry_bush")
+offset = Vector2(0, -11.0)
+texture = ExtResource("r35_flowers")
 
 [node name="Under102" type="Sprite2D" parent="."]
-position = Vector2(310, -448)
-offset = Vector2(0, -11.5)
-texture = ExtResource("r38_berry_bush")
+position = Vector2(500, 46)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
 
 [node name="Under103" type="Sprite2D" parent="."]
-position = Vector2(116, 520)
+position = Vector2(523, 54)
+flip_h = true
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under104" type="Sprite2D" parent="."]
-position = Vector2(146, 496)
+position = Vector2(525, 23)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under105" type="Sprite2D" parent="."]
-position = Vector2(-452, -479)
+position = Vector2(351, 548)
 flip_h = true
-offset = Vector2(0, -11.0)
-texture = ExtResource("r35_flowers")
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
 
 [node name="Under106" type="Sprite2D" parent="."]
-position = Vector2(-427, -479)
+position = Vector2(356, 520)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
+
+[node name="Under107" type="Sprite2D" parent="."]
+position = Vector2(713, 244)
+flip_h = true
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
-[node name="Under107" type="Sprite2D" parent="."]
-position = Vector2(31, -469)
-offset = Vector2(0, -12.5)
-texture = ExtResource("r37_grass_clump")
-
 [node name="Under108" type="Sprite2D" parent="."]
-position = Vector2(-4, -465)
-flip_h = true
-offset = Vector2(0, -12.5)
-texture = ExtResource("r37_grass_clump")
+position = Vector2(662, 244)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r35_flowers")
 
 [node name="Under109" type="Sprite2D" parent="."]
-position = Vector2(545, -389)
-offset = Vector2(0, -11.5)
-texture = ExtResource("r38_berry_bush")
+position = Vector2(-621, 22)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r35_flowers")
 
 [node name="Under110" type="Sprite2D" parent="."]
-position = Vector2(562, -421)
+position = Vector2(-607, 34)
 flip_h = true
-offset = Vector2(0, -11.5)
-texture = ExtResource("r38_berry_bush")
+offset = Vector2(0, -11.0)
+texture = ExtResource("r35_flowers")
 
 [node name="Under111" type="Sprite2D" parent="."]
-position = Vector2(552, -263)
-flip_h = true
-offset = Vector2(0, -11.5)
-texture = ExtResource("r38_berry_bush")
+position = Vector2(-405, 61)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r35_flowers")
 
 [node name="Under112" type="Sprite2D" parent="."]
-position = Vector2(669, -414)
+position = Vector2(-382, 63)
 flip_h = true
-offset = Vector2(0, -11.5)
-texture = ExtResource("r38_berry_bush")
+offset = Vector2(0, -11.0)
+texture = ExtResource("r35_flowers")
 
 [node name="Under113" type="Sprite2D" parent="."]
-position = Vector2(701, -425)
-offset = Vector2(0, -11.5)
-texture = ExtResource("r38_berry_bush")
+position = Vector2(-232, -156)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
 
 [node name="Under114" type="Sprite2D" parent="."]
-position = Vector2(-739, -457)
-offset = Vector2(0, -11.0)
-texture = ExtResource("r36_clover")
+position = Vector2(-217, -166)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
 
 [node name="Under115" type="Sprite2D" parent="."]
-position = Vector2(-773, -473)
+position = Vector2(574, -572)
 offset = Vector2(0, -11.0)
-texture = ExtResource("r36_clover")
+texture = ExtResource("r35_flowers")
 
 [node name="Under116" type="Sprite2D" parent="."]
-position = Vector2(-748, -473)
+position = Vector2(-520, 59)
 flip_h = true
-offset = Vector2(0, -11.0)
-texture = ExtResource("r36_clover")
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
 
 [node name="Under117" type="Sprite2D" parent="."]
-position = Vector2(-593, -384)
+position = Vector2(-443, 434)
 flip_h = true
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under118" type="Sprite2D" parent="."]
-position = Vector2(-568, -375)
+position = Vector2(-490, 439)
 flip_h = true
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under119" type="Sprite2D" parent="."]
-position = Vector2(-604, -402)
+position = Vector2(-462, 440)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under120" type="Sprite2D" parent="."]
-position = Vector2(-753, -427)
+position = Vector2(-583, 53)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under121" type="Sprite2D" parent="."]
-position = Vector2(562, 320)
+position = Vector2(-562, 53)
+flip_h = true
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under122" type="Sprite2D" parent="."]
+position = Vector2(562, 320)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
+
+[node name="Under123" type="Sprite2D" parent="."]
 position = Vector2(582, 309)
 flip_h = true
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
-[node name="Under123" type="Sprite2D" parent="."]
+[node name="Under124" type="Sprite2D" parent="."]
 position = Vector2(174, 317)
 flip_h = true
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
-[node name="Under124" type="Sprite2D" parent="."]
-position = Vector2(-305, 14)
-flip_h = true
-offset = Vector2(0, -11.0)
-texture = ExtResource("r35_flowers")
-
 [node name="Under125" type="Sprite2D" parent="."]
-position = Vector2(250, 140)
+position = Vector2(-300, -206)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under126" type="Sprite2D" parent="."]
-position = Vector2(215, 148)
-flip_h = true
+position = Vector2(-348, -224)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under127" type="Sprite2D" parent="."]
-position = Vector2(427, 417)
-offset = Vector2(0, -11.5)
-texture = ExtResource("r38_berry_bush")
+position = Vector2(657, 128)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r35_flowers")
 
 [node name="Under128" type="Sprite2D" parent="."]
-position = Vector2(372, 415)
-flip_h = true
-offset = Vector2(0, -11.5)
-texture = ExtResource("r38_berry_bush")
+position = Vector2(630, 150)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r35_flowers")
 
 [node name="Under129" type="Sprite2D" parent="."]
-position = Vector2(424, 439)
+position = Vector2(665, 146)
 flip_h = true
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
 [node name="Under130" type="Sprite2D" parent="."]
-position = Vector2(406, 430)
+position = Vector2(219, 270)
+flip_h = true
 offset = Vector2(0, -11.0)
-texture = ExtResource("r35_flowers")
+texture = ExtResource("r36_clover")
 
 [node name="Under131" type="Sprite2D" parent="."]
-position = Vector2(-522, 340)
-offset = Vector2(0, -12.5)
-texture = ExtResource("r37_grass_clump")
+position = Vector2(264, 267)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r36_clover")
 
 [node name="Under132" type="Sprite2D" parent="."]
-position = Vector2(-516, 323)
-flip_h = true
+position = Vector2(-533, -269)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under133" type="Sprite2D" parent="."]
-position = Vector2(-152, -510)
+position = Vector2(-521, -251)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under134" type="Sprite2D" parent="."]
-position = Vector2(504, -249)
+position = Vector2(-465, 70)
 flip_h = true
 offset = Vector2(0, -11.0)
-texture = ExtResource("r36_clover")
+texture = ExtResource("r35_flowers")
 
 [node name="Under135" type="Sprite2D" parent="."]
-position = Vector2(530, -260)
+position = Vector2(-453, 47)
 offset = Vector2(0, -11.0)
-texture = ExtResource("r36_clover")
+texture = ExtResource("r35_flowers")
 
 [node name="Under136" type="Sprite2D" parent="."]
-position = Vector2(698, -227)
+position = Vector2(-154, -519)
 flip_h = true
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under137" type="Sprite2D" parent="."]
+position = Vector2(521, -259)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r36_clover")
+
+[node name="Under138" type="Sprite2D" parent="."]
+position = Vector2(504, -249)
+flip_h = true
+offset = Vector2(0, -11.0)
+texture = ExtResource("r36_clover")
+
+[node name="Under139" type="Sprite2D" parent="."]
+position = Vector2(698, -227)
+flip_h = true
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
+
+[node name="Under140" type="Sprite2D" parent="."]
 position = Vector2(672, -236)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
-[node name="Under138" type="Sprite2D" parent="."]
+[node name="Under141" type="Sprite2D" parent="."]
 position = Vector2(708, -268)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
-[node name="Under139" type="Sprite2D" parent="."]
-position = Vector2(-445, 47)
-offset = Vector2(0, -11.0)
-texture = ExtResource("r35_flowers")
-
-[node name="Under140" type="Sprite2D" parent="."]
+[node name="Under142" type="Sprite2D" parent="."]
 position = Vector2(-178, -484)
 offset = Vector2(0, -11.5)
 texture = ExtResource("r38_berry_bush")
 
-[node name="Under141" type="Sprite2D" parent="."]
+[node name="Under143" type="Sprite2D" parent="."]
 position = Vector2(-304, -7)
 flip_h = true
 offset = Vector2(0, -11.0)
 texture = ExtResource("r35_flowers")
 
-[node name="Under142" type="Sprite2D" parent="."]
+[node name="Under144" type="Sprite2D" parent="."]
 position = Vector2(293, 206)
 flip_h = true
 offset = Vector2(0, -11.0)
 texture = ExtResource("r36_clover")
 
-[node name="Under143" type="Sprite2D" parent="."]
-position = Vector2(246, -92)
-offset = Vector2(0, -11.0)
-texture = ExtResource("r36_clover")
-
-[node name="Under144" type="Sprite2D" parent="."]
+[node name="Under145" type="Sprite2D" parent="."]
 position = Vector2(25, 309)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
-
-[node name="Under145" type="Sprite2D" parent="."]
-position = Vector2(195, -80)
-flip_h = true
-offset = Vector2(0, -11.0)
-texture = ExtResource("r35_flowers")
 
 [node name="Under146" type="Sprite2D" parent="."]
 position = Vector2(-51, -103)
@@ -2970,16 +2965,21 @@ offset = Vector2(0, -11.0)
 texture = ExtResource("r36_clover")
 
 [node name="Under147" type="Sprite2D" parent="."]
-position = Vector2(-357, -23)
+position = Vector2(637, -47)
 offset = Vector2(0, -12.5)
 texture = ExtResource("r37_grass_clump")
 
 [node name="Under148" type="Sprite2D" parent="."]
-position = Vector2(392, -260)
-offset = Vector2(0, -11.0)
-texture = ExtResource("r35_flowers")
+position = Vector2(-357, -23)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r37_grass_clump")
 
 [node name="Under149" type="Sprite2D" parent="."]
+position = Vector2(235, -59)
+offset = Vector2(0, -11.0)
+texture = ExtResource("r36_clover")
+
+[node name="Under150" type="Sprite2D" parent="."]
 position = Vector2(430, -75)
 flip_h = true
 offset = Vector2(0, -12.5)
@@ -3130,7 +3130,7 @@ frame = 5
 speed_scale = 1.02
 
 [node name="Tuft16" type="AnimatedSprite2D" parent="."]
-position = Vector2(-642, -251)
+position = Vector2(200, -84)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3139,7 +3139,7 @@ frame = 0
 speed_scale = 1.15
 
 [node name="Tuft17" type="AnimatedSprite2D" parent="."]
-position = Vector2(-632, -261)
+position = Vector2(207, -71)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3148,7 +3148,7 @@ frame = 3
 speed_scale = 0.92
 
 [node name="Tuft18" type="AnimatedSprite2D" parent="."]
-position = Vector2(-660, -268)
+position = Vector2(270, -87)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3157,16 +3157,16 @@ frame = 6
 speed_scale = 1.05
 
 [node name="Tuft19" type="AnimatedSprite2D" parent="."]
-position = Vector2(569, 109)
+position = Vector2(-637, -142)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 1
 speed_scale = 1.18
 
 [node name="Tuft20" type="AnimatedSprite2D" parent="."]
-position = Vector2(527, 94)
+position = Vector2(-602, -151)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3175,16 +3175,16 @@ frame = 4
 speed_scale = 0.95
 
 [node name="Tuft21" type="AnimatedSprite2D" parent="."]
-position = Vector2(542, 106)
+position = Vector2(-658, -169)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 7
 speed_scale = 1.08
 
 [node name="Tuft22" type="AnimatedSprite2D" parent="."]
-position = Vector2(583, 103)
+position = Vector2(-621, -144)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3193,16 +3193,16 @@ frame = 2
 speed_scale = 0.85
 
 [node name="Tuft23" type="AnimatedSprite2D" parent="."]
-position = Vector2(368, -124)
+position = Vector2(-651, -129)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 5
 speed_scale = 0.98
 
 [node name="Tuft24" type="AnimatedSprite2D" parent="."]
-position = Vector2(359, -548)
+position = Vector2(-642, -114)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3211,7 +3211,7 @@ frame = 0
 speed_scale = 1.12
 
 [node name="Tuft25" type="AnimatedSprite2D" parent="."]
-position = Vector2(114, -298)
+position = Vector2(-307, -509)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3220,16 +3220,16 @@ frame = 3
 speed_scale = 0.88
 
 [node name="Tuft26" type="AnimatedSprite2D" parent="."]
-position = Vector2(128, -272)
+position = Vector2(-374, -519)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 6
 speed_scale = 1.02
 
 [node name="Tuft27" type="AnimatedSprite2D" parent="."]
-position = Vector2(125, -310)
+position = Vector2(-353, -502)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3238,7 +3238,7 @@ frame = 1
 speed_scale = 1.15
 
 [node name="Tuft28" type="AnimatedSprite2D" parent="."]
-position = Vector2(-501, -49)
+position = Vector2(-3, 366)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3247,7 +3247,7 @@ frame = 4
 speed_scale = 0.92
 
 [node name="Tuft29" type="AnimatedSprite2D" parent="."]
-position = Vector2(-510, -26)
+position = Vector2(-113, -195)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3256,16 +3256,16 @@ frame = 7
 speed_scale = 1.05
 
 [node name="Tuft30" type="AnimatedSprite2D" parent="."]
-position = Vector2(-455, -32)
+position = Vector2(-657, 254)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 2
 speed_scale = 1.18
 
 [node name="Tuft31" type="AnimatedSprite2D" parent="."]
-position = Vector2(-473, -38)
+position = Vector2(114, -298)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3274,7 +3274,7 @@ frame = 5
 speed_scale = 0.95
 
 [node name="Tuft32" type="AnimatedSprite2D" parent="."]
-position = Vector2(223, -203)
+position = Vector2(128, -272)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3283,7 +3283,7 @@ frame = 0
 speed_scale = 1.08
 
 [node name="Tuft33" type="AnimatedSprite2D" parent="."]
-position = Vector2(189, -228)
+position = Vector2(125, -310)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3292,16 +3292,16 @@ frame = 3
 speed_scale = 0.85
 
 [node name="Tuft34" type="AnimatedSprite2D" parent="."]
-position = Vector2(163, -205)
+position = Vector2(-501, -49)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 6
 speed_scale = 0.98
 
 [node name="Tuft35" type="AnimatedSprite2D" parent="."]
-position = Vector2(-360, -350)
+position = Vector2(-510, -26)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3310,7 +3310,7 @@ frame = 1
 speed_scale = 1.12
 
 [node name="Tuft36" type="AnimatedSprite2D" parent="."]
-position = Vector2(-326, -351)
+position = Vector2(-455, -32)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3319,7 +3319,7 @@ frame = 4
 speed_scale = 0.88
 
 [node name="Tuft37" type="AnimatedSprite2D" parent="."]
-position = Vector2(-342, -357)
+position = Vector2(-473, -38)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3328,7 +3328,7 @@ frame = 7
 speed_scale = 1.02
 
 [node name="Tuft38" type="AnimatedSprite2D" parent="."]
-position = Vector2(-386, -367)
+position = Vector2(223, -203)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3337,52 +3337,52 @@ frame = 2
 speed_scale = 1.15
 
 [node name="Tuft39" type="AnimatedSprite2D" parent="."]
-position = Vector2(-339, -329)
+position = Vector2(189, -228)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 5
 speed_scale = 0.92
 
 [node name="Tuft40" type="AnimatedSprite2D" parent="."]
-position = Vector2(498, -458)
+position = Vector2(163, -205)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 0
 speed_scale = 1.05
 
 [node name="Tuft41" type="AnimatedSprite2D" parent="."]
-position = Vector2(533, -469)
+position = Vector2(-360, -350)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 3
 speed_scale = 1.18
 
 [node name="Tuft42" type="AnimatedSprite2D" parent="."]
-position = Vector2(504, -474)
+position = Vector2(-326, -351)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 6
 speed_scale = 0.95
 
 [node name="Tuft43" type="AnimatedSprite2D" parent="."]
-position = Vector2(129, 294)
+position = Vector2(-342, -357)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 1
 speed_scale = 1.08
 
 [node name="Tuft44" type="AnimatedSprite2D" parent="."]
-position = Vector2(116, 263)
+position = Vector2(-386, -367)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3391,7 +3391,7 @@ frame = 4
 speed_scale = 0.85
 
 [node name="Tuft45" type="AnimatedSprite2D" parent="."]
-position = Vector2(131, 279)
+position = Vector2(-339, -329)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3400,7 +3400,7 @@ frame = 7
 speed_scale = 0.98
 
 [node name="Tuft46" type="AnimatedSprite2D" parent="."]
-position = Vector2(146, 296)
+position = Vector2(498, -458)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3409,25 +3409,25 @@ frame = 2
 speed_scale = 1.12
 
 [node name="Tuft47" type="AnimatedSprite2D" parent="."]
-position = Vector2(94, 269)
+position = Vector2(533, -469)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 5
 speed_scale = 0.88
 
 [node name="Tuft48" type="AnimatedSprite2D" parent="."]
-position = Vector2(178, 276)
+position = Vector2(504, -474)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 0
 speed_scale = 1.02
 
 [node name="Tuft49" type="AnimatedSprite2D" parent="."]
-position = Vector2(152, 267)
+position = Vector2(129, 294)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3436,16 +3436,16 @@ frame = 3
 speed_scale = 1.15
 
 [node name="Tuft50" type="AnimatedSprite2D" parent="."]
-position = Vector2(-513, -89)
+position = Vector2(116, 263)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 6
 speed_scale = 0.92
 
 [node name="Tuft51" type="AnimatedSprite2D" parent="."]
-position = Vector2(-559, -96)
+position = Vector2(131, 279)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3454,16 +3454,16 @@ frame = 1
 speed_scale = 1.05
 
 [node name="Tuft52" type="AnimatedSprite2D" parent="."]
-position = Vector2(558, -439)
+position = Vector2(146, 296)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 4
 speed_scale = 1.18
 
 [node name="Tuft53" type="AnimatedSprite2D" parent="."]
-position = Vector2(578, -427)
+position = Vector2(94, 269)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3472,16 +3472,16 @@ frame = 7
 speed_scale = 0.95
 
 [node name="Tuft54" type="AnimatedSprite2D" parent="."]
-position = Vector2(587, -446)
+position = Vector2(178, 276)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 2
 speed_scale = 1.08
 
 [node name="Tuft55" type="AnimatedSprite2D" parent="."]
-position = Vector2(489, -208)
+position = Vector2(152, 267)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3490,16 +3490,16 @@ frame = 5
 speed_scale = 0.85
 
 [node name="Tuft56" type="AnimatedSprite2D" parent="."]
-position = Vector2(501, -197)
+position = Vector2(-513, -89)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 0
 speed_scale = 0.98
 
 [node name="Tuft57" type="AnimatedSprite2D" parent="."]
-position = Vector2(-544, -159)
+position = Vector2(-559, -96)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3508,7 +3508,7 @@ frame = 3
 speed_scale = 1.12
 
 [node name="Tuft58" type="AnimatedSprite2D" parent="."]
-position = Vector2(-555, -149)
+position = Vector2(558, -439)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3517,16 +3517,16 @@ frame = 6
 speed_scale = 0.88
 
 [node name="Tuft59" type="AnimatedSprite2D" parent="."]
-position = Vector2(-537, -142)
+position = Vector2(578, -427)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 1
 speed_scale = 1.02
 
 [node name="Tuft60" type="AnimatedSprite2D" parent="."]
-position = Vector2(-257, 312)
+position = Vector2(587, -446)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3535,16 +3535,16 @@ frame = 4
 speed_scale = 1.15
 
 [node name="Tuft61" type="AnimatedSprite2D" parent="."]
-position = Vector2(-210, 332)
+position = Vector2(489, -208)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 7
 speed_scale = 0.92
 
 [node name="Tuft62" type="AnimatedSprite2D" parent="."]
-position = Vector2(-304, 310)
+position = Vector2(501, -197)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3553,16 +3553,16 @@ frame = 2
 speed_scale = 1.05
 
 [node name="Tuft63" type="AnimatedSprite2D" parent="."]
-position = Vector2(-282, 311)
+position = Vector2(-544, -159)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 5
 speed_scale = 1.18
 
 [node name="Tuft64" type="AnimatedSprite2D" parent="."]
-position = Vector2(-229, 335)
+position = Vector2(-555, -149)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3571,7 +3571,7 @@ frame = 0
 speed_scale = 0.95
 
 [node name="Tuft65" type="AnimatedSprite2D" parent="."]
-position = Vector2(-755, -548)
+position = Vector2(-537, -142)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3580,16 +3580,16 @@ frame = 3
 speed_scale = 1.08
 
 [node name="Tuft66" type="AnimatedSprite2D" parent="."]
-position = Vector2(-727, -545)
+position = Vector2(-257, 312)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 6
 speed_scale = 0.85
 
 [node name="Tuft67" type="AnimatedSprite2D" parent="."]
-position = Vector2(-716, -533)
+position = Vector2(-210, 332)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3598,7 +3598,7 @@ frame = 1
 speed_scale = 0.98
 
 [node name="Tuft68" type="AnimatedSprite2D" parent="."]
-position = Vector2(-79, -284)
+position = Vector2(-304, 310)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3607,25 +3607,25 @@ frame = 4
 speed_scale = 1.12
 
 [node name="Tuft69" type="AnimatedSprite2D" parent="."]
-position = Vector2(-97, -263)
+position = Vector2(-282, 311)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 7
 speed_scale = 0.88
 
 [node name="Tuft70" type="AnimatedSprite2D" parent="."]
-position = Vector2(-122, -263)
+position = Vector2(130, -534)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 2
 speed_scale = 1.02
 
 [node name="Tuft71" type="AnimatedSprite2D" parent="."]
-position = Vector2(111, 234)
+position = Vector2(-253, -270)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3634,16 +3634,16 @@ frame = 5
 speed_scale = 1.15
 
 [node name="Tuft72" type="AnimatedSprite2D" parent="."]
-position = Vector2(83, 242)
+position = Vector2(-234, -292)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 0
 speed_scale = 0.92
 
 [node name="Tuft73" type="AnimatedSprite2D" parent="."]
-position = Vector2(229, 441)
+position = Vector2(165, 241)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3652,7 +3652,7 @@ frame = 3
 speed_scale = 1.05
 
 [node name="Tuft74" type="AnimatedSprite2D" parent="."]
-position = Vector2(-556, -300)
+position = Vector2(152, 229)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3661,25 +3661,25 @@ frame = 6
 speed_scale = 1.18
 
 [node name="Tuft75" type="AnimatedSprite2D" parent="."]
-position = Vector2(-562, -279)
+position = Vector2(167, 226)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 1
 speed_scale = 0.95
 
 [node name="Tuft76" type="AnimatedSprite2D" parent="."]
-position = Vector2(-544, -330)
+position = Vector2(-293, -449)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 4
 speed_scale = 1.08
 
 [node name="Tuft77" type="AnimatedSprite2D" parent="."]
-position = Vector2(-502, -325)
+position = Vector2(347, 505)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3688,16 +3688,16 @@ frame = 7
 speed_scale = 0.85
 
 [node name="Tuft78" type="AnimatedSprite2D" parent="."]
-position = Vector2(-505, -299)
+position = Vector2(326, 505)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 2
 speed_scale = 0.98
 
 [node name="Tuft79" type="AnimatedSprite2D" parent="."]
-position = Vector2(-526, -309)
+position = Vector2(379, 477)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3706,16 +3706,16 @@ frame = 5
 speed_scale = 1.12
 
 [node name="Tuft80" type="AnimatedSprite2D" parent="."]
-position = Vector2(70, -538)
+position = Vector2(-638, -518)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 0
 speed_scale = 0.88
 
 [node name="Tuft81" type="AnimatedSprite2D" parent="."]
-position = Vector2(159, -466)
+position = Vector2(-38, 337)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3724,7 +3724,7 @@ frame = 3
 speed_scale = 1.02
 
 [node name="Tuft82" type="AnimatedSprite2D" parent="."]
-position = Vector2(188, -448)
+position = Vector2(-304, -159)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3733,16 +3733,16 @@ frame = 6
 speed_scale = 1.15
 
 [node name="Tuft83" type="AnimatedSprite2D" parent="."]
-position = Vector2(191, -470)
+position = Vector2(276, -210)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 1
 speed_scale = 0.92
 
 [node name="Tuft84" type="AnimatedSprite2D" parent="."]
-position = Vector2(-312, -302)
+position = Vector2(262, -210)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3751,7 +3751,7 @@ frame = 4
 speed_scale = 1.05
 
 [node name="Tuft85" type="AnimatedSprite2D" parent="."]
-position = Vector2(-345, -273)
+position = Vector2(238, -239)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_flowers_frames")
@@ -3760,16 +3760,16 @@ frame = 7
 speed_scale = 1.18
 
 [node name="Tuft86" type="AnimatedSprite2D" parent="."]
-position = Vector2(-302, -281)
+position = Vector2(-249, -296)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 2
 speed_scale = 0.95
 
 [node name="Tuft87" type="AnimatedSprite2D" parent="."]
-position = Vector2(-408, -254)
+position = Vector2(809, 443)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3778,16 +3778,16 @@ frame = 5
 speed_scale = 1.08
 
 [node name="Tuft88" type="AnimatedSprite2D" parent="."]
-position = Vector2(-360, -260)
+position = Vector2(621, 314)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_frames")
+sprite_frames = SubResource("tuft_flowers_frames")
 autoplay = "default"
 frame = 0
 speed_scale = 0.85
 
 [node name="Tuft89" type="AnimatedSprite2D" parent="."]
-position = Vector2(-468, -234)
+position = Vector2(664, 284)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")
@@ -3796,16 +3796,16 @@ frame = 3
 speed_scale = 0.98
 
 [node name="Tuft90" type="AnimatedSprite2D" parent="."]
-position = Vector2(-392, -248)
+position = Vector2(632, 304)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
-sprite_frames = SubResource("tuft_flowers_frames")
+sprite_frames = SubResource("tuft_frames")
 autoplay = "default"
 frame = 6
 speed_scale = 1.12
 
 [node name="Tuft91" type="AnimatedSprite2D" parent="."]
-position = Vector2(-436, -225)
+position = Vector2(626, 285)
 modulate = Color(1.05, 1.0, 0.85, 1)
 offset = Vector2(0, -12)
 sprite_frames = SubResource("tuft_frames")

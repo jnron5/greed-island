@@ -192,6 +192,25 @@ class Zone:
         # Broad soft light, so the ground never reads as tiles.
         dapple = (self.noise(90) * 0.6 + self.noise(30) * 0.4 - 0.5)
         a[..., :3] *= (1.0 + dapple * c.get("dapple", 0.14))[..., None]
+        # Wildflower meadows: tiny petals speckled thickly in the middle of each patch,
+        # thinning out at its edge (drawn before paths and fields, which cover them).
+        for mcx, mcy, mrx, mry, colours in c.get("meadows", []):
+            rng = np.random.default_rng(int(abs(mcx) * 7 + abs(mcy)))
+            x0p, x1p = max(0, int(mcx - mrx - self.x0)), min(W, int(mcx + mrx - self.x0))
+            y0p, y1p = max(0, int(mcy - mry - self.y0)), min(H, int(mcy + mry - self.y0))
+            count = int((x1p - x0p) * (y1p - y0p) / 30)
+            xs = rng.integers(x0p, max(x0p + 1, x1p - 1), count)
+            ys = rng.integers(y0p, max(y0p + 1, y1p - 1), count)
+            for px, py in zip(xs, ys):
+                d = ((px + self.x0 - mcx) / mrx) ** 2 + ((py + self.y0 - mcy) / mry) ** 2
+                if d > 1.0 or rng.random() < d * 0.9 or not flat[py, px]:
+                    continue
+                col = np.array(colours[rng.integers(0, len(colours))], np.float32)
+                a[py, px, :3] = col
+                if rng.random() < 0.5 and px + 1 < W:
+                    a[py, px + 1, :3] = col * 0.85
+                if py + 1 < H:
+                    a[py + 1, px, :3] = a[py + 1, px, :3] * 0.8          # a stalk's shadow
         # Wheat fields: golden, in rows, ragged at the edges, a trampled rim.
         fields = c.get("fields", [])
         if fields:
@@ -474,6 +493,12 @@ class Zone:
         c = self.cfg
         img = self.terrain()
         stair_png = self.build_stairs()
+        # Every flight of stairs should carry a path up it (else it looks like a stray).
+        for c0, r0, rows in self.stairs:
+            sx = self.x0 + (c0 + 1) * TILE
+            for sy in (self.y0 + r0 * TILE + 6, self.y0 + (r0 + rows) * TILE - 6):
+                if not self.on_path(sx, sy, 10):
+                    print(f"  warning: {self.key}: no path reaches the stairs at ({sx}, {sy})")
         subs, ext, tex = {}, [], {}
 
         def shape(w, h):
