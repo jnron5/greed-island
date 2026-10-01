@@ -7,7 +7,7 @@
 script = ExtResource("1_card")
 id = &"emberburst_rounds"
 display_name = "Emberburst Rounds"
-description = "Passive: hold the pistol to charge a round that bursts where it lands, hurting everything round it."
+description = "Passive: hold the pistol to charge a shot that explodes."
 lore = "Pell packs them himself from the resin the Hollow bear leaves on the roots, and a pinch of something he won't name. He used to make fireworks for the solstice. He hasn't since the spring."
 category = 2
 source = 4

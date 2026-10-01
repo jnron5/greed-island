@@ -7728,6 +7728,12 @@ title = "The Kestrel tower"
 lines = PackedStringArray("A watchtower older than the King's Road, half fallen. From the top of the rubble you can see the whole of the plains, the dune road west, and the smoke from somewhere beyond the dunes that never seems to stop.", "A sentry once scratched a tally here of carts going west. The tally fills the wall.")
 
 [node name="Read4" type="Node2D" parent="."]
+position = Vector2(-240, 150)
+script = ExtResource("r37_readable")
+title = "The crossroads sign"
+lines = PackedStringArray("North: LAKE SERIN, and the Starfall Range beyond. South: VERDANA. East: KALMORA. West: the dune road to DUSKARA.", "Someone has nailed a plank across the west arm: 'CLOSED'.")
+
+[node name="Read5" type="Node2D" parent="."]
 position = Vector2(-60, -20)
 script = ExtResource("r37_readable")
 title = "A wayside shrine"

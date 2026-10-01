@@ -174,6 +174,10 @@ AUREWIND = {
             "A watchtower older than the King's Road, half fallen. From the top of the rubble you can see the whole of the plains, the dune road west, and the smoke from somewhere beyond the dunes that never seems to stop.",
             "A sentry once scratched a tally here of carts going west. The tally fills the wall.",
         ]),
+        ("The crossroads sign", (-240, 150), [
+            "North: LAKE SERIN, and the Starfall Range beyond. South: VERDANA. East: KALMORA. West: the dune road to DUSKARA.",
+            "Someone has nailed a plank across the west arm: 'CLOSED'.",
+        ]),
         ("A wayside shrine", (-60, -20), [
             "A little cairn of stacked stones by the King's Road, heaped with wheat and ribbons. A board says: 'For the ones who walked west.'",
             "Nobody has written who they were.",
