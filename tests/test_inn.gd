@@ -73,6 +73,31 @@ func _run() -> void:
 	fisher.queue_free()
 	spot.queue_free()
 
+	# Keepers' lines rotate, and carry on from where they were after you leave and
+	# come back (a new room scene makes a new Npc).
+	var said: Array[String] = []
+	for visit in 3:
+		var tavern: Node = load("res://scenes/world/interiors/kalmora_tavern.tscn").instantiate()
+		var jobelle := tavern.get_node("Npc_jobelle") as Npc
+		said.append(jobelle.next_line(jobelle.lines))
+		tavern.free()
+	_check("Jobelle says something new each visit", said[0] != said[1] and said[1] != said[2])
+	# Tally serves dinner at five sharp, and it mends every heart.
+	var verdana: Node = load("res://scenes/world/interiors/verdana_inn.tscn").instantiate()
+	add_child(verdana)
+	await get_tree().process_frame
+	var tally := verdana.get_node("Npc_tally") as Npc
+	var diner := verdana.get_node("Player") as Player
+	diner.health = 1
+	TimeOfDay.set_hour(16.5)
+	_check("before five, Tally warns you dinner's coming", tally._meal_talk().size() == 1 and diner.health == 1)
+	TimeOfDay.set_hour(17.2)
+	_check("at five, dinner: every heart mended", tally._meal_talk() == tally.meal_lines and diner.health == diner.max_health)
+	TimeOfDay.set_hour(20.0)
+	_check("after six, no dinner", tally._meal_talk().is_empty())
+	verdana.queue_free()
+	await get_tree().process_frame
+
 	# Every town's inn has a keeper who rents rooms.
 	for path: String in INNS:
 		var room: Node = load(path).instantiate()

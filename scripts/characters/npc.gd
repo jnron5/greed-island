@@ -31,6 +31,19 @@ const TALK_RANGE := 34.0
 @export var shop_title := ""
 ## An inn keeper: offers a room for half a day or a full day (Inn).
 @export var inn_rooms := false
+## What the keeper says when you ask for a room, and when you can't pay.
+@export var room_prompt := "A bed, clean sheets, quiet. How long will you sleep?"
+@export var room_broke := "That's %d gold. Come back when your purse is heavier."
+## A resident who serves a meal at a set hour (Tally's dinner at five): for the
+## hour from meal_hour they say meal_lines and the meal mends every heart; in the
+## hour before, they say one of pre_meal_lines. -1 = no meal.
+@export var meal_hour := -1.0
+@export_multiline var meal_lines: PackedStringArray = []
+@export_multiline var pre_meal_lines: PackedStringArray = []
+
+## Where each resident is in their lines, kept across visits (a scene reload makes
+## a new Npc), so coming back doesn't start the same speech over.
+static var _next_line: Dictionary = {}
 
 var facing := Vector2.DOWN
 
@@ -38,7 +51,6 @@ var _home := Vector2.ZERO
 var _goal := Vector2.ZERO
 var _wait := 0.0
 var _talking := false
-var _line_index := 0
 var _patrol_index := 0
 var _pausing := true
 
@@ -105,10 +117,40 @@ func talk(player: Node2D) -> void:
 	var said: PackedStringArray = Quests.dialogue_for(npc_id)
 	if said.is_empty():
 		said = Errands.dialogue_for(npc_id)
+	if said.is_empty():
+		said = _meal_talk()
 	if said.is_empty() and not lines.is_empty():
-		said = PackedStringArray([lines[_line_index % lines.size()]])
-		_line_index += 1
+		said = PackedStringArray([next_line(lines)])
 	DialogueBox.say(get_tree(), display_name, said, _done_talking, DialogueBox.portrait_from(sprite.sprite_frames))
+
+
+## The next of `pool`, one per conversation, looping; remembered across visits.
+## Starts somewhere random so two playthroughs don't open the same way.
+func next_line(pool: PackedStringArray) -> String:
+	var key := String(npc_id) + ":" + str(pool.size())
+	if not _next_line.has(key):
+		_next_line[key] = randi() % pool.size()
+	var i: int = _next_line[key] % pool.size()
+	_next_line[key] = i + 1
+	return pool[i]
+
+
+## Around the meal hour: the meal itself (and every heart mended), or the warning
+## that it's coming. Empty the rest of the day.
+func _meal_talk() -> PackedStringArray:
+	if meal_hour < 0.0:
+		return PackedStringArray()
+	var h := TimeOfDay.hour
+	if h >= meal_hour and h < meal_hour + 1.0 and not meal_lines.is_empty():
+		var player := get_tree().get_first_node_in_group(&"player") as Player
+		if player and player.health < player.max_health:
+			player.heal(player.max_health)
+			Sfx.play(&"heal")
+			EventBus.notify.emit("Dinner. Every heart mended.")
+		return meal_lines
+	if h >= meal_hour - 1.0 and h < meal_hour and not pre_meal_lines.is_empty():
+		return PackedStringArray([next_line(pre_meal_lines)])
+	return PackedStringArray()
 
 
 func _done_talking() -> void:
@@ -162,14 +204,14 @@ func _offer_room() -> void:
 		options.append(offer[0])
 	options.append("Never mind")
 	var portrait := DialogueBox.portrait_from(sprite.sprite_frames)
-	DialogueBox.ask(get_tree(), display_name, "A bed, clean sheets, quiet. How long will you sleep?", options,
+	DialogueBox.ask(get_tree(), display_name, room_prompt, options,
 		func(pick: int) -> void:
 			if pick >= offers.size():
 				_offer_topics()
 				return
 			var offer: Array = offers[pick]
 			if not Inn.sleep(get_tree(), offer[1], offer[2]):
-				DialogueBox.say(get_tree(), display_name, PackedStringArray(["That's %d gold. Come back when your purse is heavier." % offer[2]]),
+				DialogueBox.say(get_tree(), display_name, PackedStringArray([room_broke % offer[2] if "%d" in room_broke else room_broke]),
 					_offer_topics, portrait)
 				return
 			_talking = false

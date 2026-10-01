@@ -192,8 +192,13 @@ position = Vector2(108, 136)
 npc_id = &"mate"
 display_name = "Mate"
 sprite_frames = ExtResource("n_mate")
-lines = PackedStringArray("Welcome to the Kettle. Kettle's always on. Rooms are up the stair, if the stair's feeling generous.", "Racers sleep here every year, all three of them, same as the last lot. I don't take sides. I take coin.", "Jobelle down in Kalmora is my cousin. Same stripes, different sea. She says I water the cider. I say the forest is wet.")
+lines = PackedStringArray("What. You want a bed, or do you want to stand there dripping on my floor?", "Chef. CHEF. Some dog in Vetrassa puts a sprig of parsley on a potato and the whole island weeps. My stew would put him out of business in a week.", "Yes, one arm. No, I don't need help with the kettle. I've been lifting it longer than you've been racing.", "Jobelle's my sister. She'll have told you I'm nice underneath. She lies to be kind. It's her worst habit.", "People wait a year for a table at Chef's. Here you wait for nothing and the gravy's better. Think about that.", "Tilly's the youngest of us. Anyone's unkind to her out on those downs, they answer to me. With the one arm. It's plenty.", "You know what's in Chef's famous broth? Water and reputation. You know what's in mine? Mushrooms I picked, roots I dug, and spite.", "Lost the arm in the Thornveil years back. A hound got the better of me. Then I got the better of the hound.", "Don't touch the kettle. Don't touch the guest book. And don't say the word 'restaurant' in here.", "Some racer last year said my pie reminded him of Chef's. I threw him out. In the rain. Into the brambles.", "Fine. The bread's good. You can tell people that. Tell them in Vetrassa, loudly, outside a certain door.")
 inn_rooms = true
+shop_stock = Array[StringName]([&"bread", &"smoked_fish", &"healers_tonic"])
+shop_buys_cards = false
+shop_title = "The Copper Kettle"
+room_prompt = "Bed's up the stair. How long. Pick."
+room_broke = "%d gold. Not a copper less. This isn't Chef's, I don't do charity for show."
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(210, 150)

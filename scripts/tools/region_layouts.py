@@ -164,6 +164,7 @@ AUREWIND = {
             "Mind the rams. They're mine, mostly. The ones with the bristles on their backs aren't anyone's.",
             "The stones up on the downs hum when the wind's in the east. Grandad says they're counting.",
             "Wagons used to come east along the dune road every week. Covered, always. Then the rocks came down and they stopped. Or they go some other way now.",
+            "My big sisters Jobelle and Mate both think I can't look after myself. I've got forty sheep that say otherwise.",
             "If you're in Verdana, say hello to Tally at the Sheaf & Sickle. She'll give you a bed and tell you everyone's business. Best friend I've got.",
         ]},
     ],

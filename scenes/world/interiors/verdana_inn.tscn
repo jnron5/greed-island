@@ -167,8 +167,16 @@ position = Vector2(110, 106)
 npc_id = &"tally"
 display_name = "Tally"
 sprite_frames = ExtResource("n_tally")
-lines = PackedStringArray("Welcome to the Sheaf & Sickle. Bed, cider, bread, in that order of importance.", "I keep a tally of everything. Pints, rooms, debts. The Company men's debts most of all. Nobody's ever paid one.", "Tilly out on the downs is my oldest friend. Tilly and Tally, the whole valley calls us. She minds sheep, I mind people. Same job really.")
+lines = PackedStringArray("Hello, hello, HELLO! Welcome to the Sheaf & Sickle! Boots off the table, coin on the counter, smile on the face!", "Dinner is at five. Not five past. Not 'about five'. FIVE. The bell rings, the plates go down, and the door stays shut until the gravy's gone.", "Men! Honestly! Bruno's the only one I let in my kitchen, and that's because he's scared of me. As he should be.", "Bruno asked if dinner could be at half five on market days. I said no. He asked why. I said FIVE. He hasn't asked again.", "I've been up since four! Swept the yard, chased off a ram, counted the Company's debts twice. Still not paid! Still counting!", "Every man who came through that door this harvest tried to tell me how to run my inn. Every one of them ate his dinner at five.", "Tilly's my best friend in the whole world! Her sister Jobelle sends me jam every winter. Her other sister Mate sends me complaints. I keep both!", "Racers are always in a hurry. I respect that! You'll still sit down at five like everybody else.", "The Company man in the corner wanted his supper at seven. Seven! I gave him a crust and a lecture. He's still here. Still hungry.", "Oh, I love a busy day! Fifty pints, twelve beds, one dinner, at FIVE, and not a single man telling me anything I didn't already know!")
 inn_rooms = true
+shop_stock = Array[StringName]([&"bread", &"smoked_fish", &"healers_tonic"])
+shop_buys_cards = false
+shop_title = "The Sheaf & Sickle"
+room_prompt = "A room! Lovely! Half a day or a full one? Dinner's at five either way!"
+room_broke = "%d gold, sweetheart! No coin, no bed! You can still come to dinner. At FIVE."
+meal_hour = 17.0
+meal_lines = PackedStringArray("It's five o'clock! Sit! Eat! Everything on the plate, I'm watching!", "There. Full belly, full heart. That's the Sheaf & Sickle way!")
+pre_meal_lines = PackedStringArray("Dinner in under an hour! Wash your paws and don't be late. I lock the door at five past!", "Smell that? That's dinner. At FIVE. Go and do something useful until then.", "Nearly five! Nearly five! Bruno, the plates! BRUNO!")
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(118, 104)

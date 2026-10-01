@@ -161,8 +161,13 @@ position = Vector2(250, 124)
 npc_id = &"jobelle"
 display_name = "Jobelle"
 sprite_frames = ExtResource("n_jobelle")
-lines = PackedStringArray("Rooms are upstairs, sheets are clean, and the walls are thicker than Otto's jokes. Half a day or a whole one, your choice.", "Every race I keep a room for each racer. Most years I only change two of the beds after.", "You've heard of Chef? Best kitchen on the island, up in Vetrassa. My brother waited a year for a table. Said it was worth the year.")
+lines = PackedStringArray("There you are! Sit, sit. You look like the road chewed you up and spat you out. The tea's on.", "My little sister Mate runs the Copper Kettle up in Sorenda. Tell her Jobelle says to be nice to you. She won't be, but tell her anyway.", "Tilly's the baby of the three of us. She's out on the Aurewind downs with her sheep, talking to them like they're people. If you pass her, make sure she's eating.", "I keep a candle in the window for every racer out after dark. You're one of my candles now, love. Don't make me worry.", "Three sisters, three roofs. Mate says I fuss. Tilly says I fuss. They're both right, and I'm not stopping.", "Anyone gives you trouble on the docks, you come straight back here. Otto pretends he's tough. He'll walk you home if I ask him.", "Mind you eat something that isn't a card. Bread, a bit of fish. Your heart needs more than luck to keep going.", "Mate sent me a letter last week. Four lines, and two of them were about Chef. That's how I know she's well.", "When we were small, Mate always took the bigger half of the apple, then gave it to Tilly when she thought I wasn't looking. Don't let her tell you she's all thorns.", "Tilly wrote to say a ram knocked her into the pond. She thought it was the funniest thing that ever happened. I didn't sleep for a week.", "You've got that look. Somebody you're racing for, back home? Keep them in mind. It helps on the long roads.")
 inn_rooms = true
+shop_stock = Array[StringName]([&"bread", &"smoked_fish", &"healers_tonic"])
+shop_buys_cards = false
+shop_title = "The Salted Lantern"
+room_prompt = "Of course, love! Fresh sheets, a warm brick in the bed. Half a day, or a whole one?"
+room_broke = "Oh, love, it's %d gold. Come back when you can. And eat something in the meantime."
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(188, 244)

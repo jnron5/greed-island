@@ -16,6 +16,8 @@ ROOM_SCALE = 1
 
 # Greta's shelves: satchel items that heal (data/items/).
 PROVISIONS = '[&"smoked_fish", &"bread", &"healers_tonic", &"sea_salt_elixir"]'
+# What inn keepers sell over the counter (food and tonics; they don't trade cards).
+INN_STOCK = '[&"bread", &"smoked_fish", &"healers_tonic"]'
 SHOP_STOCK = '[&"pickpockets_whisper", &"lockbox_seal", &"second_wind", &"hollowpoint_charm", &"tidewalker_anklet"]'
 
 INTERIORS = {
@@ -37,11 +39,21 @@ INTERIORS = {
             "The Hoarder's family? Old money. Shipping money. Don't ask them what they ship.",
         ], []),
                  ("jobelle", "Jobelle", "jobelle", (250, 124), [
-            "Rooms are upstairs, sheets are clean, and the walls are thicker than Otto's jokes. Half a day or a whole one, your choice.",
-            "Every race I keep a room for each racer. Most years I only change two of the beds after.",
-            "You've heard of Chef? Best kitchen on the island, up in Vetrassa. My brother waited a year for a table. Said it was worth the year.",
+            "There you are! Sit, sit. You look like the road chewed you up and spat you out. The tea's on.",
+            "My little sister Mate runs the Copper Kettle up in Sorenda. Tell her Jobelle says to be nice to you. She won't be, but tell her anyway.",
+            "Tilly's the baby of the three of us. She's out on the Aurewind downs with her sheep, talking to them like they're people. If you pass her, make sure she's eating.",
+            "I keep a candle in the window for every racer out after dark. You're one of my candles now, love. Don't make me worry.",
+            "Three sisters, three roofs. Mate says I fuss. Tilly says I fuss. They're both right, and I'm not stopping.",
+            "Anyone gives you trouble on the docks, you come straight back here. Otto pretends he's tough. He'll walk you home if I ask him.",
+            "Mind you eat something that isn't a card. Bread, a bit of fish. Your heart needs more than luck to keep going.",
+            "Mate sent me a letter last week. Four lines, and two of them were about Chef. That's how I know she's well.",
+            "When we were small, Mate always took the bigger half of the apple, then gave it to Tilly when she thought I wasn't looking. Don't let her tell you she's all thorns.",
+            "Tilly wrote to say a ram knocked her into the pond. She thought it was the funniest thing that ever happened. I didn't sleep for a week.",
+            "You've got that look. Somebody you're racing for, back home? Keep them in mind. It helps on the long roads.",
         ], [])],
         "inn": "jobelle",
+        "keeper": {"room_prompt": "Of course, love! Fresh sheets, a warm brick in the bed. Half a day, or a whole one?",
+                   "room_broke": "Oh, love, it's %d gold. Come back when you can. And eat something in the meantime."},
     },
     "kalmora_card_shop": {
         "name": "Sable's Card Emporium",
@@ -431,11 +443,21 @@ INTERIORS = {
             (0, 216, 128, 224), (160, 216, 288, 224),                       # front wall round the door
         ],
         "npcs": [("mate", "Mate", "mate", (108, 136), [
-            "Welcome to the Kettle. Kettle's always on. Rooms are up the stair, if the stair's feeling generous.",
-            "Racers sleep here every year, all three of them, same as the last lot. I don't take sides. I take coin.",
-            "Jobelle down in Kalmora is my cousin. Same stripes, different sea. She says I water the cider. I say the forest is wet.",
+            'What. You want a bed, or do you want to stand there dripping on my floor?',
+            'Chef. CHEF. Some dog in Vetrassa puts a sprig of parsley on a potato and the whole island weeps. My stew would put him out of business in a week.',
+            "Yes, one arm. No, I don't need help with the kettle. I've been lifting it longer than you've been racing.",
+            "Jobelle's my sister. She'll have told you I'm nice underneath. She lies to be kind. It's her worst habit.",
+            "People wait a year for a table at Chef's. Here you wait for nothing and the gravy's better. Think about that.",
+            "Tilly's the youngest of us. Anyone's unkind to her out on those downs, they answer to me. With the one arm. It's plenty.",
+            "You know what's in Chef's famous broth? Water and reputation. You know what's in mine? Mushrooms I picked, roots I dug, and spite.",
+            'Lost the arm in the Thornveil years back. A hound got the better of me. Then I got the better of the hound.',
+            "Don't touch the kettle. Don't touch the guest book. And don't say the word 'restaurant' in here.",
+            "Some racer last year said my pie reminded him of Chef's. I threw him out. In the rain. Into the brambles.",
+            "Fine. The bread's good. You can tell people that. Tell them in Vetrassa, loudly, outside a certain door.",
         ], [])],
         "inn": "mate",
+        "keeper": {"room_prompt": "Bed's up the stair. How long. Pick.",
+                   "room_broke": "%d gold. Not a copper less. This isn't Chef's, I don't do charity for show."},
         "readables": [
             ("The guest book", (210, 150), [
                 "A fat guest book, every page a race year. Each year starts with three cloaked names, signed in a hurry.",
@@ -458,11 +480,23 @@ INTERIORS = {
             (39, 180, 128, 194), (158, 180, 249, 194),                       # front wall round the door
         ],
         "npcs": [("tally", "Tally", "tally", (110, 106), [
-            "Welcome to the Sheaf & Sickle. Bed, cider, bread, in that order of importance.",
-            "I keep a tally of everything. Pints, rooms, debts. The Company men's debts most of all. Nobody's ever paid one.",
-            "Tilly out on the downs is my oldest friend. Tilly and Tally, the whole valley calls us. She minds sheep, I mind people. Same job really.",
+            'Hello, hello, HELLO! Welcome to the Sheaf & Sickle! Boots off the table, coin on the counter, smile on the face!',
+            "Dinner is at five. Not five past. Not 'about five'. FIVE. The bell rings, the plates go down, and the door stays shut until the gravy's gone.",
+            "Men! Honestly! Bruno's the only one I let in my kitchen, and that's because he's scared of me. As he should be.",
+            "Bruno asked if dinner could be at half five on market days. I said no. He asked why. I said FIVE. He hasn't asked again.",
+            "I've been up since four! Swept the yard, chased off a ram, counted the Company's debts twice. Still not paid! Still counting!",
+            'Every man who came through that door this harvest tried to tell me how to run my inn. Every one of them ate his dinner at five.',
+            "Tilly's my best friend in the whole world! Her sister Jobelle sends me jam every winter. Her other sister Mate sends me complaints. I keep both!",
+            "Racers are always in a hurry. I respect that! You'll still sit down at five like everybody else.",
+            "The Company man in the corner wanted his supper at seven. Seven! I gave him a crust and a lecture. He's still here. Still hungry.",
+            "Oh, I love a busy day! Fifty pints, twelve beds, one dinner, at FIVE, and not a single man telling me anything I didn't already know!",
         ], [])],
         "inn": "tally",
+        "keeper": {"room_prompt": "A room! Lovely! Half a day or a full one? Dinner's at five either way!",
+                   "room_broke": "%d gold, sweetheart! No coin, no bed! You can still come to dinner. At FIVE.",
+                   "meal_hour": 17.0,
+                   "meal_lines": ["It's five o'clock! Sit! Eat! Everything on the plate, I'm watching!", "There. Full belly, full heart. That's the Sheaf & Sickle way!"],
+                   "pre_meal_lines": ["Dinner in under an hour! Wash your paws and don't be late. I lock the door at five past!", "Smell that? That's dinner. At FIVE. Go and do something useful until then.", 'Nearly five! Nearly five! Bruno, the plates! BRUNO!']},
         "readables": [
             ("The slate behind the bar", (118, 104), [
                 "Chalked prices: cider, bread, a bed. Under them, a column headed 'Company men - on account'. It's very long, and nothing on it has been crossed off.",
@@ -637,6 +671,23 @@ INTERIORS = {
 }
 
 
+def keeper_props(cfg):
+    """The inn keeper's extra properties: rooms, supplies (food and tonics, no card
+    trading), their own way of offering a bed, and a meal hour if they keep one."""
+    q = lambda text: '"' + text.replace('"', '\\"') + '"'
+    arr = lambda lines: "PackedStringArray(" + ", ".join(q(line) for line in lines) + ")"
+    k = cfg.get("keeper", {})
+    out = "inn_rooms = true\n"
+    out += f"shop_stock = Array[StringName]({INN_STOCK})\nshop_buys_cards = false\nshop_title = {q(cfg['name'])}\n"
+    if k.get("room_prompt"):
+        out += f"room_prompt = {q(k['room_prompt'])}\n"
+    if k.get("room_broke"):
+        out += f"room_broke = {q(k['room_broke'])}\n"
+    if k.get("meal_hour") is not None:
+        out += f"meal_hour = {k['meal_hour']}\nmeal_lines = {arr(k['meal_lines'])}\npre_meal_lines = {arr(k['pre_meal_lines'])}\n"
+    return out
+
+
 def scaled(cfg, k=ROOM_SCALE):
     """The config in zone coordinates: every position and rect multiplied by k."""
     pt = lambda p: (p[0] * k, p[1] * k)
@@ -726,7 +777,7 @@ exit_hint = true
                  f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{rid}")\n'
                  f'lines = PackedStringArray({quoted})\n' + (f'shop_stock = Array[StringName]({stock})\n' if stock else "")
                  + ('shop_buys_cards = false\nshop_title = "Greta\'s Provisions"\n' if stock == PROVISIONS else "")
-                 + ("inn_rooms = true\n" if cfg.get("inn") == npc_id else ""))
+                 + (keeper_props(cfg) if cfg.get("inn") == npc_id else ""))
     for k, (title, (x, y), lines) in enumerate(cfg.get("readables", [])):
         quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
         n.append(f'[node name="Read{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\nscript = ExtResource("12_read")\n'
