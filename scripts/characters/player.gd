@@ -73,6 +73,24 @@ var _charge_ring := Node2D.new()
 var _dash_dir := Vector2.ZERO
 var _steal_cd := 0.0
 var _slash := Node2D.new()
+## The sword and pistol, drawn in code over the body animation: one sprite each,
+## swung and aimed to the exact facing, so they look the same in all 8 directions
+## (PixelLab couldn't keep a weapon consistent frame to frame). The slash trail and
+## muzzle flash are drawn here too.
+var _gear := Node2D.new()
+var _swing_side := 1.0
+const SWORD_TEX := preload("res://assets/sprites/player/fx/sword_h.png")
+const PISTOL_TEX := preload("res://assets/sprites/player/fx/pistol.png")
+const SLASH_TEX := preload("res://assets/sprites/player/fx/slash.png")
+const FLASH_TEX := preload("res://assets/sprites/player/fx/flash.png")
+## Hand height on the cloak, and how far the weapon sits out from the body.
+const HAND := Vector2(0, -15)
+## The sword art's own tilt (its blade points this far up), and where its grip is.
+const SWORD_TILT := 0.42
+const SWORD_GRIP := Vector2(-6, -17)
+## Weapon art is drawn a little smaller than its file, to suit the 85%-scale cloak.
+const SWORD_SCALE := 0.65
+const PISTOL_SCALE := 0.8
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var sword_pivot: Node2D = $SwordPivot
@@ -107,6 +125,9 @@ func _ready() -> void:
 	_slash.z_index = 1
 	sword_pivot.add_child(_slash)
 	_slash.draw.connect(_draw_slash)
+	_gear.position = HAND
+	add_child(_gear)
+	_gear.draw.connect(_draw_gear)
 	_charge_ring.z_index = 2
 	_charge_ring.position = Vector2(0, -12)
 	add_child(_charge_ring)
@@ -117,6 +138,9 @@ func _ready() -> void:
 			Combat.shake(get_tree(), 2.0, 3)
 			Combat.hit_stop(get_tree(), 0.04))
 	health_changed.emit(health, max_health)
+	if GameState.waking:
+		GameState.waking = false
+		_wake_up.call_deferred()
 
 
 func _physics_process(delta: float) -> void:
@@ -151,6 +175,8 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	_update_animation()
+	if _state in [State.SWORD, State.SHOOT] or _charge >= 0.0 or _gear_was_drawn:
+		_gear.queue_redraw()
 
 
 func _process_move() -> void:
@@ -174,6 +200,7 @@ func _process_move() -> void:
 	elif Input.is_action_just_pressed(&"sword"):
 		sword_pivot.rotation = facing.angle()
 		sword_shape.set_deferred(&"disabled", false)
+		_swing_side = -_swing_side   # alternate forehand and backhand cuts
 		_enter(State.SWORD)
 		Sfx.play(&"sword")
 	elif Input.is_action_just_pressed(&"pistol") and _pistol_cd <= 0.0:
@@ -298,53 +325,93 @@ func _on_hurt(hitbox: Hitbox) -> void:
 	sprite.modulate = Color.WHITE
 
 
-## Out of the fight. A rival who beat you takes a loose/exposed card; monsters
-## make you drop a loose card where you fell. Either way you wake in the nearest town.
+## Out of the fight, to a rival or a monster alike: you drop one card where you
+## fell (anyone can pick it up, the winner included), the world slows, you crumple,
+## the screen fades to white, and you come round at the inn of the nearest town.
 func _die(killer_id: StringName) -> void:
 	_enter(State.DEAD)
 	died.emit()
-	sprite.rotation = PI / 2.0
+	velocity = Vector2.ZERO
+	_charge = -1.0
 	sword_shape.set_deferred(&"disabled", true)
 	hurtbox.invulnerable = true
 	var zone := Zone.current(get_tree())
 	var town := WorldMap.nearest_town(zone.scene_file_path if zone else "", position)
-	var outcome := ""
+	var lost := Combat.resolve_defeat(killer_id, collector_id, get_tree(), position)
+	var outcome := "You fainted"
 	if Combat.is_collector(killer_id):
-		var taken := Combat.resolve_defeat(killer_id, collector_id)
 		var profile := GameState.rival_profile(killer_id)
-		var who := profile.display_name if profile else "rival"
-		outcome = "The %s beat you" % who
-		if taken != &"":
-			outcome += " and took your %s" % CardDatabase.get_card(taken).display_name
+		outcome = "The %s beat you" % (profile.display_name if profile else "rival")
 	else:
-		outcome = "You fainted"
-		var dropped := _drop_a_loose_card(zone)
-		if dropped != &"":
-			outcome += " and dropped %s where you fell" % CardDatabase.get_card(dropped).display_name
-		EventBus.player_fainted.emit(dropped)
-	GameState.pending_notice = "%s. You woke in %s." % [outcome, WorldMap.town_name(town)]
+		EventBus.player_fainted.emit(lost)
+	if lost != &"":
+		outcome += " and you dropped your %s where you fell" % CardDatabase.get_card(lost).display_name
+	GameState.pending_notice = "%s. You came round in %s." % [outcome, WorldMap.town_name(town)]
+	GameState.pending_lost_card = lost
+	_death_sequence(town)
+
+
+## A moment of slow motion, a red flash, the cloak crumpling to the ground while
+## the camera leans in, a still beat, then the white fade.
+func _death_sequence(town: String) -> void:
+	Sfx.play(&"hurt")
+	Combat.shake(get_tree(), 5.0, 8)
+	var headless := DisplayServer.get_name() == "headless"
+	if not headless:
+		Engine.time_scale = 0.35
+		await get_tree().create_timer(0.7, true, false, true).timeout
+		Engine.time_scale = 1.0
+	var camera := get_node_or_null(^"Camera2D") as Camera2D
+	var t := 0.05 if headless else 1.0
 	var tween := create_tween()
-	tween.tween_interval(down_time * 0.4)
-	tween.tween_property(sprite, "modulate:a", 0.0, down_time * 0.6)
+	tween.tween_property(sprite, "modulate", Color(1.0, 0.5, 0.45), 0.12 * t)
+	tween.tween_property(sprite, "rotation", PI / 2.0, 0.9 * t).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(sprite, "modulate", Color(0.65, 0.62, 0.7), 0.9 * t)
+	if camera:
+		tween.parallel().tween_property(camera, "zoom", camera.zoom * 1.25, 1.6 * t).set_trans(Tween.TRANS_SINE)
+	tween.tween_interval(1.2 * t)
 	tween.tween_callback(_wake_in.bind(town))
 
 
-## Leaves one random loose card on the ground here (it stays in this zone).
-func _drop_a_loose_card(zone: Zone) -> StringName:
-	var loose := GameState.stealable_card_ids(collector_id, CardCollection.LOOSE_ONLY)
-	if loose.is_empty() or zone == null:
-		return &""
-	var card_id: StringName = loose.pick_random()
-	if not GameState.drop_card(collector_id, card_id):
-		return &""
-	zone.drop_card(card_id, position)
-	return card_id
-
-
+## Comes round at the inn of `town` (or the town itself if it has none).
 func _wake_in(town: String) -> void:
 	GameState.player_health = -1
-	GameState.pending_spawn = WorldMap.town_spawn(town)
-	Transition.go(town)
+	var inn := WorldMap.inn_of(town)
+	GameState.waking = true
+	if inn != "":
+		GameState.pending_spawn = &"door"
+		Transition.faint_to(inn)
+	else:
+		GameState.pending_spawn = WorldMap.town_spawn(town)
+		Transition.faint_to(town)
+
+
+## Lying where the keeper put you, then sitting up and getting to your feet. The
+## keeper says welcome back, and the card you lost shows on screen.
+func _wake_up() -> void:
+	_enter(State.DEAD)
+	hurtbox.invulnerable = true
+	sprite.rotation = PI / 2.0
+	sprite.modulate = Color(0.7, 0.68, 0.78)
+	var headless := DisplayServer.get_name() == "headless"
+	await get_tree().create_timer(0.05 if headless else 1.6).timeout
+	var tween := create_tween()
+	tween.tween_property(sprite, "rotation", 0.0, 0.05 if headless else 0.6).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(sprite, "modulate", Color.WHITE, 0.05 if headless else 0.6)
+	await tween.finished
+	_enter(State.MOVE)
+	hurtbox.invulnerable = false
+	var lost := GameState.pending_lost_card
+	GameState.pending_lost_card = &""
+	var keeper: Npc = null
+	for npc in get_tree().get_nodes_in_group(&"npcs"):
+		if npc is Npc and npc.inn_rooms:
+			keeper = npc
+			break
+	if keeper:
+		keeper.welcome_back(func() -> void: CardReveal.show_lost(lost))
+	else:
+		CardReveal.show_lost(lost)
 
 
 func _set_invulnerable_for(seconds: float) -> void:
@@ -448,12 +515,53 @@ func _play(action: String) -> void:
 
 ## Sword arc effect while the swing is active.
 func _draw_slash() -> void:
-	if _state != State.SWORD or _state_time > sword_active_time + 0.05:
+	pass   # the swing is drawn by _draw_gear
+
+
+var _gear_was_drawn := false
+
+
+## Sword: the blade sweeps through a wide arc in front (alternating sides), a
+## crescent of light trailing it, then it's put away. Pistol: drawn and aimed,
+## kicked back by the shot with a flash at the muzzle; held out while charging.
+## Behind the body when facing away from the camera.
+func _draw_gear() -> void:
+	_gear_was_drawn = false
+	_gear.z_index = -1 if facing.y < -0.35 else 1
+	var aim := facing.angle()
+	var flip := Vector2(1, -1 if facing.x < -0.01 else 1)
+	if _state == State.SWORD:
+		var total := sword_active_time + sword_recovery
+		var t := clampf(_state_time / (sword_active_time + 0.05), 0.0, 1.0)
+		var eased := 1.0 - pow(1.0 - t, 3.0)
+		var angle := aim + lerpf(-1.5, 1.5, eased) * _swing_side
+		var fade := clampf(1.0 - (_state_time - sword_active_time - 0.04) / sword_recovery, 0.0, 1.0)
+		if t > 0.1 and t < 0.95:
+			var trail := clampf(1.0 - absf(t - 0.5) * 2.0, 0.0, 1.0)
+			_gear.draw_set_transform(Vector2.from_angle(aim) * 11.0, aim + PI, Vector2(0.55, 0.65 * _swing_side))
+			var ss := SLASH_TEX.get_size()
+			_gear.draw_texture(SLASH_TEX, -ss / 2.0, Color(1, 1, 1, 0.85 * trail))
+		# The art's blade points 24 degrees up: level it, mirror it for the backhand,
+		# then turn it to the swing angle, holding it by the grip.
+		var level := Transform2D(SWORD_TILT, Vector2.ZERO)
+		var mirror := Transform2D(Vector2(SWORD_SCALE, 0), Vector2(0, SWORD_SCALE * _swing_side * flip.y), Vector2.ZERO)
+		_gear.draw_set_transform_matrix(Transform2D(angle, Vector2.from_angle(angle) * 4.0) * mirror * level)
+		_gear.draw_texture(SWORD_TEX, SWORD_GRIP, Color(1, 1, 1, fade))
+		_gear.draw_set_transform(Vector2.ZERO)
+		_gear_was_drawn = fade > 0.0
 		return
-	var t := clampf(_state_time / sword_active_time, 0.0, 1.0)
-	var sweep := lerpf(-1.1, 1.1, t)
-	# The sword animation draws its own swing; this is just a faint reach marker.
-	_slash.draw_arc(Vector2.ZERO, 20.0, -1.1, sweep, 12, Color(1, 1, 0.9, 0.25), 2.0)
+	var aiming := _charge >= 0.0
+	if _state == State.SHOOT or aiming:
+		var kick := 0.0 if aiming else clampf(1.0 - _state_time / 0.1, 0.0, 1.0) * 3.0
+		var base := Vector2.from_angle(aim) * (7.0 - kick)
+		_gear.draw_set_transform(base, aim, flip * PISTOL_SCALE)
+		var ps := PISTOL_TEX.get_size()
+		_gear.draw_texture(PISTOL_TEX, Vector2(-4.0, -ps.y / 2.0))
+		if not aiming and _state_time < 0.07:
+			var fs := FLASH_TEX.get_size()
+			_gear.draw_texture_rect(FLASH_TEX, Rect2(Vector2(ps.x - 7.0, -fs.y * 0.45), fs * 0.9), false)
+		_gear.draw_set_transform(Vector2.ZERO)
+		_gear_was_drawn = true
 
 
 ## A fading copy of the current frame left behind while dashing (every other physics

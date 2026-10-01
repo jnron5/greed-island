@@ -199,10 +199,22 @@ func _die() -> void:
 	body_shape.set_deferred(&"disabled", true)
 	hurtbox.set_deferred(&"monitoring", false)
 	EventBus.monster_defeated.emit(StringName(scene_file_path.get_file().get_basename()), _last_hitter)
-	if not drop_card_ids.is_empty():
-		Combat.award_card(get_parent(), _last_hitter, drop_card_ids.pick_random(), position, pickup_scene)
+	# What it leaves on the ground, flung out of the body: its card, often a few
+	# coins, now and then something to eat.
+	var card: StringName = drop_card_ids.pick_random() if not drop_card_ids.is_empty() else &""
+	var gold := randi_range(1, 4) if randf() < 0.6 else 0
+	var item: StringName = &"bread" if randf() < 0.08 else &""
+	Combat.drop_loot(get_tree(), position, card, gold, item)
+	# Down it goes: a white flash, knocked over, a beat on the ground, then it fades.
+	var headless := DisplayServer.get_name() == "headless"
+	var t := 0.1 if headless else 1.0
+	var side := -1.0 if facing.x < 0.0 else 1.0
+	sprite.modulate = Color(3, 3, 3)
 	var tween := create_tween()
-	tween.tween_property(sprite, "modulate:a", 0.0, 0.4)
+	tween.tween_property(sprite, "modulate", Color(1.0, 0.6, 0.6), 0.15 * t)
+	tween.tween_property(sprite, "rotation", side * PI / 2.0, 0.4 * t).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	tween.tween_interval(0.6 * t)
+	tween.tween_property(sprite, "modulate:a", 0.0, 0.7 * t)
 	tween.tween_callback(func() -> void: visible = false)
 	get_tree().create_timer(respawn_time).timeout.connect(_respawn)
 
@@ -214,6 +226,7 @@ func _respawn() -> void:
 	health = max_health
 	visible = true
 	sprite.modulate = Color.WHITE
+	sprite.rotation = 0.0
 	body_shape.set_deferred(&"disabled", false)
 	hurtbox.set_deferred(&"monitoring", true)
 	_target = null

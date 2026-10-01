@@ -66,8 +66,56 @@ func _run() -> void:
 	stag._enter(Boss.State.RECOVER)
 	stag._on_hurt(_hit(999))
 	await _frames(3)
-	_check("dies and leaves its antler to the player", stag.is_dead()
-		and GameState.collection(P).count(&"rime_antler") == loose + 1 and GameState.boss_kills_left(STAG) == 2)
+	await get_tree().create_timer(1.0).timeout
+	_check("dies and leaves its antler on the ground", stag.is_dead() and _on_ground(&"rime_antler") == 1
+		and GameState.collection(P).count(&"rime_antler") == loose and GameState.boss_kills_left(STAG) == 2)
+
+	# Rivals in the arena team up: a truce, the Raider goes for the stag, and when it
+	# falls with the truce kept they take their prize and go in peace.
+	GameState.new_game(GameState.DEFAULT_RIVALS)
+	var stag2: RimeStag = load("res://scenes/characters/rime_stag.tscn").instantiate()
+	stag2.position = Vector2(600, 0)
+	add_child(stag2)
+	var raider: Rival = load("res://scenes/characters/rival.tscn").instantiate()
+	raider.apply_profile(GameState.rival_profile(&"raider"))
+	raider.position = Vector2(600, 120)
+	add_child(raider)
+	player.global_position = Vector2(480, 60)
+	await _frames(3)
+	_check("the stag wakes for the two of them", stag2._state != Boss.State.DORMANT)
+	raider._update_boss_fight(0.1)
+	_check("the Raider calls a truce and goes for the boss", raider._boss_fight == stag2 and raider._foe == stag2)
+	_check("in a truce, a rival won't hurt the player", not Combat.can_damage(&"raider", P))
+	_check("but the player can still strike (and break it)", Combat.can_damage(P, &"raider"))
+	stag2._note_fighter(_hit(1))
+	var by_raider := _hit(1)
+	by_raider.source_id = &"raider"
+	stag2._enter(Boss.State.RECOVER)
+	stag2._note_fighter(by_raider)
+	stag2._on_hurt(_hit(999))
+	await _frames(2)
+	_check("a shared kill: the Raider takes its prize and will leave in peace",
+		raider._leave_after_prize and raider._peaceful())
+	raider.queue_free()
+	stag2.queue_free()
+	await _frames(2)
+	var with_hoarder: Array[StringName] = [&"raider", &"hoarder"]
+	GameState.new_game(with_hoarder)
+	var stag3: RimeStag = load("res://scenes/characters/rime_stag.tscn").instantiate()
+	stag3.position = Vector2(600, 0)
+	add_child(stag3)
+	var hoarder: Rival = load("res://scenes/characters/rival.tscn").instantiate()
+	hoarder.apply_profile(GameState.rival_profile(&"hoarder"))
+	hoarder.position = Vector2(600, 120)
+	add_child(hoarder)
+	await _frames(3)
+	hoarder._update_boss_fight(0.1)
+	var betrayal := _hit(1)
+	hoarder._on_hurt(betrayal)
+	_check("striking a rival mid-fight breaks the truce", stag3.truce_broken and hoarder._speech != "")
+	_check("and it fights back", hoarder._foe == player or hoarder._state == Rival.State.HUNT)
+	hoarder.queue_free()
+	stag3.queue_free()
 
 	# The west gate (usually opened long before) is owed to it: it comes back.
 	GameState.new_game(GameState.DEFAULT_RIVALS)
@@ -101,3 +149,8 @@ func _check(label: String, ok: bool) -> void:
 	print("  %s  %s" % ["ok  " if ok else "FAIL", label])
 	if not ok:
 		_failures += 1
+
+
+## Card pickups lying in the test scene for `card_id`.
+func _on_ground(card_id: StringName) -> int:
+	return get_children().filter(func(c: Node) -> bool: return c is CardPickup and c.card_id == card_id).size()

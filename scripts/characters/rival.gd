@@ -5,8 +5,13 @@ extends CharacterBody2D
 ## watching the player, fleeing home when alerted, and sneaking up behind the
 ## player to lift a loose card. Combat: rivals have health; hunters (Raider)
 ## chase whoever leads the race and fight for their cards, others flee when hit.
-## Losing a fight hands one loose/exposed card to the winner, and the loser wakes
-## up in the nearest town (which becomes its home). Zones spawn rivals from their
+## Rivals are rivals of each other too: hunters go after whichever collector leads,
+## rivals included; anyone may sneak a loose card off anyone; fighters hit back.
+## In a boss's arena with other collectors they call a truce and fight the boss
+## together (cheering each other on); if it falls with the truce kept, they take
+## their prize and leave without touching anyone. Hitting a rival mid-fight breaks
+## the truce. A rival who goes down drops one card where it fell (anyone can take
+## it), lies there a while, and wakes up in the nearest town (its new home). Zones spawn rivals from their
 ## RivalProfile and GameState.rival_locations. When a zone has nothing left for
 ## it (or its hands are full and there's no home here), it asks RivalDirector
 ## where to go and walks out through the exit. (Hunt boss comes later.)
@@ -41,7 +46,7 @@ const IDLE_FALLBACK: Array[String] = ["idle"]
 @export var attack_range := 28.0
 @export var attack_windup := 0.3
 @export var attack_cooldown := 0.9
-@export var down_time := 1.5
+@export var down_time := 3.2
 
 var facing := Vector2.DOWN
 
@@ -56,6 +61,17 @@ var _sneak_cd := 5.0
 var _fleeing := false
 var health := 0
 var _foe: Node2D
+## Hits back when hurt instead of running (Raider, Hoarder).
+var fights_back := false
+## The boss this rival is fighting alongside the others (a truce), if any.
+var _boss_fight: Boss
+var _truce_said := false
+var _cheer_cd := 0.0
+## After a clean shared boss kill: no fights or thefts, gather the prize, then leave.
+var _peace_until := 0.0
+var _leave_after_prize := false
+## The collector we're sneaking up on.
+var _mark: Node2D
 var _attack_cd := 0.0
 var _hunt_check := 0.0
 var _flash := 0.0
@@ -107,6 +123,7 @@ func _ready() -> void:
 	attack_hitbox.damage = attack_damage
 	attack_shape.disabled = true
 	EventBus.card_stolen.connect(_on_card_stolen_line)
+	EventBus.boss_shared_win.connect(_on_boss_shared_win)
 
 
 ## Says a line out loud for a couple of seconds (a speech bubble over the hood).
@@ -119,10 +136,14 @@ func say(moment: StringName) -> void:
 
 
 func _on_card_stolen_line(thief: StringName, victim: StringName, _card: StringName, _method: StringName) -> void:
-	if thief == collector_id and victim == GameState.PLAYER:
+	if thief == collector_id:
 		say(&"stole")
-	elif victim == collector_id and thief == GameState.PLAYER:
+	elif victim == collector_id:
 		say(&"robbed")
+		var who := _collector_node(thief)
+		if fights_back and who and _state not in [State.DOWN, State.WINDUP, State.STRIKE] and not _peaceful():
+			_foe = who
+			_enter(State.HUNT)
 
 
 ## The first time the player comes near in this zone, a word.
@@ -158,6 +179,7 @@ func apply_profile(profile: RivalProfile) -> void:
 	steal_urge = profile.steal_urge
 	max_health = profile.max_health
 	hunts = profile.hunts
+	fights_back = profile.hunts or profile.fights_back
 	attack_damage = profile.attack_damage
 
 
@@ -182,6 +204,7 @@ func respawn_in_nearest_town() -> void:
 func _revive() -> void:
 	health = max_health
 	sprite.rotation = 0.0
+	sprite.modulate = Color.WHITE
 	hurtbox.invulnerable = false
 	_fleeing = false
 	_foe = null
@@ -255,16 +278,20 @@ func _physics_process(delta: float) -> void:
 				respawn_in_nearest_town()
 				return
 
-	if _state in [State.IDLE, State.SEEK]:
+	_update_boss_fight(delta)
+	if _boss_fight == null and _state in [State.IDLE, State.SEEK] and not _peaceful():
 		if hunts and _hunt_check <= 0.0:
 			_hunt_check = 1.0
 			_foe = _boss_to_hunt()
 			if _foe == null:
 				_foe = _pick_hunt_target()
+				if _foe and _cheer_cd <= 0.0:
+					say(&"fight")
+					_cheer_cd = 8.0
 			if _foe:
 				_enter(State.HUNT)
 		if _state != State.HUNT:
-			_consider_sneaking(player)
+			_consider_sneaking()
 	if _fleeing:
 		velocity *= flee_speed_multiplier
 	elif awareness.level == Awareness.Level.SUSPICIOUS and _state != State.SNEAK:
@@ -282,6 +309,13 @@ func _process_seek() -> void:
 			_enter(State.RETURN)
 			return
 		_target = _find_nearest_pickup()
+		if _target == null and _leave_after_prize:
+			if _peace_until - _now() < 80.0:   # the prize has had time to land
+				_leave_after_prize = false
+				_try_leave(State.IDLE)
+			else:
+				velocity = Vector2.ZERO
+			return
 		if _target == null:
 			if carried_count() > 0:
 				_enter(State.RETURN)
@@ -322,28 +356,46 @@ func _process_bind() -> void:
 	_enter(State.IDLE)
 
 
-## Occasionally decide to lift a card off a nearby player carrying loose cards.
-func _consider_sneaking(player: Node2D) -> void:
-	if player == null or _sneak_cd > 0.0 or awareness.level == Awareness.Level.ALERT:
+## Occasionally decide to lift a card off a collector nearby (the player or another
+## rival) who is carrying loose cards.
+func _consider_sneaking() -> void:
+	if _sneak_cd > 0.0 or awareness.level == Awareness.Level.ALERT:
 		return
-	if global_position.distance_to(player.global_position) > sneak_notice_radius:
-		return
-	if GameState.grace_left(GameState.PLAYER) > 0.0 \
-			or GameState.stealable_card_ids(GameState.PLAYER, CardCollection.LOOSE_ONLY).is_empty():
+	var mark := _sneak_mark()
+	if mark == null:
 		return
 	_sneak_cd = steal_cooldown
 	if randf() < steal_urge:
+		_mark = mark
 		_enter(State.SNEAK)
 
 
-## Circle in behind the player, then try the lift.
-func _process_sneak(player: Node2D, delta: float) -> void:
-	if player == null or _state_time > sneak_timeout:
+func _sneak_mark() -> Node2D:
+	var best: Node2D = null
+	var best_dist := sneak_notice_radius
+	for node in get_tree().get_nodes_in_group(&"collectors"):
+		var n := node as Node2D
+		if n == self or n == null:
+			continue
+		var id: StringName = n.get(&"collector_id")
+		var d := global_position.distance_to(n.global_position)
+		if d > best_dist or GameState.grace_left(id) > 0.0 \
+				or GameState.stealable_card_ids(id, CardCollection.LOOSE_ONLY).is_empty():
+			continue
+		best = n
+		best_dist = d
+	return best
+
+
+## Circle in behind the mark, then try the lift.
+func _process_sneak(_player: Node2D, delta: float) -> void:
+	var mark := _mark
+	if not is_instance_valid(mark) or _state_time > sneak_timeout:
 		_enter(State.SEEK)
 		return
-	var behind: Vector2 = player.global_position - (player.get(&"facing") as Vector2).normalized() * 14.0
-	if global_position.distance_to(player.global_position) <= Stealth.STEAL_RANGE - 4.0:
-		var result := Stealth.attempt(self, player)
+	var behind: Vector2 = mark.global_position - (mark.get(&"facing") as Vector2).normalized() * 14.0
+	if global_position.distance_to(mark.global_position) <= Stealth.STEAL_RANGE - 4.0:
+		var result := Stealth.attempt(self, mark)
 		if not result.ok:
 			_fleeing = result.reason == "Caught"
 		_enter(State.RETURN if carried_count() > 0 or _fleeing else State.SEEK)
@@ -393,7 +445,7 @@ func _huntable(n: Variant) -> bool:
 	return global_position.distance_to(n.global_position) <= hunt_radius \
 		and Combat.can_damage(collector_id, id) \
 		and GameState.grace_left(id) <= 0.0 \
-		and not GameState.stealable_card_ids(id).is_empty()
+		and GameState.collection(id) != null and not GameState.collection(id).card_ids().is_empty()
 
 
 func _process_hunt(delta: float) -> void:
@@ -425,18 +477,106 @@ func _on_hurt(hitbox: Hitbox) -> void:
 	awareness.alarm()
 	attack_shape.set_deferred(&"disabled", true)
 	var attacker := _collector_node(hitbox.source_id)
+	if _boss_fight and attacker and not _boss_fight.truce_broken:
+		_boss_fight.truce_broken = true   # Struck by an ally with the boss still standing.
+		say(&"betrayed")
 	if health <= 0:
 		_enter(State.DOWN)
-		sprite.rotation = PI / 2.0
 		hurtbox.invulnerable = true
-		Combat.resolve_defeat(hitbox.source_id, collector_id)  # No-op unless beaten by a collector.
+		Combat.resolve_defeat(hitbox.source_id, collector_id, get_tree(), position)
+		_fall()
 		return
-	if hunts and attacker:
+	if fights_back and attacker:
 		_foe = attacker  # Fight back.
 		_enter(State.HUNT)
-	elif not hunts:
+	elif not fights_back:
 		_fleeing = true
 		_enter(State.RETURN)
+
+
+## Going down: a white flash, the cloak crumpling, a long moment on the ground,
+## then fading out (respawn_in_nearest_town runs at the end of down_time).
+func _fall() -> void:
+	velocity = Vector2.ZERO
+	var t := 0.1 if DisplayServer.get_name() == "headless" else 1.0
+	sprite.modulate = Color(3, 3, 3)
+	var tween := create_tween()
+	tween.tween_property(sprite, "modulate", Color(1.0, 0.55, 0.5), 0.15 * t)
+	tween.tween_property(sprite, "rotation", PI / 2.0, 0.7 * t).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(sprite, "modulate", Color(0.65, 0.62, 0.7), 0.7 * t)
+	tween.tween_interval(maxf(0.0, down_time - 1.9) * t)
+	tween.tween_property(sprite, "modulate:a", 0.0, 1.0 * t)
+
+
+## A boss fight going on round us: the awake boss whose arena we're in, with at
+## least one other collector in it too, and nobody's broken the truce.
+func _active_boss_fight() -> Boss:
+	for node in get_tree().get_nodes_in_group(&"bosses"):
+		var boss := node as Boss
+		if boss == null or boss.is_dead() or boss.truce_broken or boss._state == Boss.State.DORMANT:
+			continue
+		if boss._lair.distance_to(global_position) > boss.arena_radius:
+			continue
+		for other in get_tree().get_nodes_in_group(&"collectors"):
+			if other != self and boss._lair.distance_to((other as Node2D).global_position) <= boss.arena_radius:
+				return boss
+	return null
+
+
+## In a shared boss fight: say so, cheer now and then, and go for the boss (fighters)
+## or keep it busy from a safe distance (the Runner has no weapon).
+func _update_boss_fight(delta: float) -> void:
+	_cheer_cd -= delta
+	var boss := _active_boss_fight()
+	if boss == null:
+		if _boss_fight and _foe == _boss_fight and not is_instance_valid(_foe):
+			_foe = null
+		_boss_fight = null
+		_truce_said = false
+		return
+	_boss_fight = boss
+	if not _truce_said:
+		_truce_said = true
+		_cheer_cd = 5.0
+		say(&"boss_join")
+	elif _cheer_cd <= 0.0:
+		_cheer_cd = randf_range(5.0, 9.0)
+		say(&"boss_cheer")
+	if _state in [State.DOWN, State.WINDUP, State.STRIKE, State.LEAVE]:
+		return
+	if fights_back:
+		if _foe != boss:
+			_foe = boss
+			_enter(State.HUNT)
+	else:
+		var away := boss.global_position.direction_to(global_position)
+		if away == Vector2.ZERO:
+			away = Vector2.DOWN
+		var spot := boss.global_position + away * 140.0
+		if global_position.distance_to(spot) > 16.0:
+			_steer_toward(spot, delta)
+		else:
+			velocity = Vector2.ZERO
+
+
+## The boss fell to all of us, truce kept: take the prize and go in peace.
+func _on_boss_shared_win(_boss_id: StringName, members: Array) -> void:
+	if collector_id not in members or _state == State.DOWN:
+		return
+	say(&"boss_won")
+	_boss_fight = null
+	_foe = null
+	_peace_until = _now() + 90.0
+	_leave_after_prize = true
+	_enter(State.SEEK)
+
+
+func _peaceful() -> bool:
+	return _now() < _peace_until
+
+
+static func _now() -> float:
+	return Time.get_ticks_msec() / 1000.0
 
 
 func _collector_node(id: StringName) -> Node2D:
@@ -468,6 +608,8 @@ func _pays_gates() -> bool:
 func carried_count() -> int:
 	var col := GameState.collection(collector_id)
 	var n := 0
+	if col == null:
+		return 0
 	for id in col.card_ids():
 		n += col.count(id, CardCollection.State.LOOSE)
 	return n

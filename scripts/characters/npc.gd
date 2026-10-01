@@ -41,6 +41,10 @@ const TALK_RANGE := 34.0
 @export_multiline var meal_lines: PackedStringArray = []
 @export_multiline var pre_meal_lines: PackedStringArray = []
 
+## What an inn keeper says when a collector who fainted on the road comes round in
+## one of their beds (one per waking, rotating).
+@export_multiline var wake_lines: PackedStringArray = []
+
 ## Where each resident is in their lines, kept across visits (a scene reload makes
 ## a new Npc), so coming back doesn't start the same speech over.
 static var _next_line: Dictionary = {}
@@ -122,6 +126,17 @@ func talk(player: Node2D) -> void:
 	if said.is_empty() and not lines.is_empty():
 		said = PackedStringArray([next_line(lines)])
 	DialogueBox.say(get_tree(), display_name, said, _done_talking, DialogueBox.portrait_from(sprite.sprite_frames))
+
+
+## The player has just come round in this keeper's inn: they turn to them and say
+## welcome back, then `on_done` runs (the lost card is shown).
+func welcome_back(on_done: Callable) -> void:
+	var player := get_tree().get_first_node_in_group(&"player") as Node2D
+	if player:
+		facing = global_position.direction_to(player.global_position)
+	var line := next_line(wake_lines) if not wake_lines.is_empty() else "Welcome back. You gave us a fright."
+	DialogueBox.say(get_tree(), display_name, PackedStringArray([line]), on_done,
+		DialogueBox.portrait_from(sprite.sprite_frames))
 
 
 ## The next of `pool`, one per conversation, looping; remembered across visits.

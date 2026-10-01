@@ -197,6 +197,7 @@ inn_rooms = true
 shop_stock = Array[StringName]([&"bread", &"smoked_fish", &"healers_tonic"])
 shop_buys_cards = false
 shop_title = "The Copper Kettle"
+wake_lines = PackedStringArray("You're awake. Good. You were bleeding on my clean floor.", "Somebody dragged you in off the road. Wasn't me. ...Fine, it was me. Don't make a habit of it.", "Back from the dead, are we? Eat something. And no, it's not from Chef's. It's better.")
 room_prompt = "Bed's up the stair. How long. Pick."
 room_broke = "%d gold. Not a copper less. This isn't Chef's, I don't do charity for show."
 

@@ -62,3 +62,29 @@ func rest(during: Callable) -> void:
 	await back.finished
 	GameState.pop_menu()
 	busy = false
+
+
+## Fainting: the world fades to white, holds a moment, and you come to somewhere
+## else (the inn of the nearest town). Instant when running headless.
+func faint_to(scene_path: String) -> void:
+	if busy:
+		return
+	if DisplayServer.get_name() == "headless":
+		get_tree().change_scene_to_file.call_deferred(scene_path)
+		return
+	busy = true
+	GameState.push_menu()
+	_black.color = Color(1.0, 0.98, 0.94)
+	var out := create_tween()
+	out.tween_property(_black, "modulate:a", 1.0, 1.1).set_trans(Tween.TRANS_SINE)
+	await out.finished
+	await get_tree().create_timer(1.0).timeout
+	get_tree().change_scene_to_file(scene_path)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var back := create_tween()
+	back.tween_property(_black, "modulate:a", 0.0, 1.4).set_trans(Tween.TRANS_SINE)
+	await back.finished
+	_black.color = Color(0.02, 0.015, 0.03)
+	GameState.pop_menu()
+	busy = false

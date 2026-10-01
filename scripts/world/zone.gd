@@ -73,7 +73,7 @@ func _ready() -> void:
 	EventBus.gate_opened.connect(func(_id: StringName, _by: StringName) -> void: _build_nav.call_deferred())
 	GameState.pending_spawn = &""
 	for drop: Dictionary in GameState.zone_drops.get(scene_file_path, []):
-		_spawn_drop(drop.card_id, drop.position)
+		_spawn_drop(drop.card_id, drop.position, drop.get("dropped_by", &""))
 	for id in GameState.active_rivals:
 		if GameState.rival_locations.get(id, {}).get("zone") == scene_file_path:
 			spawn_rival(id)
@@ -219,9 +219,11 @@ func _ground_sprite() -> Sprite2D:
 
 
 ## Leaves a card lying here that survives the player leaving and coming back.
-func drop_card(card_id: StringName, pos: Vector2) -> void:
-	GameState.add_zone_drop(scene_file_path, card_id, pos)
-	_spawn_drop(card_id, pos)
+## A card left on the ground here (it stays in this zone until someone takes it).
+## `dropped_by`: the collector who lost it; `fling_from`: where it flies out from.
+func drop_card(card_id: StringName, pos: Vector2, dropped_by: StringName = &"", fling_from := Vector2.INF) -> void:
+	GameState.add_zone_drop(scene_file_path, card_id, pos, dropped_by)
+	_spawn_drop(card_id, pos, dropped_by, fling_from)
 
 
 ## Adds rival `id` to this zone at its saved position (or its RivalSpots marker).
@@ -243,10 +245,12 @@ func rival_spot(id: StringName) -> Marker2D:
 	return get_node_or_null(NodePath("RivalSpots/%s" % id)) as Marker2D
 
 
-func _spawn_drop(card_id: StringName, pos: Vector2) -> void:
+func _spawn_drop(card_id: StringName, pos: Vector2, dropped_by: StringName = &"", fling_from := Vector2.INF) -> void:
 	var pickup := pickup_scene.instantiate() as CardPickup
 	pickup.card_id = card_id
 	pickup.zone_drop_of = scene_file_path
+	pickup.dropped_by = dropped_by
+	pickup.fling_from = fling_from
 	pickup.position = pos
 	add_child.call_deferred(pickup)
 

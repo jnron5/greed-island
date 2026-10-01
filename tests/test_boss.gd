@@ -46,7 +46,11 @@ func _run() -> void:
 	boss._on_hurt(_hit(P, boss.max_health))
 	await _frames(3)
 	_check("dies at 0 HP", boss.is_dead())
-	_check("its three cards go to the player who beat it", _loose_count(P) == loose_before + 3)
+	_check("no cards in anyone's hands while it dies", _loose_count(P) == loose_before)
+	_check("it's still going down (the death takes its time)", boss._dying)
+	await get_tree().create_timer(1.0).timeout
+	_check("then its three cards spill out on the ground", _on_ground(&"warden_mask") == 1
+		and _on_ground(&"canopy_eye") == 1 and _on_ground(&"verdant_crest") == 1)
 	_check("kill recorded, credited to the player", not GameState.is_boss_alive(WARDEN)
 		and GameState.boss_kills_left(WARDEN) == 3 and _defeated_by == P)
 
@@ -132,3 +136,8 @@ func _loose_count(collector: StringName) -> int:
 	for id in col.card_ids():
 		n += col.count(id, CardCollection.State.LOOSE)
 	return n
+
+
+## Card pickups lying in the test scene for `card_id`.
+func _on_ground(card_id: StringName) -> int:
+	return get_children().filter(func(c: Node) -> bool: return c is CardPickup and c.card_id == card_id).size()

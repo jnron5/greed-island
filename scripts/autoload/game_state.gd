@@ -41,6 +41,10 @@ var pending_spawn: StringName
 var player_health := -1
 ## Message for the HUD to show once the next zone loads (e.g. after fainting).
 var pending_notice := ""
+## The player fainted and is coming round at an inn: play the wake-up, then show
+## the card they lost (pending_lost_card, empty if none).
+var waking := false
+var pending_lost_card: StringName = &""
 ## Where each active rival is: { "zone": scene path, "position": Vector2 or null }.
 ## null position = appear at the zone's RivalSpots/<id> marker.
 var rival_locations: Dictionary[StringName, Dictionary] = {}
@@ -232,6 +236,30 @@ func stealable_copies(collector: StringName, card_id: StringName,
 	return maxi(n - (1 if is_locked(collector, card_id) else 0), 0)
 
 
+## A collector who is beaten or faints always loses one card, onto the ground
+## where they fell: one they're carrying (loose or worn) if they have any, else one
+## from the binder. A card under a Lockbox Seal is safe. Returns the card, or &""
+## if they have nothing at all to lose.
+func lose_card(collector: StringName) -> StringName:
+	var col := collection(collector)
+	if col == null:
+		return &""
+	var bound: Array[CardCollection.State] = [CardCollection.State.BOUND]
+	for states: Array[CardCollection.State] in [CardCollection.STEALABLE, bound]:
+		var ids := stealable_card_ids(collector, states)
+		if ids.is_empty():
+			continue
+		var card_id: StringName = ids.pick_random()
+		for state in states:
+			if col.remove(card_id, state):
+				EventBus.card_consumed.emit(collector, card_id, &"dropped")
+				_emit_tracker()
+				if collector == PLAYER:
+					check_loadout()
+				return card_id
+	return &""
+
+
 func stealable_card_ids(collector: StringName,
 		states: Array[CardCollection.State] = CardCollection.STEALABLE) -> Array[StringName]:
 	var out: Array[StringName] = []
@@ -379,10 +407,10 @@ func reset_zone_presence() -> void:
 	menus_open = 0
 
 
-func add_zone_drop(zone: String, card_id: StringName, pos: Vector2) -> void:
+func add_zone_drop(zone: String, card_id: StringName, pos: Vector2, dropped_by: StringName = &"") -> void:
 	if not zone_drops.has(zone):
 		zone_drops[zone] = []
-	zone_drops[zone].append({ "card_id": card_id, "position": pos })
+	zone_drops[zone].append({ "card_id": card_id, "position": pos, "dropped_by": dropped_by })
 
 
 func remove_zone_drop(zone: String, card_id: StringName, pos: Vector2) -> void:

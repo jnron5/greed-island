@@ -35,4 +35,6 @@ enum TravelStyle { EXPLORER, HUNTER, HOMEBODY }
 @export_group("Combat")
 @export var max_health := 5
 @export var hunts := false
+## Hits back when hurt instead of running (hunters always do).
+@export var fights_back := false
 @export var attack_damage := 1

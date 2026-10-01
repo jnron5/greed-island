@@ -24,6 +24,8 @@ func revealing(card_id: StringName) -> bool:
 	return _queue.has(card_id) or (showing and _view.card != null and _view.card.id == card_id)
 
 var _queue: Array[StringName] = []
+## Cards in the queue that are being shown as lost (fainting), not found.
+var _lost: Dictionary = {}
 var _root: Control
 var _shown_for := 0.0
 var _dim: ColorRect
@@ -53,10 +55,26 @@ func _on_card_added(collector: StringName, card_id: StringName) -> void:
 		_show_next.call_deferred()
 
 
+## Shows a card the player has just lost (they went down and dropped it), so they
+## know what to go back for.
+func show_lost(card_id: StringName) -> void:
+	if card_id == &"" or (DisplayServer.get_name() == "headless" and not force):
+		return
+	_lost[card_id] = true
+	_queue.append(card_id)
+	if not showing:
+		_show_next.call_deferred()
+
+
 func _show_next() -> void:
 	if showing or _queue.is_empty():
 		return
-	var card := CardDatabase.get_card(_queue.pop_front())
+	var next_id: StringName = _queue.pop_front()
+	var lost: bool = _lost.has(next_id)
+	_lost.erase(next_id)
+	_title.text = "You lost a card" if lost else "New card!"
+	_title.add_theme_color_override(&"font_color", Color(1.0, 0.5, 0.42) if lost else Color(1.0, 0.86, 0.45))
+	var card := CardDatabase.get_card(next_id)
 	if card == null:
 		_show_next()
 		return
@@ -65,7 +83,8 @@ func _show_next() -> void:
 	_view.card = card
 	_view.showing_back = false
 	_hint.text = HINT_FRONT
-	_kind.text = "%s · %s" % [RARITY_NAMES.get(card.rarity, ""), CATEGORY_NAMES.get(card.category, "")]
+	_kind.text = ("It fell where you went down. Go back for it before somebody else does." if lost
+		else "%s · %s" % [RARITY_NAMES.get(card.rarity, ""), CATEGORY_NAMES.get(card.category, "")])
 	visible = true
 	GameState.push_menu()
 	get_tree().paused = true

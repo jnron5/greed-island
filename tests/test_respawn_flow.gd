@@ -1,8 +1,9 @@
 extends Node
 ## End-to-end respawn test across real zone changes:
 ## Thornveil spawns the Raider -> beaten at its camp (deep north) it wakes in
-## Sorenda -> the player dies to a monster near the south edge -> wakes in
-## Kalmora (the nearest town from there), with the dropped card left in Thornveil.
+## Sorenda -> the player dies to a monster near the south edge -> comes round at
+## Kalmora's inn (the Salted Lantern), Jobelle welcomes them back, and the card they
+## dropped is left on the ground in Thornveil.
 ## Run: godot --headless --path . res://tests/test_respawn_flow.tscn
 
 var _failures := 0
@@ -39,17 +40,22 @@ func _run() -> void:
 	GameState.add_loose_card(GameState.PLAYER, &"bark_rune")
 	player.global_position = Vector2(80, 40)
 	player._on_hurt(_hit(forest, Combat.MONSTER, 99))
-	await get_tree().create_timer(player.down_time + 0.4).timeout
+	await get_tree().create_timer(1.5).timeout
 	await _frames(3)
-	var town := get_tree().current_scene
-	_check("woke in Kalmora", town.scene_file_path == WorldMap.KALMORA)
-	var new_player := town.get_node("Player") as Player
-	_check("at the town spawn with full health", new_player.position.is_equal_approx(town.get_node("Spawns/town").position)
+	var inn := get_tree().current_scene
+	_check("came round at Kalmora's inn", inn.scene_file_path == WorldMap.KALMORA_TAVERN)
+	var new_player := inn.get_node("Player") as Player
+	_check("by the door with full health", new_player.position.is_equal_approx(inn.get_node("Spawns/door").position)
 		and new_player.health == new_player.max_health)
-	_check("dropped card stays in Thornveil", GameState.zone_drops.get(WorldMap.THORNVEIL, []).size() == 1
+	await get_tree().create_timer(0.5).timeout
+	_check("on their feet again", new_player._state == Player.State.MOVE)
+	var box := get_tree().get_first_node_in_group(&"dialogue_box") as DialogueBox
+	_check("Jobelle welcomes them back", box != null and box.is_open())
+	_check("dropped card stays on the ground in Thornveil", GameState.zone_drops.get(WorldMap.THORNVEIL, []).size() == 1
+		and GameState.zone_drops[WorldMap.THORNVEIL][0].dropped_by == GameState.PLAYER
 		and GameState.collection(GameState.PLAYER).count(&"bark_rune") == 0)
-	_check("Raider is not in Kalmora", _rival(town, &"raider") == null)
-	_check("Runner still in Kalmora", _rival(town, &"runner") != null)
+	_check("Raider is not in Kalmora", GameState.rival_locations[&"raider"].zone != WorldMap.KALMORA)
+	_check("Runner still in Kalmora", GameState.rival_locations[&"runner"].zone == WorldMap.KALMORA)
 
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)

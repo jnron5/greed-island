@@ -195,6 +195,18 @@ static func town_name(town: String) -> String:
 	return zone_name(town)
 
 
+## The inn of each town: a collector who faints wakes up there (spawn "door").
+const TOWN_INNS := {
+	KALMORA: KALMORA_TAVERN,
+	SORENDA: SORENDA_INN,
+	VERDANA: VERDANA_INN,
+}
+
+
+static func inn_of(town: String) -> String:
+	return TOWN_INNS.get(town, "")
+
+
 static func town_spawn(town: String) -> StringName:
 	return TOWNS.get(town, {}).get("spawn", &"town")
 

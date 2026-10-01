@@ -15,6 +15,7 @@ carry_limit = 5
 steal_urge = 0.1
 max_health = 8
 hunts = false
+fights_back = true
 attack_damage = 1
 travel_style = 2
 pays_gates = true

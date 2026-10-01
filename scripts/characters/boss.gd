@@ -35,6 +35,10 @@ const DIRECTIONS_4: Array[String] = ["east", "south", "west", "north"]
 
 var health := 0
 var facing := Vector2.DOWN
+## Set when a collector strikes another mid-fight: the shared fight is off.
+var truce_broken := false
+## Collectors who have landed a blow on it this fight.
+var _fighters: Dictionary = {}
 
 var _state := State.DORMANT
 var _state_time := 0.0
@@ -45,8 +49,15 @@ var _aim := Vector2.DOWN
 var _killer: StringName = &""
 var _flash := 0.0
 var _alone_time := 0.0
-## Death fade; killed if the boss returns before it finishes.
+## Death show; killed if the boss returns before it finishes.
 var _death_tween: Tween
+var _dying := false
+var _base_scale := Vector2.ONE
+## Draws the death show's light (over the boss, whatever its own _draw does).
+var _fx := Node2D.new()
+var _dying_time := 0.0
+## 1 at the moment it breaks apart, fading to 0: the flash and rising motes.
+var _burst := 0.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var body_shape: CollisionShape2D = $CollisionShape2D
@@ -62,9 +73,14 @@ func _ready() -> void:
 	add_to_group(&"bosses")
 	if sprite_frames:
 		sprite.sprite_frames = sprite_frames
+	_base_scale = sprite.scale
+	_fx.z_index = 3
+	add_child(_fx)
+	_fx.draw.connect(_draw_death_fx)
 	_lair = global_position
 	hurtbox.owner_id = Combat.MONSTER
 	hurtbox.hurt.connect(_on_hurt)
+	hurtbox.hurt.connect(_note_fighter)
 	for hitbox: Hitbox in [$SlamHitbox, swipe_hitbox, lash_hitbox]:
 		hitbox.source_id = Combat.MONSTER
 		hitbox.damage = attack_damage
@@ -256,24 +272,106 @@ func _on_hurt(hitbox: Hitbox) -> void:
 		_die()
 
 
+func _note_fighter(hitbox: Hitbox) -> void:
+	if Combat.is_collector(hitbox.source_id) and is_vulnerable():
+		_fighters[hitbox.source_id] = true
+
+
 func _die() -> void:
+	# Brought down by more than one collector with the truce kept: a shared win.
+	var members := _fighters.keys()
+	if members.size() >= 2 and not truce_broken:
+		EventBus.boss_shared_win.emit(boss_id, members)
+	_fighters.clear()
+	truce_broken = false
 	_enter(State.DEAD)
 	for shape in [slam_shape, swipe_shape, lash_shape]:
 		shape.set_deferred(&"disabled", true)
 	body_shape.set_deferred(&"disabled", true)
 	hurtbox.set_deferred(&"monitoring", false)
-	var data := GameState.boss_data(boss_id)
-	if data:
-		var drops := data.drop_card_ids
-		for i in drops.size():
-			Combat.award_card(get_parent(), _killer, drops[i],
-				position + Vector2.from_angle(TAU * i / drops.size() - PI / 2.0) * 22.0, pickup_scene)
 	GameState.kill_boss(boss_id, _killer)
 	_show_bar(false)
 	EventBus.notify.emit("The %s falls!" % _display_name())
+	_dramatic_death()
+
+
+## A boss doesn't just vanish. The world slows; it convulses, flashing white and red
+## as the ground shakes; it sinks and crumples; it breaks apart in a burst of light
+## and rising motes; and only then do its cards (and a purse of gold) spill out
+## across the ground for whoever is quickest.
+func _dramatic_death() -> void:
+	var headless := DisplayServer.get_name() == "headless"
+	var t := 0.05 if headless else 1.0
+	_dying = true
+	_dying_time = 0.0
+	Sfx.play(&"roar")
+	if not headless:
+		Engine.time_scale = 0.3
+		get_tree().create_timer(0.9, true, false, true).timeout.connect(func() -> void: Engine.time_scale = 1.0)
 	_death_tween = create_tween()
-	_death_tween.tween_property(sprite, "modulate:a", 0.0, 1.2)
+	# 1. Convulsing: white and blood-red flashes, each with a jolt of the camera.
+	for i in 8:
+		_death_tween.tween_callback(func() -> void:
+			sprite.modulate = Color(3, 3, 3) if i % 2 == 0 else Color(1.4, 0.35, 0.3)
+			sprite.position.x = (2.0 if i % 2 == 0 else -2.0)
+			_shake_camera(3.0 + i * 0.6))
+		_death_tween.tween_interval(0.2 * t)
+	_death_tween.tween_callback(func() -> void:
+		sprite.position.x = 0.0
+		sprite.modulate = Color(1.2, 0.8, 0.75))
+	# 2. Collapsing: it sags and sinks into itself.
+	_death_tween.tween_property(sprite, "scale", Vector2(1.08, 0.72) * sprite.scale, 0.9 * t).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_death_tween.parallel().tween_property(sprite, "position:y", 10.0, 0.9 * t)
+	_death_tween.parallel().tween_property(sprite, "modulate", Color(0.75, 0.7, 0.75), 0.9 * t)
+	_death_tween.tween_callback(_collapsed)
+	# 3. Breaking apart in light.
+	_death_tween.tween_callback(func() -> void:
+		_burst = 1.0
+		_shake_camera(8.0)
+		Sfx.play(&"explosion"))
+	_death_tween.tween_property(sprite, "modulate:a", 0.0, 1.0 * t)
+	_death_tween.parallel().tween_property(self, "_burst", 0.0, 1.0 * t)
+	# 4. The prize.
+	_death_tween.tween_callback(_spill_drops)
+	_death_tween.tween_interval(1.2 * t)
 	_death_tween.tween_callback(_go_quiet)
+
+
+func _process(delta: float) -> void:
+	if _dying or _burst > 0.0:
+		_dying_time += delta
+		_fx.queue_redraw()
+
+
+## Motes of light rising off the dying boss, and the flash when it breaks apart.
+func _draw_death_fx() -> void:
+	if not _dying and _burst <= 0.0:
+		return
+	for i in 16:
+		var phase := fmod(_dying_time * 0.6 + i / 16.0, 1.0)
+		var x := sin(i * 2.4 + _dying_time * 2.0) * (14.0 + (i % 5) * 6.0)
+		var p := Vector2(x, -10.0 - phase * 90.0)
+		_fx.draw_circle(p, 1.5 if i % 3 else 2.2, Color(1.0, 0.93, 0.7, (1.0 - phase) * 0.85))
+	if _burst > 0.0:
+		var r := 20.0 + (1.0 - _burst) * 90.0
+		_fx.draw_set_transform(Vector2(0, -30), 0.0, Vector2(1.0, 0.7))
+		_fx.draw_circle(Vector2.ZERO, r, Color(1.0, 0.97, 0.85, _burst * 0.45))
+		_fx.draw_arc(Vector2.ZERO, r + 6.0, 0, TAU, 40, Color(1.0, 0.85, 0.5, _burst), 3.0)
+		_fx.draw_set_transform(Vector2.ZERO)
+
+
+## Hook for a boss that leaves something behind when it collapses (the Colossus's rubble).
+func _collapsed() -> void:
+	pass
+
+
+func _spill_drops() -> void:
+	_dying = false
+	var data := GameState.boss_data(boss_id)
+	if data:
+		for card_id in data.drop_card_ids:
+			Combat.drop_loot(get_tree(), position, card_id, 0, &"", 40.0)
+	Combat.drop_loot(get_tree(), position, &"", randi_range(30, 60), &"", 40.0)
 
 
 ## Dead (or not back yet): gone from the grove until a respawn gate opens.
@@ -289,7 +387,14 @@ func _on_boss_returned(id: StringName, _gate_id: StringName) -> void:
 		return
 	if _death_tween:
 		_death_tween.kill()
+	_dying = false
+	_burst = 0.0
+	sprite.scale = _base_scale
+	sprite.position = Vector2.ZERO
+	sprite.modulate = Color.WHITE
 	health = max_health
+	truce_broken = false
+	_fighters.clear()
 	visible = true
 	global_position = _lair
 	_hide_in_canopy()

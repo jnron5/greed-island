@@ -1,7 +1,7 @@
 extends Node
-## Headless test of combat rules: who can hurt whom, towns, combat steals,
-## monster death drops, rival and player defeats (respawning in the nearest town),
-## dropping cards, card gates.
+## Headless test of combat rules: who can hurt whom, towns, what a defeat drops
+## (always a card, on the ground, for anyone to take), monster loot on the ground,
+## rival and player defeats (respawning in the nearest town), card gates.
 ## Run: godot --headless --path . res://tests/test_combat.tscn
 
 const P := &"player"
@@ -28,14 +28,28 @@ func _run() -> void:
 	_check("monster damage is allowed by the rules (monsters never enter towns)", Combat.can_damage(Combat.MONSTER, R))
 	GameState.set_in_safe_zone(R, false)
 
-	# Combat steal.
+	# A beaten collector always drops a card where they fell: a carried one first.
 	GameState.add_loose_card(R, &"coral_coin")
 	GameState.add_loose_card(R, &"sea_glass")
 	GameState.bind_card(R, &"sea_glass")
-	_check("winner takes the loose card", Combat.resolve_defeat(P, R) == &"coral_coin")
+	_check("the loser drops the card they were carrying", Combat.resolve_defeat(P, R, get_tree(), Vector2(500, 0)) == &"coral_coin")
 	_check("bound card stays", GameState.collection(R).count(&"sea_glass") == 1)
-	GameState.add_loose_card(R, &"tide_bell")
-	_check("grace protects a just-beaten loser", Combat.resolve_defeat(P, R) == &"")
+	_check("nobody gets it for free: the winner's hands are empty", GameState.collection(P).count(&"coral_coin") == 0)
+	await _frames(2)
+	var dropped := _pickups(&"coral_coin")
+	_check("it lies on the ground, marked as the loser's", dropped.size() == 1 and dropped[0].dropped_by == R)
+	_check("with nothing carried, a bound card falls instead", Combat.resolve_defeat(P, R, get_tree(), Vector2(500, 0)) == &"sea_glass")
+	await get_tree().create_timer(0.7).timeout
+	var player_node: Player = load("res://scenes/characters/player.tscn").instantiate()
+	add_child(player_node)
+	await get_tree().process_frame
+	player_node.set_physics_process(false)
+	dropped[0]._on_body_entered(player_node)
+	_check("walking over it takes it", GameState.collection(P).count(&"coral_coin") == 1)
+	player_node.queue_free()
+	for n in get_children():
+		if n is CardPickup:
+			n.queue_free()
 	GameState.clear_grace(R)
 
 	# Monster: dies, drops a card, stays down until respawn.
@@ -48,9 +62,9 @@ func _run() -> void:
 	_check("monster takes damage", hound.health == 1 and not hound.is_dead())
 	hound._on_hurt(_hit(P, 2))
 	_check("monster dies", hound.is_dead())
-	await get_tree().process_frame
-	await get_tree().process_frame
-	_check("the monster's card goes straight to its killer", _loose(P) == loose_before + 1)
+	await _frames(2)
+	_check("the monster's card lands on the ground, not in a hand", _loose(P) == loose_before
+		and get_children().any(func(c: Node) -> bool: return c is CardPickup and c.card_id in hound.drop_card_ids))
 
 	# Rival: beaten by the player, loses a card, goes down.
 	var runner: Rival = load("res://scenes/characters/rival.tscn").instantiate()
@@ -58,10 +72,12 @@ func _run() -> void:
 	add_child(runner)
 	await get_tree().process_frame
 	runner.set_physics_process(false)
-	var tide_before := GameState.collection(P).count(&"tide_bell")
+	GameState.add_loose_card(R, &"tide_bell")
 	for i in 5:
 		runner._on_hurt(_hit(P, 1))
-	_check("beaten rival hands over a card", GameState.collection(P).count(&"tide_bell") == tide_before + 1)
+	await _frames(2)
+	_check("beaten rival drops a card where it fell", _pickups(&"tide_bell").size() == 1
+		and _pickups(&"tide_bell")[0].dropped_by == R)
 	_check("beaten rival is down and untouchable", runner.hurtbox.invulnerable)
 
 	# Beaten rivals wake in the nearest town. Deep in Thornveil that's Sorenda,
@@ -85,10 +101,15 @@ func _run() -> void:
 	player.set_physics_process(false)
 	GameState.add_loose_card(P, &"gull_feather")
 	player._on_hurt(_hit(RAIDER, 99))
-	_check("raider took a card from the player", GameState.collection(RAIDER).card_ids().size() == 1)
+	await _frames(2)
+	var lost := GameState.pending_lost_card
+	var players_drop := get_children().filter(func(c: Node) -> bool:
+		return c is CardPickup and c.dropped_by == P and c.card_id == lost)
+	_check("the player's card falls to the ground, not into the Raider's pack",
+		lost != &"" and GameState.collection(RAIDER).card_ids().is_empty() and players_drop.size() == 1)
 	_check("player is down", player.health == 0 and player.hurtbox.invulnerable)
-	_check("player will wake in Kalmora", "The Raider beat you" in GameState.pending_notice
-		and "woke in Kalmora" in GameState.pending_notice)
+	_check("player will come round in Kalmora", "The Raider beat you" in GameState.pending_notice
+		and "in Kalmora" in GameState.pending_notice)
 
 	# Dropping a card doesn't touch world supply (it's still out there).
 	GameState.add_loose_card(P, &"harbor_lantern")
@@ -117,6 +138,15 @@ func _hit(source: StringName, damage: int) -> Hitbox:
 	hitbox.knockback = 0.0
 	add_child(hitbox)
 	return hitbox
+
+
+func _frames(n: int) -> void:
+	for i in n:
+		await get_tree().process_frame
+
+
+func _pickups(card_id: StringName) -> Array:
+	return get_children().filter(func(c: Node) -> bool: return c is CardPickup and c.card_id == card_id and not c.is_queued_for_deletion())
 
 
 func _check(label: String, ok: bool) -> void:

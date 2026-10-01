@@ -172,6 +172,7 @@ inn_rooms = true
 shop_stock = Array[StringName]([&"bread", &"smoked_fish", &"healers_tonic"])
 shop_buys_cards = false
 shop_title = "The Sheaf & Sickle"
+wake_lines = PackedStringArray("WELCOME BACK! You've been out cold for hours! You missed DINNER!", "Up you get! A shepherd found you face down in the barley. Lucky for you it wasn't five o'clock or I'd never have come out!", "There she wakes! Or he. Or whatever you are under that hood! Some man tried to carry you in and I did it myself!")
 room_prompt = "A room! Lovely! Half a day or a full one? Dinner's at five either way!"
 room_broke = "%d gold, sweetheart! No coin, no bed! You can still come to dinner. At FIVE."
 meal_hour = 17.0

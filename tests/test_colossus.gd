@@ -69,8 +69,9 @@ func _run() -> void:
 	boss._enter(Boss.State.RECOVER)
 	boss._on_hurt(_hit(999))
 	await _frames(3)
-	_check("falls and leaves its heart to the player", boss.is_dead()
-		and GameState.collection(P).count(&"cairn_heart") == had + 1 and GameState.boss_kills_left(BOSS) == 2)
+	await get_tree().create_timer(1.0).timeout
+	_check("falls and leaves its heart on the ground", boss.is_dead() and _on_ground(&"cairn_heart") == 1
+		and GameState.collection(P).count(&"cairn_heart") == had and GameState.boss_kills_left(BOSS) == 2)
 
 	var check := SoftLockCheck.run()
 	var warnings := Array(check.warnings).filter(func(w: String) -> bool: return "cairn" in w.to_lower())
@@ -97,3 +98,8 @@ func _check(label: String, ok: bool) -> void:
 	print("  %s  %s" % ["ok  " if ok else "FAIL", label])
 	if not ok:
 		_failures += 1
+
+
+## Card pickups lying in the test scene for `card_id`.
+func _on_ground(card_id: StringName) -> int:
+	return get_children().filter(func(c: Node) -> bool: return c is CardPickup and c.card_id == card_id).size()

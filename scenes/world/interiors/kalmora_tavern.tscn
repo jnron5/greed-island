@@ -166,6 +166,7 @@ inn_rooms = true
 shop_stock = Array[StringName]([&"bread", &"smoked_fish", &"healers_tonic"])
 shop_buys_cards = false
 shop_title = "The Salted Lantern"
+wake_lines = PackedStringArray("Oh, love. Oh, look at you. Somebody carried you in off the road and I've sat with you all night. Rest a minute before you go anywhere.", "There you are. You gave me such a fright. Drink this, it's only tea. Whatever you lost out there, it isn't worth losing you.", "Welcome back, sweetheart. Otto carried you up the stairs himself. Don't tell him I told you; he likes people to think he's grumpy.")
 room_prompt = "Of course, love! Fresh sheets, a warm brick in the bed. Half a day, or a whole one?"
 room_broke = "Oh, love, it's %d gold. Come back when you can. And eat something in the meantime."
 

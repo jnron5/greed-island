@@ -23,12 +23,16 @@ signal spell_cast(caster: StringName, spell_id: StringName, target: StringName)
 signal stealth_failed(thief: StringName, victim: StringName)
 ## A fight between collectors ended; `card_id` is what the winner took (&"" if nothing).
 signal combat_won(winner: StringName, loser: StringName, card_id: StringName)
+## Someone picked a card up off the ground (dropped_by: who lost it, or empty).
+signal card_picked_up(collector: StringName, card_id: StringName, dropped_by: StringName)
 ## The player went down to a monster and woke up in town.
 signal player_fainted(dropped_card: StringName)
 ## A boss went down; `killer` is whoever landed the last hit (or a monster id).
 signal boss_defeated(boss_id: StringName, killer: StringName)
 ## A boss became killable again (gate-based respawn).
 signal boss_returned(boss_id: StringName, gate_id: StringName)
+## A boss fell to several collectors fighting together, truce kept.
+signal boss_shared_win(boss_id: StringName, members: Array)
 ## Boss health bar: shown while a fight is on, hidden when `shown` is false.
 signal boss_bar(boss_name: String, current: int, maximum: int, shown: bool)
 signal safe_zone_changed(collector: StringName, inside: bool)

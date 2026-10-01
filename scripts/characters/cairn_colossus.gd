@@ -24,6 +24,8 @@ const ARMOUR := 0.34   # share of a blow that gets through while it walks
 var _pillars_left := 0
 var _pillar_timer := 0.0
 var _chip := 0.0
+## Its rubble, left where it fell for a moment (1 = solid, fading to 0).
+var _rubble := 0.0
 
 
 func _physics_process(delta: float) -> void:
@@ -31,7 +33,7 @@ func _physics_process(delta: float) -> void:
 	if _flash > 0.0:
 		_flash -= delta
 		sprite.modulate = Color(3, 3, 3) if _flash > 0.0 else _tint()
-	else:
+	elif _state != State.DEAD:
 		sprite.modulate = _tint()
 	var rate := 0.75 if enraged() else 1.0
 	if _state not in [State.DORMANT, State.DEAD]:
@@ -153,6 +155,15 @@ func _on_hurt(hitbox: Hitbox) -> void:
 			_die()
 
 
+## It falls apart into the heap of stones it was when it slept.
+func _collapsed() -> void:
+	_rubble = 1.0
+	sprite.visible = false
+	var tween := create_tween()
+	tween.tween_interval(1.4)
+	tween.tween_property(self, "_rubble", 0.0, 0.8)
+
+
 func _hide_in_canopy() -> void:
 	_sink(false)
 	sprite.visible = dormant_texture == null
@@ -212,6 +223,10 @@ func _update_animation() -> void:
 
 
 func _draw() -> void:
+	if _state == State.DEAD and _rubble > 0.0 and dormant_texture:
+		var heap := dormant_texture.get_size()
+		draw_texture(dormant_texture, Vector2(-heap.x / 2.0, -heap.y + 6), Color(1, 1, 1, _rubble))
+		return
 	if _state == State.DORMANT and dormant_texture and not sprite.visible:
 		var size := dormant_texture.get_size()
 		draw_texture(dormant_texture, Vector2(-size.x / 2.0, -size.y + 6))

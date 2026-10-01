@@ -54,7 +54,8 @@ INTERIORS = {
             "You've got that look. Somebody you're racing for, back home? Keep them in mind. It helps on the long roads.",
         ], [])],
         "inn": "jobelle",
-        "keeper": {"room_prompt": "Of course, love! Fresh sheets, a warm brick in the bed. Half a day, or a whole one?",
+        "keeper": {"wake_lines": ["Oh, love. Oh, look at you. Somebody carried you in off the road and I've sat with you all night. Rest a minute before you go anywhere.", "There you are. You gave me such a fright. Drink this, it's only tea. Whatever you lost out there, it isn't worth losing you.", "Welcome back, sweetheart. Otto carried you up the stairs himself. Don't tell him I told you; he likes people to think he's grumpy."],
+                   "room_prompt": "Of course, love! Fresh sheets, a warm brick in the bed. Half a day, or a whole one?",
                    "room_broke": "Oh, love, it's %d gold. Come back when you can. And eat something in the meantime."},
     },
     "kalmora_card_shop": {
@@ -460,7 +461,8 @@ INTERIORS = {
             "Fine. The bread's good. You can tell people that. Tell them in Vetrassa, loudly, outside a certain door.",
         ], [])],
         "inn": "mate",
-        "keeper": {"room_prompt": "Bed's up the stair. How long. Pick.",
+        "keeper": {"wake_lines": ["You're awake. Good. You were bleeding on my clean floor.", "Somebody dragged you in off the road. Wasn't me. ...Fine, it was me. Don't make a habit of it.", "Back from the dead, are we? Eat something. And no, it's not from Chef's. It's better."],
+                   "room_prompt": "Bed's up the stair. How long. Pick.",
                    "room_broke": "%d gold. Not a copper less. This isn't Chef's, I don't do charity for show."},
         "readables": [
             ("The guest book", (210, 150), [
@@ -496,7 +498,8 @@ INTERIORS = {
             "Oh, I love a busy day! Fifty pints, twelve beds, one dinner, at FIVE, and not a single man telling me anything I didn't already know!",
         ], [])],
         "inn": "tally",
-        "keeper": {"room_prompt": "A room! Lovely! Half a day or a full one? Dinner's at five either way!",
+        "keeper": {"wake_lines": ["WELCOME BACK! You've been out cold for hours! You missed DINNER!", "Up you get! A shepherd found you face down in the barley. Lucky for you it wasn't five o'clock or I'd never have come out!", 'There she wakes! Or he. Or whatever you are under that hood! Some man tried to carry you in and I did it myself!'],
+                   "room_prompt": "A room! Lovely! Half a day or a full one? Dinner's at five either way!",
                    "room_broke": "%d gold, sweetheart! No coin, no bed! You can still come to dinner. At FIVE.",
                    "meal_hour": 17.0,
                    "meal_lines": ["It's five o'clock! Sit! Eat! Everything on the plate, I'm watching!", "There. Full belly, full heart. That's the Sheaf & Sickle way!"],
@@ -683,6 +686,8 @@ def keeper_props(cfg):
     k = cfg.get("keeper", {})
     out = "inn_rooms = true\n"
     out += f"shop_stock = Array[StringName]({INN_STOCK})\nshop_buys_cards = false\nshop_title = {q(cfg['name'])}\n"
+    if k.get("wake_lines"):
+        out += f"wake_lines = {arr(k['wake_lines'])}\n"
     if k.get("room_prompt"):
         out += f"room_prompt = {q(k['room_prompt'])}\n"
     if k.get("room_broke"):
