@@ -200,6 +200,14 @@ const TOPICS := {
 			"Its hide turns a blade. Wait until it rises out of the earth with its rune glowing: that's when it's open. Mind the boulders, and when it sinks, keep moving.",
 		]],
 	],
+	# ---------------- Lake Serin ----------------
+	&"neri": [
+		["Can I fish here?", [
+			"Off the end of my dock, if you like. Cast, and watch the float. When it goes under, pull. Not before, not after.",
+			"Trout, mostly. Cook one on a stick and it'll put you right better than any bread. Costs you nothing but the waiting.",
+			"Now and then the lake gives up a coin instead. Barge folk dropped a lot of things, crossing at night.",
+		]],
+	],
 }
 
 

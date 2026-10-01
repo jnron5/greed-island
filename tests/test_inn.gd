@@ -49,6 +49,30 @@ func _run() -> void:
 		and is_equal_approx(TimeOfDay.hour, 8.0) and next.health == next.max_health)
 	next.queue_free()
 
+	# Fishing off Neri's dock: cast, wait for the bite, reel in; pulling early spooks it.
+	var fisher: Player = load("res://scenes/characters/player.tscn").instantiate()
+	add_child(fisher)
+	var spot := FishingSpot.new()
+	add_child(spot)
+	fisher.global_position = spot.global_position + Vector2(10, 0)
+	await get_tree().process_frame
+	spot.cast()
+	_check("a cast waits for a bite", spot.is_waiting())
+	spot._timer = 0.0
+	await get_tree().process_frame
+	_check("then the float goes under", spot.is_biting())
+	var trout := GameState.item_count(&"lake_trout")
+	var gold := GameState.currency
+	spot.reel_in()
+	_check("reeling in on the bite lands a trout (or a coin)",
+		GameState.item_count(&"lake_trout") == trout + 1 or GameState.currency == gold + 5)
+	_check("a lake trout mends two hearts", Items.get_item(&"lake_trout") != null and Items.get_item(&"lake_trout").heal == 2)
+	var lake: Node = load("res://scenes/world/lake_serin.tscn").instantiate()
+	_check("Lake Serin has a fishing spot", lake.find_children("FishingSpot*", "", false, false).size() == 1)
+	lake.free()
+	fisher.queue_free()
+	spot.queue_free()
+
 	# Every town's inn has a keeper who rents rooms.
 	for path: String in INNS:
 		var room: Node = load(path).instantiate()

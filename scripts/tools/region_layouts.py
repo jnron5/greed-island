@@ -401,6 +401,8 @@ LAKE_SERIN = {
     "meadows": [(420, 480, 160, 90, [WHITE, YELLOW]), (-420, -560, 140, 80, [BLUE, WHITE])],
     "land": [(60, -330, 90, 150)],
     "docks": [(470, -90, 640, -58)],
+    # Cast off the end of Neri's dock (scripts/systems/fishing_spot.gd).
+    "fishing": [(490, -74)],
     # Lily pads in the shallows and Neri's boats tied up at his dock.
     "afloat": [(LS + "barge.png", (-330, 95), False)] + [(TV + "lily_pads.png", p, f) for p, f in [((-250, 180), False), ((-200, -200), True), ((-250, -250), False),
                                                          ((300, 200), True), ((380, 150), False), ((-100, 200), True),
