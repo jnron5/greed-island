@@ -947,10 +947,8 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
                      f'position = Vector2({x}, {y})\n')
         if c.get("boss"):
             bx, by = c["boss"]["pos"]
-            n.append(f'[node name="{c["boss"]["node"]}" parent="." instance=ExtResource("{res("PackedScene", c["boss"]["scene"])}")]
-'
-                     f'position = Vector2({bx}, {by})
-')
+            n.append(f'[node name="{c["boss"]["node"]}" parent="." instance=ExtResource("{res("PackedScene", c["boss"]["scene"])}")]\n'
+                     f'position = Vector2({bx}, {by})\n')
         for k, ((x, y), count) in enumerate(c.get("butterflies", [])):
             n.append(f'[node name="Butterflies{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                      f'script = ExtResource("{res("Script", "res://scripts/world/butterflies.gd")}")\ncount = {count}\nseed = {k + 3}\n\n'

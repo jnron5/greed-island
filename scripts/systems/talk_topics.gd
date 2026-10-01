@@ -16,7 +16,7 @@ const TOPICS := {
 	&"mirela": [
 		["What is the race?", [
 			"Every generation the King calls a race. Collectors from off-island come to Kalmora and try to gather one full set of cards.",
-			"Forty-two of them. Harbor cards, forest cards, plains and lake and mountain cards, rare ones only a monster gives up. First to carry the whole set into Vetrassa, on the far north-west coast, wins.",
+			"Forty-three of them. Harbor cards, forest cards, plains and lake and mountain cards, rare ones only a monster gives up. First to carry the whole set into Vetrassa, on the far north-west coast, wins.",
 			"Wins what? Riches beyond anything, is all anyone says. The winners never come back to tell it.",
 		]],
 		["Who am I racing?", [
@@ -72,7 +72,7 @@ const TOPICS := {
 	],
 	&"sable": [
 		["How do cards work?", [
-			"Sit, sit. Cards are the whole of it. Forty-two make the set, and the set is the race.",
+			"Sit, sit. Cards are the whole of it. Forty-three make the set, and the set is the race.",
 			"Commons turn up everywhere: residents, chests, monsters. Rares are scarce. Boss cards only fall from the forest's Warden, and only so many times.",
 			"Every card you carry is either loose, bound or exposed. Loose can be stolen. Bound, in your binder, is safe. Exposed is a card you're using, a gate or a spell, and thieves love those.",
 		]],

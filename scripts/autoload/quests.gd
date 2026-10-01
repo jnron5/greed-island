@@ -152,7 +152,7 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 			if not flag(&"met_mirela"):
 				return PackedStringArray([
 					"Another one off the morning boat. Welcome to Kalmora, racer. I'm Mirela, harbormaster. Everything that lands here, I stamp. Including you.",
-					"You're here for the race, same as the other two cloaks who came in this week. Forty-two cards makes a set. Carry the whole set into Vetrassa, far up the north-west coast, and it's yours: riches beyond anything, so they say.",
+					"You're here for the race, same as the other two cloaks who came in this week. Forty-three cards makes a set. Carry the whole set into Vetrassa, far up the north-west coast, and it's yours: riches beyond anything, so they say.",
 					"Talk to folk. Kalmora's people know things, and some of them have cards put by for a racer who asks nicely. Come back with three cards in hand and I'll give you one of mine.",
 					"Ask me anything you like before you go.",
 				])
