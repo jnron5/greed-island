@@ -142,6 +142,9 @@ AUREWIND = {
         + [{"sprite": AW + "watchtower.png", "pos": (900, -700), "foot": (64, 30)}]
         # The travellers' camp.
         + [{"sprite": TV + "tent.png", "pos": (-120, 300), "foot": (60, 20)}]
+        # Loki's card table by the fire, and log benches round it.
+        + [{"sprite": AW + "card_table.png", "pos": (92, 304), "foot": (48, 14)}]
+        + [{"sprite": AW + "log_bench.png", "pos": p, "foot": (36, 10)} for p in [(-30, 286), (-96, 364)]]
         + [{"sprite": KP + "signpost.png", "pos": (-240, 120), "foot": (8, 6)}]
     ),
     "campfires": [(-30, 330)],
@@ -151,6 +154,12 @@ AUREWIND = {
         *[{"id": "sheep", "node": f"Npc_sheep{k}", "name": "Sheep", "pos": p, "wander": 36, "offset": -14.0, "lines": [line]}
           for k, (p, line) in enumerate([((-210, -200), "Baa."), ((-110, -210), "Baaa."), ((-70, -130), "Mm-baa."),
                                           ((-220, -110), "...Baa?")])],
+        # Loki, Chef's brother, playing cards by the travellers' fire.
+        {"id": "loki", "name": "Loki", "pos": (40, 296), "wander": 0, "shop": ["pickpockets_whisper", "lockbox_seal", "second_wind"],
+         "shop_title": "Loki's Table", "buys_cards": True, "lines": [
+            "Sit, sit. Cut the deck. No? Wise. Nobody ever wins at my fire, not even me.",
+            "Racers, every one of you, looking at the horizon. The good cards are always behind you, in somebody's pocket.",
+        ]},
         {"id": "tilly", "name": "Tilly", "pos": (-150, -140), "wander": 50, "lines": [
             "Mind the rams. They're mine, mostly. The ones with the bristles on their backs aren't anyone's.",
             "The stones up on the downs hum when the wind's in the east. Grandad says they're counting.",
@@ -422,9 +431,14 @@ LAKE_SERIN = {
 # ---------------------------------------------------------------- Starfall Range
 def starfall_level(x, y):
     w = 44 * math.sin(x / 190.0) + 14 * math.sin(x / 70.0 + 1.0)
-    if y + w > 150:
+    spur = lambda at, width: math.exp(-((x - at) / width) ** 2)
+    # Rock spurs where a terrace juts out over the one below, and a bay where the
+    # snow runs back into the mountain (kept clear of the stairs).
+    lower = w - 80 * spur(-860, 80) - 70 * spur(600, 90) + 60 * spur(80, 70)
+    upper = w * 0.8 + 70 * spur(-640, 100) - 80 * spur(720, 80) - 50 * spur(-60, 70)
+    if y + lower > 150:
         return 0
-    if y + w * 0.8 > -350:
+    if y + upper > -350:
         return 1
     return 2
 
@@ -451,10 +465,15 @@ STARFALL = {
     ],
     "ice": [(-480, -120, 170, 90)],
     "tree_kinds": ["pine"],
-    "groves": [(-800, -600, 8, 60), (700, -650, 8, 60), (-600, 520, 7, 60), (600, 420, 8, 60), (800, 0, 5, 50), (-850, -200, 5, 50)],
-    "under": [("branch", 2), ("pinecones", 2), ("stump", 1)],
-    "under_tint": (0.86, 0.92, 1.0, 1),
-    "patches": 26,
+    # Pines stand in windbreaks: tucked under each terrace wall and round the cabin,
+    # thinning out onto the open snowfields.
+    "groves": [(-800, -600, 8, 60), (700, -650, 8, 60), (-600, 520, 7, 60), (600, 420, 8, 60), (800, 0, 5, 50), (-850, -200, 5, 50),
+               (-420, -560, 6, 55), (520, -520, 5, 50), (-140, 560, 5, 50), (420, 230, 5, 50), (-820, 140, 5, 50),
+               (760, -240, 4, 40), (-40, -420, 4, 45)],
+    # What pokes up through the snow: frosted juniper, winter grass, rocks.
+    "under": [("snow_shrub", 3), ("frost_grass", 3), ("snow_rocks", 1)],
+    "solid_under": ["snow_rocks"],
+    "patches": 34,
     "entry": (0, 720),
     "exits": [
         {"name": "ToLakeSerin", "pos": (0, 788), "side": "s", "target": "res://scenes/world/lake_serin.tscn", "spawn": "from_starfall"},

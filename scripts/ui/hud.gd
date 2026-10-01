@@ -45,6 +45,9 @@ var _hint: Label
 var _hint_time := 90.0
 
 
+var _time_label: Label
+
+
 func _ready() -> void:
 	layer = 3  # above the night grade (NightGrade, layer 1)
 	_root = $Root
@@ -124,6 +127,11 @@ func _build() -> void:
 	currency_label.theme_type_variation = &"TitleLabel"
 	currency_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	gold_row.add_child(currency_label)
+	# The time of day, beside the purse (rooms at the inn sell hours of sleep).
+	_time_label = Label.new()
+	_time_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_time_label.modulate = Color(1, 1, 1, 0.8)
+	gold_row.add_child(_time_label)
 
 	# Under the hearts and purse: the race as one slim row (a dot and a count per
 	# collector), then the quests as plain outlined text. Everything sits in the
@@ -271,6 +279,8 @@ func _on_tracker_changed(counts: Dictionary) -> void:
 ## The corner UI fades while the player stands behind it; the controls hint fades
 ## out after a while.
 func _process(delta: float) -> void:
+	if _time_label:
+		_time_label.text = "  " + TimeOfDay.part_of_day()
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
 	if player:
 		var at := player.get_global_transform_with_canvas().origin

@@ -196,10 +196,17 @@ class Zone:
         # repainted as soft drifts (broad blue-white swells, fine grain, a few glints).
         if c.get("snow"):
             drift = np.clip(broad * 0.7 + self.noise(22) * 0.3, 0, 1)
-            grain = self.nprng.random((H, W)) * 0.035
-            snow = (np.array([214, 226, 242], np.float32) * (1 - drift[..., None])
-                    + np.array([246, 250, 255], np.float32) * drift[..., None]) * (0.97 + grain[..., None])
-            glint = self.nprng.random((H, W)) > 0.9985
+            # Wind ripples: long shallow waves across the slope, bent by the drifts,
+            # with blue-grey troughs; a fine grain and the odd glint on the crests.
+            yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+            bend = (self.noise(60) - 0.5) * 9.0
+            ripple = np.sin((xx * 0.28 + yy * 0.95) / 4.2 + bend) * 0.5 + 0.5
+            ripple = ripple ** 3 * np.clip(self.noise(36) * 1.6 - 0.3, 0, 1)
+            grain = self.nprng.random((H, W)) * 0.03
+            snow = (np.array([206, 220, 240], np.float32) * (1 - drift[..., None])
+                    + np.array([247, 250, 255], np.float32) * drift[..., None]) * (0.975 + grain[..., None])
+            snow -= ripple[..., None] * np.array([22, 16, 6], np.float32)
+            glint = (self.nprng.random((H, W)) > 0.9975) & (ripple < 0.2)
             snow = np.where(glint[..., None], np.array([255, 255, 255], np.float32), snow)
             inner = np.asarray(Image.fromarray(flat.astype(np.uint8) * 255).filter(ImageFilter.MinFilter(3))) > 0
             a[..., :3] = np.where(inner[..., None], snow, a[..., :3])
@@ -245,9 +252,15 @@ class Zone:
         # roads get two darker wheel ruts.
         if c.get("paths"):
             if c.get("snow"):
+                # Trodden snow: packed, blue-grey, pocked with old footprints.
                 path_tex = a.copy()
                 trod = np.clip(self.noise(8) * 0.5 + 0.5, 0, 1)[..., None]
-                path_tex[..., :3] = path_tex[..., :3] * np.array([0.93, 0.93, 0.95]) * (0.95 + 0.05 * trod) - 4
+                path_tex[..., :3] = path_tex[..., :3] * np.array([0.9, 0.92, 0.96]) * (0.95 + 0.05 * trod) - 6
+                prints = np.asarray(Image.fromarray((self.nprng.random((H // 3, W // 3)) > 0.93).astype(np.uint8) * 255)
+                                    .resize((W // 3 * 3, H // 3 * 3), Image.NEAREST))
+                pr = np.zeros((H, W), bool)
+                pr[:prints.shape[0], :prints.shape[1]] = prints > 0
+                path_tex[..., :3] = np.where(pr[..., None], path_tex[..., :3] * 0.9, path_tex[..., :3])
             else:
                 path_tex = tile(CornerSet(DIRT).tiles[15])
                 pl = path_tex[..., 0] * 0.3 + path_tex[..., 1] * 0.59 + path_tex[..., 2] * 0.11
@@ -271,9 +284,14 @@ class Zone:
             near = np.asarray(Image.fromarray((~on).astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(5))) > 0
             a = np.where(on[..., None], path_tex, a)
             a[..., :3] = np.where((on & ruts)[..., None], a[..., :3] * 0.84, a[..., :3])
-            a[..., :3] = np.where((on & near)[..., None], a[..., :3] * 0.86, a[..., :3])
             lip = np.asarray(Image.fromarray(on.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(7))) > 0
-            a[..., :3] = np.where((~on & lip & flat)[..., None], a[..., :3] * 0.9, a[..., :3])
+            if c.get("snow"):
+                # Snow pushed aside: a bright bank along the edge, a soft shadow inside it.
+                a[..., :3] = np.where((on & near)[..., None], a[..., :3] * 0.95, a[..., :3])
+                a[..., :3] = np.where((~on & lip & flat)[..., None], np.minimum(a[..., :3] * 1.04 + 4, 255), a[..., :3])
+            else:
+                a[..., :3] = np.where((on & near)[..., None], a[..., :3] * 0.86, a[..., :3])
+                a[..., :3] = np.where((~on & lip & flat)[..., None], a[..., :3] * 0.9, a[..., :3])
         # Plazas: cobbled squares (Kalmora's paving, warmed to the town's stone), a
         # ring of darker setts at the edge.
         if c.get("plazas"):
@@ -316,6 +334,18 @@ class Zone:
             m = np.zeros((H, W, 4), np.uint8)
             m[water] = 255
             Image.fromarray(m, "RGBA").save(self.art + self.key + "_water_mask.png")
+            # Depth, laid over the animated waves: pale green-blue shallows along the
+            # shore, the water darkening toward the middle, so a big lake isn't one
+            # flat sheet of the same wave.
+            dist = ndimage.distance_transform_edt(water)
+            deep = np.clip(dist / 200.0, 0, 1) ** 0.8 * 0.6
+            deep *= 0.85 + 0.3 * (self.noise(70) - 0.5)
+            shallow = np.clip(1.0 - dist / 30.0, 0, 1) ** 1.5 * 0.42
+            dep = np.zeros((H, W, 4), np.float32)
+            dep[..., :3] = np.where((shallow > deep)[..., None], np.array([150, 214, 196], np.float32),
+                                    np.array([8, 30, 62], np.float32))
+            dep[..., 3] = np.maximum(shallow, deep) * 255 * water
+            Image.fromarray(dep.astype(np.uint8), "RGBA").save(self.art + self.key + "_water_depth.png")
         # Docks: planks laid over the water, dark gaps between boards, posts at the edge.
         for dx0, dy0, dx1, dy1 in c.get("docks", []):
             planks = tile(CornerSet(PLANKS).tiles[15])
@@ -631,7 +661,9 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
                      f'modulate = Color{c.get("water_tint", (1, 1, 1, 1))}\n'
                      f'script = ExtResource("{res("Script", "res://scripts/world/tiled_animation.gd")}")\n'
                      f'strip = ExtResource("{res("Texture2D", LAKE_WAVES)}")\nframe_count = 8\nfps = 3.0\n'
-                     f'region_rect = Rect2(0, 0, {self.W}, {self.H})\n')
+                     f'region_rect = Rect2(0, 0, {self.W}, {self.H})\n\n'
+                     f'[node name="Depth" type="Sprite2D" parent="LakeWater"]\n'
+                     f'texture = ExtResource("{texture(self.art + self.key + "_water_depth.png")}")\n')
 
         # Collision: cliffs (visible faces), water pixels, the map edge (behind the treeline).
         solid = [[(self.stand[r][cc] < 0 and (r, cc) not in self.stair_cells) for cc in range(self.cols)] for r in range(self.rows)]

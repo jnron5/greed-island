@@ -144,8 +144,43 @@ const TOPICS := {
 	],
 	&"juniper": [
 		["How do I heal?", [
-			"Eat, drink, rest. The Heartwood spring in Thornveil heals you right to full, for nothing.",
+			"Eat, drink, rest. Wounds don't close just because you've walked somewhere new. A night in Mate's beds at the Copper Kettle will mend you, or the Heartwood spring in Thornveil, for nothing.",
 			"If you fall, you'll wake in the nearest town. Sorenda's closer than Kalmora, once you're up here.",
+		]],
+	],
+	# ---------------- Inn keepers ----------------
+	&"jobelle": [
+		["How do rooms work?", [
+			"Pay me, sleep, wake up whole. Half a day if you want to be up by morning, a whole day if you've really been through it.",
+			"Walking about won't mend you, love. Neither will a door. Food helps, a bed fixes. Every town has an inn, ask for the keeper.",
+			"Mind, the other racers don't sleep when you do. Not all night, anyway.",
+		]],
+	],
+	&"mate": [
+		["How do rooms work?", [
+			"Coin on the bar, up the stair, sleep as long as you've paid for. Half a day or a whole one. You come down mended.",
+			"The forest's hard on racers. Hounds, boars, the bear. Come back here before you're down to your last heart, not after.",
+		]],
+	],
+	&"tally": [
+		["How do rooms work?", [
+			"Half a day or a full day, paid up front. I don't run tabs for racers. Only the Company gets a tab, and look how that's gone.",
+			"You'll wake with every heart back. The road between here and anywhere won't do that for you.",
+		]],
+	],
+	# ---------------- The plains ----------------
+	&"loki": [
+		["Who are you?", [
+			"Loki. Traveller, gentleman, player of cards. The other sort of cards, mostly. The ones you can lose at a table.",
+			"My brother's the famous one. Chef, up in Vetrassa. Feeds the King's own guests. I feed whoever's at the fire and sits down to play.",
+		]],
+		["What do you sell?", [
+			"Little helpers. A whisper to lift a card from a pocket, a seal to keep yours in it. Same as Sable sells in Kalmora, only out here, where you need them.",
+			"I'll buy cards too. Don't ask where I sell them on. I go south a lot. Halmeer has very quiet boats.",
+		]],
+		["The road west is blocked.", [
+			"Is it? Rocks fall. Very convenient rocks, all the same size, the week the Company stopped running carts west.",
+			"Whatever was going east along that road is going some other way now. Ask yourself which way a thing goes when it doesn't want to be counted.",
 		]],
 	],
 }

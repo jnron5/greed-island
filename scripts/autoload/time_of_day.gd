@@ -54,6 +54,21 @@ func night_factor() -> float:
 	return 1.0
 
 
+## The hour as people say it: "Dawn", "Morning", ... "Night".
+func part_of_day() -> String:
+	if hour >= 5.0 and hour < 7.0:
+		return "Dawn"
+	if hour >= 7.0 and hour < 11.0:
+		return "Morning"
+	if hour >= 11.0 and hour < 14.0:
+		return "Midday"
+	if hour >= 14.0 and hour < 17.5:
+		return "Afternoon"
+	if hour >= 17.5 and hour < 20.5:
+		return "Dusk"
+	return "Night"
+
+
 func set_hour(value: float) -> void:
 	hour = fmod(value, 24.0)
 	hour_changed.emit(hour)
