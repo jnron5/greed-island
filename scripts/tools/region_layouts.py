@@ -273,13 +273,15 @@ VERDANA = {
            {"sprite": K2 + "props/flower_bed.png", "pos": (-90, -170), "foot": (30, 8)},
            {"sprite": K2 + "props/flower_bed.png", "pos": (90, -170), "foot": (30, 8)},
            {"sprite": K2 + "props/notice_board.png", "pos": (-190, -60), "foot": (30, 8)}]
+        # Flower beds round the Harvest Oak, open to the north and south.
+        + [{"sprite": K2 + "props/flower_bed.png", "pos": p, "foot": (30, 8)} for p in [(-70, 40), (70, 40), (-56, 96), (56, 96)]]
         + [{"sprite": HAY, "pos": p, "foot": (34, 14)} for p in [(-420, 330), (-690, 300), (-460, 360)]]
         + [{"sprite": SCARECROW, "pos": p, "foot": (10, 6)} for p in [(-720, 80), (680, 460)]]
         + fence_row(-790, -640, -52) + fence_row(-790, -640, 212) + fence_row(560, 800, 372, gap_at=(680,))
     ),
     "merchant": ((200, 40), "assets/sprites/tiles/kalmora/market_stall.png"),
     "lanterns": [(-230, -20), (230, -20), (-230, 170), (230, 170), (-200, -380), (380, -120), (560, -280), (-380, -60), (380, 280),
-                 (-60, 110), (60, 110)],
+                 ],
     "npcs": [
         {"id": "aldous", "name": "Aldous", "pos": (620, -270), "wander": 20, "lines": [
             "The stones were here before the kings. Before the towns. Before, I think, the cards.",

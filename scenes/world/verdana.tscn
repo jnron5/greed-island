@@ -878,106 +878,106 @@ position = Vector2(0, -4.0)
 shape = SubResource("R30x8")
 
 [node name="Prop10" type="StaticBody2D" parent="."]
-position = Vector2(-420, 330)
+position = Vector2(-70, 40)
 
 [node name="Sprite" type="Sprite2D" parent="Prop10"]
-position = Vector2(0, -12.0)
-texture = ExtResource("r27_hay_bale")
+position = Vector2(0, -30.5)
+texture = ExtResource("r25_flower_bed")
 
 [node name="Base" type="CollisionShape2D" parent="Prop10"]
-position = Vector2(0, -7.0)
-shape = SubResource("R34x14")
+position = Vector2(0, -4.0)
+shape = SubResource("R30x8")
 
 [node name="Prop11" type="StaticBody2D" parent="."]
-position = Vector2(-690, 300)
+position = Vector2(70, 40)
 
 [node name="Sprite" type="Sprite2D" parent="Prop11"]
-position = Vector2(0, -12.0)
-texture = ExtResource("r27_hay_bale")
+position = Vector2(0, -30.5)
+texture = ExtResource("r25_flower_bed")
 
 [node name="Base" type="CollisionShape2D" parent="Prop11"]
-position = Vector2(0, -7.0)
-shape = SubResource("R34x14")
+position = Vector2(0, -4.0)
+shape = SubResource("R30x8")
 
 [node name="Prop12" type="StaticBody2D" parent="."]
-position = Vector2(-460, 360)
+position = Vector2(-56, 96)
 
 [node name="Sprite" type="Sprite2D" parent="Prop12"]
+position = Vector2(0, -30.5)
+texture = ExtResource("r25_flower_bed")
+
+[node name="Base" type="CollisionShape2D" parent="Prop12"]
+position = Vector2(0, -4.0)
+shape = SubResource("R30x8")
+
+[node name="Prop13" type="StaticBody2D" parent="."]
+position = Vector2(56, 96)
+
+[node name="Sprite" type="Sprite2D" parent="Prop13"]
+position = Vector2(0, -30.5)
+texture = ExtResource("r25_flower_bed")
+
+[node name="Base" type="CollisionShape2D" parent="Prop13"]
+position = Vector2(0, -4.0)
+shape = SubResource("R30x8")
+
+[node name="Prop14" type="StaticBody2D" parent="."]
+position = Vector2(-420, 330)
+
+[node name="Sprite" type="Sprite2D" parent="Prop14"]
 position = Vector2(0, -12.0)
 texture = ExtResource("r27_hay_bale")
 
-[node name="Base" type="CollisionShape2D" parent="Prop12"]
+[node name="Base" type="CollisionShape2D" parent="Prop14"]
 position = Vector2(0, -7.0)
 shape = SubResource("R34x14")
 
-[node name="Prop13" type="StaticBody2D" parent="."]
-position = Vector2(-720, 80)
-
-[node name="Sprite" type="Sprite2D" parent="Prop13"]
-position = Vector2(0, -24.0)
-texture = ExtResource("r28_scarecrow")
-
-[node name="Base" type="CollisionShape2D" parent="Prop13"]
-position = Vector2(0, -3.0)
-shape = SubResource("R10x6")
-
-[node name="Prop14" type="StaticBody2D" parent="."]
-position = Vector2(680, 460)
-
-[node name="Sprite" type="Sprite2D" parent="Prop14"]
-position = Vector2(0, -24.0)
-texture = ExtResource("r28_scarecrow")
-
-[node name="Base" type="CollisionShape2D" parent="Prop14"]
-position = Vector2(0, -3.0)
-shape = SubResource("R10x6")
-
 [node name="Prop15" type="StaticBody2D" parent="."]
-position = Vector2(-790, -52)
+position = Vector2(-690, 300)
 
 [node name="Sprite" type="Sprite2D" parent="Prop15"]
-position = Vector2(0, -9.0)
-texture = ExtResource("r29_fence")
+position = Vector2(0, -12.0)
+texture = ExtResource("r27_hay_bale")
 
 [node name="Base" type="CollisionShape2D" parent="Prop15"]
-position = Vector2(0, -3.0)
-shape = SubResource("R16x6")
+position = Vector2(0, -7.0)
+shape = SubResource("R34x14")
 
 [node name="Prop16" type="StaticBody2D" parent="."]
-position = Vector2(-774, -52)
+position = Vector2(-460, 360)
 
 [node name="Sprite" type="Sprite2D" parent="Prop16"]
-position = Vector2(0, -9.0)
-texture = ExtResource("r29_fence")
+position = Vector2(0, -12.0)
+texture = ExtResource("r27_hay_bale")
 
 [node name="Base" type="CollisionShape2D" parent="Prop16"]
-position = Vector2(0, -3.0)
-shape = SubResource("R16x6")
+position = Vector2(0, -7.0)
+shape = SubResource("R34x14")
 
 [node name="Prop17" type="StaticBody2D" parent="."]
-position = Vector2(-758, -52)
+position = Vector2(-720, 80)
 
 [node name="Sprite" type="Sprite2D" parent="Prop17"]
-position = Vector2(0, -9.0)
-texture = ExtResource("r29_fence")
+position = Vector2(0, -24.0)
+texture = ExtResource("r28_scarecrow")
 
 [node name="Base" type="CollisionShape2D" parent="Prop17"]
 position = Vector2(0, -3.0)
-shape = SubResource("R16x6")
+shape = SubResource("R10x6")
 
 [node name="Prop18" type="StaticBody2D" parent="."]
-position = Vector2(-742, -52)
+position = Vector2(680, 460)
 
 [node name="Sprite" type="Sprite2D" parent="Prop18"]
-position = Vector2(0, -9.0)
-texture = ExtResource("r29_fence")
+position = Vector2(0, -24.0)
+texture = ExtResource("r28_scarecrow")
 
 [node name="Base" type="CollisionShape2D" parent="Prop18"]
 position = Vector2(0, -3.0)
-shape = SubResource("R16x6")
+shape = SubResource("R10x6")
 
 [node name="Prop19" type="StaticBody2D" parent="."]
-position = Vector2(-726, -52)
+position = Vector2(-790, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Prop19"]
 position = Vector2(0, -9.0)
@@ -988,7 +988,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop20" type="StaticBody2D" parent="."]
-position = Vector2(-710, -52)
+position = Vector2(-774, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Prop20"]
 position = Vector2(0, -9.0)
@@ -999,7 +999,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop21" type="StaticBody2D" parent="."]
-position = Vector2(-694, -52)
+position = Vector2(-758, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Prop21"]
 position = Vector2(0, -9.0)
@@ -1010,7 +1010,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop22" type="StaticBody2D" parent="."]
-position = Vector2(-678, -52)
+position = Vector2(-742, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Prop22"]
 position = Vector2(0, -9.0)
@@ -1021,7 +1021,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop23" type="StaticBody2D" parent="."]
-position = Vector2(-662, -52)
+position = Vector2(-726, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Prop23"]
 position = Vector2(0, -9.0)
@@ -1032,7 +1032,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop24" type="StaticBody2D" parent="."]
-position = Vector2(-646, -52)
+position = Vector2(-710, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Prop24"]
 position = Vector2(0, -9.0)
@@ -1043,7 +1043,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop25" type="StaticBody2D" parent="."]
-position = Vector2(-790, 212)
+position = Vector2(-694, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Prop25"]
 position = Vector2(0, -9.0)
@@ -1054,7 +1054,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop26" type="StaticBody2D" parent="."]
-position = Vector2(-774, 212)
+position = Vector2(-678, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Prop26"]
 position = Vector2(0, -9.0)
@@ -1065,7 +1065,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop27" type="StaticBody2D" parent="."]
-position = Vector2(-758, 212)
+position = Vector2(-662, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Prop27"]
 position = Vector2(0, -9.0)
@@ -1076,7 +1076,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop28" type="StaticBody2D" parent="."]
-position = Vector2(-742, 212)
+position = Vector2(-646, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Prop28"]
 position = Vector2(0, -9.0)
@@ -1087,7 +1087,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop29" type="StaticBody2D" parent="."]
-position = Vector2(-726, 212)
+position = Vector2(-790, 212)
 
 [node name="Sprite" type="Sprite2D" parent="Prop29"]
 position = Vector2(0, -9.0)
@@ -1098,7 +1098,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop30" type="StaticBody2D" parent="."]
-position = Vector2(-710, 212)
+position = Vector2(-774, 212)
 
 [node name="Sprite" type="Sprite2D" parent="Prop30"]
 position = Vector2(0, -9.0)
@@ -1109,7 +1109,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop31" type="StaticBody2D" parent="."]
-position = Vector2(-694, 212)
+position = Vector2(-758, 212)
 
 [node name="Sprite" type="Sprite2D" parent="Prop31"]
 position = Vector2(0, -9.0)
@@ -1120,7 +1120,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop32" type="StaticBody2D" parent="."]
-position = Vector2(-678, 212)
+position = Vector2(-742, 212)
 
 [node name="Sprite" type="Sprite2D" parent="Prop32"]
 position = Vector2(0, -9.0)
@@ -1131,7 +1131,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop33" type="StaticBody2D" parent="."]
-position = Vector2(-662, 212)
+position = Vector2(-726, 212)
 
 [node name="Sprite" type="Sprite2D" parent="Prop33"]
 position = Vector2(0, -9.0)
@@ -1142,7 +1142,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop34" type="StaticBody2D" parent="."]
-position = Vector2(-646, 212)
+position = Vector2(-710, 212)
 
 [node name="Sprite" type="Sprite2D" parent="Prop34"]
 position = Vector2(0, -9.0)
@@ -1153,7 +1153,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop35" type="StaticBody2D" parent="."]
-position = Vector2(560, 372)
+position = Vector2(-694, 212)
 
 [node name="Sprite" type="Sprite2D" parent="Prop35"]
 position = Vector2(0, -9.0)
@@ -1164,7 +1164,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop36" type="StaticBody2D" parent="."]
-position = Vector2(576, 372)
+position = Vector2(-678, 212)
 
 [node name="Sprite" type="Sprite2D" parent="Prop36"]
 position = Vector2(0, -9.0)
@@ -1175,7 +1175,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop37" type="StaticBody2D" parent="."]
-position = Vector2(592, 372)
+position = Vector2(-662, 212)
 
 [node name="Sprite" type="Sprite2D" parent="Prop37"]
 position = Vector2(0, -9.0)
@@ -1186,7 +1186,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop38" type="StaticBody2D" parent="."]
-position = Vector2(608, 372)
+position = Vector2(-646, 212)
 
 [node name="Sprite" type="Sprite2D" parent="Prop38"]
 position = Vector2(0, -9.0)
@@ -1197,7 +1197,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop39" type="StaticBody2D" parent="."]
-position = Vector2(624, 372)
+position = Vector2(560, 372)
 
 [node name="Sprite" type="Sprite2D" parent="Prop39"]
 position = Vector2(0, -9.0)
@@ -1208,7 +1208,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop40" type="StaticBody2D" parent="."]
-position = Vector2(640, 372)
+position = Vector2(576, 372)
 
 [node name="Sprite" type="Sprite2D" parent="Prop40"]
 position = Vector2(0, -9.0)
@@ -1219,7 +1219,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop41" type="StaticBody2D" parent="."]
-position = Vector2(720, 372)
+position = Vector2(592, 372)
 
 [node name="Sprite" type="Sprite2D" parent="Prop41"]
 position = Vector2(0, -9.0)
@@ -1230,7 +1230,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop42" type="StaticBody2D" parent="."]
-position = Vector2(736, 372)
+position = Vector2(608, 372)
 
 [node name="Sprite" type="Sprite2D" parent="Prop42"]
 position = Vector2(0, -9.0)
@@ -1241,7 +1241,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop43" type="StaticBody2D" parent="."]
-position = Vector2(752, 372)
+position = Vector2(624, 372)
 
 [node name="Sprite" type="Sprite2D" parent="Prop43"]
 position = Vector2(0, -9.0)
@@ -1252,7 +1252,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop44" type="StaticBody2D" parent="."]
-position = Vector2(768, 372)
+position = Vector2(640, 372)
 
 [node name="Sprite" type="Sprite2D" parent="Prop44"]
 position = Vector2(0, -9.0)
@@ -1263,7 +1263,7 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop45" type="StaticBody2D" parent="."]
-position = Vector2(784, 372)
+position = Vector2(720, 372)
 
 [node name="Sprite" type="Sprite2D" parent="Prop45"]
 position = Vector2(0, -9.0)
@@ -1274,13 +1274,57 @@ position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
 [node name="Prop46" type="StaticBody2D" parent="."]
-position = Vector2(800, 372)
+position = Vector2(736, 372)
 
 [node name="Sprite" type="Sprite2D" parent="Prop46"]
 position = Vector2(0, -9.0)
 texture = ExtResource("r29_fence")
 
 [node name="Base" type="CollisionShape2D" parent="Prop46"]
+position = Vector2(0, -3.0)
+shape = SubResource("R16x6")
+
+[node name="Prop47" type="StaticBody2D" parent="."]
+position = Vector2(752, 372)
+
+[node name="Sprite" type="Sprite2D" parent="Prop47"]
+position = Vector2(0, -9.0)
+texture = ExtResource("r29_fence")
+
+[node name="Base" type="CollisionShape2D" parent="Prop47"]
+position = Vector2(0, -3.0)
+shape = SubResource("R16x6")
+
+[node name="Prop48" type="StaticBody2D" parent="."]
+position = Vector2(768, 372)
+
+[node name="Sprite" type="Sprite2D" parent="Prop48"]
+position = Vector2(0, -9.0)
+texture = ExtResource("r29_fence")
+
+[node name="Base" type="CollisionShape2D" parent="Prop48"]
+position = Vector2(0, -3.0)
+shape = SubResource("R16x6")
+
+[node name="Prop49" type="StaticBody2D" parent="."]
+position = Vector2(784, 372)
+
+[node name="Sprite" type="Sprite2D" parent="Prop49"]
+position = Vector2(0, -9.0)
+texture = ExtResource("r29_fence")
+
+[node name="Base" type="CollisionShape2D" parent="Prop49"]
+position = Vector2(0, -3.0)
+shape = SubResource("R16x6")
+
+[node name="Prop50" type="StaticBody2D" parent="."]
+position = Vector2(800, 372)
+
+[node name="Sprite" type="Sprite2D" parent="Prop50"]
+position = Vector2(0, -9.0)
+texture = ExtResource("r29_fence")
+
+[node name="Base" type="CollisionShape2D" parent="Prop50"]
 position = Vector2(0, -3.0)
 shape = SubResource("R16x6")
 
@@ -1425,38 +1469,6 @@ shape = SubResource("R10x8")
 
 [node name="LanternLight8" type="PointLight2D" parent="."]
 position = Vector2(416, 236)
-texture_scale = 1.2
-script = ExtResource("8_lamp")
-
-[node name="Lantern9" type="StaticBody2D" parent="."]
-position = Vector2(-60, 110)
-
-[node name="Sprite" type="Sprite2D" parent="Lantern9"]
-position = Vector2(0, -28.0)
-texture = ExtResource("r30_trail_lantern")
-
-[node name="Base" type="CollisionShape2D" parent="Lantern9"]
-position = Vector2(0, -4)
-shape = SubResource("R10x8")
-
-[node name="LanternLight9" type="PointLight2D" parent="."]
-position = Vector2(-54, 66)
-texture_scale = 1.2
-script = ExtResource("8_lamp")
-
-[node name="Lantern10" type="StaticBody2D" parent="."]
-position = Vector2(60, 110)
-
-[node name="Sprite" type="Sprite2D" parent="Lantern10"]
-position = Vector2(0, -28.0)
-texture = ExtResource("r30_trail_lantern")
-
-[node name="Base" type="CollisionShape2D" parent="Lantern10"]
-position = Vector2(0, -4)
-shape = SubResource("R10x8")
-
-[node name="LanternLight10" type="PointLight2D" parent="."]
-position = Vector2(66, 66)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
