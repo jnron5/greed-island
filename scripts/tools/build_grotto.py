@@ -19,7 +19,7 @@ import os
 import sys
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 
 os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, "scripts/tools")
@@ -74,6 +74,31 @@ def build_ground():
     rock = np.kron(np.array([[1 if v == 1 else 0 for v in row] for row in stand], np.uint8),
                    np.ones((TILE, TILE), np.uint8)).astype(bool)
     a[rock, :3] *= 0.6
+    # The set's flat ice floor is a fine grid that reads as tiles: open floor is
+    # repainted as frozen ground instead (swirls of frost and clear ice, hairline
+    # cracks, a few glints), feathered into the drawn edges along the walls.
+    H, W = a.shape[:2]
+    rng = np.random.default_rng(7)
+
+    def noise(scale):
+        small = rng.random((H // scale + 2, W // scale + 2)).astype(np.float32)
+        return np.asarray(Image.fromarray((small * 255).astype(np.uint8)).resize(
+            ((W // scale + 2) * scale, (H // scale + 2) * scale), Image.BICUBIC))[:H, :W].astype(np.float32) / 255.0
+
+    open_cells = [[stand[r][c] == 0 for c in range(COLS)] for r in range(ROWS)]
+    inner = np.kron(np.array(open_cells, np.uint8), np.ones((TILE, TILE), np.uint8)).astype(np.float32)
+    inner = np.pad(inner, ((0, H - inner.shape[0]), (0, W - inner.shape[1])))
+    feather = np.asarray(Image.fromarray((inner * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3))).astype(np.float32) / 255.0
+    frost = np.clip(noise(48) * 0.6 + noise(16) * 0.4, 0, 1)
+    floor = (np.array([178, 202, 228], np.float32) * (1 - frost[..., None])
+             + np.array([214, 232, 246], np.float32) * frost[..., None])
+    floor *= (0.97 + 0.06 * noise(4))[..., None]
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    crack = np.abs(np.sin(xx * 0.045 + yy * 0.031 + noise(64) * 9.0)) < 0.018
+    floor[crack] *= 0.92
+    glint = (rng.random((H, W)) > 0.998) & (frost > 0.55)
+    floor[glint] = (255, 255, 255)
+    a[..., :3] = a[..., :3] * (1 - feather[..., None]) + floor * feather[..., None]
     img = Image.fromarray(a.clip(0, 255).astype(np.uint8))
     img.save(GROUND_PNG)
     lv = Image.new("RGB", (COLS, ROWS))
