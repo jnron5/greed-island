@@ -171,16 +171,18 @@ const TOPICS := {
 	# ---------------- The plains ----------------
 	&"loki": [
 		["Who are you?", [
-			"Loki. Traveller, gentleman, player of cards. The other sort of cards, mostly. The ones you can lose at a table.",
-			"My brother's the famous one. Chef, up in Vetrassa. Feeds the King's own guests. I feed whoever's at the fire and sits down to play.",
+			"Loki. A traveller with a deck of cards and more time than is good for him.",
+			"Family? A big one. A wife who works too hard, a son who cooks, a daughter who guards doors for a living, and one who ran off and never wrote.",
+			"I come out to the road every race. I like to see the faces of the people who want something badly. You learn a lot about a thing from who comes looking for it."
 		]],
 		["What do you sell?", [
 			"Little helpers. A whisper to lift a card from a pocket, a seal to keep yours in it. Same as Sable sells in Kalmora, only out here, where you need them.",
-			"I'll buy cards too. Don't ask where I sell them on. I go south a lot. Halmeer has very quiet boats.",
+			"I'll buy cards too. I like to know what racers will part with, and for how much. It tells me more than the cards do.",
 		]],
 		["The road west is blocked.", [
 			"Is it? Rocks fall. Very convenient rocks, all the same size, the week the Company stopped running carts west.",
 			"Whatever was going east along that road is going some other way now. Ask yourself which way a thing goes when it doesn't want to be counted.",
+			"My wife would tell you it's all for the best. My wife tells me a great many things are for the best. I used to believe her more than I do.",
 		]],
 	],
 	# ---------------- The Starfall Range ----------------

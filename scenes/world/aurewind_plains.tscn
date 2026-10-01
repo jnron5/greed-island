@@ -7692,7 +7692,7 @@ position = Vector2(40, 296)
 npc_id = &"loki"
 display_name = "Loki"
 sprite_frames = ExtResource("r39_loki_frames")
-lines = PackedStringArray("Sit, sit. Cut the deck. No? Wise. Nobody ever wins at my fire, not even me.", "Racers, every one of you, looking at the horizon. The good cards are always behind you, in somebody's pocket.")
+lines = PackedStringArray("Sit, sit. Cut the deck. No? Wise. Nobody ever wins at my fire, not even me.", "Racers, every one of you, looking at the horizon. The good cards are always behind you, in somebody's pocket.", "I've watched a lot of races from this fire. The ones who win are never the ones you'd bet on. That's what keeps me watching.", "My boy cooks for the whole island and won't cook for his father. Children. You give them everything, and they want it on their own terms.", "Do you know what you're racing for? No? Neither does anyone. It's better that way. A thing like that changes how people run.", "Somewhere up north my youngest is hiding from his mother. I don't blame him. I'd hide from her too, if I had the nerve.")
 wander_radius = 0.0
 shop_stock = Array[StringName]([&"pickpockets_whisper", &"lockbox_seal", &"second_wind"])
 shop_buys_cards = true
@@ -7703,7 +7703,7 @@ position = Vector2(-150, -140)
 npc_id = &"tilly"
 display_name = "Tilly"
 sprite_frames = ExtResource("r40_tilly_frames")
-lines = PackedStringArray("Mind the rams. They're mine, mostly. The ones with the bristles on their backs aren't anyone's.", "The stones up on the downs hum when the wind's in the east. Grandad says they're counting.", "Wagons used to come east along the dune road every week. Covered, always. Then the rocks came down and they stopped. Or they go some other way now.", "My big sisters Jobelle and Mate both think I can't look after myself. I've got forty sheep that say otherwise.", "If you're in Verdana, say hello to Tally at the Sheaf & Sickle. She'll give you a bed and tell you everyone's business. Best friend I've got.")
+lines = PackedStringArray("Mind the rams. They're mine, mostly. The ones with the bristles on their backs aren't anyone's.", "The stones up on the downs hum when the wind's in the east. Grandad says they're counting.", "Wagons used to come east along the dune road every week. Covered, always. Then the rocks came down and they stopped. Or they go some other way now.", "My big sisters Jobelle and Mate both think I can't look after myself. I've got forty sheep that say otherwise.", "Sully taught me to whistle for the sheep before he went away. He's our brother. He came to us a long time ago, from somewhere much grander than a farm, and he chose to stay.", "If you're in Verdana, say hello to Tally at the Sheaf & Sickle. She'll give you a bed and tell you everyone's business. Best friend I've got.")
 wander_radius = 50.0
 
 [node name="Read0" type="Node2D" parent="."]

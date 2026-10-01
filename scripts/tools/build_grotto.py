@@ -118,12 +118,16 @@ CHESTS = [
     ("hall_crate", (19, 17), 30, "", "healers_tonic", 1),
     ("smugglers_cache", (35, 9), 40, "frostfang_charm", "", 0),
 ]
-# Residents: (id, name, cell, lines). Sully keeps a way-station for the escape line
-# among the frozen crates, by a lantern.
+# Residents: (id, name, cell, lines). Sully, the King and Queen's estranged son (raised
+# by Jobelle, Mate and Tilly), keeps a way-station for the escape line among the
+# frozen crates, by a lantern.
 NPCS = [
     ("sully", "Sully", (14, 15.6), [
         "Mind the wolves past the hall. They don't bother me. They know whose side I'm on.",
         "Everything in this cave walked here. Remember that, whatever the stencils say.",
+        "If you sleep at the Salted Lantern or the Copper Kettle, don't tell my sisters where I am. They'd come up the mountain with soup and a lecture.",
+        "I was born with a name that opens every door on this island. I don't use it. The sisters gave me a better one: brother.",
+        "My mother keeps the ledgers at Duskara. Every name in them is somebody. I'm trying to cross a few of them out the right way.",
     ]),
 ]
 READABLES = [

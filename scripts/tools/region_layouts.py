@@ -154,17 +154,23 @@ AUREWIND = {
         *[{"id": "sheep", "node": f"Npc_sheep{k}", "name": "Sheep", "pos": p, "wander": 36, "offset": -14.0, "lines": [line]}
           for k, (p, line) in enumerate([((-210, -200), "Baa."), ((-110, -210), "Baaa."), ((-70, -130), "Mm-baa."),
                                           ((-220, -110), "...Baa?")])],
-        # Loki, Chef's brother, playing cards by the travellers' fire.
+        # Loki, the King of Virelia, travelling incognito: cards by the travellers' fire,
+        # watching the racers go by. Nobody knows, and he never says.
         {"id": "loki", "name": "Loki", "pos": (40, 296), "wander": 0, "shop": ["pickpockets_whisper", "lockbox_seal", "second_wind"],
          "shop_title": "Loki's Table", "buys_cards": True, "lines": [
             "Sit, sit. Cut the deck. No? Wise. Nobody ever wins at my fire, not even me.",
             "Racers, every one of you, looking at the horizon. The good cards are always behind you, in somebody's pocket.",
+            "I've watched a lot of races from this fire. The ones who win are never the ones you'd bet on. That's what keeps me watching.",
+            "My boy cooks for the whole island and won't cook for his father. Children. You give them everything, and they want it on their own terms.",
+            "Do you know what you're racing for? No? Neither does anyone. It's better that way. A thing like that changes how people run.",
+            "Somewhere up north my youngest is hiding from his mother. I don't blame him. I'd hide from her too, if I had the nerve.",
         ]},
         {"id": "tilly", "name": "Tilly", "pos": (-150, -140), "wander": 50, "lines": [
             "Mind the rams. They're mine, mostly. The ones with the bristles on their backs aren't anyone's.",
             "The stones up on the downs hum when the wind's in the east. Grandad says they're counting.",
             "Wagons used to come east along the dune road every week. Covered, always. Then the rocks came down and they stopped. Or they go some other way now.",
             "My big sisters Jobelle and Mate both think I can't look after myself. I've got forty sheep that say otherwise.",
+            "Sully taught me to whistle for the sheep before he went away. He's our brother. He came to us a long time ago, from somewhere much grander than a farm, and he chose to stay.",
             "If you're in Verdana, say hello to Tally at the Sheaf & Sickle. She'll give you a bed and tell you everyone's business. Best friend I've got.",
         ]},
     ],

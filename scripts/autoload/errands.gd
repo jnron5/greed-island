@@ -222,7 +222,8 @@ const ERRANDS := {
 		"give": ["Ahh. Better already, or I'm imagining it. Here's the plume. Mind, the herons will want it back."],
 		"after": "Still water, still fish, still me.",
 	},
-	# Sully (Xena's twin) keeps the escape line's way-station in the Frost Grotto.
+	# Sully, Loki and Xena's estranged son (adopted by Jobelle, Mate and Tilly), keeps
+	# the escape line's way-station in the Frost Grotto, against his own mother's mine.
 	&"sully_trout": {
 		"npc": &"sully", "zone": "res://scenes/world/starfall_grotto.tscn", "card": &"moss_lantern", "need": "item",
 		"item": &"lake_trout", "count": 2,
@@ -236,7 +237,7 @@ const ERRANDS := {
 			"That's two more who'll make it to the ice wall with something in them. Thank you.",
 			"Take the lantern. Moss glows when nothing else will. If you ever see a light like it down south, under the dunes, follow it.",
 		],
-		"after": "If you meet a woman who looks like me, all in black, carrying a ledger: don't tell her you saw me.",
+		"after": "If you meet a woman who looks like me, all in black, carrying a ledger: that's my mother. Don't tell her you saw me.",
 	},
 	&"hald_wolves": {
 		"npc": &"hald", "zone": "res://scenes/world/starfall_range.tscn", "card": &"starfall_edelweiss", "need": "kills",
