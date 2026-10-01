@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/heron_plume.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"heron_plume"
+display_name = "Heron Plume"
+description = "A grey-blue plume from Lake Serin's herons."
+lore = "Serin's herons stand so still in the shallows that fish swim between their legs. Fishers wear a plume in their hat to borrow the patience. Neri has worn his to grey."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 10
+icon = ExtResource("2_art")
+copies_in_world = 3

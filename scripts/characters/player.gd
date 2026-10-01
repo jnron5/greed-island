@@ -57,7 +57,11 @@ var _calm_time := 0.0
 @export var steal_cooldown := 1.0
 
 var facing := Vector2.DOWN
-var health := 0
+var health := 0:
+	set(value):
+		health = value
+		if is_inside_tree():
+			GameState.player_health = value
 
 var _state := State.MOVE
 var _state_time := 0.0
@@ -89,7 +93,7 @@ func _ready() -> void:
 	add_child(glow)
 	add_to_group(&"player")
 	add_to_group(&"collectors")
-	health = max_health
+	health = max_health if GameState.player_health < 0 else clampi(GameState.player_health, 1, max_health)
 	EventBus.loadout_changed.connect(func() -> void:
 		health = mini(health, max_health)
 		health_changed.emit(health, max_health)
@@ -338,6 +342,7 @@ func _drop_a_loose_card(zone: Zone) -> StringName:
 
 
 func _wake_in(town: String) -> void:
+	GameState.player_health = -1
 	GameState.pending_spawn = WorldMap.town_spawn(town)
 	Transition.go(town)
 

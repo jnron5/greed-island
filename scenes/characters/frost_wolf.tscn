@@ -32,7 +32,7 @@ windup_time = 0.4
 lunge_speed = 330.0
 lunge_time = 0.22
 recover_time = 0.6
-drop_card_ids = Array[StringName]([&"owl_quill", &"briar_wren"])
+drop_card_ids = Array[StringName]([&"iron_wolf_collar", &"owl_quill", &"briar_wren"])
 respawn_time = 50.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

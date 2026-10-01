@@ -40,3 +40,25 @@ func go(scene_path: String) -> void:
 	await back.finished
 	GameState.pop_menu()
 	busy = false
+
+
+## A longer fade for a night at the inn: dark, `during` runs (time passes, wounds
+## mend), then the room comes back. Instant when running headless.
+func rest(during: Callable) -> void:
+	if busy:
+		return
+	if DisplayServer.get_name() == "headless":
+		during.call()
+		return
+	busy = true
+	GameState.push_menu()
+	var out := create_tween()
+	out.tween_property(_black, "modulate:a", 1.0, 0.6)
+	await out.finished
+	during.call()
+	await get_tree().create_timer(0.9).timeout
+	var back := create_tween()
+	back.tween_property(_black, "modulate:a", 0.0, 0.8)
+	await back.finished
+	GameState.pop_menu()
+	busy = false

@@ -35,7 +35,13 @@ INTERIORS = {
             "Welcome to the Salted Lantern. Sit anywhere that isn't sticky.",
             "Racers, eh? Last one through here swore the prize would make him richer than the King. Laughed all the way to the north gate.",
             "The Hoarder's family? Old money. Shipping money. Don't ask them what they ship.",
+        ], []),
+                 ("jobelle", "Jobelle", "jobelle", (250, 124), [
+            "Rooms are upstairs, sheets are clean, and the walls are thicker than Otto's jokes. Half a day or a whole one, your choice.",
+            "Every race I keep a room for each racer. Most years I only change two of the beds after.",
+            "You've heard of Chef? Best kitchen on the island, up in Vetrassa. My brother waited a year for a table. Said it was worth the year.",
         ], [])],
+        "inn": "jobelle",
     },
     "kalmora_card_shop": {
         "name": "Sable's Card Emporium",
@@ -409,6 +415,34 @@ INTERIORS = {
             ]),
         ],
     },
+    "sorenda_inn": {
+        "town": "res://scenes/world/sorenda.tscn",
+        "name": "The Copper Kettle",
+        "image": "assets/sprites/tiles/sorenda/interiors/inn_room.png",
+        "size": (288, 224),
+        "exit": (144, 222), "back_to": "from_houseinn", "spawn": (144, 196),
+        "blocks": [
+            (0, 0, 288, 96), (56, 60, 120, 120), (30, 86, 56, 112),         # back wall, the kettle hearth, firewood
+            (130, 74, 192, 132), (198, 96, 222, 142), (222, 40, 272, 168),  # bar and stools, barrels, the stair
+            (30, 144, 92, 190), (84, 180, 102, 198),                        # west table and stools
+            (128, 146, 192, 184), (184, 170, 202, 194),                     # east table and stools
+            (222, 192, 262, 218), (20, 170, 36, 210),                       # barrels by the door, a broom
+            (0, 0, 18, 224), (270, 0, 288, 224),                            # walls
+            (0, 216, 128, 224), (160, 216, 288, 224),                       # front wall round the door
+        ],
+        "npcs": [("mate", "Mate", "mate", (108, 136), [
+            "Welcome to the Kettle. Kettle's always on. Rooms are up the stair, if the stair's feeling generous.",
+            "Racers sleep here every year, all three of them, same as the last lot. I don't take sides. I take coin.",
+            "Jobelle down in Kalmora is my cousin. Same stripes, different sea. She says I water the cider. I say the forest is wet.",
+        ], [])],
+        "inn": "mate",
+        "readables": [
+            ("The guest book", (210, 150), [
+                "A fat guest book, every page a race year. Each year starts with three cloaked names, signed in a hurry.",
+                "Most years, two of the names sign again on the way back south. Never the third. Mate has drawn a little kettle beside each one that didn't.",
+            ]),
+        ],
+    },
     # ---- Verdana, Lake Serin, the Starfall Range (outdoor zones: build_region.py) ----
     "verdana_inn": {
         "town": "res://scenes/world/verdana.tscn",
@@ -423,7 +457,12 @@ INTERIORS = {
             (39, 24, 48, 194), (240, 24, 249, 194),                          # side walls
             (39, 180, 128, 194), (158, 180, 249, 194),                       # front wall round the door
         ],
-        "npcs": [],
+        "npcs": [("tally", "Tally", "tally", (110, 106), [
+            "Welcome to the Sheaf & Sickle. Bed, cider, bread, in that order of importance.",
+            "I keep a tally of everything. Pints, rooms, debts. The Company men's debts most of all. Nobody's ever paid one.",
+            "Tilly out on the downs is my oldest friend. Tilly and Tally, the whole valley calls us. She minds sheep, I mind people. Same job really.",
+        ], [])],
+        "inn": "tally",
         "readables": [
             ("The slate behind the bar", (118, 104), [
                 "Chalked prices: cider, bread, a bed. Under them, a column headed 'Company men - on account'. It's very long, and nothing on it has been crossed off.",
@@ -686,7 +725,8 @@ exit_hint = true
         n.append(f'[node name="Npc_{npc_id}" parent="." instance=ExtResource("9_npc")]\nposition = Vector2({x}, {y})\n'
                  f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{rid}")\n'
                  f'lines = PackedStringArray({quoted})\n' + (f'shop_stock = Array[StringName]({stock})\n' if stock else "")
-                 + ('shop_buys_cards = false\nshop_title = "Greta\'s Provisions"\n' if stock == PROVISIONS else ""))
+                 + ('shop_buys_cards = false\nshop_title = "Greta\'s Provisions"\n' if stock == PROVISIONS else "")
+                 + ("inn_rooms = true\n" if cfg.get("inn") == npc_id else ""))
     for k, (title, (x, y), lines) in enumerate(cfg.get("readables", [])):
         quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
         n.append(f'[node name="Read{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\nscript = ExtResource("12_read")\n'

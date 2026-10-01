@@ -257,3 +257,16 @@ func _sim_for(id: StringName) -> Dictionary:
 func reset() -> void:
 	_sim.clear()
 	player_zone_override = ""
+
+
+## Time passing in a heartbeat (the player sleeping at an inn): every rival lives
+## through `seconds` of off-screen play, in think-sized steps.
+func pass_time(seconds: float) -> void:
+	if not enabled:
+		return
+	var step := 1.0
+	var t := 0.0
+	while t < seconds:
+		for id in GameState.active_rivals:
+			tick_rival(id, step)
+		t += step

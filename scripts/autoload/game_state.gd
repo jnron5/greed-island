@@ -36,6 +36,9 @@ var _locks: Dictionary[StringName, Dictionary] = {}
 var _robbed_at: Dictionary[StringName, int] = {}
 ## Spawn marker name the next zone should place the player at (&"" = scene default).
 var pending_spawn: StringName
+## The player's hearts, carried from area to area (-1 = full). Only rest, food,
+## healing springs and charms mend them; walking through a door doesn't.
+var player_health := -1
 ## Message for the HUD to show once the next zone loads (e.g. after fainting).
 var pending_notice := ""
 ## Where each active rival is: { "zone": scene path, "position": Vector2 or null }.
@@ -95,6 +98,7 @@ func new_game(rivals: Array[StringName]) -> void:
 	equipped.clear()
 	spent_on_gates.clear()
 	pending_spawn = &""
+	player_health = -1
 	rival_locations.clear()
 	bosses.clear()
 	for id in _boss_data:

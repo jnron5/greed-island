@@ -35,6 +35,7 @@ const SORENDA_HERBALIST := "res://scenes/world/interiors/sorenda_herbalist_house
 const SORENDA_WOODCUTTER := "res://scenes/world/interiors/sorenda_woodcutter.tscn"
 const SORENDA_FAMILY := "res://scenes/world/interiors/sorenda_family_home.tscn"
 const SORENDA_TREE_HOUSE := "res://scenes/world/interiors/sorenda_tree_house.tscn"
+const SORENDA_INN := "res://scenes/world/interiors/sorenda_inn.tscn"
 const KALMORA_TAVERN := "res://scenes/world/interiors/kalmora_tavern.tscn"
 const KALMORA_CARD_SHOP := "res://scenes/world/interiors/kalmora_card_shop.tscn"
 const KALMORA_NONNA_HOUSE := "res://scenes/world/interiors/kalmora_nonna_house.tscn"
@@ -66,14 +67,14 @@ const ZONES := {
 	# Past Kalmora's west gate (built by build_region.py): the plains west of Kalmora,
 	# Verdana in their south, Lake Serin north of them, the Starfall Range beyond.
 	AUREWIND: { "name": "Aurewind Plains", "origin": Vector2(-2344, 79),
-		"monster_drops": [&"thatch_charm", &"fern_sigil", &"thorn_sprig"] },
+		"monster_drops": [&"bristle_fleece", &"thatch_charm", &"fern_sigil", &"thorn_sprig"] },
 	VERDANA: { "name": "Verdana", "origin": Vector2(-2644, 1623), "monster_drops": [] },
 	LAKE_SERIN: { "name": "Lake Serin", "origin": Vector2(-2894, -1625),
 		"monster_drops": [&"hollow_acorn", &"moss_lantern", &"thorn_sprig"] },
 	STARFALL: { "name": "Starfall Range", "origin": Vector2(-3194, -3201),
-		"monster_drops": [&"owl_quill", &"briar_wren"] },
+		"monster_drops": [&"iron_wolf_collar", &"owl_quill", &"briar_wren"] },
 	STARFALL_GROTTO: { "name": "The Frost Grotto", "origin": Vector2(-1886, -3880),
-		"monster_drops": [&"owl_quill", &"briar_wren"] },
+		"monster_drops": [&"iron_wolf_collar", &"owl_quill", &"briar_wren"] },
 	# Interiors sit where their buildings stand in town. They have no EDGES, so
 	# rivals never wander in; you enter through the building's door.
 	KALMORA_TAVERN: { "name": "The Salted Lantern", "origin": Vector2(214, 220), "monster_drops": [] },
@@ -103,6 +104,7 @@ const ZONES := {
 	SORENDA_WOODCUTTER: { "name": "Harl's Cottage", "origin": Vector2(-480, -2244), "monster_drops": [] },
 	SORENDA_FAMILY: { "name": "Pell's Home", "origin": Vector2(-270, -2092), "monster_drops": [] },
 	SORENDA_TREE_HOUSE: { "name": "The Old Tree House", "origin": Vector2(350, -2148), "monster_drops": [] },
+	SORENDA_INN: { "name": "The Copper Kettle", "origin": Vector2(185, -2020), "monster_drops": [] },
 }
 
 ## Town scene -> { spawn marker (under "Spawns") people wake at, the local point

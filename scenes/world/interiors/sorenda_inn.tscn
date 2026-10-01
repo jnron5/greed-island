@@ -1,0 +1,213 @@
+[gd_scene load_steps=31 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/sorenda/interiors/inn_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/mate/mate_frames.tres" id="n_mate"]
+
+[sub_resource type="RectangleShape2D" id="R288x96"]
+size = Vector2(288, 96)
+
+[sub_resource type="RectangleShape2D" id="R64x60"]
+size = Vector2(64, 60)
+
+[sub_resource type="RectangleShape2D" id="R26x26"]
+size = Vector2(26, 26)
+
+[sub_resource type="RectangleShape2D" id="R62x58"]
+size = Vector2(62, 58)
+
+[sub_resource type="RectangleShape2D" id="R24x46"]
+size = Vector2(24, 46)
+
+[sub_resource type="RectangleShape2D" id="R50x128"]
+size = Vector2(50, 128)
+
+[sub_resource type="RectangleShape2D" id="R62x46"]
+size = Vector2(62, 46)
+
+[sub_resource type="RectangleShape2D" id="R18x18"]
+size = Vector2(18, 18)
+
+[sub_resource type="RectangleShape2D" id="R64x38"]
+size = Vector2(64, 38)
+
+[sub_resource type="RectangleShape2D" id="R18x24"]
+size = Vector2(18, 24)
+
+[sub_resource type="RectangleShape2D" id="R40x26"]
+size = Vector2(40, 26)
+
+[sub_resource type="RectangleShape2D" id="R16x40"]
+size = Vector2(16, 40)
+
+[sub_resource type="RectangleShape2D" id="R18x224"]
+size = Vector2(18, 224)
+
+[sub_resource type="RectangleShape2D" id="R128x8"]
+size = Vector2(128, 8)
+
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
+
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
+
+[node name="sorenda_inn" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Copper Kettle"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(144.0, 112.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 48.0)
+shape = SubResource("R288x96")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.0, 90.0)
+shape = SubResource("R64x60")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(43.0, 99.0)
+shape = SubResource("R26x26")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(161.0, 103.0)
+shape = SubResource("R62x58")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(210.0, 119.0)
+shape = SubResource("R24x46")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(247.0, 104.0)
+shape = SubResource("R50x128")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(61.0, 167.0)
+shape = SubResource("R62x46")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(93.0, 189.0)
+shape = SubResource("R18x18")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 165.0)
+shape = SubResource("R64x38")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(193.0, 182.0)
+shape = SubResource("R18x24")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(242.0, 205.0)
+shape = SubResource("R40x26")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(28.0, 190.0)
+shape = SubResource("R16x40")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(9.0, 112.0)
+shape = SubResource("R18x224")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(279.0, 112.0)
+shape = SubResource("R18x224")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(64.0, 220.0)
+shape = SubResource("R128x8")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(224.0, 220.0)
+shape = SubResource("R128x8")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(144, 196)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(144, 222)
+target_scene = "res://scenes/world/sorenda.tscn"
+target_spawn = &"from_houseinn"
+exit_hint = true
+
+[node name="Npc_mate" parent="." instance=ExtResource("9_npc")]
+position = Vector2(108, 136)
+npc_id = &"mate"
+display_name = "Mate"
+sprite_frames = ExtResource("n_mate")
+lines = PackedStringArray("Welcome to the Kettle. Kettle's always on. Rooms are up the stair, if the stair's feeling generous.", "Racers sleep here every year, all three of them, same as the last lot. I don't take sides. I take coin.", "Jobelle down in Kalmora is my cousin. Same stripes, different sea. She says I water the cider. I say the forest is wet.")
+inn_rooms = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(210, 150)
+script = ExtResource("12_read")
+title = "The guest book"
+lines = PackedStringArray("A fat guest book, every page a race year. Each year starts with three cloaked names, signed in a hurry.", "Most years, two of the names sign again on the way back south. Never the third. Mate has drawn a little kettle beside each one that didn't.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(144, 196)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

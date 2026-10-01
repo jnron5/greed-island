@@ -98,18 +98,16 @@ def near_lake(cfg, x, y, margin):
 # work goes, and the Hollow keeps what a runaway child left behind.
 LIFE = {
     "sorenda": {
-        # The homes, lanterns and campfire are placed by build_sorenda.py; these are the
-        # things round them: the woodcutter's pile, the herbalist's drying rack, and a
-        # fenced vegetable garden.
+        # The homes, the inn, lanterns and campfire are placed by build_sorenda.py; these
+        # are the things round them: the woodcutter's pile and the herbalist's drying rack.
         "props": [
             ('res://assets/sprites/tiles/sorenda/woodpile.png', (-540, 30), True, (50, 16)),
             ('res://assets/sprites/tiles/sorenda/drying_rack.png', (470, -170), True, (40, 10)),
-        ] + [('res://assets/sprites/tiles/kalmora/props/fence.png', (x, y), True, (16, 8))
-             for x in range(140, 290, 16) for y in (136, 232)],
-        # A fenced vegetable garden south-east of the green (the fence above), rows of
-        # crops painted into the ground.
-        "garden": (140, 136, 284, 232),
-        "butterflies": [((200, 180), 3), ((120, -60), 2), ((-420, -200), 2)],
+        ],
+        # Extra open ground (x, y, radius): the Copper Kettle is wider than a home, so
+        # its front corners and doorstep stay clear of trees.
+        "clear": [(110, 236, 64), (320, 236, 64), (215, 280, 56), (110, 280, 40)],
+        "butterflies": [((90, 140), 3), ((120, -60), 2), ((-420, -200), 2)],
         "npcs": [
             ("moss", "Elder Moss", (40, -226), 0, [
                 "Sorenda sits where the old roads cross. Every race, the racers come through. Some are running to something. Some from it.",
@@ -419,6 +417,7 @@ def build(zone):
     for prop in life.get("props", []):
         (x, y), fp = prop[1], (prop[3] if len(prop) > 3 else (22, 8))
         keep.append((x, y, 34 + fp[0] // 2 + (40 if fp[0] >= 60 else 0)))
+    keep += life.get("clear", [])
     if life.get("garden"):
         gx0, gy0, gx1, gy1 = life["garden"]
         for gx in range(gx0, gx1 + 1, 24):

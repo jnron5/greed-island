@@ -128,7 +128,7 @@ func _run() -> void:
 	for i in 3:
 		EventBus.monster_defeated.emit(&"bristle_ram", GameState.PLAYER)
 	Errands.talked_to(&"tilly")
-	_check("three rams: Tilly's seed", col.count(&"canopy_seed") >= 1 and Errands.state(&"tilly_rams") == Errands.DONE)
+	_check("three rams: Tilly's bell", col.count(&"shepherds_bell") >= 1 and Errands.state(&"tilly_rams") == Errands.DONE)
 	# The west gate: the Warden's Verdant Crest opens the road to the plains.
 	var gate := CardDatabase.get_gate(&"kalmora_west_gate")
 	_check("Kalmora's west gate takes a Verdant Crest", gate != null and gate.cost_card_id == &"verdant_crest")

@@ -29,6 +29,8 @@ const TALK_RANGE := 34.0
 @export var shop_buys_cards := true
 ## The shop's name on its window (defaults to the shopkeeper's).
 @export var shop_title := ""
+## An inn keeper: offers a room for half a day or a full day (Inn).
+@export var inn_rooms := false
 
 var facing := Vector2.DOWN
 
@@ -118,12 +120,14 @@ func _done_talking() -> void:
 ## The question list after a chat: this resident's topics, their shop, goodbye.
 func _offer_topics() -> void:
 	var topics := TalkTopics.for_npc(npc_id)
-	if topics.is_empty() and shop_stock.is_empty():
+	if topics.is_empty() and shop_stock.is_empty() and not inn_rooms:
 		_talking = false
 		return
 	var options := PackedStringArray()
 	for topic: Array in topics:
 		options.append(topic[0])
+	if inn_rooms:
+		options.append("I'd like a room")
 	if not shop_stock.is_empty():
 		options.append("Let me see your wares")
 	options.append("Goodbye")
@@ -137,11 +141,40 @@ func _on_topic(index: int) -> void:
 		DialogueBox.say(get_tree(), display_name, PackedStringArray(topics[index][1]), _offer_topics,
 			DialogueBox.portrait_from(sprite.sprite_frames))
 		return
+	var at := topics.size()
+	if inn_rooms:
+		if index == at:
+			_offer_room()
+			return
+		at += 1
 	_talking = false
-	if index == topics.size() and not shop_stock.is_empty():
+	if index == at and not shop_stock.is_empty():
 		var shop := get_tree().get_first_node_in_group(&"shop_panel") as ShopPanel
 		if shop:
 			shop.open_with(shop_stock, shop_title if shop_title != "" else display_name, shop_buys_cards)
+
+
+## Half a day or a full day; pay, sleep, wake mended.
+func _offer_room() -> void:
+	var offers := Inn.offers()
+	var options := PackedStringArray()
+	for offer: Array in offers:
+		options.append(offer[0])
+	options.append("Never mind")
+	var portrait := DialogueBox.portrait_from(sprite.sprite_frames)
+	DialogueBox.ask(get_tree(), display_name, "A bed, clean sheets, quiet. How long will you sleep?", options,
+		func(pick: int) -> void:
+			if pick >= offers.size():
+				_offer_topics()
+				return
+			var offer: Array = offers[pick]
+			if not Inn.sleep(get_tree(), offer[1], offer[2]):
+				DialogueBox.say(get_tree(), display_name, PackedStringArray(["That's %d gold. Come back when your purse is heavier." % offer[2]]),
+					_offer_topics, portrait)
+				return
+			_talking = false
+			EventBus.notify.emit("You slept %s. Every heart mended." % ("half a day" if offer[1] < 24.0 else "a full day")),
+		portrait)
 
 
 func _update_animation() -> void:

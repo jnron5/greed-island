@@ -3865,11 +3865,11 @@ position = Vector2(70, -180)
 npc_id = &"bruno"
 display_name = "Bruno"
 sprite_frames = ExtResource("r46_bruno_frames")
-lines = PackedStringArray("Welcome to the Sheaf and Sickle! Warm bread, cold cider, and beds that don't have racers in them. Usually.", "The last racer through here paid in cards. I don't want cards. I want a quiet life and a full cellar.")
+lines = PackedStringArray("I cook for the Sheaf and Sickle. Tally runs it, inside: beds, cider, and the tally of who owes what. I just feed people.", "The last racer through here paid in cards. I don't want cards. I want a quiet life and a full cellar.")
 wander_radius = 20.0
 shop_stock = Array[StringName]([&"bread", &"smoked_fish", &"healers_tonic"])
 shop_buys_cards = false
-shop_title = "The Sheaf & Sickle"
+shop_title = "Bruno's Kitchen"
 
 [node name="Read0" type="Node2D" parent="."]
 position = Vector2(-190, -30)
@@ -3893,10 +3893,8 @@ lines = PackedStringArray("A fragment of a standing stone, set upright by the do
 position = Vector2(-700, 240)
 script = ExtResource("r48_chest")
 chest_id = &"verdana_barn_loft"
-card_id = &""
+card_id = &"millers_seal"
 gold = 20
-item_id = &"bread"
-item_count = 1
 closed_texture = ExtResource("r49_chest")
 open_texture = ExtResource("r50_chest_open")
 

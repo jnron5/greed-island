@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/starfall_edelweiss.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"starfall_edelweiss"
+display_name = "Starfall Edelweiss"
+description = "A white star of a flower from bare rock."
+lore = "Grows where nothing else will, on the windward rocks above the tarn. Mountain folk give one to someone leaving for good. Hald has three pressed in his window, all from the same year."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 12
+icon = ExtResource("2_art")
+copies_in_world = 3

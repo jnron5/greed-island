@@ -52,7 +52,8 @@ ZONES = {
             ("line", [(100, -40), (290, -150), (350, -176)], 26),       # to the herbalist's
             ("line", [(-150, 0), (-330, -10), (-444, 34)], 26),         # to the woodcutter's
             ("line", [(-120, 60), (-200, 120), (-244, 186)], 26),       # to the family home
-            ("line", [(140, 50), (300, 100), (380, 130)], 26),          # to the tree house
+            ("line", [(140, 50), (250, 52), (330, 84), (380, 130)], 26),   # to the tree house (round the inn's roof)
+            ("line", [(0, 236), (110, 244), (215, 252)], 26),           # to the Copper Kettle
             ("line", [(120, -60), (420, -300), (560, -400), (600, -440)], 30),  # to the moss gate
             ("rect", 540, -560, 670, -440),             # the Hollow's pocket
         ],

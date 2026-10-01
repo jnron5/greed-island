@@ -155,6 +155,7 @@ AUREWIND = {
             "Mind the rams. They're mine, mostly. The ones with the bristles on their backs aren't anyone's.",
             "The stones up on the downs hum when the wind's in the east. Grandad says they're counting.",
             "Wagons used to come east along the dune road every week. Covered, always. Then the rocks came down and they stopped. Or they go some other way now.",
+            "If you're in Verdana, say hello to Tally at the Sheaf & Sickle. She'll give you a bed and tell you everyone's business. Best friend I've got.",
         ]},
     ],
     "readables": [
@@ -185,7 +186,7 @@ AUREWIND = {
     ],
     "chests": [
         {"id": "camp_pack", "pos": (-190, 330), "gold": 15, "item": "bread", "count": 2},
-        {"id": "kestrel_cache", "pos": (980, -640), "gold": 40, "card": "sunken_crown_shard"},
+        {"id": "kestrel_cache", "pos": (980, -640), "gold": 40, "card": "crown_stone_rubbing"},
         {"id": "circle_offering", "pos": (-560, -600), "gold": 25, "item": "healers_tonic"},
         {"id": "hay_loft", "pos": (1150, -30), "gold": 10, "item": "bread"},
     ],
@@ -301,8 +302,8 @@ VERDANA = {
             "The Company used to take a cartload of hard bread every week for the dune road. Stopped three weeks ago. Nobody's said why. I keep baking it anyway.",
         ]},
         {"id": "bruno", "name": "Bruno", "pos": (70, -180), "wander": 20, "shop": ["bread", "smoked_fish", "healers_tonic"],
-         "shop_title": "The Sheaf & Sickle", "lines": [
-            "Welcome to the Sheaf and Sickle! Warm bread, cold cider, and beds that don't have racers in them. Usually.",
+         "shop_title": "Bruno's Kitchen", "lines": [
+            "I cook for the Sheaf and Sickle. Tally runs it, inside: beds, cider, and the tally of who owes what. I just feed people.",
             "The last racer through here paid in cards. I don't want cards. I want a quiet life and a full cellar.",
         ]},
     ],
@@ -320,7 +321,7 @@ VERDANA = {
         ]),
     ],
     "chests": [
-        {"id": "barn_loft", "pos": (-700, 240), "gold": 20, "item": "bread"},
+        {"id": "barn_loft", "pos": (-700, 240), "gold": 20, "card": "millers_seal"},
     ],
     "butterflies": [((0, 60), 3), ((-700, 100), 3), ((680, 460), 3)],
 }
@@ -410,9 +411,9 @@ LAKE_SERIN = {
         ]),
     ],
     "chests": [
-        {"id": "bluff_nest", "pos": (-850, -300), "gold": 35, "item": "sea_salt_elixir"},
+        {"id": "bluff_nest", "pos": (-850, -300), "gold": 35, "card": "barge_bell"},
         {"id": "reed_bed", "pos": (-470, 380), "item": "smoked_fish", "count": 2},
-        {"id": "point_cache", "pos": (110, -420), "gold": 25},
+        {"id": "point_cache", "pos": (110, -420), "gold": 25, "card": "serin_lily"},
     ],
     "monsters": [(BOAR, (-300, 330)), (BOAR, (320, 470)), (HOUND, (-200, -560)), (HOUND, (620, -600)), (RAM, (-40, 600))],
     "butterflies": [((600, 300), 3), ((-800, -200), 2)],
@@ -507,7 +508,7 @@ STARFALL = {
     ],
     "chests": [
         {"id": "tarn_cache", "pos": (-700, -80), "gold": 30, "item": "healers_tonic"},
-        {"id": "pass_cairn", "pos": (330, -700), "gold": 50, "card": "elderwood_heart"},
+        {"id": "pass_cairn", "pos": (330, -700), "gold": 50, "card": "fallen_star_shard"},
         {"id": "valley_pack", "pos": (700, 520), "item": "bread", "count": 2},
     ],
     "monsters": [(WOLF, (-400, 420)), (WOLF, (420, 450)), (WOLF, (-620, -200)), (WOLF, (240, -560)), (WOLF, (720, -520))],

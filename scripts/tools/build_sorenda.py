@@ -2,7 +2,7 @@
 Hollow's moss gate and cave mouth, exits, spawns, walls), before the forest dressing.
 
 Sorenda is a forest village half hidden among the trees: six homes round a village
-green, each a PixelLab building (front-facing, assets/sprites/tiles/sorenda/) that
+green and the Copper Kettle inn by the south road, each a PixelLab building (front-facing, assets/sprites/tiles/sorenda/) that
 you can walk into (interiors: build_interiors.py), with a door lamp. North-east, past
 the moss gate (a card gate), the Hollow's cave mouth leads down into the cave
 (scenes/world/sorenda_hollow.tscn, build_hollow.py).
@@ -37,6 +37,8 @@ HOMES = [
     ("HouseWoodcutter", "woodcutter_cottage", (-450, 24), 132, 6, "res://scenes/world/interiors/sorenda_woodcutter.tscn", "from_housewoodcutter"),
     ("HouseFamily", "round_cottage", (-240, 176), 128, -4, "res://scenes/world/interiors/sorenda_family_home.tscn", "from_housefamily"),
     ("HouseTree", "tree_house", (380, 120), 120, 0, "res://scenes/world/interiors/sorenda_tree_house.tscn", "from_housetree"),
+    # The Copper Kettle, Mate's inn: the first roof you reach coming up the forest road.
+    ("HouseInn", "kettle_inn", (215, 248), 180, 0, "res://scenes/world/interiors/sorenda_inn.tscn", "from_houseinn"),
 ]
 # The Hollow: a pocket in the north-east corner, fenced off, the moss gate its only way in.
 POCKET = (500, -600, 704, -430)          # x0, y0, x1, y1 (north and east are the map edge)
@@ -51,7 +53,7 @@ WELL = (96, -20)
 MERCHANT = (-110, 40)
 # Lanterns on posts along the paths (each a real light after dark), the campfire on
 # the green (animated, always burning), and benches round it.
-LANTERNS = [(-200, -110), (190, -128), (196, 88), (-150, 118), (40, 200), (470, -330), (-300, -16), (-40, -170), (120, -150)]
+LANTERNS = [(-200, -110), (190, -128), (-150, 118), (40, 200), (470, -330), (-300, -16), (-40, -170), (120, -150)]
 CAMPFIRE = (60, 64)
 BENCHES = [(10, 96), (112, 96)]
 LANTERN_PNG = "assets/sprites/tiles/thornveil/props/trail_lantern.png"

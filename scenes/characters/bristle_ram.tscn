@@ -32,7 +32,7 @@ windup_time = 0.75
 lunge_speed = 360.0
 lunge_time = 0.34
 recover_time = 1.1
-drop_card_ids = Array[StringName]([&"thatch_charm", &"fern_sigil"])
+drop_card_ids = Array[StringName]([&"bristle_fleece", &"thatch_charm", &"fern_sigil"])
 respawn_time = 45.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3]
+[gd_scene load_steps=28 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/verdana/interiors/inn_room.png" id="10_room"]
 [ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/tally/tally_frames.tres" id="n_tally"]
 
 [sub_resource type="RectangleShape2D" id="R210x32"]
 size = Vector2(210, 32)
@@ -160,6 +161,14 @@ position = Vector2(143, 196)
 target_scene = "res://scenes/world/verdana.tscn"
 target_spawn = &"from_houseinn"
 exit_hint = true
+
+[node name="Npc_tally" parent="." instance=ExtResource("9_npc")]
+position = Vector2(110, 106)
+npc_id = &"tally"
+display_name = "Tally"
+sprite_frames = ExtResource("n_tally")
+lines = PackedStringArray("Welcome to the Sheaf & Sickle. Bed, cider, bread, in that order of importance.", "I keep a tally of everything. Pints, rooms, debts. The Company men's debts most of all. Nobody's ever paid one.", "Tilly out on the downs is my oldest friend. Tilly and Tally, the whole valley calls us. She minds sheep, I mind people. Same job really.")
+inn_rooms = true
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(118, 104)

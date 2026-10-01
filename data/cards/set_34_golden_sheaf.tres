@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/golden_sheaf.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"golden_sheaf"
+display_name = "Golden Sheaf"
+description = "The first sheaf of the harvest, tied in red."
+lore = "Verdana ties the first sheaf in red and hangs it over the inn door for luck. These last years the Company has bought the sheaf too, along with everything else in the field."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 10
+icon = ExtResource("2_art")
+copies_in_world = 3

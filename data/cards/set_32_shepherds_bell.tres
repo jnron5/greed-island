@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/shepherds_bell.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"shepherds_bell"
+display_name = "Shepherd's Bell"
+description = "A brass bell on a frayed blue ribbon."
+lore = "Every flock on the downs has a bell, and every bell is a different note. Tilly can tell you which farm a sheep came from with her eyes shut. Some notes stopped ringing years ago."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 12
+icon = ExtResource("2_art")
+copies_in_world = 3

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/fallen_star_shard.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"fallen_star_shard"
+display_name = "Fallen Star Shard"
+description = "Cold blue crystal, glowing faintly in the snow."
+lore = "The range is named for nights when stars fall into the snow. Sorenda's star map marks the stars that have gone out. This shard is the shape of one of them."
+rarity = 1
+source = 0
+is_final_set_member = true
+sell_value = 70
+icon = ExtResource("2_art")
+copies_in_world = 3

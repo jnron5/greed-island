@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/barge_bell.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"barge_bell"
+display_name = "Drowned Barge Bell"
+description = "A ship's bell, green with lake weed."
+lore = "Off a barge that sank crossing Serin by night, with no lights and no name painted on her. When the wind is right the bell still sounds, down under the water."
+rarity = 1
+source = 0
+is_final_set_member = true
+sell_value = 60
+icon = ExtResource("2_art")
+copies_in_world = 3

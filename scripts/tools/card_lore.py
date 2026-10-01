@@ -35,6 +35,19 @@ LORE = {
     "warden_mask": "Bark and leaves grown into the shape of a face. The Warden wears a new one every season. Nobody has ever seen what's underneath, and nobody who tried came back to say.",
     "canopy_eye": "It still blinks. Whatever the Warden saw through it, it goes on seeing, and on quiet nights it turns in your hand toward the east, toward the dunes.",
     "verdant_crest": "The mark of whatever the Warden guards: a leaf over a closed hand. The same mark is cut into Sorenda's oldest doorpost, below the notches Elder Moss carves.",
+    # Past Kalmora's west gate: three cards for each region.
+    "bristle_fleece": "Combed off the thorns where the wild rams scratch. The Hensleys spin it into rope for the fold gate, the only rope on the downs the rams can't chew through.",
+    "shepherds_bell": "Every flock on the downs has a bell, and every bell is a different note. Tilly can tell you which farm a sheep came from with her eyes shut. Some notes stopped ringing years ago.",
+    "crown_stone_rubbing": "Taken from the Stonewatch circle. Under the crown the figures shrink, row after row. Aldous counts one row for every king. The last row is still being carved.",
+    "golden_sheaf": "Verdana ties the first sheaf in red and hangs it over the inn door for luck. These last years the Company has bought the sheaf too, along with everything else in the field.",
+    "harvest_oak_leaf": "The Harvest Oak drops one leaf for every child born in Verdana, the old women say. Oda keeps every leaf that falls in a box. The box hasn't been full in a long time.",
+    "millers_seal": "The mill's seal goes on every sack that leaves Verdana. Some sacks carry a second mark under it: a small sun, the same red sun stamped on the Duskara crates.",
+    "heron_plume": "Serin's herons stand so still in the shallows that fish swim between their legs. Fishers wear a plume in their hat to borrow the patience. Neri has worn his to grey.",
+    "serin_lily": "Serin lilies open at first light and close by noon. Folk on the shore say a lily that stays shut all day is keeping a secret for someone under the water.",
+    "barge_bell": "Off a barge that sank crossing Serin by night, with no lights and no name painted on her. When the wind is right the bell still sounds, down under the water.",
+    "iron_wolf_collar": "Found on the frost wolves of the Starfall Range. Nobody collars a wild wolf. The tags carry a number and a small red sun, and the wolves won't let anyone near the north road.",
+    "starfall_edelweiss": "Grows where nothing else will, on the windward rocks above the tarn. Mountain folk give one to someone leaving for good. Hald has three pressed in his window, all from the same year.",
+    "fallen_star_shard": "The range is named for nights when stars fall into the snow. Sorenda's star map marks the stars that have gone out. This shard is the shape of one of them.",
 }
 
 
