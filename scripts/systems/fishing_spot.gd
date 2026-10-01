@@ -21,6 +21,10 @@ var _near := false
 var _rng := RandomNumberGenerator.new()
 
 
+func _ready() -> void:
+	z_index = 5   # the prompt and the line draw over the fisher
+
+
 func _process(delta: float) -> void:
 	var near := _player_near()
 	if near != _near:
