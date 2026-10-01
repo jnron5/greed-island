@@ -27,6 +27,7 @@ const VERDANA_BAKERY := "res://scenes/world/interiors/verdana_bakery.tscn"
 const VERDANA_BARN := "res://scenes/world/interiors/verdana_barn.tscn"
 const VERDANA_MILL := "res://scenes/world/interiors/verdana_mill.tscn"
 const SERIN_FISHER_HUT := "res://scenes/world/interiors/serin_fisher_hut.tscn"
+const STARFALL_GROTTO := "res://scenes/world/starfall_grotto.tscn"
 const STARFALL_CABIN := "res://scenes/world/interiors/starfall_cabin.tscn"
 const SORENDA_LONGHOUSE := "res://scenes/world/interiors/sorenda_longhouse.tscn"
 const SORENDA_SCRIBE := "res://scenes/world/interiors/sorenda_scribe_house.tscn"
@@ -70,6 +71,8 @@ const ZONES := {
 	LAKE_SERIN: { "name": "Lake Serin", "origin": Vector2(-2894, -1625),
 		"monster_drops": [&"hollow_acorn", &"moss_lantern", &"thorn_sprig"] },
 	STARFALL: { "name": "Starfall Range", "origin": Vector2(-3194, -3201),
+		"monster_drops": [&"owl_quill", &"briar_wren"] },
+	STARFALL_GROTTO: { "name": "The Frost Grotto", "origin": Vector2(-1886, -3880),
 		"monster_drops": [&"owl_quill", &"briar_wren"] },
 	# Interiors sit where their buildings stand in town. They have no EDGES, so
 	# rivals never wander in; you enter through the building's door.
@@ -151,6 +154,10 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(0, 720), "gate": &"" },
 	{ "from": STARFALL, "to": LAKE_SERIN, "exit": Vector2(0, 788), "spawn": &"from_starfall",
 		"entry": Vector2(-300, -710), "gate": &"" },
+	{ "from": STARFALL, "to": STARFALL_GROTTO, "exit": Vector2(860, -224), "spawn": &"from_starfall",
+		"entry": Vector2(-448, 400), "gate": &"" },
+	{ "from": STARFALL_GROTTO, "to": STARFALL, "exit": Vector2(-448, 476), "spawn": &"from_grotto",
+		"entry": Vector2(860, -150), "gate": &"" },
 ]
 
 static var _pickup_cache: Dictionary = {}

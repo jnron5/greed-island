@@ -24,6 +24,8 @@ const TIDEWALKER := &"tidewalker_anklet"
 const MOSSHEART := &"mossheart_charm"
 const EMBERBURST := &"emberburst_rounds"
 const STONESONG := &"stonesong_charm"
+const FROSTFANG := &"frostfang_charm"
+const FROSTFANG_FREEZE := 1.2      # seconds a sword hit freezes a monster
 const STONESONG_HEARTS := 2
 const CHARGE_TIME := 0.7            # hold the pistol this long for an Emberburst round
 const BURST_DAMAGE := 3
@@ -90,7 +92,9 @@ func _ready() -> void:
 	health = max_health
 	EventBus.loadout_changed.connect(func() -> void:
 		health = mini(health, max_health)
-		health_changed.emit(health, max_health))
+		health_changed.emit(health, max_health)
+		sword_hitbox.freeze = FROSTFANG_FREEZE if GameState.is_equipped(FROSTFANG) else 0.0)
+	sword_hitbox.freeze = FROSTFANG_FREEZE if GameState.is_equipped(FROSTFANG) else 0.0
 	sword_hitbox.damage = sword_damage
 	sword_hitbox.source_id = collector_id
 	sword_shape.disabled = true

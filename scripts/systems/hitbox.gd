@@ -11,6 +11,8 @@ signal hit_landed(hurtbox: Hurtbox)
 var source_id: StringName
 ## Level the attack was made on; -1 = work it out from the attacker's position.
 var level := -1
+## Seconds a monster hit by this is frozen in place (Frostfang Charm on the sword).
+var freeze := 0.0
 
 
 ## The attack only lands on targets standing on the same level.

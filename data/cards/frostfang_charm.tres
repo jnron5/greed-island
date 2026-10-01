@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/frostfang_charm.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"frostfang_charm"
+display_name = "Frostfang Charm"
+description = "Passive: sword hits freeze monsters for a moment."
+lore = "A fang of ice that never melts, found in the grotto under the Starfall pass. Hald says the wolves won't come near it. Hald says a lot of things."
+category = 2
+source = 4
+sell_value = 50
+copies_in_world = 3
+icon = ExtResource("2_art")
+shop_price = 0

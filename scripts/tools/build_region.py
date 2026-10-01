@@ -544,7 +544,7 @@ class Zone:
             keep.append((x, y, 80))
         if c.get("merchant"):
             keep.append((*c["merchant"][0], 60))
-        for ex in c.get("exits", []):
+        for ex in c.get("exits", []) + c.get("portals", []):
             keep.append((*ex["pos"], 80))
             targets["exit " + ex["name"]] = ex["pos"]
         for name, (x, y) in c.get("spawns", {}).items():
@@ -668,6 +668,11 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
             n.append(f'[node name="{ex["name"]}" parent="." instance=ExtResource("7_exit")]\nposition = Vector2({x}, {y})\n'
                      f'target_scene = "{ex["target"]}"\ntarget_spawn = &"{ex["spawn"]}"\n' + ("exit_hint = true\n" if ex.get("hint") else ""))
 
+        # Portals: walk-in exits inside the zone (a cave mouth), drawn by a prop.
+        for p in c.get("portals", []):
+            x, y = p["pos"]
+            n.append(f'[node name="{p["name"]}" parent="." instance=ExtResource("7_exit")]\nposition = Vector2({x}, {y})\n'
+                     f'target_scene = "{p["target"]}"\ntarget_spawn = &"{p["spawn"]}"\n')
         # Buildings: front-facing sprites, footprint collision, doors and window glow.
         solids = []
         for b in c.get("buildings", []):
@@ -723,7 +728,16 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
             flip = "flip_h = true\n" if p.get("flip") else ""
             mod = f"modulate = Color{p['tint']}\n" if p.get("tint") else ""
             sc = f"scale = Vector2({scale}, {scale})\n" if scale != 1.0 else ""
-            if p.get("foot"):
+            if p.get("feet"):
+                # Several colliders under one sprite (a cave mouth's two pillars).
+                n.append(f'[node name="Prop{k}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
+                         f'[node name="Sprite" type="Sprite2D" parent="Prop{k}"]\n{sc}{mod}{flip}position = Vector2(0, {off})\n'
+                         f'texture = ExtResource("{texture(path)}")\n')
+                for j, (dx, dy, fw, fh) in enumerate(p["feet"]):
+                    solids.append((x + dx - fw / 2, y + dy - fh / 2, x + dx + fw / 2, y + dy + fh / 2))
+                    n.append(f'[node name="Foot{j}" type="CollisionShape2D" parent="Prop{k}"]\nposition = Vector2({dx}, {dy})\n'
+                             f'shape = SubResource("{shape(fw, fh)}")\n')
+            elif p.get("foot"):
                 fw, fh = p["foot"]
                 solids.append((x - fw / 2, y - fh, x + fw / 2, y))
                 n.append(f'[node name="Prop{k}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'

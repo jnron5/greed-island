@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3]
+[gd_scene load_steps=81 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -17,24 +17,25 @@
 [ext_resource type="Script" path="res://scripts/world/window_glow.gd" id="r6_window_glow"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/boulder.png" id="r7_boulder"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/aurewind/standing_stone.png" id="r8_standing_stone"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/starfall/snow_boulder.png" id="r9_snow_boulder"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/starfall/ice_crystals.png" id="r10_ice_crystals"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/trail_lantern.png" id="r11_trail_lantern"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/campfire_anim.png" id="r12_campfire_anim"]
-[ext_resource type="PackedScene" path="res://scenes/world/props/snow_pine.tscn" id="r13_snow_pine"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pinecones.png" id="r14_pinecones"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/rock.png" id="r15_rock"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/branch.png" id="r16_branch"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/stump.png" id="r17_stump"]
-[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="r18_npc"]
-[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/goat/goat_frames.tres" id="r19_goat_frames"]
-[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/hald/hald_frames.tres" id="r20_hald_frames"]
-[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="r21_readable"]
-[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="r22_chest"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="r23_chest"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="r24_chest_open"]
-[ext_resource type="PackedScene" path="res://scenes/characters/frost_wolf.tscn" id="r25_frost_wolf"]
-[ext_resource type="Script" path="res://scripts/world/snowfall.gd" id="r26_snowfall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/starfall/ice_cave_mouth.png" id="r9_ice_cave_mouth"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/starfall/snow_boulder.png" id="r10_snow_boulder"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/starfall/ice_crystals.png" id="r11_ice_crystals"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/trail_lantern.png" id="r12_trail_lantern"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/campfire_anim.png" id="r13_campfire_anim"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/snow_pine.tscn" id="r14_snow_pine"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pinecones.png" id="r15_pinecones"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/rock.png" id="r16_rock"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/branch.png" id="r17_branch"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/stump.png" id="r18_stump"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="r19_npc"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/goat/goat_frames.tres" id="r20_goat_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/hald/hald_frames.tres" id="r21_hald_frames"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="r22_readable"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="r23_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="r24_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="r25_chest_open"]
+[ext_resource type="PackedScene" path="res://scenes/characters/frost_wolf.tscn" id="r26_frost_wolf"]
+[ext_resource type="Script" path="res://scripts/world/snowfall.gd" id="r27_snowfall"]
 
 [sub_resource type="RectangleShape2D" id="R192x32"]
 size = Vector2(192, 32)
@@ -117,6 +118,12 @@ size = Vector2(40, 18)
 [sub_resource type="RectangleShape2D" id="R26x12"]
 size = Vector2(26, 12)
 
+[sub_resource type="RectangleShape2D" id="R50x40"]
+size = Vector2(50, 40)
+
+[sub_resource type="RectangleShape2D" id="R64x22"]
+size = Vector2(64, 22)
+
 [sub_resource type="RectangleShape2D" id="R52x18"]
 size = Vector2(52, 18)
 
@@ -127,35 +134,35 @@ size = Vector2(28, 10)
 size = Vector2(10, 8)
 
 [sub_resource type="AtlasTexture" id="fire_0"]
-atlas = ExtResource("r12_campfire_anim")
+atlas = ExtResource("r13_campfire_anim")
 region = Rect2(0, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="fire_1"]
-atlas = ExtResource("r12_campfire_anim")
+atlas = ExtResource("r13_campfire_anim")
 region = Rect2(40, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="fire_2"]
-atlas = ExtResource("r12_campfire_anim")
+atlas = ExtResource("r13_campfire_anim")
 region = Rect2(80, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="fire_3"]
-atlas = ExtResource("r12_campfire_anim")
+atlas = ExtResource("r13_campfire_anim")
 region = Rect2(120, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="fire_4"]
-atlas = ExtResource("r12_campfire_anim")
+atlas = ExtResource("r13_campfire_anim")
 region = Rect2(160, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="fire_5"]
-atlas = ExtResource("r12_campfire_anim")
+atlas = ExtResource("r13_campfire_anim")
 region = Rect2(200, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="fire_6"]
-atlas = ExtResource("r12_campfire_anim")
+atlas = ExtResource("r13_campfire_anim")
 region = Rect2(240, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="fire_7"]
-atlas = ExtResource("r12_campfire_anim")
+atlas = ExtResource("r13_campfire_anim")
 region = Rect2(280, 0, 40, 40)
 
 [sub_resource type="SpriteFrames" id="fire_frames"]
@@ -415,6 +422,9 @@ shape = SubResource("R40x1664")
 [node name="from_lake_serin" type="Marker2D" parent="Spawns"]
 position = Vector2(0, 720)
 
+[node name="from_grotto" type="Marker2D" parent="Spawns"]
+position = Vector2(860, -150)
+
 [node name="from_househald" type="Marker2D" parent="Spawns"]
 position = Vector2(620, -84)
 
@@ -432,6 +442,11 @@ position = Vector2(0, 620)
 [node name="ToLakeSerin" parent="." instance=ExtResource("7_exit")]
 position = Vector2(0, 788)
 target_scene = "res://scenes/world/lake_serin.tscn"
+target_spawn = &"from_starfall"
+
+[node name="ToGrotto" parent="." instance=ExtResource("7_exit")]
+position = Vector2(860, -224)
+target_scene = "res://scenes/world/starfall_grotto.tscn"
 target_spawn = &"from_starfall"
 
 [node name="HouseHald" type="StaticBody2D" parent="."]
@@ -576,120 +591,148 @@ tint = Color(0.7, 0.85, 1.0, 1)
 flicker = 0.03
 
 [node name="Prop8" type="StaticBody2D" parent="."]
-position = Vector2(-820, 420)
+position = Vector2(860, -196)
 
 [node name="Sprite" type="Sprite2D" parent="Prop8"]
-position = Vector2(0, -19.0)
-texture = ExtResource("r9_snow_boulder")
+position = Vector2(0, -44.0)
+texture = ExtResource("r9_ice_cave_mouth")
 
-[node name="Base" type="CollisionShape2D" parent="Prop8"]
-position = Vector2(0, -9.0)
-shape = SubResource("R52x18")
+[node name="Foot0" type="CollisionShape2D" parent="Prop8"]
+position = Vector2(-56, -20)
+shape = SubResource("R50x40")
+
+[node name="Foot1" type="CollisionShape2D" parent="Prop8"]
+position = Vector2(56, -20)
+shape = SubResource("R50x40")
+
+[node name="Foot2" type="CollisionShape2D" parent="Prop8"]
+position = Vector2(0, -52)
+shape = SubResource("R64x22")
+
+[node name="PropLight8" type="PointLight2D" parent="."]
+position = Vector2(860, -216)
+texture_scale = 1.0
+script = ExtResource("8_lamp")
+always_on = true
+max_energy = 0.5
+tint = Color(0.55, 0.85, 1.0, 1)
+flicker = 0.03
 
 [node name="Prop9" type="StaticBody2D" parent="."]
-position = Vector2(-300, 560)
+position = Vector2(-820, 420)
 
 [node name="Sprite" type="Sprite2D" parent="Prop9"]
-flip_h = true
 position = Vector2(0, -19.0)
-texture = ExtResource("r9_snow_boulder")
+texture = ExtResource("r10_snow_boulder")
 
 [node name="Base" type="CollisionShape2D" parent="Prop9"]
 position = Vector2(0, -9.0)
 shape = SubResource("R52x18")
 
 [node name="Prop10" type="StaticBody2D" parent="."]
-position = Vector2(260, 600)
+position = Vector2(-300, 560)
 
 [node name="Sprite" type="Sprite2D" parent="Prop10"]
+flip_h = true
 position = Vector2(0, -19.0)
-texture = ExtResource("r9_snow_boulder")
+texture = ExtResource("r10_snow_boulder")
 
 [node name="Base" type="CollisionShape2D" parent="Prop10"]
 position = Vector2(0, -9.0)
 shape = SubResource("R52x18")
 
 [node name="Prop11" type="StaticBody2D" parent="."]
-position = Vector2(820, 250)
+position = Vector2(260, 600)
 
 [node name="Sprite" type="Sprite2D" parent="Prop11"]
-flip_h = true
 position = Vector2(0, -19.0)
-texture = ExtResource("r9_snow_boulder")
+texture = ExtResource("r10_snow_boulder")
 
 [node name="Base" type="CollisionShape2D" parent="Prop11"]
 position = Vector2(0, -9.0)
 shape = SubResource("R52x18")
 
 [node name="Prop12" type="StaticBody2D" parent="."]
-position = Vector2(-760, -330)
+position = Vector2(820, 250)
 
 [node name="Sprite" type="Sprite2D" parent="Prop12"]
+flip_h = true
 position = Vector2(0, -19.0)
-texture = ExtResource("r9_snow_boulder")
+texture = ExtResource("r10_snow_boulder")
 
 [node name="Base" type="CollisionShape2D" parent="Prop12"]
 position = Vector2(0, -9.0)
 shape = SubResource("R52x18")
 
 [node name="Prop13" type="StaticBody2D" parent="."]
-position = Vector2(560, -420)
+position = Vector2(-760, -330)
 
 [node name="Sprite" type="Sprite2D" parent="Prop13"]
-flip_h = true
 position = Vector2(0, -19.0)
-texture = ExtResource("r9_snow_boulder")
+texture = ExtResource("r10_snow_boulder")
 
 [node name="Base" type="CollisionShape2D" parent="Prop13"]
 position = Vector2(0, -9.0)
 shape = SubResource("R52x18")
 
 [node name="Prop14" type="StaticBody2D" parent="."]
-position = Vector2(-380, -520)
+position = Vector2(560, -420)
 
 [node name="Sprite" type="Sprite2D" parent="Prop14"]
+flip_h = true
 position = Vector2(0, -19.0)
-texture = ExtResource("r9_snow_boulder")
+texture = ExtResource("r10_snow_boulder")
 
 [node name="Base" type="CollisionShape2D" parent="Prop14"]
 position = Vector2(0, -9.0)
 shape = SubResource("R52x18")
 
 [node name="Prop15" type="StaticBody2D" parent="."]
-position = Vector2(760, -760)
+position = Vector2(-380, -520)
 
 [node name="Sprite" type="Sprite2D" parent="Prop15"]
-flip_h = true
 position = Vector2(0, -19.0)
-texture = ExtResource("r9_snow_boulder")
+texture = ExtResource("r10_snow_boulder")
 
 [node name="Base" type="CollisionShape2D" parent="Prop15"]
 position = Vector2(0, -9.0)
 shape = SubResource("R52x18")
 
 [node name="Prop16" type="StaticBody2D" parent="."]
-position = Vector2(180, 330)
+position = Vector2(760, -760)
 
 [node name="Sprite" type="Sprite2D" parent="Prop16"]
+flip_h = true
 position = Vector2(0, -19.0)
-texture = ExtResource("r9_snow_boulder")
+texture = ExtResource("r10_snow_boulder")
 
 [node name="Base" type="CollisionShape2D" parent="Prop16"]
 position = Vector2(0, -9.0)
 shape = SubResource("R52x18")
 
 [node name="Prop17" type="StaticBody2D" parent="."]
-position = Vector2(-660, -170)
+position = Vector2(180, 330)
 
 [node name="Sprite" type="Sprite2D" parent="Prop17"]
-position = Vector2(0, -21.0)
-texture = ExtResource("r10_ice_crystals")
+position = Vector2(0, -19.0)
+texture = ExtResource("r10_snow_boulder")
 
 [node name="Base" type="CollisionShape2D" parent="Prop17"]
+position = Vector2(0, -9.0)
+shape = SubResource("R52x18")
+
+[node name="Prop18" type="StaticBody2D" parent="."]
+position = Vector2(-660, -170)
+
+[node name="Sprite" type="Sprite2D" parent="Prop18"]
+position = Vector2(0, -21.0)
+texture = ExtResource("r11_ice_crystals")
+
+[node name="Base" type="CollisionShape2D" parent="Prop18"]
 position = Vector2(0, -5.0)
 shape = SubResource("R28x10")
 
-[node name="PropLight17" type="PointLight2D" parent="."]
+[node name="PropLight18" type="PointLight2D" parent="."]
 position = Vector2(-660, -190)
 texture_scale = 0.9
 script = ExtResource("8_lamp")
@@ -698,18 +741,18 @@ max_energy = 0.6
 tint = Color(0.55, 0.85, 1.0, 1)
 flicker = 0.03
 
-[node name="Prop18" type="StaticBody2D" parent="."]
+[node name="Prop19" type="StaticBody2D" parent="."]
 position = Vector2(-300, -40)
 
-[node name="Sprite" type="Sprite2D" parent="Prop18"]
+[node name="Sprite" type="Sprite2D" parent="Prop19"]
 position = Vector2(0, -21.0)
-texture = ExtResource("r10_ice_crystals")
+texture = ExtResource("r11_ice_crystals")
 
-[node name="Base" type="CollisionShape2D" parent="Prop18"]
+[node name="Base" type="CollisionShape2D" parent="Prop19"]
 position = Vector2(0, -5.0)
 shape = SubResource("R28x10")
 
-[node name="PropLight18" type="PointLight2D" parent="."]
+[node name="PropLight19" type="PointLight2D" parent="."]
 position = Vector2(-300, -60)
 texture_scale = 0.9
 script = ExtResource("8_lamp")
@@ -718,18 +761,18 @@ max_energy = 0.6
 tint = Color(0.55, 0.85, 1.0, 1)
 flicker = 0.03
 
-[node name="Prop19" type="StaticBody2D" parent="."]
+[node name="Prop20" type="StaticBody2D" parent="."]
 position = Vector2(-560, 30)
 
-[node name="Sprite" type="Sprite2D" parent="Prop19"]
+[node name="Sprite" type="Sprite2D" parent="Prop20"]
 position = Vector2(0, -21.0)
-texture = ExtResource("r10_ice_crystals")
+texture = ExtResource("r11_ice_crystals")
 
-[node name="Base" type="CollisionShape2D" parent="Prop19"]
+[node name="Base" type="CollisionShape2D" parent="Prop20"]
 position = Vector2(0, -5.0)
 shape = SubResource("R28x10")
 
-[node name="PropLight19" type="PointLight2D" parent="."]
+[node name="PropLight20" type="PointLight2D" parent="."]
 position = Vector2(-560, 10)
 texture_scale = 0.9
 script = ExtResource("8_lamp")
@@ -738,18 +781,18 @@ max_energy = 0.6
 tint = Color(0.55, 0.85, 1.0, 1)
 flicker = 0.03
 
-[node name="Prop20" type="StaticBody2D" parent="."]
+[node name="Prop21" type="StaticBody2D" parent="."]
 position = Vector2(380, -660)
 
-[node name="Sprite" type="Sprite2D" parent="Prop20"]
+[node name="Sprite" type="Sprite2D" parent="Prop21"]
 position = Vector2(0, -21.0)
-texture = ExtResource("r10_ice_crystals")
+texture = ExtResource("r11_ice_crystals")
 
-[node name="Base" type="CollisionShape2D" parent="Prop20"]
+[node name="Base" type="CollisionShape2D" parent="Prop21"]
 position = Vector2(0, -5.0)
 shape = SubResource("R28x10")
 
-[node name="PropLight20" type="PointLight2D" parent="."]
+[node name="PropLight21" type="PointLight2D" parent="."]
 position = Vector2(380, -680)
 texture_scale = 0.9
 script = ExtResource("8_lamp")
@@ -758,18 +801,18 @@ max_energy = 0.6
 tint = Color(0.55, 0.85, 1.0, 1)
 flicker = 0.03
 
-[node name="Prop21" type="StaticBody2D" parent="."]
+[node name="Prop22" type="StaticBody2D" parent="."]
 position = Vector2(-280, -760)
 
-[node name="Sprite" type="Sprite2D" parent="Prop21"]
+[node name="Sprite" type="Sprite2D" parent="Prop22"]
 position = Vector2(0, -21.0)
-texture = ExtResource("r10_ice_crystals")
+texture = ExtResource("r11_ice_crystals")
 
-[node name="Base" type="CollisionShape2D" parent="Prop21"]
+[node name="Base" type="CollisionShape2D" parent="Prop22"]
 position = Vector2(0, -5.0)
 shape = SubResource("R28x10")
 
-[node name="PropLight21" type="PointLight2D" parent="."]
+[node name="PropLight22" type="PointLight2D" parent="."]
 position = Vector2(-280, -780)
 texture_scale = 0.9
 script = ExtResource("8_lamp")
@@ -778,18 +821,18 @@ max_energy = 0.6
 tint = Color(0.55, 0.85, 1.0, 1)
 flicker = 0.03
 
-[node name="Prop22" type="StaticBody2D" parent="."]
+[node name="Prop23" type="StaticBody2D" parent="."]
 position = Vector2(700, 120)
 
-[node name="Sprite" type="Sprite2D" parent="Prop22"]
+[node name="Sprite" type="Sprite2D" parent="Prop23"]
 position = Vector2(0, -21.0)
-texture = ExtResource("r10_ice_crystals")
+texture = ExtResource("r11_ice_crystals")
 
-[node name="Base" type="CollisionShape2D" parent="Prop22"]
+[node name="Base" type="CollisionShape2D" parent="Prop23"]
 position = Vector2(0, -5.0)
 shape = SubResource("R28x10")
 
-[node name="PropLight22" type="PointLight2D" parent="."]
+[node name="PropLight23" type="PointLight2D" parent="."]
 position = Vector2(700, 100)
 texture_scale = 0.9
 script = ExtResource("8_lamp")
@@ -803,7 +846,7 @@ position = Vector2(-80, 260)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern0"]
 position = Vector2(0, -28.0)
-texture = ExtResource("r11_trail_lantern")
+texture = ExtResource("r12_trail_lantern")
 
 [node name="Base" type="CollisionShape2D" parent="Lantern0"]
 position = Vector2(0, -4)
@@ -819,7 +862,7 @@ position = Vector2(330, -250)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern1"]
 position = Vector2(0, -28.0)
-texture = ExtResource("r11_trail_lantern")
+texture = ExtResource("r12_trail_lantern")
 
 [node name="Base" type="CollisionShape2D" parent="Lantern1"]
 position = Vector2(0, -4)
@@ -835,7 +878,7 @@ position = Vector2(-40, -600)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern2"]
 position = Vector2(0, -28.0)
-texture = ExtResource("r11_trail_lantern")
+texture = ExtResource("r12_trail_lantern")
 
 [node name="Base" type="CollisionShape2D" parent="Lantern2"]
 position = Vector2(0, -4)
@@ -867,1034 +910,1034 @@ always_on = true
 max_energy = 0.9
 flicker = 0.18
 
-[node name="Tree0" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree0" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1013, -830)
 
-[node name="Tree1" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree1" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1009, 766)
 
-[node name="Tree2" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree2" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-976, -837)
 
-[node name="Tree3" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree3" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-941, -835)
 
-[node name="Tree4" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree4" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-945, 757)
 
-[node name="Tree5" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree5" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-906, -838)
 
-[node name="Tree6" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree6" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-907, 762)
 
-[node name="Tree7" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree7" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-876, -832)
 
-[node name="Tree8" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree8" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-841, -834)
 
-[node name="Tree9" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree9" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-849, 757)
 
-[node name="Tree10" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree10" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-805, 759)
 
-[node name="Tree11" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree11" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-782, -829)
 
-[node name="Tree12" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree12" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-770, 758)
 
-[node name="Tree13" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree13" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-748, -829)
 
-[node name="Tree14" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree14" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-738, 763)
 
-[node name="Tree15" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree15" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-714, -838)
 
-[node name="Tree16" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree16" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-709, 762)
 
-[node name="Tree17" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree17" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-674, -838)
 
-[node name="Tree18" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree18" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-675, 761)
 
-[node name="Tree19" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree19" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-634, -838)
 
-[node name="Tree20" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree20" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-638, 761)
 
-[node name="Tree21" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree21" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-606, 765)
 
-[node name="Tree22" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree22" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-566, -833)
 
-[node name="Tree23" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree23" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-576, 755)
 
-[node name="Tree24" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree24" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-534, -836)
 
-[node name="Tree25" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree25" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-543, 758)
 
-[node name="Tree26" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree26" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-508, -832)
 
-[node name="Tree27" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree27" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-498, 764)
 
-[node name="Tree28" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree28" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-468, -838)
 
-[node name="Tree29" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree29" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-471, 761)
 
-[node name="Tree30" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree30" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-432, -827)
 
-[node name="Tree31" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree31" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-430, 765)
 
-[node name="Tree32" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree32" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-401, -837)
 
-[node name="Tree33" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree33" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-403, 766)
 
-[node name="Tree34" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree34" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-372, -831)
 
-[node name="Tree35" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree35" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-365, 763)
 
-[node name="Tree36" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree36" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-329, -834)
 
-[node name="Tree37" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree37" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-333, 754)
 
-[node name="Tree38" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree38" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-297, -833)
 
-[node name="Tree39" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree39" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-294, 754)
 
-[node name="Tree40" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree40" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-268, -837)
 
-[node name="Tree41" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree41" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-267, 754)
 
-[node name="Tree42" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree42" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-226, -832)
 
-[node name="Tree43" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree43" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-235, 756)
 
-[node name="Tree44" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree44" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-202, 763)
 
-[node name="Tree45" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree45" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-166, 760)
 
-[node name="Tree46" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree46" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-131, 756)
 
-[node name="Tree47" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree47" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-92, 754)
 
-[node name="Tree48" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree48" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(71, -836)
 
-[node name="Tree49" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree49" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(80, 754)
 
-[node name="Tree50" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree50" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(108, -838)
 
-[node name="Tree51" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree51" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(111, 766)
 
-[node name="Tree52" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree52" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(148, -836)
 
-[node name="Tree53" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree53" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(136, 756)
 
-[node name="Tree54" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree54" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(178, 756)
 
-[node name="Tree55" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree55" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(206, -830)
 
-[node name="Tree56" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree56" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(215, 758)
 
-[node name="Tree57" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree57" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(244, -838)
 
-[node name="Tree58" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree58" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(282, -828)
 
-[node name="Tree59" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree59" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(278, 765)
 
-[node name="Tree60" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree60" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(318, -829)
 
-[node name="Tree61" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree61" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(311, 758)
 
-[node name="Tree62" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree62" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(347, -827)
 
-[node name="Tree63" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree63" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(349, 754)
 
-[node name="Tree64" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree64" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(380, -831)
 
-[node name="Tree65" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree65" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(375, 764)
 
-[node name="Tree66" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree66" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(419, -836)
 
-[node name="Tree67" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree67" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(420, 755)
 
-[node name="Tree68" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree68" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(454, -836)
 
-[node name="Tree69" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree69" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(449, 766)
 
-[node name="Tree70" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree70" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(482, -831)
 
-[node name="Tree71" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree71" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(488, 756)
 
-[node name="Tree72" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree72" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(516, -832)
 
-[node name="Tree73" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree73" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(545, -830)
 
-[node name="Tree74" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree74" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(551, 759)
 
-[node name="Tree75" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree75" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(585, -827)
 
-[node name="Tree76" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree76" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(587, 760)
 
-[node name="Tree77" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree77" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(618, -833)
 
-[node name="Tree78" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree78" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(658, -830)
 
-[node name="Tree79" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree79" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(650, 757)
 
-[node name="Tree80" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree80" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(685, -836)
 
-[node name="Tree81" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree81" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(691, 760)
 
-[node name="Tree82" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree82" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(718, -837)
 
-[node name="Tree83" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree83" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(725, 755)
 
-[node name="Tree84" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree84" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(754, -838)
 
-[node name="Tree85" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree85" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(753, 763)
 
-[node name="Tree86" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree86" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(791, -834)
 
-[node name="Tree87" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree87" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(782, 761)
 
-[node name="Tree88" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree88" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(818, -835)
 
-[node name="Tree89" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree89" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(822, 759)
 
-[node name="Tree90" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree90" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(853, -833)
 
-[node name="Tree91" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree91" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(852, 764)
 
-[node name="Tree92" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree92" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(892, -833)
 
-[node name="Tree93" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree93" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(888, 757)
 
-[node name="Tree94" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree94" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(929, -838)
 
-[node name="Tree95" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree95" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(920, 763)
 
-[node name="Tree96" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree96" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(960, -836)
 
-[node name="Tree97" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree97" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(963, 765)
 
-[node name="Tree98" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree98" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(996, -833)
 
-[node name="Tree99" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree99" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(993, 757)
 
-[node name="Tree100" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree100" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1004, -803)
 
-[node name="Tree101" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree101" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1004, -808)
 
-[node name="Tree102" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree102" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1005, -773)
 
-[node name="Tree103" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree103" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1008, -768)
 
-[node name="Tree104" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree104" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1015, -738)
 
-[node name="Tree105" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree105" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1012, -738)
 
-[node name="Tree106" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree106" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1010, -699)
 
-[node name="Tree107" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree107" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1007, -695)
 
-[node name="Tree108" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree108" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1009, -667)
 
-[node name="Tree109" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree109" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1012, -661)
 
-[node name="Tree110" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree110" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1012, -638)
 
-[node name="Tree111" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree111" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1005, -626)
 
-[node name="Tree112" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree112" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1010, -603)
 
-[node name="Tree113" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree113" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1013, -592)
 
-[node name="Tree114" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree114" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1012, -565)
 
-[node name="Tree115" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree115" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1005, -563)
 
-[node name="Tree116" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree116" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1012, -530)
 
-[node name="Tree117" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree117" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1008, -530)
 
-[node name="Tree118" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree118" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1007, -496)
 
-[node name="Tree119" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree119" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1006, -496)
 
-[node name="Tree120" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree120" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1011, -464)
 
-[node name="Tree121" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree121" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1005, -466)
 
-[node name="Tree122" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree122" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1008, -432)
 
-[node name="Tree123" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree123" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1016, -261)
 
-[node name="Tree124" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree124" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1006, -254)
 
-[node name="Tree125" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree125" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1009, -227)
 
-[node name="Tree126" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree126" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1012, -226)
 
-[node name="Tree127" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree127" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1006, -195)
 
-[node name="Tree128" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree128" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1008, -185)
 
-[node name="Tree129" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree129" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1009, -151)
 
-[node name="Tree130" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree130" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1009, -159)
 
-[node name="Tree131" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree131" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1011, -125)
 
-[node name="Tree132" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree132" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1010, -118)
 
-[node name="Tree133" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree133" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1008, -89)
 
-[node name="Tree134" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree134" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1016, -87)
 
-[node name="Tree135" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree135" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1014, -54)
 
-[node name="Tree136" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree136" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1012, -48)
 
-[node name="Tree137" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree137" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1011, -19)
 
-[node name="Tree138" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree138" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1004, 8)
 
-[node name="Tree139" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree139" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1009, 15)
 
-[node name="Tree140" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree140" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1013, 48)
 
-[node name="Tree141" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree141" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1004, 47)
 
-[node name="Tree142" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree142" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1016, 82)
 
-[node name="Tree143" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree143" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1009, 120)
 
-[node name="Tree144" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree144" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1012, 214)
 
-[node name="Tree145" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree145" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1005, 247)
 
-[node name="Tree146" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree146" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1004, 256)
 
-[node name="Tree147" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree147" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1006, 281)
 
-[node name="Tree148" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree148" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1005, 283)
 
-[node name="Tree149" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree149" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1011, 325)
 
-[node name="Tree150" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree150" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1005, 324)
 
-[node name="Tree151" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree151" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1007, 351)
 
-[node name="Tree152" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree152" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1015, 384)
 
-[node name="Tree153" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree153" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1016, 386)
 
-[node name="Tree154" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree154" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1008, 428)
 
-[node name="Tree155" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree155" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1010, 426)
 
-[node name="Tree156" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree156" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1006, 458)
 
-[node name="Tree157" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree157" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1005, 488)
 
-[node name="Tree158" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree158" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1016, 494)
 
-[node name="Tree159" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree159" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1013, 525)
 
-[node name="Tree160" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree160" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1012, 521)
 
-[node name="Tree161" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree161" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1014, 563)
 
-[node name="Tree162" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree162" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1014, 559)
 
-[node name="Tree163" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree163" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1014, 595)
 
-[node name="Tree164" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree164" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1004, 589)
 
-[node name="Tree165" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree165" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1006, 630)
 
-[node name="Tree166" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree166" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1005, 621)
 
-[node name="Tree167" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree167" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1014, 656)
 
-[node name="Tree168" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree168" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1007, 664)
 
-[node name="Tree169" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree169" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1011, 695)
 
-[node name="Tree170" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree170" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1004, 696)
 
-[node name="Tree171" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree171" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-1014, 734)
 
-[node name="Tree172" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree172" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(1015, 726)
 
-[node name="Tree173" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree173" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-974, -792)
 
-[node name="Tree174" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree174" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-969, 735)
 
-[node name="Tree175" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree175" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-933, -799)
 
-[node name="Tree176" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree176" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-927, 720)
 
-[node name="Tree177" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree177" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-885, -801)
 
-[node name="Tree178" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree178" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-887, 729)
 
-[node name="Tree179" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree179" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-850, -804)
 
-[node name="Tree180" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree180" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-815, -795)
 
-[node name="Tree181" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree181" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-811, 724)
 
-[node name="Tree182" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree182" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-779, -792)
 
-[node name="Tree183" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree183" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-735, -806)
 
-[node name="Tree184" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree184" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-742, 719)
 
-[node name="Tree185" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree185" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-703, -796)
 
-[node name="Tree186" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree186" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-690, 736)
 
-[node name="Tree187" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree187" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-647, -798)
 
-[node name="Tree188" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree188" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-658, 722)
 
-[node name="Tree189" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree189" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-605, -795)
 
-[node name="Tree190" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree190" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-618, 738)
 
-[node name="Tree191" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree191" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-571, -802)
 
-[node name="Tree192" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree192" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-566, 724)
 
-[node name="Tree193" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree193" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-535, -795)
 
-[node name="Tree194" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree194" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-534, 723)
 
-[node name="Tree195" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree195" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-488, -803)
 
-[node name="Tree196" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree196" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-493, 736)
 
-[node name="Tree197" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree197" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-452, 734)
 
-[node name="Tree198" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree198" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-414, -797)
 
-[node name="Tree199" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree199" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-409, 721)
 
-[node name="Tree200" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree200" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-384, -807)
 
-[node name="Tree201" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree201" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-384, 734)
 
-[node name="Tree202" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree202" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-296, -798)
 
-[node name="Tree203" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree203" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-247, -810)
 
-[node name="Tree204" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree204" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-214, -792)
 
-[node name="Tree205" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree205" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-215, 738)
 
-[node name="Tree206" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree206" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-183, 720)
 
-[node name="Tree207" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree207" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-84, 723)
 
-[node name="Tree208" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree208" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(20, -791)
 
-[node name="Tree209" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree209" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(59, -804)
 
-[node name="Tree210" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree210" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(58, 732)
 
-[node name="Tree211" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree211" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(112, -808)
 
-[node name="Tree212" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree212" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(104, 737)
 
-[node name="Tree213" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree213" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(155, -795)
 
-[node name="Tree214" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree214" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(147, 720)
 
-[node name="Tree215" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree215" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(190, -809)
 
-[node name="Tree216" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree216" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(185, 719)
 
-[node name="Tree217" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree217" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(234, -796)
 
-[node name="Tree218" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree218" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(232, 733)
 
-[node name="Tree219" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree219" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(270, 730)
 
-[node name="Tree220" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree220" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(309, -801)
 
-[node name="Tree221" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree221" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(308, 720)
 
-[node name="Tree222" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree222" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(345, -795)
 
-[node name="Tree223" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree223" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(347, 724)
 
-[node name="Tree224" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree224" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(376, -792)
 
-[node name="Tree225" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree225" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(379, 726)
 
-[node name="Tree226" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree226" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(425, -803)
 
-[node name="Tree227" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree227" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(426, 724)
 
-[node name="Tree228" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree228" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(466, -803)
 
-[node name="Tree229" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree229" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(469, 727)
 
-[node name="Tree230" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree230" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(514, -798)
 
-[node name="Tree231" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree231" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(500, 730)
 
-[node name="Tree232" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree232" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(546, -791)
 
-[node name="Tree233" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree233" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(556, 718)
 
-[node name="Tree234" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree234" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(587, -800)
 
-[node name="Tree235" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree235" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(592, 732)
 
-[node name="Tree236" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree236" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(619, -798)
 
-[node name="Tree237" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree237" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(632, 728)
 
-[node name="Tree238" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree238" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(667, -801)
 
-[node name="Tree239" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree239" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(674, 720)
 
-[node name="Tree240" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree240" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(710, -792)
 
-[node name="Tree241" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree241" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(703, 727)
 
-[node name="Tree242" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree242" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(744, 726)
 
-[node name="Tree243" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree243" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(794, -805)
 
-[node name="Tree244" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree244" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(778, 733)
 
-[node name="Tree245" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree245" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(826, -805)
 
-[node name="Tree246" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree246" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(822, 724)
 
-[node name="Tree247" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree247" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(863, -808)
 
-[node name="Tree248" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree248" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(870, 720)
 
-[node name="Tree249" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree249" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(896, -798)
 
-[node name="Tree250" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree250" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(905, 722)
 
-[node name="Tree251" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree251" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(955, -809)
 
-[node name="Tree252" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree252" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(949, 725)
 
-[node name="Tree253" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree253" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-983, -754)
 
-[node name="Tree254" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree254" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(981, -748)
 
-[node name="Tree255" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree255" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-969, -716)
 
-[node name="Tree256" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree256" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(980, -672)
 
-[node name="Tree257" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree257" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-985, -641)
 
-[node name="Tree258" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree258" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(971, -632)
 
-[node name="Tree259" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree259" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-976, -587)
 
-[node name="Tree260" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree260" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(982, -604)
 
-[node name="Tree261" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree261" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-985, -522)
 
-[node name="Tree262" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree262" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(973, -526)
 
-[node name="Tree263" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree263" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-980, -478)
 
-[node name="Tree264" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree264" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(969, -471)
 
-[node name="Tree265" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree265" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-974, -276)
 
-[node name="Tree266" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree266" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-976, -189)
 
-[node name="Tree267" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree267" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(972, -190)
 
-[node name="Tree268" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree268" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(976, -106)
 
-[node name="Tree269" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree269" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-984, -70)
 
-[node name="Tree270" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree270" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(968, -75)
 
-[node name="Tree271" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree271" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-973, -44)
 
-[node name="Tree272" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree272" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(968, -30)
 
-[node name="Tree273" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree273" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-971, 13)
 
-[node name="Tree274" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree274" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(971, 2)
 
-[node name="Tree275" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree275" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-972, 42)
 
-[node name="Tree276" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree276" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(975, 35)
 
-[node name="Tree277" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree277" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(972, 84)
 
-[node name="Tree278" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree278" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-974, 210)
 
-[node name="Tree279" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree279" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-970, 239)
 
-[node name="Tree280" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree280" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-968, 294)
 
-[node name="Tree281" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree281" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-973, 328)
 
-[node name="Tree282" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree282" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(968, 324)
 
-[node name="Tree283" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree283" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-977, 365)
 
-[node name="Tree284" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree284" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(985, 372)
 
-[node name="Tree285" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree285" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-988, 408)
 
-[node name="Tree286" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree286" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(982, 409)
 
-[node name="Tree287" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree287" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-982, 434)
 
-[node name="Tree288" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree288" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(980, 449)
 
-[node name="Tree289" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree289" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-982, 474)
 
-[node name="Tree290" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree290" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(983, 476)
 
-[node name="Tree291" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree291" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-983, 526)
 
-[node name="Tree292" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree292" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(975, 523)
 
-[node name="Tree293" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree293" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-988, 561)
 
-[node name="Tree294" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree294" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(973, 562)
 
-[node name="Tree295" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree295" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-972, 610)
 
-[node name="Tree296" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree296" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(968, 614)
 
-[node name="Tree297" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree297" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(968, 641)
 
-[node name="Tree298" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree298" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-978, 675)
 
-[node name="Tree299" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree299" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(974, 682)
 
-[node name="Tree300" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree300" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-847, -627)
 
-[node name="Tree301" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree301" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-850, -521)
 
-[node name="Tree302" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree302" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-794, -544)
 
-[node name="Tree303" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree303" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-875, -577)
 
-[node name="Tree304" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree304" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-775, -595)
 
-[node name="Tree305" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree305" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-845, -667)
 
-[node name="Tree306" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree306" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-810, -507)
 
-[node name="Tree307" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree307" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-776, -628)
 
-[node name="Tree308" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree308" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(559, -756)
 
-[node name="Tree309" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree309" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(759, -677)
 
-[node name="Tree310" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree310" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(747, -640)
 
-[node name="Tree311" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree311" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(802, -653)
 
-[node name="Tree312" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree312" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(764, -615)
 
-[node name="Tree313" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree313" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(694, -717)
 
-[node name="Tree314" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree314" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(720, -653)
 
-[node name="Tree315" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree315" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(839, -614)
 
-[node name="Tree316" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree316" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(719, -618)
 
-[node name="Tree317" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree317" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-780, 650)
 
-[node name="Tree318" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree318" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-690, 617)
 
-[node name="Tree319" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree319" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-701, 538)
 
-[node name="Tree320" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree320" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-647, 586)
 
-[node name="Tree321" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree321" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-656, 659)
 
-[node name="Tree322" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree322" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(621, 428)
 
-[node name="Tree323" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree323" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(591, 411)
 
-[node name="Tree324" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree324" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(515, 382)
 
-[node name="Tree325" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree325" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(510, 462)
 
-[node name="Tree326" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree326" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(532, 484)
 
-[node name="Tree327" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree327" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(594, 453)
 
-[node name="Tree328" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree328" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(663, 446)
 
-[node name="Tree329" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree329" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(546, 393)
 
-[node name="Tree330" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree330" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(636, 390)
 
-[node name="Tree331" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree331" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(801, -6)
 
-[node name="Tree332" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree332" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(831, -19)
 
-[node name="Tree333" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree333" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(862, 22)
 
-[node name="Tree334" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree334" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(770, -13)
 
-[node name="Tree335" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree335" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(780, 26)
 
-[node name="Tree336" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree336" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-865, -219)
 
-[node name="Tree337" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree337" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-855, -173)
 
-[node name="Tree338" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree338" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-837, -216)
 
-[node name="Tree339" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree339" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-901, -194)
 
-[node name="Tree340" parent="." instance=ExtResource("r13_snow_pine")]
+[node name="Tree340" parent="." instance=ExtResource("r14_snow_pine")]
 position = Vector2(-811, -154)
 
 [node name="Under0" type="Sprite2D" parent="."]
 position = Vector2(-960, -830)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under1" type="StaticBody2D" parent="."]
 position = Vector2(-966, 763)
@@ -1903,7 +1946,7 @@ position = Vector2(-966, 763)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under1"]
 position = Vector2(0, -3)
@@ -1914,20 +1957,20 @@ position = Vector2(-896, -827)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under3" type="Sprite2D" parent="."]
 position = Vector2(-867, 763)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under4" type="Sprite2D" parent="."]
 position = Vector2(-822, 763)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under5" type="StaticBody2D" parent="."]
 position = Vector2(-800, -817)
@@ -1936,7 +1979,7 @@ position = Vector2(-800, -817)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under5"]
 position = Vector2(0, -3)
@@ -1947,7 +1990,7 @@ position = Vector2(-730, -825)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under7" type="StaticBody2D" parent="."]
 position = Vector2(-693, -829)
@@ -1955,7 +1998,7 @@ position = Vector2(-693, -829)
 [node name="Sprite" type="Sprite2D" parent="Under7"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under7"]
 position = Vector2(0, -3)
@@ -1968,7 +2011,7 @@ position = Vector2(-650, -833)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under8"]
 position = Vector2(0, -3)
@@ -1978,7 +2021,7 @@ shape = SubResource("R22x8")
 position = Vector2(-658, 766)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under10" type="StaticBody2D" parent="."]
 position = Vector2(-519, 763)
@@ -1986,7 +2029,7 @@ position = Vector2(-519, 763)
 [node name="Sprite" type="Sprite2D" parent="Under10"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under10"]
 position = Vector2(0, -3)
@@ -1996,32 +2039,32 @@ shape = SubResource("R22x8")
 position = Vector2(-452, -826)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under12" type="Sprite2D" parent="."]
 position = Vector2(-315, 765)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under13" type="Sprite2D" parent="."]
 position = Vector2(-142, 765)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under14" type="Sprite2D" parent="."]
 position = Vector2(50, -824)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under15" type="Sprite2D" parent="."]
 position = Vector2(201, 759)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under16" type="StaticBody2D" parent="."]
 position = Vector2(240, 761)
@@ -2030,7 +2073,7 @@ position = Vector2(240, 761)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under16"]
 position = Vector2(0, -3)
@@ -2040,7 +2083,7 @@ shape = SubResource("R22x8")
 position = Vector2(263, -827)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under18" type="StaticBody2D" parent="."]
 position = Vector2(371, -815)
@@ -2048,7 +2091,7 @@ position = Vector2(371, -815)
 [node name="Sprite" type="Sprite2D" parent="Under18"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under18"]
 position = Vector2(0, -3)
@@ -2061,7 +2104,7 @@ position = Vector2(499, -826)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under19"]
 position = Vector2(0, -3)
@@ -2073,7 +2116,7 @@ position = Vector2(601, -821)
 [node name="Sprite" type="Sprite2D" parent="Under20"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under20"]
 position = Vector2(0, -3)
@@ -2084,7 +2127,7 @@ position = Vector2(776, -829)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under22" type="StaticBody2D" parent="."]
 position = Vector2(1010, 765)
@@ -2093,7 +2136,7 @@ position = Vector2(1010, 765)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under22"]
 position = Vector2(0, -3)
@@ -2103,7 +2146,7 @@ shape = SubResource("R22x8")
 position = Vector2(986, -802)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under24" type="StaticBody2D" parent="."]
 position = Vector2(997, -583)
@@ -2111,7 +2154,7 @@ position = Vector2(997, -583)
 [node name="Sprite" type="Sprite2D" parent="Under24"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under24"]
 position = Vector2(0, -3)
@@ -2123,7 +2166,7 @@ position = Vector2(-990, -562)
 [node name="Sprite" type="Sprite2D" parent="Under25"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under25"]
 position = Vector2(0, -3)
@@ -2135,7 +2178,7 @@ position = Vector2(990, -484)
 [node name="Sprite" type="Sprite2D" parent="Under26"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under26"]
 position = Vector2(0, -3)
@@ -2145,33 +2188,33 @@ shape = SubResource("R22x8")
 position = Vector2(987, -429)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under28" type="Sprite2D" parent="."]
 position = Vector2(-996, -42)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under29" type="Sprite2D" parent="."]
 position = Vector2(-985, -12)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under30" type="Sprite2D" parent="."]
 position = Vector2(993, 87)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under31" type="Sprite2D" parent="."]
 position = Vector2(983, 332)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under32" type="StaticBody2D" parent="."]
 position = Vector2(984, 356)
@@ -2179,7 +2222,7 @@ position = Vector2(984, 356)
 [node name="Sprite" type="Sprite2D" parent="Under32"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under32"]
 position = Vector2(0, -3)
@@ -2191,7 +2234,7 @@ position = Vector2(979, 593)
 [node name="Sprite" type="Sprite2D" parent="Under33"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under33"]
 position = Vector2(0, -3)
@@ -2201,7 +2244,7 @@ shape = SubResource("R22x8")
 position = Vector2(-981, 637)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under35" type="StaticBody2D" parent="."]
 position = Vector2(-995, 666)
@@ -2210,7 +2253,7 @@ position = Vector2(-995, 666)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under35"]
 position = Vector2(0, -3)
@@ -2222,7 +2265,7 @@ position = Vector2(-992, 702)
 [node name="Sprite" type="Sprite2D" parent="Under36"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under36"]
 position = Vector2(0, -3)
@@ -2233,7 +2276,7 @@ position = Vector2(983, 702)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under38" type="StaticBody2D" parent="."]
 position = Vector2(-992, 740)
@@ -2241,7 +2284,7 @@ position = Vector2(-992, 740)
 [node name="Sprite" type="Sprite2D" parent="Under38"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under38"]
 position = Vector2(0, -3)
@@ -2252,7 +2295,7 @@ position = Vector2(-951, -796)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under40" type="StaticBody2D" parent="."]
 position = Vector2(-906, -793)
@@ -2261,7 +2304,7 @@ position = Vector2(-906, -793)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under40"]
 position = Vector2(0, -3)
@@ -2271,13 +2314,13 @@ shape = SubResource("R22x8")
 position = Vector2(-837, 735)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under42" type="Sprite2D" parent="."]
 position = Vector2(-760, -804)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under43" type="StaticBody2D" parent="."]
 position = Vector2(-685, -792)
@@ -2286,7 +2329,7 @@ position = Vector2(-685, -792)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under43"]
 position = Vector2(0, -3)
@@ -2299,7 +2342,7 @@ position = Vector2(-625, -796)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under44"]
 position = Vector2(0, -3)
@@ -2309,20 +2352,20 @@ shape = SubResource("R22x8")
 position = Vector2(-514, -788)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under46" type="Sprite2D" parent="."]
 position = Vector2(-511, 735)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under47" type="Sprite2D" parent="."]
 position = Vector2(-435, 724)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under48" type="StaticBody2D" parent="."]
 position = Vector2(-360, -795)
@@ -2331,7 +2374,7 @@ position = Vector2(-360, -795)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under48"]
 position = Vector2(0, -3)
@@ -2341,14 +2384,14 @@ shape = SubResource("R22x8")
 position = Vector2(-312, -792)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under50" type="Sprite2D" parent="."]
 position = Vector2(-158, 731)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under51" type="StaticBody2D" parent="."]
 position = Vector2(-64, 730)
@@ -2356,7 +2399,7 @@ position = Vector2(-64, 730)
 [node name="Sprite" type="Sprite2D" parent="Under51"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under51"]
 position = Vector2(0, -3)
@@ -2368,7 +2411,7 @@ position = Vector2(80, -796)
 [node name="Sprite" type="Sprite2D" parent="Under52"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under52"]
 position = Vector2(0, -3)
@@ -2378,7 +2421,7 @@ shape = SubResource("R22x8")
 position = Vector2(36, 740)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under54" type="StaticBody2D" parent="."]
 position = Vector2(207, -807)
@@ -2386,7 +2429,7 @@ position = Vector2(207, -807)
 [node name="Sprite" type="Sprite2D" parent="Under54"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under54"]
 position = Vector2(0, -3)
@@ -2398,7 +2441,7 @@ position = Vector2(213, -787)
 [node name="Sprite" type="Sprite2D" parent="Under55"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under55"]
 position = Vector2(0, -3)
@@ -2411,7 +2454,7 @@ position = Vector2(287, 734)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under56"]
 position = Vector2(0, -3)
@@ -2421,14 +2464,14 @@ shape = SubResource("R22x8")
 position = Vector2(284, -792)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under58" type="Sprite2D" parent="."]
 position = Vector2(408, 733)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under59" type="StaticBody2D" parent="."]
 position = Vector2(440, -796)
@@ -2436,7 +2479,7 @@ position = Vector2(440, -796)
 [node name="Sprite" type="Sprite2D" parent="Under59"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under59"]
 position = Vector2(0, -3)
@@ -2447,7 +2490,7 @@ position = Vector2(494, -789)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under61" type="StaticBody2D" parent="."]
 position = Vector2(565, -795)
@@ -2455,7 +2498,7 @@ position = Vector2(565, -795)
 [node name="Sprite" type="Sprite2D" parent="Under61"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under61"]
 position = Vector2(0, -3)
@@ -2468,7 +2511,7 @@ position = Vector2(569, 744)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under62"]
 position = Vector2(0, -3)
@@ -2481,7 +2524,7 @@ position = Vector2(651, -792)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under63"]
 position = Vector2(0, -3)
@@ -2492,7 +2535,7 @@ position = Vector2(685, -784)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under65" type="StaticBody2D" parent="."]
 position = Vector2(728, 730)
@@ -2500,7 +2543,7 @@ position = Vector2(728, 730)
 [node name="Sprite" type="Sprite2D" parent="Under65"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under65"]
 position = Vector2(0, -3)
@@ -2511,14 +2554,14 @@ position = Vector2(802, 733)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under67" type="Sprite2D" parent="."]
 position = Vector2(880, -795)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under68" type="StaticBody2D" parent="."]
 position = Vector2(928, 731)
@@ -2527,7 +2570,7 @@ position = Vector2(928, 731)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under68"]
 position = Vector2(0, -3)
@@ -2539,7 +2582,7 @@ position = Vector2(-994, -714)
 [node name="Sprite" type="Sprite2D" parent="Under69"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under69"]
 position = Vector2(0, -3)
@@ -2550,39 +2593,39 @@ position = Vector2(-960, -515)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under71" type="Sprite2D" parent="."]
 position = Vector2(-957, -271)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under72" type="Sprite2D" parent="."]
 position = Vector2(-994, -185)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under73" type="Sprite2D" parent="."]
 position = Vector2(945, -67)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under74" type="Sprite2D" parent="."]
 position = Vector2(991, -21)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under75" type="Sprite2D" parent="."]
 position = Vector2(-945, 22)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under76" type="StaticBody2D" parent="."]
 position = Vector2(950, 12)
@@ -2590,7 +2633,7 @@ position = Vector2(950, 12)
 [node name="Sprite" type="Sprite2D" parent="Under76"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under76"]
 position = Vector2(0, -3)
@@ -2601,7 +2644,7 @@ position = Vector2(-989, 52)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under78" type="StaticBody2D" parent="."]
 position = Vector2(-948, 220)
@@ -2609,7 +2652,7 @@ position = Vector2(-948, 220)
 [node name="Sprite" type="Sprite2D" parent="Under78"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under78"]
 position = Vector2(0, -3)
@@ -2620,14 +2663,14 @@ position = Vector2(-986, 299)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under80" type="Sprite2D" parent="."]
 position = Vector2(-998, 339)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under81" type="StaticBody2D" parent="."]
 position = Vector2(963, 383)
@@ -2635,7 +2678,7 @@ position = Vector2(963, 383)
 [node name="Sprite" type="Sprite2D" parent="Under81"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under81"]
 position = Vector2(0, -3)
@@ -2646,13 +2689,13 @@ position = Vector2(966, 487)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under83" type="Sprite2D" parent="."]
 position = Vector2(1001, 535)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under84" type="StaticBody2D" parent="."]
 position = Vector2(994, 570)
@@ -2660,7 +2703,7 @@ position = Vector2(994, 570)
 [node name="Sprite" type="Sprite2D" parent="Under84"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under84"]
 position = Vector2(0, -3)
@@ -2670,14 +2713,14 @@ shape = SubResource("R22x8")
 position = Vector2(950, 624)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under86" type="Sprite2D" parent="."]
 position = Vector2(-827, -518)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under87" type="StaticBody2D" parent="."]
 position = Vector2(-772, -541)
@@ -2686,7 +2729,7 @@ position = Vector2(-772, -541)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under87"]
 position = Vector2(0, -3)
@@ -2699,7 +2742,7 @@ position = Vector2(-799, -586)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under88"]
 position = Vector2(0, -3)
@@ -2712,7 +2755,7 @@ position = Vector2(737, -666)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under89"]
 position = Vector2(0, -3)
@@ -2725,7 +2768,7 @@ position = Vector2(825, -650)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under90"]
 position = Vector2(0, -3)
@@ -2735,21 +2778,21 @@ shape = SubResource("R22x8")
 position = Vector2(713, -715)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under92" type="Sprite2D" parent="."]
 position = Vector2(739, -612)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under93" type="Sprite2D" parent="."]
 position = Vector2(-757, 654)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under94" type="StaticBody2D" parent="."]
 position = Vector2(495, 392)
@@ -2758,7 +2801,7 @@ position = Vector2(495, 392)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under94"]
 position = Vector2(0, -3)
@@ -2771,7 +2814,7 @@ position = Vector2(528, 403)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under95"]
 position = Vector2(0, -3)
@@ -2783,7 +2826,7 @@ position = Vector2(762, 32)
 [node name="Sprite" type="Sprite2D" parent="Under96"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under96"]
 position = Vector2(0, -3)
@@ -2794,53 +2837,53 @@ position = Vector2(376, 709)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under98" type="Sprite2D" parent="."]
 position = Vector2(619, 328)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under99" type="Sprite2D" parent="."]
 position = Vector2(629, 300)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under100" type="Sprite2D" parent="."]
 position = Vector2(950, -16)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under101" type="Sprite2D" parent="."]
 position = Vector2(-694, -550)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under102" type="Sprite2D" parent="."]
 position = Vector2(-671, -552)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under103" type="Sprite2D" parent="."]
 position = Vector2(-675, -528)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under104" type="Sprite2D" parent="."]
 position = Vector2(-695, 475)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under105" type="StaticBody2D" parent="."]
 position = Vector2(-395, -738)
@@ -2849,7 +2892,7 @@ position = Vector2(-395, -738)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under105"]
 position = Vector2(0, -3)
@@ -2862,7 +2905,7 @@ position = Vector2(-414, -739)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under106"]
 position = Vector2(0, -3)
@@ -2875,7 +2918,7 @@ position = Vector2(-370, -737)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under107"]
 position = Vector2(0, -3)
@@ -2888,7 +2931,7 @@ position = Vector2(-942, -51)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under108"]
 position = Vector2(0, -3)
@@ -2900,7 +2943,7 @@ position = Vector2(-921, -71)
 [node name="Sprite" type="Sprite2D" parent="Under109"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under109"]
 position = Vector2(0, -3)
@@ -2911,14 +2954,14 @@ position = Vector2(-768, -679)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under111" type="Sprite2D" parent="."]
 position = Vector2(-783, -652)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under112" type="StaticBody2D" parent="."]
 position = Vector2(-238, -755)
@@ -2927,7 +2970,7 @@ position = Vector2(-238, -755)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under112"]
 position = Vector2(0, -3)
@@ -2940,7 +2983,7 @@ position = Vector2(-218, -767)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under113"]
 position = Vector2(0, -3)
@@ -2952,7 +2995,7 @@ position = Vector2(-670, 66)
 [node name="Sprite" type="Sprite2D" parent="Under114"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under114"]
 position = Vector2(0, -3)
@@ -2965,7 +3008,7 @@ position = Vector2(-737, 60)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under115"]
 position = Vector2(0, -3)
@@ -2978,7 +3021,7 @@ position = Vector2(-718, 47)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under116"]
 position = Vector2(0, -3)
@@ -2988,51 +3031,51 @@ shape = SubResource("R22x8")
 position = Vector2(183, 213)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under118" type="Sprite2D" parent="."]
 position = Vector2(163, 241)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under119" type="Sprite2D" parent="."]
 position = Vector2(108, -622)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under120" type="Sprite2D" parent="."]
 position = Vector2(88, -628)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under121" type="Sprite2D" parent="."]
 position = Vector2(-357, 8)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under122" type="Sprite2D" parent="."]
 position = Vector2(-329, 5)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under123" type="Sprite2D" parent="."]
 position = Vector2(665, 682)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under124" type="Sprite2D" parent="."]
 position = Vector2(630, 686)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under125" type="StaticBody2D" parent="."]
 position = Vector2(146, 678)
@@ -3040,7 +3083,7 @@ position = Vector2(146, 678)
 [node name="Sprite" type="Sprite2D" parent="Under125"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under125"]
 position = Vector2(0, -3)
@@ -3053,7 +3096,7 @@ position = Vector2(203, 666)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under126"]
 position = Vector2(0, -3)
@@ -3065,7 +3108,7 @@ position = Vector2(189, 679)
 [node name="Sprite" type="Sprite2D" parent="Under127"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under127"]
 position = Vector2(0, -3)
@@ -3078,7 +3121,7 @@ position = Vector2(158, 651)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under128"]
 position = Vector2(0, -3)
@@ -3090,7 +3133,7 @@ position = Vector2(706, 16)
 [node name="Sprite" type="Sprite2D" parent="Under129"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under129"]
 position = Vector2(0, -3)
@@ -3102,7 +3145,7 @@ position = Vector2(682, 32)
 [node name="Sprite" type="Sprite2D" parent="Under130"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under130"]
 position = Vector2(0, -3)
@@ -3112,32 +3155,32 @@ shape = SubResource("R22x8")
 position = Vector2(-503, -677)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under132" type="Sprite2D" parent="."]
 position = Vector2(697, -13)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under133" type="Sprite2D" parent="."]
 position = Vector2(663, -9)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under134" type="Sprite2D" parent="."]
 position = Vector2(-421, -611)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under135" type="Sprite2D" parent="."]
 position = Vector2(-387, -620)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under136" type="StaticBody2D" parent="."]
 position = Vector2(-752, -103)
@@ -3146,7 +3189,7 @@ position = Vector2(-752, -103)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under136"]
 position = Vector2(0, -3)
@@ -3159,7 +3202,7 @@ position = Vector2(-787, -96)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under137"]
 position = Vector2(0, -3)
@@ -3169,13 +3212,13 @@ shape = SubResource("R22x8")
 position = Vector2(85, 607)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under139" type="Sprite2D" parent="."]
 position = Vector2(128, 590)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under140" type="StaticBody2D" parent="."]
 position = Vector2(415, 644)
@@ -3184,7 +3227,7 @@ position = Vector2(415, 644)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under140"]
 position = Vector2(0, -3)
@@ -3197,7 +3240,7 @@ position = Vector2(383, 674)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under141"]
 position = Vector2(0, -3)
@@ -3209,7 +3252,7 @@ position = Vector2(400, 662)
 [node name="Sprite" type="Sprite2D" parent="Under142"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under142"]
 position = Vector2(0, -3)
@@ -3220,14 +3263,14 @@ position = Vector2(739, 424)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
 [node name="Under144" type="Sprite2D" parent="."]
 position = Vector2(-882, 615)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+texture = ExtResource("r17_branch")
 
 [node name="Under145" type="StaticBody2D" parent="."]
 position = Vector2(779, 87)
@@ -3235,7 +3278,7 @@ position = Vector2(779, 87)
 [node name="Sprite" type="Sprite2D" parent="Under145"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under145"]
 position = Vector2(0, -3)
@@ -3247,7 +3290,7 @@ position = Vector2(763, 99)
 [node name="Sprite" type="Sprite2D" parent="Under146"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.5)
-texture = ExtResource("r17_stump")
+texture = ExtResource("r18_stump")
 
 [node name="Base" type="CollisionShape2D" parent="Under146"]
 position = Vector2(0, -3)
@@ -3260,7 +3303,7 @@ position = Vector2(64, -449)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under147"]
 position = Vector2(0, -3)
@@ -3272,7 +3315,7 @@ position = Vector2(42, -460)
 [node name="Sprite" type="Sprite2D" parent="Under148"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under148"]
 position = Vector2(0, -3)
@@ -3284,7 +3327,7 @@ position = Vector2(18, -464)
 [node name="Sprite" type="Sprite2D" parent="Under149"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under149"]
 position = Vector2(0, -3)
@@ -3297,7 +3340,7 @@ position = Vector2(-305, 110)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under150"]
 position = Vector2(0, -3)
@@ -3310,114 +3353,152 @@ position = Vector2(-1, -112)
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under151"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Under152" type="Sprite2D" parent="."]
-position = Vector2(-478, 25)
+[node name="Under152" type="StaticBody2D" parent="."]
+position = Vector2(791, -162)
+
+[node name="Sprite" type="Sprite2D" parent="Under152"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
-offset = Vector2(0, -13.0)
-texture = ExtResource("r16_branch")
+offset = Vector2(0, -10.5)
+texture = ExtResource("r18_stump")
+
+[node name="Base" type="CollisionShape2D" parent="Under152"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
 [node name="Under153" type="StaticBody2D" parent="."]
-position = Vector2(-87, 58)
+position = Vector2(593, -38)
 
 [node name="Sprite" type="Sprite2D" parent="Under153"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Under153"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Under154" type="StaticBody2D" parent="."]
-position = Vector2(-22, -759)
+[node name="Under154" type="Sprite2D" parent="."]
+position = Vector2(-478, 25)
+modulate = Color(0.86, 0.92, 1.0, 1)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r17_branch")
 
-[node name="Sprite" type="Sprite2D" parent="Under154"]
+[node name="Under155" type="StaticBody2D" parent="."]
+position = Vector2(-87, 58)
+
+[node name="Sprite" type="Sprite2D" parent="Under155"]
 modulate = Color(0.86, 0.92, 1.0, 1)
 flip_h = true
 offset = Vector2(0, -10.0)
-texture = ExtResource("r15_rock")
+texture = ExtResource("r16_rock")
 
-[node name="Base" type="CollisionShape2D" parent="Under154"]
+[node name="Base" type="CollisionShape2D" parent="Under155"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Under155" type="Sprite2D" parent="."]
+[node name="Under156" type="StaticBody2D" parent="."]
+position = Vector2(-22, -759)
+
+[node name="Sprite" type="Sprite2D" parent="Under156"]
+modulate = Color(0.86, 0.92, 1.0, 1)
+flip_h = true
+offset = Vector2(0, -10.0)
+texture = ExtResource("r16_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Under156"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under157" type="Sprite2D" parent="."]
 position = Vector2(142, -102)
 modulate = Color(0.86, 0.92, 1.0, 1)
 offset = Vector2(0, -4.5)
-texture = ExtResource("r14_pinecones")
+texture = ExtResource("r15_pinecones")
 
-[node name="Npc_goat0" parent="." instance=ExtResource("r18_npc")]
+[node name="Under158" type="Sprite2D" parent="."]
+position = Vector2(128, -224)
+modulate = Color(0.86, 0.92, 1.0, 1)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r17_branch")
+
+[node name="Under159" type="Sprite2D" parent="."]
+position = Vector2(453, -21)
+modulate = Color(0.86, 0.92, 1.0, 1)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r17_branch")
+
+[node name="Npc_goat0" parent="." instance=ExtResource("r19_npc")]
 position = Vector2(-620, 470)
 npc_id = &"goat"
 display_name = "Mountain Goat"
-sprite_frames = ExtResource("r19_goat_frames")
+sprite_frames = ExtResource("r20_goat_frames")
 lines = PackedStringArray("Meh-eh-eh.")
 wander_radius = 60.0
 sprite_offset_y = -16.0
 
-[node name="Npc_goat1" parent="." instance=ExtResource("r18_npc")]
+[node name="Npc_goat1" parent="." instance=ExtResource("r19_npc")]
 position = Vector2(-540, 530)
 npc_id = &"goat"
 display_name = "Mountain Goat"
-sprite_frames = ExtResource("r19_goat_frames")
+sprite_frames = ExtResource("r20_goat_frames")
 lines = PackedStringArray("...")
 wander_radius = 60.0
 sprite_offset_y = -16.0
 
-[node name="Npc_goat2" parent="." instance=ExtResource("r18_npc")]
+[node name="Npc_goat2" parent="." instance=ExtResource("r19_npc")]
 position = Vector2(620, -640)
 npc_id = &"goat"
 display_name = "Mountain Goat"
-sprite_frames = ExtResource("r19_goat_frames")
+sprite_frames = ExtResource("r20_goat_frames")
 lines = PackedStringArray("Mehh.")
 wander_radius = 60.0
 sprite_offset_y = -16.0
 
-[node name="Npc_hald" parent="." instance=ExtResource("r18_npc")]
+[node name="Npc_hald" parent="." instance=ExtResource("r19_npc")]
 position = Vector2(540, -80)
 npc_id = &"hald"
 display_name = "Hald"
-sprite_frames = ExtResource("r20_hald_frames")
-lines = PackedStringArray("Frisalle's over the pass. Nobody's crossed since the slide. Nobody's tried very hard.", "The slide came down the week after the last barge went north. The Company men were up here with powder the week before. Make of that what you like.")
+sprite_frames = ExtResource("r21_hald_frames")
+lines = PackedStringArray("Frisalle's over the pass. Nobody's crossed since the slide. Nobody's tried very hard.", "The slide came down the week after the last barge went north. The Company men were up here with powder the week before. Make of that what you like.", "There's a cave in the east shoulder, past my woodpile. Ice all the way through. The wolves den in it now. The Company used it before the wolves did.")
 wander_radius = 30.0
 
 [node name="Read0" type="Node2D" parent="."]
 position = Vector2(120, -660)
-script = ExtResource("r21_readable")
+script = ExtResource("r22_readable")
 title = "The Starfall stone"
 lines = PackedStringArray("The last of the stones, high under the pass. The crown is carved here too, and the line of figures. But on this one the line doesn't stop: it runs down the stone and into the snow.", "Scratched at the bottom, fresh: a crown, crossed out.")
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(-60, -780)
-script = ExtResource("r21_readable")
+script = ExtResource("r22_readable")
 title = "The pass to Frisalle"
 lines = PackedStringArray("Snow and boulders to twice your height, packed hard. A sign hammered into the drift: 'PASS CLOSED. Frisalle beyond.'", "Drill holes in the rock above the slide. Somebody brought it down on purpose.")
 
 [node name="Read2" type="Node2D" parent="."]
 position = Vector2(-200, 380)
-script = ExtResource("r21_readable")
+script = ExtResource("r22_readable")
 title = "Frozen cart tracks"
 lines = PackedStringArray("Wagon ruts frozen into the old road, heading north. Deep ones: a heavy load, or a lot of people.")
 
 [node name="Chest_tarn_cache" type="StaticBody2D" parent="."]
 position = Vector2(-700, -80)
-script = ExtResource("r22_chest")
+script = ExtResource("r23_chest")
 chest_id = &"starfall_range_tarn_cache"
 card_id = &""
 gold = 30
 item_id = &"healers_tonic"
 item_count = 1
-closed_texture = ExtResource("r23_chest")
-open_texture = ExtResource("r24_chest_open")
+closed_texture = ExtResource("r24_chest")
+open_texture = ExtResource("r25_chest_open")
 
 [node name="Base" type="CollisionShape2D" parent="Chest_tarn_cache"]
 position = Vector2(0, -5)
@@ -3425,12 +3506,12 @@ shape = SubResource("R30x10")
 
 [node name="Chest_pass_cairn" type="StaticBody2D" parent="."]
 position = Vector2(330, -700)
-script = ExtResource("r22_chest")
+script = ExtResource("r23_chest")
 chest_id = &"starfall_range_pass_cairn"
 card_id = &"elderwood_heart"
 gold = 50
-closed_texture = ExtResource("r23_chest")
-open_texture = ExtResource("r24_chest_open")
+closed_texture = ExtResource("r24_chest")
+open_texture = ExtResource("r25_chest_open")
 
 [node name="Base" type="CollisionShape2D" parent="Chest_pass_cairn"]
 position = Vector2(0, -5)
@@ -3438,37 +3519,37 @@ shape = SubResource("R30x10")
 
 [node name="Chest_valley_pack" type="StaticBody2D" parent="."]
 position = Vector2(700, 520)
-script = ExtResource("r22_chest")
+script = ExtResource("r23_chest")
 chest_id = &"starfall_range_valley_pack"
 card_id = &""
 gold = 0
 item_id = &"bread"
 item_count = 2
-closed_texture = ExtResource("r23_chest")
-open_texture = ExtResource("r24_chest_open")
+closed_texture = ExtResource("r24_chest")
+open_texture = ExtResource("r25_chest_open")
 
 [node name="Base" type="CollisionShape2D" parent="Chest_valley_pack"]
 position = Vector2(0, -5)
 shape = SubResource("R30x10")
 
-[node name="FrostWolf0" parent="." instance=ExtResource("r25_frost_wolf")]
+[node name="FrostWolf0" parent="." instance=ExtResource("r26_frost_wolf")]
 position = Vector2(-400, 420)
 
-[node name="FrostWolf1" parent="." instance=ExtResource("r25_frost_wolf")]
+[node name="FrostWolf1" parent="." instance=ExtResource("r26_frost_wolf")]
 position = Vector2(420, 450)
 
-[node name="FrostWolf2" parent="." instance=ExtResource("r25_frost_wolf")]
+[node name="FrostWolf2" parent="." instance=ExtResource("r26_frost_wolf")]
 position = Vector2(-620, -200)
 
-[node name="FrostWolf3" parent="." instance=ExtResource("r25_frost_wolf")]
+[node name="FrostWolf3" parent="." instance=ExtResource("r26_frost_wolf")]
 position = Vector2(240, -560)
 
-[node name="FrostWolf4" parent="." instance=ExtResource("r25_frost_wolf")]
+[node name="FrostWolf4" parent="." instance=ExtResource("r26_frost_wolf")]
 position = Vector2(720, -520)
 
 [node name="Snowfall" type="Node2D" parent="."]
 z_index = 20
-script = ExtResource("r26_snowfall")
+script = ExtResource("r27_snowfall")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 720)

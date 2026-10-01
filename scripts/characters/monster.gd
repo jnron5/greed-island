@@ -36,6 +36,8 @@ var health := 0
 var facing := Vector2.DOWN
 
 var _state := State.WANDER
+## Seconds left frozen solid (a Frostfang sword hit): no moving, no attacking.
+var _frozen := 0.0
 var _state_time := 0.0
 var _spawn_point := Vector2.ZERO
 var _wander_target := Vector2.ZERO
@@ -69,6 +71,14 @@ func _physics_process(delta: float) -> void:
 	if _flash > 0.0:
 		_flash -= delta
 		sprite.modulate = Color(3, 3, 3) if _flash > 0.0 else Color.WHITE
+	if _frozen > 0.0 and _state != State.DEAD:
+		_frozen -= delta
+		velocity = Vector2.ZERO
+		sprite.modulate = Color(0.6, 0.85, 1.4) if _frozen > 0.0 else Color.WHITE
+		sprite.speed_scale = 0.0 if _frozen > 0.0 else 1.0
+		move_and_slide()
+		queue_redraw()
+		return
 	match _state:
 		State.WANDER:
 			_process_wander()
@@ -168,7 +178,14 @@ func _on_hurt(hitbox: Hitbox) -> void:
 	for node in get_tree().get_nodes_in_group(&"collectors"):
 		if node.get(&"collector_id") == hitbox.source_id:
 			_target = node
+	if hitbox.freeze > 0.0 and health > 0:
+		_frozen = maxf(_frozen, hitbox.freeze)
+		attack_shape.set_deferred(&"disabled", true)
+		sprite.offset.x = 0.0
+		_enter(State.STAGGER)
 	if health <= 0:
+		_frozen = 0.0
+		sprite.speed_scale = 1.0
 		_die()
 	elif _state != State.LUNGE:
 		attack_shape.set_deferred(&"disabled", true)

@@ -443,6 +443,7 @@ STARFALL = {
     "paths": [
         ([(0, 790), (-60, 420), (-224, 300), (-224, 130), (100, -150), (288, -300), (288, -470), (0, -640), (-100, -820)], 24),
         ([(100, -150), (450, -60), (550, -60)], 16),                        # to the hermit's cabin
+        ([(560, -60), (860, -156)], 14),                                    # on to the ice grotto
         ([(-224, 100), (-450, 40), (-544, 100), (-544, 260)], 16),          # round the tarn, down the west stairs
     ],
     "ice": [(-480, -120, 170, 90)],
@@ -455,7 +456,9 @@ STARFALL = {
     "exits": [
         {"name": "ToLakeSerin", "pos": (0, 788), "side": "s", "target": "res://scenes/world/lake_serin.tscn", "spawn": "from_starfall"},
     ],
-    "spawns": {"from_lake_serin": (0, 720)},
+    "spawns": {"from_lake_serin": (0, 720), "from_grotto": (860, -150)},
+    # The Frost Grotto under the east shoulder (build_grotto.py).
+    "portals": [{"name": "ToGrotto", "pos": (860, -224), "target": "res://scenes/world/starfall_grotto.tscn", "spawn": "from_starfall"}],
     "rival_spots": {"runner": (-40, 660), "raider": (40, 660), "hoarder": (0, 620)},
     "buildings": [
         {"node": "HouseHald", "sprite": SF + "hermit_cabin.png", "pos": (620, -110), "foot": 130, "door": "res://scenes/world/interiors/starfall_cabin.tscn",
@@ -466,6 +469,8 @@ STARFALL = {
         [{"sprite": BOULDER, "pos": (x, y), "foot": (40, 18), "scale": 1.6, "tint": (0.92, 0.96, 1.05, 1)}
          for x, y in [(-180, -840), (-130, -860), (-80, -845), (-30, -862), (20, -840), (-110, -815), (-50, -820)]]
         + [{"sprite": STONE, "pos": (120, -700), "foot": (26, 12), "scale": 1.3, "light": ((0.7, 0.85, 1.0, 1), 0.45, 1.2)}]
+        + [{"sprite": SF + "ice_cave_mouth.png", "pos": (860, -196), "feet": [(-56, -20, 50, 40), (56, -20, 50, 40), (0, -52, 64, 22)],
+            "light": ((0.55, 0.85, 1.0, 1), 0.5, 1.0)}]
         # Snow-capped boulders where the slopes shed them, and ice crystals that glow blue.
         + [{"sprite": SNOW_BOULDER, "pos": p, "foot": (52, 18), "flip": i % 2 == 1} for i, p in enumerate(
             [(-820, 420), (-300, 560), (260, 600), (820, 250), (-760, -330), (560, -420), (-380, -520), (760, -760), (180, 330)])]
@@ -481,6 +486,7 @@ STARFALL = {
         {"id": "hald", "name": "Hald", "pos": (540, -80), "wander": 30, "lines": [
             "Frisalle's over the pass. Nobody's crossed since the slide. Nobody's tried very hard.",
             "The slide came down the week after the last barge went north. The Company men were up here with powder the week before. Make of that what you like.",
+            "There's a cave in the east shoulder, past my woodpile. Ice all the way through. The wolves den in it now. The Company used it before the wolves did.",
         ]},
     ],
     "readables": [

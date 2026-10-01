@@ -75,6 +75,22 @@ func _run() -> void:
 	add_child(shot)
 	await get_tree().create_timer(0.15).timeout
 	_check("a charged round bursts where it stops", get_children().any(func(c: Node) -> bool: return c is Explosion))
+	# Frostfang: worn, the sword freezes what it hits.
+	GameState.add_loose_card(P, &"frostfang_charm")
+	GameState.unequip(&"emberburst_rounds")
+	_check("wear the Frostfang Charm", GameState.equip(&"frostfang_charm") and player.sword_hitbox.freeze > 0.0)
+	var cold := Hitbox.new()
+	cold.damage = 0
+	cold.freeze = player.sword_hitbox.freeze
+	cold.source_id = P
+	hounds[0].health = 5
+	hounds[0]._on_hurt(cold)
+	var at := hounds[0].global_position
+	await get_tree().create_timer(0.5).timeout
+	_check("a Frostfang hit freezes a monster in place", hounds[0]._frozen > 0.0 and hounds[0].global_position.distance_to(at) < 1.0)
+	cold.free()
+	GameState.unequip(&"frostfang_charm")
+	_check("taking it off thaws the sword", player.sword_hitbox.freeze == 0.0)
 	for hound in hounds:
 		hound.queue_free()
 	# The rebuy shelf: a card spent on a gate can be bought back, at a price.
