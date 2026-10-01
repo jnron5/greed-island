@@ -517,6 +517,8 @@ class Zone:
             targets["chest " + ch["id"]] = (x, y + 16)
         for scene_path, (x, y) in c.get("monsters", []):
             keep.append((x, y, 80))
+        if c.get("merchant"):
+            keep.append((*c["merchant"][0], 60))
         for ex in c.get("exits", []):
             keep.append((*ex["pos"], 80))
             targets["exit " + ex["name"]] = ex["pos"]
@@ -742,6 +744,38 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
                          f'[node name="CampfireLight{k}" type="PointLight2D" parent="."]\nposition = Vector2({x}, {y - 24})\n'
                          f'texture_scale = 1.8\nscript = ExtResource("8_lamp")\nalways_on = true\nmax_energy = 0.9\nflicker = 0.18\n')
 
+        # A card merchant's stall (scenes/systems/merchant.tscn).
+        if c.get("merchant"):
+            (mx, my), stall = c["merchant"]
+            solids.append((mx - 30, my - 16, mx + 30, my))
+            n.append(f'[node name="Merchant" parent="." instance=ExtResource("{res("PackedScene", "res://scenes/systems/merchant.tscn")}")]\n'
+                     f'position = Vector2({mx}, {my})\nstall_texture = ExtResource("{texture(stall)}")\n')
+        # Things floating on the water (lily pads, moored boats): no collision, drawn
+        # just above the water.
+        for k, (path, (x, y), flip) in enumerate(c.get("afloat", [])):
+            n.append(f'[node name="Afloat{k}" type="Sprite2D" parent="."]\nz_index = -8\nposition = Vector2({x}, {y})\n'
+                     + ("flip_h = true\n" if flip else "") + f'texture = ExtResource("{texture(path)}")\n')
+        # Animated decor (a heron fishing, hens pecking): PixelLab frame strips, no collision.
+        for k, d in enumerate(c.get("decor", [])):
+            strip = d["strip"]
+            im = Image.open(strip)
+            fw, fh = im.width // d["frames"], im.height
+            key = res("Texture2D", "res://" + strip)
+            sid = f"decor_{os.path.basename(strip)[:-4]}"
+            if f"{sid}_frames" not in subs:
+                refs = []
+                for f in range(d["frames"]):
+                    subs[f"{sid}_{f}"] = (f'[sub_resource type="AtlasTexture" id="{sid}_{f}"]\natlas = ExtResource("{key}")\n'
+                                          f'region = Rect2({f * fw}, 0, {fw}, {fh})\n')
+                    refs.append(f'{{\n"duration": 1.0,\n"texture": SubResource("{sid}_{f}")\n}}')
+                subs[f"{sid}_frames"] = (f'[sub_resource type="SpriteFrames" id="{sid}_frames"]\nanimations = [{{\n"frames": [{", ".join(refs)}],\n'
+                                         f'"loop": true,\n"name": &"default",\n"speed": {d.get("fps", 5)}\n}}]\n')
+            x, y = d["pos"]
+            bottom = max(im.crop((f * fw, 0, (f + 1) * fw, fh)).getbbox()[3] for f in range(d["frames"]))
+            n.append(f'[node name="Decor{k}" type="AnimatedSprite2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                     + ("z_index = -8\n" if d.get("afloat") else "") + ("flip_h = true\n" if d.get("flip") else "")
+                     + f'offset = Vector2(0, {fh / 2 - bottom + 1})\nsprite_frames = SubResource("{sid}_frames")\nautoplay = "default"\n'
+                     f'frame = {k * 3 % d["frames"]}\nspeed_scale = {0.8 + (k * 37 % 11) / 25:.2f}\n')
         # Scene instances placed by hand (a great tree in a square, ...).
         for k, (scene_res, (x, y), scale) in enumerate(c.get("instances", [])):
             n.append(f'[node name="Feature{k}" parent="." instance=ExtResource("{res("PackedScene", scene_res)}")]\n'
@@ -797,10 +831,11 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
             if npc.get("shop"):
                 shop = (f'shop_stock = Array[StringName]([{", ".join("&" + chr(34) + s + chr(34) for s in npc["shop"])}])\n'
                         f'shop_buys_cards = {"true" if npc.get("buys_cards") else "false"}\nshop_title = "{npc.get("shop_title", "")}"\n')
-            n.append(f'[node name="Npc_{npc["id"]}" parent="." instance=ExtResource("{res("PackedScene", "res://scenes/characters/npc.tscn")}")]\n'
+            n.append(f'[node name="{npc.get("node", "Npc_" + npc["id"])}" parent="." instance=ExtResource("{res("PackedScene", "res://scenes/characters/npc.tscn")}")]\n'
                      f'position = Vector2({x}, {y})\nnpc_id = &"{npc["id"]}"\ndisplay_name = "{npc["name"]}"\n'
                      f'sprite_frames = ExtResource("{res("SpriteFrames", frames)}")\n'
-                     f'lines = PackedStringArray({quote(npc["lines"])})\nwander_radius = {float(npc.get("wander", 0))}\n{shop}')
+                     f'lines = PackedStringArray({quote(npc["lines"])})\nwander_radius = {float(npc.get("wander", 0))}\n{shop}'
+                     + (f'sprite_offset_y = {npc["offset"]}\n' if "offset" in npc else ""))
         for k, (title, (x, y), lines) in enumerate(c.get("readables", [])):
             n.append(f'[node name="Read{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                      f'script = ExtResource("{res("Script", "res://scripts/systems/readable.gd")}")\ntitle = "{title}"\n'

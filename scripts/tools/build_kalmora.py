@@ -816,6 +816,10 @@ BAY_MASK = ART + "kalmora_bay_mask.png"
 # Things in town worth reading (scripts/systems/readable.gd): (title, concept px, lines).
 # They carry the story quietly: the race, the Calloways' money, the southern barges.
 TOWN_READABLES = [
+    ("The west road signpost", (150, 372), [
+        "An arm points west: 'AUREWIND PLAINS - VERDANA - LAKE SERIN'. Under it, carved smaller: 'Gate opens to the Warden's crest.'",
+        "Someone has added in chalk: 'good luck with THAT'.",
+    ]),
     ("The notice board", (704, 462), [
         "ROYAL PROCLAMATION. The Race of Cards is open to all who reach Kalmora by sea. The first to present the full set at Vetrassa shall receive riches beyond measure, by the King's own hand.",
         "Pinned beneath it, newer: 'WORKERS WANTED - DUSKARA. Good pay, in cards. Small hands preferred. Enquire at the harbor.'",

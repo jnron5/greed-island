@@ -472,6 +472,89 @@ INTERIORS = {
             ]),
         ],
     },
+    "verdana_weaver": {
+        "town": "res://scenes/world/verdana.tscn",
+        "name": "Oda's Cottage",
+        "image": "assets/sprites/tiles/verdana/interiors/weaver_room.png",
+        "size": (288, 224),
+        "exit": (144, 196), "back_to": "from_houseweaver", "spawn": (144, 168),
+        "blocks": [
+            (34, 20, 253, 92), (112, 74, 160, 130), (164, 90, 184, 110),     # yarn shelves, loom, basket
+            (46, 92, 84, 112), (50, 112, 74, 150), (46, 150, 84, 172),       # baskets, hearth, baskets
+            (208, 86, 240, 142), (154, 114, 186, 148),                       # bed, spinning wheel
+            (34, 20, 44, 196), (243, 20, 253, 196),
+            (34, 176, 128, 196), (160, 176, 253, 196),
+        ],
+        "npcs": [],
+        "readables": [
+            ("A half-woven tapestry", (104, 150), [
+                "On the loom: a long procession of small figures walking west under a golden sky, each one carrying a sack. Oda has woven them in every colour she owns.",
+                "The last figures are only outlines, pinned in place and waiting for thread.",
+            ]),
+        ],
+    },
+    "verdana_bakery": {
+        "town": "res://scenes/world/verdana.tscn",
+        "name": "Pim's Bakery",
+        "image": "assets/sprites/tiles/verdana/interiors/bakery_room.png",
+        "size": (288, 224),
+        "exit": (142, 200), "back_to": "from_housebakery", "spawn": (142, 170),
+        "blocks": [
+            (32, 24, 256, 82), (124, 24, 176, 92), (40, 40, 104, 90),        # back wall, oven, bread racks
+            (208, 62, 246, 112), (40, 100, 106, 130), (40, 120, 62, 184),    # flour sacks, pie table, rolls rack
+            (110, 98, 206, 134), (162, 146, 216, 184),                       # counter, kneading table
+            (32, 24, 40, 200), (248, 24, 256, 200),
+            (32, 188, 124, 200), (160, 188, 256, 200),
+        ],
+        "npcs": [],
+        "readables": [
+            ("The order book", (100, 146), [
+                "Pim's orders, by the week. The Sheaf & Sickle, the Hensley farm, Old Aldous (one small loaf, no crusts). And a standing order, larger than the rest put together: 'D.M.C. - hard bread, keeps a month. Deliver to the dune road cart.'",
+                "The last three weeks' crosses are missing. Nobody came to collect.",
+            ]),
+        ],
+    },
+    "verdana_barn": {
+        "town": "res://scenes/world/verdana.tscn",
+        "name": "The Hensley Barn",
+        "image": "assets/sprites/tiles/verdana/interiors/barn_room.png",
+        "size": (288, 224),
+        "exit": (144, 204), "back_to": "from_housebarn", "spawn": (144, 166),
+        "blocks": [
+            (28, 20, 260, 86), (38, 94, 90, 140), (96, 82, 114, 130),        # loft and hay, cow stall, ladder
+            (124, 94, 176, 140), (220, 94, 250, 122), (184, 112, 250, 158),  # goat stall and post, sacks, cart
+            (28, 20, 38, 204), (250, 20, 260, 204),
+            (28, 180, 112, 204), (176, 180, 260, 204),
+        ],
+        "npcs": [],
+        "readables": [
+            ("A child's cot in the loft", (110, 150), [
+                "Up the ladder, tucked behind the hay: a little straw bed, a blanket, a tin cup. Somebody small slept here, and not long ago.",
+                "Scratched into the beam: a crown, crossed out. Same as on the Starfall stone.",
+            ]),
+        ],
+    },
+    "verdana_mill": {
+        "town": "res://scenes/world/verdana.tscn",
+        "name": "Verdana Mill",
+        "image": "assets/sprites/tiles/verdana/interiors/mill_room.png",
+        "size": (288, 224),
+        "exit": (144, 222), "back_to": "from_housemill", "spawn": (144, 180),
+        "blocks": [
+            (6, 0, 282, 50), (150, 40, 232, 82), (34, 52, 112, 104),         # wall top, stair, sacks
+            (96, 96, 196, 164), (214, 62, 262, 160),                         # millstones, scale and ledger desk
+            (40, 160, 72, 196), (186, 164, 246, 196),                        # sacks
+            (6, 0, 40, 224), (248, 0, 282, 224), (40, 50, 70, 90), (218, 50, 248, 90),
+            (40, 176, 80, 224), (208, 176, 248, 224), (80, 196, 124, 224), (164, 196, 208, 224),
+        ],
+        "npcs": [],
+        "readables": [
+            ("The miller's ledger", (176, 176), [
+                "'Flour to the Company: 200 sacks, one third market, by agreement.' The same line, month after month, in the same tired hand.",
+                "On the last page: 'Asked where it goes. Told it feeds the workers. Asked which workers. Told to mind the stones.'",
+            ]),
+        ],
+    },
     "serin_fisher_hut": {
         "town": "res://scenes/world/lake_serin.tscn",
         "name": "Neri's Hut",

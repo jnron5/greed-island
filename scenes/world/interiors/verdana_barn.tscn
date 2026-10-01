@@ -1,0 +1,159 @@
+[gd_scene load_steps=23 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/verdana/interiors/barn_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R232x66"]
+size = Vector2(232, 66)
+
+[sub_resource type="RectangleShape2D" id="R52x46"]
+size = Vector2(52, 46)
+
+[sub_resource type="RectangleShape2D" id="R18x48"]
+size = Vector2(18, 48)
+
+[sub_resource type="RectangleShape2D" id="R30x28"]
+size = Vector2(30, 28)
+
+[sub_resource type="RectangleShape2D" id="R66x46"]
+size = Vector2(66, 46)
+
+[sub_resource type="RectangleShape2D" id="R10x184"]
+size = Vector2(10, 184)
+
+[sub_resource type="RectangleShape2D" id="R84x24"]
+size = Vector2(84, 24)
+
+[sub_resource type="RectangleShape2D" id="R368x40"]
+size = Vector2(368, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x284"]
+size = Vector2(40, 284)
+
+[sub_resource type="RectangleShape2D" id="R288x244"]
+size = Vector2(288, 244)
+
+[node name="verdana_barn" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Hensley Barn"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(144.0, 112.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(144.0, 112.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 53.0)
+shape = SubResource("R232x66")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(64.0, 117.0)
+shape = SubResource("R52x46")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(105.0, 106.0)
+shape = SubResource("R18x48")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(150.0, 117.0)
+shape = SubResource("R52x46")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(235.0, 108.0)
+shape = SubResource("R30x28")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(217.0, 135.0)
+shape = SubResource("R66x46")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(33.0, 112.0)
+shape = SubResource("R10x184")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(255.0, 112.0)
+shape = SubResource("R10x184")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(70.0, 192.0)
+shape = SubResource("R84x24")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(218.0, 192.0)
+shape = SubResource("R84x24")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, -20.0)
+shape = SubResource("R368x40")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 142.0)
+shape = SubResource("R40x284")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(144.0, 264.0)
+shape = SubResource("R368x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(144.0, 112.0)
+shape = SubResource("R288x244")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(144, 166)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(144, 204)
+target_scene = "res://scenes/world/verdana.tscn"
+target_spawn = &"from_housebarn"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(110, 150)
+script = ExtResource("12_read")
+title = "A child's cot in the loft"
+lines = PackedStringArray("Up the ladder, tucked behind the hay: a little straw bed, a blanket, a tin cup. Somebody small slept here, and not long ago.", "Scratched into the beam: a crown, crossed out. Same as on the Starfall stone.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(144, 166)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

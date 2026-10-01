@@ -31,6 +31,9 @@ HAY = AW + "hay_bale.png"
 SCARECROW = AW + "scarecrow.png"
 FENCE = KP + "fence.png"
 BOULDER = K2 + "props/boulder.png"
+WALL = AW + "stone_wall.png"
+SNOW_BOULDER = SF + "snow_boulder.png"
+ICE = SF + "ice_crystals.png"
 
 
 def wob(x, y, amp=28):
@@ -40,6 +43,17 @@ def wob(x, y, amp=28):
 def fence_row(x0, x1, y, gap_at=()):
     return [{"sprite": FENCE, "pos": (x, y), "foot": (16, 6)}
             for x in range(x0, x1 + 1, 16) if all(abs(x - g) > 24 for g in gap_at)]
+
+
+def wall_row(x0, x1, y, gap_at=()):
+    """A dry-stone wall along y, in 46 px sections, open where a gate or path goes."""
+    return [{"sprite": WALL, "pos": (x, y), "foot": (46, 10)}
+            for x in range(x0 + 23, x1 - 22, 46) if all(abs(x - g) > 40 for g in gap_at)]
+
+
+def wall_col(x, y0, y1):
+    """A dry-stone wall running north-south: sections end-on, stacked close."""
+    return [{"sprite": AW + "stone_wall_end.png", "pos": (x, y), "foot": (20, 10)} for y in range(y0 + 10, y1 - 4, 10)]
 
 
 def ring(cx, cy, r, count, sprite, foot, start=0.3):
@@ -111,6 +125,8 @@ AUREWIND = {
         # The dune road, closed: a rockfall across it and a broken ore cart.
         + [{"sprite": BOULDER, "pos": p, "foot": (40, 18), "scale": 1.4} for p in [(-1180, 104), (-1170, 146), (-1186, 190), (-1140, 124)]]
         + [{"sprite": KP + "cart.png", "pos": (-1080, 206), "foot": (44, 14), "flip": True}]
+        # Tilly's sheepfold: a dry-stone pen by the road, open to the south.
+        + wall_row(-270, -30, -260) + wall_row(-270, -30, -50, gap_at=(-150,)) + wall_col(-270, -260, -50) + wall_col(-30, -260, -50)
         # The travellers' camp.
         + [{"sprite": TV + "tent.png", "pos": (-120, 300), "foot": (60, 20)}]
         + [{"sprite": KP + "signpost.png", "pos": (-240, 120), "foot": (8, 6)}]
@@ -118,6 +134,10 @@ AUREWIND = {
     "campfires": [(-30, 330)],
     "lanterns": [(-300, 20), (420, -30), (820, 110), (-820, 80), (-640, -520), (120, -330)],
     "npcs": [
+        # Tilly's flock, in the sheepfold.
+        *[{"id": "sheep", "node": f"Npc_sheep{k}", "name": "Sheep", "pos": p, "wander": 36, "offset": -14.0, "lines": [line]}
+          for k, (p, line) in enumerate([((-210, -200), "Baa."), ((-110, -210), "Baaa."), ((-70, -130), "Mm-baa."),
+                                          ((-220, -110), "...Baa?")])],
         {"id": "tilly", "name": "Tilly", "pos": (-150, -140), "wander": 50, "lines": [
             "Mind the rams. They're mine, mostly. The ones with the bristles on their backs aren't anyone's.",
             "The stones up on the downs hum when the wind's in the east. Grandad says they're counting.",
@@ -181,8 +201,13 @@ VERDANA = {
         ([(100, 140), (300, 250), (470, 350)], 18),                          # to the windmill
         ([(140, -20), (420, -110), (420, -180)], 18),                        # to the stairs
         ([(430, -260), (600, -300), (620, -320)], 16),                       # up on the green, to the scholar's door
+        ([(240, 110), (394, 140)], 16),                                      # to the bakery door
+        ([(40, 200), (86, 410)], 16),                                        # to the weaver's door
     ],
-    "plazas": [(0, 60, 250, 150)],                                           # the square, cobbled
+    "plazas": [(0, 60, 250, 150)],
+    # Hens scratching round the farmhouse and the barn.
+    "decor": [{"strip": VD + "hen_anim.png", "frames": 6, "fps": 5, "pos": p, "flip": f}
+              for p, f in [((-360, -40), False), ((-400, -10), True), ((-330, -5), False), ((-480, 350), True), ((-440, 340), False)]],                                           # the square, cobbled
     "instances": [("res://scenes/world/props/forest_oak.tscn", (0, 50), 1)],  # the Harvest Oak
     "fields": [(-790, -40, -640, 200), (-790, 360, -640, 540), (560, 380, 800, 540), (-420, 400, -220, 540)],
     "tree_kinds": ["oak"],
@@ -205,8 +230,14 @@ VERDANA = {
          "back": "from_housefarm"},
         {"node": "HouseScholar", "sprite": VD + "scholar_house.png", "pos": (620, -330), "foot": 124, "door": "res://scenes/world/interiors/verdana_scholar.tscn",
          "back": "from_housescholar"},
-        {"node": "WorkingBarn", "sprite": VD + "barn.png", "pos": (-560, 290), "foot": 130},
-        {"node": "WorkingMill", "sprite": K2 + "objects/windmill2.png", "pos": (480, 340), "foot": 90,
+        {"node": "HouseBarn", "sprite": VD + "barn.png", "pos": (-560, 290), "foot": 130, "door": "res://scenes/world/interiors/verdana_barn.tscn",
+         "back": "from_housebarn"},
+        {"node": "HouseBakery", "sprite": VD + "bakery.png", "pos": (360, 120), "foot": 150, "door_dx": 34,
+         "door": "res://scenes/world/interiors/verdana_bakery.tscn", "back": "from_housebakery"},
+        {"node": "HouseWeaver", "sprite": VD + "weaver_cottage.png", "pos": (80, 400), "foot": 150, "door_dx": 6,
+         "door": "res://scenes/world/interiors/verdana_weaver.tscn", "back": "from_houseweaver"},
+        {"node": "HouseMill", "sprite": K2 + "objects/windmill2.png", "pos": (480, 340), "foot": 90,
+         "door": "res://scenes/world/interiors/verdana_mill.tscn", "back": "from_housemill",
          "sails": (K2 + "anim/windmill_sails.png", 12, 7, (80, 78))},
     ],
     "props": (
@@ -224,6 +255,7 @@ VERDANA = {
         + [{"sprite": SCARECROW, "pos": p, "foot": (10, 6)} for p in [(-720, 80), (680, 460)]]
         + fence_row(-790, -640, -52) + fence_row(-790, -640, 212) + fence_row(560, 800, 372, gap_at=(680,))
     ),
+    "merchant": ((200, 40), "assets/sprites/tiles/kalmora/market_stall.png"),
     "lanterns": [(-230, -20), (230, -20), (-230, 170), (230, 170), (-200, -380), (380, -120), (560, -280), (-380, -60), (380, 280),
                  (-60, 110), (60, 110)],
     "npcs": [
@@ -234,6 +266,15 @@ VERDANA = {
         {"id": "marta", "name": "Marta", "pos": (-400, -60), "wander": 40, "lines": [
             "Harvest's in early. Half of it's sold before it's cut, to the Company men from Duskara. Paid in scrip.",
             "Scrip spends at the Company store and nowhere else. Funny, that.",
+        ]},
+        {"id": "oda", "name": "Oda", "pos": (170, 440), "wander": 30, "lines": [
+            "Every thread on that loom is somebody. I weave them in so they don't get lost.",
+            "My grandson went west with the Company carts two harvests ago. They said Lake Serin way, then north. I've not been further than the mill in twenty years.",
+        ]},
+        {"id": "pim", "name": "Pim", "pos": (440, 170), "wander": 20, "shop": ["bread", "smoked_fish"],
+         "shop_title": "Pim's Bakery", "lines": [
+            "Fresh this morning! Well. This morning-ish. The oven's been going since before the larks.",
+            "The Company used to take a cartload of hard bread every week for the dune road. Stopped three weeks ago. Nobody's said why. I keep baking it anyway.",
         ]},
         {"id": "bruno", "name": "Bruno", "pos": (70, -180), "wander": 20, "shop": ["bread", "smoked_fish", "healers_tonic"],
          "shop_title": "The Sheaf & Sickle", "lines": [
@@ -290,7 +331,15 @@ LAKE_SERIN = {
     "lakes": [(80, -40, 520, 300)],
     "land": [(60, -330, 90, 150)],
     "docks": [(470, -90, 640, -58)],
+    # Lily pads in the shallows and Neri's boats tied up at his dock.
+    "afloat": [(TV + "lily_pads.png", p, f) for p, f in [((-300, 120), False), ((-340, 60), True), ((-250, -250), False),
+                                                         ((300, 200), True), ((380, 150), False), ((-100, 200), True),
+                                                         ((420, -250), False), ((-400, -120), True)]]
+              + [(K2 + "props/rowboat.png", (520, -20), False), (K2 + "props/rowboat.png", (515, -150), True)],
     "deep": (26, 72, 104),
+    # Herons fishing in the shallows.
+    "decor": [{"strip": LS + "heron_anim.png", "frames": 8, "fps": 3, "pos": p, "afloat": True, "flip": f}
+              for p, f in [((-395, 130), False), ((350, 215), True)]],
     "water_tint": (0.9, 1.0, 1.12, 1),
     "tree_kinds": ["fir", "fir", "oak"],
     "groves": [(-850, -500, 10, 70), (-850, 0, 8, 60), (850, -500, 7, 60), (-500, 560, 8, 60), (350, 620, 6, 50), (880, 450, 5, 40)],
@@ -394,10 +443,18 @@ STARFALL = {
         [{"sprite": BOULDER, "pos": (x, y), "foot": (40, 18), "scale": 1.6, "tint": (0.92, 0.96, 1.05, 1)}
          for x, y in [(-180, -840), (-130, -860), (-80, -845), (-30, -862), (20, -840), (-110, -815), (-50, -820)]]
         + [{"sprite": STONE, "pos": (120, -700), "foot": (26, 12), "scale": 1.3, "light": ((0.7, 0.85, 1.0, 1), 0.45, 1.2)}]
+        # Snow-capped boulders where the slopes shed them, and ice crystals that glow blue.
+        + [{"sprite": SNOW_BOULDER, "pos": p, "foot": (52, 18), "flip": i % 2 == 1} for i, p in enumerate(
+            [(-820, 420), (-300, 560), (260, 600), (820, 250), (-760, -330), (560, -420), (-380, -520), (760, -760), (180, 330)])]
+        + [{"sprite": ICE, "pos": p, "foot": (28, 10), "light": ((0.55, 0.85, 1.0, 1), 0.6, 0.9)} for p in
+           [(-660, -170), (-300, -40), (-560, 30), (380, -660), (-280, -760), (700, 120)]]
     ),
     "campfires": [(500, -40)],
     "lanterns": [(-80, 260), (330, -250), (-40, -600)],
     "npcs": [
+        # Mountain goats picking their way along the slopes.
+        *[{"id": "goat", "node": f"Npc_goat{k}", "name": "Mountain Goat", "pos": p, "wander": 60, "offset": -16.0, "lines": [line]}
+          for k, (p, line) in enumerate([((-620, 470), "Meh-eh-eh."), ((-540, 530), "..."), ((620, -640), "Mehh.")])],
         {"id": "hald", "name": "Hald", "pos": (540, -80), "wander": 30, "lines": [
             "Frisalle's over the pass. Nobody's crossed since the slide. Nobody's tried very hard.",
             "The slide came down the week after the last barge went north. The Company men were up here with powder the week before. Make of that what you like.",

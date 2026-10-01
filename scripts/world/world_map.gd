@@ -22,6 +22,10 @@ const STARFALL := "res://scenes/world/starfall_range.tscn"
 const VERDANA_INN := "res://scenes/world/interiors/verdana_inn.tscn"
 const VERDANA_FARMHOUSE := "res://scenes/world/interiors/verdana_farmhouse.tscn"
 const VERDANA_SCHOLAR := "res://scenes/world/interiors/verdana_scholar.tscn"
+const VERDANA_WEAVER := "res://scenes/world/interiors/verdana_weaver.tscn"
+const VERDANA_BAKERY := "res://scenes/world/interiors/verdana_bakery.tscn"
+const VERDANA_BARN := "res://scenes/world/interiors/verdana_barn.tscn"
+const VERDANA_MILL := "res://scenes/world/interiors/verdana_mill.tscn"
 const SERIN_FISHER_HUT := "res://scenes/world/interiors/serin_fisher_hut.tscn"
 const STARFALL_CABIN := "res://scenes/world/interiors/starfall_cabin.tscn"
 const SORENDA_LONGHOUSE := "res://scenes/world/interiors/sorenda_longhouse.tscn"
@@ -84,6 +88,10 @@ const ZONES := {
 	VERDANA_INN: { "name": "The Sheaf & Sickle", "origin": Vector2(-2644, 1393), "monster_drops": [] },
 	VERDANA_FARMHOUSE: { "name": "Marta's Farmhouse", "origin": Vector2(-3104, 1503), "monster_drops": [] },
 	VERDANA_SCHOLAR: { "name": "Aldous's House", "origin": Vector2(-2024, 1293), "monster_drops": [] },
+	VERDANA_WEAVER: { "name": "Oda's Cottage", "origin": Vector2(-2564, 2023), "monster_drops": [] },
+	VERDANA_BAKERY: { "name": "Pim's Bakery", "origin": Vector2(-2284, 1743), "monster_drops": [] },
+	VERDANA_BARN: { "name": "The Hensley Barn", "origin": Vector2(-3204, 1913), "monster_drops": [] },
+	VERDANA_MILL: { "name": "Verdana Mill", "origin": Vector2(-2164, 1963), "monster_drops": [] },
 	SERIN_FISHER_HUT: { "name": "Neri's Hut", "origin": Vector2(-2074, -1735), "monster_drops": [] },
 	STARFALL_CABIN: { "name": "Hald's Cabin", "origin": Vector2(-2574, -3311), "monster_drops": [] },
 	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2518), "monster_drops": [] },

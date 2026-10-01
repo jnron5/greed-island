@@ -35,6 +35,11 @@ const TOPICS := {
 			"Thornveil Forest. Terraces, streams, hounds, boars. Sorenda's up the forest road, a village of good folk.",
 			"There's chests hidden all over the forest, if you've the eyes for it. And the Warden, deeper in. Leave the Warden alone.",
 		]],
+		["And the west gate, past the windmill?", [
+			"That's the road west: the Aurewind Plains, Verdana, the lake and the mountains beyond. Most of the island, really.",
+			"The gate takes a Verdant Crest. Only one creature on this side of the island carries those: the Canopy Warden, east of the forest.",
+			"So yes. To go west, you'll have to go and bother the Warden after all.",
+		]],
 	],
 	&"sailor": [
 		["How do I keep my cards safe?", [

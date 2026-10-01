@@ -1,7 +1,7 @@
 extends Node
 ## Every building in Kalmora and Sorenda, and every home in Verdana, by Lake Serin and
-## in the Starfall Range, can be entered (barns and mills, the Working* buildings, stay
-## shut): each door leads to an interior whose
+## in the Starfall Range, can be entered (the plains' working barn, a Working* building,
+## stays shut): each door leads to an interior whose
 ## door spawn and way out are clear of walls and furniture, the way out lands back on
 ## a doorstep in its own town that exists, residents stand on open floor, and every readable
 ## can be reached from the door on foot. Reach is walked with the player's real feet

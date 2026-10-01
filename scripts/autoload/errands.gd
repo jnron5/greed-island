@@ -196,6 +196,21 @@ const ERRANDS := {
 		"give": ["Oh, that smells like the harbor. Here: a tile off my mother's roof. She'd want it to see the world."],
 		"after": "Harvest waits for nobody. Mind the rams on your way.",
 	},
+	&"oda_news": {
+		"npc": &"oda", "zone": "res://scenes/world/verdana.tscn", "card": &"moss_lantern", "need": "visit",
+		"place": "res://scenes/world/lake_serin.tscn", "place_name": "Lake Serin",
+		"ask": [
+			"You're going places. Would you go to Lake Serin for me? My grandson went that way with the Company carts.",
+			"Just look. Ask the fisher there if he saw a young sheepdog with a red scarf. I knitted it. Then come back and tell me, whatever it is.",
+			"I'll give you the lantern I wove for his homecoming. It's a card now. Everything is, these days.",
+		],
+		"waiting": "Lake Serin, north of the plains. Ask after a red scarf.",
+		"give": [
+			"...The barges. North. At night. I see.",
+			"Take the lantern. Somebody should carry it somewhere.",
+		],
+		"after": "Every thread is somebody.",
+	},
 	&"neri_tonic": {
 		"npc": &"neri", "zone": "res://scenes/world/lake_serin.tscn", "card": &"veyra_reed", "need": "item",
 		"item": &"healers_tonic", "count": 1,
@@ -404,6 +419,6 @@ func _npc_name(npc_id: StringName) -> String:
 		&"sailor": "Luca", &"pip": "Pip", &"baker": "Rosa", &"tomas": "Keeper Tomas", &"mirela": "Mirela",
 		&"otto": "Otto", &"nonna": "Nonna Vess", &"brannoc": "Brannoc", &"ilse": "Ilse",
 		&"harl": "Harl", &"wren": "Wren", &"juniper": "Juniper", &"tobin": "Tobin",
-		&"tilly": "Tilly", &"marta": "Marta", &"neri": "Neri", &"hald": "Hald",
+		&"tilly": "Tilly", &"marta": "Marta", &"neri": "Neri", &"hald": "Hald", &"oda": "Oda",
 	}
 	return NAMES.get(npc_id, String(npc_id).capitalize())
