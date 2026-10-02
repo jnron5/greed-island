@@ -491,8 +491,10 @@ INTERIORS = {
         ],
         "npcs": [("fennick", "Fennick", "fennick", (110, 136), [
             "Welcome to the Seabright Grand. Do mind the rug; it was a gift from the Crown.",
-            "We are, I'm afraid, rather full. Racing season. And the royal cousins, of course. And the Duke has the whole top floor. He always has the whole top floor.",
-            "The young ladies Sparkle and Sassy are by the pool and the pier, respectively. Or the other way round. One rarely knows.",
+            "We are, I'm afraid, rather full. Racing season. And the Duke has the whole top floor. He always has the whole top floor.",
+            "The Seabright belongs to the young ladies Sparkle and Sassy now; His Majesty's gift. Miss Sparkle runs the boats and Miss Sassy runs the guests. I run everything else.",
+            "The young ladies keep the last bungalow on the east jetty for themselves. Do knock. Miss Sparkle has a way of answering the door from the sea.",
+            "The hotel's accounts are settled by the Duskara Mining Company, through the Duke. The young ladies do not read the accounts. That is, I gather, the arrangement.",
             "The hotel asks guests not to discuss business in the lobby. The hotel is mostly asking the Duke.",
             "Our chef trained under Chef himself, in Vetrassa. Please do not tell the woman who runs the inn at Sorenda; she sent us a very long letter about it.",
             "Should you require anything at all, ring the bell. I shall appear. I always appear.",
@@ -508,6 +510,41 @@ INTERIORS = {
             ("The guest register", (160, 130), [
                 "A heavy leather book open on the desk. 'Top floor, all rooms: the Duke. Standing booking. Paid in advance, every season.'",
                 "Under it, in the same hand, a list of 'business guests' who all arrived by sea, at night. None of them have names. They have numbers.",
+            ]),
+        ],
+    },
+    "seabright_bungalow": {
+        "town": "res://scenes/world/seabright_quay.tscn",
+        "name": "The Sisters' Bungalow",
+        "image": "assets/sprites/tiles/resort/interiors/cousins_bungalow.png",
+        "size": (320, 256),
+        "exit": (160, 252), "back_to": "from_housebungalow", "spawn": (160, 220),
+        "blocks": [
+            (0, 0, 320, 98), (0, 0, 22, 256), (300, 0, 320, 256),            # back wall and window, side walls
+            (56, 40, 104, 112), (22, 84, 62, 166), (66, 134, 94, 160),      # vanity, dresser, pouf
+            (8, 170, 72, 244), (216, 30, 290, 146),                          # the trunk of dresses, the canopy bed
+            (288, 126, 310, 232), (264, 204, 290, 230),                      # surfboard, snorkel and fins
+            (78, 182, 112, 246), (208, 182, 236, 246),                       # potted palms by the door
+            (136, 120, 186, 152),                                            # the low table on the rug
+            (0, 244, 124, 256), (196, 244, 320, 256),                        # the front wall round the door
+        ],
+        "npcs": [],
+        "readables": [
+            ("A deed on the vanity", (80, 124), [
+                "Heavy paper, a royal seal. 'Seabright Quay, its quay, terrace, bungalows and the Grand, to my nieces Sparkle and Sassy, to keep and to enjoy. L.'",
+                "Pinned behind it, a smaller note: 'Upkeep, staff and stores met in full by the Duskara Mining Company, in gratitude for the Crown's friendship.' No signature. A stamp of a pick and a crown.",
+            ]),
+            ("Sparkle's dive log", (266, 178), [
+                "Scrawled in waterproof pencil. 'Night dive. The light again, low on the water past the yachts. A barge, no lamps. Third night running.'",
+                "'They let something down on a rope at the old reef and pull it up empty. Tomorrow I swim out and see what's on the rope. DON'T tell Sassy. Sassy, if you're reading this, stop it.'",
+            ]),
+            ("Sassy's seating plan", (160, 160), [
+                "A card covered in hearts and crossings-out. 'Dinner, Saturday. Duke on my right (he likes that). His three gentlemen next to him; they said not to write names, just put \'Company\'.'",
+                "'Cousin Chef: said he'd come, didn't. Cousin Freya: sent two guards instead. Cousin Sully: never answers. Note to self: ask Uncle why nobody comes to our parties.'",
+            ]),
+            ("A letter on the trunk", (88, 168), [
+                "'Sparkle, Sassy. Pepper is under-salting the stew. Tell her. Do not tell her I said tell her. Duke says the business guests liked the tart. Good. Burn this. C.'",
+                "It has not been burned. Somebody has drawn a moustache on the signature.",
             ]),
         ],
     },

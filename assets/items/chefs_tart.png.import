@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dassfq2pyrrir"
-path="res://.godot/imported/sparkle_idle.png-acbad69a54686cf6dfa491ebc1791917.ctex"
+uid="uid://b6nrtovq6djy0"
+path="res://.godot/imported/chefs_tart.png-607889517dd4db1c5d376c4f7f62839e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/npcs/sparkle/sparkle_idle.png"
-dest_files=["res://.godot/imported/sparkle_idle.png-acbad69a54686cf6dfa491ebc1791917.ctex"]
+source_file="res://assets/items/chefs_tart.png"
+dest_files=["res://.godot/imported/chefs_tart.png-607889517dd4db1c5d376c4f7f62839e.ctex"]
 
 [params]
 

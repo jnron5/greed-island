@@ -582,12 +582,14 @@ STARFALL = {
 }
 
 # ---------------------------------------------------------------- Seabright Quay (the resort)
-# The royal resort, south of Verdana. The road comes down through palms to a forecourt,
-# stairs drop to a cobbled quay, and from the quay a long boardwalk runs out over clear
-# turquoise water to the Seabright Grand: a white pavilion standing on its own deck in
-# the bay, a terrace on the sea side, jetties either side for the yachts and the
-# rowboats. West of the quay a white beach curls round a cove below the lawns; east, a
-# grassy headland with a lookout.
+# The royal resort south of Verdana, owned by the King's nieces Sparkle and Sassy. The
+# road comes down through palms to a forecourt with a fountain, stairs drop to a cobbled
+# quay, and from the quay a long boardwalk runs out over clear turquoise water to the
+# Saltglass Terrace, an open-air restaurant on its own deck in the bay serving Chef's
+# dishes. Jetties run east and west from it, lined with private overwater bungalows (the
+# far east one is the sisters' own); a diving pier runs off the terrace's sea side. The
+# Seabright Grand stands on the grassy headland to the east, over the bay; west of the
+# quay a white beach curls round a cove below the lawns.
 RS = "assets/sprites/tiles/resort/"
 K2C = K2 + "cliff/"
 
@@ -613,14 +615,23 @@ def resort_waterline(x):
     return 30 + 100 * math.sin(math.pi * min(1.0, max(0.0, (x + 820) / 520.0))) + 10 * math.sin(x / 37.0)
 
 
-DECK = (-150, 296, 150, 520)       # the pavilion's deck out in the bay
+DECK = (-160, 296, 160, 544)       # the Saltglass Terrace, out in the bay
+JETTY_Y = (372, 420)               # the jetties run east and west from the terrace
+BUNGALOWS = (-580, -420, -260, 260, 420, 580)   # along the north side of the jetties
+COUSINS = 580                      # the sisters' own bungalow, at the far east end
+
+
+def bungalow_deck(x):
+    """The little plank platform each bungalow stands on, joined to the jetty."""
+    return (x - 54, 312, x + 54, JETTY_Y[0] + 4)
+
 
 RESORT = {
     "scene": "scenes/world/seabright_quay.tscn",
     "root": "SeabrightQuay",
     "display": "Seabright Quay, the Royal Resort",
     "art": RS,
-    "bounds": (-800, -576, 800, 576),
+    "bounds": (-800, -576, 800, 640),
     "level": resort_level,
     "cliffs": {(0, 1): K2C + "sea_quay", (1, 2): K2C + "quay_town", (0, 2): K2C + "sea_rock"},
     "flats": {0: ((0, 1), "lower"), 1: ((0, 1), "upper"), 2: ((1, 2), "upper")},
@@ -635,41 +646,45 @@ RESORT = {
     "dress_levels": [2],
     "tree_levels": [0, 2],
     "paths": [
-        ([(-300, -600), (-300, -450), (-160, -370), (0, -335)], 26),        # the road down from Verdana
-        ([(-90, -320), (-160, -252)], 16),                                  # forecourt to the west stairs
-        ([(90, -320), (128, -252)], 16),                                    # and the east stairs
+        ([(-300, -600), (-300, -450), (-160, -370), (-60, -335)], 26),      # the road down from Verdana
+        ([(-90, -300), (-160, -252)], 16),                                  # forecourt to the west stairs
+        ([(90, -300), (128, -252)], 16),                                    # and the east stairs
         ([(-330, -440), (-600, -330), (-704, -214)], 16),                   # along the lawns to the beach steps
-        ([(110, -340), (360, -300), (560, -150), (600, 20)], 16),          # out to the headland
+        ([(120, -330), (380, -250), (560, -110)], 22),                      # up to the Seabright Grand
+        ([(560, -110), (600, 30)], 14),                                     # and on to the lookout
     ],
-    "plazas": [(0, -320, 150, 50)],                                         # the arrival forecourt
+    "plazas": [(0, -320, 150, 50), (560, -104, 96, 28)],                    # the arrival forecourt, the hotel's steps
     "plaza_stone": (222, 214, 196),
-    "meadows": [(-560, -440, 120, 60, [RED, WHITE, YELLOW]), (420, -440, 120, 70, [PURPLE, WHITE]), (640, -40, 70, 50, [YELLOW, WHITE])],
+    "meadows": [(-560, -440, 120, 60, [RED, WHITE, YELLOW]), (300, -460, 120, 70, [PURPLE, WHITE]), (680, -40, 60, 50, [YELLOW, WHITE])],
     "docks": [
-        (-22, -90, 22, DECK[1] + 4),                    # the boardwalk out to the pavilion
+        (-22, -90, 22, DECK[1] + 4),                    # the boardwalk out to the terrace
         DECK,
-        (DECK[2] - 4, 372, 420, 420),                   # the east jetty (the yachts)
-        (-420, 372, DECK[0] + 4, 420),                  # the west jetty (rowboats, fishing)
-        (-16, DECK[3] - 4, 16, 566),                    # the diving board of a pier off the terrace
-    ],
+        (DECK[2] - 4, JETTY_Y[0], 710, JETTY_Y[1]),     # the east jetty (bungalows, the yachts)
+        (-710, JETTY_Y[0], DECK[0] + 4, JETTY_Y[1]),    # the west jetty (bungalows, rowboats, fishing)
+        (-16, DECK[3] - 4, 16, 626),                    # the diving pier off the terrace
+    ] + [bungalow_deck(x) for x in BUNGALOWS],
     "dock_rails": True,
-    "fishing": [(-404, 396)],
+    "fishing": [(-696, 396)],
     "tree_kinds": ["palm"],
-    "groves": [(-700, -420, 5, 50), (-420, -360, 4, 45), (330, -400, 4, 45), (660, -260, 5, 50), (560, -60, 3, 35),
-               (-740, -140, 3, 30), (-330, -150, 2, 20), (-760, 60, 2, 30), (230, -480, 3, 40)],
+    "groves": [(-700, -420, 5, 50), (-420, -360, 4, 45), (300, -400, 4, 45), (720, -300, 4, 40), (420, -60, 2, 30),
+               (-740, -140, 3, 30), (-330, -150, 2, 20), (-760, 60, 2, 30), (160, -480, 3, 40), (720, 20, 2, 25)],
     "under": [("flowers", 5), ("grass_clump", 3), ("berry_bush", 1)],
     "patches": 22,
     "tufts": 60,
-    "safe_zone": (-800, -576, 800, 576),
+    "safe_zone": (-800, -576, 800, 640),
     "entry": (-300, -510),
     "exits": [
         {"name": "ToVerdana", "pos": (-300, -572), "side": "n", "target": "res://scenes/world/verdana.tscn", "spawn": "from_resort"},
     ],
-    "spawns": {"from_verdana": (-300, -510), "town": (0, -300)},
+    "spawns": {"from_verdana": (-300, -510), "town": (0, -260)},
     "rival_spots": {"runner": (-340, -470), "raider": (-260, -470), "hoarder": (-60, -120)},
     "buildings": [
-        {"node": "HouseHotel", "sprite": RS + "pavilion.png", "pos": (0, 446), "foot": 200, "depth": 96,
+        {"node": "HouseHotel", "sprite": RS + "pavilion.png", "pos": (560, -150), "foot": 200, "depth": 96,
          "door": "res://scenes/world/interiors/seabright_hotel.tscn", "back": "from_househotel"},
+        {"node": "HouseBungalow", "sprite": RS + "bungalow_cousins.png", "pos": (COUSINS, JETTY_Y[0]), "foot": 86, "depth": 44,
+         "door": "res://scenes/world/interiors/seabright_bungalow.tscn", "back": "from_housebungalow"},
     ],
+    "instances": [("res://scenes/world/props/kalmora_fountain.tscn", (0, -330), 1.0)],
     "props": (
         # The beach: loungers in two rows under parasols, cabanas at the back by the
         # rocks, the beach bar where the steps come down.
@@ -685,45 +700,74 @@ RESORT = {
            for p in [(-170, -90), (-60, -96), (60, -96), (170, -90)]]
         + [{"sprite": K2 + "props/parasol_table.png", "pos": p, "foot": (34, 12)} for p in [(-240, -170), (-170, -150), (240, -170)]]
         + [{"sprite": K2 + "props/potted_palm.png", "pos": p, "foot": (16, 8)} for p in [(-42, -110), (42, -110)]]
-        # The forecourt: flower beds framing the arrival, a notice of the hotel's rules.
-        + [{"sprite": K2 + "props/flower_bed.png", "pos": p, "foot": (30, 8)} for p in [(-130, -300), (130, -300)]]
-        # The pavilion's sea terrace: dining tables under parasols, lamps at the corners.
-        + [{"sprite": K2 + "props/parasol_table.png", "pos": p, "foot": (34, 12)} for p in [(-110, 490), (-52, 504), (52, 504), (110, 490)]]
+        # The forecourt: flower beds round the fountain, planters at the hotel's steps.
+        + [{"sprite": K2 + "props/flower_bed.png", "pos": p, "foot": (30, 8)} for p in [(-110, -310), (110, -310)]]
+        + [{"sprite": K2 + "props/potted_palm.png", "pos": p, "foot": (16, 8)} for p in [(480, -110), (640, -110)]]
+        # The Saltglass Terrace: the open kitchen at the head of the deck (Pepper at the
+        # pass in front of it), the menu board where the boardwalk arrives, tables under
+        # parasols down to the sea, lamps and palms at the corners.
+        + [{"sprite": RS + "kitchen.png", "pos": (84, 344), "foot": (134, 20)}]
+        + [{"sprite": K2 + "props/notice_board.png", "pos": (-60, 330), "foot": (26, 8)}]
+        + [{"sprite": K2 + "props/parasol_table.png", "pos": p, "foot": (34, 12)}
+           for p in [(-110, 380), (-110, 450), (-44, 440), (44, 440), (110, 450), (-110, 520), (-44, 510), (44, 510), (110, 520)]]
         + [{"sprite": K2 + "props/lamp_post.png", "pos": p, "foot": (10, 8), "light": ((1.0, 0.85, 0.6, 1), 0.9, 1.2)}
-           for p in [(-136, 322), (136, 322), (-138, 514), (138, 514)]]
-        # The jetties: a fisherman's crates on the west one, a coil of mooring on the east.
-        + [{"sprite": K2 + "props/fish_crates.png", "pos": (-330, 402), "foot": (26, 8)}]
+           for p in [(-148, 316), (148, 366), (-148, 534), (148, 534)]]
+        + [{"sprite": K2 + "props/potted_palm.png", "pos": p, "foot": (16, 8)} for p in [(-30, 316), (30, 316)]]
+        # The guest bungalows (private: no way in), each on its own platform.
+        + [{"sprite": RS + "bungalow.png", "pos": (x, JETTY_Y[0]), "foot": (86, 44), "flip": x < 0}
+           for x in BUNGALOWS if x != COUSINS]
+        # The jetties: a fisherman's crates at the west end.
+        + [{"sprite": K2 + "props/fish_crates.png", "pos": (-640, 412), "foot": (26, 8)}]
         # The headland lookout.
-        + [{"sprite": K2 + "props/bench.png", "pos": (640, 60), "foot": (36, 8)}]
+        + [{"sprite": K2 + "props/bench.png", "pos": (650, 60), "foot": (36, 8)}]
     ),
-    "afloat": [(RS + "yacht.png", (300, 456), False), (RS + "yacht.png", (390, 462), True), (RS + "yacht.png", (320, 330), True),
-               (K2 + "props/rowboat.png", (-300, 440), False), (K2 + "props/rowboat.png", (-350, 446), True),
-               (K2 + "props/sea_rocks.png", (720, 230), False)],
+    "afloat": [(RS + "yacht.png", (300, 476), False), (RS + "yacht.png", (430, 482), True), (RS + "yacht.png", (560, 560), False),
+               (K2 + "props/rowboat.png", (-600, 450), False), (K2 + "props/rowboat.png", (-650, 456), True),
+               (K2 + "props/sea_rocks.png", (740, 240), False)],
     "npcs": [
-        {"id": "sparkle", "name": "Sparkle", "pos": (0, 548), "wander": 0, "lines": [
-            "The water's lovely! Well, it's freezing. But it's lovely once you stop screaming.",
-            "Everyone says don't dive off the end of the pier. Everyone is very boring.",
-            "Cousin Loki keeps sending guards to 'keep an eye on us'. We lost them on the first day. They're probably still looking under the boardwalk.",
-            "Sassy and I come every summer. I do the diving, she does the sun loungers. It's a system.",
-            "I swam out past the yachts in the dark last night. There's a little light out on the water some nights, low down, no ship I can see. Spooky. I loved it.",
-            "You can see the sand on the bottom all the way out to the deck. Then it goes dark blue and you can't. That's where I go.",
+        {"id": "sparkle", "name": "Sparkle", "pos": (100, -150), "wander": 90, "lines": [
+            "Welcome to Seabright! It's ours, you know. Uncle gave it to us. Well. To Sassy and me. Mostly to me. Sassy would say mostly to her.",
+            "Everyone says don't dive off the end of the pier. I own the pier. I've decided it's allowed.",
+            "Uncle keeps sending guards to 'keep an eye on us'. We lost them on the first day. They're probably still looking under the boardwalk.",
+            "I do the diving and the boats and the frightening the staff. Sassy does the guests and the parties. It's a system.",
+            "I swam out past the yachts in the dark last night. There's a little light out on the water some nights, low down, no ship I can see. Nobody here will tell me what it is. Which means it's something.",
+            "You can see the sand on the bottom all the way out to the terrace. Then it goes dark blue and you can't. That's where I go.",
+            "We got Chef to send Pepper down from Vetrassa. Chef sends the recipes, Pepper cooks them, and Chef sends a very long letter every week about how she's doing it wrong.",
         ]},
         {"id": "sassy", "name": "Sassy", "pos": (-460, -24), "wander": 0, "lines": [
             "Is it Tuesday? It feels like a Tuesday. Everything here feels like a Tuesday. I love it.",
-            "Sparkle's off jumping off something again. She'll be fine. She's always fine. I'm going to have another drink with an umbrella in it.",
+            "I'm working. This is working. A hostess has to know the loungers are comfortable. All of them. Personally.",
             "Our cousins are the royals, you know. Well, everybody knows. Well, I think everybody knows. Do you know?",
-            "The waiter says Duke booked the whole top floor again. Duke is lovely. He always talks about mines. Gold mines? Card mines? I stop listening.",
-            "I put sun cream on twice and then forgot which side. I'm going to be stripy.",
+            "Duke has the whole top floor of the Grand again. Duke is lovely. He always talks about mines. Gold mines? Card mines? I stop listening.",
+            "The papers say the resort's a gift from Uncle. The bills come from somebody called the Duskara Mining Company. I don't open them. Sparkle doesn't open them. We have a drawer.",
+            "Pepper's stew is Chef's stew, really. Chef won't come down himself. He says sand gets in the sauce.",
             "The man at the bar makes a drink that's blue. I don't know what's in it. I don't want to know. I want another one.",
+        ]},
+        {"id": "pepper", "name": "Pepper", "pos": (84, 372), "wander": 0,
+         "shop": ["seabright_stew", "chefs_tart", "bread"], "shop_title": "The Saltglass Terrace", "lines": [
+            "Welcome to the Saltglass Terrace! Everything on the menu is Chef's own. I just cook it. Exactly as written. Mostly.",
+            "Chef trained me in Vetrassa for six years. He sent me here with a trunk of recipes and a list of things I'm never to do to a mussel.",
+            "The stew's the one they come for. Saffron, the morning's catch, and Chef's stock, which arrives sealed by courier and I'm not allowed to know what's in it.",
+            "The Duke dines here every night he's in. Same table, same tart, same three quiet gentlemen who never order anything.",
+            "A letter came from the inn at Sorenda saying her stew is better than Chef's. I've framed it. Chef doesn't know. Please don't tell him.",
+            "Mind the gulls. They've learned what a plate looks like.",
         ]},
     ],
     "readables": [
         ("A brass plaque", (0, -124), [
-            "'SEABRIGHT QUAY. Opened by Royal Charter for the rest and pleasure of the Crown's friends.'",
+            "'SEABRIGHT QUAY. Opened by Royal Charter for the rest and pleasure of the Crown's friends. Given by His Majesty into the keeping of the Ladies Sparkle and Sassy.'",
             "Smaller, underneath: 'Built through the generosity of the Duskara Mining Company.'",
         ]),
-        ("The pier sign", (-34, 512), [
+        ("The Saltglass menu", (-60, 340), [
+            "THE SALTGLASS TERRACE. 'The dishes of Chef, of Vetrassa, prepared by Pepper.'",
+            "Seabright Stew: saffron, mussels, prawns, the morning's catch. Lemon Tart: Chef's own. Bread: from the oven, when the oven agrees.",
+            "At the bottom, in a different hand: 'Private dining for the Company's guests by arrangement. Ask Fennick.'",
+        ]),
+        ("The pier sign", (-34, 540), [
             "'NO DIVING FROM THE PIER.' Somebody has scratched a little crown under it, and the words 'except us'.",
+        ]),
+        ("A bungalow door", (-260, 384), [
+            "A brass number plate: 'Bungalow 3. Do not disturb.' A tray of untouched breakfast outside. Someone inside is talking quietly about tonnage.",
         ]),
         ("A lookout on the headland", (600, 40), [
             "A brass telescope on a post, pointed east along the coast. Through it: open sea, and very far off, a barge with no lights, riding low.",
@@ -732,7 +776,7 @@ RESORT = {
             "'TODAY: the Seabright Blue. Ask for it by name. Do not ask what is in it.' Under it, smaller: 'Racers: cash only.'",
         ]),
     ],
-    "butterflies": [((-560, -440), 3), ((420, -440), 3), ((640, -60), 2)],
+    "butterflies": [((-560, -440), 3), ((300, -440), 3), ((680, -40), 2)],
 }
 
 ZONES = {"seabright_quay": RESORT, "aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL}

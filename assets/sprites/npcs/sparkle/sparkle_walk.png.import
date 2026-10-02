@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dassfq2pyrrir"
-path="res://.godot/imported/sparkle_idle.png-acbad69a54686cf6dfa491ebc1791917.ctex"
+uid="uid://c0jur1wbpyet"
+path="res://.godot/imported/sparkle_walk.png-92b1a5e271a2438ad149ccbe5ca92c8e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/npcs/sparkle/sparkle_idle.png"
-dest_files=["res://.godot/imported/sparkle_idle.png-acbad69a54686cf6dfa491ebc1791917.ctex"]
+source_file="res://assets/sprites/npcs/sparkle/sparkle_walk.png"
+dest_files=["res://.godot/imported/sparkle_walk.png-92b1a5e271a2438ad149ccbe5ca92c8e.ctex"]
 
 [params]
 

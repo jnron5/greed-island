@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dassfq2pyrrir"
-path="res://.godot/imported/sparkle_idle.png-acbad69a54686cf6dfa491ebc1791917.ctex"
+uid="uid://ci2b5jhgh6vbr"
+path="res://.godot/imported/bungalow.png-6a838e84d2b01ee086a484b3e3aba377.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/npcs/sparkle/sparkle_idle.png"
-dest_files=["res://.godot/imported/sparkle_idle.png-acbad69a54686cf6dfa491ebc1791917.ctex"]
+source_file="res://assets/sprites/tiles/resort/bungalow.png"
+dest_files=["res://.godot/imported/bungalow.png-6a838e84d2b01ee086a484b3e3aba377.ctex"]
 
 [params]
 

@@ -29,6 +29,7 @@ const VERDANA_MILL := "res://scenes/world/interiors/verdana_mill.tscn"
 ## The royal resort on the south coast below Verdana, and its hotel.
 const SEABRIGHT := "res://scenes/world/seabright_quay.tscn"
 const SEABRIGHT_HOTEL := "res://scenes/world/interiors/seabright_hotel.tscn"
+const SEABRIGHT_BUNGALOW := "res://scenes/world/interiors/seabright_bungalow.tscn"
 const SERIN_FISHER_HUT := "res://scenes/world/interiors/serin_fisher_hut.tscn"
 const STARFALL_GROTTO := "res://scenes/world/starfall_grotto.tscn"
 const STARFALL_CABIN := "res://scenes/world/interiors/starfall_cabin.tscn"
@@ -100,7 +101,8 @@ const ZONES := {
 	VERDANA_BAKERY: { "name": "Pim's Bakery", "origin": Vector2(-2284, 1743), "monster_drops": [] },
 	VERDANA_BARN: { "name": "The Hensley Barn", "origin": Vector2(-3204, 1913), "monster_drops": [] },
 	VERDANA_MILL: { "name": "Verdana Mill", "origin": Vector2(-2164, 1963), "monster_drops": [] },
-	SEABRIGHT_HOTEL: { "name": "The Seabright Grand", "origin": Vector2(-2264, 2571), "monster_drops": [] },
+	SEABRIGHT_HOTEL: { "name": "The Seabright Grand", "origin": Vector2(-1884, 2621), "monster_drops": [] },
+	SEABRIGHT_BUNGALOW: { "name": "The Sisters' Bungalow", "origin": Vector2(-1864, 3143), "monster_drops": [] },
 	SERIN_FISHER_HUT: { "name": "Neri's Hut", "origin": Vector2(-2074, -1735), "monster_drops": [] },
 	STARFALL_CABIN: { "name": "Hald's Cabin", "origin": Vector2(-2574, -3311), "monster_drops": [] },
 	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2518), "monster_drops": [] },

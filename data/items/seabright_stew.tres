@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/item_data.gd" id="1_item"]
+[ext_resource type="Texture2D" path="res://assets/items/seabright_stew.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"seabright_stew"
+display_name = "Seabright Stew"
+description = "Chef of Vetrassa's saffron seafood stew, cooked on the terrace to his recipe. Mussels, prawns and the morning's catch. Restores 3 hearts."
+heal = 3
+price = 22
+icon = ExtResource("2_icon")

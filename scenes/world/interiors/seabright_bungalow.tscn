@@ -1,0 +1,218 @@
+[gd_scene load_steps=30 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/resort/interiors/cousins_bungalow.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R320x98"]
+size = Vector2(320, 98)
+
+[sub_resource type="RectangleShape2D" id="R22x256"]
+size = Vector2(22, 256)
+
+[sub_resource type="RectangleShape2D" id="R20x256"]
+size = Vector2(20, 256)
+
+[sub_resource type="RectangleShape2D" id="R48x72"]
+size = Vector2(48, 72)
+
+[sub_resource type="RectangleShape2D" id="R40x82"]
+size = Vector2(40, 82)
+
+[sub_resource type="RectangleShape2D" id="R28x26"]
+size = Vector2(28, 26)
+
+[sub_resource type="RectangleShape2D" id="R64x74"]
+size = Vector2(64, 74)
+
+[sub_resource type="RectangleShape2D" id="R74x116"]
+size = Vector2(74, 116)
+
+[sub_resource type="RectangleShape2D" id="R22x106"]
+size = Vector2(22, 106)
+
+[sub_resource type="RectangleShape2D" id="R26x26"]
+size = Vector2(26, 26)
+
+[sub_resource type="RectangleShape2D" id="R34x64"]
+size = Vector2(34, 64)
+
+[sub_resource type="RectangleShape2D" id="R28x64"]
+size = Vector2(28, 64)
+
+[sub_resource type="RectangleShape2D" id="R50x32"]
+size = Vector2(50, 32)
+
+[sub_resource type="RectangleShape2D" id="R124x12"]
+size = Vector2(124, 12)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="seabright_bungalow" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Sisters' Bungalow"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 49.0)
+shape = SubResource("R320x98")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(11.0, 128.0)
+shape = SubResource("R22x256")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(310.0, 128.0)
+shape = SubResource("R20x256")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(80.0, 76.0)
+shape = SubResource("R48x72")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(42.0, 125.0)
+shape = SubResource("R40x82")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(80.0, 147.0)
+shape = SubResource("R28x26")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(40.0, 207.0)
+shape = SubResource("R64x74")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(253.0, 88.0)
+shape = SubResource("R74x116")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(299.0, 179.0)
+shape = SubResource("R22x106")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(277.0, 217.0)
+shape = SubResource("R26x26")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(95.0, 214.0)
+shape = SubResource("R34x64")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(222.0, 214.0)
+shape = SubResource("R28x64")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(161.0, 136.0)
+shape = SubResource("R50x32")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(62.0, 250.0)
+shape = SubResource("R124x12")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(258.0, 250.0)
+shape = SubResource("R124x12")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(160, 220)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(160, 252)
+target_scene = "res://scenes/world/seabright_quay.tscn"
+target_spawn = &"from_housebungalow"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(80, 124)
+script = ExtResource("12_read")
+title = "A deed on the vanity"
+lines = PackedStringArray("Heavy paper, a royal seal. 'Seabright Quay, its quay, terrace, bungalows and the Grand, to my nieces Sparkle and Sassy, to keep and to enjoy. L.'", "Pinned behind it, a smaller note: 'Upkeep, staff and stores met in full by the Duskara Mining Company, in gratitude for the Crown's friendship.' No signature. A stamp of a pick and a crown.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(266, 178)
+script = ExtResource("12_read")
+title = "Sparkle's dive log"
+lines = PackedStringArray("Scrawled in waterproof pencil. 'Night dive. The light again, low on the water past the yachts. A barge, no lamps. Third night running.'", "'They let something down on a rope at the old reef and pull it up empty. Tomorrow I swim out and see what's on the rope. DON'T tell Sassy. Sassy, if you're reading this, stop it.'")
+
+[node name="Read3" type="Node2D" parent="."]
+position = Vector2(160, 160)
+script = ExtResource("12_read")
+title = "Sassy's seating plan"
+lines = PackedStringArray("A card covered in hearts and crossings-out. 'Dinner, Saturday. Duke on my right (he likes that). His three gentlemen next to him; they said not to write names, just put 'Company'.'", "'Cousin Chef: said he'd come, didn't. Cousin Freya: sent two guards instead. Cousin Sully: never answers. Note to self: ask Uncle why nobody comes to our parties.'")
+
+[node name="Read4" type="Node2D" parent="."]
+position = Vector2(88, 168)
+script = ExtResource("12_read")
+title = "A letter on the trunk"
+lines = PackedStringArray("'Sparkle, Sassy. Pepper is under-salting the stew. Tell her. Do not tell her I said tell her. Duke says the business guests liked the tart. Good. Burn this. C.'", "It has not been burned. Somebody has drawn a moustache on the signature.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(160, 220)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dassfq2pyrrir"
-path="res://.godot/imported/sparkle_idle.png-acbad69a54686cf6dfa491ebc1791917.ctex"
+uid="uid://dnkq6d0u6ujj1"
+path="res://.godot/imported/pepper_idle.png-7a7323a84cf30d79253d4f6c77150b95.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/npcs/sparkle/sparkle_idle.png"
-dest_files=["res://.godot/imported/sparkle_idle.png-acbad69a54686cf6dfa491ebc1791917.ctex"]
+source_file="res://assets/sprites/npcs/pepper/pepper_idle.png"
+dest_files=["res://.godot/imported/pepper_idle.png-7a7323a84cf30d79253d4f6c77150b95.ctex"]
 
 [params]
 
