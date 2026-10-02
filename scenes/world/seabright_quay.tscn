@@ -1,4 +1,4 @@
-[gd_scene load_steps=154 format=3]
+[gd_scene load_steps=157 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -51,6 +51,9 @@
 [ext_resource type="Script" path="res://scripts/systems/fishing_spot.gd" id="r40_fishing_spot"]
 [ext_resource type="Script" path="res://scripts/world/butterflies.gd" id="r41_butterflies"]
 [ext_resource type="Script" path="res://scripts/world/fireflies.gd" id="r42_fireflies"]
+[ext_resource type="Script" path="res://scripts/world/string_lights.gd" id="r43_string_lights"]
+[ext_resource type="Script" path="res://scripts/world/gull_flock.gd" id="r44_gull_flock"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/gull_flap.png" id="r45_gull_flap"]
 
 [sub_resource type="RectangleShape2D" id="R128x32"]
 size = Vector2(128, 32)
@@ -3289,6 +3292,65 @@ position = Vector2(680, -40)
 script = ExtResource("r42_fireflies")
 count = 6
 seed = 11
+
+[node name="StringLights0" type="Node2D" parent="."]
+position = Vector2(-148, 272)
+script = ExtResource("r43_string_lights")
+to = Vector2(0, 218)
+sag = 16
+count = 9
+
+[node name="StringLights1" type="Node2D" parent="."]
+position = Vector2(148, 322)
+script = ExtResource("r43_string_lights")
+to = Vector2(0, 168)
+sag = 16
+count = 7
+
+[node name="StringLights2" type="Node2D" parent="."]
+position = Vector2(-148, 272)
+script = ExtResource("r43_string_lights")
+to = Vector2(296, 50)
+sag = 20
+count = 13
+
+[node name="StringLights3" type="Node2D" parent="."]
+position = Vector2(-148, 490)
+script = ExtResource("r43_string_lights")
+to = Vector2(296, 0)
+sag = 18
+count = 13
+
+[node name="StringLights4" type="Node2D" parent="."]
+position = Vector2(-170, -134)
+script = ExtResource("r43_string_lights")
+to = Vector2(340, 0)
+sag = 22
+count = 15
+
+[node name="Gulls0" type="Node2D" parent="."]
+position = Vector2(-200, 160)
+script = ExtResource("r44_gull_flock")
+strip = ExtResource("r45_gull_flap")
+count = 3
+radius = Vector2(180, 70)
+seed = 3
+
+[node name="Gulls1" type="Node2D" parent="."]
+position = Vector2(380, 240)
+script = ExtResource("r44_gull_flock")
+strip = ExtResource("r45_gull_flap")
+count = 2
+radius = Vector2(140, 60)
+seed = 4
+
+[node name="Gulls2" type="Node2D" parent="."]
+position = Vector2(-520, 120)
+script = ExtResource("r44_gull_flock")
+strip = ExtResource("r45_gull_flap")
+count = 2
+radius = Vector2(120, 50)
+seed = 5
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(-300, -510)

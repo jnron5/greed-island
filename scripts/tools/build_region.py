@@ -1141,6 +1141,17 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
                      f'script = ExtResource("{res("Script", "res://scripts/world/butterflies.gd")}")\ncount = {count}\nseed = {k + 3}\n\n'
                      f'[node name="Fireflies{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                      f'script = ExtResource("{res("Script", "res://scripts/world/fireflies.gd")}")\ncount = {count * 3}\nseed = {k + 9}\n')
+        # Strings of lanterns slung overhead (scripts/world/string_lights.gd): (from, to, sag).
+        for k, ((ax, ay), (bx, by), sag) in enumerate(c.get("string_lights", [])):
+            n.append(f'[node name="StringLights{k}" type="Node2D" parent="."]\nposition = Vector2({ax}, {ay - 44})\n'
+                     f'script = ExtResource("{res("Script", "res://scripts/world/string_lights.gd")}")\n'
+                     f'to = Vector2({bx - ax}, {by - ay})\nsag = {sag}\ncount = {max(4, int(math.hypot(bx - ax, by - ay) / 22))}\n')
+        # Gulls circling over the water (scripts/world/gull_flock.gd): (centre, count, radius).
+        for k, ((x, y), count, (rx, ry)) in enumerate(c.get("gulls", [])):
+            n.append(f'[node name="Gulls{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                     f'script = ExtResource("{res("Script", "res://scripts/world/gull_flock.gd")}")\n'
+                     f'strip = ExtResource("{res("Texture2D", "res://assets/sprites/tiles/kalmora2/anim/gull_flap.png")}")\n'
+                     f'count = {count}\nradius = Vector2({rx}, {ry})\nseed = {k + 3}\n')
         if c.get("snowfall"):
             n.append(f'[node name="Snowfall" type="Node2D" parent="."]\nz_index = 20\n'
                      f'script = ExtResource("{res("Script", "res://scripts/world/snowfall.gd")}")\n')

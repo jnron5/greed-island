@@ -777,6 +777,10 @@ RESORT = {
         ]),
     ],
     "butterflies": [((-560, -440), 3), ((300, -440), 3), ((680, -40), 2)],
+    # Lanterns strung over the Saltglass Terrace and along the quay.
+    "string_lights": [((-148, 316), (-148, 534), 16), ((148, 366), (148, 534), 16), ((-148, 316), (148, 366), 20),
+                      ((-148, 534), (148, 534), 18), ((-170, -90), (170, -90), 22)],
+    "gulls": [((-200, 160), 3, (180, 70)), ((380, 240), 2, (140, 60)), ((-520, 120), 2, (120, 50))],
 }
 
 ZONES = {"seabright_quay": RESORT, "aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL}
