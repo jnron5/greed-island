@@ -84,7 +84,9 @@ const PISTOL_TEX := preload("res://assets/sprites/player/fx/pistol.png")
 const SLASH_TEX := preload("res://assets/sprites/player/fx/slash.png")
 const FLASH_TEX := preload("res://assets/sprites/player/fx/flash.png")
 ## Hand height on the cloak, and how far the weapon sits out from the body.
-const HAND := Vector2(0, -15)
+const HAND := Vector2(0, -21)
+## How far out to the side the weapon hand is held.
+const HAND_REACH := 9.0
 ## The sword art's own tilt (its blade points this far up), and where its grip is.
 const SWORD_TILT := 0.42
 const SWORD_GRIP := Vector2(-6, -17)
@@ -527,33 +529,39 @@ var _gear_was_drawn := false
 ## Behind the body when facing away from the camera.
 func _draw_gear() -> void:
 	_gear_was_drawn = false
-	_gear.z_index = -1 if facing.y < -0.35 else 1
 	var aim := facing.angle()
 	var flip := Vector2(1, -1 if facing.x < -0.01 else 1)
+	var hand := _hand_offset()
+	# The weapon hand is on the far side of the body when facing away or when the
+	# right side is turned from the camera (facing west): drawn behind the cloak.
+	_gear.z_index = -1 if facing.y < -0.35 or hand.y < -2.0 else 1
 	if _state == State.SWORD:
-		var total := sword_active_time + sword_recovery
 		var t := clampf(_state_time / (sword_active_time + 0.05), 0.0, 1.0)
 		var eased := 1.0 - pow(1.0 - t, 3.0)
 		var angle := aim + lerpf(-1.5, 1.5, eased) * _swing_side
 		var fade := clampf(1.0 - (_state_time - sword_active_time - 0.04) / sword_recovery, 0.0, 1.0)
+		# The arm reaches out into the cut and draws back after it.
+		var grip := hand + facing * 4.0 * sin(eased * PI)
 		if t > 0.1 and t < 0.95:
 			var trail := clampf(1.0 - absf(t - 0.5) * 2.0, 0.0, 1.0)
-			_gear.draw_set_transform(Vector2.from_angle(aim) * 11.0, aim + PI, Vector2(0.55, 0.65 * _swing_side))
+			_gear.draw_set_transform(grip + Vector2.from_angle(aim) * 10.0, aim + PI, Vector2(0.55, 0.65 * _swing_side))
 			var ss := SLASH_TEX.get_size()
 			_gear.draw_texture(SLASH_TEX, -ss / 2.0, Color(1, 1, 1, 0.85 * trail))
 		# The art's blade points 24 degrees up: level it, mirror it for the backhand,
-		# then turn it to the swing angle, holding it by the grip.
+		# then turn it to the swing angle, held by its grip in the hand.
 		var level := Transform2D(SWORD_TILT, Vector2.ZERO)
 		var mirror := Transform2D(Vector2(SWORD_SCALE, 0), Vector2(0, SWORD_SCALE * _swing_side * flip.y), Vector2.ZERO)
-		_gear.draw_set_transform_matrix(Transform2D(angle, Vector2.from_angle(angle) * 4.0) * mirror * level)
+		_gear.draw_set_transform_matrix(Transform2D(angle, grip) * mirror * level)
 		_gear.draw_texture(SWORD_TEX, SWORD_GRIP, Color(1, 1, 1, fade))
 		_gear.draw_set_transform(Vector2.ZERO)
+		_draw_fist(grip, fade)
 		_gear_was_drawn = fade > 0.0
 		return
 	var aiming := _charge >= 0.0
 	if _state == State.SHOOT or aiming:
 		var kick := 0.0 if aiming else clampf(1.0 - _state_time / 0.1, 0.0, 1.0) * 3.0
-		var base := Vector2.from_angle(aim) * (7.0 - kick)
+		# Held out at arm's length from the shoulder, pointing where you aim.
+		var base := hand + Vector2.from_angle(aim) * (5.0 - kick)
 		_gear.draw_set_transform(base, aim, flip * PISTOL_SCALE)
 		var ps := PISTOL_TEX.get_size()
 		_gear.draw_texture(PISTOL_TEX, Vector2(-4.0, -ps.y / 2.0))
@@ -561,7 +569,26 @@ func _draw_gear() -> void:
 			var fs := FLASH_TEX.get_size()
 			_gear.draw_texture_rect(FLASH_TEX, Rect2(Vector2(ps.x - 7.0, -fs.y * 0.45), fs * 0.9), false)
 		_gear.draw_set_transform(Vector2.ZERO)
+		_draw_fist(base, 1.0)
 		_gear_was_drawn = true
+
+
+## The gloved fist closed round the grip (the cloak hides the arm), so the weapon
+## is held, not floating.
+func _draw_fist(at: Vector2, alpha: float) -> void:
+	if alpha <= 0.0:
+		return
+	_gear.draw_circle(at, 2.6, Color(0.12, 0.08, 0.06, alpha))
+	_gear.draw_circle(at, 1.8, Color(0.42, 0.27, 0.17, alpha))
+	_gear.draw_circle(at + Vector2(-0.5, -0.6), 0.8, Color(0.62, 0.44, 0.3, alpha))
+
+
+## Where the weapon hand is, from the chest: out at the wanderer's right side
+## (screen left when facing the camera, nearer the camera when facing east, behind
+## the body when facing west), squashed vertically for the top-down view.
+func _hand_offset() -> Vector2:
+	var right := facing.normalized().rotated(PI / 2.0)
+	return Vector2(right.x * HAND_REACH, right.y * HAND_REACH * 0.55 + 2.0)
 
 
 ## A fading copy of the current frame left behind while dashing (every other physics
