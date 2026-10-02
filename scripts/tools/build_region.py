@@ -53,8 +53,10 @@ LANTERN_PNG = "assets/sprites/tiles/thornveil/props/trail_lantern.png"
 CAMPFIRE_STRIP = "assets/sprites/tiles/thornveil/props/campfire_anim.png"
 LAKE_WAVES = "res://assets/sprites/tiles/thornveil/water/lake.png"
 TREE_SCENES = {"fir": "res://scenes/world/props/forest_fir.tscn", "oak": "res://scenes/world/props/forest_oak.tscn",
-               "pine": "res://scenes/world/props/snow_pine.tscn"}
-TREE_R = {"fir": (7, 22), "oak": (10, 30), "pine": (8, 24)}     # trunk radius, shadow radius
+               "pine": "res://scenes/world/props/snow_pine.tscn", "palm": "res://scenes/world/props/kalmora_palm.tscn"}
+TREE_R = {"fir": (7, 22), "oak": (10, 30), "pine": (8, 24), "palm": (7, 18)}
+# Kalmora's sea: the rolling wave tile, clipped to the sea in a zone with a sea level.
+SEA_STRIP, SEA_FRAMES, SEA_FPS = "res://assets/sprites/tiles/kalmora2/anim/bay_water.png", 8, 6     # trunk radius, shadow radius
 
 
 def seg_dist(px, py, ax, ay, bx, by):
@@ -94,7 +96,16 @@ class Zone:
         return any(seg_dist(x, y, *a, *b) <= w + grow for pts, w in self.cfg.get("paths", []) for a, b in zip(pts, pts[1:]))
 
     def wet(self, x, y, margin=0.0):
-        """In a lake's water (or within `margin` px of it). Shores wander a little."""
+        """In a lake's water, the sea or a pool (or within `margin` px of it). Shores wander a little."""
+        sea = getattr(self, "sea", None)
+        if sea is not None and sea.any():
+            m = int(margin)
+            px, py = int(x - self.x0), int(y - self.y0)
+            if sea[max(0, py - m):py + m + 1, max(0, px - m):px + m + 1].any():
+                return True
+        for px0, py0, px1, py1 in self.cfg.get("pools", []):
+            if px0 - margin <= x <= px1 + margin and py0 - margin <= y <= py1 + margin:
+                return True
         x, y = x + 14 * math.sin(y / 53.0 + 0.4) + 8 * math.sin(y / 19.0), y + 12 * math.sin(x / 61.0 + 1.3) + 6 * math.sin(x / 23.0)
         for cx, cy, rx, ry in self.cfg.get("lakes", []):
             if ((x - cx) / (rx + margin)) ** 2 + ((y - cy) / (ry + margin)) ** 2 < 1.0:
@@ -129,13 +140,37 @@ class Zone:
                   for j in range(self.rows + 1)]
         self.levels = levels
         used = sorted({v for row in levels for v in row})
-        cliff = CliffSet(c["cliff"])
-        sets = {(a, b): cliff for a in used for b in used if a < b}
-        flat = {v: ((used[0], used[-1]) if len(used) > 1 else (v, v + 1), "lower" if v == used[0] else "upper") for v in used}
-        if len(used) == 1:
-            sets = {(used[0], used[0] + 1): cliff}
+        if c.get("cliffs"):
+            # A cliff set per pair of levels that meet (sea -> quay walls -> lawns),
+            # and which set's side each level's plain ground is drawn with.
+            sets = {pair: CliffSet(path) for pair, path in c["cliffs"].items()}
+            flat = c["flats"]
+        else:
+            cliff = CliffSet(c["cliff"])
+            sets = {(a, b): cliff for a in used for b in used if a < b}
+            flat = {v: ((used[0], used[-1]) if len(used) > 1 else (v, v + 1), "lower" if v == used[0] else "upper") for v in used}
+            if len(used) == 1:
+                sets = {(used[0], used[0] + 1): cliff}
         img, stand = compose(levels, sets, flat, TILE, extra_wall_rows=c.get("tall_walls"))
         self.stand = stand
+        # The sea: every blue water pixel of the composed ground (the sea level's flat
+        # cells and the water at the foot of the quay walls). Nothing stands on it.
+        self.sea = np.zeros((self.H, self.W), bool)
+        if c.get("sea_level") is not None:
+            arr = np.asarray(img.convert("RGB")).astype(int)
+            self.sea = (arr[..., 2] > arr[..., 0] + 50) & (arr[..., 2] >= arr[..., 1] - 10)
+            sea_cells = np.kron(np.array([[1 if v == c["sea_level"] else 0 for v in row] for row in stand], np.uint8),
+                                np.ones((TILE, TILE), np.uint8)).astype(bool)[:self.H, :self.W]
+            self.sea |= sea_cells
+            for dx0, dy0, dx1, dy1 in c.get("docks", []):
+                self.sea[dy0 - self.y0:dy1 - self.y0, dx0 - self.x0:dx1 - self.x0] = False
+        # Beaches: sand where the sea level meets a beach polygon (a ragged waterline),
+        # dry ground you can walk on.
+        self.beach = np.zeros((self.H, self.W), bool)
+        if c.get("beaches"):
+            shape = self.soft_mask(lambda x, y: any(in_poly(x, y, p) for p in c["beaches"]), blur=4, rough=0.12, res=4)
+            self.beach = shape & self.sea
+            self.sea &= ~self.beach
         # Stairs: find the wall edge near each requested spot.
         self.stairs = []
         for sx, sy, lo, hi in c.get("stairs", []):
@@ -319,6 +354,20 @@ class Zone:
             a[..., :3] = np.where(crack[..., None], a[..., :3] * 0.8, a[..., :3])
             rim = ice & ~(np.asarray(Image.fromarray(ice.astype(np.uint8) * 255).filter(ImageFilter.MinFilter(5))) > 0)
             a[..., :3] = np.where(rim[..., None], np.array([240, 248, 255], np.float32), a[..., :3])
+        # Sand: pale and fine-grained, wind ripples across it, darker and wet along the
+        # waterline, a scatter of shell flecks.
+        if self.beach.any():
+            yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+            grain = self.nprng.random((H, W)).astype(np.float32)
+            ripple = (np.sin((xx * 0.35 + yy * 0.9) / 3.0 + (self.noise(50) - 0.5) * 8.0) * 0.5 + 0.5) ** 4
+            sand = np.array(c.get("sand", (238, 224, 192)), np.float32) * (0.96 + 0.06 * broad[..., None] + 0.03 * grain[..., None])
+            sand -= ripple[..., None] * np.array([14, 14, 10], np.float32)
+            from_sea = ndimage.distance_transform_edt(~self.sea)
+            wet_band = np.clip(1.0 - (from_sea - 2.0) / 14.0, 0, 1)[..., None]
+            sand = sand * (1 - wet_band * 0.22) + np.array([-6, -2, 6], np.float32) * wet_band
+            shells = (grain > 0.9985) & (from_sea > 18)
+            sand = np.where(shells[..., None], np.array([250, 240, 236], np.float32), sand)
+            a[..., :3] = np.where(self.beach[..., None], sand, a[..., :3])
         # Water.
         self.water = np.zeros((H, W), bool)
         if c.get("lakes"):
@@ -346,11 +395,50 @@ class Zone:
                                     np.array([8, 30, 62], np.float32))
             dep[..., 3] = np.maximum(shallow, deep) * 255 * water
             Image.fromarray(dep.astype(np.uint8), "RGBA").save(self.art + self.key + "_water_depth.png")
+        # The sea is water too (collision); its look is the composed tiles plus the
+        # animated wave layer.
+        if self.sea.any():
+            self.water = self.water | self.sea
+            m = np.zeros((H, W, 4), np.uint8)
+            m[self.sea] = 255
+            Image.fromarray(m, "RGBA").save(self.art + self.key + "_sea_mask.png")
+            if c.get("sea_depth"):
+                self.sea_depth()
+        # Pools: clear turquoise water in a rim of pale stone, a darker deep end.
+        if c.get("pools"):
+            pool = np.zeros((H, W), bool)
+            for px0, py0, px1, py1 in c["pools"]:
+                x0p, y0p, x1p, y1p = px0 - self.x0, py0 - self.y0, px1 - self.x0, py1 - self.y0
+                a[y0p - 6:y1p + 6, x0p - 6:x1p + 6, :3] = np.array([226, 222, 210], np.float32)
+                a[y1p + 3:y1p + 6, x0p - 6:x1p + 6, :3] = np.array([186, 180, 166], np.float32)
+                pool[y0p:y1p, x0p:x1p] = True
+                depth = np.linspace(0, 1, x1p - x0p, dtype=np.float32)[None, :, None]
+                a[y0p:y1p, x0p:x1p, :3] = np.array([92, 206, 214], np.float32) * (1 - depth * 0.3)
+                a[y0p:y0p + 3, x0p:x1p, :3] *= 0.75
+            self.water = self.water | pool
+            m = np.zeros((H, W, 4), np.uint8)
+            m[pool] = 255
+            Image.fromarray(m, "RGBA").save(self.art + self.key + "_pool_mask.png")
         # Docks: planks laid over the water, dark gaps between boards, posts at the edge.
-        for dx0, dy0, dx1, dy1 in c.get("docks", []):
+        docks = self.dock_mask()
+        if docks.any():
             planks = tile(CornerSet(PLANKS).tiles[15])
-            a[dy0 - self.y0:dy1 - self.y0, dx0 - self.x0:dx1 - self.x0] = planks[dy0 - self.y0:dy1 - self.y0, dx0 - self.x0:dx1 - self.x0]
-            a[dy1 - self.y0 - 3:dy1 - self.y0, dx0 - self.x0:dx1 - self.x0, :3] *= 0.55
+            a = np.where(docks[..., None], planks, a)
+            if c.get("dock_rails"):
+                # A boardwalk: a rail along every edge over the water, a post every
+                # few steps, and the deck's front edge in shadow.
+                for x, y, horizontal in self.dock_edges(docks):
+                    if horizontal:
+                        a[y - 1:y + 1, x, :3] = (236, 230, 214)
+                        a[y + 1, x, :3] *= 0.7
+                    else:
+                        a[y, x - 1:x + 2, :3] = (236, 230, 214)
+                        a[y, x + 2 if x < W - 3 else x, :3] *= 0.8
+                    if ((x + self.x0) if horizontal else (y + self.y0)) % 24 < 4:
+                        a[y - 3:y + 2, x - 1:x + 2, :3] = (110, 80, 54)
+            else:
+                for dx0, dy0, dx1, dy1 in c.get("docks", []):
+                    a[dy1 - self.y0 - 3:dy1 - self.y0, dx0 - self.x0:dx1 - self.x0, :3] *= 0.55
         # Soft shadows under trees, buildings and props.
         mask = Image.new("L", (W, H), 0)
         d = ImageDraw.Draw(mask)
@@ -365,6 +453,71 @@ class Zone:
         out = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
         out.save(self.art + self.key + "_ground.png")
         return out
+
+    def dock_mask(self):
+        m = np.zeros((self.H, self.W), bool)
+        for dx0, dy0, dx1, dy1 in self.cfg.get("docks", []):
+            m[dy0 - self.y0:dy1 - self.y0, dx0 - self.x0:dx1 - self.x0] = True
+        return m
+
+    def dock_edges(self, docks):
+        """(x, y, horizontal) pixels just inside each deck's edge where the sea lies
+        beyond it: where a boardwalk's rail runs."""
+        out = []
+        H, W = self.H, self.W
+        sea = lambda x, y: 0 <= x < W and 0 <= y < H and self.sea[y, x] and not docks[y, x]
+        for dx0, dy0, dx1, dy1 in self.cfg.get("docks", []):
+            x0, y0, x1, y1 = dx0 - self.x0, dy0 - self.y0, dx1 - self.x0, dy1 - self.y0
+            for x in range(x0 + 1, x1 - 1):
+                if sea(x, y0 - 4):
+                    out.append((x, y0 + 2, True))
+                if sea(x, y1 + 4):
+                    out.append((x, y1 - 3, True))
+            for y in range(y0 + 1, y1 - 1):
+                if sea(x0 - 4, y):
+                    out.append((x0 + 2, y, False))
+                if sea(x1 + 4, y):
+                    out.append((x1 - 3, y, False))
+        return out
+
+    def sea_depth(self):
+        """Clear tropical water, laid over the sea's animated waves: turquoise over the
+        sand near land, deepening to blue offshore; foam where it laps the beach; the
+        boardwalk's shadow and pilings on the water."""
+        c = self.cfg
+        H, W = self.H, self.W
+        docks = self.dock_mask()
+        land = ~self.sea & ~docks
+        d_land = ndimage.distance_transform_edt(~land)
+        d_beach = ndimage.distance_transform_edt(~self.beach) if self.beach.any() else np.full((H, W), 999.0)
+        reach = c.get("shallows", 240.0)
+        shallow = np.clip(1.0 - d_land / reach, 0, 1) ** 1.1 * 0.78
+        deep = np.clip((d_land - reach * 0.7) / 320.0, 0, 1) * 0.55
+        sandy = np.clip(1.0 - d_beach / 70.0, 0, 1)[..., None]
+        turq = np.array(c.get("turquoise", (86, 222, 206)), np.float32) * (1 - sandy) + np.array([196, 236, 214], np.float32) * sandy
+        out = np.zeros((H, W, 4), np.float32)
+        out[..., :3] = np.where((shallow > deep)[..., None], turq, np.array([16, 62, 122], np.float32))
+        out[..., 3] = np.maximum(shallow, deep) * 255
+        # Foam: a broken white line where the water meets the sand, a fainter one
+        # a little way out; a thin wash at the foot of the walls.
+        fn = self.noise(10)
+        foam = ((d_beach < 3.5) & (fn > 0.32)) | ((np.abs(d_beach - 10) < 1.2) & (fn > 0.62))
+        wash = (d_land < 2.5) & (d_beach > 4) & (fn > 0.5)
+        out[foam] = (250, 252, 250, 215)
+        out[wash] = (240, 248, 250, 120)
+        # The boardwalk's shadow falls south-east on the water; pilings under the edges.
+        sh = np.zeros((H, W), bool)
+        sh[6:, 4:] = docks[:-6, :-4]
+        sh &= ~docks
+        out[sh] = (12, 40, 60, 120)
+        for dx0, dy0, dx1, dy1 in c.get("docks", []):
+            y = dy1 - self.y0
+            for x in range(dx0 - self.x0 + 3, dx1 - self.x0 - 3, 22):
+                if y + 8 < H and self.sea[y + 4, x]:
+                    out[y:y + 8, x:x + 3] = (70, 52, 38, 235)
+                    out[y + 7:y + 9, x - 1:x + 4] = (230, 244, 246, 150)
+        out[..., 3] *= self.sea
+        Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGBA").save(self.art + self.key + "_sea_depth.png")
 
     def stair_px(self):
         m = np.zeros((self.H, self.W), bool)
@@ -407,7 +560,8 @@ class Zone:
         def ground_ok(x, y):
             r, cc = self.cell(x, y)
             return (0 <= r < self.rows and 0 <= cc < self.cols and self.stand[r][cc] >= 0
-                    and (r, cc) not in self.stair_cells and 0 <= r - 1 and self.stand[r - 1][cc] >= 0)
+                    and (r, cc) not in self.stair_cells and 0 <= r - 1 and self.stand[r - 1][cc] >= 0
+                    and self.level_ok(r, cc, "tree_levels"))
 
         def free(x, y, gap, path_gap):
             if not ground_ok(x, y) or self.on_path(x, y, path_gap) or self.wet(x, y, 30) or self.in_field(x, y, 20) or self.in_plaza(x, y, 30):
@@ -443,6 +597,12 @@ class Zone:
                     trees.append((t, px, py))
         return trees
 
+    def level_ok(self, r, cc, key):
+        """Whether a cell's level may carry this kind of dressing (a layout can keep
+        undergrowth off the quay's cobbles and the sand, say)."""
+        allowed = self.cfg.get(key)
+        return allowed is None or self.stand[r][cc] in allowed
+
     def in_field(self, x, y, grow=0):
         return any(fx0 - grow <= x <= fx1 + grow and fy0 - grow <= y <= fy1 + grow for fx0, fy0, fx1, fy1 in self.cfg.get("fields", []))
 
@@ -464,7 +624,7 @@ class Zone:
         def ok(x, y):
             r, cc = self.cell(x, y)
             return (0 <= r < self.rows and 0 <= cc < self.cols and self.stand[r][cc] >= 0 and (r, cc) not in self.stair_cells
-                    and not self.on_path(x, y, 6) and not self.wet(x, y, 10) and not self.in_field(x, y, 4)
+                    and self.level_ok(r, cc, "dress_levels") and not self.on_path(x, y, 6) and not self.wet(x, y, 10) and not self.in_field(x, y, 4)
                     and not self.in_ice(x, y, 4) and not self.in_plaza(x, y, 8)
                     and not any((x - a) ** 2 + (y - b) ** 2 < (r2 * 0.7) ** 2 for a, b, r2 in keep)
                     and all((x - a) ** 2 + (y - b) ** 2 >= 18 ** 2 for _, a, b in props)
@@ -522,6 +682,8 @@ class Zone:
                 x, y = round(cx + rng.gauss(0, 22)), round(cy + rng.gauss(0, 12))
                 r, cc = self.cell(x, y)
                 if not (0 <= r < self.rows and 0 <= cc < self.cols) or self.stand[r][cc] < 0 or (r, cc) in self.stair_cells:
+                    continue
+                if not self.level_ok(r, cc, "dress_levels"):
                     continue
                 if self.on_path(x, y, 8) or self.wet(x, y, 12) or self.in_field(x, y, 6) or self.in_ice(x, y, 6) or self.in_plaza(x, y, 8):
                     continue
@@ -673,8 +835,27 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
                      f'[node name="Depth" type="Sprite2D" parent="LakeWater"]\n'
                      f'texture = ExtResource("{texture(self.art + self.key + "_water_depth.png")}")\n')
 
+        for name, mask, tint, fps in [("Sea", "_sea_mask.png", c.get("sea_tint", (1, 1, 1, 1)), SEA_FPS),
+                                      ("Pool", "_pool_mask.png", (0.75, 1.25, 1.2, 0.55), 4)]:
+            if (name == "Sea" and self.sea.any()) or (name == "Pool" and c.get("pools")):
+                n.append(f'[node name="{name}Water" type="Sprite2D" parent="."]\nz_index = -9\nclip_children = 1\n'
+                         f'position = Vector2({cx}, {cy})\ntexture = ExtResource("{texture(self.art + self.key + mask)}")\n\n'
+                         f'[node name="Waves" type="Sprite2D" parent="{name}Water"]\nmodulate = Color{tint}\n'
+                         f'script = ExtResource("{res("Script", "res://scripts/world/tiled_animation.gd")}")\n'
+                         f'strip = ExtResource("{res("Texture2D", SEA_STRIP)}")\nframe_count = {SEA_FRAMES}\nfps = {fps}\n'
+                         f'region_rect = Rect2(0, 0, {self.W}, {self.H})\n')
+                if name == "Sea" and c.get("sea_depth"):
+                    n.append(f'[node name="Depth" type="Sprite2D" parent="SeaWater"]\n'
+                             f'texture = ExtResource("{texture(self.art + self.key + "_sea_depth.png")}")\n')
+
         # Collision: cliffs (visible faces), water pixels, the map edge (behind the treeline).
-        solid = [[(self.stand[r][cc] < 0 and (r, cc) not in self.stair_cells) for cc in range(self.cols)] for r in range(self.rows)]
+        def on_dock(r, cc):
+            # A pier runs out over the quay wall: its planks are walkable.
+            x, y = self.x0 + (cc + 0.5) * TILE, self.y0 + (r + 0.5) * TILE
+            return any(dx0 <= x <= dx1 and dy0 <= y <= dy1 for dx0, dy0, dx1, dy1 in c.get("docks", []))
+
+        solid = [[(self.stand[r][cc] < 0 and (r, cc) not in self.stair_cells and not on_dock(r, cc))
+                  for cc in range(self.cols)] for r in range(self.rows)]
         walls = merge_rects(solid, self.x0, self.y0, TILE)
         if self.water.any():
             walls += mask_rects(self.water, self.x0, self.y0, step=8, erode=4, fill=0.5)

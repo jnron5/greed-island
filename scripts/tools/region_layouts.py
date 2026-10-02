@@ -243,6 +243,7 @@ VERDANA = {
         ([(608, -170), (612, -320)], 16),                                    # up on the green, to the scholar's door
         ([(240, 110), (394, 140)], 16),                                      # to the bakery door
         ([(40, 200), (86, 410)], 16),                                        # to the weaver's door
+        ([(0, 200), (-100, 400), (-100, 600)], 22),                          # south, down to Seabright Quay
     ],
     "plazas": [(0, 60, 250, 150)],
     "meadows": [(-600, -460, 150, 100, [RED, YELLOW, WHITE]), (650, 120, 120, 70, [PURPLE, WHITE])],
@@ -263,8 +264,9 @@ VERDANA = {
     "entry": (-200, -600),
     "exits": [
         {"name": "ToAurewind", "pos": (-200, -660), "side": "n", "target": "res://scenes/world/aurewind_plains.tscn", "spawn": "from_verdana"},
+        {"name": "ToResort", "pos": (-100, 572), "side": "s", "target": "res://scenes/world/seabright_quay.tscn", "spawn": "from_verdana"},
     ],
-    "spawns": {"town": (0, 120), "from_aurewind": (-200, -600)},
+    "spawns": {"town": (0, 120), "from_aurewind": (-200, -600), "from_resort": (-100, 515)},
     "rival_spots": {"runner": (-80, 150), "raider": (90, 150), "hoarder": (60, -40)},
     "buildings": [
         {"node": "HouseInn", "sprite": VD + "inn.png", "pos": (0, -230), "foot": 150, "door": "res://scenes/world/interiors/verdana_inn.tscn",
@@ -579,4 +581,158 @@ STARFALL = {
     "boss": {"node": "RimeStag", "scene": "res://scenes/characters/rime_stag.tscn", "pos": (610, -620), "arena": 170},
 }
 
-ZONES = {"aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL}
+# ---------------------------------------------------------------- Seabright Quay (the resort)
+# The royal resort, south of Verdana. The road comes down through palms to a forecourt,
+# stairs drop to a cobbled quay, and from the quay a long boardwalk runs out over clear
+# turquoise water to the Seabright Grand: a white pavilion standing on its own deck in
+# the bay, a terrace on the sea side, jetties either side for the yachts and the
+# rowboats. West of the quay a white beach curls round a cove below the lawns; east, a
+# grassy headland with a lookout.
+RS = "assets/sprites/tiles/resort/"
+K2C = K2 + "cliff/"
+
+
+def resort_coast(x):
+    """Where the lawns fall to the sea (west and east of the quay)."""
+    if x < 0:
+        return -200 + 14 * math.sin(x / 110.0)
+    return -30 + 130 * math.exp(-((x - 590) / 150.0) ** 2) + 8 * math.sin(x / 70.0)
+
+
+def resort_level(x, y):
+    """0 the sea (and the beach), 1 the cobbled quay, 2 the lawns above."""
+    if -300 <= x <= 300:
+        if y > -60:
+            return 0
+        return 1 if y > -230 else 2
+    return 0 if y > resort_coast(x) else 2
+
+
+def resort_waterline(x):
+    """The beach's edge: deepest in the middle of the cove."""
+    return 30 + 100 * math.sin(math.pi * min(1.0, max(0.0, (x + 820) / 520.0))) + 10 * math.sin(x / 37.0)
+
+
+DECK = (-150, 296, 150, 520)       # the pavilion's deck out in the bay
+
+RESORT = {
+    "scene": "scenes/world/seabright_quay.tscn",
+    "root": "SeabrightQuay",
+    "display": "Seabright Quay, the Royal Resort",
+    "art": RS,
+    "bounds": (-800, -576, 800, 576),
+    "level": resort_level,
+    "cliffs": {(0, 1): K2C + "sea_quay", (1, 2): K2C + "quay_town", (0, 2): K2C + "sea_rock"},
+    "flats": {0: ((0, 1), "lower"), 1: ((0, 1), "upper"), 2: ((1, 2), "upper")},
+    "sea_level": 0,
+    "sea_depth": True,
+    "sea_tint": (0.86, 1.08, 1.06, 1),
+    "beaches": [[(-830, -260), (-300, -260), (-300, 40)] + [(x, resort_waterline(x)) for x in range(-300, -840, -20)]],
+    "stairs": [(-150, -230, 1, 2), (150, -230, 1, 2), (-640, -200, 0, 2)],
+    "grade": (1.08, (1.0, 1.0, 1.0)),
+    "palette": ((66, 138, 64), (124, 170, 72)),
+    "dapple": 0.08,
+    "dress_levels": [2],
+    "tree_levels": [0, 2],
+    "paths": [
+        ([(-300, -600), (-300, -450), (-160, -370), (0, -335)], 26),        # the road down from Verdana
+        ([(-90, -320), (-160, -252)], 16),                                  # forecourt to the west stairs
+        ([(90, -320), (128, -252)], 16),                                    # and the east stairs
+        ([(-330, -440), (-600, -330), (-704, -214)], 16),                   # along the lawns to the beach steps
+        ([(110, -340), (360, -300), (560, -150), (600, 20)], 16),          # out to the headland
+    ],
+    "plazas": [(0, -320, 150, 50)],                                         # the arrival forecourt
+    "plaza_stone": (222, 214, 196),
+    "meadows": [(-560, -440, 120, 60, [RED, WHITE, YELLOW]), (420, -440, 120, 70, [PURPLE, WHITE]), (640, -40, 70, 50, [YELLOW, WHITE])],
+    "docks": [
+        (-22, -90, 22, DECK[1] + 4),                    # the boardwalk out to the pavilion
+        DECK,
+        (DECK[2] - 4, 372, 420, 420),                   # the east jetty (the yachts)
+        (-420, 372, DECK[0] + 4, 420),                  # the west jetty (rowboats, fishing)
+        (-16, DECK[3] - 4, 16, 566),                    # the diving board of a pier off the terrace
+    ],
+    "dock_rails": True,
+    "fishing": [(-404, 396)],
+    "tree_kinds": ["palm"],
+    "groves": [(-700, -420, 5, 50), (-420, -360, 4, 45), (330, -400, 4, 45), (660, -260, 5, 50), (560, -60, 3, 35),
+               (-740, -140, 3, 30), (-330, -150, 2, 20), (-760, 60, 2, 30), (230, -480, 3, 40)],
+    "under": [("flowers", 5), ("grass_clump", 3), ("berry_bush", 1)],
+    "patches": 22,
+    "tufts": 60,
+    "safe_zone": (-800, -576, 800, 576),
+    "entry": (-300, -510),
+    "exits": [
+        {"name": "ToVerdana", "pos": (-300, -572), "side": "n", "target": "res://scenes/world/verdana.tscn", "spawn": "from_resort"},
+    ],
+    "spawns": {"from_verdana": (-300, -510), "town": (0, -300)},
+    "rival_spots": {"runner": (-340, -470), "raider": (-260, -470), "hoarder": (-60, -120)},
+    "buildings": [
+        {"node": "HouseHotel", "sprite": RS + "pavilion.png", "pos": (0, 446), "foot": 200, "depth": 96,
+         "door": "res://scenes/world/interiors/seabright_hotel.tscn", "back": "from_househotel"},
+    ],
+    "props": (
+        # The beach: loungers in two rows under parasols, cabanas at the back by the
+        # rocks, the beach bar where the steps come down.
+        [{"sprite": RS + "lounger.png", "pos": (x, y), "foot": (30, 10)}
+         for y, xs in ((-60, (-590, -545, -500)), (10, (-620, -575, -530, -485)), (-60, (-420, -375))) for x in xs]
+        + [{"sprite": K2 + "props/parasol_table.png", "pos": p, "foot": (34, 12)} for p in [(-700, 40), (-430, 50)]]
+        + [{"sprite": RS + "cabana.png", "pos": p, "foot": (40, 14)} for p in [(-760, -60), (-350, -110)]]
+        + [{"sprite": RS + "beach_bar.png", "pos": (-520, -128), "foot": (84, 16)}]
+        # The quay: a promenade of benches facing the bay, lamp posts between them,
+        # café tables at the west end, planters at the head of the boardwalk.
+        + [{"sprite": K2 + "props/bench.png", "pos": p, "foot": (36, 8)} for p in [(-220, -84), (-120, -84), (120, -84), (220, -84)]]
+        + [{"sprite": K2 + "props/lamp_post.png", "pos": p, "foot": (10, 8), "light": ((1.0, 0.85, 0.6, 1), 0.9, 1.2)}
+           for p in [(-170, -90), (-60, -96), (60, -96), (170, -90)]]
+        + [{"sprite": K2 + "props/parasol_table.png", "pos": p, "foot": (34, 12)} for p in [(-240, -170), (-170, -150), (240, -170)]]
+        + [{"sprite": K2 + "props/potted_palm.png", "pos": p, "foot": (16, 8)} for p in [(-42, -110), (42, -110)]]
+        # The forecourt: flower beds framing the arrival, a notice of the hotel's rules.
+        + [{"sprite": K2 + "props/flower_bed.png", "pos": p, "foot": (30, 8)} for p in [(-130, -300), (130, -300)]]
+        # The pavilion's sea terrace: dining tables under parasols, lamps at the corners.
+        + [{"sprite": K2 + "props/parasol_table.png", "pos": p, "foot": (34, 12)} for p in [(-110, 490), (-52, 504), (52, 504), (110, 490)]]
+        + [{"sprite": K2 + "props/lamp_post.png", "pos": p, "foot": (10, 8), "light": ((1.0, 0.85, 0.6, 1), 0.9, 1.2)}
+           for p in [(-136, 322), (136, 322), (-138, 514), (138, 514)]]
+        # The jetties: a fisherman's crates on the west one, a coil of mooring on the east.
+        + [{"sprite": K2 + "props/fish_crates.png", "pos": (-330, 402), "foot": (26, 8)}]
+        # The headland lookout.
+        + [{"sprite": K2 + "props/bench.png", "pos": (640, 60), "foot": (36, 8)}]
+    ),
+    "afloat": [(RS + "yacht.png", (300, 456), False), (RS + "yacht.png", (390, 462), True), (RS + "yacht.png", (320, 330), True),
+               (K2 + "props/rowboat.png", (-300, 440), False), (K2 + "props/rowboat.png", (-350, 446), True),
+               (K2 + "props/sea_rocks.png", (720, 230), False)],
+    "npcs": [
+        {"id": "sparkle", "name": "Sparkle", "pos": (0, 548), "wander": 0, "lines": [
+            "The water's lovely! Well, it's freezing. But it's lovely once you stop screaming.",
+            "Everyone says don't dive off the end of the pier. Everyone is very boring.",
+            "Cousin Loki keeps sending guards to 'keep an eye on us'. We lost them on the first day. They're probably still looking under the boardwalk.",
+            "Sassy and I come every summer. I do the diving, she does the sun loungers. It's a system.",
+            "I swam out past the yachts in the dark last night. There's a little light out on the water some nights, low down, no ship I can see. Spooky. I loved it.",
+            "You can see the sand on the bottom all the way out to the deck. Then it goes dark blue and you can't. That's where I go.",
+        ]},
+        {"id": "sassy", "name": "Sassy", "pos": (-460, -24), "wander": 0, "lines": [
+            "Is it Tuesday? It feels like a Tuesday. Everything here feels like a Tuesday. I love it.",
+            "Sparkle's off jumping off something again. She'll be fine. She's always fine. I'm going to have another drink with an umbrella in it.",
+            "Our cousins are the royals, you know. Well, everybody knows. Well, I think everybody knows. Do you know?",
+            "The waiter says Duke booked the whole top floor again. Duke is lovely. He always talks about mines. Gold mines? Card mines? I stop listening.",
+            "I put sun cream on twice and then forgot which side. I'm going to be stripy.",
+            "The man at the bar makes a drink that's blue. I don't know what's in it. I don't want to know. I want another one.",
+        ]},
+    ],
+    "readables": [
+        ("A brass plaque", (0, -124), [
+            "'SEABRIGHT QUAY. Opened by Royal Charter for the rest and pleasure of the Crown's friends.'",
+            "Smaller, underneath: 'Built through the generosity of the Duskara Mining Company.'",
+        ]),
+        ("The pier sign", (-34, 512), [
+            "'NO DIVING FROM THE PIER.' Somebody has scratched a little crown under it, and the words 'except us'.",
+        ]),
+        ("A lookout on the headland", (600, 40), [
+            "A brass telescope on a post, pointed east along the coast. Through it: open sea, and very far off, a barge with no lights, riding low.",
+        ]),
+        ("The bar's chalkboard", (-470, -112), [
+            "'TODAY: the Seabright Blue. Ask for it by name. Do not ask what is in it.' Under it, smaller: 'Racers: cash only.'",
+        ]),
+    ],
+    "butterflies": [((-560, -440), 3), ((420, -440), 3), ((640, -60), 2)],
+}
+
+ZONES = {"seabright_quay": RESORT, "aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL}

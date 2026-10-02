@@ -1,0 +1,82 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/palm_sway.png" id="1_strip"]
+[ext_resource type="Script" path="res://scripts/world/forest_tree.gd" id="2_tree"]
+
+[sub_resource type="AtlasTexture" id="F0"]
+atlas = ExtResource("1_strip")
+region = Rect2(0, 0, 128, 160)
+
+[sub_resource type="AtlasTexture" id="F1"]
+atlas = ExtResource("1_strip")
+region = Rect2(128, 0, 128, 160)
+
+[sub_resource type="AtlasTexture" id="F2"]
+atlas = ExtResource("1_strip")
+region = Rect2(256, 0, 128, 160)
+
+[sub_resource type="AtlasTexture" id="F3"]
+atlas = ExtResource("1_strip")
+region = Rect2(384, 0, 128, 160)
+
+[sub_resource type="AtlasTexture" id="F4"]
+atlas = ExtResource("1_strip")
+region = Rect2(512, 0, 128, 160)
+
+[sub_resource type="AtlasTexture" id="F5"]
+atlas = ExtResource("1_strip")
+region = Rect2(640, 0, 128, 160)
+
+[sub_resource type="AtlasTexture" id="F6"]
+atlas = ExtResource("1_strip")
+region = Rect2(768, 0, 128, 160)
+
+[sub_resource type="AtlasTexture" id="F7"]
+atlas = ExtResource("1_strip")
+region = Rect2(896, 0, 128, 160)
+
+[sub_resource type="SpriteFrames" id="Frames"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("F0")
+}, {
+"duration": 1.0,
+"texture": SubResource("F1")
+}, {
+"duration": 1.0,
+"texture": SubResource("F2")
+}, {
+"duration": 1.0,
+"texture": SubResource("F3")
+}, {
+"duration": 1.0,
+"texture": SubResource("F4")
+}, {
+"duration": 1.0,
+"texture": SubResource("F5")
+}, {
+"duration": 1.0,
+"texture": SubResource("F6")
+}, {
+"duration": 1.0,
+"texture": SubResource("F7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7
+}]
+
+[sub_resource type="CircleShape2D" id="Trunk"]
+radius = 7.0
+
+[node name="Palm" type="StaticBody2D"]
+script = ExtResource("2_tree")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -77.0)
+sprite_frames = SubResource("Frames")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("Trunk")

@@ -239,6 +239,30 @@ const ERRANDS := {
 		],
 		"after": "If you meet a woman who looks like me, all in black, carrying a ledger: that's my mother. Don't tell her you saw me.",
 	},
+	# ---- Seabright Quay: the royal cousins on holiday ----
+	&"sparkle_dare": {
+		"npc": &"sparkle", "zone": "res://scenes/world/seabright_quay.tscn", "card": &"sunken_crown_shard", "need": "visit",
+		"place": "res://scenes/world/starfall_grotto.tscn", "place_name": "the Frost Grotto",
+		"ask": [
+			"You look like you've been somewhere dangerous. I'm jealous. Everyone here keeps saying 'not on holiday, dear'.",
+			"There's an ice cave up in the Starfall Range, the Frost Grotto. Wolves, crystals, a wall of ice you can see daylight through. I'm not allowed. You are.",
+			"Go in, all the way, and come back and tell me everything. I'll give you the best thing I've ever found diving off this pier.",
+		],
+		"waiting": "The Frost Grotto, up in the Starfall Range, past the cave mouth in the east shoulder. All the way in!",
+		"give": [
+			"A wall of ice with the sun behind it? And crates? And WOLVES? That's the best thing I've ever heard. I'm going next year. Don't tell Sassy.",
+			"Here. I found it on the seabed right under the pier. It's a bit of a crown. Not one of ours. Nobody can tell me whose.",
+		],
+		"after": "Next summer: the Grotto. This summer: the cliff on the headland. Watch me!",
+	},
+	&"sassy_gift": {
+		"npc": &"sassy", "zone": "res://scenes/world/seabright_quay.tscn", "card": &"sea_glass", "need": "talk",
+		"give": [
+			"Oh! Are you one of those card people? How fun. Here, I think this is a card. It was in my sun hat. Or my drink.",
+			"It's sea glass. From Kalmora, I think. I collect pretty things and then I forget I have them. You have it. It's prettier on you.",
+		],
+		"after": "Did I give you something? I feel like I gave you something. Lovely.",
+	},
 	&"hald_wolves": {
 		"npc": &"hald", "zone": "res://scenes/world/starfall_range.tscn", "card": &"starfall_edelweiss", "need": "kills",
 		"monster": &"frost_wolf", "count": 3, "hunt": "res://scenes/world/starfall_range.tscn",
@@ -436,6 +460,6 @@ func _npc_name(npc_id: StringName) -> String:
 		&"sailor": "Luca", &"pip": "Pip", &"baker": "Rosa", &"tomas": "Keeper Tomas", &"mirela": "Mirela",
 		&"otto": "Otto", &"nonna": "Nonna Vess", &"brannoc": "Brannoc", &"ilse": "Ilse",
 		&"harl": "Harl", &"wren": "Wren", &"juniper": "Juniper", &"tobin": "Tobin",
-		&"tilly": "Tilly", &"sully": "Sully", &"marta": "Marta", &"neri": "Neri", &"hald": "Hald", &"oda": "Oda",
+		&"tilly": "Tilly", &"sully": "Sully", &"sparkle": "Sparkle", &"sassy": "Sassy", &"marta": "Marta", &"neri": "Neri", &"hald": "Hald", &"oda": "Oda",
 	}
 	return NAMES.get(npc_id, String(npc_id).capitalize())

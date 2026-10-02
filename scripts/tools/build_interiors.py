@@ -471,6 +471,46 @@ INTERIORS = {
             ]),
         ],
     },
+    # ---- Seabright Quay, the royal resort (outdoors: build_region.py) ----
+    "seabright_hotel": {
+        "town": "res://scenes/world/seabright_quay.tscn",
+        "name": "The Seabright Grand",
+        "image": "assets/sprites/tiles/resort/interiors/lobby_room.png",
+        "size": (320, 256),
+        "exit": (160, 252), "back_to": "from_househotel", "spawn": (160, 214),
+        "blocks": [
+            (0, 0, 320, 100), (122, 84, 198, 126),                          # back wall, the reception desk
+            (0, 0, 28, 256), (292, 0, 320, 256),                            # side walls
+            (204, 56, 300, 160), (32, 62, 64, 118),                         # the grand stair, a palm
+            (266, 112, 300, 158), (244, 136, 268, 166),                     # palm and lamp table by the stair
+            (36, 144, 116, 180), (60, 170, 90, 198),                        # red armchairs round a table
+            (30, 176, 58, 206), (60, 190, 88, 222),                         # green armchairs
+            (10, 186, 40, 248), (96, 186, 124, 248), (196, 190, 224, 248),  # potted palms by the door
+            (218, 170, 290, 200), (240, 196, 272, 220), (220, 206, 292, 232), (282, 186, 312, 248),
+            (0, 240, 128, 256), (192, 240, 320, 256),                       # the front wall round the doors
+        ],
+        "npcs": [("fennick", "Fennick", "fennick", (110, 136), [
+            "Welcome to the Seabright Grand. Do mind the rug; it was a gift from the Crown.",
+            "We are, I'm afraid, rather full. Racing season. And the royal cousins, of course. And the Duke has the whole top floor. He always has the whole top floor.",
+            "The young ladies Sparkle and Sassy are by the pool and the pier, respectively. Or the other way round. One rarely knows.",
+            "The hotel asks guests not to discuss business in the lobby. The hotel is mostly asking the Duke.",
+            "Our chef trained under Chef himself, in Vetrassa. Please do not tell the woman who runs the inn at Sorenda; she sent us a very long letter about it.",
+            "Should you require anything at all, ring the bell. I shall appear. I always appear.",
+        ], [])],
+        "inn": "fennick",
+        "keeper": {"wake_lines": [
+                       "Ah. You're awake. A fisherman found you and brought you up the quay. We have put the room on account. Do try not to faint on the promenade again; it upsets the guests.",
+                       "Welcome back to the land of the living. Tea is on its way. The Seabright Grand prides itself on its recoveries.",
+                   ],
+                   "room_prompt": "Certainly. A sea view, naturally. Half a day, or the full day?",
+                   "room_broke": "I'm afraid a room is %d gold, even for racers. Perhaps the inn at Verdana; I hear the dinner is very punctual."},
+        "readables": [
+            ("The guest register", (160, 130), [
+                "A heavy leather book open on the desk. 'Top floor, all rooms: the Duke. Standing booking. Paid in advance, every season.'",
+                "Under it, in the same hand, a list of 'business guests' who all arrived by sea, at night. None of them have names. They have numbers.",
+            ]),
+        ],
+    },
     # ---- Verdana, Lake Serin, the Starfall Range (outdoor zones: build_region.py) ----
     "verdana_inn": {
         "town": "res://scenes/world/verdana.tscn",

@@ -42,7 +42,7 @@ func _pick() -> void:
 		_play(&"room")
 	elif zone.underground:
 		_play(&"cave")
-	elif zone.scene_file_path == WorldMap.KALMORA:
+	elif zone.scene_file_path in [WorldMap.KALMORA, WorldMap.SEABRIGHT]:
 		_play(&"harbor")
 	elif zone.scene_file_path in [WorldMap.AUREWIND, WorldMap.VERDANA]:
 		_play(&"meadow")

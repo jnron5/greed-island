@@ -21,7 +21,7 @@ func _run() -> void:
 	RivalDirector.enabled = false
 	TimeOfDay.paused = true
 	GameState.new_game(GameState.DEFAULT_RIVALS)
-	for town_path: String in [WorldMap.KALMORA, WorldMap.SORENDA, WorldMap.VERDANA, WorldMap.LAKE_SERIN, WorldMap.STARFALL]:
+	for town_path: String in [WorldMap.KALMORA, WorldMap.SORENDA, WorldMap.VERDANA, WorldMap.LAKE_SERIN, WorldMap.STARFALL, WorldMap.SEABRIGHT]:
 		GameState.pending_spawn = &""
 		var town := await _load(town_path)
 		var doors: Array[ZoneExit] = []

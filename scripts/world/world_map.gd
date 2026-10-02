@@ -26,6 +26,9 @@ const VERDANA_WEAVER := "res://scenes/world/interiors/verdana_weaver.tscn"
 const VERDANA_BAKERY := "res://scenes/world/interiors/verdana_bakery.tscn"
 const VERDANA_BARN := "res://scenes/world/interiors/verdana_barn.tscn"
 const VERDANA_MILL := "res://scenes/world/interiors/verdana_mill.tscn"
+## The royal resort on the south coast below Verdana, and its hotel.
+const SEABRIGHT := "res://scenes/world/seabright_quay.tscn"
+const SEABRIGHT_HOTEL := "res://scenes/world/interiors/seabright_hotel.tscn"
 const SERIN_FISHER_HUT := "res://scenes/world/interiors/serin_fisher_hut.tscn"
 const STARFALL_GROTTO := "res://scenes/world/starfall_grotto.tscn"
 const STARFALL_CABIN := "res://scenes/world/interiors/starfall_cabin.tscn"
@@ -69,6 +72,7 @@ const ZONES := {
 	AUREWIND: { "name": "Aurewind Plains", "origin": Vector2(-2344, 79),
 		"monster_drops": [&"bristle_fleece", &"thatch_charm", &"fern_sigil", &"thorn_sprig"] },
 	VERDANA: { "name": "Verdana", "origin": Vector2(-2644, 1623), "monster_drops": [] },
+	SEABRIGHT: { "name": "Seabright Quay", "origin": Vector2(-2444, 2771), "monster_drops": [] },
 	LAKE_SERIN: { "name": "Lake Serin", "origin": Vector2(-2894, -1625),
 		"monster_drops": [&"hollow_acorn", &"moss_lantern", &"thorn_sprig"] },
 	STARFALL: { "name": "Starfall Range", "origin": Vector2(-3194, -3201),
@@ -96,6 +100,7 @@ const ZONES := {
 	VERDANA_BAKERY: { "name": "Pim's Bakery", "origin": Vector2(-2284, 1743), "monster_drops": [] },
 	VERDANA_BARN: { "name": "The Hensley Barn", "origin": Vector2(-3204, 1913), "monster_drops": [] },
 	VERDANA_MILL: { "name": "Verdana Mill", "origin": Vector2(-2164, 1963), "monster_drops": [] },
+	SEABRIGHT_HOTEL: { "name": "The Seabright Grand", "origin": Vector2(-2264, 2571), "monster_drops": [] },
 	SERIN_FISHER_HUT: { "name": "Neri's Hut", "origin": Vector2(-2074, -1735), "monster_drops": [] },
 	STARFALL_CABIN: { "name": "Hald's Cabin", "origin": Vector2(-2574, -3311), "monster_drops": [] },
 	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2518), "monster_drops": [] },
@@ -113,6 +118,7 @@ const TOWNS := {
 	KALMORA: { "spawn": &"town", "position": Vector2(-13, -609) },
 	SORENDA: { "spawn": &"town", "position": Vector2(0, 0) },
 	VERDANA: { "spawn": &"town", "position": Vector2(-200, -600) },
+	SEABRIGHT: { "spawn": &"town", "position": Vector2(-300, -510) },
 }
 
 ## Walkable connections. `exit` is where you leave `from` (local position of its
@@ -148,6 +154,10 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(-200, -600), "gate": &"" },
 	{ "from": VERDANA, "to": AUREWIND, "exit": Vector2(-200, -660), "spawn": &"from_verdana",
 		"entry": Vector2(-500, 820), "gate": &"" },
+	{ "from": VERDANA, "to": SEABRIGHT, "exit": Vector2(-100, 572), "spawn": &"from_verdana",
+		"entry": Vector2(-300, -510), "gate": &"" },
+	{ "from": SEABRIGHT, "to": VERDANA, "exit": Vector2(-300, -572), "spawn": &"from_resort",
+		"entry": Vector2(-100, 515), "gate": &"" },
 	{ "from": AUREWIND, "to": LAKE_SERIN, "exit": Vector2(150, -916), "spawn": &"from_aurewind",
 		"entry": Vector2(700, 720), "gate": &"" },
 	{ "from": LAKE_SERIN, "to": AUREWIND, "exit": Vector2(700, 788), "spawn": &"from_lake_serin",
@@ -200,6 +210,7 @@ const TOWN_INNS := {
 	KALMORA: KALMORA_TAVERN,
 	SORENDA: SORENDA_INN,
 	VERDANA: VERDANA_INN,
+	SEABRIGHT: SEABRIGHT_HOTEL,
 }
 
 

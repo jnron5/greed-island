@@ -1,0 +1,251 @@
+[gd_scene load_steps=35 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/resort/interiors/lobby_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/fennick/fennick_frames.tres" id="n_fennick"]
+
+[sub_resource type="RectangleShape2D" id="R320x100"]
+size = Vector2(320, 100)
+
+[sub_resource type="RectangleShape2D" id="R76x42"]
+size = Vector2(76, 42)
+
+[sub_resource type="RectangleShape2D" id="R28x256"]
+size = Vector2(28, 256)
+
+[sub_resource type="RectangleShape2D" id="R96x104"]
+size = Vector2(96, 104)
+
+[sub_resource type="RectangleShape2D" id="R32x56"]
+size = Vector2(32, 56)
+
+[sub_resource type="RectangleShape2D" id="R34x46"]
+size = Vector2(34, 46)
+
+[sub_resource type="RectangleShape2D" id="R24x30"]
+size = Vector2(24, 30)
+
+[sub_resource type="RectangleShape2D" id="R80x36"]
+size = Vector2(80, 36)
+
+[sub_resource type="RectangleShape2D" id="R30x28"]
+size = Vector2(30, 28)
+
+[sub_resource type="RectangleShape2D" id="R28x30"]
+size = Vector2(28, 30)
+
+[sub_resource type="RectangleShape2D" id="R28x32"]
+size = Vector2(28, 32)
+
+[sub_resource type="RectangleShape2D" id="R30x62"]
+size = Vector2(30, 62)
+
+[sub_resource type="RectangleShape2D" id="R28x62"]
+size = Vector2(28, 62)
+
+[sub_resource type="RectangleShape2D" id="R28x58"]
+size = Vector2(28, 58)
+
+[sub_resource type="RectangleShape2D" id="R72x30"]
+size = Vector2(72, 30)
+
+[sub_resource type="RectangleShape2D" id="R32x24"]
+size = Vector2(32, 24)
+
+[sub_resource type="RectangleShape2D" id="R72x26"]
+size = Vector2(72, 26)
+
+[sub_resource type="RectangleShape2D" id="R128x16"]
+size = Vector2(128, 16)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="seabright_hotel" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Seabright Grand"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 50.0)
+shape = SubResource("R320x100")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 105.0)
+shape = SubResource("R76x42")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(14.0, 128.0)
+shape = SubResource("R28x256")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(306.0, 128.0)
+shape = SubResource("R28x256")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(252.0, 108.0)
+shape = SubResource("R96x104")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(48.0, 90.0)
+shape = SubResource("R32x56")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(283.0, 135.0)
+shape = SubResource("R34x46")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(256.0, 151.0)
+shape = SubResource("R24x30")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(76.0, 162.0)
+shape = SubResource("R80x36")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(75.0, 184.0)
+shape = SubResource("R30x28")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(44.0, 191.0)
+shape = SubResource("R28x30")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(74.0, 206.0)
+shape = SubResource("R28x32")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(25.0, 217.0)
+shape = SubResource("R30x62")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(110.0, 217.0)
+shape = SubResource("R28x62")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(210.0, 219.0)
+shape = SubResource("R28x58")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(254.0, 185.0)
+shape = SubResource("R72x30")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(256.0, 208.0)
+shape = SubResource("R32x24")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(256.0, 219.0)
+shape = SubResource("R72x26")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(297.0, 217.0)
+shape = SubResource("R30x62")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(64.0, 248.0)
+shape = SubResource("R128x16")
+
+[node name="W20" type="CollisionShape2D" parent="Walls"]
+position = Vector2(256.0, 248.0)
+shape = SubResource("R128x16")
+
+[node name="W21" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W22" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W23" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W24" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(160, 214)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(160, 252)
+target_scene = "res://scenes/world/seabright_quay.tscn"
+target_spawn = &"from_househotel"
+exit_hint = true
+
+[node name="Npc_fennick" parent="." instance=ExtResource("9_npc")]
+position = Vector2(110, 136)
+npc_id = &"fennick"
+display_name = "Fennick"
+sprite_frames = ExtResource("n_fennick")
+lines = PackedStringArray("Welcome to the Seabright Grand. Do mind the rug; it was a gift from the Crown.", "We are, I'm afraid, rather full. Racing season. And the royal cousins, of course. And the Duke has the whole top floor. He always has the whole top floor.", "The young ladies Sparkle and Sassy are by the pool and the pier, respectively. Or the other way round. One rarely knows.", "The hotel asks guests not to discuss business in the lobby. The hotel is mostly asking the Duke.", "Our chef trained under Chef himself, in Vetrassa. Please do not tell the woman who runs the inn at Sorenda; she sent us a very long letter about it.", "Should you require anything at all, ring the bell. I shall appear. I always appear.")
+inn_rooms = true
+shop_stock = Array[StringName]([&"bread", &"smoked_fish", &"healers_tonic"])
+shop_buys_cards = false
+shop_title = "The Seabright Grand"
+wake_lines = PackedStringArray("Ah. You're awake. A fisherman found you and brought you up the quay. We have put the room on account. Do try not to faint on the promenade again; it upsets the guests.", "Welcome back to the land of the living. Tea is on its way. The Seabright Grand prides itself on its recoveries.")
+room_prompt = "Certainly. A sea view, naturally. Half a day, or the full day?"
+room_broke = "I'm afraid a room is %d gold, even for racers. Perhaps the inn at Verdana; I hear the dinner is very punctual."
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(160, 130)
+script = ExtResource("12_read")
+title = "The guest register"
+lines = PackedStringArray("A heavy leather book open on the desk. 'Top floor, all rooms: the Duke. Standing booking. Paid in advance, every season.'", "Under it, in the same hand, a list of 'business guests' who all arrived by sea, at night. None of them have names. They have numbers.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(160, 214)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]
