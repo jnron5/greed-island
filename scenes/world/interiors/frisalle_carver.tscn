@@ -1,0 +1,181 @@
+[gd_scene load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/frisalle/interiors/carver_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R320x64"]
+size = Vector2(320, 64)
+
+[sub_resource type="RectangleShape2D" id="R14x256"]
+size = Vector2(14, 256)
+
+[sub_resource type="RectangleShape2D" id="R20x256"]
+size = Vector2(20, 256)
+
+[sub_resource type="RectangleShape2D" id="R110x84"]
+size = Vector2(110, 84)
+
+[sub_resource type="RectangleShape2D" id="R106x76"]
+size = Vector2(106, 76)
+
+[sub_resource type="RectangleShape2D" id="R64x156"]
+size = Vector2(64, 156)
+
+[sub_resource type="RectangleShape2D" id="R62x146"]
+size = Vector2(62, 146)
+
+[sub_resource type="RectangleShape2D" id="R52x40"]
+size = Vector2(52, 40)
+
+[sub_resource type="RectangleShape2D" id="R112x42"]
+size = Vector2(112, 42)
+
+[sub_resource type="RectangleShape2D" id="R90x42"]
+size = Vector2(90, 42)
+
+[sub_resource type="RectangleShape2D" id="R144x26"]
+size = Vector2(144, 26)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="frisalle_carver" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Liesl's Workshop"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 32.0)
+shape = SubResource("R320x64")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(7.0, 128.0)
+shape = SubResource("R14x256")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(310.0, 128.0)
+shape = SubResource("R20x256")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(69.0, 172.0)
+shape = SubResource("R110x84")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(129.0, 94.0)
+shape = SubResource("R106x76")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(208.0, 108.0)
+shape = SubResource("R64x156")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(269.0, 113.0)
+shape = SubResource("R62x146")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(204.0, 208.0)
+shape = SubResource("R52x40")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(56.0, 235.0)
+shape = SubResource("R112x42")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(275.0, 235.0)
+shape = SubResource("R90x42")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(248.0, 243.0)
+shape = SubResource("R144x26")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(150, 214)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(142, 248)
+target_scene = "res://scenes/world/frisalle.tscn"
+target_spawn = &"from_housecarver"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(150, 136)
+script = ExtResource("12_read")
+title = "A half-carved figure"
+lines = PackedStringArray("A little wolf, half out of the block. Round its neck Liesl has carved a collar, and on the collar a tiny red sun.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(160, 196)
+script = ExtResource("12_read")
+title = "Liesl's order book"
+lines = PackedStringArray("Spoons, a cradle, a sign for the inn. Then: 'Bodo: armchair, walnut. Paid three times the price. Said forget it.' Then: 'Bodo: a box with a false bottom. Said forget that too.'")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(150, 214)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

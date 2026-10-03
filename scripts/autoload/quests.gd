@@ -14,6 +14,7 @@ const TITLES := {
 	&"trees_remember": "What the Trees Remember",
 	&"wens_boat": "A Boat for Wen",
 	&"stones_remember": "Stones That Remember",
+	&"merchants_ledger": "The Merchant's Ledger",
 }
 ## Kalmora: Wen is building a boat to fetch her papa home from the Duskara work.
 const BOAT_PARTS: Array[StringName] = [&"boat_sail", &"boat_oars", &"boat_rope"]
@@ -31,6 +32,14 @@ const STONES := {
 }
 const STONES_REWARD_GOLD := 60
 const STONES_REWARD_CARD := &"stonesong_charm"
+## Frisalle: Mirren the clerk wants three records read (Readables with these titles).
+const LEDGER_CLUES := {
+	"The weigh house tally board": "res://scenes/world/frisalle.tscn",
+	"The great ledger": "res://scenes/world/interiors/frisalle_counting.tscn",
+	"A letter in the desk drawer": "res://scenes/world/interiors/frisalle_weighmaster.tscn",
+}
+const LEDGER_REWARD_GOLD := 60
+const LEDGER_REWARD_CARD := &"factors_seal"
 const CARGO_CLUES: Array[StringName] = [&"crate_sand", &"crate_glove", &"crate_ledger"]
 const CARGO_REWARD_GOLD := 40
 
@@ -148,11 +157,36 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					])
 				DONE:
 					return PackedStringArray(["A ledger in stone. I've read it forty years and never once added it up."])
+		&"mirren":
+			match stage(&"merchants_ledger"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"You're a racer. You go where you like and nobody asks you why. Will you do something for me? Quietly?",
+						"The books don't add up. I keep the factors' ledger, and I keep it straight. But somebody keeps a second column, and it isn't me.",
+						"Read the tally board at the weigh house in the square. Read the great ledger here, the facing page. And Bodo's house, across the square... I can't go into Bodo's house. You could.",
+						"Then come back and tell me I'm not imagining it.",
+					])
+				1:
+					return PackedStringArray(["The tally board in the square, the great ledger here, and whatever Bodo keeps at home. (%d/3 read)" % _ledger_read()])
+				2:
+					var lines := PackedStringArray([
+						"Forty carts. Through an ice road under the mountain, weighed at night, sealed with the second seal, sent down to Vetrassa for 'the Company'.",
+						"And signed 'D.', with a dachshund's head on the wax. The factors' charming friend. The Duke.",
+					])
+					if GameState.active_rivals.has(&"hoarder"):
+						lines.append("...And the Vetrassa factors are the Hoarder's family's people. The money your rival races on has been coming over my scales all winter.")
+					lines.append_array([
+						"Somebody brought the pass down so nobody would see the carts go by. Ottilie's Anselm was on the pass that night.",
+						"Take this. The second seal. If it's in your binder, it isn't in theirs. It's the only thing I can think to do.",
+					])
+					return lines
+				DONE:
+					return PackedStringArray(["I've started keeping a third book. Just for me. Everything they don't want counted."])
 		&"mirela":
 			if not flag(&"met_mirela"):
 				return PackedStringArray([
 					"Another one off the morning boat. Welcome to Kalmora, racer. I'm Mirela, harbormaster. Everything that lands here, I stamp. Including you.",
-					"You're here for the race, same as the other two cloaks who came in this week. Forty-four cards makes a set. Carry the whole set into Vetrassa, far up the north-west coast, and it's yours: riches beyond anything, so they say.",
+					"You're here for the race, same as the other two cloaks who came in this week. Forty-seven cards makes a set. Carry the whole set into Vetrassa, far up the north-west coast, and it's yours: riches beyond anything, so they say.",
 					"Talk to folk. Kalmora's people know things, and some of them have cards put by for a racer who asks nicely. Come back with three cards in hand and I'll give you one of mine.",
 					"Ask me anything you like before you go.",
 				])
@@ -191,6 +225,12 @@ func marker_for(npc_id: StringName) -> String:
 				return "?"
 	if npc_id == &"mirela" and not flag(&"met_mirela"):
 		return "!"
+	if npc_id == &"mirren":
+		match stage(&"merchants_ledger"):
+			NOT_STARTED:
+				return "!"
+			2:
+				return "?"
 	return ""
 
 
@@ -218,6 +258,18 @@ func talked_to(npc_id: StringName) -> void:
 				GameState.add_loose_card(GameState.PLAYER, STONES_REWARD_CARD)
 				set_stage(&"stones_remember", DONE)
 				EventBus.notify.emit("Quest complete: Stones That Remember (+%d gold, Stonesong Charm)" % STONES_REWARD_GOLD)
+		return
+	if npc_id == &"mirren":
+		match stage(&"merchants_ledger"):
+			NOT_STARTED:
+				set_stage(&"merchants_ledger", 2 if _ledger_read() == LEDGER_CLUES.size() else 1)
+				EventBus.notify.emit("Quest started: The Merchant's Ledger")
+			2:
+				GameState.add_currency(LEDGER_REWARD_GOLD)
+				GameState.add_loose_card(GameState.PLAYER, LEDGER_REWARD_CARD)
+				GameState.quest_flags[&"knows_ice_road"] = true
+				set_stage(&"merchants_ledger", DONE)
+				EventBus.notify.emit("Quest complete: The Merchant's Ledger (+%d gold, Factors' Seal)" % LEDGER_REWARD_GOLD)
 		return
 	if npc_id == &"pell" and stage(&"trees_remember") == NOT_STARTED:
 		set_stage(&"trees_remember", 1)
@@ -300,6 +352,15 @@ func read(title: String) -> void:
 			else:
 				quest_changed.emit(&"stones_remember", 1)
 				EventBus.notify.emit("Stones That Remember: %d of 3 stones read" % _stones_read())
+	if LEDGER_CLUES.has(title) and not flag(StringName("ledger:%s" % title)):
+		GameState.quest_flags[StringName("ledger:%s" % title)] = true
+		if stage(&"merchants_ledger") == 1:
+			if _ledger_read() == LEDGER_CLUES.size():
+				set_stage(&"merchants_ledger", 2)
+				EventBus.notify.emit("All three records read. Take what you found to Mirren at the counting house")
+			else:
+				quest_changed.emit(&"merchants_ledger", 1)
+				EventBus.notify.emit("The Merchant's Ledger: %d of 3 records read" % _ledger_read())
 	if title == SATCHEL_TITLE and stage(&"trees_remember") in [NOT_STARTED, 1]:
 		set_stage(&"trees_remember", 2)
 		EventBus.notify.emit("Take what you found to Elder Moss")
@@ -332,6 +393,11 @@ func tracker_text() -> String:
 			lines.append("%s: read the three standing stones (%d/3)" % [TITLES[&"stones_remember"], _stones_read()])
 		2:
 			lines.append("%s: tell Aldous in Verdana what you read" % TITLES[&"stones_remember"])
+	match stage(&"merchants_ledger"):
+		1:
+			lines.append("%s: read the weigh house board, the great ledger and Bodo's papers (%d/3)" % [TITLES[&"merchants_ledger"], _ledger_read()])
+		2:
+			lines.append("%s: tell Mirren at the counting house what you found" % TITLES[&"merchants_ledger"])
 	lines.append_array(Errands.tracker_lines())
 	return "\n".join(lines)
 
@@ -358,6 +424,13 @@ func map_goals() -> Array[String]:
 					add.call(STONES[title])
 		2:
 			add.call(WorldMap.VERDANA)
+	match stage(&"merchants_ledger"):
+		1:
+			for title: String in LEDGER_CLUES:
+				if not flag(StringName("ledger:%s" % title)):
+					add.call(WorldMap.FRISALLE)
+		2:
+			add.call(WorldMap.FRISALLE)
 	for id: StringName in Errands.ERRANDS:
 		if Errands.state(id) != Errands.ASKED:
 			continue
@@ -375,6 +448,10 @@ func map_goals() -> Array[String]:
 
 func _stones_read() -> int:
 	return STONES.keys().filter(func(t: String) -> bool: return flag(StringName("stone:%s" % t))).size()
+
+
+func _ledger_read() -> int:
+	return LEDGER_CLUES.keys().filter(func(t: String) -> bool: return flag(StringName("ledger:%s" % t))).size()
 
 
 func _parts_found() -> int:

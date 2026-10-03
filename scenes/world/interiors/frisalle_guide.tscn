@@ -1,0 +1,171 @@
+[gd_scene load_steps=25 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/frisalle/interiors/guide_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R320x112"]
+size = Vector2(320, 112)
+
+[sub_resource type="RectangleShape2D" id="R40x170"]
+size = Vector2(40, 170)
+
+[sub_resource type="RectangleShape2D" id="R46x20"]
+size = Vector2(46, 20)
+
+[sub_resource type="RectangleShape2D" id="R80x60"]
+size = Vector2(80, 60)
+
+[sub_resource type="RectangleShape2D" id="R60x122"]
+size = Vector2(60, 122)
+
+[sub_resource type="RectangleShape2D" id="R24x62"]
+size = Vector2(24, 62)
+
+[sub_resource type="RectangleShape2D" id="R20x256"]
+size = Vector2(20, 256)
+
+[sub_resource type="RectangleShape2D" id="R132x24"]
+size = Vector2(132, 24)
+
+[sub_resource type="RectangleShape2D" id="R132x30"]
+size = Vector2(132, 30)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="frisalle_guide" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Guide's Lodge"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 56.0)
+shape = SubResource("R320x112")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(44.0, 95.0)
+shape = SubResource("R40x170")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(99.0, 118.0)
+shape = SubResource("R46x20")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(60.0, 206.0)
+shape = SubResource("R80x60")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(266.0, 135.0)
+shape = SubResource("R60x122")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(212.0, 95.0)
+shape = SubResource("R24x62")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(10.0, 128.0)
+shape = SubResource("R20x256")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(310.0, 128.0)
+shape = SubResource("R20x256")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(66.0, 244.0)
+shape = SubResource("R132x24")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(254.0, 241.0)
+shape = SubResource("R132x30")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(160, 214)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(160, 244)
+target_scene = "res://scenes/world/frisalle.tscn"
+target_spawn = &"from_houseguide"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(160, 122)
+script = ExtResource("12_read")
+title = "The map of the passes"
+lines = PackedStringArray("Every route over the Starfall Range in Sven's hand, with the guides' huts and the safe snow marked. The main pass is crossed through in red: 'SLIDE. Drill marks.'", "A thin dotted line he has added since: from the ice caves east of the pass, under the mountain, coming out behind Frisalle. Beside it: 'ice road? carts? who cut it?'")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(112, 200)
+script = ExtResource("12_read")
+title = "Sven's logbook"
+lines = PackedStringArray("'Took the Vetrassa factors over in autumn. Took the Duke's man over twice, with a heavy pack he wouldn't let me carry. Then the slide. No more fares.'", "'Heard wheels under the mountain last night. Ottilie says I'm drinking. I'm not drinking. Yet.'")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(160, 214)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

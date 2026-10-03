@@ -263,6 +263,22 @@ const ERRANDS := {
 		],
 		"after": "Did I give you something? I feel like I gave you something. Lovely.",
 	},
+	# ---- Frisalle ----
+	&"ottilie_stew": {
+		"npc": &"ottilie", "zone": "res://scenes/world/frisalle.tscn", "card": &"frisalle_hearthstone", "need": "item",
+		"item": &"seabright_stew", "count": 1,
+		"ask": [
+			"Forty years I've cooked in this kitchen, and I've never once eaten anybody else's cooking. Isn't that a sad thing to say out loud?",
+			"They say a cook down at Seabright Quay makes Chef's own stew, the one Vetrassa queues round the square for. Bring me a bowl, love. Just one. I want to know what all the fuss is.",
+			"I'll give you the hearthstone out of this fire. It's been warming in there since before the inn had a name.",
+		],
+		"waiting": "A Seabright Stew, from the terrace out on the water at Seabright Quay, south of Verdana. Keep it under your cloak; it's a long cold road.",
+		"give": [
+			"...Oh. Oh, that's saffron. Somebody's put saffron in a fish stew and made it sing. Don't you dare tell my regulars.",
+			"Here. The hearthstone. Put it in your bed at night and think of an old dog who learned something new.",
+		],
+		"after": "I've been trying the saffron. Sven says it tastes of money. Sven can make his own supper.",
+	},
 	&"hald_wolves": {
 		"npc": &"hald", "zone": "res://scenes/world/starfall_range.tscn", "card": &"starfall_edelweiss", "need": "kills",
 		"monster": &"frost_wolf", "count": 3, "hunt": "res://scenes/world/starfall_range.tscn",
@@ -460,6 +476,6 @@ func _npc_name(npc_id: StringName) -> String:
 		&"sailor": "Luca", &"pip": "Pip", &"baker": "Rosa", &"tomas": "Keeper Tomas", &"mirela": "Mirela",
 		&"otto": "Otto", &"nonna": "Nonna Vess", &"brannoc": "Brannoc", &"ilse": "Ilse",
 		&"harl": "Harl", &"wren": "Wren", &"juniper": "Juniper", &"tobin": "Tobin",
-		&"tilly": "Tilly", &"sully": "Sully", &"sparkle": "Sparkle", &"sassy": "Sassy", &"marta": "Marta", &"neri": "Neri", &"hald": "Hald", &"oda": "Oda",
+		&"tilly": "Tilly", &"sully": "Sully", &"sparkle": "Sparkle", &"sassy": "Sassy", &"ottilie": "Ottilie", &"mirren": "Mirren", &"marta": "Marta", &"neri": "Neri", &"hald": "Hald", &"oda": "Oda",
 	}
 	return NAMES.get(npc_id, String(npc_id).capitalize())

@@ -12,7 +12,7 @@ const SEA := Color(0.16, 0.36, 0.46)
 const GOLD := Color(1.0, 0.8, 0.35)
 const ROOM_AREAS := {
 	"kalmora_": WorldMap.KALMORA, "sorenda_": WorldMap.SORENDA, "verdana_": WorldMap.VERDANA,
-	"serin_": WorldMap.LAKE_SERIN, "starfall_": WorldMap.STARFALL, "seabright_": WorldMap.SEABRIGHT,
+	"serin_": WorldMap.LAKE_SERIN, "starfall_": WorldMap.STARFALL, "seabright_": WorldMap.SEABRIGHT, "frisalle_": WorldMap.FRISALLE,
 }
 var FONT: Font = get_theme_default_font()
 

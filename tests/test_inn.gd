@@ -9,6 +9,7 @@ const INNS := {
 	"res://scenes/world/interiors/sorenda_inn.tscn": &"mate",
 	"res://scenes/world/interiors/verdana_inn.tscn": &"tally",
 	"res://scenes/world/interiors/seabright_hotel.tscn": &"fennick",
+	"res://scenes/world/interiors/frisalle_inn.tscn": &"ottilie",
 }
 
 var _failures := 0

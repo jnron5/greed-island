@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/snowglass_lantern.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"snowglass_lantern"
+display_name = "Snowglass Lantern"
+description = "A lantern of frosted glass, glowing pale blue."
+lore = "Hung in the bell tower on the night the stars fall, so the guides on the pass can find their way down. Nobody has lit it since the slide. There have been no guides to light it for."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 14
+icon = ExtResource("2_art")
+copies_in_world = 3

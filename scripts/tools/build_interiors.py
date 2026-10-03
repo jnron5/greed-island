@@ -548,6 +548,141 @@ INTERIORS = {
             ]),
         ],
     },
+    # ---- Frisalle (outdoors: build_region.py) ----
+    "frisalle_inn": {
+        "town": "res://scenes/world/frisalle.tscn",
+        "name": "The Hearth & Horn",
+        "image": "assets/sprites/tiles/frisalle/interiors/inn_room.png",
+        "size": (320, 256),
+        "exit": (160, 250), "back_to": "from_houseinn", "spawn": (160, 222),
+        "blocks": [
+            (0, 0, 320, 112), (124, 90, 196, 124), (0, 0, 34, 256), (34, 40, 74, 126),   # back wall, hearth, stairs
+            (216, 100, 262, 186), (262, 0, 320, 256),                                     # the bar, the shelves behind it
+            (30, 124, 108, 178), (124, 126, 196, 180), (46, 188, 124, 236),               # tables and benches
+            (190, 204, 232, 240), (0, 200, 40, 256), (284, 200, 320, 256),                # coat rack, the corners
+            (0, 244, 136, 256), (184, 244, 320, 256),                                     # the front wall round the door
+        ],
+        "npcs": [("ottilie", "Ottilie", "ottilie", (204, 194), [
+            "Come in, come in, shake the snow off! Boots by the fire, coat on the rack, and you'll have something hot before you've said your name.",
+            "The toll was my idea. One wolf collar a head. The wolves took every goat on the upper meadow; let the wolves pay to get in, I said.",
+            "My Anselm guided folk over the pass for thirty years. They carved his name on the bell tower the winter the slide came down. Last name on it. I mean to keep it the last.",
+            "Somebody drilled that mountain, love. Weather doesn't drill. When I find out who, they'll pay a toll they'll remember.",
+            "Bodo's buying rounds again. Bodo never bought a round in his life before the slide. A man doesn't get generous; he gets paid.",
+            "Little Mirren from the counting house eats here every night and never finishes her plate. Something's eating her first, poor thing.",
+            "They say there's a cook down on the south coast making Chef's own stew, the one from Vetrassa. Fancy that. I've never tasted it. Never been further than the pass.",
+            "Supper at dusk, bed when you like, and nobody sleeps cold in my house. Those are the rules. There aren't any others.",
+        ], [])],
+        "inn": "ottilie",
+        "keeper": {"wake_lines": [
+                       "There you are. Sven carried you down off the snow like a sack of flour. Drink this. All of it. Don't argue with me.",
+                       "Welcome back, love. You were blue when they brought you in. You're pink now. Pink's better. Stay pink.",
+                   ],
+                   "room_prompt": "A bed by the chimney, a hot stone for your feet. Half a day, or the whole day?",
+                   "room_broke": "It's %d gold, love, and I've a roof to keep up. Sit by the fire as long as you like, though. That's free."},
+        "readables": [
+            ("The visitors' book", (150, 196), [
+                "Racers, guides, a pedlar or two. Then, since the slide, a page of names in one hand that all signed in after midnight, and all paid in Duskara silver.",
+            ]),
+        ],
+    },
+    "frisalle_counting": {
+        "town": "res://scenes/world/frisalle.tscn",
+        "name": "The Factors' Counting House",
+        "image": "assets/sprites/tiles/frisalle/interiors/counting_room.png",
+        "size": (320, 256),
+        "exit": (157, 228), "back_to": "from_housecounting", "spawn": (157, 204),
+        "blocks": [
+            (0, 0, 320, 100), (14, 100, 98, 178), (88, 90, 122, 130), (186, 20, 238, 136),   # back wall, clerks' desks, stove, shelves
+            (244, 112, 290, 150), (254, 150, 300, 200), (130, 128, 220, 192),                # strongbox, scales, the partners' desk
+            (0, 0, 16, 256), (300, 0, 320, 256), (0, 180, 20, 256), (300, 180, 320, 256),    # walls and corners
+            (0, 212, 136, 256), (180, 212, 320, 256),                                        # the front wall round the door
+        ],
+        "npcs": [("mirren", "Mirren", "mirren", (112, 190), [
+            "Oh! A customer. Nobody comes in. Well, the factors come in. They don't count as customers. They count everything else.",
+            "I'm the clerk. I keep the books. I keep them very carefully. Somebody else keeps the other books.",
+            "Please don't touch the strongbox. Please don't look at the strongbox. Thank you.",
+            "Before the slide we sealed perhaps a cart a week over the pass. Since the slide, the pass is closed, and somehow I'm busier than ever.",
+            "The factors live in Vetrassa. They come up once a year, eat at the Hearth & Horn, and go home. They've a friend who keeps an eye on things. A dachshund. Very charming. Very interested in carts.",
+        ], [])],
+        "readables": [
+            ("The great ledger", (238, 160), [
+                "The factors' book, in Mirren's tidy hand. 'Over the pass: nil. Through the town: nil. Sealed and weighed: flour, salt, firewood.'",
+                "On the facing page, in a different ink: forty cartloads 'from the south road', weighed at night, sealed with the second seal. Consigned to 'the Company, by way of Vetrassa'.",
+            ]),
+            ("A portrait", (40, 194), [
+                "A stern old factor in a fur collar, a seal on a ribbon round his neck. The brass plate reads 'Founder'. Somebody has stuck a little paper crown on his head and taken it off again.",
+            ]),
+        ],
+    },
+    "frisalle_carver": {
+        "town": "res://scenes/world/frisalle.tscn",
+        "name": "Liesl's Workshop",
+        "image": "assets/sprites/tiles/frisalle/interiors/carver_room.png",
+        "size": (320, 256),
+        "exit": (142, 248), "back_to": "from_housecarver", "spawn": (150, 214),
+        "blocks": [
+            (0, 0, 320, 64), (0, 0, 14, 256), (300, 0, 320, 256),                    # walls
+            (14, 130, 124, 214), (76, 56, 182, 132), (176, 30, 240, 186),              # bed, workbench, the owl and the shelves
+            (238, 40, 300, 186), (178, 188, 230, 228),                                 # stove, stacked logs
+            (0, 214, 112, 256), (230, 214, 320, 256), (176, 230, 320, 256),            # the floor's lower edges
+        ],
+        "npcs": [],
+        "readables": [
+            ("A half-carved figure", (150, 136), [
+                "A little wolf, half out of the block. Round its neck Liesl has carved a collar, and on the collar a tiny red sun.",
+            ]),
+            ("Liesl's order book", (160, 196), [
+                "Spoons, a cradle, a sign for the inn. Then: 'Bodo: armchair, walnut. Paid three times the price. Said forget it.' Then: 'Bodo: a box with a false bottom. Said forget that too.'",
+            ]),
+        ],
+    },
+    "frisalle_weighmaster": {
+        "town": "res://scenes/world/frisalle.tscn",
+        "name": "The Weigh Master's House",
+        "image": "assets/sprites/tiles/frisalle/interiors/weigh_room.png",
+        "size": (320, 256),
+        "exit": (157, 236), "back_to": "from_houseweigh", "spawn": (157, 210),
+        "blocks": [
+            (0, 0, 320, 100), (92, 86, 156, 118), (160, 50, 204, 108), (208, 40, 232, 108),   # back wall, desk, cabinet, clock
+            (20, 40, 70, 212), (66, 110, 112, 170), (262, 70, 296, 170), (236, 90, 262, 128),  # stove, armchair, wardrobe, chair
+            (220, 166, 296, 212), (0, 0, 20, 256), (300, 0, 320, 256),                        # bed, side walls
+            (0, 220, 136, 256), (180, 220, 320, 256),                                         # the front wall round the door
+        ],
+        "npcs": [],
+        "readables": [
+            ("A letter in the desk drawer", (124, 124), [
+                "The drawer isn't locked. It's the false bottom of the box inside it that's locked, and Bodo has left the key in it.",
+                "'B. Forty loads this winter, through the ice road. Weigh them, seal them, forget them. Your fee is enclosed. The Company thanks you. D.' The seal on it is a dachshund's head over a crossed pick.",
+            ]),
+            ("A cabinet of silver cups", (182, 120), [
+                "Racing cups, christening cups, a punch bowl. None of them engraved with Bodo's name. All of them new.",
+            ]),
+        ],
+    },
+    "frisalle_guide": {
+        "town": "res://scenes/world/frisalle.tscn",
+        "name": "The Guide's Lodge",
+        "image": "assets/sprites/tiles/frisalle/interiors/guide_room.png",
+        "size": (320, 256),
+        "exit": (160, 244), "back_to": "from_houseguide", "spawn": (160, 214),
+        "blocks": [
+            (0, 0, 320, 112), (24, 10, 64, 180), (76, 108, 122, 128),            # back wall, fireplace, boots drying
+            (20, 176, 100, 236), (236, 74, 296, 196), (200, 64, 224, 126),       # table, bunk bed, sled
+            (0, 0, 20, 256), (300, 0, 320, 256),                                  # side walls
+            (0, 232, 132, 256), (188, 226, 320, 256),                             # the front wall round the door
+        ],
+        "npcs": [],
+        "readables": [
+            ("The map of the passes", (160, 122), [
+                "Every route over the Starfall Range in Sven's hand, with the guides' huts and the safe snow marked. The main pass is crossed through in red: 'SLIDE. Drill marks.'",
+                "A thin dotted line he has added since: from the ice caves east of the pass, under the mountain, coming out behind Frisalle. Beside it: 'ice road? carts? who cut it?'",
+            ]),
+            ("Sven's logbook", (112, 200), [
+                "'Took the Vetrassa factors over in autumn. Took the Duke's man over twice, with a heavy pack he wouldn't let me carry. Then the slide. No more fares.'",
+                "'Heard wheels under the mountain last night. Ottilie says I'm drinking. I'm not drinking. Yet.'",
+            ]),
+        ],
+    },
     # ---- Verdana, Lake Serin, the Starfall Range (outdoor zones: build_region.py) ----
     "verdana_inn": {
         "town": "res://scenes/world/verdana.tscn",

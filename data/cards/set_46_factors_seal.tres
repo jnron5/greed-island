@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/factors_seal.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"factors_seal"
+display_name = "Factors' Seal"
+description = "The brass seal of Frisalle's trading factors."
+lore = "Every load that crosses Frisalle's scales is sealed with it. Mirren found two seals in the strongbox: one for the books, and one for the carts nobody was meant to count."
+rarity = 1
+source = 0
+is_final_set_member = true
+sell_value = 60
+icon = ExtResource("2_art")
+copies_in_world = 3

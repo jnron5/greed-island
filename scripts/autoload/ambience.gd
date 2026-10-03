@@ -48,7 +48,7 @@ func _pick() -> void:
 		_play(&"meadow")
 	elif zone.scene_file_path == WorldMap.LAKE_SERIN:
 		_play(&"lake")
-	elif zone.scene_file_path == WorldMap.STARFALL:
+	elif zone.scene_file_path in [WorldMap.STARFALL, WorldMap.FRISALLE]:
 		_play(&"mountain")
 	else:
 		_outdoor_forest = true

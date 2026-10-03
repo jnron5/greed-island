@@ -30,6 +30,12 @@ const VERDANA_MILL := "res://scenes/world/interiors/verdana_mill.tscn"
 const SEABRIGHT := "res://scenes/world/seabright_quay.tscn"
 const SEABRIGHT_HOTEL := "res://scenes/world/interiors/seabright_hotel.tscn"
 const SEABRIGHT_BUNGALOW := "res://scenes/world/interiors/seabright_bungalow.tscn"
+const FRISALLE := "res://scenes/world/frisalle.tscn"
+const FRISALLE_INN := "res://scenes/world/interiors/frisalle_inn.tscn"
+const FRISALLE_COUNTING := "res://scenes/world/interiors/frisalle_counting.tscn"
+const FRISALLE_CARVER := "res://scenes/world/interiors/frisalle_carver.tscn"
+const FRISALLE_GUIDE := "res://scenes/world/interiors/frisalle_guide.tscn"
+const FRISALLE_WEIGH := "res://scenes/world/interiors/frisalle_weighmaster.tscn"
 const SERIN_FISHER_HUT := "res://scenes/world/interiors/serin_fisher_hut.tscn"
 const STARFALL_GROTTO := "res://scenes/world/starfall_grotto.tscn"
 const STARFALL_CABIN := "res://scenes/world/interiors/starfall_cabin.tscn"
@@ -74,6 +80,9 @@ const ZONES := {
 		"monster_drops": [&"bristle_fleece", &"thatch_charm", &"fern_sigil", &"thorn_sprig"] },
 	VERDANA: { "name": "Verdana", "origin": Vector2(-2644, 1623), "monster_drops": [] },
 	SEABRIGHT: { "name": "Seabright Quay", "origin": Vector2(-2444, 2771), "monster_drops": [] },
+	# Over the Starfall pass, through Frisalle's toll gate.
+	FRISALLE: { "name": "Frisalle", "origin": Vector2(-3294, -4733),
+		"monster_drops": [&"iron_wolf_collar", &"owl_quill", &"briar_wren"] },
 	LAKE_SERIN: { "name": "Lake Serin", "origin": Vector2(-2894, -1625),
 		"monster_drops": [&"hollow_acorn", &"moss_lantern", &"thorn_sprig"] },
 	STARFALL: { "name": "Starfall Range", "origin": Vector2(-3194, -3201),
@@ -103,6 +112,11 @@ const ZONES := {
 	VERDANA_MILL: { "name": "Verdana Mill", "origin": Vector2(-2164, 1963), "monster_drops": [] },
 	SEABRIGHT_HOTEL: { "name": "The Seabright Grand", "origin": Vector2(-1884, 2621), "monster_drops": [] },
 	SEABRIGHT_BUNGALOW: { "name": "The Sisters' Bungalow", "origin": Vector2(-1864, 3143), "monster_drops": [] },
+	FRISALLE_INN: { "name": "The Hearth & Horn", "origin": Vector2(-3574, -4693), "monster_drops": [] },
+	FRISALLE_COUNTING: { "name": "The Factors' Counting House", "origin": Vector2(-3094, -5169), "monster_drops": [] },
+	FRISALLE_CARVER: { "name": "Liesl's Workshop", "origin": Vector2(-3774, -4533), "monster_drops": [] },
+	FRISALLE_GUIDE: { "name": "The Guide's Lodge", "origin": Vector2(-2774, -4583), "monster_drops": [] },
+	FRISALLE_WEIGH: { "name": "The Weigh Master's House", "origin": Vector2(-3034, -4757), "monster_drops": [] },
 	SERIN_FISHER_HUT: { "name": "Neri's Hut", "origin": Vector2(-2074, -1735), "monster_drops": [] },
 	STARFALL_CABIN: { "name": "Hald's Cabin", "origin": Vector2(-2574, -3311), "monster_drops": [] },
 	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2518), "monster_drops": [] },
@@ -121,6 +135,7 @@ const TOWNS := {
 	SORENDA: { "spawn": &"town", "position": Vector2(0, 0) },
 	VERDANA: { "spawn": &"town", "position": Vector2(-200, -600) },
 	SEABRIGHT: { "spawn": &"town", "position": Vector2(-300, -510) },
+	FRISALLE: { "spawn": &"town", "position": Vector2(0, 580) },
 }
 
 ## Walkable connections. `exit` is where you leave `from` (local position of its
@@ -172,6 +187,11 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(-448, 400), "gate": &"" },
 	{ "from": STARFALL_GROTTO, "to": STARFALL, "exit": Vector2(-448, 476), "spawn": &"from_grotto",
 		"entry": Vector2(860, -150), "gate": &"" },
+	# Over the pass: Frisalle's toll gate (an Iron Wolf Collar).
+	{ "from": STARFALL, "to": FRISALLE, "exit": Vector2(-100, -892), "spawn": &"from_starfall",
+		"entry": Vector2(0, 580), "gate": &"starfall_pass" },
+	{ "from": FRISALLE, "to": STARFALL, "exit": Vector2(0, 636), "spawn": &"from_frisalle",
+		"entry": Vector2(-100, -826), "gate": &"starfall_pass" },
 ]
 
 static var _pickup_cache: Dictionary = {}
@@ -213,6 +233,7 @@ const TOWN_INNS := {
 	SORENDA: SORENDA_INN,
 	VERDANA: VERDANA_INN,
 	SEABRIGHT: SEABRIGHT_HOTEL,
+	FRISALLE: FRISALLE_INN,
 }
 
 

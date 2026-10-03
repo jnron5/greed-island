@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/frisalle_hearthstone.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"frisalle_hearthstone"
+display_name = "Frisalle Hearthstone"
+description = "A river stone that holds the fire's warmth all night."
+lore = "Every Frisalle hearth keeps a stone from the river warming in the embers, to take to bed. Ottilie's has been in the Hearth & Horn's fire since before the inn had a name."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 14
+icon = ExtResource("2_art")
+copies_in_world = 3

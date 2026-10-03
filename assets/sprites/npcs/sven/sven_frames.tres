@@ -1,0 +1,138 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/npcs/sven/sven_idle.png" id="1_idle"]
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_south_0"]
+atlas = ExtResource("1_idle")
+region = Rect2(0, 0, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_south_1"]
+atlas = ExtResource("1_idle")
+region = Rect2(25, 0, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_south_2"]
+atlas = ExtResource("1_idle")
+region = Rect2(50, 0, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_south_3"]
+atlas = ExtResource("1_idle")
+region = Rect2(75, 0, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_east_0"]
+atlas = ExtResource("1_idle")
+region = Rect2(0, 106, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_east_1"]
+atlas = ExtResource("1_idle")
+region = Rect2(25, 106, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_east_2"]
+atlas = ExtResource("1_idle")
+region = Rect2(50, 106, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_east_3"]
+atlas = ExtResource("1_idle")
+region = Rect2(75, 106, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_north_0"]
+atlas = ExtResource("1_idle")
+region = Rect2(0, 212, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_north_1"]
+atlas = ExtResource("1_idle")
+region = Rect2(25, 212, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_north_2"]
+atlas = ExtResource("1_idle")
+region = Rect2(50, 212, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_north_3"]
+atlas = ExtResource("1_idle")
+region = Rect2(75, 212, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_west_0"]
+atlas = ExtResource("1_idle")
+region = Rect2(0, 318, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_west_1"]
+atlas = ExtResource("1_idle")
+region = Rect2(25, 318, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_west_2"]
+atlas = ExtResource("1_idle")
+region = Rect2(50, 318, 25, 53)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_west_3"]
+atlas = ExtResource("1_idle")
+region = Rect2(75, 318, 25, 53)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_south_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_south_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_south_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_south_3")
+}],
+"loop": true,
+"name": &"idle_south",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_east_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_east_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_east_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_east_3")
+}],
+"loop": true,
+"name": &"idle_east",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_north_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_north_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_north_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_north_3")
+}],
+"loop": true,
+"name": &"idle_north",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_west_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_west_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_west_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_west_3")
+}],
+"loop": true,
+"name": &"idle_west",
+"speed": 4.0
+}]

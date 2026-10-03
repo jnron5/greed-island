@@ -50,6 +50,9 @@ LORE = {
     "fallen_star_shard": "The range is named for nights when stars fall into the snow. Sorenda's star map marks the stars that have gone out. This shard is the shape of one of them.",
     "rime_antler": "The Rime Stag sheds one antler for every winter it outlives. Hald says it was old when his grandfather was a boy, and that it only fights people who come up the mountain to take something.",
     "cairn_heart": "A stone from the Colossus's chest, carved with the crown of the circles and warm as a hearth. Aldous says the circles were built to keep it asleep, and somebody has been taking them apart.",
+    "frisalle_hearthstone": "Every Frisalle hearth keeps a stone from the river warming in the embers, to take to bed. Ottilie's has been in the Hearth & Horn's fire since before the inn had a name.",
+    "factors_seal": "Every load that crosses Frisalle's scales is sealed with it. Mirren found two seals in the strongbox: one for the books, and one for the carts nobody was meant to count.",
+    "snowglass_lantern": "Hung in the bell tower on the night the stars fall, so the guides on the pass can find their way down. Nobody has lit it since the slide. There have been no guides to light it for.",
 }
 
 

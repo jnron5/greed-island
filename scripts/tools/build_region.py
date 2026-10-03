@@ -903,6 +903,13 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
             n.append(f'[node name="{ex["name"]}" parent="." instance=ExtResource("7_exit")]\nposition = Vector2({x}, {y})\n'
                      f'target_scene = "{ex["target"]}"\ntarget_spawn = &"{ex["spawn"]}"\n' + ("exit_hint = true\n" if ex.get("hint") else ""))
 
+        # Card gates (scenes/systems/card_gate.tscn, data/gates/<id>.tres). Not counted as
+        # solid for the reach check: what's behind a gate counts as reachable (it can be paid).
+        for g in c.get("gates", []):
+            x, y = g["pos"]
+            n.append(f'[node name="Gate_{g["id"]}" parent="." instance=ExtResource("{res("PackedScene", "res://scenes/systems/card_gate.tscn")}")]\n'
+                     f'position = Vector2({x}, {y})\ngate_id = &"{g["id"]}"\nwidth = {float(g.get("width", 44))}\n'
+                     + ("vertical = true\n" if g.get("vertical") else "") + (f'look = &"{g["look"]}"\n' if g.get("look") else ""))
         # Portals: walk-in exits inside the zone (a cave mouth), drawn by a prop.
         for p in c.get("portals", []):
             x, y = p["pos"]

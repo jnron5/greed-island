@@ -12,6 +12,7 @@ lore = "Found on the frost wolves of the Starfall Range. Nobody collars a wild w
 rarity = 0
 source = 1
 is_final_set_member = true
+gate_card = true
 sell_value = 8
 icon = ExtResource("2_art")
 copies_in_world = 3

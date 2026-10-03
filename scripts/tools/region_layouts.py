@@ -3,7 +3,8 @@
 All positions are zone-local px. The island map (docs/reference/virelia_map.webp):
 the Aurewind Plains lie west of Kalmora, gold and green, with Verdana in their south
 and the old standing stones on the downs; Lake Serin lies north of the plains, and
-the Starfall Range rises north of the lake, its pass to Frisalle snowed shut.
+the Starfall Range rises north of the lake, its pass to Frisalle snowed shut but for
+the toll gate Frisalle's folk set into the slide.
 Exits line up with WorldMap.ZONES origins (scripts/world/world_map.gd).
 
 "Stones That Remember" (Aldous, Verdana) sends you to the three stones: the circle
@@ -504,7 +505,7 @@ STARFALL = {
     "snow": True,
     "snowfall": True,
     "paths": [
-        ([(0, 790), (-60, 420), (-224, 300), (-224, 130), (100, -150), (288, -300), (288, -470), (0, -640), (-100, -820)], 24),
+        ([(0, 790), (-60, 420), (-224, 300), (-224, 130), (100, -150), (288, -300), (288, -470), (0, -640), (-100, -820), (-100, -868)], 24),
         ([(100, -150), (450, -60), (550, -60)], 16),                        # to the hermit's cabin
         ([(560, -60), (860, -156)], 14),                                    # on to the ice grotto
         ([(-224, 100), (-450, 40), (-544, 100), (-544, 260)], 16),          # round the tarn, down the west stairs
@@ -523,8 +524,11 @@ STARFALL = {
     "entry": (0, 720),
     "exits": [
         {"name": "ToLakeSerin", "pos": (0, 788), "side": "s", "target": "res://scenes/world/lake_serin.tscn", "spawn": "from_starfall"},
+        {"name": "ToFrisalle", "pos": (-100, -892), "side": "n", "gap": 24, "target": "res://scenes/world/frisalle.tscn", "spawn": "from_starfall"},
     ],
-    "spawns": {"from_lake_serin": (0, 720), "from_grotto": (860, -150)},
+    # Frisalle's toll gate in the avalanche (data/gates/starfall_pass.tres: an Iron Wolf Collar).
+    "gates": [{"id": "starfall_pass", "pos": (-100, -876), "width": 44}],
+    "spawns": {"from_lake_serin": (0, 720), "from_grotto": (860, -150), "from_frisalle": (-100, -826)},
     # The Frost Grotto under the east shoulder (build_grotto.py).
     "portals": [{"name": "ToGrotto", "pos": (860, -224), "target": "res://scenes/world/starfall_grotto.tscn", "spawn": "from_starfall"}],
     "rival_spots": {"runner": (-40, 660), "raider": (40, 660), "hoarder": (0, 620)},
@@ -533,10 +537,14 @@ STARFALL = {
          "back": "from_househald"},
     ],
     "props": (
-        # The pass to Frisalle: an avalanche across it, boulders and drifts twice your height.
+        # The pass to Frisalle: an avalanche across it, boulders and drifts twice your height,
+        # dug through in the middle to a toll gate; a solid bank of boulders either side
+        # of the gate, so the only way north is through it.
         [{"sprite": SNOW_BOULDER, "pos": (x, y), "foot": (52, 18), "flip": (x // 10) % 2 == 0}
-         for x, y in [(-200, -846), (-150, -862), (-100, -850), (-50, -866), (0, -848), (50, -858), (-175, -822),
-                      (-125, -826), (-75, -820), (-25, -828), (25, -822)]]
+         for x, y in [(-200, -846), (-150, -862), (-50, -866), (0, -848), (50, -858), (-175, -822),
+                      (-25, -828), (25, -822), (-225, -820)]]
+        + [{"sprite": SNOW_BOULDER, "pos": (x, -874 + (0 if x in (-146, -54) else (x * 7) % 9 - 4)), "foot": (52, 20), "flip": (x // 10) % 2 == 1}
+           for x in list(range(-376, -160, 46)) + [-146, -54] + list(range(-8, 220, 46))]
         + [{"sprite": STONE, "pos": (120, -700), "foot": (26, 12), "scale": 1.3, "light": ((0.7, 0.85, 1.0, 1), 0.45, 1.2)}]
         + [{"sprite": SF + "ice_cave_mouth.png", "pos": (860, -196), "feet": [(-56, -20, 50, 40), (56, -20, 50, 40), (0, -52, 64, 22)],
             "light": ((0.55, 0.85, 1.0, 1), 0.5, 1.0)}]
@@ -553,7 +561,7 @@ STARFALL = {
         *[{"id": "goat", "node": f"Npc_goat{k}", "name": "Mountain Goat", "pos": p, "wander": 60, "offset": -16.0, "lines": [line]}
           for k, (p, line) in enumerate([((-620, 470), "Meh-eh-eh."), ((-540, 530), "..."), ((620, -640), "Mehh.")])],
         {"id": "hald", "name": "Hald", "pos": (540, -80), "wander": 30, "lines": [
-            "Frisalle's over the pass. Nobody's crossed since the slide. Nobody's tried very hard.",
+            "Frisalle's over the pass. Since the slide they've set a toll gate in it: one wolf collar a head. The wolves took their goats, so they want the wolves' collars. Fair, I suppose.",
             "The slide came down the week after the last barge went north. The Company men were up here with powder the week before. Make of that what you like.",
             "There's a cave in the east shoulder, past my woodpile. Ice all the way through. The wolves den in it now. The Company used it before the wolves did.",
         ]},
@@ -564,7 +572,7 @@ STARFALL = {
             "Scratched at the bottom, fresh: a crown, crossed out.",
         ]),
         ("The pass to Frisalle", (-60, -780), [
-            "Snow and boulders to twice your height, packed hard. A sign hammered into the drift: 'PASS CLOSED. Frisalle beyond.'",
+            "Snow and boulders to twice your height, packed hard, dug through in the middle to a stout gate. A sign hammered into the drift: 'FRISALLE. Toll: one Iron Wolf Collar. The wolves took our goats; bring us one of theirs.'",
             "Drill holes in the rock above the slide. Somebody brought it down on purpose.",
         ]),
         ("Frozen cart tracks", (-200, 380), [
@@ -783,4 +791,172 @@ RESORT = {
     "gulls": [((-200, 160), 3, (180, 70)), ((380, 240), 2, (140, 60)), ((-520, 120), 2, (120, 50))],
 }
 
-ZONES = {"seabright_quay": RESORT, "aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL}
+# ---------------------------------------------------------------- Frisalle (the snow village)
+# North over the Starfall pass, through Frisalle's toll gate. The road climbs from a
+# lower valley (a frozen pond, wolves at the edges) up stairs onto the village terrace:
+# a snowy square round the weigh house, the Hearth & Horn inn, chalets with carved
+# balconies, a frozen skating pond. Above it all, on the upper terrace, the counting
+# house of the trading factors and the bell tower. Alpine chalets, steep roofs, blue
+# shadows; snow falling.
+FR = "assets/sprites/tiles/frisalle/"
+
+
+def frisalle_level(x, y):
+    """0 the lower valley (the pass road comes in here), 1 the village terrace, 2 the
+    upper terrace (counting house, bell tower)."""
+    w = 26 * math.sin(x / 170.0) + 10 * math.sin(x / 60.0 + 2.0)
+    if y > 300 + w:
+        return 0
+    if y > -300 + w * 0.8 - 50 * math.exp(-((x - 600) / 110.0) ** 2):
+        return 1
+    return 2
+
+
+FRP = FR + "props/"
+
+
+def chalet(sprite, x, y, flip=False):
+    """A private chalet (no way in): drawn and solid like a building, but a prop."""
+    return {"sprite": FR + sprite, "pos": (x, y), "foot": (104, 40), "flip": flip}
+
+
+FRISALLE = {
+    "scene": "scenes/world/frisalle.tscn",
+    "root": "Frisalle",
+    "display": "Frisalle, the Village Under the Stars",
+    "art": FR,
+    "bounds": (-832, -640, 832, 640),
+    "cliff": SF + "cliff/snow",
+    "level": frisalle_level,
+    "tall_walls": {(0, 1): 1, (1, 2): 2},
+    "stairs": [(-60, 300, 0, 1), (640, 300, 0, 1), (-224, -300, 1, 2), (288, -300, 1, 2)],
+    "grade": (0.95, (0.98, 1.0, 1.05)),
+    "dapple": 0.08,
+    "snow": True,
+    "snowfall": True,
+    "paths": [
+        ([(0, 650), (0, 540), (-60, 420), (-60, 330), (-30, 230), (0, 110)], 24),     # the pass road up into the square
+        ([(-170, 40), (-280, 64)], 18),                                              # to the inn
+        ([(-150, 110), (-480, 224)], 14),                                            # to the woodcarver's
+        ([(170, 20), (260, 2)], 14),                                                 # to the weigh master's door
+        ([(150, 90), (520, 174)], 16),                                               # to the guide's lodge
+        ([(520, 174), (640, 236), (640, 360), (600, 500), (300, 590)], 16),         # and down the east stairs
+        ([(-100, -60), (-224, -200), (-224, -424), (-200, -400)], 16),              # up to the bell tower
+        ([(100, -60), (288, -200), (288, -420), (230, -408)], 18),                  # up to the counting house
+    ],
+    "plazas": [(0, 30, 170, 80), (210, -404, 90, 22)],
+    "plaza_stone": (184, 192, 206),
+    "ice": [(-200, 196, 80, 40), (-480, 470, 170, 60)],
+    "tree_kinds": ["pine"],
+    "groves": [(-700, -500, 6, 50), (700, -500, 6, 50), (-740, 160, 4, 40), (740, 60, 4, 40), (-640, 520, 5, 50),
+               (660, 500, 5, 50), (-420, -520, 3, 40), (460, -540, 3, 40), (0, -540, 3, 40), (-300, 580, 3, 35),
+               (380, -230, 2, 25), (-380, -240, 2, 25)],
+    "under": [("snow_shrub", 3), ("frost_grass", 3), ("snow_rocks", 1)],
+    "solid_under": ["snow_rocks"],
+    "patches": 22,
+    "safe_zone": (-832, -640, 832, 300),
+    "entry": (0, 580),
+    "exits": [
+        {"name": "ToStarfall", "pos": (0, 636), "side": "s", "target": "res://scenes/world/starfall_range.tscn", "spawn": "from_frisalle"},
+    ],
+    "spawns": {"from_starfall": (0, 580), "town": (0, 150)},
+    "rival_spots": {"runner": (-40, 560), "raider": (40, 560), "hoarder": (-120, 150)},
+    "buildings": [
+        {"node": "HouseInn", "sprite": FR + "inn.png", "pos": (-280, 40), "foot": 140,
+         "door": "res://scenes/world/interiors/frisalle_inn.tscn", "back": "from_houseinn"},
+        {"node": "HouseCounting", "sprite": FR + "counting_house.png", "pos": (200, -436), "foot": 118,
+         "door": "res://scenes/world/interiors/frisalle_counting.tscn", "back": "from_housecounting"},
+        {"node": "HouseCarver", "sprite": FR + "chalet_red.png", "pos": (-480, 200), "foot": 110,
+         "door": "res://scenes/world/interiors/frisalle_carver.tscn", "back": "from_housecarver"},
+        {"node": "HouseGuide", "sprite": FR + "chalet_green.png", "pos": (520, 150), "foot": 110,
+         "door": "res://scenes/world/interiors/frisalle_guide.tscn", "back": "from_houseguide"},
+        {"node": "HouseWeigh", "sprite": FR + "chalet_brown.png", "pos": (260, -24), "foot": 110,
+         "door": "res://scenes/world/interiors/frisalle_weighmaster.tscn", "back": "from_houseweigh"},
+    ],
+    "props": (
+        # The square: the weigh house on its north side, where every cart is weighed (a
+        # loaded sled waiting beside it), market stalls of knitwear and carved toys.
+        [{"sprite": FR + "weigh_house.png", "pos": (0, -40), "foot": (104, 22)}]
+        + [{"sprite": FRP + "sled.png", "pos": (90, -44), "foot": (52, 14)}]
+        + [{"sprite": FRP + "stall_knits.png", "pos": (-110, 104), "foot": (60, 14)},
+           {"sprite": FRP + "stall_toys.png", "pos": (110, 104), "foot": (56, 14)}]
+        # Neighbours' chalets (private) shoulder to shoulder round the square and the lanes.
+        + [chalet("chalet_brown.png", -150, -150, True), chalet("chalet_red.png", 150, -160),
+           chalet("chalet_green.png", -440, -110), chalet("chalet_red.png", 470, -150, True),
+           chalet("chalet_brown.png", -680, 40), chalet("chalet_green.png", 690, -30, True),
+           chalet("chalet_red.png", 330, 220, True)]
+        # The upper terrace: the bell tower; chalets of the better-off either side.
+        + [{"sprite": FR + "bell_tower.png", "pos": (-200, -430), "foot": (44, 18)}]
+        + [chalet("chalet_green.png", -480, -430), chalet("chalet_brown.png", 520, -440, True)]
+        # Woodpiles by the doors, a sled outside the guide's, the goat pen to the west.
+        + [{"sprite": FRP + "woodpile.png", "pos": p, "foot": (70, 14), "flip": f} for p, f in
+           [((-380, 220), False), ((610, 160), True), ((-400, 64), True), ((380, -20), False)]]
+        + [{"sprite": FRP + "sled_blue.png", "pos": (420, 190), "foot": (52, 14)}]
+        + [{"sprite": FRP + "fence.png", "pos": (x, y), "foot": (58, 8)} for x, y in
+           [(-720, -260), (-662, -260), (-604, -260), (-720, -150), (-604, -150)]]
+        # A snowman by the skating pond; the signpost at the top of the road.
+        + [{"sprite": FRP + "snowman.png", "pos": (-110, 236), "foot": (26, 10)}]
+        + [{"sprite": FRP + "signpost.png", "pos": (70, 232), "foot": (16, 8)}]
+        # Snow-capped boulders where the slopes shed them, ice crystals glowing blue.
+        + [{"sprite": SNOW_BOULDER, "pos": p, "foot": (52, 18), "flip": i % 2 == 1} for i, p in enumerate(
+            [(-760, 380), (-240, 460), (330, 450), (760, 330), (-640, -540), (700, -300), (760, -580)])]
+        + [{"sprite": ICE, "pos": p, "foot": (28, 10), "light": ((0.55, 0.85, 1.0, 1), 0.6, 0.9)} for p in
+           [(-380, -560), (360, -600), (-760, 600), (180, 560)]]
+    ),
+    "campfires": [(150, 176)],
+    "lanterns": [(-60, 470), (60, 222), (-200, 120), (210, 120), (-160, -270), (300, -270), (560, 400)],
+    "string_lights": [((-170, -10), (170, -10), 18), ((-170, 130), (170, 130), 18)],
+    "npcs": [
+        {"id": "bodo", "name": "Bodo", "pos": (-60, -10), "wander": 0, "lines": [
+            "Weigh master. Everything that comes into Frisalle comes across my scales. Everything.",
+            "Carts? No, no carts since the slide. Well. Hardly any. The scales are for... flour. Mostly flour.",
+            "My house? Inherited. From an uncle. A very generous uncle. Why do you ask?",
+            "The factors pay me to weigh, not to wonder. I recommend it. Weighing. Not wondering.",
+            "Lovely evening for staying indoors, racer. All evening. Whatever you hear.",
+        ]},
+        {"id": "liesl", "name": "Liesl", "pos": (-430, 236), "wander": 30, "lines": [
+            "Mind the shavings. Everything in Frisalle is carved by me or by the frost, and the frost does the cleaner job.",
+            "I carved the bell tower's star. Gold leaf over pine. From the square it looks like the real thing. Most things here do.",
+            "The children used to buy my little wolves. Now the wolves come down to the village by themselves and nobody's buying.",
+            "Bodo bought a carved armchair off me last month. Paid in coin, too much coin, and asked me to forget I'd sold it.",
+            "There's a night every winter when the stars fall into the snow up the pass. We go up and gather the shards. Went up this year. Found tracks instead. Cart tracks, going into the mountain.",
+        ]},
+        {"id": "sven", "name": "Sven", "pos": (470, 196), "wander": 30, "lines": [
+            "Sven. I guide folk over the pass. Did. Then the slide came down, very tidy, right where the road was.",
+            "Somebody drilled the rock above the pass and brought it down. Don't let anyone tell you it was the weather. Weather doesn't use drills.",
+            "The wolves have been bold since the slide. You can thank them for the toll. Ottilie's idea: one collar a head.",
+            "There's another way through the mountain, if you're a smuggler or a fool. The ice caves. I won't take anyone. I'm neither.",
+            "The south road runs on down to Duskara if you go far enough. Nobody from here goes far enough, and nobody from there comes back up it.",
+        ]},
+        # Goats in the pen to the west: they came down to the village when the wolves got bold.
+        *[{"id": "goat", "node": f"Npc_goat{k}", "name": "Mountain Goat", "pos": p, "wander": 20, "offset": -16.0, "lines": [line]}
+          for k, (p, line) in enumerate([((-690, -210), "Meh."), ((-630, -200), "Meh-eh."), ((-660, -230), "...Mehh.")])],
+    ],
+    "readables": [
+        ("The weigh house tally board", (-40, -16), [
+            "Chalk on slate, columns ruled straight: date, cart, weight, sealed by. Bodo's square hand.",
+            "Since the slide: 'nil, nil, nil' all down the 'over the pass' column. And then a second column, unheaded, that isn't nil at all. Forty carts this winter, heavy ones, all 'sealed by' the same little crossed-pick mark.",
+        ]),
+        ("The bell tower", (-250, -436), [
+            "A carved gold star on the spire, and a bronze bell green with age. Carved round the door: the names of every guide lost on the pass.",
+            "The last name is fresh: Anselm, the year of the slide.",
+        ]),
+        ("The toll hut notice", (60, 540), [
+            "'TRAVELLERS. Frisalle welcomes all who pay the toll at the pass. Wolves are not travellers. The Hearth & Horn serves supper at dusk.'",
+        ]),
+        ("The frozen pond", (-300, 196), [
+            "Skates hung on a peg by the bank. Scratched into the ice, in a child's careful hand: a crown, and a little figure under it, and another, and another.",
+        ]),
+        ("The signpost", (70, 246), [
+            "Three arrows. 'THE PASS' (south). 'THE HEARTH & HORN' (west, with a little painted horn). The third has been sawn off; the stump points north, at the mountain.",
+        ]),
+    ],
+    "chests": [
+        {"id": "bell_tower", "pos": (-300, -460), "card": "snowglass_lantern", "gold": 20},
+        {"id": "valley_cache", "pos": (700, 560), "gold": 40, "item": "healers_tonic"},
+    ],
+    "monsters": [(WOLF, (-600, 480)), (WOLF, (600, 520)), (WOLF, (-300, 560))],
+    "butterflies": [],
+}
+
+ZONES = {"seabright_quay": RESORT, "aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL, "frisalle": FRISALLE}
