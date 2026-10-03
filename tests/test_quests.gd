@@ -142,6 +142,37 @@ func _run() -> void:
 	var west := WorldMap.edges_from(WorldMap.KALMORA).filter(func(e: Dictionary) -> bool: return e.to == WorldMap.AUREWIND)
 	_check("and it's the only way west", west.size() == 1 and west[0].gate == &"kalmora_west_gate"
 		and not WorldMap.AUREWIND in WorldMap.reachable(WorldMap.KALMORA, GameState.PLAYER, false))
+	# Frisalle: the pass toll takes a wolf collar; the ice road is the way round it.
+	var toll := CardDatabase.get_gate(&"starfall_pass")
+	_check("Frisalle's toll takes an Iron Wolf Collar", toll != null and toll.cost_card_id == &"iron_wolf_collar")
+	var north := WorldMap.edges_from(WorldMap.STARFALL).filter(func(e: Dictionary) -> bool: return e.to == WorldMap.FRISALLE)
+	var ice := WorldMap.edges_from(WorldMap.STARFALL_GROTTO).filter(func(e: Dictionary) -> bool: return e.to == WorldMap.FRISALLE)
+	_check("the pass goes through the toll gate, the ice road doesn't", north.size() == 1 and north[0].gate == &"starfall_pass"
+		and ice.size() == 1 and ice[0].gate == &"")
+	# "The Merchant's Ledger": read three records (the square, the counting house,
+	# Bodo's house), then back to Mirren.
+	for title: String in Quests.LEDGER_CLUES:
+		var place: Node = load(Quests.LEDGER_CLUES[title]).instantiate()
+		_check("'%s' is in %s" % [title, place.name],
+			place.get_children().any(func(n: Node) -> bool: return n is Readable and n.title == title))
+		place.free()
+	_check("Mirren has something to ask", Quests.marker_for(&"mirren") == "!")
+	Quests.talked_to(&"mirren")
+	_check("talking to Mirren starts it", Quests.stage(&"merchants_ledger") == 1 and "(0/3)" in Quests.tracker_text()
+		and WorldMap.FRISALLE in Quests.map_goals())
+	for title: String in Quests.LEDGER_CLUES:
+		Quests.read(title)
+	_check("all three read: back to Mirren", Quests.stage(&"merchants_ledger") == 2 and Quests.marker_for(&"mirren") == "?")
+	gold = GameState.currency
+	Quests.talked_to(&"mirren")
+	_check("Mirren's reward: gold and the Factors' Seal", Quests.stage(&"merchants_ledger") == Quests.DONE
+		and col.count(&"factors_seal") == 1 and GameState.currency == gold + Quests.LEDGER_REWARD_GOLD)
+	# Ottilie wants a bowl of Chef's stew from Seabright.
+	Errands.talked_to(&"ottilie")
+	_check("Ottilie asks for Seabright Stew", Errands.state(&"ottilie_stew") == Errands.ASKED)
+	GameState.add_item(&"seabright_stew", 1)
+	Errands.talked_to(&"ottilie")
+	_check("the stew for the hearthstone", col.count(&"frisalle_hearthstone") == 1 and GameState.item_count(&"seabright_stew") == 0)
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)
 
