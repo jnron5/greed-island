@@ -729,8 +729,7 @@ RESORT = {
         # The headland lookout.
         + [{"sprite": K2 + "props/bench.png", "pos": (650, 60), "foot": (36, 8)}]
     ),
-    "afloat": [(RS + "yacht.png", (300, 476), False), (RS + "yacht.png", (430, 482), True), (RS + "yacht.png", (560, 560), False),
-               (K2 + "props/rowboat.png", (-600, 450), False), (K2 + "props/rowboat.png", (-650, 456), True),
+    "afloat": [(K2 + "props/rowboat.png", (-600, 450), False), (K2 + "props/rowboat.png", (-650, 456), True),
                (K2 + "props/sea_rocks.png", (740, 240), False)],
     "npcs": [
         {"id": "sparkle", "name": "Sparkle", "pos": (100, -150), "wander": 90, "lines": [
@@ -810,6 +809,9 @@ RESORT = {
         ]),
     ],
     "butterflies": [((-560, -440), 3), ((300, -440), 3), ((680, -40), 2)],
+    # The yachts moored off the east jetty, bobbing (a PixelLab-animated strip).
+    "decor": [{"strip": RS + "anim/yacht_bob.png", "frames": 7, "fps": 4, "pos": (x, y + 33), "flip": f, "afloat": True}
+              for (x, y), f in [((300, 476), False), ((430, 482), True), ((560, 560), False)]],
     # Lanterns strung over the Saltglass Terrace and along the quay.
     "string_lights": [((-148, 316), (-148, 534), 16), ((148, 366), (148, 534), 16), ((-148, 316), (148, 366), 20),
                       ((-148, 534), (148, 534), 18), ((-170, -90), (170, -90), 22)],
