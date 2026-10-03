@@ -202,6 +202,56 @@ const TOPICS := {
 			"Its hide turns a blade. Wait until it rises out of the earth with its rune glowing: that's when it's open. Mind the boulders, and when it sinks, keep moving.",
 		]],
 	],
+	# ---------------- Frisalle ----------------
+	&"ottilie": [
+		["How do rooms work?", [
+			"Coin on the bar, hot stone in the bed, sleep as long as you've paid for. Half a day or the whole of one. You come down mended, and fed if I catch you.",
+			"The cold takes it out of you faster than wolves do. Come in before you're down to your last heart, not after.",
+		]],
+		["Why is there a toll?", [
+			"Because the wolves took every goat on the upper meadow and nobody in Vetrassa cared. So: one wolf collar a head. You thin the pack, we let you in.",
+			"There's another way in, they say, through the ice caves. Anyone who'd rather crawl past a wolves' den than pay me is welcome to.",
+		]],
+	],
+	&"sven": [
+		["How do I get through the mountain?", [
+			"The pass, with a wolf collar for Ottilie's gate. That's the honest way.",
+			"The other way: the ice caves in the east shoulder of the range, past the wolves' den, through the ice wall at the far end. Somebody cut a cart road through it. It comes out behind the counting house.",
+			"Two wolves at least in that den. Go in mended, and don't stop to admire the crystals.",
+		]],
+		["What happened to the pass?", [
+			"The slide came down one night last winter, right on the road, with my friend Anselm on it. Clean as a curtain.",
+			"I went up after. Drill holes in the rock above, packed with something that smelled of the mines. Weather doesn't drill.",
+		]],
+	],
+	&"liesl": [
+		["What's worth seeing in Frisalle?", [
+			"The bell tower, up on the top terrace. The guides' names are carved round the door. And the lantern in the belfry, if anyone ever lights it again.",
+			"The skating pond, the weigh house, my workshop. The counting house, if you like being stared at by a portrait.",
+			"And the cart ruts going up behind the counting house into the mountain. Everyone in Frisalle has seen them. Nobody in Frisalle talks about them.",
+		]],
+	],
+	# ---------------- Seabright Quay ----------------
+	&"fennick": [
+		["How do rooms work?", [
+			"A room at the Seabright Grand: half a day or the full day, settled in advance. Sea view, naturally. You will wake entirely restored.",
+			"Racers who faint on the promenade are brought here. The Grand prides itself on its recoveries. Do try not to need one.",
+		]],
+	],
+	&"pepper": [
+		["What's good here?", [
+			"The stew. It's always the stew. Saffron, mussels, prawns and the morning's catch, three hearts' worth of it. Chef's own recipe.",
+			"The lemon tart if you want something lighter, and bread when the oven agrees. Everything here mends you; Chef doesn't believe in food that doesn't.",
+			"People carry the stew all over the island, I'm told. I had a letter from an innkeeper up in the snow asking what saffron was.",
+		]],
+	],
+	&"sparkle": [
+		["What is there to do here?", [
+			"Swim! Dive! Sail! Well, I sail, you watch. The beach is Sassy's, the boats are mine, the terrace is Pepper's and the top floor of the Grand is the Duke's.",
+			"Fish off the end of the west jetty if you're the patient sort. I'm not. I just jump in after them.",
+			"And look at the sea from the headland at night, through the telescope. Tell me if you see the light. Nobody else will admit they have.",
+		]],
+	],
 	# ---------------- Lake Serin ----------------
 	&"neri": [
 		["Can I fish here?", [
