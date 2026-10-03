@@ -840,6 +840,18 @@ def frisalle_level(x, y):
 FRP = FR + "props/"
 
 
+# Chimney tops on each building sprite: (sprite w, h, chimney x, chimney top y).
+CHIMNEYS = {"chalet_red.png": [(117, 96, 86, 8)], "chalet_green.png": [(117, 97, 85, 10)],
+            "chalet_brown.png": [(116, 98, 83, 7)], "inn.png": [(148, 162, 44, 18), (148, 162, 100, 15)]}
+
+
+def smoke(sprite, x, y, flip=False):
+    """Animated smoke (a PixelLab strip) rising from each chimney of a building drawn
+    with its bottom centre at (x, y)."""
+    return [{"strip": FR + "anim/chimney_smoke.png", "frames": 9, "fps": 5,
+             "pos": (x - w / 2 + (w - cx if flip else cx), y - h + cy)} for w, h, cx, cy in CHIMNEYS[sprite]]
+
+
 def chalet(sprite, x, y, flip=False):
     """A private chalet (no way in): drawn and solid like a building, but a prop."""
     return {"sprite": FR + sprite, "pos": (x, y), "foot": (104, 40), "flip": flip}
@@ -934,6 +946,12 @@ FRISALLE = {
         + [{"sprite": ICE, "pos": p, "foot": (28, 10), "light": ((0.55, 0.85, 1.0, 1), 0.6, 0.9)} for p in
            [(-380, -560), (360, -600), (-760, 600), (180, 560)]]
     ),
+    # Smoke from every chimney in the village.
+    "decor": [d for args in [("inn.png", -280, 40), ("chalet_red.png", -480, 200), ("chalet_green.png", 520, 150),
+                             ("chalet_brown.png", 260, -24), ("chalet_brown.png", -150, -150, True), ("chalet_red.png", 150, -160),
+                             ("chalet_green.png", -440, -110), ("chalet_red.png", 470, -150, True), ("chalet_brown.png", -680, 40),
+                             ("chalet_green.png", 690, -30, True), ("chalet_red.png", 330, 220, True), ("chalet_green.png", -480, -430),
+                             ("chalet_brown.png", 470, -400, True)] for d in smoke(*args)],
     "campfires": [(150, 176)],
     "lanterns": [(-60, 470), (60, 222), (-200, 120), (210, 120), (-160, -270), (300, -270), (560, 400)],
     "string_lights": [((-170, -10), (170, -10), 18), ((-170, 130), (170, 130), 18)],
