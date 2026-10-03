@@ -1,4 +1,4 @@
-[gd_scene load_steps=157 format=3]
+[gd_scene load_steps=161 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -46,14 +46,18 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="r35_npc"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sparkle/sparkle_frames.tres" id="r36_sparkle_frames"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sassy/sassy_frames.tres" id="r37_sassy_frames"]
-[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/pepper/pepper_frames.tres" id="r38_pepper_frames"]
-[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="r39_readable"]
-[ext_resource type="Script" path="res://scripts/systems/fishing_spot.gd" id="r40_fishing_spot"]
-[ext_resource type="Script" path="res://scripts/world/butterflies.gd" id="r41_butterflies"]
-[ext_resource type="Script" path="res://scripts/world/fireflies.gd" id="r42_fireflies"]
-[ext_resource type="Script" path="res://scripts/world/string_lights.gd" id="r43_string_lights"]
-[ext_resource type="Script" path="res://scripts/world/gull_flock.gd" id="r44_gull_flock"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/gull_flap.png" id="r45_gull_flap"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/duke/duke_frames.tres" id="r38_duke_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/company_man/company_man_frames.tres" id="r39_company_man_fram"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/waiter/waiter_frames.tres" id="r40_waiter_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/lifeguard/lifeguard_frames.tres" id="r41_lifeguard_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/pepper/pepper_frames.tres" id="r42_pepper_frames"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="r43_readable"]
+[ext_resource type="Script" path="res://scripts/systems/fishing_spot.gd" id="r44_fishing_spot"]
+[ext_resource type="Script" path="res://scripts/world/butterflies.gd" id="r45_butterflies"]
+[ext_resource type="Script" path="res://scripts/world/fireflies.gd" id="r46_fireflies"]
+[ext_resource type="Script" path="res://scripts/world/string_lights.gd" id="r47_string_lights"]
+[ext_resource type="Script" path="res://scripts/world/gull_flock.gd" id="r48_gull_flock"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/gull_flap.png" id="r49_gull_flap"]
 
 [sub_resource type="RectangleShape2D" id="R128x32"]
 size = Vector2(128, 32)
@@ -3206,11 +3210,59 @@ sprite_frames = ExtResource("r37_sassy_frames")
 lines = PackedStringArray("Is it Tuesday? It feels like a Tuesday. Everything here feels like a Tuesday. I love it.", "I'm working. This is working. A hostess has to know the loungers are comfortable. All of them. Personally.", "Our cousins are the royals, you know. Well, everybody knows. Well, I think everybody knows. Do you know?", "Duke has the whole top floor of the Grand again. Duke is lovely. He always talks about mines. Gold mines? Card mines? I stop listening.", "The papers say the resort's a gift from Uncle. The bills come from somebody called the Duskara Mining Company. I don't open them. Sparkle doesn't open them. We have a drawer.", "Pepper's stew is Chef's stew, really. Chef won't come down himself. He says sand gets in the sauce.", "The man at the bar makes a drink that's blue. I don't know what's in it. I don't want to know. I want another one.")
 wander_radius = 0.0
 
+[node name="Npc_duke" parent="." instance=ExtResource("r35_npc")]
+position = Vector2(0, 474)
+npc_id = &"duke"
+display_name = "Duke"
+sprite_frames = ExtResource("r38_duke_frames")
+lines = PackedStringArray("Ah, a racer! How thrilling. Sit, sit. Pepper, another tart for our friend. On my account. Everything here is on my account, one way or another.", "Chef and I were boys together in Vetrassa. He cooked, I ate. Nothing's changed except the prices, and I pay those too.", "Business? Oh, a little of this, a little of that. Shipping. Minerals. Hospitality. One likes to keep busy between lunches.", "The young ladies are delightful hostesses. Their uncle's generosity, my small investments. Everyone is happy. That is what investment is for.", "Duskara? Dreadfully dusty. I've never been. I have people who go. That is rather the point of having people.", "Frisalle? Charming. Snowy. Unlucky with avalanches, I hear. Do try the tart.")
+wander_radius = 0.0
+
+[node name="Npc_company_man0" parent="." instance=ExtResource("r35_npc")]
+position = Vector2(-76, 476)
+npc_id = &"company_man"
+display_name = "Company Man"
+sprite_frames = ExtResource("r39_company_man_fram")
+lines = PackedStringArray("...")
+wander_radius = 0.0
+
+[node name="Npc_company_man1" parent="." instance=ExtResource("r35_npc")]
+position = Vector2(76, 476)
+npc_id = &"company_man"
+display_name = "Company Man"
+sprite_frames = ExtResource("r39_company_man_fram")
+lines = PackedStringArray("We're on holiday.")
+wander_radius = 0.0
+
+[node name="Npc_company_man2" parent="." instance=ExtResource("r35_npc")]
+position = Vector2(-222, 400)
+npc_id = &"company_man"
+display_name = "Company Man"
+sprite_frames = ExtResource("r39_company_man_fram")
+lines = PackedStringArray("This bungalow is occupied. Move along.")
+wander_radius = 0.0
+
+[node name="Npc_waiter" parent="." instance=ExtResource("r35_npc")]
+position = Vector2(-40, 404)
+npc_id = &"waiter"
+display_name = "Waiter"
+sprite_frames = ExtResource("r40_waiter_frames")
+lines = PackedStringArray("Table for one? Lovely. Mind the gentlemen in the suits; they don't like to be looked at. Or spoken to. Or walked past, really.", "The Duke tips in silver. Strange silver. Pepper won't take it in the till; she says it's still warm from somewhere.", "Miss Sparkle swam under the terrace this morning and came up through the kitchen hatch. Pepper screamed. The Duke applauded.", "Specials are on the board. The special is always the stew. Chef won't let it be anything else.")
+wander_radius = 40.0
+
+[node name="Npc_lifeguard" parent="." instance=ExtResource("r35_npc")]
+position = Vector2(-560, 90)
+npc_id = &"lifeguard"
+display_name = "Lifeguard"
+sprite_frames = ExtResource("r41_lifeguard_frames")
+lines = PackedStringArray("Swim between the parasols, please! Not past the yachts. And not off the pier, Miss Sparkle, I can SEE you!", "Calm water, clear to the bottom, warm as a bath. Best beach on the island. Worst-behaved owner.", "There's a current past the last bungalow that pulls you east at night. Things wash up on the headland rocks: crates, rope, once a boot.", "I've pulled Miss Sparkle out of the water four times this week. She's thanked me once. She says that's a fair rate.")
+wander_radius = 30.0
+
 [node name="Npc_pepper" parent="." instance=ExtResource("r35_npc")]
 position = Vector2(84, 372)
 npc_id = &"pepper"
 display_name = "Pepper"
-sprite_frames = ExtResource("r38_pepper_frames")
+sprite_frames = ExtResource("r42_pepper_frames")
 lines = PackedStringArray("Welcome to the Saltglass Terrace! Everything on the menu is Chef's own. I just cook it. Exactly as written. Mostly.", "Chef trained me in Vetrassa for six years. He sent me here with a trunk of recipes and a list of things I'm never to do to a mussel.", "The stew's the one they come for. Saffron, the morning's catch, and Chef's stock, which arrives sealed by courier and I'm not allowed to know what's in it.", "The Duke dines here every night he's in. Same table, same tart, same three quiet gentlemen who never order anything.", "A letter came from the inn at Sorenda saying her stew is better than Chef's. I've framed it. Chef doesn't know. Please don't tell him.", "Mind the gulls. They've learned what a plate looks like.")
 wander_radius = 0.0
 shop_stock = Array[StringName]([&"seabright_stew", &"chefs_tart", &"bread"])
@@ -3219,135 +3271,135 @@ shop_title = "The Saltglass Terrace"
 
 [node name="Read0" type="Node2D" parent="."]
 position = Vector2(0, -124)
-script = ExtResource("r39_readable")
+script = ExtResource("r43_readable")
 title = "A brass plaque"
 lines = PackedStringArray("'SEABRIGHT QUAY. Opened by Royal Charter for the rest and pleasure of the Crown's friends. Given by His Majesty into the keeping of the Ladies Sparkle and Sassy.'", "Smaller, underneath: 'Built through the generosity of the Duskara Mining Company.'")
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(-60, 340)
-script = ExtResource("r39_readable")
+script = ExtResource("r43_readable")
 title = "The Saltglass menu"
 lines = PackedStringArray("THE SALTGLASS TERRACE. 'The dishes of Chef, of Vetrassa, prepared by Pepper.'", "Seabright Stew: saffron, mussels, prawns, the morning's catch. Lemon Tart: Chef's own. Bread: from the oven, when the oven agrees.", "At the bottom, in a different hand: 'Private dining for the Company's guests by arrangement. Ask Fennick.'")
 
 [node name="Read2" type="Node2D" parent="."]
 position = Vector2(-34, 540)
-script = ExtResource("r39_readable")
+script = ExtResource("r43_readable")
 title = "The pier sign"
 lines = PackedStringArray("'NO DIVING FROM THE PIER.' Somebody has scratched a little crown under it, and the words 'except us'.")
 
 [node name="Read3" type="Node2D" parent="."]
 position = Vector2(-260, 384)
-script = ExtResource("r39_readable")
+script = ExtResource("r43_readable")
 title = "A bungalow door"
 lines = PackedStringArray("A brass number plate: 'Bungalow 3. Do not disturb.' A tray of untouched breakfast outside. Someone inside is talking quietly about tonnage.")
 
 [node name="Read4" type="Node2D" parent="."]
 position = Vector2(600, 40)
-script = ExtResource("r39_readable")
+script = ExtResource("r43_readable")
 title = "A lookout on the headland"
 lines = PackedStringArray("A brass telescope on a post, pointed east along the coast. Through it: open sea, and very far off, a barge with no lights, riding low.")
 
 [node name="Read5" type="Node2D" parent="."]
 position = Vector2(-470, -112)
-script = ExtResource("r39_readable")
+script = ExtResource("r43_readable")
 title = "The bar's chalkboard"
 lines = PackedStringArray("'TODAY: the Seabright Blue. Ask for it by name. Do not ask what is in it.' Under it, smaller: 'Racers: cash only.'")
 
 [node name="FishingSpot0" type="Node2D" parent="."]
 position = Vector2(-696, 396)
-script = ExtResource("r40_fishing_spot")
+script = ExtResource("r44_fishing_spot")
 
 [node name="Butterflies0" type="Node2D" parent="."]
 position = Vector2(-560, -440)
-script = ExtResource("r41_butterflies")
+script = ExtResource("r45_butterflies")
 count = 3
 seed = 3
 
 [node name="Fireflies0" type="Node2D" parent="."]
 position = Vector2(-560, -440)
-script = ExtResource("r42_fireflies")
+script = ExtResource("r46_fireflies")
 count = 9
 seed = 9
 
 [node name="Butterflies1" type="Node2D" parent="."]
 position = Vector2(300, -440)
-script = ExtResource("r41_butterflies")
+script = ExtResource("r45_butterflies")
 count = 3
 seed = 4
 
 [node name="Fireflies1" type="Node2D" parent="."]
 position = Vector2(300, -440)
-script = ExtResource("r42_fireflies")
+script = ExtResource("r46_fireflies")
 count = 9
 seed = 10
 
 [node name="Butterflies2" type="Node2D" parent="."]
 position = Vector2(680, -40)
-script = ExtResource("r41_butterflies")
+script = ExtResource("r45_butterflies")
 count = 2
 seed = 5
 
 [node name="Fireflies2" type="Node2D" parent="."]
 position = Vector2(680, -40)
-script = ExtResource("r42_fireflies")
+script = ExtResource("r46_fireflies")
 count = 6
 seed = 11
 
 [node name="StringLights0" type="Node2D" parent="."]
 position = Vector2(-148, 272)
-script = ExtResource("r43_string_lights")
+script = ExtResource("r47_string_lights")
 to = Vector2(0, 218)
 sag = 16
 count = 9
 
 [node name="StringLights1" type="Node2D" parent="."]
 position = Vector2(148, 322)
-script = ExtResource("r43_string_lights")
+script = ExtResource("r47_string_lights")
 to = Vector2(0, 168)
 sag = 16
 count = 7
 
 [node name="StringLights2" type="Node2D" parent="."]
 position = Vector2(-148, 272)
-script = ExtResource("r43_string_lights")
+script = ExtResource("r47_string_lights")
 to = Vector2(296, 50)
 sag = 20
 count = 13
 
 [node name="StringLights3" type="Node2D" parent="."]
 position = Vector2(-148, 490)
-script = ExtResource("r43_string_lights")
+script = ExtResource("r47_string_lights")
 to = Vector2(296, 0)
 sag = 18
 count = 13
 
 [node name="StringLights4" type="Node2D" parent="."]
 position = Vector2(-170, -134)
-script = ExtResource("r43_string_lights")
+script = ExtResource("r47_string_lights")
 to = Vector2(340, 0)
 sag = 22
 count = 15
 
 [node name="Gulls0" type="Node2D" parent="."]
 position = Vector2(-200, 160)
-script = ExtResource("r44_gull_flock")
-strip = ExtResource("r45_gull_flap")
+script = ExtResource("r48_gull_flock")
+strip = ExtResource("r49_gull_flap")
 count = 3
 radius = Vector2(180, 70)
 seed = 3
 
 [node name="Gulls1" type="Node2D" parent="."]
 position = Vector2(380, 240)
-script = ExtResource("r44_gull_flock")
-strip = ExtResource("r45_gull_flap")
+script = ExtResource("r48_gull_flock")
+strip = ExtResource("r49_gull_flap")
 count = 2
 radius = Vector2(140, 60)
 seed = 4
 
 [node name="Gulls2" type="Node2D" parent="."]
 position = Vector2(-520, 120)
-script = ExtResource("r44_gull_flock")
-strip = ExtResource("r45_gull_flap")
+script = ExtResource("r48_gull_flock")
+strip = ExtResource("r49_gull_flap")
 count = 2
 radius = Vector2(120, 50)
 seed = 5

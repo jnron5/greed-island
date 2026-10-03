@@ -751,6 +751,31 @@ RESORT = {
             "Pepper's stew is Chef's stew, really. Chef won't come down himself. He says sand gets in the sauce.",
             "The man at the bar makes a drink that's blue. I don't know what's in it. I don't want to know. I want another one.",
         ]},
+        # The Duke at his table on the terrace, two of his 'business guests' either side of
+        # him and the third at the door of Bungalow 3.
+        {"id": "duke", "name": "Duke", "pos": (0, 474), "wander": 0, "lines": [
+            "Ah, a racer! How thrilling. Sit, sit. Pepper, another tart for our friend. On my account. Everything here is on my account, one way or another.",
+            "Chef and I were boys together in Vetrassa. He cooked, I ate. Nothing's changed except the prices, and I pay those too.",
+            "Business? Oh, a little of this, a little of that. Shipping. Minerals. Hospitality. One likes to keep busy between lunches.",
+            "The young ladies are delightful hostesses. Their uncle's generosity, my small investments. Everyone is happy. That is what investment is for.",
+            "Duskara? Dreadfully dusty. I've never been. I have people who go. That is rather the point of having people.",
+            "Frisalle? Charming. Snowy. Unlucky with avalanches, I hear. Do try the tart.",
+        ]},
+        *[{"id": "company_man", "node": f"Npc_company_man{k}", "name": "Company Man", "pos": p, "wander": 0, "lines": [line]}
+          for k, (p, line) in enumerate([((-76, 476), "..."), ((76, 476), "We're on holiday."),
+                                          ((-222, 400), "This bungalow is occupied. Move along.")])],
+        {"id": "waiter", "name": "Waiter", "pos": (-40, 404), "wander": 40, "lines": [
+            "Table for one? Lovely. Mind the gentlemen in the suits; they don't like to be looked at. Or spoken to. Or walked past, really.",
+            "The Duke tips in silver. Strange silver. Pepper won't take it in the till; she says it's still warm from somewhere.",
+            "Miss Sparkle swam under the terrace this morning and came up through the kitchen hatch. Pepper screamed. The Duke applauded.",
+            "Specials are on the board. The special is always the stew. Chef won't let it be anything else.",
+        ]},
+        {"id": "lifeguard", "name": "Lifeguard", "pos": (-560, 90), "wander": 30, "lines": [
+            "Swim between the parasols, please! Not past the yachts. And not off the pier, Miss Sparkle, I can SEE you!",
+            "Calm water, clear to the bottom, warm as a bath. Best beach on the island. Worst-behaved owner.",
+            "There's a current past the last bungalow that pulls you east at night. Things wash up on the headland rocks: crates, rope, once a boot.",
+            "I've pulled Miss Sparkle out of the water four times this week. She's thanked me once. She says that's a fair rate.",
+        ]},
         {"id": "pepper", "name": "Pepper", "pos": (84, 372), "wander": 0,
          "shop": ["seabright_stew", "chefs_tart", "bread"], "shop_title": "The Saltglass Terrace", "lines": [
             "Welcome to the Saltglass Terrace! Everything on the menu is Chef's own. I just cook it. Exactly as written. Mostly.",
