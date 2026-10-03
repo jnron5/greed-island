@@ -919,8 +919,7 @@ FRISALLE = {
         # loaded sled waiting beside it), market stalls of knitwear and carved toys.
         [{"sprite": FR + "weigh_house.png", "pos": (0, -40), "foot": (104, 22)}]
         + [{"sprite": FRP + "sled.png", "pos": (90, -44), "foot": (52, 14)}]
-        + [{"sprite": FRP + "stall_knits.png", "pos": (-110, 104), "foot": (60, 14)},
-           {"sprite": FRP + "stall_toys.png", "pos": (110, 104), "foot": (56, 14)}]
+        + [{"sprite": FRP + "stall_knits.png", "pos": (-110, 104), "foot": (60, 14)}]
         # Neighbours' chalets (private) shoulder to shoulder round the square and the lanes.
         + [chalet("chalet_brown.png", -150, -150, True), chalet("chalet_red.png", 150, -160),
            chalet("chalet_green.png", -440, -110), chalet("chalet_red.png", 470, -150, True),
@@ -952,6 +951,8 @@ FRISALLE = {
                              ("chalet_green.png", -440, -110), ("chalet_red.png", 470, -150, True), ("chalet_brown.png", -680, 40),
                              ("chalet_green.png", 690, -30, True), ("chalet_red.png", 330, 220, True), ("chalet_green.png", -480, -430),
                              ("chalet_brown.png", 470, -400, True)] for d in smoke(*args)],
+    # The card merchant keeps the toy stall on the square (scenes/systems/merchant.tscn).
+    "merchant": ((110, 104), FRP + "stall_toys.png"),
     "campfires": [(150, 176)],
     "lanterns": [(-60, 470), (60, 222), (-200, 120), (210, 120), (-160, -270), (300, -270), (560, 400)],
     "string_lights": [((-170, -10), (170, -10), 18), ((-170, 130), (170, 130), 18)],
