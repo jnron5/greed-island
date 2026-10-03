@@ -843,12 +843,13 @@ FRISALLE = {
         ([(520, 174), (640, 236), (640, 360), (600, 500), (300, 590)], 16),         # and down the east stairs
         ([(-100, -60), (-224, -200), (-224, -424), (-200, -400)], 16),              # up to the bell tower
         ([(100, -60), (288, -200), (288, -420), (230, -408)], 18),                  # up to the counting house
+        ([(288, -420), (460, -470), (620, -520)], 14),                              # the cart ruts to the ice road
     ],
     "plazas": [(0, 30, 170, 80), (210, -404, 90, 22)],
     "plaza_stone": (184, 192, 206),
     "ice": [(-200, 196, 80, 40), (-480, 470, 170, 60)],
     "tree_kinds": ["pine"],
-    "groves": [(-700, -500, 6, 50), (700, -500, 6, 50), (-740, 160, 4, 40), (740, 60, 4, 40), (-640, 520, 5, 50),
+    "groves": [(-700, -500, 6, 50), (760, -420, 4, 40), (-740, 160, 4, 40), (740, 60, 4, 40), (-640, 520, 5, 50),
                (660, 500, 5, 50), (-420, -520, 3, 40), (460, -540, 3, 40), (0, -540, 3, 40), (-300, 580, 3, 35),
                (380, -230, 2, 25), (-380, -240, 2, 25)],
     "under": [("snow_shrub", 3), ("frost_grass", 3), ("snow_rocks", 1)],
@@ -859,7 +860,10 @@ FRISALLE = {
     "exits": [
         {"name": "ToStarfall", "pos": (0, 636), "side": "s", "target": "res://scenes/world/starfall_range.tscn", "spawn": "from_frisalle"},
     ],
-    "spawns": {"from_starfall": (0, 580), "town": (0, 150)},
+    # The ice road: the smugglers' tunnel out of the Frost Grotto, in the mountain
+    # behind the upper terrace (the way round the toll gate).
+    "portals": [{"name": "ToGrotto", "pos": (620, -580), "target": "res://scenes/world/starfall_grotto.tscn", "spawn": "from_frisalle"}],
+    "spawns": {"from_starfall": (0, 580), "town": (0, 150), "from_grotto": (620, -500)},
     "rival_spots": {"runner": (-40, 560), "raider": (40, 560), "hoarder": (-120, 150)},
     "buildings": [
         {"node": "HouseInn", "sprite": FR + "inn.png", "pos": (-280, 40), "foot": 140,
@@ -887,7 +891,9 @@ FRISALLE = {
            chalet("chalet_red.png", 330, 220, True)]
         # The upper terrace: the bell tower; chalets of the better-off either side.
         + [{"sprite": FR + "bell_tower.png", "pos": (-200, -430), "foot": (44, 18)}]
-        + [chalet("chalet_green.png", -480, -430), chalet("chalet_brown.png", 520, -440, True)]
+        + [{"sprite": SF + "ice_cave_mouth.png", "pos": (620, -552), "feet": [(-56, -20, 50, 40), (56, -20, 50, 40), (0, -52, 64, 22)],
+            "light": ((0.55, 0.85, 1.0, 1), 0.5, 1.0)}]
+        + [chalet("chalet_green.png", -480, -430), chalet("chalet_brown.png", 470, -400, True)]
         # Woodpiles by the doors, a sled outside the guide's, the goat pen to the west.
         + [{"sprite": FRP + "woodpile.png", "pos": p, "foot": (70, 14), "flip": f} for p, f in
            [((-380, 220), False), ((610, 160), True), ((-400, 64), True), ((380, -20), False)]]

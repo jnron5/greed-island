@@ -190,6 +190,11 @@ const EDGES: Array[Dictionary] = [
 	# Over the pass: Frisalle's toll gate (an Iron Wolf Collar).
 	{ "from": STARFALL, "to": FRISALLE, "exit": Vector2(-100, -892), "spawn": &"from_starfall",
 		"entry": Vector2(0, 580), "gate": &"starfall_pass" },
+	# The ice road: the smugglers' tunnel from the Frost Grotto to Frisalle (no toll).
+	{ "from": STARFALL_GROTTO, "to": FRISALLE, "exit": Vector2(384, -476), "spawn": &"from_grotto",
+		"entry": Vector2(620, -500), "gate": &"" },
+	{ "from": FRISALLE, "to": STARFALL_GROTTO, "exit": Vector2(620, -580), "spawn": &"from_frisalle",
+		"entry": Vector2(384, -400), "gate": &"" },
 	{ "from": FRISALLE, "to": STARFALL, "exit": Vector2(0, 636), "spawn": &"from_frisalle",
 		"entry": Vector2(-100, -826), "gate": &"starfall_pass" },
 ]

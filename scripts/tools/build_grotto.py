@@ -4,8 +4,9 @@ Hald's map shows "a second route round the east shoulder of the mountain", rubbe
 out again: this is it. The Company's smugglers used it to move the Duskara cargo
 north after the pass was brought down; now frost wolves den in it. Four parts: the
 mouth (the way back out to the Range), a hall of hanging ice, the wolves' den, and at
-the far end a sealed ice wall with daylight behind it (Frisalle, for later) and the
-smugglers' abandoned cache with the Frostfang Charm.
+the far end the ice wall, cut through by the smugglers into the ice road (a tunnel
+up to the top edge that comes out on Frisalle's upper terrace: the way round the toll
+gate, past the wolves' den) and their abandoned cache with the Frostfang Charm.
 
 Terrain is composed with terrain.compose() from a PixelLab ice cave cliff set
 (assets/sprites/tiles/starfall/cliff/ice_cave): level 0 is cave floor, level 1 solid
@@ -44,7 +45,9 @@ TUNNELS = [
     ((7, 24), (12, 18), 2.4),
     ((16, 14), (25, 18), 2.2),
     ((30, 20), (32, 11), 2.0),
+    ((33, 7), (33, -0.5), 1.5),     # the ice road: cut through the ice wall, out to Frisalle
 ]
+ICE_ROAD_X = 33
 
 
 def cell_px(cx, cy):
@@ -66,7 +69,7 @@ def is_floor(cx, cy):
 
 
 def build_ground():
-    levels = [[0 if is_floor(c, r) and 0 < c < COLS and r > 0 else 1 for c in range(COLS + 1)]
+    levels = [[0 if is_floor(c, r) and 0 < c < COLS and (r > 0 or abs(c - ICE_ROAD_X) <= 1) else 1 for c in range(COLS + 1)]
               for r in range(ROWS + 1)]
     ice = CliffSet(ART + "cliff/ice_cave")
     img, stand = compose(levels, {(0, 1): ice}, {0: ((0, 1), "lower"), 1: ((0, 1), "upper")}, TILE)
@@ -135,9 +138,9 @@ READABLES = [
         "Crates frozen into the floor, their lids split by the cold. Stencilled: 'D.M.C. - NORTH - BY THE SHOULDER'.",
         "Inside: straw, a tin cup, a child's mitten. Whatever was carried in these could walk.",
     ]),
-    ("An ice wall", (33, 6), [
-        "The tunnel ends in a wall of clear ice, thick as a house. Through it, faint and blue: daylight, and a road going down the far side of the mountain.",
-        "Frisalle is that way. Somebody sealed this from the other side.",
+    ("The ice road", (31.6, 5.6), [
+        "The wall of clear ice at the end of the tunnel has been cut through: a passage a cart wide, chiselled smooth, ruts worn into the floor. Daylight at the far end.",
+        "Frisalle is that way. Somebody sealed this once. Somebody else opened it again, and has been using it.",
     ]),
 ]
 
@@ -203,7 +206,9 @@ texture = ExtResource("8_ground")
     walls = merge_rects(solid, LEFT, TOP, TILE)
     ex, ey = cell_px(*EXIT_AT)
     right, bottom = LEFT + COLS * TILE, TOP + ROWS * TILE
-    walls += [(LEFT - 40, TOP - 40, right + 40, TOP), (LEFT - 40, TOP, LEFT, bottom), (right, TOP, right + 40, bottom),
+    rx, _ = cell_px(ICE_ROAD_X, 0)
+    walls += [(LEFT - 40, TOP - 40, rx - 30, TOP), (rx + 30, TOP - 40, right + 40, TOP), (rx - 70, TOP - 80, rx + 70, TOP - 40),
+              (LEFT - 40, TOP, LEFT, bottom), (right, TOP, right + 40, bottom),
               (LEFT - 40, bottom, ex - 40, bottom + 40), (ex + 40, bottom, right + 40, bottom + 40)]
     n.append('[node name="Walls" type="StaticBody2D" parent="."]\n')
     for k, (x0, y0, x1, y1) in enumerate(walls):
@@ -215,11 +220,20 @@ texture = ExtResource("8_ground")
 [node name="from_starfall" type="Marker2D" parent="Spawns"]
 position = Vector2({sx}, {sy})
 
+[node name="from_frisalle" type="Marker2D" parent="Spawns"]
+position = Vector2({rx}, {TOP + 80})
+
 [node name="RivalSpots" type="Node2D" parent="."]
 
 [node name="ToStarfall" parent="." instance=ExtResource("7_exit")]
 position = Vector2({ex}, {bottom - 4})
 target_scene = "res://scenes/world/starfall_range.tscn"
+target_spawn = &"from_grotto"
+exit_hint = true
+
+[node name="ToFrisalle" parent="." instance=ExtResource("7_exit")]
+position = Vector2({rx}, {TOP + 4})
+target_scene = "res://scenes/world/frisalle.tscn"
 target_spawn = &"from_grotto"
 exit_hint = true
 ''')

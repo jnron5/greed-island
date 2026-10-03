@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3]
+[gd_scene load_steps=56 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -19,14 +19,11 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="17_npc"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sully/sully_frames.tres" id="n_sully"]
 
-[sub_resource type="RectangleShape2D" id="R1344x128"]
-size = Vector2(1344, 128)
+[sub_resource type="RectangleShape2D" id="R1024x160"]
+size = Vector2(1024, 160)
 
-[sub_resource type="RectangleShape2D" id="R1024x32"]
-size = Vector2(1024, 32)
-
-[sub_resource type="RectangleShape2D" id="R256x32"]
-size = Vector2(256, 32)
+[sub_resource type="RectangleShape2D" id="R256x160"]
+size = Vector2(256, 160)
 
 [sub_resource type="RectangleShape2D" id="R992x32"]
 size = Vector2(992, 32)
@@ -51,6 +48,9 @@ size = Vector2(448, 32)
 
 [sub_resource type="RectangleShape2D" id="R416x32"]
 size = Vector2(416, 32)
+
+[sub_resource type="RectangleShape2D" id="R256x32"]
+size = Vector2(256, 32)
 
 [sub_resource type="RectangleShape2D" id="R384x32"]
 size = Vector2(384, 32)
@@ -97,14 +97,23 @@ size = Vector2(640, 32)
 [sub_resource type="RectangleShape2D" id="R320x32"]
 size = Vector2(320, 32)
 
+[sub_resource type="RectangleShape2D" id="R1024x32"]
+size = Vector2(1024, 32)
+
 [sub_resource type="RectangleShape2D" id="R160x128"]
 size = Vector2(160, 128)
 
 [sub_resource type="RectangleShape2D" id="R1056x96"]
 size = Vector2(1056, 96)
 
-[sub_resource type="RectangleShape2D" id="R1424x40"]
-size = Vector2(1424, 40)
+[sub_resource type="RectangleShape2D" id="R1066x40"]
+size = Vector2(1066, 40)
+
+[sub_resource type="RectangleShape2D" id="R298x40"]
+size = Vector2(298, 40)
+
+[sub_resource type="RectangleShape2D" id="R140x40"]
+size = Vector2(140, 40)
 
 [sub_resource type="RectangleShape2D" id="R40x960"]
 size = Vector2(40, 960)
@@ -142,186 +151,190 @@ texture = ExtResource("8_ground")
 [node name="Walls" type="StaticBody2D" parent="."]
 
 [node name="W0" type="CollisionShape2D" parent="Walls"]
-position = Vector2(0.0, -416.0)
-shape = SubResource("R1344x128")
+position = Vector2(-160.0, -400.0)
+shape = SubResource("R1024x160")
 
 [node name="W1" type="CollisionShape2D" parent="Walls"]
-position = Vector2(-160.0, -336.0)
-shape = SubResource("R1024x32")
+position = Vector2(544.0, -400.0)
+shape = SubResource("R256x160")
 
 [node name="W2" type="CollisionShape2D" parent="Walls"]
-position = Vector2(544.0, -336.0)
-shape = SubResource("R256x32")
-
-[node name="W3" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-176.0, -304.0)
 shape = SubResource("R992x32")
 
-[node name="W4" type="CollisionShape2D" parent="Walls"]
+[node name="W3" type="CollisionShape2D" parent="Walls"]
 position = Vector2(576.0, -304.0)
 shape = SubResource("R192x32")
 
-[node name="W5" type="CollisionShape2D" parent="Walls"]
+[node name="W4" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-208.0, -256.0)
 shape = SubResource("R928x64")
 
-[node name="W6" type="CollisionShape2D" parent="Walls"]
+[node name="W5" type="CollisionShape2D" parent="Walls"]
 position = Vector2(592.0, -256.0)
 shape = SubResource("R160x64")
 
-[node name="W7" type="CollisionShape2D" parent="Walls"]
+[node name="W6" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-192.0, -192.0)
 shape = SubResource("R960x64")
 
-[node name="W8" type="CollisionShape2D" parent="Walls"]
+[node name="W7" type="CollisionShape2D" parent="Walls"]
 position = Vector2(576.0, -192.0)
 shape = SubResource("R192x64")
 
-[node name="W9" type="CollisionShape2D" parent="Walls"]
+[node name="W8" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-448.0, -144.0)
 shape = SubResource("R448x32")
 
-[node name="W10" type="CollisionShape2D" parent="Walls"]
+[node name="W9" type="CollisionShape2D" parent="Walls"]
 position = Vector2(80.0, -144.0)
 shape = SubResource("R416x32")
 
-[node name="W11" type="CollisionShape2D" parent="Walls"]
+[node name="W10" type="CollisionShape2D" parent="Walls"]
 position = Vector2(544.0, -144.0)
 shape = SubResource("R256x32")
 
-[node name="W12" type="CollisionShape2D" parent="Walls"]
+[node name="W11" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-480.0, -112.0)
 shape = SubResource("R384x32")
 
-[node name="W13" type="CollisionShape2D" parent="Walls"]
+[node name="W12" type="CollisionShape2D" parent="Walls"]
 position = Vector2(128.0, -96.0)
 shape = SubResource("R320x64")
 
-[node name="W14" type="CollisionShape2D" parent="Walls"]
+[node name="W13" type="CollisionShape2D" parent="Walls"]
 position = Vector2(144.0, -48.0)
 shape = SubResource("R288x32")
 
-[node name="W15" type="CollisionShape2D" parent="Walls"]
+[node name="W14" type="CollisionShape2D" parent="Walls"]
 position = Vector2(160.0, 0.0)
 shape = SubResource("R256x64")
 
-[node name="W16" type="CollisionShape2D" parent="Walls"]
+[node name="W15" type="CollisionShape2D" parent="Walls"]
 position = Vector2(176.0, 48.0)
 shape = SubResource("R224x32")
 
-[node name="W17" type="CollisionShape2D" parent="Walls"]
+[node name="W16" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-496.0, 0.0)
 shape = SubResource("R352x192")
 
-[node name="W18" type="CollisionShape2D" parent="Walls"]
+[node name="W17" type="CollisionShape2D" parent="Walls"]
 position = Vector2(528.0, -16.0)
 shape = SubResource("R288x224")
 
-[node name="W19" type="CollisionShape2D" parent="Walls"]
+[node name="W18" type="CollisionShape2D" parent="Walls"]
 position = Vector2(0.0, 112.0)
 shape = SubResource("R128x32")
 
-[node name="W20" type="CollisionShape2D" parent="Walls"]
+[node name="W19" type="CollisionShape2D" parent="Walls"]
 position = Vector2(544.0, 112.0)
 shape = SubResource("R256x32")
 
-[node name="W21" type="CollisionShape2D" parent="Walls"]
+[node name="W20" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-512.0, 128.0)
 shape = SubResource("R320x64")
 
-[node name="W22" type="CollisionShape2D" parent="Walls"]
+[node name="W21" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-80.0, 144.0)
 shape = SubResource("R352x32")
 
-[node name="W23" type="CollisionShape2D" parent="Walls"]
+[node name="W22" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-528.0, 176.0)
 shape = SubResource("R288x32")
 
-[node name="W24" type="CollisionShape2D" parent="Walls"]
+[node name="W23" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-96.0, 176.0)
 shape = SubResource("R384x32")
 
-[node name="W25" type="CollisionShape2D" parent="Walls"]
+[node name="W24" type="CollisionShape2D" parent="Walls"]
 position = Vector2(560.0, 160.0)
 shape = SubResource("R224x64")
 
-[node name="W26" type="CollisionShape2D" parent="Walls"]
+[node name="W25" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-544.0, 208.0)
 shape = SubResource("R256x32")
 
-[node name="W27" type="CollisionShape2D" parent="Walls"]
+[node name="W26" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-96.0, 208.0)
 shape = SubResource("R448x32")
 
-[node name="W28" type="CollisionShape2D" parent="Walls"]
+[node name="W27" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-608.0, 240.0)
 shape = SubResource("R128x32")
 
-[node name="W29" type="CollisionShape2D" parent="Walls"]
+[node name="W28" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-96.0, 240.0)
 shape = SubResource("R512x32")
 
-[node name="W30" type="CollisionShape2D" parent="Walls"]
+[node name="W29" type="CollisionShape2D" parent="Walls"]
 position = Vector2(544.0, 224.0)
 shape = SubResource("R256x64")
 
-[node name="W31" type="CollisionShape2D" parent="Walls"]
+[node name="W30" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-80.0, 272.0)
 shape = SubResource("R544x32")
 
-[node name="W32" type="CollisionShape2D" parent="Walls"]
+[node name="W31" type="CollisionShape2D" parent="Walls"]
 position = Vector2(528.0, 272.0)
 shape = SubResource("R288x32")
 
-[node name="W33" type="CollisionShape2D" parent="Walls"]
+[node name="W32" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-624.0, 288.0)
 shape = SubResource("R96x64")
 
-[node name="W34" type="CollisionShape2D" parent="Walls"]
+[node name="W33" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-32.0, 304.0)
 shape = SubResource("R640x32")
 
-[node name="W35" type="CollisionShape2D" parent="Walls"]
+[node name="W34" type="CollisionShape2D" parent="Walls"]
 position = Vector2(512.0, 304.0)
 shape = SubResource("R320x32")
 
-[node name="W36" type="CollisionShape2D" parent="Walls"]
+[node name="W35" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-608.0, 336.0)
 shape = SubResource("R128x32")
 
-[node name="W37" type="CollisionShape2D" parent="Walls"]
+[node name="W36" type="CollisionShape2D" parent="Walls"]
 position = Vector2(176.0, 336.0)
 shape = SubResource("R992x32")
 
-[node name="W38" type="CollisionShape2D" parent="Walls"]
+[node name="W37" type="CollisionShape2D" parent="Walls"]
 position = Vector2(160.0, 368.0)
 shape = SubResource("R1024x32")
 
-[node name="W39" type="CollisionShape2D" parent="Walls"]
+[node name="W38" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-592.0, 416.0)
 shape = SubResource("R160x128")
 
-[node name="W40" type="CollisionShape2D" parent="Walls"]
+[node name="W39" type="CollisionShape2D" parent="Walls"]
 position = Vector2(144.0, 432.0)
 shape = SubResource("R1056x96")
 
+[node name="W40" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-179.0, -500.0)
+shape = SubResource("R1066x40")
+
 [node name="W41" type="CollisionShape2D" parent="Walls"]
-position = Vector2(0.0, -500.0)
-shape = SubResource("R1424x40")
+position = Vector2(563.0, -500.0)
+shape = SubResource("R298x40")
 
 [node name="W42" type="CollisionShape2D" parent="Walls"]
+position = Vector2(384.0, -540.0)
+shape = SubResource("R140x40")
+
+[node name="W43" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-692.0, 0.0)
 shape = SubResource("R40x960")
 
-[node name="W43" type="CollisionShape2D" parent="Walls"]
+[node name="W44" type="CollisionShape2D" parent="Walls"]
 position = Vector2(692.0, 0.0)
 shape = SubResource("R40x960")
 
-[node name="W44" type="CollisionShape2D" parent="Walls"]
+[node name="W45" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-600.0, 500.0)
 shape = SubResource("R224x40")
 
-[node name="W45" type="CollisionShape2D" parent="Walls"]
+[node name="W46" type="CollisionShape2D" parent="Walls"]
 position = Vector2(152.0, 500.0)
 shape = SubResource("R1120x40")
 
@@ -330,11 +343,20 @@ shape = SubResource("R1120x40")
 [node name="from_starfall" type="Marker2D" parent="Spawns"]
 position = Vector2(-448, 400.0)
 
+[node name="from_frisalle" type="Marker2D" parent="Spawns"]
+position = Vector2(384, -400)
+
 [node name="RivalSpots" type="Node2D" parent="."]
 
 [node name="ToStarfall" parent="." instance=ExtResource("7_exit")]
 position = Vector2(-448, 476)
 target_scene = "res://scenes/world/starfall_range.tscn"
+target_spawn = &"from_grotto"
+exit_hint = true
+
+[node name="ToFrisalle" parent="." instance=ExtResource("7_exit")]
+position = Vector2(384, -476)
+target_scene = "res://scenes/world/frisalle.tscn"
 target_spawn = &"from_grotto"
 exit_hint = true
 
@@ -388,10 +410,10 @@ title = "Frozen crates"
 lines = PackedStringArray("Crates frozen into the floor, their lids split by the cold. Stencilled: 'D.M.C. - NORTH - BY THE SHOULDER'.", "Inside: straw, a tin cup, a child's mitten. Whatever was carried in these could walk.")
 
 [node name="Read1" type="Node2D" parent="."]
-position = Vector2(384, -288)
+position = Vector2(339.20000000000005, -300.8)
 script = ExtResource("14_read")
-title = "An ice wall"
-lines = PackedStringArray("The tunnel ends in a wall of clear ice, thick as a house. Through it, faint and blue: daylight, and a road going down the far side of the mountain.", "Frisalle is that way. Somebody sealed this from the other side.")
+title = "The ice road"
+lines = PackedStringArray("The wall of clear ice at the end of the tunnel has been cut through: a passage a cart wide, chiselled smooth, ruts worn into the floor. Daylight at the far end.", "Frisalle is that way. Somebody sealed this once. Somebody else opened it again, and has been using it.")
 
 [node name="Npc_sully" parent="." instance=ExtResource("17_npc")]
 position = Vector2(-224, 19.19999999999999)
