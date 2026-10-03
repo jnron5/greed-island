@@ -722,7 +722,7 @@ RESORT = {
            for p in [(-148, 316), (148, 366), (-148, 534), (148, 534)]]
         + [{"sprite": K2 + "props/potted_palm.png", "pos": p, "foot": (16, 8)} for p in [(-30, 316), (30, 316)]]
         # The guest bungalows (private: no way in), each on its own platform.
-        + [{"sprite": RS + "bungalow.png", "pos": (x, JETTY_Y[0]), "foot": (86, 44), "flip": x < 0}
+        + [{"sprite": RS + "bungalow.png", "pos": (x, JETTY_Y[0]), "foot": (86, 44), "flip": x < 0, "glow": True}
            for x in BUNGALOWS if x != COUSINS]
         # The jetties: a fisherman's crates at the west end.
         + [{"sprite": K2 + "props/fish_crates.png", "pos": (-640, 412), "foot": (26, 8)}]
@@ -854,7 +854,7 @@ def smoke(sprite, x, y, flip=False):
 
 def chalet(sprite, x, y, flip=False):
     """A private chalet (no way in): drawn and solid like a building, but a prop."""
-    return {"sprite": FR + sprite, "pos": (x, y), "foot": (104, 40), "flip": flip}
+    return {"sprite": FR + sprite, "pos": (x, y), "foot": (104, 40), "flip": flip, "glow": True}
 
 
 FRISALLE = {

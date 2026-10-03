@@ -990,6 +990,14 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
             else:
                 n.append(f'[node name="Prop{k}" type="Sprite2D" parent="."]\nposition = Vector2({x}, {y})\n{sc}{mod}{flip}'
                          f'offset = Vector2(0, {off / scale})\ntexture = ExtResource("{texture(path)}")\n')
+            # A prop that's a house (a private chalet, a guest bungalow): its windows glow
+            # after dusk like a building's.
+            glow = window_glow(path, self.art + "night/") if p.get("glow") else None
+            if glow and (p.get("foot") or p.get("feet")):
+                n.append(f'[node name="Windows" type="Sprite2D" parent="Prop{k}"]\n{sc}{flip}position = Vector2(0, {off})\n'
+                         f'texture = ExtResource("{texture(glow)}")\n'
+                         f'script = ExtResource("{res("Script", "res://scripts/world/window_glow.gd")}")\n'
+                         f'lights_out = {1.0 + (k % 5) * 0.6:.1f}\n')
             if p.get("light"):
                 tint, energy, scale_l = p["light"]
                 n.append(f'[node name="PropLight{k}" type="PointLight2D" parent="."]\nposition = Vector2({x}, {y - 20})\n'

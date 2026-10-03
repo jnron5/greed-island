@@ -774,6 +774,13 @@ texture = ExtResource("r14_chalet_brown")
 position = Vector2(0, -20.0)
 shape = SubResource("R104x40")
 
+[node name="Windows" type="Sprite2D" parent="Prop3"]
+flip_h = true
+position = Vector2(0, -47.0)
+texture = ExtResource("r15_chalet_brown_win")
+script = ExtResource("r7_window_glow")
+lights_out = 2.8
+
 [node name="Prop4" type="StaticBody2D" parent="."]
 position = Vector2(150, -160)
 
@@ -785,6 +792,12 @@ texture = ExtResource("r10_chalet_red")
 position = Vector2(0, -20.0)
 shape = SubResource("R104x40")
 
+[node name="Windows" type="Sprite2D" parent="Prop4"]
+position = Vector2(0, -46.0)
+texture = ExtResource("r11_chalet_red_windo")
+script = ExtResource("r7_window_glow")
+lights_out = 3.4
+
 [node name="Prop5" type="StaticBody2D" parent="."]
 position = Vector2(-440, -110)
 
@@ -795,6 +808,12 @@ texture = ExtResource("r12_chalet_green")
 [node name="Base" type="CollisionShape2D" parent="Prop5"]
 position = Vector2(0, -20.0)
 shape = SubResource("R104x40")
+
+[node name="Windows" type="Sprite2D" parent="Prop5"]
+position = Vector2(0, -46.5)
+texture = ExtResource("r13_chalet_green_win")
+script = ExtResource("r7_window_glow")
+lights_out = 1.0
 
 [node name="Prop6" type="StaticBody2D" parent="."]
 position = Vector2(470, -150)
@@ -808,6 +827,13 @@ texture = ExtResource("r10_chalet_red")
 position = Vector2(0, -20.0)
 shape = SubResource("R104x40")
 
+[node name="Windows" type="Sprite2D" parent="Prop6"]
+flip_h = true
+position = Vector2(0, -46.0)
+texture = ExtResource("r11_chalet_red_windo")
+script = ExtResource("r7_window_glow")
+lights_out = 1.6
+
 [node name="Prop7" type="StaticBody2D" parent="."]
 position = Vector2(-680, 40)
 
@@ -818,6 +844,12 @@ texture = ExtResource("r14_chalet_brown")
 [node name="Base" type="CollisionShape2D" parent="Prop7"]
 position = Vector2(0, -20.0)
 shape = SubResource("R104x40")
+
+[node name="Windows" type="Sprite2D" parent="Prop7"]
+position = Vector2(0, -47.0)
+texture = ExtResource("r15_chalet_brown_win")
+script = ExtResource("r7_window_glow")
+lights_out = 2.2
 
 [node name="Prop8" type="StaticBody2D" parent="."]
 position = Vector2(690, -30)
@@ -831,6 +863,13 @@ texture = ExtResource("r12_chalet_green")
 position = Vector2(0, -20.0)
 shape = SubResource("R104x40")
 
+[node name="Windows" type="Sprite2D" parent="Prop8"]
+flip_h = true
+position = Vector2(0, -46.5)
+texture = ExtResource("r13_chalet_green_win")
+script = ExtResource("r7_window_glow")
+lights_out = 2.8
+
 [node name="Prop9" type="StaticBody2D" parent="."]
 position = Vector2(330, 220)
 
@@ -842,6 +881,13 @@ texture = ExtResource("r10_chalet_red")
 [node name="Base" type="CollisionShape2D" parent="Prop9"]
 position = Vector2(0, -20.0)
 shape = SubResource("R104x40")
+
+[node name="Windows" type="Sprite2D" parent="Prop9"]
+flip_h = true
+position = Vector2(0, -46.0)
+texture = ExtResource("r11_chalet_red_windo")
+script = ExtResource("r7_window_glow")
+lights_out = 3.4
 
 [node name="Prop10" type="StaticBody2D" parent="."]
 position = Vector2(-200, -430)
@@ -893,6 +939,12 @@ texture = ExtResource("r12_chalet_green")
 position = Vector2(0, -20.0)
 shape = SubResource("R104x40")
 
+[node name="Windows" type="Sprite2D" parent="Prop12"]
+position = Vector2(0, -46.5)
+texture = ExtResource("r13_chalet_green_win")
+script = ExtResource("r7_window_glow")
+lights_out = 2.2
+
 [node name="Prop13" type="StaticBody2D" parent="."]
 position = Vector2(470, -400)
 
@@ -904,6 +956,13 @@ texture = ExtResource("r14_chalet_brown")
 [node name="Base" type="CollisionShape2D" parent="Prop13"]
 position = Vector2(0, -20.0)
 shape = SubResource("R104x40")
+
+[node name="Windows" type="Sprite2D" parent="Prop13"]
+flip_h = true
+position = Vector2(0, -47.0)
+texture = ExtResource("r15_chalet_brown_win")
+script = ExtResource("r7_window_glow")
+lights_out = 2.8
 
 [node name="Prop14" type="StaticBody2D" parent="."]
 position = Vector2(-380, 220)
