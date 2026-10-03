@@ -66,6 +66,8 @@ func _run() -> void:
 	_check("up close it pounds the ground", boss._state in [Boss.State.SWIPE_WINDUP, Boss.State.SWIPE])
 
 	var had := GameState.collection(P).count(&"cairn_heart")
+	# Stand clear: the heart is flung out of the body and the player would pick it up.
+	player.global_position = boss.global_position + Vector2(300, 0)
 	boss._enter(Boss.State.RECOVER)
 	boss._on_hurt(_hit(999))
 	await _frames(3)
