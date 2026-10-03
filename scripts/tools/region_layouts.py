@@ -700,7 +700,7 @@ RESORT = {
          for y, xs in ((-60, (-590, -545, -500)), (10, (-620, -575, -530, -485)), (-60, (-420, -375))) for x in xs]
         + [{"sprite": K2 + "props/parasol_table.png", "pos": p, "foot": (34, 12)} for p in [(-700, 40), (-430, 50)]]
         + [{"sprite": RS + "cabana.png", "pos": p, "foot": (40, 14)} for p in [(-760, -60), (-350, -110)]]
-        + [{"sprite": RS + "beach_bar.png", "pos": (-520, -128), "foot": (84, 16)}]
+        + [{"sprite": RS + "beach_bar.png", "pos": (-520, -128), "foot": (84, 16), "light": ((1.0, 0.78, 0.5, 1), 0.9, 1.5)}]
         # The quay: a promenade of benches facing the bay, lamp posts between them,
         # café tables at the west end, planters at the head of the boardwalk.
         + [{"sprite": K2 + "props/bench.png", "pos": p, "foot": (36, 8)} for p in [(-220, -84), (-120, -84), (120, -84), (220, -84)]]
@@ -728,6 +728,14 @@ RESORT = {
         + [{"sprite": K2 + "props/fish_crates.png", "pos": (-640, 412), "foot": (26, 8)}]
         # The headland lookout.
         + [{"sprite": K2 + "props/bench.png", "pos": (650, 60), "foot": (36, 8)}]
+        # Lamps for the night: the quay's corners and the foot of both stairs, the
+        # boardwalk (posts on its pilings, alternating sides), along both jetties
+        # between the bungalows and at their ends, round the fountain, up the hotel road.
+        + [{"sprite": K2 + "props/lamp_post.png", "pos": p, "foot": (10, 8), "light": ((1.0, 0.85, 0.6, 1), 0.9, 1.3)}
+           for p in [(-284, -130), (284, -130), (-210, -206), (176, -206), (-284, -214), (284, -214),
+                     (-30, 0), (30, 100), (-30, 200),
+                     (-340, 428), (-500, 428), (-700, 428), (340, 428), (500, 428), (700, 428),
+                     (-190, -300), (190, -300), (430, -272), (500, -108)]]
     ),
     "afloat": [(K2 + "props/rowboat.png", (-600, 450), False), (K2 + "props/rowboat.png", (-650, 456), True),
                (K2 + "props/sea_rocks.png", (740, 240), False)],
@@ -812,9 +820,14 @@ RESORT = {
     # The yachts moored off the east jetty, bobbing (a PixelLab-animated strip).
     "decor": [{"strip": RS + "anim/yacht_bob.png", "frames": 7, "fps": 4, "pos": (x, y + 33), "flip": f, "afloat": True}
               for (x, y), f in [((300, 476), False), ((430, 482), True), ((560, 560), False)]],
+    # A bonfire on the beach for the evenings.
+    "campfires": [(-640, 104)],
     # Lanterns strung over the Saltglass Terrace and along the quay.
     "string_lights": [((-148, 316), (-148, 534), 16), ((148, 366), (148, 534), 16), ((-148, 316), (148, 366), 20),
-                      ((-148, 534), (148, 534), 18), ((-170, -90), (170, -90), 22)],
+                      ((-148, 534), (148, 534), 18), ((-170, -90), (170, -90), 22),
+                      # the waterfront along the sea wall, and over the café tables at the back
+                      ((-290, -20), (-34, -20), 10), ((34, -20), (290, -20), 10),
+                      ((-284, -214), (-60, -200), 16), ((60, -200), (284, -214), 16)],
     "gulls": [((-200, 160), 3, (180, 70)), ((380, 240), 2, (140, 60)), ((-520, 120), 2, (120, 50))],
 }
 
