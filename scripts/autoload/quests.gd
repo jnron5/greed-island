@@ -40,6 +40,38 @@ const LEDGER_CLUES := {
 }
 const LEDGER_REWARD_GOLD := 60
 const LEDGER_REWARD_CARD := &"factors_seal"
+## One resident in each town gives you that town's first return card, free, the
+## first time you talk to them (after that they're 150 gold at the town's shop).
+## Residents with no favour or quest of their own, so nothing else is waiting.
+const WELCOME_GIFTS := {
+	&"jobelle": &"kalmora_return",
+	&"mate": &"sorenda_return",
+	&"tally": &"verdana_return",
+	&"fennick": &"seabright_return",
+	&"sven": &"frisalle_return",
+}
+const WELCOME_LINES := {
+	&"jobelle": [
+		"Oh, love, before you go off racing: here. A Kalmora Return. Sable charges the earth for them; I keep one by for every guest who looks like they'll get lost.",
+		"Use it from your binder and you'll be back by our fountain before you can blink. Promise me you'll come home if it gets bad out there.",
+	],
+	&"mate": [
+		"Here. Don't make a thing of it. A Sorenda Return. The forest eats racers, and I'm not having one of mine eaten.",
+		"Use it from your binder and you're back on the green. My stew'll be waiting. Chef's won't.",
+	],
+	&"tally": [
+		"A present! For YOU! A Verdana Return! One use, from your binder, and WHOOSH, you're back in the square!",
+		"Use it to get back for dinner. Five o'clock. I'm not saying that's what it's for. That's what it's for.",
+	],
+	&"fennick": [
+		"With the compliments of the Seabright Grand: a Seabright Return. Guests who wander are, regrettably, common.",
+		"Use it from your binder and you'll find yourself on our forecourt. The first is on the house; the second, I'm afraid, is a hundred and fifty gold.",
+	],
+	&"sven": [
+		"Here. Every guide carries one of these up the mountain: a Frisalle Return. Anselm had one in his pocket the night of the slide. He never got to use it.",
+		"Use it from your binder and you're back in the square, wherever the mountain's put you. Don't be proud about it. Use it.",
+	],
+}
 const CARGO_CLUES: Array[StringName] = [&"crate_sand", &"crate_glove", &"crate_ledger"]
 const CARGO_REWARD_GOLD := 40
 
@@ -59,6 +91,8 @@ func flag(name: StringName) -> bool:
 
 ## What an NPC says for quest reasons right now (empty = use their own lines).
 func dialogue_for(npc_id: StringName) -> PackedStringArray:
+	if gift_waiting(npc_id):
+		return PackedStringArray(WELCOME_LINES[npc_id])
 	match npc_id:
 		&"bram":
 			match stage(&"unmarked_cargo"):
@@ -200,6 +234,8 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 
 ## "!" = has something for you, "?" = waiting on you to report back.
 func marker_for(npc_id: StringName) -> String:
+	if gift_waiting(npc_id):
+		return "!"
 	if npc_id == &"pell" and (stage(&"trees_remember") == NOT_STARTED
 			or stage(&"trees_remember") == DONE and not flag(&"pell_gift")):
 		return "!"
@@ -235,6 +271,12 @@ func marker_for(npc_id: StringName) -> String:
 
 
 func talked_to(npc_id: StringName) -> void:
+	if gift_waiting(npc_id):
+		var card: StringName = WELCOME_GIFTS[npc_id]
+		GameState.quest_flags[StringName("gift:%s" % npc_id)] = true
+		GameState.add_loose_card(GameState.PLAYER, card)
+		EventBus.notify.emit("Got a %s. Use it from the binder to come straight back." % CardDatabase.get_card(card).display_name)
+		return
 	if npc_id == &"mirela":
 		GameState.quest_flags[&"met_mirela"] = true
 	if npc_id == &"wen":
@@ -364,6 +406,11 @@ func read(title: String) -> void:
 	if title == SATCHEL_TITLE and stage(&"trees_remember") in [NOT_STARTED, 1]:
 		set_stage(&"trees_remember", 2)
 		EventBus.notify.emit("Take what you found to Elder Moss")
+
+
+## This resident still has your free return card.
+func gift_waiting(npc_id: StringName) -> bool:
+	return WELCOME_GIFTS.has(npc_id) and not flag(StringName("gift:%s" % npc_id))
 
 
 func clue_found(clue_id: StringName) -> bool:

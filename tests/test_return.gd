@@ -34,6 +34,16 @@ func _run() -> void:
 		var keeper := zone.get_node_or_null("Npc_%s" % room[1]) as Npc
 		_check("%s sells %s" % [room[1], room[2]], keeper != null and keeper.shop_stock.has(room[2]))
 
+	# One resident per town gives the first one free, once.
+	_check("every town's return card has a giver", CardSpells.RETURN_CARDS.keys().all(func(id: StringName) -> bool:
+		return Quests.WELCOME_GIFTS.values().has(id)))
+	_check("Jobelle has something for you", Quests.marker_for(&"jobelle") == "!" and not Quests.dialogue_for(&"jobelle").is_empty())
+	Quests.talked_to(&"jobelle")
+	_check("a free Kalmora Return", col.count(&"kalmora_return") == 1 and Quests.marker_for(&"jobelle") == "")
+	Quests.talked_to(&"jobelle")
+	_check("only the once", col.count(&"kalmora_return") == 1 and Quests.dialogue_for(&"jobelle").is_empty())
+	GameState.consume_card(P, &"kalmora_return", &"buff")
+
 	# Buy one in Verdana; it won't take you where you already are.
 	var verdana := await _load(WorldMap.VERDANA)
 	GameState.currency = 200
