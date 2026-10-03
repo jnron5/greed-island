@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/frisalle_return.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"frisalle_return"
+display_name = "Frisalle Return"
+description = "Use it anywhere to return to Frisalle's square at once. Used up."
+lore = "Sold off the toy stall in the square. One guide in Frisalle carried one up the pass for twenty years. It was in his pocket the night of the slide."
+category = 1
+source = 3
+sell_value = 40
+icon = ExtResource("2_art")
+shop_price = 150

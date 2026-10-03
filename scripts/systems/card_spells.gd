@@ -71,6 +71,51 @@ static func use_second_wind(caster: Node2D) -> bool:
 	return true
 
 
+## Return cards: one per town, sold at that town's card shop. Used from the binder,
+## the card is spent and carries you to the town's square (a fade through light).
+const RETURN_CARDS := {
+	&"kalmora_return": WorldMap.KALMORA,
+	&"sorenda_return": WorldMap.SORENDA,
+	&"verdana_return": WorldMap.VERDANA,
+	&"seabright_return": WorldMap.SEABRIGHT,
+	&"frisalle_return": WorldMap.FRISALLE,
+}
+
+
+static func is_return(card_id: StringName) -> bool:
+	return RETURN_CARDS.has(card_id)
+
+
+## The return card a town's shops sell (&"" if the town has none).
+static func return_card_for(town: String) -> StringName:
+	for id: StringName in RETURN_CARDS:
+		if RETURN_CARDS[id] == town:
+			return id
+	return &""
+
+
+## Spend a return card and go to its town. Refused (and kept) if you're already
+## there, fainted, or mid-transition.
+static func use_return(caster: Node2D, card_id: StringName) -> bool:
+	var caster_id: StringName = caster.get(&"collector_id")
+	var town: String = RETURN_CARDS.get(card_id, "")
+	if town == "" or caster_id != GameState.PLAYER:
+		return false
+	var tree := caster.get_tree()
+	if tree.current_scene and tree.current_scene.scene_file_path == town:
+		_tell(caster_id, "You're already in %s" % WorldMap.town_name(town))
+		return false
+	if Transition.busy or int(caster.get(&"health")) <= 0:
+		return false
+	if not GameState.consume_card(caster_id, card_id, &"buff"):
+		return false
+	_tell(caster_id, "The %s carries you home" % CardDatabase.get_card(card_id).display_name)
+	Sfx.play(&"charged")
+	GameState.pending_spawn = WorldMap.town_spawn(town)
+	Transition.faint_to(town)
+	return true
+
+
 ## Other collectors within `radius` of `caster`, nearest first.
 static func collectors_in_range(caster: Node2D, radius: float) -> Array[Node2D]:
 	var out: Array[Node2D] = []

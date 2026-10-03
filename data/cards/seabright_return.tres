@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/seabright_return.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"seabright_return"
+display_name = "Seabright Return"
+description = "Use it anywhere to return to Seabright Quay's square at once. Used up."
+lore = "Fennick keeps a box of them behind the desk 'for guests who have wandered'. The Duke buys them by the dozen and never uses one."
+category = 1
+source = 3
+sell_value = 40
+icon = ExtResource("2_art")
+shop_price = 150

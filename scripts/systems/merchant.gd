@@ -10,6 +10,12 @@ var _player_near := false
 
 
 func _ready() -> void:
+	# A town's stall also sells that town's return card.
+	var scene := owner if owner else get_parent()
+	var home := CardSpells.return_card_for(scene.scene_file_path if scene else "")
+	if home != &"" and not stock.has(home):
+		stock = stock.duplicate()
+		stock.append(home)
 	body_entered.connect(func(body: Node2D) -> void: _set_near(body, true))
 	body_exited.connect(func(body: Node2D) -> void: _set_near(body, false))
 

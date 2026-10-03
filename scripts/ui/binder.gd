@@ -349,6 +349,8 @@ func _fill_detail() -> void:
 		buttons.append(["Cast (Q)", _cast_pickpocket, true])
 	elif id == CardSpells.SECOND_WIND:
 		buttons.append(["Use", _use_second_wind, true])
+	elif CardSpells.is_return(id):
+		buttons.append(["Use", _use_return.bind(id), true])
 	elif col.count(CardSpells.LOCKBOX) > 0 and id != CardSpells.LOCKBOX:
 		var can_lock := GameState.stealable_copies(GameState.PLAYER, id) > 0 and not GameState.is_locked(GameState.PLAYER, id)
 		buttons.append(["Lock", func() -> void: CardSpells.use_lockbox(GameState.PLAYER, id), can_lock])
@@ -397,6 +399,13 @@ func _use_second_wind() -> void:
 	var player := get_tree().get_first_node_in_group(&"player") as Player
 	if player and CardSpells.use_second_wind(player):
 		EventBus.notify.emit("Second Wind: +%d HP" % CardSpells.SECOND_WIND_HEAL)
+
+
+func _use_return(id: StringName) -> void:
+	var player := get_tree().get_first_node_in_group(&"player") as Player
+	if player:
+		close()
+		CardSpells.use_return(player, id)
 
 
 # ---------------------------------------------------------------- layout

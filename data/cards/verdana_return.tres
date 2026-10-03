@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/verdana_return.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"verdana_return"
+display_name = "Verdana Return"
+description = "Use it anywhere to return to Verdana's square at once. Used up."
+lore = "A Harvest Oak leaf sealed in the card. Tally says if you're back in time for five o'clock, the card was worth every coin."
+category = 1
+source = 3
+sell_value = 40
+icon = ExtResource("2_art")
+shop_price = 150

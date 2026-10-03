@@ -70,7 +70,7 @@ INTERIORS = {
         ],
         "npcs": [("sable", "Sable", "sable", (158, 118), [
             "Welcome, welcome. Spells, charms, a little luck in card form. Have a look.",
-        ], SHOP_STOCK)],
+        ], SHOP_STOCK[:-1] + ', &"kalmora_return"]')],
     },
     "kalmora_nonna_house": {
         "name": "Nonna Vess's House",
@@ -505,6 +505,8 @@ INTERIORS = {
                        "Welcome back to the land of the living. Tea is on its way. The Seabright Grand prides itself on its recoveries.",
                    ],
                    "room_prompt": "Certainly. A sea view, naturally. Half a day, or the full day?",
+                   # Seabright has no card shop: the concierge arranges your return.
+                   "extra_stock": ["seabright_return"],
                    "room_broke": "I'm afraid a room is %d gold, even for racers. Perhaps the inn at Verdana; I hear the dinner is very punctual."},
         "readables": [
             ("The guest register", (160, 130), [
@@ -897,7 +899,8 @@ def keeper_props(cfg):
     arr = lambda lines: "PackedStringArray(" + ", ".join(q(line) for line in lines) + ")"
     k = cfg.get("keeper", {})
     out = "inn_rooms = true\n"
-    out += f"shop_stock = Array[StringName]({INN_STOCK})\nshop_buys_cards = false\nshop_title = {q(cfg['name'])}\n"
+    stock = INN_STOCK[:-1] + "".join(f', &"{x}"' for x in k.get("extra_stock", [])) + "]"
+    out += f"shop_stock = Array[StringName]({stock})\nshop_buys_cards = false\nshop_title = {q(cfg['name'])}\n"
     if k.get("wake_lines"):
         out += f"wake_lines = {arr(k['wake_lines'])}\n"
     if k.get("room_prompt"):
