@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3]
+[gd_scene load_steps=29 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -14,6 +14,8 @@
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/otto/otto_frames.tres" id="n_otto"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/jobelle/jobelle_frames.tres" id="n_jobelle"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/bram/bram_frames.tres" id="n_bram"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sailor/sailor_frames.tres" id="n_sailor"]
 
 [sub_resource type="RectangleShape2D" id="R384x104"]
 size = Vector2(384, 104)
@@ -169,6 +171,24 @@ shop_title = "The Salted Lantern"
 wake_lines = PackedStringArray("Oh, love. Oh, look at you. Somebody carried you in off the road and I've sat with you all night. Rest a minute before you go anywhere.", "There you are. You gave me such a fright. Drink this, it's only tea. Whatever you lost out there, it isn't worth losing you.", "Welcome back, sweetheart. Otto carried you up the stairs himself. Don't tell him I told you; he likes people to think he's grumpy.")
 room_prompt = "Of course, love! Fresh sheets, a warm brick in the bed. Half a day, or a whole one?"
 room_broke = "Oh, love, it's %d gold. Come back when you can. And eat something in the meantime."
+
+[node name="Npc_bram" parent="." instance=ExtResource("9_npc")]
+position = Vector2(130, 200)
+npc_id = &"bram"
+display_name = "Bram"
+sprite_frames = ExtResource("n_bram")
+lines = PackedStringArray("Long day hauling crates nobody's allowed to ask about. Long night forgetting them.", "Otto waters the cider. Don't tell him I know. It's the only thing in this town that's honest about being thin.", "Night tide brings the unmarked ones. I'm in here so I don't have to see them come in.")
+out_from = 20.0
+out_to = 6.5
+
+[node name="Npc_sailor" parent="." instance=ExtResource("9_npc")]
+position = Vector2(232, 204)
+npc_id = &"sailor"
+display_name = "Deckhand Luca"
+sprite_frames = ExtResource("n_sailor")
+lines = PackedStringArray("Pull up a stool! I'm telling the one about the sea serpent off Halmeer. It gets bigger every time.", "A sailor's day ends when the lamps come on. A sailor's night ends when Jobelle throws him out.", "You racers never sleep, do you? Bind your cards before you go out there. The night's when the thieves work.")
+out_from = 20.0
+out_to = 6.5
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(188, 244)

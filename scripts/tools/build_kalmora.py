@@ -593,6 +593,15 @@ NPCS = [
         "Thornveil's no place to wander with loose cards. The hounds don't care, but the Raider does.",
     ]),
 ]
+# Day and night (scripts/characters/npc.gd). OUT_HOURS: when a resident is out in the
+# town at all (the rest of the time they're home or at the tavern: Bram and Luca have
+# indoor copies in the Salted Lantern for the night, build_interiors.py). NIGHT_SPOTS:
+# where someone who stays out spends the night (concept position, wander radius).
+OUT_HOURS = {"bram": (6.5, 20.0), "sailor": (6.5, 20.0), "pip": (6.0, 21.0), "baker": (5.0, 19.0), "tomas": (6.0, 19.5)}
+NIGHT_SPOTS = {
+    "mirela": ((530, 722), 10),    # the harbormaster locks up and keeps watch on the quay
+    "rook": ((780, 108), 20),      # the guard walks the north gate under its lamp
+}
 # The unmarked shipment: three crates piled on the quay, where Bram works.
 # Spread about the harbor so the search takes a look round: one by Bram on the quay,
 # one on the west dock by the harbormaster's, one out on the pier.
@@ -1357,7 +1366,12 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
                  f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{frames_id}")\n'
                  f'lines = PackedStringArray({quoted})\nwander_radius = {float(wander)}\n'
                  + (f'patrol = PackedVector2Array({", ".join(f"{px * SCALE:.0f}, {py * SCALE:.0f}" for px, py in PATROLS[npc_id])})\n'
-                    if npc_id in PATROLS else ""))
+                    if npc_id in PATROLS else "")
+                 + (f'out_from = {float(OUT_HOURS[npc_id][0])}\nout_to = {float(OUT_HOURS[npc_id][1])}\n' if npc_id in OUT_HOURS else "")
+                 + (f'has_night_spot = true\nnight_spot = Vector2({W(*NIGHT_SPOTS[npc_id][0])[0]}, {W(*NIGHT_SPOTS[npc_id][0])[1]})\n'
+                    f'night_wander = {float(NIGHT_SPOTS[npc_id][1])}\n' if npc_id in NIGHT_SPOTS else ""))
+        if npc_id in NIGHT_SPOTS:
+            check_spot(npc_id + " at night", *W(*NIGHT_SPOTS[npc_id][0]))
         taken.append((x, y))
     for clue, pos in CLUE_CRATES:
         x, y = W(*pos)
@@ -1496,7 +1510,8 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
     solids += [(x - 12, y - 10, x + 12, y) for x, y in [W(*p) for _, p in CLUE_CRATES] + [W(*p) for p in DUMMIES]]
     targets = {**{f"spawn {k}": v for k, v in spawns.items()}, **{f"rival spot {k}": v for k, v in rival_spots.items()},
                **{f"card {k}": v for k, v in cards}, "north gate": (0, GATE_Y + 24), "lighthouse door": (lx, ly + 30),
-               **{f"npc {n[0]}": W(*n[3]) for n in NPCS}, **{f"crate {k}": W(*p) for k, p in CLUE_CRATES}}
+               **{f"npc {n[0]}": W(*n[3]) for n in NPCS}, **{f"crate {k}": W(*p) for k, p in CLUE_CRATES},
+               **{f"npc {k} at night": W(*v[0]) for k, v in NIGHT_SPOTS.items()}}
     for k, (c0, r0, rows) in enumerate(STAIR_SPOTS):
         targets[f"stairs {k + 1} top"] = (LEFT + (c0 + 1) * TILE, TOP + r0 * TILE - 12)
         targets[f"stairs {k + 1} bottom"] = (LEFT + (c0 + 1) * TILE, TOP + (r0 + rows) * TILE + 12)

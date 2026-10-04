@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3]
+[gd_scene load_steps=29 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/verdana/interiors/inn_room.png" id="10_room"]
 [ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/bruno/bruno_frames.tres" id="n_bruno"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/tally/tally_frames.tres" id="n_tally"]
 
 [sub_resource type="RectangleShape2D" id="R210x32"]
@@ -161,6 +162,15 @@ position = Vector2(143, 196)
 target_scene = "res://scenes/world/verdana.tscn"
 target_spawn = &"from_houseinn"
 exit_hint = true
+
+[node name="Npc_bruno" parent="." instance=ExtResource("9_npc")]
+position = Vector2(158, 164)
+npc_id = &"bruno"
+display_name = "Bruno"
+sprite_frames = ExtResource("n_bruno")
+lines = PackedStringArray("Kitchen's closed. Well. It's closed for anyone who asks politely. Here, have the heel of the loaf.", "Tally's asleep upstairs, so I can say it: the cider's better after dark. I don't know why either.")
+out_from = 20.0
+out_to = 6.0
 
 [node name="Npc_tally" parent="." instance=ExtResource("9_npc")]
 position = Vector2(110, 106)

@@ -45,6 +45,21 @@ const TALK_RANGE := 34.0
 ## one of their beds (one per waking, rotating).
 @export_multiline var wake_lines: PackedStringArray = []
 
+@export_group("Day and night")
+## Where this resident spends the night in this zone (zone-local): after dusk they
+## walk there (by the zone's paths) and wander round it; at dawn they walk back.
+@export var has_night_spot := false
+@export var night_spot := Vector2.ZERO
+@export var night_wander := 0.0
+## The hours they're out and about here; the rest of the time they're elsewhere
+## (indoors, or out, if this is the indoor copy): hidden, silent, no collision.
+## Equal = always here. Wraps past midnight (20 -> 6 is the night).
+@export var out_from := 0.0
+@export var out_to := 0.0
+
+const NIGHT_FROM := 20.0
+const NIGHT_TO := 6.5
+
 ## Where each resident is in their lines, kept across visits (a scene reload makes
 ## a new Npc), so coming back doesn't start the same speech over.
 static var _next_line: Dictionary = {}
@@ -57,6 +72,13 @@ var _wait := 0.0
 var _talking := false
 var _patrol_index := 0
 var _pausing := true
+var _day_home := Vector2.ZERO
+var _day_wander := 0.0
+var _night := false
+var _route := PackedVector2Array()
+var _route_time := 0.0
+var _here := true
+var _clock := 0.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -66,15 +88,108 @@ func _ready() -> void:
 	if sprite_frames:
 		sprite.sprite_frames = sprite_frames
 	sprite.offset.y = sprite_offset_y
+	_day_home = position
+	_day_wander = wander_radius
 	_home = position
+	# Coming into the zone after dark: they're already where they spend the night.
+	if has_night_spot and is_night():
+		_night = true
+		_settle_at(night_spot, night_wander)
 	_goal = position
 	_wait = randf_range(1.0, 4.0)
+	_set_here(is_out(), true)
+
+
+## Night by the clock (the hours residents keep to their night spot).
+static func is_night() -> bool:
+	return TimeOfDay.hour >= NIGHT_FROM or TimeOfDay.hour < NIGHT_TO
+
+
+## Whether this resident is out and about here at this hour.
+func is_out() -> bool:
+	if is_equal_approx(out_from, out_to):
+		return true
+	var h := TimeOfDay.hour
+	return h >= out_from and h < out_to if out_from < out_to else h >= out_from or h < out_to
+
+
+func _settle_at(spot: Vector2, radius: float) -> void:
+	position = spot
+	_home = spot
+	_goal = spot
+	wander_radius = radius
+	_route = PackedVector2Array()
+
+
+## Come and go: shown and solid, or gone (indoors / out) without a sound. Never
+## vanishes or appears in front of the player: it waits until it's off screen.
+func _set_here(here: bool, force := false) -> void:
+	if here == _here and not force:
+		return
+	if not force and _on_screen():
+		return
+	_here = here
+	visible = here
+	$CollisionShape2D.set_deferred(&"disabled", not here)
+
+
+func _on_screen() -> bool:
+	var view := get_viewport_rect()
+	var rect := get_canvas_transform().affine_inverse() * view
+	return rect.grow(40.0).has_point(global_position)
+
+
+## Dusk and dawn: set off for the night spot (or back home) along the zone's paths;
+## a resident who can't find a way goes there when nobody's looking.
+func _keep_hours(delta: float) -> void:
+	_clock -= delta
+	if _clock > 0.0:
+		return
+	_clock = 1.0
+	_set_here(is_out())
+	if not has_night_spot or is_night() == _night:
+		return
+	_night = is_night()
+	var target := night_spot if _night else _day_home
+	wander_radius = 0.0
+	_route = PackedVector2Array()
+	var zone := get_tree().current_scene as Zone
+	if zone and zone.has_method(&"find_path"):
+		_route = zone.find_path(global_position, get_parent().to_global(target) if get_parent() is Node2D else target)
+	if _route.is_empty():
+		_route = PackedVector2Array([get_parent().to_global(target) if get_parent() is Node2D else target])
+	_route_time = 0.0
+
+
+func _follow_route(delta: float) -> void:
+	_route_time += delta
+	var target := _route[0]
+	if global_position.distance_to(target) < 4.0:
+		_route.remove_at(0)
+		if _route.is_empty():
+			_arrive()
+		return
+	velocity = global_position.direction_to(target) * walk_speed * 1.2
+	# Stuck on the way: finish the trip off screen.
+	if _route_time > 45.0 and not _on_screen():
+		_arrive()
+
+
+func _arrive() -> void:
+	velocity = Vector2.ZERO
+	_settle_at(night_spot if _night else _day_home, night_wander if _night else _day_wander)
 
 
 func _physics_process(delta: float) -> void:
+	_keep_hours(delta)
+	if not _here:
+		velocity = Vector2.ZERO
+		return
 	if _talking:
 		velocity = Vector2.ZERO
-	elif not patrol.is_empty():
+	elif not _route.is_empty():
+		_follow_route(delta)
+	elif not patrol.is_empty() and not _night:
 		_wait -= delta
 		var target := _home + patrol[_patrol_index]
 		if _pausing:
@@ -106,7 +221,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _talking or GameState.menus_open > 0 or not event.is_action_pressed(&"interact"):
+	if _talking or not _here or GameState.menus_open > 0 or not event.is_action_pressed(&"interact"):
 		return
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
 	if player == null or player.global_position.distance_to(global_position) > TALK_RANGE:

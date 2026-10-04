@@ -52,7 +52,18 @@ INTERIORS = {
             "When we were small, Mate always took the bigger half of the apple, then gave it to Tilly when she thought I wasn't looking. Don't let her tell you she's all thorns.",
             "Tilly wrote to say a ram knocked her into the pond. She thought it was the funniest thing that ever happened. I didn't sleep for a week.",
             "You've got that look. Somebody you're racing for, back home? Keep them in mind. It helps on the long roads.",
-        ], [])],
+        ], []),
+                 # After dark the docks empty into the tavern: Bram and Luca, off work.
+                 ("bram", "Bram", "bram", (130, 200), [
+            "Long day hauling crates nobody's allowed to ask about. Long night forgetting them.",
+            "Otto waters the cider. Don't tell him I know. It's the only thing in this town that's honest about being thin.",
+            "Night tide brings the unmarked ones. I'm in here so I don't have to see them come in.",
+        ], [], {"out": (20.0, 6.5)}),
+                 ("sailor", "Deckhand Luca", "sailor", (232, 204), [
+            "Pull up a stool! I'm telling the one about the sea serpent off Halmeer. It gets bigger every time.",
+            "A sailor's day ends when the lamps come on. A sailor's night ends when Jobelle throws him out.",
+            "You racers never sleep, do you? Bind your cards before you go out there. The night's when the thieves work.",
+        ], [], {"out": (20.0, 6.5)})],
         "inn": "jobelle",
         "keeper": {"wake_lines": ["Oh, love. Oh, look at you. Somebody carried you in off the road and I've sat with you all night. Rest a minute before you go anywhere.", "There you are. You gave me such a fright. Drink this, it's only tea. Whatever you lost out there, it isn't worth losing you.", "Welcome back, sweetheart. Otto carried you up the stairs himself. Don't tell him I told you; he likes people to think he's grumpy."],
                    "room_prompt": "Of course, love! Fresh sheets, a warm brick in the bed. Half a day, or a whole one?",
@@ -699,7 +710,11 @@ INTERIORS = {
             (39, 24, 48, 194), (240, 24, 249, 194),                          # side walls
             (39, 180, 128, 194), (158, 180, 249, 194),                       # front wall round the door
         ],
-        "npcs": [("tally", "Tally", "tally", (110, 106), [
+        "npcs": [("bruno", "Bruno", "bruno", (158, 164), [
+            "Kitchen's closed. Well. It's closed for anyone who asks politely. Here, have the heel of the loaf.",
+            "Tally's asleep upstairs, so I can say it: the cider's better after dark. I don't know why either.",
+        ], [], {"out": (20.0, 6.0)}),
+                 ("tally", "Tally", "tally", (110, 106), [
             'Hello, hello, HELLO! Welcome to the Sheaf & Sickle! Boots off the table, coin on the counter, smile on the face!',
             "Dinner is at five. Not five past. Not 'about five'. FIVE. The bell rings, the plates go down, and the door stays shut until the gravy's gone.",
             "Men! Honestly! Bruno's the only one I let in my kitchen, and that's because he's scared of me. As he should be.",
@@ -737,7 +752,10 @@ INTERIORS = {
             (51, 25, 60, 184), (229, 25, 237, 184),
             (51, 176, 124, 184), (166, 176, 237, 184),
         ],
-        "npcs": [],
+        "npcs": [("marta", "Marta", "marta", (110, 140), [
+            "Supper's done, boots are off. If you're here about the harvest, it's sold. If you're here about my son, sit down.",
+            "I count the Company scrip every night. It never comes to more than it was the night before.",
+        ], [], {"out": (20.0, 5.0)})],
         "readables": [
             ("A letter on the table", (130, 130), [
                 "'Dear Marta. The Company will take the whole harvest again at the agreed rate. Scrip enclosed. Your son is well and learning a trade. You may write to him care of the Duskara office.'",
@@ -779,7 +797,10 @@ INTERIORS = {
             (34, 20, 44, 196), (243, 20, 253, 196),
             (34, 176, 128, 196), (160, 176, 253, 196),
         ],
-        "npcs": [],
+        "npcs": [("oda", "Oda", "oda", (196, 162), [
+            "I weave by lamplight. The figures come out smaller at night. I don't know why.",
+            "Sit by the hearth a moment. You've the look of someone who's walked a long way to find someone.",
+        ], [], {"out": (20.5, 6.5)})],
         "readables": [
             ("A half-woven tapestry", (104, 150), [
                 "On the loom: a long procession of small figures walking west under a golden sky, each one carrying a sack. Oda has woven them in every colour she owns.",
@@ -919,7 +940,7 @@ def scaled(cfg, k=ROOM_SCALE):
     out["size"] = pt(cfg["size"])
     out["exit"], out["spawn"] = pt(cfg["exit"]), pt(cfg["spawn"])
     out["blocks"] = [tuple(v * k for v in b) for b in cfg["blocks"]]
-    out["npcs"] = [(a, b, c, pt(pos), lines, stock) for a, b, c, pos, lines, stock in cfg["npcs"]]
+    out["npcs"] = [(e[0], e[1], e[2], pt(e[3])) + tuple(e[4:]) for e in cfg["npcs"]]
     out["readables"] = [(t, pt(pos), lines) for t, pos, lines in cfg.get("readables", [])]
     return out
 
@@ -993,7 +1014,9 @@ target_scene = "{cfg.get("town", "res://scenes/world/kalmora.tscn")}"
 target_spawn = &"{cfg["back_to"]}"
 exit_hint = true
 ''')
-    for npc_id, display, sprite_id, (x, y), lines, stock in cfg["npcs"]:
+    for entry in cfg["npcs"]:
+        npc_id, display, sprite_id, (x, y), lines, stock = entry[:6]
+        extra = entry[6] if len(entry) > 6 else {}
         rid = f"n_{sprite_id}"
         ext.append(('SpriteFrames', f"res://assets/sprites/npcs/{sprite_id}/{sprite_id}_frames.tres", rid))
         quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
@@ -1001,7 +1024,9 @@ exit_hint = true
                  f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{rid}")\n'
                  f'lines = PackedStringArray({quoted})\n' + (f'shop_stock = Array[StringName]({stock})\n' if stock else "")
                  + ('shop_buys_cards = false\nshop_title = "Greta\'s Provisions"\n' if stock == PROVISIONS else "")
-                 + (keeper_props(cfg) if cfg.get("inn") == npc_id else ""))
+                 + (keeper_props(cfg) if cfg.get("inn") == npc_id else "")
+                 # Indoors only part of the day (the resident's outdoor copy has the rest).
+                 + (f'out_from = {float(extra["out"][0])}\nout_to = {float(extra["out"][1])}\n' if extra.get("out") else ""))
     for k, (title, (x, y), lines) in enumerate(cfg.get("readables", [])):
         quoted = ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
         n.append(f'[node name="Read{k + 1}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\nscript = ExtResource("12_read")\n'

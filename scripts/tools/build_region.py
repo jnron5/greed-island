@@ -738,7 +738,10 @@ class Zone:
         for npc in c.get("npcs", []):
             x, y = npc["pos"]
             keep.append((x, y, 40 + npc.get("wander", 0)))
-            targets["resident " + npc["id"]] = (x, y + 10)
+            targets["resident " + npc.get("node", npc["id"])] = (x, y + 10)
+            if npc.get("night"):
+                keep.append((*npc["night"], 30 + npc.get("night_wander", 0)))
+                targets["resident " + npc.get("node", npc["id"]) + " at night"] = (npc["night"][0], npc["night"][1] + 10)
         for title, (x, y), _ in c.get("readables", []):
             keep.append((x, y, 30))
             targets["readable " + title] = (x, y + 14)
@@ -1124,7 +1127,7 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
                      f'position = Vector2({x}, {y})\nnpc_id = &"{npc["id"]}"\ndisplay_name = "{npc["name"]}"\n'
                      f'sprite_frames = ExtResource("{res("SpriteFrames", frames)}")\n'
                      f'lines = PackedStringArray({quote(npc["lines"])})\nwander_radius = {float(npc.get("wander", 0))}\n{shop}'
-                     + (f'sprite_offset_y = {npc["offset"]}\n' if "offset" in npc else ""))
+                     + (f'sprite_offset_y = {npc["offset"]}\n' if "offset" in npc else "") + schedule_props(npc))
         for k, (title, (x, y), lines) in enumerate(c.get("readables", [])):
             n.append(f'[node name="Read{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                      f'script = ExtResource("{res("Script", "res://scripts/systems/readable.gd")}")\ntitle = "{title}"\n'
@@ -1257,6 +1260,18 @@ position = Vector2({entry[0]}, {entry[1]})
         out = os.environ.get("REGION_DEBUG", os.path.join(os.environ.get("TEMP", "/tmp"), f"{self.key}_debug.png"))
         Image.alpha_composite(img, over).save(out)
         print("debug view:", out)
+
+
+def schedule_props(npc):
+    """A resident's day and night (scripts/characters/npc.gd): `night` = (x, y) where
+    they spend the night in this zone (`night_wander` round it), `out` = (from, to)
+    the hours they're here at all."""
+    out = ""
+    if npc.get("night"):
+        out += f'has_night_spot = true\nnight_spot = Vector2{tuple(npc["night"])}\nnight_wander = {float(npc.get("night_wander", 0))}\n'
+    if npc.get("out"):
+        out += f'out_from = {float(npc["out"][0])}\nout_to = {float(npc["out"][1])}\n'
+    return out
 
 
 def window_glow(path, night_dir):

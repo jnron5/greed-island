@@ -3049,6 +3049,8 @@ display_name = "Bram"
 sprite_frames = ExtResource("n_bram")
 lines = PackedStringArray("Tide's good today. Good for ships, anyway.")
 wander_radius = 0.0
+out_from = 6.5
+out_to = 20.0
 
 [node name="Npc_mirela" parent="." instance=ExtResource("19_npc")]
 position = Vector2(-402, 261)
@@ -3057,6 +3059,9 @@ display_name = "Harbormaster Mirela"
 sprite_frames = ExtResource("n_mirela")
 lines = PackedStringArray("Manifests, manifests. Everything that lands in Kalmora gets a stamp. Everything.", "The race? The whole island's talking. Somebody's walking into Vetrassa with a full set, mark my words.")
 wander_radius = 0.0
+has_night_spot = true
+night_spot = Vector2(-346, 275)
+night_wander = 10.0
 
 [node name="Npc_pip" parent="." instance=ExtResource("19_npc")]
 position = Vector2(259, 112)
@@ -3065,6 +3070,8 @@ display_name = "Pip"
 sprite_frames = ExtResource("n_pip")
 lines = PackedStringArray("Fresh fish! Well. Fresh-ish.", "My cousin went to work out in Duskara last spring. Good pay, they said. He hasn't written.")
 wander_radius = 12.0
+out_from = 6.0
+out_to = 21.0
 
 [node name="Npc_sailor" parent="." instance=ExtResource("19_npc")]
 position = Vector2(4, 300)
@@ -3074,6 +3081,8 @@ sprite_frames = ExtResource("n_sailor")
 lines = PackedStringArray("Sailed round the whole isle once. Vetrassa's got the tallest spires you ever saw.", "You racers bind your cards in town, right? Thieves love a loose card on the road.")
 wander_radius = 40.0
 patrol = PackedVector2Array(0, 0, -266, -28, -168, 0, -84, -14, 0, 0, 28, 70, 0, 0)
+out_from = 6.5
+out_to = 20.0
 
 [node name="Npc_baker" parent="." instance=ExtResource("19_npc")]
 position = Vector2(376, 196)
@@ -3083,6 +3092,8 @@ sprite_frames = ExtResource("n_baker")
 lines = PackedStringArray("Warm bread! Two coins a loaf, one if you tell me a good rumor.", "The Runner came through at dawn, all scarf and no manners. Didn't even stop for bread.")
 wander_radius = 0.0
 patrol = PackedVector2Array(0, 0, 0, -59, -98, -59, -210, -64, -98, -59, 0, -59, 0, 0)
+out_from = 5.0
+out_to = 19.0
 
 [node name="Npc_tomas" parent="." instance=ExtResource("19_npc")]
 position = Vector2(620, 230)
@@ -3091,6 +3102,8 @@ display_name = "Keeper Tomas"
 sprite_frames = ExtResource("n_tomas")
 lines = PackedStringArray("Lent my spare wick to Ilse the mapmaker and never got it back. Good thing I keep three.", "That lens up there's worth more than my whole cottage. Door stays locked, wick or no wick.")
 wander_radius = 0.0
+out_from = 6.0
+out_to = 19.5
 
 [node name="Npc_rook" parent="." instance=ExtResource("19_npc")]
 position = Vector2(43, -607)
@@ -3099,6 +3112,9 @@ display_name = "Guard Rook"
 sprite_frames = ExtResource("n_rook")
 lines = PackedStringArray("North road's sealed. A Salt Compass opens it. Old rule, nobody remembers why.", "Thornveil's no place to wander with loose cards. The hounds don't care, but the Raider does.")
 wander_radius = 0.0
+has_night_spot = true
+night_spot = Vector2(4, -585)
+night_wander = 20.0
 
 [node name="Clue_crate_sand" parent="." instance=ExtResource("21_clue")]
 position = Vector2(-122, 244)

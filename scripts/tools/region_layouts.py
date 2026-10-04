@@ -215,7 +215,7 @@ AUREWIND = {
 }
 
 # ---------------------------------------------------------------- Verdana
-UPPER_GREEN = [(250, -760), (900, -760), (900, -130), (600, -110), (300, -210)]
+UPPER_GREEN = [(430, -760), (900, -760), (900, -130), (640, -110), (450, -210)]
 
 
 def verdana_level(x, y):
@@ -223,6 +223,13 @@ def verdana_level(x, y):
 
 
 VERDANA = {
+    # A street village: the High Street runs east-west through the town with the
+    # farmhouse, Oda's cottage, the Sheaf & Sickle and the bakery shoulder to shoulder
+    # along its north side, doors on the street. South of the street the Harvest Oak
+    # stands on a little green with the market and the well where the road to
+    # Seabright turns off; below that the millstream, crossed by two plank bridges, and
+    # past it the barn, the windmill and the fields. Aldous lives up on the raised
+    # green to the north-east.
     "scene": "scenes/world/verdana.tscn",
     "root": "Verdana",
     "display": "Verdana, Town of the Long Harvest",
@@ -235,28 +242,28 @@ VERDANA = {
     "grade": (1.0, (1.0, 1.0, 1.0)),
     "palette": ((92, 136, 58), (150, 152, 70)),
     "paths": [
-        ([(-200, -660), (-230, -420), (-140, -140), (0, 20)], 26),          # the north road, down from the plains
-        ([(0, -60), (0, -210)], 22),                                         # to the inn door
-        ([(-120, 20), (-300, -40), (-460, -100)], 18),                       # to the farmhouse
-        ([(-100, 140), (-330, 260), (-560, 300)], 18),                       # to the barn
-        ([(100, 140), (300, 250), (470, 350)], 18),                          # to the windmill
-        ([(140, -20), (450, -40), (608, -50), (608, -170)], 18),            # to the stairs
-        ([(608, -170), (612, -320)], 16),                                    # up on the green, to the scholar's door
-        ([(240, 110), (394, 140)], 16),                                      # to the bakery door
-        ([(40, 200), (86, 410)], 16),                                        # to the weaver's door
-        ([(0, 200), (-100, 400), (-100, 600)], 22),                          # south, down to Seabright Quay
+        ([(-840, -34), (-600, -42), (-300, -36), (0, -44), (300, -36), (560, -44), (840, -30)], 30),   # the High Street
+        ([(-200, -660), (-230, -420), (-200, -220), (-200, -40)], 26),                         # the north road, down from the plains
+        ([(-130, -40), (-120, 150), (-110, 320), (-100, 440), (-100, 600)], 22),              # the south road over the bridge, to Seabright
+        ([(560, -44), (672, -100), (672, -172)], 18),                                          # up the stairs to the green
+        ([(672, -172), (640, -260), (612, -320)], 16),                                         # to the scholar's door
+        ([(430, -40), (430, 150), (430, 340), (480, 470)], 16),                                # over the mill bridge to the windmill
+        ([(-110, 360), (-360, 420), (-560, 500)], 16),                                         # along the south bank to the barn
     ],
-    "plazas": [(0, 60, 250, 150)],
-    "meadows": [(-600, -460, 150, 100, [RED, YELLOW, WHITE]), (650, 120, 120, 70, [PURPLE, WHITE])],
-    # Hens scratching round the farmhouse and the barn.
+    "plazas": [(-60, 110, 92, 46)],                                                             # the market corner by the green
+    "meadows": [(-600, -460, 150, 100, [RED, YELLOW, WHITE]), (650, 120, 120, 70, [PURPLE, WHITE]), (-330, 120, 120, 50, [YELLOW, WHITE, RED])],
+    # The millstream, east to west across the south of the town (reeds along it).
+    "lakes": [(x, 250 + 26 * math.sin(x / 260.0), 118, 30) for x in range(-960, 1000, 150)],
+    "deep": (36, 86, 100),
+    "docks": [(-140, 186, -82, 320), (402, 186, 458, 320)],                                    # plank bridges for the two roads
     "decor": [{"strip": VD + "hen_anim.png", "frames": 6, "fps": 5, "pos": p, "flip": f}
-              for p, f in [((-360, -40), False), ((-400, -10), True), ((-330, -5), False), ((-480, 350), True), ((-440, 340), False)]],                                           # the square, cobbled
-    "instances": [("res://scenes/world/props/forest_oak.tscn", (0, 50), 1)]    # the Harvest Oak
-                 + [("res://scenes/world/props/forest_oak.tscn", (x, y), 0.6)       # the orchard, in rows
+              for p, f in [((-540, -20), False), ((-580, 6), True), ((-500, 10), False), ((-480, 520), True), ((-440, 510), False)]],
+    "instances": [("res://scenes/world/props/forest_oak.tscn", (-300, 110), 1)]                # the Harvest Oak, on the green
+                 + [("res://scenes/world/props/forest_oak.tscn", (x, y), 0.6)                  # the orchard behind the bakery, in rows
                     for x in (180, 260, 340) for y in (-470, -395)],
-    "fields": [(-790, -40, -640, 200), (-790, 360, -640, 540), (560, 380, 800, 540), (-420, 400, -220, 540)],
+    "fields": [(-790, 330, -640, 540), (560, 380, 800, 540), (-420, 410, -220, 540), (60, 380, 300, 540)],
     "tree_kinds": ["oak"],
-    "groves": [(-700, -500, 5, 50), (760, 200, 4, 40), (300, -560, 4, 40), (-40, 480, 3, 30)],
+    "groves": [(-700, -500, 5, 50), (760, 160, 4, 40), (300, -580, 4, 40), (-740, 120, 3, 40), (720, -40, 2, 30)],
     "under": [("flowers", 6), ("grass_clump", 4), ("clover", 3), ("berry_bush", 1)],
     "patches": 40,
     "tufts": 90,
@@ -267,106 +274,99 @@ VERDANA = {
         {"name": "ToAurewind", "pos": (-200, -660), "side": "n", "target": "res://scenes/world/aurewind_plains.tscn", "spawn": "from_verdana"},
         {"name": "ToResort", "pos": (-100, 572), "side": "s", "target": "res://scenes/world/seabright_quay.tscn", "spawn": "from_verdana"},
     ],
-    "spawns": {"town": (0, 120), "from_aurewind": (-200, -600), "from_resort": (-100, 515)},
-    "rival_spots": {"runner": (-80, 150), "raider": (90, 150), "hoarder": (60, -40)},
+    "spawns": {"town": (-140, 60), "from_aurewind": (-200, -600), "from_resort": (-100, 515)},
+    "rival_spots": {"runner": (-80, 30), "raider": (60, 20), "hoarder": (120, 0)},
     "buildings": [
-        {"node": "HouseInn", "sprite": VD + "inn.png", "pos": (0, -230), "foot": 150, "door": "res://scenes/world/interiors/verdana_inn.tscn",
+        {"node": "HouseInn", "sprite": VD + "inn.png", "pos": (0, -92), "foot": 150, "door": "res://scenes/world/interiors/verdana_inn.tscn",
          "back": "from_houseinn"},
-        {"node": "HouseFarm", "sprite": VD + "farmhouse.png", "pos": (-460, -120), "foot": 140, "door": "res://scenes/world/interiors/verdana_farmhouse.tscn",
+        {"node": "HouseFarm", "sprite": VD + "farmhouse.png", "pos": (-620, -92), "foot": 140, "door": "res://scenes/world/interiors/verdana_farmhouse.tscn",
          "back": "from_housefarm"},
         {"node": "HouseScholar", "sprite": VD + "scholar_house.png", "pos": (620, -330), "foot": 124, "door": "res://scenes/world/interiors/verdana_scholar.tscn",
          "back": "from_housescholar"},
-        {"node": "HouseBarn", "sprite": VD + "barn.png", "pos": (-560, 290), "foot": 130, "door": "res://scenes/world/interiors/verdana_barn.tscn",
+        {"node": "HouseBarn", "sprite": VD + "barn.png", "pos": (-560, 480), "foot": 130, "door": "res://scenes/world/interiors/verdana_barn.tscn",
          "back": "from_housebarn"},
-        {"node": "HouseBakery", "sprite": VD + "bakery.png", "pos": (360, 120), "foot": 150, "door_dx": 34,
+        {"node": "HouseBakery", "sprite": VD + "bakery.png", "pos": (270, -92), "foot": 150, "door_dx": 34,
          "door": "res://scenes/world/interiors/verdana_bakery.tscn", "back": "from_housebakery"},
-        {"node": "HouseWeaver", "sprite": VD + "weaver_cottage.png", "pos": (80, 400), "foot": 150, "door_dx": 6,
+        {"node": "HouseWeaver", "sprite": VD + "weaver_cottage.png", "pos": (-340, -92), "foot": 150, "door_dx": 6,
          "door": "res://scenes/world/interiors/verdana_weaver.tscn", "back": "from_houseweaver"},
-        {"node": "HouseMill", "sprite": K2 + "objects/windmill2.png", "pos": (480, 340), "foot": 90,
+        {"node": "HouseMill", "sprite": K2 + "objects/windmill2.png", "pos": (500, 470), "foot": 90,
          "door": "res://scenes/world/interiors/verdana_mill.tscn", "back": "from_housemill",
          "sails": (K2 + "anim/windmill_sails.png", 12, 7, (80, 78))},
     ],
     "props": (
-        [{"sprite": "assets/sprites/tiles/sorenda/sorenda_well.png", "pos": (-215, 20), "foot": (40, 14)}]
-        + [{"sprite": K2 + "props/stall_bread.png", "pos": (-150, 150), "foot": (54, 14)},
-           {"sprite": K2 + "props/stall_fruit.png", "pos": (150, 150), "foot": (54, 14)},
-           {"sprite": KP + "bread_basket.png", "pos": (-110, 160), "foot": (14, 6)},
-           {"sprite": KP + "apples_crate.png", "pos": (190, 160), "foot": (16, 8)},
-           {"sprite": K2 + "props/bench.png", "pos": (-120, -40), "foot": (36, 8)},
-           {"sprite": K2 + "props/bench.png", "pos": (120, -40), "foot": (36, 8)},
-           {"sprite": K2 + "props/flower_bed.png", "pos": (-90, -170), "foot": (30, 8)},
-           {"sprite": K2 + "props/flower_bed.png", "pos": (90, -170), "foot": (30, 8)},
-           {"sprite": K2 + "props/notice_board.png", "pos": (-190, -60), "foot": (30, 8)}]
-        # Flower beds round the Harvest Oak, open to the north and south.
-        + [{"sprite": K2 + "props/flower_bed.png", "pos": p, "foot": (30, 8)} for p in [(-70, 40), (70, 40), (-56, 96), (56, 96)]]
-        + [{"sprite": HAY, "pos": p, "foot": (34, 14)} for p in [(-420, 330), (-690, 300), (-460, 360)]]
-        + [{"sprite": SCARECROW, "pos": p, "foot": (10, 6)} for p in [(-720, 80), (680, 460)]]
-        + fence_row(-790, -640, -52) + fence_row(-790, -640, 212) + fence_row(560, 800, 372, gap_at=(680,))
-        # Every door has its own clutter: what each household does, left outside.
-        # The inn: barrels and crates for the cellar, a bench for the regulars.
-        + [{"sprite": KP + "barrels.png", "pos": (104, -226), "foot": (26, 8), "scale": 1.2},
-           {"sprite": KP + "crates.png", "pos": (130, -214), "foot": (26, 8), "scale": 1.1},
-           {"sprite": K2 + "props/bench.png", "pos": (-112, -222), "foot": (36, 8)}]
-        # Marta's farmhouse: washing on the line, the wheelbarrow and sacks, geraniums at the door.
-        + [{"sprite": KP + "laundry_line.png", "pos": (-610, -150), "foot": (30, 6), "scale": 1.5},
-           {"sprite": KP + "laundry_basket.png", "pos": (-580, -128), "foot": (16, 6)},
-           {"sprite": KP + "wheelbarrow.png", "pos": (-372, -110), "foot": (24, 8), "scale": 1.2},
-           {"sprite": KP + "sack.png", "pos": (-392, -96), "foot": (14, 6)},
-           {"sprite": KP + "geraniums.png", "pos": (-506, -106), "foot": (12, 6)},
-           {"sprite": KP + "geraniums.png", "pos": (-414, -106), "foot": (12, 6)}]
+        # The green: the well under the Harvest Oak, benches round it, flower beds.
+        [{"sprite": "assets/sprites/tiles/sorenda/sorenda_well.png", "pos": (-400, 150), "foot": (40, 14)}]
+        + [{"sprite": K2 + "props/bench.png", "pos": p, "foot": (36, 8)} for p in [(-360, 60), (-240, 176)]]
+        + [{"sprite": K2 + "props/flower_bed.png", "pos": p, "foot": (30, 8)} for p in [(-250, 70), (-350, 180)]]
+        # The market corner: bread and fruit stalls facing the road, the notice board.
+        + [{"sprite": K2 + "props/stall_bread.png", "pos": (-40, 150), "foot": (54, 14)},
+           {"sprite": K2 + "props/stall_fruit.png", "pos": (40, 92), "foot": (54, 14)},
+           {"sprite": KP + "bread_basket.png", "pos": (-4, 160), "foot": (14, 6)},
+           {"sprite": KP + "apples_crate.png", "pos": (78, 100), "foot": (16, 8)},
+           {"sprite": K2 + "props/notice_board.png", "pos": (-180, 40), "foot": (30, 8)}]
+        # Along the High Street: planters and benches by the doors.
+        + [{"sprite": K2 + "props/flower_bed.png", "pos": p, "foot": (30, 8)} for p in [(-96, -66), (96, -66)]]
+        + [{"sprite": K2 + "props/bench.png", "pos": p, "foot": (36, 8)} for p in [(-470, -66), (150, -66)]]
+        # The fields south of the stream: hay, scarecrows, fences.
+        + [{"sprite": HAY, "pos": p, "foot": (34, 14)} for p in [(-420, 370), (-680, 300), (-460, 388)]]
+        + [{"sprite": SCARECROW, "pos": p, "foot": (10, 6)} for p in [(-720, 430), (680, 460), (180, 460)]]
+        + fence_row(-790, -640, 316) + fence_row(560, 800, 366, gap_at=(680,)) + fence_row(60, 300, 366, gap_at=(180,))
+        # The inn: barrels and crates for the cellar, by the side wall.
+        + [{"sprite": KP + "barrels.png", "pos": (108, -86), "foot": (26, 8), "scale": 1.2},
+           {"sprite": KP + "crates.png", "pos": (-112, -80), "foot": (26, 8), "scale": 1.1}]
+        # Marta's farmhouse: washing on the line behind the hens, the wheelbarrow and sacks.
+        + [{"sprite": KP + "laundry_line.png", "pos": (-760, -120), "foot": (30, 6), "scale": 1.5},
+           {"sprite": KP + "laundry_basket.png", "pos": (-730, -96), "foot": (16, 6)},
+           {"sprite": KP + "wheelbarrow.png", "pos": (-520, -70), "foot": (24, 8), "scale": 1.2},
+           {"sprite": KP + "sack.png", "pos": (-540, -60), "foot": (14, 6)},
+           {"sprite": KP + "geraniums.png", "pos": (-666, -76), "foot": (12, 6)}]
         # Pim's bakery: flour sacks by the side, bread cooling by the door.
-        + [{"sprite": KP + "flour_sack.png", "pos": p, "foot": (14, 6)} for p in [(296, 128), (278, 136)]]
-        + [{"sprite": KP + "bread_basket.png", "pos": (432, 132), "foot": (14, 6)}]
-        # Oda's cottage: dyed wool drying on a line, lavender in a box.
-        + [{"sprite": KP + "laundry_line.png", "pos": (210, 380), "foot": (30, 6), "scale": 1.5},
-           {"sprite": KP + "laundry_basket.png", "pos": (232, 402), "foot": (16, 6)},
-           {"sprite": KP + "lavender_planter.png", "pos": (26, 412), "foot": (22, 6)},
-           {"sprite": KP + "lavender_planter.png", "pos": (140, 412), "foot": (22, 6)}]
+        + [{"sprite": KP + "flour_sack.png", "pos": p, "foot": (14, 6)} for p in [(200, -76), (184, -68)]]
+        + [{"sprite": KP + "bread_basket.png", "pos": (344, -66), "foot": (14, 6)}]
+        # Oda's cottage: dyed wool drying, lavender at the door.
+        + [{"sprite": KP + "lavender_planter.png", "pos": p, "foot": (22, 6)} for p in [(-396, -70), (-284, -70)]]
+        + [{"sprite": KP + "laundry_line.png", "pos": (-460, -150), "foot": (30, 6), "scale": 1.5}]
         # The barn and the mill: a cart, buckets, the day's flour.
-        + [{"sprite": KP + "cart.png", "pos": (-460, 312), "foot": (40, 10), "scale": 1.3},
-           {"sprite": KP + "bucket.png", "pos": (-494, 286), "foot": (12, 6)},
-           {"sprite": KP + "sack.png", "pos": (-648, 306), "foot": (14, 6)},
-           {"sprite": KP + "flour_sack.png", "pos": (532, 352), "foot": (14, 6)},
-           {"sprite": KP + "flour_sack.png", "pos": (548, 340), "foot": (14, 6)}]
-        # Flowering hedges along the lanes, where the lawns were bare.
-        + [{"sprite": K2 + "props/bush_flowers_g.png" if i % 2 else K2 + "props/bush_g.png", "pos": p, "foot": (40, 12), "scale": 0.7}
-           for i, p in enumerate([(-300, -200), (-252, -222), (300, 40), (344, 22), (-300, 176), (-256, 196)])]
-        # The orchard north-east of the inn, fenced along the lane.
+        + [{"sprite": KP + "cart.png", "pos": (-460, 500), "foot": (40, 10), "scale": 1.3},
+           {"sprite": KP + "bucket.png", "pos": (-494, 470), "foot": (12, 6)},
+           {"sprite": KP + "flour_sack.png", "pos": (552, 484), "foot": (14, 6)},
+           {"sprite": KP + "flour_sack.png", "pos": (568, 472), "foot": (14, 6)}]
+        # The orchard fenced along its lane.
         + fence_row(150, 370, -332, gap_at=(260,))
     ),
-    "merchant": ((200, 40), "assets/sprites/tiles/kalmora/market_stall.png"),
-    "lanterns": [(-230, -20), (230, -20), (-230, 170), (230, 170), (-200, -380), (380, -120), (560, -280), (-380, -60), (380, 280),
-                 ],
+    "merchant": ((120, 150), "assets/sprites/tiles/kalmora/market_stall.png"),
+    "lanterns": [(-470, -10), (-150, -10), (150, -10), (470, -10), (-200, -330), (560, -280), (-170, 280), (460, 280), (-250, 40)],
+    "string_lights": [((-90, 70), (160, 70), 16)],
     "npcs": [
-        {"id": "aldous", "name": "Aldous", "pos": (620, -270), "wander": 20, "lines": [
+        {"id": "aldous", "name": "Aldous", "pos": (620, -270), "wander": 20, "night": (720, -230), "lines": [
             "The stones were here before the kings. Before the towns. Before, I think, the cards.",
             "I've spent forty years reading what's carved on them. It's the same story on every one, told smaller each time.",
         ]},
-        {"id": "marta", "name": "Marta", "pos": (-400, -60), "wander": 40, "lines": [
+        {"id": "marta", "name": "Marta", "pos": (-560, -20), "wander": 40, "out": (5.0, 20.0), "lines": [
             "Harvest's in early. Half of it's sold before it's cut, to the Company men from Duskara. Paid in scrip.",
             "Scrip spends at the Company store and nowhere else. Funny, that.",
         ]},
-        {"id": "oda", "name": "Oda", "pos": (170, 440), "wander": 30, "lines": [
+        {"id": "oda", "name": "Oda", "pos": (-300, -16), "wander": 30, "out": (6.5, 20.5), "lines": [
             "Every thread on that loom is somebody. I weave them in so they don't get lost.",
             "My grandson went west with the Company carts two harvests ago. They said Lake Serin way, then north. I've not been further than the mill in twenty years.",
         ]},
-        {"id": "pim", "name": "Pim", "pos": (440, 170), "wander": 20, "shop": ["bread", "smoked_fish"],
+        {"id": "pim", "name": "Pim", "pos": (340, -20), "wander": 20, "out": (4.5, 18.5), "shop": ["bread", "smoked_fish"],
          "shop_title": "Pim's Bakery", "lines": [
             "Fresh this morning! Well. This morning-ish. The oven's been going since before the larks.",
             "The Company used to take a cartload of hard bread every week for the dune road. Stopped three weeks ago. Nobody's said why. I keep baking it anyway.",
         ]},
-        {"id": "bruno", "name": "Bruno", "pos": (70, -180), "wander": 20, "shop": ["bread", "smoked_fish", "healers_tonic"],
+        {"id": "bruno", "name": "Bruno", "pos": (60, -20), "wander": 20, "out": (6.0, 20.0), "shop": ["bread", "smoked_fish", "healers_tonic"],
          "shop_title": "Bruno's Kitchen", "lines": [
             "I cook for the Sheaf and Sickle. Tally runs it, inside: beds, cider, and the tally of who owes what. I just feed people.",
             "The last racer through here paid in cards. I don't want cards. I want a quiet life and a full cellar.",
         ]},
     ],
     "readables": [
-        ("The harvest board", (-190, -30), [
+        ("The harvest board", (-180, 54), [
             "WANTED: HANDS FOR THE DUSKARA WORKS. Small hands preferred for close work. Room, board and a trade. Apply to the Company agent, first of the month.",
             "Somebody has written underneath, in pencil: 'none of ours'. Somebody else has crossed it out.",
         ]),
-        ("The mill ledger", (430, 380), [
+        ("The mill ledger", (446, 500), [
             "A ledger nailed up by the mill door. 'Flour to D.M.C.: 200 sacks. Rate: one third market, by agreement.'",
             "'By agreement' is underlined twice, hard enough to tear the page.",
         ]),
@@ -375,9 +375,9 @@ VERDANA = {
         ]),
     ],
     "chests": [
-        {"id": "barn_loft", "pos": (-700, 240), "gold": 20, "card": "millers_seal"},
+        {"id": "barn_loft", "pos": (-700, 420), "gold": 20, "card": "millers_seal"},
     ],
-    "butterflies": [((0, 60), 3), ((-700, 100), 3), ((680, 460), 3)],
+    "butterflies": [((-300, 110), 3), ((-700, 380), 3), ((680, 460), 3)],
 }
 
 # ---------------------------------------------------------------- Lake Serin
