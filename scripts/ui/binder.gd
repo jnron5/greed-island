@@ -60,6 +60,8 @@ var _item_selected := 0
 func _ready() -> void:
 	layer = 10
 	visible = false
+	# The game stands still while the binder is open (it runs while paused).
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_build()
 	for sig in [EventBus.card_added, EventBus.card_state_changed, EventBus.card_stolen, EventBus.card_consumed,
 			EventBus.card_locked, EventBus.safe_zone_changed]:
@@ -74,6 +76,7 @@ func open(on_page := 0) -> void:
 	is_open = true
 	visible = true
 	GameState.push_menu()
+	get_tree().paused = true
 	_close_detail()
 	_refresh()
 
@@ -83,6 +86,7 @@ func close() -> void:
 		return
 	is_open = false
 	visible = false
+	get_tree().paused = false
 	GameState.pop_menu()
 
 
@@ -365,13 +369,20 @@ func _fill_detail() -> void:
 
 
 ## Loose -> Bound or Exposed -> Bound, after the bind time for where the player stands.
+## Outside a town the bind takes time in the world: the clock only runs while the
+## game does, so it can't be waited out safely with the (paused) binder open.
 func _bind(id: StringName, from: CardCollection.State) -> void:
 	var delay := GameState.bind_time(GameState.PLAYER)
 	if delay > 0.0:
 		_binding[id] = true
 		_refresh()
-		await get_tree().create_timer(delay).timeout
+		EventBus.notify.emit("Binding... (it finishes once you're back out in the world)")
+		await get_tree().create_timer(delay, false).timeout
 		_binding.erase(id)
+		if GameState.change_state(GameState.PLAYER, id, from, CardCollection.State.BOUND):
+			EventBus.notify.emit("%s bound" % CardDatabase.get_card(id).display_name)
+		_refresh()
+		return
 	GameState.change_state(GameState.PLAYER, id, from, CardCollection.State.BOUND)
 	_refresh()
 

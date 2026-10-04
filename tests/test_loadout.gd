@@ -103,6 +103,14 @@ func _run() -> void:
 	var price := GameState.rebuy_price(&"salt_compass")
 	_check("buying it back", GameState.rebuy_card(&"salt_compass") and col.count(&"salt_compass") == 1
 		and GameState.currency == 1000 - price and not GameState.spent_on_gates.has(&"salt_compass"))
+	# The game stands still while the binder is open.
+	var binder: Node = load("res://scenes/ui/binder.tscn").instantiate()
+	add_child(binder)
+	binder.open()
+	_check("opening the binder pauses the game", get_tree().paused and binder.can_process())
+	binder.close()
+	_check("closing it lets the game run again", not get_tree().paused)
+	binder.queue_free()
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)
 
