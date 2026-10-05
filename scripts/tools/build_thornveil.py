@@ -251,7 +251,12 @@ def build_terrain():
     # No slivers (a thin line of stream down the side of a cliff) and no stubs: a
     # stretch of stream too small to read as one goes, unless a bridge crosses it or it
     # runs into the lake.
-    streams = _nd.binary_opening(streams, structure=np.ones((9, 9), bool))
+    # Keep the water a little off the cliff (its art doesn't follow the cell edge) and
+    # round every end, so no stream stops in a straight cut.
+    streams &= ~near(wall_px, 6)
+    yy, xx = np.mgrid[-7:8, -7:8]
+    disk = (xx * xx + yy * yy) <= 49
+    streams = _nd.binary_opening(streams, structure=disk)
     keep_near = np.zeros(streams.shape, bool)
     for r, c in set(bridges):
         keep_near[r * TILE:(r + 1) * TILE, c * TILE:(c + 1) * TILE] = True
@@ -485,7 +490,7 @@ GREAT_TREE = (722, 560)
 RUNE_STONES = [(1292, 452), (1296, 500), (1408, 446), (1414, 500), (1300, 384), (1410, 380)]
 RUIN_PILLARS = [(912, 236), (1000, 226), (1020, 262), (1022, 300), (900, 290)]
 LANTERNS = [(632, 548), (814, 546), (486, 250), (770, 236), (1046, 282), (1244, 146), (1094, 376),
-            (160, 76), (716, 880), (420, 748), (1272, 736), (938, 400)]
+            (160, 76), (716, 880), (420, 748), (1262, 708), (938, 400)]
 FALLEN_LOGS = [(1300, 96), (1340, 900)]
 FENCES = ([(x, 62) for x in range(446, 660, 16)] + [(x, 62) for x in range(790, 900, 16)]
           + [(x, 48) for x in range(1000, 1090, 16)]

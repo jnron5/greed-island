@@ -72,7 +72,6 @@ DOCKS = [([(258, 290), (258, 420), (368, 420), (368, 494), (412, 494)], 16),
 BRIDGES = [  # (x0, y0, x1, y1): a deck across a stream or out to the island
     (196, 538, 384, 562),                  # the island out to the jetty
     (620, 790, 690, 814),                  # the south-west meadow over the stream
-    (1176, 596, 1240, 620),                # east road over the falls
 ]
 # Falls are found where streams cross cliff faces (build_thornveil.find_falls).
 
