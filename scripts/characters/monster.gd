@@ -5,15 +5,19 @@ extends CharacterBody2D
 ## card on death, and respawns after a cooldown. 4-directional animations:
 ## "idle_<dir>", "walk_<dir>", "attack_<dir>" with dir in south/east/north/west.
 ## After dark (TimeOfDay.is_night(), outdoors) every monster turns savage: tougher
-## (NIGHT_HEALTH), harder-hitting, faster and keener-eyed, with a red glow about it;
-## and it carries more: more gold, often food, sometimes a second card.
+## (NIGHT_HEALTH), harder-hitting, quicker to strike, faster and keener-eyed, with a
+## red glow about it; and it carries more: a full purse, often food, every other time
+## a second card.
 
 enum State { WANDER, CHASE, WINDUP, LUNGE, RECOVER, STAGGER, DEAD }
 
 const DIRECTIONS_4: Array[String] = ["east", "south", "west", "north"]
-const NIGHT_HEALTH := 1.6
-const NIGHT_SPEED := 1.15
-const NIGHT_AGGRO := 1.35
+const NIGHT_HEALTH := 2.0
+const NIGHT_DAMAGE := 1
+const NIGHT_SPEED := 1.25
+const NIGHT_AGGRO := 1.5
+## Night beasts wind up quicker (less time to dodge) and recover sooner.
+const NIGHT_QUICKNESS := 0.75
 const NIGHT_TINT := Color(1.18, 0.82, 0.86)
 const NIGHT_FOOD: Array[StringName] = [&"bread", &"smoked_fish", &"healers_tonic"]
 
@@ -75,7 +79,8 @@ func _ready() -> void:
 	attack_hitbox.source_id = Combat.MONSTER
 	attack_hitbox.damage = attack_damage
 	attack_shape.disabled = true
-	_base = { "health": max_health, "damage": attack_damage, "chase": chase_speed, "aggro": aggro_radius }
+	_base = { "health": max_health, "damage": attack_damage, "chase": chase_speed, "aggro": aggro_radius,
+		"windup": windup_time, "recover": recover_time }
 	health = max_health
 	_update_night()
 
@@ -90,7 +95,9 @@ func _update_night() -> void:
 	night = want
 	var old_max := max_health
 	max_health = ceili(_base.health * NIGHT_HEALTH) if night else int(_base.health)
-	attack_damage = int(_base.damage) + (1 if night else 0)
+	attack_damage = int(_base.damage) + (NIGHT_DAMAGE if night else 0)
+	windup_time = float(_base.windup) * (NIGHT_QUICKNESS if night else 1.0)
+	recover_time = float(_base.recover) * (NIGHT_QUICKNESS if night else 1.0)
 	chase_speed = float(_base.chase) * (NIGHT_SPEED if night else 1.0)
 	aggro_radius = float(_base.aggro) * (NIGHT_AGGRO if night else 1.0)
 	attack_hitbox.damage = attack_damage
@@ -246,9 +253,9 @@ func _die() -> void:
 	if night:
 		# A night beast carries more: a fuller purse, often food, now and then a
 		# second card.
-		gold = randi_range(4, 10) if randf() < 0.9 else 0
-		item = NIGHT_FOOD.pick_random() if randf() < 0.3 else &""
-		if randf() < 0.3 and not drop_card_ids.is_empty():
+		gold = randi_range(8, 18)
+		item = NIGHT_FOOD.pick_random() if randf() < 0.45 else &""
+		if randf() < 0.5 and not drop_card_ids.is_empty():
 			Combat.drop_loot(get_tree(), position, drop_card_ids.pick_random())
 	Combat.drop_loot(get_tree(), position, card, gold, item)
 	# Down it goes: a white flash, knocked over, a beat on the ground, then it fades.

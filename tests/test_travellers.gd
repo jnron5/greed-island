@@ -1,6 +1,6 @@
 extends Node
-## Travellers roam the towns and the wild, moving on each day, never wearing a local's
-## face, talking about the place they're in; and after dark the wild's monsters turn
+## Travellers roam the towns and the wild by day, moving on each day, talking about
+## the place they're in, and all come back to Kalmora for the night; and after dark the wild's monsters turn
 ## savage (tougher, harder-hitting, richer) with a warning when night falls, but not
 ## underground.
 ## Run: godot --headless --path . res://tests/test_travellers.tscn
@@ -20,16 +20,15 @@ func _run() -> void:
 	TimeOfDay.day = 3
 	var seen := {}
 	var twice := false
-	var local := false
 	for zone: String in Travellers.QUOTA:
 		var here := Travellers.todays(zone)
 		_check("%s gets its %d travellers" % [zone.get_file(), Travellers.QUOTA[zone]], here.size() == Travellers.QUOTA[zone])
 		for t: Dictionary in here:
 			twice = twice or seen.has(t.id)
 			seen[t.id] = true
-			local = local or t.sprite in Travellers.LOCAL_SPRITES.get(zone, [])
 	_check("nobody is in two places at once", not twice)
-	_check("no traveller wears a local's face", not local)
+	_check("they wear the traveller sprites", Travellers.ROSTER.all(func(t: Dictionary) -> bool:
+		return String(t.sprite).begins_with("traveller_") and ResourceLoader.exists("res://assets/sprites/npcs/%s/%s_frames.tres" % [t.sprite, t.sprite])))
 	var today := Travellers.todays(WorldMap.KALMORA).map(func(t: Dictionary) -> String: return t.id)
 	TimeOfDay.day = 4
 	var tomorrow := Travellers.todays(WorldMap.KALMORA).map(func(t: Dictionary) -> String: return t.id)
@@ -38,12 +37,21 @@ func _run() -> void:
 	TimeOfDay.set_hour(12.0)
 	var town := await _load(WorldMap.KALMORA)
 	var walkers := town.get_children().filter(func(n: Node) -> bool: return n is Npc and String(n.name).begins_with("Traveller_"))
-	_check("Kalmora has its travellers out by day", walkers.size() == 5 and walkers.all(func(n: Npc) -> bool: return n.visible))
-	var npc := walkers[0] as Npc if not walkers.is_empty() else null
+	var out_by_day := walkers.filter(func(n: Npc) -> bool: return n.visible)
+	_check("Kalmora has its day's visitors out by day", out_by_day.size() == Travellers.QUOTA[WorldMap.KALMORA])
+	var npc := out_by_day[0] as Npc if not out_by_day.is_empty() else null
 	_check("they roam the town", npc != null and npc.roam_points.size() > 4)
 	_check("and talk about Kalmora", npc != null and Array(npc.lines).any(func(l: String) -> bool: return l in Travellers.CITY_LINES.kalmora))
 	await get_tree().create_timer(4.0).timeout
-	_check("and actually walk", walkers.any(func(n: Npc) -> bool: return n.velocity.length() > 1.0 or n.position.distance_to(n.roam_points[0]) > 0.0))
+	_check("and actually walk", out_by_day.any(func(n: Npc) -> bool: return n.velocity.length() > 1.0))
+	TimeOfDay.set_hour(22.0)
+	town = await _load(WorldMap.KALMORA)
+	var at_night := town.get_children().filter(func(n: Node) -> bool: return n is Npc and String(n.name).begins_with("Traveller_") and n.visible)
+	_check("at night every traveller is back in Kalmora", at_night.size() == Travellers.ROSTER.size())
+	var verdana := await _load(WorldMap.VERDANA)
+	_check("and Verdana's visitors have gone", not verdana.get_children().any(func(n: Node) -> bool:
+		return n is Npc and String(n.name).begins_with("Traveller_") and n.visible))
+	TimeOfDay.set_hour(12.0)
 
 	var forest := await _load(WorldMap.THORNVEIL)
 	var road := forest.get_children().filter(func(n: Node) -> bool: return n is Npc and String(n.name).begins_with("Traveller_"))

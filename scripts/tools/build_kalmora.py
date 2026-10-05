@@ -600,16 +600,17 @@ NPCS = [
     ("wen", "Wen", "wen", (1316, 586), 22, [
         "Mama says I can stay up till the lanterns go blue. They never go blue. I checked.",
     ]),
-    ("ilse", "Ilse", "ilse", (900, 446), 10, [
+    ("ilse", "Ilse", "ilse", (838, 492), 10, [
         "I map the island by day and the gossip by night. The gossip's more accurate.",
     ]),
-    ("brannoc", "Brannoc", "brannoc", (962, 446), 8, [
+    ("brannoc", "Brannoc", "brannoc", (706, 530), 8, [
         "Coals are banked, anvil's cold. One cider. Then another one. Then home.",
     ]),
 ]
 # Kalmora's Lantern Night: every night the town comes out and stays out till the small
 # hours, all over: a fish fry on the quay, dancing on the beach, the market lane under
-# its lanterns, the tavern terrace, Nonna by the fountain.
+# its lanterns, and round the fountain (Nonna, Ilse, Brannoc); the travellers come back
+# from the road at dusk and fill the streets (scripts/world/travellers.gd).
 PARTY_HOURS = (20.0, 2.0)
 GUEST_HOURS = {"nonna": (20.0, 23.0), "wen": (20.0, 22.5), "ilse": PARTY_HOURS, "brannoc": PARTY_HOURS}
 NIGHT_LINES = {

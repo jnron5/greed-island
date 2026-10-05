@@ -3166,7 +3166,7 @@ out_to = 22.5
 chatter = PackedStringArray("I'm not tired!", "Look, a shooting star!", "~ the gull, the gull ~")
 
 [node name="Npc_ilse" parent="." instance=ExtResource("19_npc")]
-position = Vector2(172, -112)
+position = Vector2(85, -47)
 npc_id = &"ilse"
 display_name = "Ilse"
 sprite_frames = ExtResource("n_ilse")
@@ -3177,7 +3177,7 @@ out_to = 2.0
 chatter = PackedStringArray("Did you hear about the Duke?", "Don't tell anyone I said so.", "Another cider?")
 
 [node name="Npc_brannoc" parent="." instance=ExtResource("19_npc")]
-position = Vector2(259, -112)
+position = Vector2(-100, 6)
 npc_id = &"brannoc"
 display_name = "Brannoc"
 sprite_frames = ExtResource("n_brannoc")
@@ -5051,7 +5051,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R12x8")
 
 [node name="P16_banner" type="StaticBody2D" parent="."]
-position = Vector2(-108, 20)
+position = Vector2(-102, 26)
 
 [node name="Sprite" type="Sprite2D" parent="P16_banner"]
 position = Vector2(0, -39.5)
