@@ -3457,6 +3457,9 @@ display_name = "Hald"
 sprite_frames = ExtResource("r20_hald_frames")
 lines = PackedStringArray("Frisalle's over the pass. Since the slide they've set a toll gate in it: one wolf collar a head. The wolves took their goats, so they want the wolves' collars. Fair, I suppose.", "The slide came down the week after the last barge went north. The Company men were up here with powder the week before. Make of that what you like.", "There's a cave in the east shoulder, past my woodpile. Ice all the way through. The wolves den in it now. The Company used it before the wolves did.")
 wander_radius = 30.0
+has_night_spot = true
+night_spot = Vector2(520, -4)
+night_wander = 10.0
 
 [node name="Read0" type="Node2D" parent="."]
 position = Vector2(120, -660)

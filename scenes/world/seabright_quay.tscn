@@ -3788,6 +3788,9 @@ display_name = "Sparkle"
 sprite_frames = ExtResource("r38_sparkle_frames")
 lines = PackedStringArray("Welcome to Seabright! It's ours, you know. Uncle gave it to us. Well. To Sassy and me. Mostly to me. Sassy would say mostly to her.", "Everyone says don't dive off the end of the pier. I own the pier. I've decided it's allowed.", "Uncle keeps sending guards to 'keep an eye on us'. We lost them on the first day. They're probably still looking under the boardwalk.", "I do the diving and the boats and the frightening the staff. Sassy does the guests and the parties. It's a system.", "I swam out past the yachts in the dark last night. There's a little light out on the water some nights, low down, no ship I can see. Nobody here will tell me what it is. Which means it's something.", "You can see the sand on the bottom all the way out to the terrace. Then it goes dark blue and you can't. That's where I go.", "We got Chef to send Pepper down from Vetrassa. Chef sends the recipes, Pepper cooks them, and Chef sends a very long letter every week about how she's doing it wrong.")
 wander_radius = 90.0
+has_night_spot = true
+night_spot = Vector2(0, 598)
+night_wander = 0.0
 
 [node name="Npc_sassy" parent="." instance=ExtResource("r37_npc")]
 position = Vector2(-460, -24)
@@ -3796,6 +3799,9 @@ display_name = "Sassy"
 sprite_frames = ExtResource("r39_sassy_frames")
 lines = PackedStringArray("Is it Tuesday? It feels like a Tuesday. Everything here feels like a Tuesday. I love it.", "I'm working. This is working. A hostess has to know the loungers are comfortable. All of them. Personally.", "Our cousins are the royals, you know. Well, everybody knows. Well, I think everybody knows. Do you know?", "Duke has the whole top floor of the Grand again. Duke is lovely. He always talks about mines. Gold mines? Card mines? I stop listening.", "The papers say the resort's a gift from Uncle. The bills come from somebody called the Duskara Mining Company. I don't open them. Sparkle doesn't open them. We have a drawer.", "Pepper's stew is Chef's stew, really. Chef won't come down himself. He says sand gets in the sauce.", "The man at the bar makes a drink that's blue. I don't know what's in it. I don't want to know. I want another one.")
 wander_radius = 0.0
+has_night_spot = true
+night_spot = Vector2(-20, 470)
+night_wander = 24.0
 
 [node name="Npc_duke" parent="." instance=ExtResource("r37_npc")]
 position = Vector2(0, 474)
@@ -3804,6 +3810,8 @@ display_name = "Duke"
 sprite_frames = ExtResource("r40_duke_frames")
 lines = PackedStringArray("Ah, a racer! How thrilling. Sit, sit. Pepper, another tart for our friend. On my account. Everything here is on my account, one way or another.", "Chef and I were boys together in Vetrassa. He cooked, I ate. Nothing's changed except the prices, and I pay those too.", "Business? Oh, a little of this, a little of that. Shipping. Minerals. Hospitality. One likes to keep busy between lunches.", "The young ladies are delightful hostesses. Their uncle's generosity, my small investments. Everyone is happy. That is what investment is for.", "Duskara? Dreadfully dusty. I've never been. I have people who go. That is rather the point of having people.", "Frisalle? Charming. Snowy. Unlucky with avalanches, I hear. Do try the tart.")
 wander_radius = 0.0
+out_from = 11.0
+out_to = 2.0
 
 [node name="Npc_company_man0" parent="." instance=ExtResource("r37_npc")]
 position = Vector2(-76, 476)
@@ -3812,6 +3820,8 @@ display_name = "Company Man"
 sprite_frames = ExtResource("r41_company_man_fram")
 lines = PackedStringArray("...")
 wander_radius = 0.0
+out_from = 11.0
+out_to = 2.0
 
 [node name="Npc_company_man1" parent="." instance=ExtResource("r37_npc")]
 position = Vector2(76, 476)
@@ -3820,6 +3830,8 @@ display_name = "Company Man"
 sprite_frames = ExtResource("r41_company_man_fram")
 lines = PackedStringArray("We're on holiday.")
 wander_radius = 0.0
+out_from = 11.0
+out_to = 2.0
 
 [node name="Npc_company_man2" parent="." instance=ExtResource("r37_npc")]
 position = Vector2(-222, 400)
@@ -3844,6 +3856,8 @@ display_name = "Lifeguard"
 sprite_frames = ExtResource("r43_lifeguard_frames")
 lines = PackedStringArray("Swim between the parasols, please! Not past the yachts. And not off the pier, Miss Sparkle, I can SEE you!", "Calm water, clear to the bottom, warm as a bath. Best beach on the island. Worst-behaved owner.", "There's a current past the last bungalow that pulls you east at night. Things wash up on the headland rocks: crates, rope, once a boot.", "I've pulled Miss Sparkle out of the water four times this week. She's thanked me once. She says that's a fair rate.")
 wander_radius = 30.0
+out_from = 7.0
+out_to = 19.0
 
 [node name="Npc_pepper" parent="." instance=ExtResource("r37_npc")]
 position = Vector2(84, 372)

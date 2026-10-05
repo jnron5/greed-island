@@ -166,7 +166,7 @@ AUREWIND = {
             "Do you know what you're racing for? No? Neither does anyone. It's better that way. A thing like that changes how people run.",
             "Somewhere up north my youngest is hiding from his mother. I don't blame him. I'd hide from her too, if I had the nerve.",
         ]},
-        {"id": "tilly", "name": "Tilly", "pos": (-150, -140), "wander": 50, "lines": [
+        {"id": "tilly", "name": "Tilly", "pos": (-150, -140), "wander": 50, "night": (90, 326), "night_wander": 10, "lines": [
             "Mind the rams. They're mine, mostly. The ones with the bristles on their backs aren't anyone's.",
             "The stones up on the downs hum when the wind's in the east. Grandad says they're counting.",
             "Wagons used to come east along the dune road every week. Covered, always. Then the rocks came down and they stopped. Or they go some other way now.",
@@ -448,7 +448,7 @@ LAKE_SERIN = {
     ),
     "lanterns": [(640, 420), (600, -140), (130, -470), (-420, -560)],
     "npcs": [
-        {"id": "neri", "name": "Neri", "pos": (680, -20), "wander": 30, "lines": [
+        {"id": "neri", "name": "Neri", "pos": (680, -20), "wander": 30, "night": (560, -60), "lines": [
             "Serin's the stillest water on the island. You can hear a fish change its mind.",
             "Barges used to cross here at night, low in the water. Heading north. They don't cross any more. One of them never got across.",
         ]},
@@ -560,7 +560,7 @@ STARFALL = {
         # Mountain goats picking their way along the slopes.
         *[{"id": "goat", "node": f"Npc_goat{k}", "name": "Mountain Goat", "pos": p, "wander": 60, "offset": -16.0, "lines": [line]}
           for k, (p, line) in enumerate([((-620, 470), "Meh-eh-eh."), ((-540, 530), "..."), ((620, -640), "Mehh.")])],
-        {"id": "hald", "name": "Hald", "pos": (540, -80), "wander": 30, "lines": [
+        {"id": "hald", "name": "Hald", "pos": (540, -80), "wander": 30, "night": (520, -4), "night_wander": 10, "lines": [
             "Frisalle's over the pass. Since the slide they've set a toll gate in it: one wolf collar a head. The wolves took their goats, so they want the wolves' collars. Fair, I suppose.",
             "The slide came down the week after the last barge went north. The Company men were up here with powder the week before. Make of that what you like.",
             "There's a cave in the east shoulder, past my woodpile. Ice all the way through. The wolves den in it now. The Company used it before the wolves did.",
@@ -740,7 +740,7 @@ RESORT = {
     "afloat": [(K2 + "props/rowboat.png", (-600, 450), False), (K2 + "props/rowboat.png", (-650, 456), True),
                (K2 + "props/sea_rocks.png", (740, 240), False)],
     "npcs": [
-        {"id": "sparkle", "name": "Sparkle", "pos": (100, -150), "wander": 90, "lines": [
+        {"id": "sparkle", "name": "Sparkle", "pos": (100, -150), "wander": 90, "night": (0, 598), "lines": [
             "Welcome to Seabright! It's ours, you know. Uncle gave it to us. Well. To Sassy and me. Mostly to me. Sassy would say mostly to her.",
             "Everyone says don't dive off the end of the pier. I own the pier. I've decided it's allowed.",
             "Uncle keeps sending guards to 'keep an eye on us'. We lost them on the first day. They're probably still looking under the boardwalk.",
@@ -749,7 +749,7 @@ RESORT = {
             "You can see the sand on the bottom all the way out to the terrace. Then it goes dark blue and you can't. That's where I go.",
             "We got Chef to send Pepper down from Vetrassa. Chef sends the recipes, Pepper cooks them, and Chef sends a very long letter every week about how she's doing it wrong.",
         ]},
-        {"id": "sassy", "name": "Sassy", "pos": (-460, -24), "wander": 0, "lines": [
+        {"id": "sassy", "name": "Sassy", "pos": (-460, -24), "wander": 0, "night": (-20, 470), "night_wander": 24, "lines": [
             "Is it Tuesday? It feels like a Tuesday. Everything here feels like a Tuesday. I love it.",
             "I'm working. This is working. A hostess has to know the loungers are comfortable. All of them. Personally.",
             "Our cousins are the royals, you know. Well, everybody knows. Well, I think everybody knows. Do you know?",
@@ -760,7 +760,7 @@ RESORT = {
         ]},
         # The Duke at his table on the terrace, two of his 'business guests' either side of
         # him and the third at the door of Bungalow 3.
-        {"id": "duke", "name": "Duke", "pos": (0, 474), "wander": 0, "lines": [
+        {"id": "duke", "name": "Duke", "pos": (0, 474), "wander": 0, "out": (11.0, 2.0), "lines": [
             "Ah, a racer! How thrilling. Sit, sit. Pepper, another tart for our friend. On my account. Everything here is on my account, one way or another.",
             "Chef and I were boys together in Vetrassa. He cooked, I ate. Nothing's changed except the prices, and I pay those too.",
             "Business? Oh, a little of this, a little of that. Shipping. Minerals. Hospitality. One likes to keep busy between lunches.",
@@ -768,7 +768,8 @@ RESORT = {
             "Duskara? Dreadfully dusty. I've never been. I have people who go. That is rather the point of having people.",
             "Frisalle? Charming. Snowy. Unlucky with avalanches, I hear. Do try the tart.",
         ]},
-        *[{"id": "company_man", "node": f"Npc_company_man{k}", "name": "Company Man", "pos": p, "wander": 0, "lines": [line]}
+        *[{"id": "company_man", "node": f"Npc_company_man{k}", "name": "Company Man", "pos": p, "wander": 0, "lines": [line],
+           **({"out": (11.0, 2.0)} if k < 2 else {})}
           for k, (p, line) in enumerate([((-76, 476), "..."), ((76, 476), "We're on holiday."),
                                           ((-222, 400), "This bungalow is occupied. Move along.")])],
         {"id": "waiter", "name": "Waiter", "pos": (-40, 404), "wander": 40, "lines": [
@@ -777,7 +778,7 @@ RESORT = {
             "Miss Sparkle swam under the terrace this morning and came up through the kitchen hatch. Pepper screamed. The Duke applauded.",
             "Specials are on the board. The special is always the stew. Chef won't let it be anything else.",
         ]},
-        {"id": "lifeguard", "name": "Lifeguard", "pos": (-560, 90), "wander": 30, "lines": [
+        {"id": "lifeguard", "name": "Lifeguard", "pos": (-560, 90), "wander": 30, "out": (7.0, 19.0), "lines": [
             "Swim between the parasols, please! Not past the yachts. And not off the pier, Miss Sparkle, I can SEE you!",
             "Calm water, clear to the bottom, warm as a bath. Best beach on the island. Worst-behaved owner.",
             "There's a current past the last bungalow that pulls you east at night. Things wash up on the headland rocks: crates, rope, once a boot.",
