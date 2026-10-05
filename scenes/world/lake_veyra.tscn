@@ -14,25 +14,25 @@
 [ext_resource type="PackedScene" path="res://scenes/world/props/tree.tscn" id="13_tree"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/berry_bush.png" id="14_berry_bush"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/fern.png" id="15_fern"]
-[ext_resource type="PackedScene" path="res://scenes/world/props/forest_fir.tscn" id="80_fir"]
-[ext_resource type="PackedScene" path="res://scenes/world/props/forest_oak.tscn" id="80_oak"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/rock.png" id="81_rock"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/clover.png" id="81_clover"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/mushrooms.png" id="81_mushrooms"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/branch.png" id="81_branch"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/grass_clump.png" id="81_grass_clump"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/cattails.png" id="81_cattails"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pinecones.png" id="81_pinecones"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pale_mushrooms.png" id="81_pale_mushrooms"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/log.png" id="81_log"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/flowers.png" id="81_flowers"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/acorns.png" id="81_acorns"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/stump.png" id="81_stump"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/lake_veyra_water_mask.png" id="84_lakemask"]
-[ext_resource type="Script" path="res://scripts/world/tiled_animation.gd" id="84_tiled"]
 [ext_resource type="Script" path="res://scripts/systems/chest.gd" id="70_chest"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="70_chest_shut"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="70_chest_open"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/forest_fir.tscn" id="80_fir"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/forest_oak.tscn" id="80_oak"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/cattails.png" id="81_cattails"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/acorns.png" id="81_acorns"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/stump.png" id="81_stump"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/mushrooms.png" id="81_mushrooms"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/rock.png" id="81_rock"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/log.png" id="81_log"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/clover.png" id="81_clover"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pale_mushrooms.png" id="81_pale_mushrooms"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/grass_clump.png" id="81_grass_clump"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pinecones.png" id="81_pinecones"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/branch.png" id="81_branch"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/flowers.png" id="81_flowers"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/lake_veyra_water_mask.png" id="84_lakemask"]
+[ext_resource type="Script" path="res://scripts/world/tiled_animation.gd" id="84_tiled"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/water/lake.png" id="84_waves"]
 
 [sub_resource type="RectangleShape2D" id="R192x8"]
@@ -161,11 +161,11 @@ size = Vector2(10, 120)
 [sub_resource type="RectangleShape2D" id="R44x10"]
 size = Vector2(44, 10)
 
-[sub_resource type="RectangleShape2D" id="RockBase"]
-size = Vector2(22, 8)
-
 [sub_resource type="RectangleShape2D" id="ChestBase"]
 size = Vector2(30, 10)
+
+[sub_resource type="RectangleShape2D" id="RockBase"]
+size = Vector2(22, 8)
 
 [node name="LakeVeyra" type="Node2D"]
 y_sort_enabled = true
@@ -175,6 +175,11 @@ display_name = "Lake Veyra"
 [node name="Ground" type="Sprite2D" parent="."]
 z_index = -10
 texture = ExtResource("10_ground")
+
+[node name="MossBridgeShadow" type="Polygon2D" parent="."]
+z_index = -8
+color = Color(0.02, 0.1, 0.18, 0.4)
+polygon = PackedVector2Array(-6, 4, 16, 4, 16, 134, -6, 134)
 
 [node name="MossBridge" type="Sprite2D" parent="."]
 z_index = -8

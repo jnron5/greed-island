@@ -155,6 +155,11 @@ display_name = "Lake Veyra"
 z_index = -10
 texture = ExtResource("10_ground")
 
+[node name="MossBridgeShadow" type="Polygon2D" parent="."]
+z_index = -8
+color = Color(0.02, 0.1, 0.18, 0.4)
+polygon = PackedVector2Array(-6, 4, 16, 4, 16, 134, -6, 134)
+
 [node name="MossBridge" type="Sprite2D" parent="."]
 z_index = -8
 position = Vector2(0, 67)
