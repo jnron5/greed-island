@@ -36,7 +36,7 @@ HOMES = [
     ("HouseHerbalist", "herbalist_house", (450, -210), 176, 0, "res://scenes/world/interiors/sorenda_herbalist_house.tscn", "from_househerbalist"),
     ("HouseWoodcutter", "woodcutter_cottage", (-500, 10), 132, 6, "res://scenes/world/interiors/sorenda_woodcutter.tscn", "from_housewoodcutter"),
     ("HouseFamily", "round_cottage", (-420, 190), 128, -4, "res://scenes/world/interiors/sorenda_family_home.tscn", "from_housefamily"),
-    ("HouseTree", "tree_house", (430, 60), 120, 0, "res://scenes/world/interiors/sorenda_tree_house.tscn", "from_housetree"),
+    ("HouseTree", "tree_house", (240, -10), 150, 0, "res://scenes/world/interiors/sorenda_tree_house.tscn", "from_housetree"),
     # The Copper Kettle, Mate's inn: the first roof you reach coming up the forest road.
     ("HouseInn", "kettle_inn", (215, 248), 180, 0, "res://scenes/world/interiors/sorenda_inn.tscn", "from_houseinn"),
 ]
@@ -53,7 +53,7 @@ WELL = (-80, 170)
 MERCHANT = (-130, 110)
 # Lanterns on posts along the paths (each a real light after dark), the campfire on
 # the green (animated, always burning), and benches round it.
-LANTERNS = [(-170, 100), (-340, 60), (-70, -40), (70, -200), (260, 140), (370, -60), (500, -340), (-180, -270), (100, 230), (-330, 170)]
+LANTERNS = [(-170, 100), (-340, 60), (-70, -40), (70, -200), (260, 140), (390, -40), (500, -340), (-180, -270), (100, 230), (-330, 170)]
 CAMPFIRE = (40, 150)
 BENCHES = [(-20, 196), (100, 196)]
 LANTERN_PNG = "assets/sprites/tiles/thornveil/props/trail_lantern.png"
@@ -275,12 +275,6 @@ position = Vector2({WELL[0]}, {WELL[1]})
                  f'texture = ExtResource("{texture(BENCH_PNG)}")\n\n'
                  f'[node name="Base" type="CollisionShape2D" parent="Bench{k}"]\nposition = Vector2(0, -5)\n'
                  f'shape = SubResource("{shape(36, 10)}")\n')
-    # The tree house's sprite stops at the trunk: a whole oak stands behind it, so the
-    # tree carries on up into a crown.
-    tx, ty = next(pos for node, _, pos, *_ in HOMES if node == "HouseTree")
-    ext.append(('PackedScene', "res://scenes/world/props/forest_oak.tscn", "23_oak"))
-    n.append(f'[node name="TreeHouseCrown" parent="." instance=ExtResource("23_oak")]\nposition = Vector2({tx}, {ty - 160})\n'
-             f'scale = Vector2(2, 2)\n')
     for cid, (x, y), gold, item, count in CHESTS:
         n.append(f'[node name="Chest_{cid}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n'
                  f'script = ExtResource("70_chest")\nchest_id = &"sorenda_{cid}"\ncard_id = &""\ngold = {gold}\n'
