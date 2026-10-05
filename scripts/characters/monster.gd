@@ -60,6 +60,7 @@ var _flash := 0.0
 var night := false
 var _base := {}
 var _night_check := 0.0
+var _night_light: PointLight2D
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var body_shape: CollisionShape2D = $CollisionShape2D
@@ -104,6 +105,17 @@ func _update_night() -> void:
 	if health > 0:
 		health = clampi(ceili(float(health) * max_health / old_max), 1, max_health)
 	sprite.self_modulate = NIGHT_TINT if night else Color.WHITE
+	# A red glow about it that the dark can't swallow (a light, like the lamps).
+	if night and _night_light == null:
+		_night_light = PointLight2D.new()
+		_night_light.texture = LampLight.glow_texture()
+		_night_light.color = Color(1.0, 0.22, 0.12)
+		_night_light.energy = 1.1
+		_night_light.texture_scale = 0.75
+		_night_light.position = Vector2(0, -10)
+		add_child(_night_light)
+	if _night_light:
+		_night_light.enabled = night and _state != State.DEAD
 
 
 func _physics_process(delta: float) -> void:
@@ -241,6 +253,8 @@ func _on_hurt(hitbox: Hitbox) -> void:
 
 func _die() -> void:
 	_enter(State.DEAD)
+	if _night_light:
+		_night_light.enabled = false
 	attack_shape.set_deferred(&"disabled", true)
 	body_shape.set_deferred(&"disabled", true)
 	hurtbox.set_deferred(&"monitoring", false)
@@ -284,6 +298,8 @@ func _respawn() -> void:
 	hurtbox.set_deferred(&"monitoring", true)
 	_target = null
 	_enter(State.WANDER)
+	if _night_light:
+		_night_light.enabled = night
 
 
 func _enter(state: State) -> void:
@@ -321,8 +337,10 @@ func _draw() -> void:
 	if night:
 		# A savage red glow about its feet.
 		var pulse := 0.5 + 0.5 * sin(Time.get_ticks_msec() / 260.0)
+		# (bright and warm, so the night grade leaves it its colour)
 		draw_set_transform(Vector2(0, 2), 0.0, Vector2(1.0, 0.45))
-		draw_circle(Vector2.ZERO, 16.0, Color(0.9, 0.12, 0.08, 0.16 + 0.1 * pulse))
+		draw_circle(Vector2.ZERO, 18.0, Color(1.0, 0.25, 0.1, 0.22 + 0.12 * pulse))
+		draw_arc(Vector2.ZERO, 18.0, 0.0, TAU, 28, Color(1.0, 0.45, 0.2, 0.75 + 0.25 * pulse), 2.0)
 		draw_set_transform(Vector2.ZERO)
 	if _state == State.WINDUP:
 		# Red warning ring where the lunge will land.
