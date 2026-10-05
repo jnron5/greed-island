@@ -178,7 +178,7 @@ npc_id = &"bram"
 display_name = "Bram"
 sprite_frames = ExtResource("n_bram")
 lines = PackedStringArray("Long day hauling crates nobody's allowed to ask about. Long night forgetting them.", "Otto waters the cider. Don't tell him I know. It's the only thing in this town that's honest about being thin.", "Night tide brings the unmarked ones. I'm in here so I don't have to see them come in.")
-out_from = 20.0
+out_from = 2.0
 out_to = 6.5
 
 [node name="Npc_sailor" parent="." instance=ExtResource("9_npc")]
@@ -187,7 +187,7 @@ npc_id = &"sailor"
 display_name = "Deckhand Luca"
 sprite_frames = ExtResource("n_sailor")
 lines = PackedStringArray("Pull up a stool! I'm telling the one about the sea serpent off Halmeer. It gets bigger every time.", "A sailor's day ends when the lamps come on. A sailor's night ends when Jobelle throws him out.", "You racers never sleep, do you? Bind your cards before you go out there. The night's when the thieves work.")
-out_from = 20.0
+out_from = 2.0
 out_to = 6.5
 
 [node name="Player" parent="." instance=ExtResource("2_player")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=342 format=3]
+[gd_scene load_steps=346 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -67,6 +67,10 @@
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/baker/baker_frames.tres" id="n_baker"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/tomas/tomas_frames.tres" id="n_tomas"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/rook/rook_frames.tres" id="n_rook"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/nonna/nonna_frames.tres" id="n_nonna"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/wen/wen_frames.tres" id="n_wen"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/ilse/ilse_frames.tres" id="n_ilse"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/brannoc/brannoc_frames.tres" id="n_brannoc"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/sack.png" id="t28_sack"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/oars.png" id="t29_oars"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/props/rope.png" id="t30_rope"]
@@ -3050,7 +3054,12 @@ sprite_frames = ExtResource("n_bram")
 lines = PackedStringArray("Tide's good today. Good for ships, anyway.")
 wander_radius = 0.0
 out_from = 6.5
-out_to = 20.0
+out_to = 2.0
+night_lines = PackedStringArray("No crates tonight. Tonight the crates can carry themselves. Another round!", "Night tide's coming in. Don't look at the pier. Look at the lanterns. Lanterns are nice.")
+chatter = PackedStringArray("To Kalmora!", "Another round!", "Otto! The good cider!")
+has_night_spot = true
+night_spot = Vector2(-72, -84)
+night_wander = 14.0
 
 [node name="Npc_mirela" parent="." instance=ExtResource("19_npc")]
 position = Vector2(-402, 261)
@@ -3059,8 +3068,10 @@ display_name = "Harbormaster Mirela"
 sprite_frames = ExtResource("n_mirela")
 lines = PackedStringArray("Manifests, manifests. Everything that lands in Kalmora gets a stamp. Everything.", "The race? The whole island's talking. Somebody's walking into Vetrassa with a full set, mark my words.")
 wander_radius = 0.0
+night_lines = PackedStringArray("Somebody has to keep one eye on the quay. I keep the other one on the cider.", "Party all you like. Anything that lands tonight still gets a stamp. Tomorrow.")
+chatter = PackedStringArray("Not on the fountain, Luca.", "Hmph.", "One more song, then bed.")
 has_night_spot = true
-night_spot = Vector2(-346, 275)
+night_spot = Vector2(-108, -47)
 night_wander = 10.0
 
 [node name="Npc_pip" parent="." instance=ExtResource("19_npc")]
@@ -3071,7 +3082,12 @@ sprite_frames = ExtResource("n_pip")
 lines = PackedStringArray("Fresh fish! Well. Fresh-ish.", "My cousin went to work out in Duskara last spring. Good pay, they said. He hasn't written.")
 wander_radius = 12.0
 out_from = 6.0
-out_to = 21.0
+out_to = 2.0
+night_lines = PackedStringArray("Grilled fish on a stick! Fresh-ish! Half price after midnight because I want to dance!", "My cousin used to dance on the fountain rim. Before Duskara. He was the best of us.")
+chatter = PackedStringArray("Fish on a stick!", "Half price!", "~ la la la ~")
+has_night_spot = true
+night_spot = Vector2(-46, 0)
+night_wander = 12.0
 
 [node name="Npc_sailor" parent="." instance=ExtResource("19_npc")]
 position = Vector2(4, 300)
@@ -3082,7 +3098,12 @@ lines = PackedStringArray("Sailed round the whole isle once. Vetrassa's got the 
 wander_radius = 40.0
 patrol = PackedVector2Array(0, 0, -266, -28, -168, 0, -84, -14, 0, 0, 28, 70, 0, 0)
 out_from = 6.5
-out_to = 20.0
+out_to = 2.0
+night_lines = PackedStringArray("Dance with me, racer! No? Coward. Come back when you've had a cider.", "Lantern Night, every night! The only port on the island that knows how to end a day.")
+chatter = PackedStringArray("~ Oh the gull, the gull ~", "Who's dancing?", "Faster, faster!")
+has_night_spot = true
+night_spot = Vector2(49, -8)
+night_wander = 26.0
 
 [node name="Npc_baker" parent="." instance=ExtResource("19_npc")]
 position = Vector2(376, 196)
@@ -3093,7 +3114,12 @@ lines = PackedStringArray("Warm bread! Two coins a loaf, one if you tell me a go
 wander_radius = 0.0
 patrol = PackedVector2Array(0, 0, 0, -59, -98, -59, -210, -64, -98, -59, 0, -59, 0, 0)
 out_from = 5.0
-out_to = 19.0
+out_to = 2.0
+night_lines = PackedStringArray("Honey buns, still warm. The dough rises while we dance. Bakers' secret.", "Rosa's rule: nobody goes home hungry and nobody goes home before the song about the gull.")
+chatter = PackedStringArray("Honey buns!", "Mind the crumbs!", "Who wants the last one?")
+has_night_spot = true
+night_spot = Vector2(63, -114)
+night_wander = 8.0
 
 [node name="Npc_tomas" parent="." instance=ExtResource("19_npc")]
 position = Vector2(620, 230)
@@ -3115,6 +3141,50 @@ wander_radius = 0.0
 has_night_spot = true
 night_spot = Vector2(4, -585)
 night_wander = 20.0
+
+[node name="Npc_nonna" parent="." instance=ExtResource("19_npc")]
+position = Vector2(-46, -142)
+npc_id = &"nonna"
+display_name = "Nonna Vess"
+sprite_frames = ExtResource("n_nonna")
+lines = PackedStringArray("I've danced in this square every night for sixty years. Tonight I'm sitting. Tomorrow, who knows.")
+wander_radius = 0.0
+out_from = 20.0
+out_to = 23.0
+chatter = PackedStringArray("In my day we danced till dawn!", "Lovely lanterns.", "Mind your feet, dear.")
+
+[node name="Npc_wen" parent="." instance=ExtResource("19_npc")]
+position = Vector2(26, 31)
+npc_id = &"wen"
+display_name = "Wen"
+sprite_frames = ExtResource("n_wen")
+lines = PackedStringArray("Mama says I can stay up till the lanterns go blue. They never go blue. I checked.")
+wander_radius = 22.0
+out_from = 20.0
+out_to = 22.5
+chatter = PackedStringArray("I'm not tired!", "Look, a shooting star!", "~ the gull, the gull ~")
+
+[node name="Npc_ilse" parent="." instance=ExtResource("19_npc")]
+position = Vector2(85, -47)
+npc_id = &"ilse"
+display_name = "Ilse"
+sprite_frames = ExtResource("n_ilse")
+lines = PackedStringArray("I map the island by day and the gossip by night. The gossip's more accurate.")
+wander_radius = 10.0
+out_from = 20.0
+out_to = 2.0
+chatter = PackedStringArray("Did you hear about the Duke?", "Don't tell anyone I said so.", "Another cider?")
+
+[node name="Npc_brannoc" parent="." instance=ExtResource("19_npc")]
+position = Vector2(-100, 6)
+npc_id = &"brannoc"
+display_name = "Brannoc"
+sprite_frames = ExtResource("n_brannoc")
+lines = PackedStringArray("Coals are banked, anvil's cold. One cider. Then another one. Then home.")
+wander_radius = 8.0
+out_from = 20.0
+out_to = 2.0
+chatter = PackedStringArray("To cold anvils!", "One more. Just one.", "Ha!")
 
 [node name="Clue_crate_sand" parent="." instance=ExtResource("21_clue")]
 position = Vector2(-122, 244)
@@ -4980,7 +5050,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R12x8")
 
 [node name="P16_banner" type="StaticBody2D" parent="."]
-position = Vector2(-108, 20)
+position = Vector2(-102, 26)
 
 [node name="Sprite" type="Sprite2D" parent="P16_banner"]
 position = Vector2(0, -39.5)

@@ -1,8 +1,9 @@
 extends Node
-## Residents keep hours: some are only out by day (Bram drinks in the Salted Lantern at
-## night, Rosa and Pip go home), some spend the night somewhere else in town (Mirela
-## keeps watch on the quay, Aldous watches the sky from the green); arriving at either
-## time finds them in the right place, and at dusk they walk there.
+## Residents keep hours: Kalmora comes out to its Lantern Night party in the fountain
+## square after dark (folk who keep to their houses by day too) till two, when Bram
+## takes a last drink in the Salted Lantern; others spend the night somewhere else
+## (Aldous watches the sky from the green); arriving at any time finds them in the
+## right place, and at dusk they walk there.
 ## Run: godot --headless --path . res://tests/test_schedule.tscn
 
 var _failures := 0
@@ -27,17 +28,29 @@ func _run() -> void:
 	var tavern := await _load(WorldMap.KALMORA_TAVERN)
 	_check("and isn't in the tavern", not (tavern.get_node("Npc_bram") as Npc).visible)
 
+	# Lantern Night: after dark the town is out in the fountain square till two.
 	TimeOfDay.set_hour(22.0)
 	town = await _load(WorldMap.KALMORA)
 	bram = town.get_node("Npc_bram") as Npc
 	mirela = town.get_node("Npc_mirela") as Npc
-	_check("at night Bram's off the quay", not bram.visible)
-	_check("Rosa's gone home", not (town.get_node("Npc_baker") as Npc).visible)
-	_check("Mirela keeps watch somewhere else", mirela.has_night_spot and mirela.position.distance_to(mirela.night_spot) < 1.0
-		and mirela.position.distance_to(by_day) > 20.0)
+	var rosa := town.get_node("Npc_baker") as Npc
+	var nonna := town.get_node("Npc_nonna") as Npc
+	_check("at night Bram's at the party", bram.visible and bram.position.distance_to(bram.night_spot) < 30.0)
+	_check("so is Rosa", rosa.visible and rosa.position.distance_to(rosa.night_spot) < 30.0)
+	_check("Nonna comes out for it", nonna.visible and not nonna.get_node("CollisionShape2D").disabled)
+	_check("Mirela keeps half an eye on the quay from the square", mirela.has_night_spot
+		and mirela.position.distance_to(mirela.night_spot) < 30.0 and mirela.position.distance_to(by_day) > 20.0)
+	_check("partygoers call out", not bram.chatter.is_empty() and not bram.night_lines.is_empty())
+	tavern = await _load(WorldMap.KALMORA_TAVERN)
+	_check("the tavern's quiet while the square's busy", not (tavern.get_node("Npc_bram") as Npc).visible)
+	var nonna_home := await _load("res://scenes/world/interiors/kalmora_nonna_house.tscn")
+	_check("and Nonna's not home", not (nonna_home.get_node("Npc_nonna") as Npc).visible)
+	TimeOfDay.set_hour(3.0)
+	town = await _load(WorldMap.KALMORA)
+	_check("after two the square empties", not (town.get_node("Npc_bram") as Npc).visible)
 	tavern = await _load(WorldMap.KALMORA_TAVERN)
 	var drinking := tavern.get_node("Npc_bram") as Npc
-	_check("Bram's in the Salted Lantern", drinking.visible and not drinking.get_node("CollisionShape2D").disabled)
+	_check("and Bram has one last drink in the Salted Lantern", drinking.visible and not drinking.get_node("CollisionShape2D").disabled)
 
 	# Dusk while you're there: Aldous walks out to his night spot on the green.
 	TimeOfDay.set_hour(19.9)

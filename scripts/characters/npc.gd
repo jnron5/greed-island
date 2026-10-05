@@ -56,6 +56,12 @@ const TALK_RANGE := 34.0
 ## Equal = always here. Wraps past midnight (20 -> 6 is the night).
 @export var out_from := 0.0
 @export var out_to := 0.0
+## What they say after dark instead of `lines` (at a party, on watch), if anything.
+@export_multiline var night_lines: PackedStringArray = []
+## Things they call out now and then in a speech bubble when you're nearby (a party
+## after dark: toasts, songs, gossip). Only after dark unless `chatter_by_day`.
+@export var chatter: PackedStringArray = []
+@export var chatter_by_day := false
 
 const NIGHT_FROM := 20.0
 const NIGHT_TO := 6.5
@@ -79,6 +85,9 @@ var _route := PackedVector2Array()
 var _route_time := 0.0
 var _here := true
 var _clock := 0.0
+var _bubble := ""
+var _bubble_time := 0.0
+var _chatter_wait := randf_range(2.0, 9.0)
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -185,6 +194,7 @@ func _physics_process(delta: float) -> void:
 	if not _here:
 		velocity = Vector2.ZERO
 		return
+	_chatter(delta)
 	if _talking:
 		velocity = Vector2.ZERO
 	elif not _route.is_empty():
@@ -238,6 +248,8 @@ func talk(player: Node2D) -> void:
 		said = Errands.dialogue_for(npc_id)
 	if said.is_empty():
 		said = _meal_talk()
+	if said.is_empty() and not night_lines.is_empty() and is_night():
+		said = PackedStringArray([next_line(night_lines)])
 	if said.is_empty() and not lines.is_empty():
 		said = PackedStringArray([next_line(lines)])
 	DialogueBox.say(get_tree(), display_name, said, _done_talking, DialogueBox.portrait_from(sprite.sprite_frames))
@@ -364,7 +376,31 @@ func _update_animation() -> void:
 			return
 
 
+## Now and then a line from `chatter` in a bubble over their head, while you're near.
+func _chatter(delta: float) -> void:
+	if chatter.is_empty():
+		return
+	if _bubble != "":
+		_bubble_time -= delta
+		if _bubble_time <= 0.0:
+			_bubble = ""
+		queue_redraw()
+		return
+	_chatter_wait -= delta
+	if _chatter_wait > 0.0:
+		return
+	_chatter_wait = randf_range(7.0, 15.0)
+	var player := get_tree().get_first_node_in_group(&"player") as Node2D
+	if _talking or (not chatter_by_day and not is_night()) or player == null \
+			or player.global_position.distance_to(global_position) > 260.0:
+		return
+	_bubble = chatter[randi() % chatter.size()]
+	_bubble_time = 3.4
+
+
 func _draw() -> void:
+	if _bubble != "":
+		WorldPrompt.bubble(self, Vector2(0, sprite_offset_y * 2 - 6), _bubble, clampf(_bubble_time * 2.0, 0.0, 1.0))
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
 	var marker := Quests.marker_for(npc_id)
 	if marker == "":

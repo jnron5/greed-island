@@ -592,14 +592,62 @@ NPCS = [
         "North road's sealed. A Salt Compass opens it. Old rule, nobody remembers why.",
         "Thornveil's no place to wander with loose cards. The hounds don't care, but the Raider does.",
     ]),
+    # Lantern Night guests: folk who keep to their houses by day come out to the square
+    # after dark (their indoor selves keep the opposite hours, build_interiors.py).
+    ("nonna", "Nonna Vess", "nonna", (744, 424), 0, [
+        "I've danced in this square every night for sixty years. Tonight I'm sitting. Tomorrow, who knows.",
+    ]),
+    ("wen", "Wen", "wen", (796, 548), 22, [
+        "Mama says I can stay up till the lanterns go blue. They never go blue. I checked.",
+    ]),
+    ("ilse", "Ilse", "ilse", (838, 492), 10, [
+        "I map the island by day and the gossip by night. The gossip's more accurate.",
+    ]),
+    ("brannoc", "Brannoc", "brannoc", (706, 530), 8, [
+        "Coals are banked, anvil's cold. One cider. Then another one. Then home.",
+    ]),
 ]
+# Kalmora's Lantern Night: every night the town comes out to the fountain square under
+# the strings of lanterns and stays out till the small hours.
+PARTY_HOURS = (20.0, 2.0)
+GUEST_HOURS = {"nonna": (20.0, 23.0), "wen": (20.0, 22.5), "ilse": PARTY_HOURS, "brannoc": PARTY_HOURS}
+NIGHT_LINES = {
+    "bram": ["No crates tonight. Tonight the crates can carry themselves. Another round!",
+             "Night tide's coming in. Don't look at the pier. Look at the lanterns. Lanterns are nice."],
+    "sailor": ["Dance with me, racer! No? Coward. Come back when you've had a cider.",
+               "Lantern Night, every night! The only port on the island that knows how to end a day."],
+    "pip": ["Grilled fish on a stick! Fresh-ish! Half price after midnight because I want to dance!",
+            "My cousin used to dance on the fountain rim. Before Duskara. He was the best of us."],
+    "baker": ["Honey buns, still warm. The dough rises while we dance. Bakers' secret.",
+              "Rosa's rule: nobody goes home hungry and nobody goes home before the song about the gull."],
+    "mirela": ["Somebody has to keep one eye on the quay. I keep the other one on the cider.",
+               "Party all you like. Anything that lands tonight still gets a stamp. Tomorrow."],
+}
+CHATTER = {
+    "bram": ["To Kalmora!", "Another round!", "Otto! The good cider!"],
+    "sailor": ["~ Oh the gull, the gull ~", "Who's dancing?", "Faster, faster!"],
+    "pip": ["Fish on a stick!", "Half price!", "~ la la la ~"],
+    "baker": ["Honey buns!", "Mind the crumbs!", "Who wants the last one?"],
+    "mirela": ["Not on the fountain, Luca.", "Hmph.", "One more song, then bed."],
+    "nonna": ["In my day we danced till dawn!", "Lovely lanterns.", "Mind your feet, dear."],
+    "wen": ["I'm not tired!", "Look, a shooting star!", "~ the gull, the gull ~"],
+    "ilse": ["Did you hear about the Duke?", "Don't tell anyone I said so.", "Another cider?"],
+    "brannoc": ["To cold anvils!", "One more. Just one.", "Ha!"],
+}
 # Day and night (scripts/characters/npc.gd). OUT_HOURS: when a resident is out in the
 # town at all (the rest of the time they're home or at the tavern: Bram and Luca have
 # indoor copies in the Salted Lantern for the night, build_interiors.py). NIGHT_SPOTS:
 # where someone who stays out spends the night (concept position, wander radius).
-OUT_HOURS = {"bram": (6.5, 20.0), "sailor": (6.5, 20.0), "pip": (6.0, 21.0), "baker": (5.0, 19.0), "tomas": (6.0, 19.5)}
+# After dark the town is at the party in the fountain square (Lantern Night, above)
+# till two, then home to bed; the lighthouse keeper and the gate guard stay on duty.
+OUT_HOURS = {"bram": (6.5, 2.0), "sailor": (6.5, 2.0), "pip": (6.0, 2.0), "baker": (5.0, 2.0), "tomas": (6.0, 19.5),
+             **GUEST_HOURS}
 NIGHT_SPOTS = {
-    "mirela": ((530, 722), 10),    # the harbormaster locks up and keeps watch on the quay
+    "bram": ((726, 466), 14),      # round the fountain, under the lanterns
+    "sailor": ((812, 520), 26),    # dancing
+    "pip": ((744, 526), 12),       # with a grill of fish on sticks
+    "baker": ((822, 444), 8),      # honey buns from a basket
+    "mirela": ((700, 492), 10),    # at the edge, one eye on the quay
     "rook": ((780, 108), 20),      # the guard walks the north gate under its lamp
 }
 # The unmarked shipment: three crates piled on the quay, where Bram works.
@@ -1368,6 +1416,8 @@ shape = SubResource("{shape(RIGHT - LEFT, BOTTOM - TOP)}")
                  + (f'patrol = PackedVector2Array({", ".join(f"{px * SCALE:.0f}, {py * SCALE:.0f}" for px, py in PATROLS[npc_id])})\n'
                     if npc_id in PATROLS else "")
                  + (f'out_from = {float(OUT_HOURS[npc_id][0])}\nout_to = {float(OUT_HOURS[npc_id][1])}\n' if npc_id in OUT_HOURS else "")
+                 + (f'night_lines = PackedStringArray({", ".join(chr(34) + l + chr(34) for l in NIGHT_LINES[npc_id])})\n' if npc_id in NIGHT_LINES else "")
+                 + (f'chatter = PackedStringArray({", ".join(chr(34) + l + chr(34) for l in CHATTER[npc_id])})\n' if npc_id in CHATTER else "")
                  + (f'has_night_spot = true\nnight_spot = Vector2({W(*NIGHT_SPOTS[npc_id][0])[0]}, {W(*NIGHT_SPOTS[npc_id][0])[1]})\n'
                     f'night_wander = {float(NIGHT_SPOTS[npc_id][1])}\n' if npc_id in NIGHT_SPOTS else ""))
         if npc_id in NIGHT_SPOTS:

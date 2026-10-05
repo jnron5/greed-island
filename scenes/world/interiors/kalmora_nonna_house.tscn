@@ -150,6 +150,8 @@ npc_id = &"nonna"
 display_name = "Nonna Vess"
 sprite_frames = ExtResource("n_nonna")
 lines = PackedStringArray("Sit, sit. You look like you've been running. They all do, the racers.", "Every generation the King calls a race. Funny thing: the winners never talk about the prize after.", "My grandmother used to say the cards grow in the dark, under the dunes. Grandmothers say a lot of things.")
+out_from = 23.0
+out_to = 20.0
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(150, 200)
