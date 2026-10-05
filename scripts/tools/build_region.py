@@ -933,13 +933,13 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
             solids.append((x - fw / 2, y - fd, x + fw / 2, y))
             n.append(f'[node name="{node}" type="StaticBody2D" parent="."]\nposition = Vector2({x}, {y})\n\n'
                      f'[node name="Sprite" type="Sprite2D" parent="{node}"]\nposition = Vector2(0, {bottom_offset(path)})\n'
-                     f'texture = ExtResource("{texture(path)}")\n\n'
+                     f'texture = ExtResource("{texture(path)}")\n' + ("flip_h = true\n" if b.get("flip") else "") + '\n'
                      f'[node name="Base" type="CollisionShape2D" parent="{node}"]\nposition = Vector2(0, {-fd / 2})\n'
                      f'shape = SubResource("{shape(fw, fd)}")\n')
             glow = window_glow(path, self.art + "night/")
             if glow:
                 n.append(f'[node name="Windows" type="Sprite2D" parent="{node}"]\nposition = Vector2(0, {bottom_offset(path)})\n'
-                         f'texture = ExtResource("{texture(glow)}")\n'
+                         f'texture = ExtResource("{texture(glow)}")\n' + ("flip_h = true\n" if b.get("flip") else "") +
                          f'script = ExtResource("{res("Script", "res://scripts/world/window_glow.gd")}")\n'
                          f'lights_out = {1.0 + (len(node) % 5) * 0.6:.1f}\n')
             if b.get("door"):

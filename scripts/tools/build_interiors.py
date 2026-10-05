@@ -20,6 +20,34 @@ PROVISIONS = '[&"smoked_fish", &"bread", &"healers_tonic", &"sea_salt_elixir"]'
 INN_STOCK = '[&"bread", &"smoked_fish", &"healers_tonic"]'
 SHOP_STOCK = '[&"pickpockets_whisper", &"lockbox_seal", &"second_wind", &"hollowpoint_charm", &"tidewalker_anklet"]'
 
+
+# Seabright's guest bungalows: blocks traced from each room (the mirrored rooms reuse
+# them flipped).
+HONEYMOON = [
+    (0, 0, 320, 96), (0, 0, 14, 256), (306, 0, 320, 256),            # back wall and open terrace, side walls
+    (14, 40, 138, 178), (0, 130, 40, 210),                            # the canopy bed, a palm
+    (186, 96, 222, 122), (208, 64, 236, 116), (234, 52, 290, 132),    # cases, a palm, the wardrobe
+    (264, 96, 300, 154), (206, 118, 300, 212),                        # a palm, the chairs round the champagne
+    (0, 212, 124, 256), (196, 212, 320, 256),                         # the front wall round the door
+]
+FAMILY = [
+    (0, 0, 320, 112), (0, 0, 22, 256), (300, 0, 320, 256),            # back wall, side walls
+    (36, 80, 116, 166), (116, 98, 146, 130), (200, 64, 284, 148),     # the bed, the lamp table, the bunks
+    (252, 138, 296, 206), (22, 150, 62, 230), (130, 162, 190, 202),   # the desk, a palm, the fruit table
+    (216, 186, 256, 232), (262, 168, 300, 230),                       # the beach bag, a palm
+    (0, 232, 130, 256), (186, 232, 320, 256),                         # the front wall round the door
+]
+COMPANY = [
+    (0, 0, 320, 104), (0, 0, 38, 256), (296, 0, 320, 256),            # back wall, side walls
+    (26, 56, 120, 170), (176, 108, 226, 148), (232, 90, 300, 170),    # the crates, the hatch, the bed
+    (6, 172, 126, 232), (196, 172, 312, 232),                         # the ledger desk, the chart table
+    (0, 232, 128, 256), (192, 232, 320, 256),                         # the front wall round the door
+]
+
+
+def mirror(rects, w=320):
+    return [(w - x1, y0, w - x0, y1) for x0, y0, x1, y1 in rects]
+
 INTERIORS = {
     "kalmora_tavern": {
         "name": "The Salted Lantern",
@@ -58,12 +86,12 @@ INTERIORS = {
             "Long day hauling crates nobody's allowed to ask about. Long night forgetting them.",
             "Otto waters the cider. Don't tell him I know. It's the only thing in this town that's honest about being thin.",
             "Night tide brings the unmarked ones. I'm in here so I don't have to see them come in.",
-        ], [], {"out": (20.0, 6.5)}),
+        ], [], {"out": (2.0, 6.5)}),
                  ("sailor", "Deckhand Luca", "sailor", (232, 204), [
             "Pull up a stool! I'm telling the one about the sea serpent off Halmeer. It gets bigger every time.",
             "A sailor's day ends when the lamps come on. A sailor's night ends when Jobelle throws him out.",
             "You racers never sleep, do you? Bind your cards before you go out there. The night's when the thieves work.",
-        ], [], {"out": (20.0, 6.5)})],
+        ], [], {"out": (2.0, 6.5)})],
         "inn": "jobelle",
         "keeper": {"wake_lines": ["Oh, love. Oh, look at you. Somebody carried you in off the road and I've sat with you all night. Rest a minute before you go anywhere.", "There you are. You gave me such a fright. Drink this, it's only tea. Whatever you lost out there, it isn't worth losing you.", "Welcome back, sweetheart. Otto carried you up the stairs himself. Don't tell him I told you; he likes people to think he's grumpy."],
                    "room_prompt": "Of course, love! Fresh sheets, a warm brick in the bed. Half a day, or a whole one?",
@@ -98,7 +126,7 @@ INTERIORS = {
             "Sit, sit. You look like you've been running. They all do, the racers.",
             "Every generation the King calls a race. Funny thing: the winners never talk about the prize after.",
             "My grandmother used to say the cards grow in the dark, under the dunes. Grandmothers say a lot of things.",
-        ], [])],
+        ], [], {"out": (23.0, 20.0)})],
     },
     # ---- every other house in Kalmora. Each has a detail that ties back to the story:
     # the island's comfort is paid for somewhere out in the dunes, and the town half knows.
@@ -118,7 +146,7 @@ INTERIORS = {
             "Papa went to work in Duskara. He sends cards now instead of letters. Mama says that means good pay.",
             "I'm building a boat. When it's done I'm going to sail round to the dunes and bring him home.",
             "You're racing? If you get to Duskara, will you look for a fisher called Tamsin? He has a crooked ear.",
-        ], [])],
+        ], [], {"out": (22.5, 20.0)})],
         "readables": [
             ("A letter on the table", (165, 186), [
                 "A letter in careful handwriting, never finished:",
@@ -166,7 +194,7 @@ INTERIORS = {
             "Mind the anvil. Mind the coals. Mind your fingers, mostly.",
             "Forty pickaxe heads a month, every month, for a hole out east. Must be a very big hole.",
             "They asked me for shackles. Small ones. I told them I don't make those. They found someone who does.",
-        ], [])],
+        ], [], {"out": (2.0, 20.0)})],
         "readables": [
             ("An order nailed to the bench", (80, 184), [
                 "'Forty pick heads. Twelve lamp brackets. Deliver to the red-sun crates at the warehouse.'",
@@ -284,7 +312,7 @@ INTERIORS = {
             "Ilse Marrow, cartographer. Mind the ink, it never comes out.",
             "Every map of Virelia has a blank spot in the dunes east of Duskara. Every one. Mine too. I was paid to leave it blank.",
             "Heading north? Take the forest road. The coast path is prettier, but the Raider likes it.",
-        ], [])],
+        ], [], {"out": (2.0, 20.0)})],
         "readables": [
             ("Ilse's working chart", (140, 162), [
                 "The whole isle in fine ink. The Siroth Dunes are drawn dune by dune, except one patch east of Duskara, left blank.",
@@ -564,6 +592,104 @@ INTERIORS = {
             ("A letter on the trunk", (88, 168), [
                 "'Sparkle, Sassy. Pepper is under-salting the stew. Tell her. Do not tell her I said tell her. Duke says the business guests liked the tart. Good. Burn this. C.'",
                 "It has not been burned. Somebody has drawn a moustache on the signature.",
+            ]),
+        ],
+    },
+    # ---- Seabright's guest bungalows (west jetty 1-3, east jetty 4-5) ----
+    "seabright_bungalow1": {
+        "town": "res://scenes/world/seabright_quay.tscn",
+        "name": "Bungalow 1",
+        "image": "assets/sprites/tiles/resort/interiors/honeymoon_bungalow.png",
+        "size": (320, 256),
+        "exit": (160, 252), "back_to": "from_bungalow1", "spawn": (160, 204),
+        "blocks": HONEYMOON,
+        "npcs": [],
+        "readables": [
+            ("A card on the pillow", (90, 186), [
+                "Gold-edged, propped on the rose petals. 'Welcome to Seabright, Mr and Mrs Hale. Your stay is with the compliments of the Duskara Mining Company, in thanks for your husband's years of service.'",
+                "On the back, in pencil, a different hand: 'Twenty years in the counting room and they give him a week by the sea. He cried. I'm keeping the card.'",
+            ]),
+            ("A half-written postcard", (198, 178), [
+                "'Dear Mother. The water is so clear you can see the fish through the floor. Edmund says the barge that goes past at night is nothing, only the night post. He says it very quickly.'",
+            ]),
+        ],
+    },
+    "seabright_bungalow2": {
+        "town": "res://scenes/world/seabright_quay.tscn",
+        "name": "Bungalow 2",
+        "image": "assets/sprites/tiles/resort/interiors/family_bungalow.png",
+        "size": (320, 256),
+        "exit": (158, 252), "back_to": "from_bungalow2", "spawn": (158, 214),
+        "blocks": FAMILY,
+        "npcs": [],
+        "readables": [
+            ("Postcards on the desk", (244, 176), [
+                "A stack of postcards of the Saltglass Terrace, all addressed to the same school in Vetrassa. 'We saw a dolphin. We saw Lady Sparkle jump off the pier. Papa said not to tell anyone that.'",
+            ]),
+            ("A child's drawing", (160, 210), [
+                "Crayon on hotel paper: the jetty, the bungalows, a round yellow moon. Out on the water, a long black boat with no windows, and a little light on it, coloured in very hard.",
+                "Underneath, carefully: 'THE GOST BOAT. It comes when evryone is asleep. Not me.'",
+            ]),
+        ],
+    },
+    "seabright_bungalow3": {
+        "town": "res://scenes/world/seabright_quay.tscn",
+        "name": "Bungalow 3",
+        "image": "assets/sprites/tiles/resort/interiors/company_bungalow.png",
+        "size": (320, 256),
+        "exit": (160, 252), "back_to": "from_bungalow3", "spawn": (160, 212),
+        "blocks": COMPANY,
+        "npcs": [],
+        "readables": [
+            ("A tonnage ledger", (120, 180), [
+                "Columns of dates and weights, no names. 'Reef drop, the Gannet, 4 crates. Lamp: 3 short, 1 long. Received by hand, Bungalow 3.' The same line, every week, back two years.",
+                "In the margin of the last page: 'Halmeer route cleared through the cape. D. says no more drops off the Quay once the cousins start asking questions.'",
+            ]),
+            ("A chart with pins", (202, 180), [
+                "A sea chart of the south coast. Red pins: the old reef off Seabright, a cove past the southern cape marked HALMEER, and a dotted line from there up the west coast to Vetrassa.",
+                "Duskara is not on the chart. Somebody has drawn a small pick in the empty sand where it should be.",
+            ]),
+            ("A crate stencilled D.M.C.", (128, 130), [
+                "Packed in straw: stacks of blank cards, uncut, still in sheets. Gritty with red sand. Each sheet has a stamp in the corner, a pick and a crown, and a number.",
+            ]),
+            ("A hatch in the floor", (200, 156), [
+                "A square hatch over the water with a ladder going down. The rungs are wet and there's rope burn on the frame. Below, black water and the slap of the tide on the pilings.",
+            ]),
+        ],
+    },
+    "seabright_bungalow4": {
+        "town": "res://scenes/world/seabright_quay.tscn",
+        "name": "Bungalow 4",
+        "image": "assets/sprites/tiles/resort/interiors/family_bungalow_r.png",
+        "size": (320, 256),
+        "exit": (162, 252), "back_to": "from_bungalow4", "spawn": (162, 214),
+        "blocks": mirror(FAMILY),
+        "npcs": [],
+        "readables": [
+            ("A painter's sketchbook", (74, 176), [
+                "Watercolours of the bay: the terrace at noon, the yachts, Lady Sassy asleep on a lounger with a drink balanced on her stomach.",
+                "The last page is the bay at night, all dark blue, except one small yellow square low on the water past the yachts. Under it: 'Asked Fennick what it was. He changed the subject to the weather. The weather was fine.'",
+            ]),
+            ("A guestbook page", (160, 210), [
+                "'Lovely stay. Staff charming. The gentlemen in Bungalow 3 might consider sleeping at night like everyone else. Five stars.'",
+            ]),
+        ],
+    },
+    "seabright_bungalow5": {
+        "town": "res://scenes/world/seabright_quay.tscn",
+        "name": "Bungalow 5",
+        "image": "assets/sprites/tiles/resort/interiors/honeymoon_bungalow_r.png",
+        "size": (320, 256),
+        "exit": (160, 252), "back_to": "from_bungalow5", "spawn": (160, 204),
+        "blocks": mirror(HONEYMOON),
+        "npcs": [],
+        "readables": [
+            ("A report, half-written", (230, 186), [
+                "'Captain. Day nine. The Ladies are well. They know we are here and have taken to waving. Lady Sparkle swam under our bungalow at dawn and knocked on the floor.'",
+                "'Nothing to report but this: the Duke's men do not sleep, and a boat with no lamps comes to the reef twice a week. Your mother's friends, I think. Shall I keep watching, or stop? F., I await your orders.'",
+            ]),
+            ("A guard's tabard, folded", (122, 170), [
+                "The black and gold of the King's Guard in Vetrassa, folded small and hidden under a beach towel. Whoever is staying here is not on holiday.",
             ]),
         ],
     },

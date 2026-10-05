@@ -1,0 +1,182 @@
+[gd_scene load_steps=26 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/resort/interiors/honeymoon_bungalow_r.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R320x96"]
+size = Vector2(320, 96)
+
+[sub_resource type="RectangleShape2D" id="R14x256"]
+size = Vector2(14, 256)
+
+[sub_resource type="RectangleShape2D" id="R124x138"]
+size = Vector2(124, 138)
+
+[sub_resource type="RectangleShape2D" id="R40x80"]
+size = Vector2(40, 80)
+
+[sub_resource type="RectangleShape2D" id="R36x26"]
+size = Vector2(36, 26)
+
+[sub_resource type="RectangleShape2D" id="R28x52"]
+size = Vector2(28, 52)
+
+[sub_resource type="RectangleShape2D" id="R56x80"]
+size = Vector2(56, 80)
+
+[sub_resource type="RectangleShape2D" id="R36x58"]
+size = Vector2(36, 58)
+
+[sub_resource type="RectangleShape2D" id="R94x94"]
+size = Vector2(94, 94)
+
+[sub_resource type="RectangleShape2D" id="R124x44"]
+size = Vector2(124, 44)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="seabright_bungalow5" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Bungalow 5"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 48.0)
+shape = SubResource("R320x96")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(313.0, 128.0)
+shape = SubResource("R14x256")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(7.0, 128.0)
+shape = SubResource("R14x256")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(244.0, 109.0)
+shape = SubResource("R124x138")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(300.0, 170.0)
+shape = SubResource("R40x80")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(116.0, 109.0)
+shape = SubResource("R36x26")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(98.0, 90.0)
+shape = SubResource("R28x52")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(58.0, 92.0)
+shape = SubResource("R56x80")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(38.0, 125.0)
+shape = SubResource("R36x58")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(67.0, 165.0)
+shape = SubResource("R94x94")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(258.0, 234.0)
+shape = SubResource("R124x44")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(62.0, 234.0)
+shape = SubResource("R124x44")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(160, 204)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(160, 252)
+target_scene = "res://scenes/world/seabright_quay.tscn"
+target_spawn = &"from_bungalow5"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(230, 186)
+script = ExtResource("12_read")
+title = "A report, half-written"
+lines = PackedStringArray("'Captain. Day nine. The Ladies are well. They know we are here and have taken to waving. Lady Sparkle swam under our bungalow at dawn and knocked on the floor.'", "'Nothing to report but this: the Duke's men do not sleep, and a boat with no lamps comes to the reef twice a week. Your mother's friends, I think. Shall I keep watching, or stop? F., I await your orders.'")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(122, 170)
+script = ExtResource("12_read")
+title = "A guard's tabard, folded"
+lines = PackedStringArray("The black and gold of the King's Guard in Vetrassa, folded small and hidden under a beach towel. Whoever is staying here is not on holiday.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(160, 204)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

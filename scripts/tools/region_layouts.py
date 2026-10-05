@@ -748,6 +748,11 @@ RESORT = {
          "door": "res://scenes/world/interiors/seabright_hotel.tscn", "back": "from_househotel"},
         {"node": "HouseBungalow", "sprite": RS + "bungalow_cousins.png", "pos": (COUSINS, JETTY_Y[0]), "foot": 86, "depth": 44,
          "door": "res://scenes/world/interiors/seabright_bungalow.tscn", "back": "from_housebungalow"},
+    ] + [
+        # The guest bungalows, numbered from the west, each with its own room.
+        {"node": f"Bungalow{k + 1}", "sprite": RS + "bungalow.png", "pos": (x, JETTY_Y[0]), "foot": 86, "depth": 44, "flip": x < 0,
+         "door": f"res://scenes/world/interiors/seabright_bungalow{k + 1}.tscn", "back": f"from_bungalow{k + 1}"}
+        for k, x in enumerate(x for x in BUNGALOWS if x != COUSINS)
     ],
     "instances": [("res://scenes/world/props/kalmora_fountain.tscn", (0, -330), 1.0)],
     "props": (
@@ -774,16 +779,14 @@ RESORT = {
         + [{"sprite": RS + "kitchen.png", "pos": (84, 344), "foot": (134, 20)}]
         + [{"sprite": K2 + "props/notice_board.png", "pos": (-60, 330), "foot": (26, 8)}]
         + [{"sprite": K2 + "props/parasol_table.png", "pos": p, "foot": (34, 12)}
-           for p in [(-110, 380), (-110, 450), (-44, 440), (44, 440), (110, 450), (-110, 520), (-44, 510), (44, 510), (110, 520)]]
+           for p in [(-104, 420), (104, 440), (-104, 516), (104, 516)]]
         + [{"sprite": K2 + "props/lamp_post.png", "pos": p, "foot": (10, 8), "light": ((1.0, 0.85, 0.6, 1), 0.9, 1.2)}
            for p in [(-148, 316), (148, 366), (-148, 534), (148, 534)]]
         + [{"sprite": K2 + "props/potted_palm.png", "pos": p, "foot": (16, 8)} for p in [(-30, 316), (30, 316)]]
-        # The guest bungalows (private: no way in), each on its own platform.
-        + [{"sprite": RS + "bungalow.png", "pos": (x, JETTY_Y[0]), "foot": (86, 44), "flip": x < 0, "glow": True}
-           for x in BUNGALOWS if x != COUSINS]
         # The jetties: a fisherman's crates at the west end.
         + [{"sprite": K2 + "props/fish_crates.png", "pos": (-640, 412), "foot": (26, 8)}]
-        # The headland lookout.
+        # The headland lookout: the brass telescope on its tripod, a bench beside it.
+        + [{"sprite": RS + "telescope.png", "pos": (600, 34), "foot": (16, 8)}]
         + [{"sprite": K2 + "props/bench.png", "pos": (650, 60), "foot": (36, 8)}]
         # Lamps for the night: the quay's corners and the foot of both stairs, the
         # boardwalk (posts on its pilings, alternating sides), along both jetties
@@ -864,13 +867,13 @@ RESORT = {
         ("The pier sign", (-34, 540), [
             "'NO DIVING FROM THE PIER.' Somebody has scratched a little crown under it, and the words 'except us'.",
         ]),
-        ("A bungalow door", (-260, 384), [
+        ("A bungalow door", (-298, 388), [
             "A brass number plate: 'Bungalow 3. Do not disturb.' A tray of untouched breakfast outside. Someone inside is talking quietly about tonnage.",
         ], [
             "The window's dark now, but the step is wet: sea water, and boot prints leading off to the end of the jetty.",
             "A coil of wet rope under the bench. A crate lid propped against the wall, stencilled D.M.C. The lamp in the window is still warm.",
         ]),
-        ("A lookout on the headland", (600, 40), [
+        ("A lookout on the headland", (600, 48), [
             "A brass telescope on a post, pointed east along the coast. Through it: open sea, and very far off, a barge with no lights, riding low.",
         ], [
             "Through the telescope, out past the yachts: a barge with no lights, riding low. Then a lantern on it opens and shuts. Three short. One long.",

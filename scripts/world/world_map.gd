@@ -30,6 +30,11 @@ const VERDANA_MILL := "res://scenes/world/interiors/verdana_mill.tscn"
 const SEABRIGHT := "res://scenes/world/seabright_quay.tscn"
 const SEABRIGHT_HOTEL := "res://scenes/world/interiors/seabright_hotel.tscn"
 const SEABRIGHT_BUNGALOW := "res://scenes/world/interiors/seabright_bungalow.tscn"
+const SEABRIGHT_BUNGALOW1 := "res://scenes/world/interiors/seabright_bungalow1.tscn"
+const SEABRIGHT_BUNGALOW2 := "res://scenes/world/interiors/seabright_bungalow2.tscn"
+const SEABRIGHT_BUNGALOW3 := "res://scenes/world/interiors/seabright_bungalow3.tscn"
+const SEABRIGHT_BUNGALOW4 := "res://scenes/world/interiors/seabright_bungalow4.tscn"
+const SEABRIGHT_BUNGALOW5 := "res://scenes/world/interiors/seabright_bungalow5.tscn"
 const FRISALLE := "res://scenes/world/frisalle.tscn"
 const FRISALLE_INN := "res://scenes/world/interiors/frisalle_inn.tscn"
 const FRISALLE_COUNTING := "res://scenes/world/interiors/frisalle_counting.tscn"
@@ -116,6 +121,11 @@ const ZONES := {
 	VERDANA_MILL: { "name": "Verdana Mill", "origin": Vector2(-2144, 2093), "monster_drops": [] },
 	SEABRIGHT_HOTEL: { "name": "The Seabright Grand", "origin": Vector2(-1884, 2621), "monster_drops": [] },
 	SEABRIGHT_BUNGALOW: { "name": "The Sisters' Bungalow", "origin": Vector2(-1864, 3143), "monster_drops": [] },
+	SEABRIGHT_BUNGALOW1: { "name": "Bungalow 1", "origin": Vector2(-3024, 3143), "monster_drops": [] },
+	SEABRIGHT_BUNGALOW2: { "name": "Bungalow 2", "origin": Vector2(-2864, 3143), "monster_drops": [] },
+	SEABRIGHT_BUNGALOW3: { "name": "Bungalow 3", "origin": Vector2(-2704, 3143), "monster_drops": [] },
+	SEABRIGHT_BUNGALOW4: { "name": "Bungalow 4", "origin": Vector2(-2184, 3143), "monster_drops": [] },
+	SEABRIGHT_BUNGALOW5: { "name": "Bungalow 5", "origin": Vector2(-2024, 3143), "monster_drops": [] },
 	FRISALLE_INN: { "name": "The Hearth & Horn", "origin": Vector2(-3214, -4493), "monster_drops": [] },
 	FRISALLE_COUNTING: { "name": "The Factors' Counting House", "origin": Vector2(-3074, -4947), "monster_drops": [] },
 	FRISALLE_CARVER: { "name": "Liesl's Workshop", "origin": Vector2(-2954, -4493), "monster_drops": [] },
@@ -128,7 +138,7 @@ const ZONES := {
 	SORENDA_HERBALIST: { "name": "Juniper's Cottage", "origin": Vector2(420, -2478), "monster_drops": [] },
 	SORENDA_WOODCUTTER: { "name": "Harl's Cottage", "origin": Vector2(-530, -2258), "monster_drops": [] },
 	SORENDA_FAMILY: { "name": "Pell's Home", "origin": Vector2(-450, -2078), "monster_drops": [] },
-	SORENDA_TREE_HOUSE: { "name": "The Old Tree House", "origin": Vector2(400, -2208), "monster_drops": [] },
+	SORENDA_TREE_HOUSE: { "name": "The Old Tree House", "origin": Vector2(210, -2278), "monster_drops": [] },
 	SORENDA_INN: { "name": "The Copper Kettle", "origin": Vector2(185, -2020), "monster_drops": [] },
 }
 
