@@ -37,8 +37,9 @@ HOMES = [
     ("HouseWoodcutter", "woodcutter_cottage", (-500, 10), 132, 6, "res://scenes/world/interiors/sorenda_woodcutter.tscn", "from_housewoodcutter"),
     ("HouseFamily", "round_cottage", (-420, 190), 128, -4, "res://scenes/world/interiors/sorenda_family_home.tscn", "from_housefamily"),
     ("HouseTree", "tree_house", (240, -10), 150, 0, "res://scenes/world/interiors/sorenda_tree_house.tscn", "from_housetree"),
-    # The Copper Kettle, Mate's inn: the first roof you reach coming up the forest road.
-    ("HouseInn", "kettle_inn", (215, 248), 180, 0, "res://scenes/world/interiors/sorenda_inn.tscn", "from_houseinn"),
+    # The Copper Kettle, Mate's inn: the first roof you reach coming up the forest road
+    # (set back from the south edge, beside the fire glade).
+    ("HouseInn", "kettle_inn", (262, 196), 180, 0, "res://scenes/world/interiors/sorenda_inn.tscn", "from_houseinn"),
 ]
 # The Hollow: a pocket in the north-east corner, fenced off, the moss gate its only way in.
 POCKET = (500, -600, 704, -430)          # x0, y0, x1, y1 (north and east are the map edge)
@@ -53,7 +54,7 @@ WELL = (-80, 170)
 MERCHANT = (-130, 110)
 # Lanterns on posts along the paths (each a real light after dark), the campfire on
 # the green (animated, always burning), and benches round it.
-LANTERNS = [(-170, 100), (-340, 60), (-70, -40), (70, -200), (260, 140), (390, -40), (500, -340), (-180, -270), (100, 230), (-330, 170)]
+LANTERNS = [(-170, 100), (-340, 60), (-70, -40), (70, -200), (150, 196), (390, -40), (500, -340), (-180, -270), (100, 230), (-330, 170)]
 CAMPFIRE = (40, 150)
 BENCHES = [(-20, 196), (100, 196)]
 LANTERN_PNG = "assets/sprites/tiles/thornveil/props/trail_lantern.png"

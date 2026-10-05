@@ -51,12 +51,12 @@ ZONES = {
             # the great tree; trails wind between them through the trees.
             ("ellipse", 30, 160, 120, 56),              # the Kettle glade's trodden ground round the fire
             ("line", [(0, 300), (0, 200), (10, 160)], 40),              # the south road in
-            ("line", [(0, 236), (110, 244), (215, 252)], 26),           # to the Copper Kettle
+            ("line", [(0, 236), (120, 224), (262, 210)], 26),           # to the Copper Kettle
             ("line", [(-60, 140), (-180, 110), (-300, 50), (-494, 34)], 24),    # west to the woodcutters' glade
             ("line", [(-300, 60), (-380, 150), (-424, 214)], 22),       # to the family home
             ("line", [(10, 110), (-50, 20), (40, -110), (-20, -220), (0, -306)], 24),  # north, winding up to the elder's glade
             ("line", [(-40, -260), (-200, -290), (-306, -276)], 22),    # to the scribe's
-            ("line", [(100, 150), (170, 96), (230, 40), (240, 20)], 24),   # up to the tree house in the oak glade
+            ("line", [(60, 130), (110, 60), (190, 30), (240, 20)], 24),   # up to the tree house in the oak glade
             ("line", [(330, 96), (370, -40), (450, -186)], 22),         # up to the herbalist's
             ("line", [(460, -200), (540, -330), (600, -440)], 28),      # on to the moss gate
             ("rect", 540, -560, 670, -440),             # the Hollow's pocket

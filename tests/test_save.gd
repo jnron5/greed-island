@@ -34,7 +34,7 @@ func _run() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
-	player.global_position = Vector2(120, -30)
+	player.global_position = Vector2(0, 120)
 	SaveGame.save(true)
 	_check("a save was written", SaveGame.has_save())
 
@@ -50,7 +50,7 @@ func _run() -> void:
 	var scene := get_tree().current_scene
 	_check("back in Sorenda", scene != null and scene.scene_file_path == WorldMap.SORENDA)
 	player = get_tree().get_first_node_in_group(&"player") as Node2D
-	_check("standing where you were", player != null and player.global_position.distance_to(Vector2(120, -30)) < 1.0)
+	_check("standing where you were (%s)" % (player.global_position if player else Vector2.INF), player != null and player.global_position.distance_to(Vector2(0, 120)) < 1.0)
 	var col := GameState.collection(GameState.PLAYER)
 	_check("the rivals you picked", GameState.active_rivals == rivals)
 	_check("loose and bound cards", col.count(&"tide_bell", CardCollection.State.LOOSE) == 1

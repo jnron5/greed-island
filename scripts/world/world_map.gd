@@ -139,7 +139,7 @@ const ZONES := {
 	SORENDA_WOODCUTTER: { "name": "Harl's Cottage", "origin": Vector2(-530, -2258), "monster_drops": [] },
 	SORENDA_FAMILY: { "name": "Pell's Home", "origin": Vector2(-450, -2078), "monster_drops": [] },
 	SORENDA_TREE_HOUSE: { "name": "The Old Tree House", "origin": Vector2(210, -2278), "monster_drops": [] },
-	SORENDA_INN: { "name": "The Copper Kettle", "origin": Vector2(185, -2020), "monster_drops": [] },
+	SORENDA_INN: { "name": "The Copper Kettle", "origin": Vector2(232, -2072), "monster_drops": [] },
 }
 
 ## Town scene -> { spawn marker (under "Spawns") people wake at, the local point

@@ -106,7 +106,7 @@ LIFE = {
         ],
         # Extra open ground (x, y, radius): the Copper Kettle is wider than a home, so
         # its front corners and doorstep stay clear of trees.
-        "clear": [(110, 236, 64), (320, 236, 64), (215, 280, 56), (110, 280, 40),
+        "clear": [(160, 226, 54), (360, 226, 54), (262, 236, 60), (110, 260, 40),
                   # the glades
                   (30, 160, 100), (-60, -300, 130), (-470, 100, 90), (240, -10, 110)],
         "butterflies": [((40, 160), 3), ((-80, -300), 2), ((-470, 90), 2), ((440, -80), 2)],
