@@ -18,7 +18,13 @@ const TITLES := {
 	&"light_on_water": "The Light on the Water",
 	&"millstream": "What the Millstream Carries",
 	&"glowcaps": "Glowcaps for the Fever",
+	&"over_the_top": "The Three Who Went Over",
 }
+## Frisalle (Sven, after his welcome gift): three climbers went over the top of the
+## range when the pass came down; find what became of them (the frozen camp and the
+## old adit in the Starfall Range).
+const CLIMBER_CLUES: Array[String] = ["A frozen camp", "An old adit"]
+const CLIMBERS_REWARD_GOLD := 50
 ## Sorenda (Juniper, after her tonic): three clumps of glowcaps in the Hollow, one in
 ## the grotto, one by the pool past the bear's den, one in the alcove.
 const GLOWCAPS: Array[String] = ["Glowcaps by the grotto wall", "Glowcaps by the still pool", "Glowcaps in the alcove"]
@@ -235,6 +241,24 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					])
 				DONE:
 					return PackedStringArray(["Next time the light blinks, I'm swimming out after the rope. Don't tell the lifeguard."])
+		&"sven":
+			match stage(&"over_the_top"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"When the slide came down, three young ones from the inn decided they'd go over the top instead. Brin, Tova and little Pike. I told them they were fools.",
+						"They took my second-best rope. They never came down the other side.",
+						"You go up and down that range. If you find where they camped, or where they went, come and tell me. Whatever it is.",
+					])
+				1:
+					return PackedStringArray(["High on the west of the range, they'd have camped. And look for anywhere they might have sheltered. (%d/2 found)" % _climbers_found()])
+				2:
+					return PackedStringArray([
+						"Day five, and nothing after. Brin's feet. And the camp left standing, the pack still in it.",
+						"And at the adit: small boots, trodden flat, and new boards on an old mine. They didn't freeze, then. Or not all of them. Somebody took them in, and it wasn't to keep them warm.",
+						"Here. My best rope, and a collar I took off a wolf that thought I was dinner. For the toll. You'll want to keep going places I can't.",
+					])
+				DONE:
+					return PackedStringArray(["I've put three more names on the board in the tower. In pencil. Pencil rubs out."])
 		&"juniper":
 			if Errands.state(&"juniper_tonic") != Errands.DONE:
 				return PackedStringArray()
@@ -350,6 +374,12 @@ func marker_for(npc_id: StringName) -> String:
 				return "!"
 			3:
 				return "?"
+	if npc_id == &"sven":
+		match stage(&"over_the_top"):
+			NOT_STARTED:
+				return "!"
+			2:
+				return "?"
 	if npc_id == &"juniper" and Errands.state(&"juniper_tonic") == Errands.DONE:
 		match stage(&"glowcaps"):
 			NOT_STARTED:
@@ -413,6 +443,18 @@ func talked_to(npc_id: StringName) -> void:
 				GameState.quest_flags[&"knows_bungalow_3"] = true
 				set_stage(&"light_on_water", DONE)
 				EventBus.notify.emit("Quest complete: The Light on the Water (+%d gold, Lockbox Seal)" % LIGHT_REWARD_GOLD)
+		return
+	if npc_id == &"sven":
+		match stage(&"over_the_top"):
+			NOT_STARTED:
+				set_stage(&"over_the_top", 2 if _climbers_found() == CLIMBER_CLUES.size() else 1)
+				EventBus.notify.emit("Quest started: The Three Who Went Over")
+			2:
+				GameState.add_currency(CLIMBERS_REWARD_GOLD)
+				GameState.add_loose_card(GameState.PLAYER, &"iron_wolf_collar")
+				GameState.quest_flags[&"knows_north_workings"] = true
+				set_stage(&"over_the_top", DONE)
+				EventBus.notify.emit("Quest complete: The Three Who Went Over (+%d gold, Iron Wolf Collar)" % CLIMBERS_REWARD_GOLD)
 		return
 	if npc_id == &"juniper" and Errands.state(&"juniper_tonic") == Errands.DONE:
 		match stage(&"glowcaps"):
@@ -536,6 +578,14 @@ func read(title: String, at_night := false) -> void:
 	if title == LIGHT_DOOR and at_night and stage(&"light_on_water") == 2:
 		set_stage(&"light_on_water", 3)
 		EventBus.notify.emit("Tell Sparkle what you found at Bungalow 3")
+	if title in CLIMBER_CLUES and not flag(StringName("climbers:%s" % title)):
+		GameState.quest_flags[StringName("climbers:%s" % title)] = true
+		if stage(&"over_the_top") == 1:
+			if _climbers_found() == CLIMBER_CLUES.size():
+				set_stage(&"over_the_top", 2)
+				EventBus.notify.emit("Tell Sven in Frisalle what you found")
+			else:
+				quest_changed.emit(&"over_the_top", 1)
 	if title in GLOWCAPS and not flag(StringName("glowcap:%s" % title)):
 		GameState.quest_flags[StringName("glowcap:%s" % title)] = true
 		if stage(&"glowcaps") == 1:
@@ -609,6 +659,11 @@ func tracker_text() -> String:
 			lines.append("%s: find the bungalow that answered the light, after dark" % TITLES[&"light_on_water"])
 		3:
 			lines.append("%s: tell Sparkle what you found" % TITLES[&"light_on_water"])
+	match stage(&"over_the_top"):
+		1:
+			lines.append("%s: search the Starfall Range for the climbers (%d/2)" % [TITLES[&"over_the_top"], _climbers_found()])
+		2:
+			lines.append("%s: tell Sven in Frisalle" % TITLES[&"over_the_top"])
 	match stage(&"glowcaps"):
 		1:
 			lines.append("%s: gather the blue glowcaps in the Hollow (%d/3)" % [TITLES[&"glowcaps"], _glowcaps_found()])
@@ -654,6 +709,11 @@ func map_goals() -> Array[String]:
 		add.call(WorldMap.SEABRIGHT)
 	if stage(&"millstream") in [1, 2]:
 		add.call(WorldMap.VERDANA)
+	match stage(&"over_the_top"):
+		1:
+			add.call(WorldMap.STARFALL)
+		2:
+			add.call(WorldMap.FRISALLE)
 	match stage(&"glowcaps"):
 		1:
 			add.call(WorldMap.SORENDA_HOLLOW)
@@ -683,6 +743,10 @@ func map_goals() -> Array[String]:
 
 func _stones_read() -> int:
 	return STONES.keys().filter(func(t: String) -> bool: return flag(StringName("stone:%s" % t))).size()
+
+
+func _climbers_found() -> int:
+	return CLIMBER_CLUES.filter(func(t: String) -> bool: return flag(StringName("climbers:%s" % t))).size()
 
 
 func _glowcaps_found() -> int:

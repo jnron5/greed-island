@@ -216,6 +216,20 @@ func _run() -> void:
 	_check("all three: back to Juniper", Quests.stage(&"glowcaps") == 2 and Quests.marker_for(&"juniper") == "?")
 	Quests.talked_to(&"juniper")
 	_check("Juniper's thanks", Quests.stage(&"glowcaps") == Quests.DONE)
+	# "The Three Who Went Over" (Sven, once he's given you his Frisalle Return).
+	Quests.talked_to(&"sven")
+	_check("Sven's welcome gift comes first", col.count(&"frisalle_return") >= 1 and Quests.marker_for(&"sven") == "!")
+	Quests.talked_to(&"sven")
+	_check("then he asks after the climbers", Quests.stage(&"over_the_top") == 1)
+	var range_zone: Node = load(WorldMap.STARFALL).instantiate()
+	for title in Quests.CLIMBER_CLUES:
+		_check("'%s' is in the Starfall Range" % title, range_zone.get_children().any(func(n: Node) -> bool: return n is Readable and n.title == title))
+		Quests.read(title)
+	range_zone.free()
+	var collars := col.count(&"iron_wolf_collar")
+	_check("both found: back to Sven", Quests.stage(&"over_the_top") == 2 and Quests.marker_for(&"sven") == "?")
+	Quests.talked_to(&"sven")
+	_check("Sven's thanks: a collar for the toll", Quests.stage(&"over_the_top") == Quests.DONE and col.count(&"iron_wolf_collar") == collars + 1)
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)
 
