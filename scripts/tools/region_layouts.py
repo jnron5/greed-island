@@ -767,7 +767,7 @@ RESORT = {
         # café tables at the west end, planters at the head of the boardwalk.
         + [{"sprite": K2 + "props/bench.png", "pos": p, "foot": (36, 8)} for p in [(-220, -84), (-120, -84), (120, -84), (220, -84)]]
         + [{"sprite": K2 + "props/lamp_post.png", "pos": p, "foot": (10, 8), "light": ((1.0, 0.85, 0.6, 1), 0.9, 1.2)}
-           for p in [(-170, -90), (-60, -96), (60, -96), (170, -90)]]
+           for p in [(-170, -90), (170, -90)]]
         + [{"sprite": K2 + "props/parasol_table.png", "pos": p, "foot": (34, 12)} for p in [(-240, -170), (-170, -150), (240, -170)]]
         + [{"sprite": K2 + "props/potted_palm.png", "pos": p, "foot": (16, 8)} for p in [(-42, -110), (42, -110)]]
         # The forecourt: flower beds round the fountain, planters at the hotel's steps.
@@ -792,7 +792,7 @@ RESORT = {
         # boardwalk (posts on its pilings, alternating sides), along both jetties
         # between the bungalows and at their ends, round the fountain, up the hotel road.
         + [{"sprite": K2 + "props/lamp_post.png", "pos": p, "foot": (10, 8), "light": ((1.0, 0.85, 0.6, 1), 0.9, 1.3)}
-           for p in [(-284, -130), (284, -130), (-210, -206), (176, -206), (-284, -214), (284, -214),
+           for p in [(-210, -206), (176, -206), (-284, -214), (284, -214),
                      (-30, 0), (30, 100), (-30, 200),
                      (-340, 428), (-500, 428), (-700, 428), (340, 428), (500, 428), (700, 428),
                      (-190, -300), (190, -300), (430, -272), (500, -108)]]

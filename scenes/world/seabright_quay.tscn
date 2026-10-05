@@ -1682,7 +1682,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop19" type="StaticBody2D" parent="."]
-position = Vector2(-60, -96)
+position = Vector2(170, -90)
 
 [node name="Sprite" type="Sprite2D" parent="Prop19"]
 position = Vector2(0, -37.5)
@@ -1693,46 +1693,6 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight19" type="PointLight2D" parent="."]
-position = Vector2(-60, -116)
-texture_scale = 1.2
-script = ExtResource("8_lamp")
-always_on = true
-max_energy = 0.9
-tint = Color(1.0, 0.85, 0.6, 1)
-flicker = 0.03
-
-[node name="Prop20" type="StaticBody2D" parent="."]
-position = Vector2(60, -96)
-
-[node name="Sprite" type="Sprite2D" parent="Prop20"]
-position = Vector2(0, -37.5)
-texture = ExtResource("r20_lamp_post")
-
-[node name="Base" type="CollisionShape2D" parent="Prop20"]
-position = Vector2(0, -4.0)
-shape = SubResource("R10x8")
-
-[node name="PropLight20" type="PointLight2D" parent="."]
-position = Vector2(60, -116)
-texture_scale = 1.2
-script = ExtResource("8_lamp")
-always_on = true
-max_energy = 0.9
-tint = Color(1.0, 0.85, 0.6, 1)
-flicker = 0.03
-
-[node name="Prop21" type="StaticBody2D" parent="."]
-position = Vector2(170, -90)
-
-[node name="Sprite" type="Sprite2D" parent="Prop21"]
-position = Vector2(0, -37.5)
-texture = ExtResource("r20_lamp_post")
-
-[node name="Base" type="CollisionShape2D" parent="Prop21"]
-position = Vector2(0, -4.0)
-shape = SubResource("R10x8")
-
-[node name="PropLight21" type="PointLight2D" parent="."]
 position = Vector2(170, -110)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
@@ -1741,8 +1701,30 @@ max_energy = 0.9
 tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
-[node name="Prop22" type="StaticBody2D" parent="."]
+[node name="Prop20" type="StaticBody2D" parent="."]
 position = Vector2(-240, -170)
+
+[node name="Sprite" type="Sprite2D" parent="Prop20"]
+position = Vector2(0, -33.5)
+texture = ExtResource("r16_parasol_table")
+
+[node name="Base" type="CollisionShape2D" parent="Prop20"]
+position = Vector2(0, -6.0)
+shape = SubResource("R34x12")
+
+[node name="Prop21" type="StaticBody2D" parent="."]
+position = Vector2(-170, -150)
+
+[node name="Sprite" type="Sprite2D" parent="Prop21"]
+position = Vector2(0, -33.5)
+texture = ExtResource("r16_parasol_table")
+
+[node name="Base" type="CollisionShape2D" parent="Prop21"]
+position = Vector2(0, -6.0)
+shape = SubResource("R34x12")
+
+[node name="Prop22" type="StaticBody2D" parent="."]
+position = Vector2(240, -170)
 
 [node name="Sprite" type="Sprite2D" parent="Prop22"]
 position = Vector2(0, -33.5)
@@ -1753,117 +1735,117 @@ position = Vector2(0, -6.0)
 shape = SubResource("R34x12")
 
 [node name="Prop23" type="StaticBody2D" parent="."]
-position = Vector2(-170, -150)
-
-[node name="Sprite" type="Sprite2D" parent="Prop23"]
-position = Vector2(0, -33.5)
-texture = ExtResource("r16_parasol_table")
-
-[node name="Base" type="CollisionShape2D" parent="Prop23"]
-position = Vector2(0, -6.0)
-shape = SubResource("R34x12")
-
-[node name="Prop24" type="StaticBody2D" parent="."]
-position = Vector2(240, -170)
-
-[node name="Sprite" type="Sprite2D" parent="Prop24"]
-position = Vector2(0, -33.5)
-texture = ExtResource("r16_parasol_table")
-
-[node name="Base" type="CollisionShape2D" parent="Prop24"]
-position = Vector2(0, -6.0)
-shape = SubResource("R34x12")
-
-[node name="Prop25" type="StaticBody2D" parent="."]
 position = Vector2(-42, -110)
 
-[node name="Sprite" type="Sprite2D" parent="Prop25"]
+[node name="Sprite" type="Sprite2D" parent="Prop23"]
 position = Vector2(0, -36.5)
 texture = ExtResource("r21_potted_palm")
+
+[node name="Base" type="CollisionShape2D" parent="Prop23"]
+position = Vector2(0, -4.0)
+shape = SubResource("R16x8")
+
+[node name="Prop24" type="StaticBody2D" parent="."]
+position = Vector2(42, -110)
+
+[node name="Sprite" type="Sprite2D" parent="Prop24"]
+position = Vector2(0, -36.5)
+texture = ExtResource("r21_potted_palm")
+
+[node name="Base" type="CollisionShape2D" parent="Prop24"]
+position = Vector2(0, -4.0)
+shape = SubResource("R16x8")
+
+[node name="Prop25" type="StaticBody2D" parent="."]
+position = Vector2(-110, -310)
+
+[node name="Sprite" type="Sprite2D" parent="Prop25"]
+position = Vector2(0, -30.5)
+texture = ExtResource("r22_flower_bed")
 
 [node name="Base" type="CollisionShape2D" parent="Prop25"]
 position = Vector2(0, -4.0)
-shape = SubResource("R16x8")
+shape = SubResource("R30x8")
 
 [node name="Prop26" type="StaticBody2D" parent="."]
-position = Vector2(42, -110)
+position = Vector2(110, -310)
 
 [node name="Sprite" type="Sprite2D" parent="Prop26"]
-position = Vector2(0, -36.5)
-texture = ExtResource("r21_potted_palm")
+position = Vector2(0, -30.5)
+texture = ExtResource("r22_flower_bed")
 
 [node name="Base" type="CollisionShape2D" parent="Prop26"]
 position = Vector2(0, -4.0)
-shape = SubResource("R16x8")
+shape = SubResource("R30x8")
 
 [node name="Prop27" type="StaticBody2D" parent="."]
-position = Vector2(-110, -310)
+position = Vector2(480, -110)
 
 [node name="Sprite" type="Sprite2D" parent="Prop27"]
-position = Vector2(0, -30.5)
-texture = ExtResource("r22_flower_bed")
+position = Vector2(0, -36.5)
+texture = ExtResource("r21_potted_palm")
 
 [node name="Base" type="CollisionShape2D" parent="Prop27"]
 position = Vector2(0, -4.0)
-shape = SubResource("R30x8")
+shape = SubResource("R16x8")
 
 [node name="Prop28" type="StaticBody2D" parent="."]
-position = Vector2(110, -310)
+position = Vector2(640, -110)
 
 [node name="Sprite" type="Sprite2D" parent="Prop28"]
-position = Vector2(0, -30.5)
-texture = ExtResource("r22_flower_bed")
+position = Vector2(0, -36.5)
+texture = ExtResource("r21_potted_palm")
 
 [node name="Base" type="CollisionShape2D" parent="Prop28"]
 position = Vector2(0, -4.0)
-shape = SubResource("R30x8")
+shape = SubResource("R16x8")
 
 [node name="Prop29" type="StaticBody2D" parent="."]
-position = Vector2(480, -110)
-
-[node name="Sprite" type="Sprite2D" parent="Prop29"]
-position = Vector2(0, -36.5)
-texture = ExtResource("r21_potted_palm")
-
-[node name="Base" type="CollisionShape2D" parent="Prop29"]
-position = Vector2(0, -4.0)
-shape = SubResource("R16x8")
-
-[node name="Prop30" type="StaticBody2D" parent="."]
-position = Vector2(640, -110)
-
-[node name="Sprite" type="Sprite2D" parent="Prop30"]
-position = Vector2(0, -36.5)
-texture = ExtResource("r21_potted_palm")
-
-[node name="Base" type="CollisionShape2D" parent="Prop30"]
-position = Vector2(0, -4.0)
-shape = SubResource("R16x8")
-
-[node name="Prop31" type="StaticBody2D" parent="."]
 position = Vector2(84, 344)
 
-[node name="Sprite" type="Sprite2D" parent="Prop31"]
+[node name="Sprite" type="Sprite2D" parent="Prop29"]
 position = Vector2(0, -50.0)
 texture = ExtResource("r23_kitchen")
 
-[node name="Base" type="CollisionShape2D" parent="Prop31"]
+[node name="Base" type="CollisionShape2D" parent="Prop29"]
 position = Vector2(0, -10.0)
 shape = SubResource("R134x20")
 
-[node name="Prop32" type="StaticBody2D" parent="."]
+[node name="Prop30" type="StaticBody2D" parent="."]
 position = Vector2(-60, 330)
 
-[node name="Sprite" type="Sprite2D" parent="Prop32"]
+[node name="Sprite" type="Sprite2D" parent="Prop30"]
 position = Vector2(0, -21.0)
 texture = ExtResource("r24_notice_board")
 
-[node name="Base" type="CollisionShape2D" parent="Prop32"]
+[node name="Base" type="CollisionShape2D" parent="Prop30"]
 position = Vector2(0, -4.0)
 shape = SubResource("R26x8")
 
-[node name="Prop33" type="StaticBody2D" parent="."]
+[node name="Prop31" type="StaticBody2D" parent="."]
 position = Vector2(-104, 420)
+
+[node name="Sprite" type="Sprite2D" parent="Prop31"]
+position = Vector2(0, -33.5)
+texture = ExtResource("r16_parasol_table")
+
+[node name="Base" type="CollisionShape2D" parent="Prop31"]
+position = Vector2(0, -6.0)
+shape = SubResource("R34x12")
+
+[node name="Prop32" type="StaticBody2D" parent="."]
+position = Vector2(104, 440)
+
+[node name="Sprite" type="Sprite2D" parent="Prop32"]
+position = Vector2(0, -33.5)
+texture = ExtResource("r16_parasol_table")
+
+[node name="Base" type="CollisionShape2D" parent="Prop32"]
+position = Vector2(0, -6.0)
+shape = SubResource("R34x12")
+
+[node name="Prop33" type="StaticBody2D" parent="."]
+position = Vector2(-104, 516)
 
 [node name="Sprite" type="Sprite2D" parent="Prop33"]
 position = Vector2(0, -33.5)
@@ -1874,7 +1856,7 @@ position = Vector2(0, -6.0)
 shape = SubResource("R34x12")
 
 [node name="Prop34" type="StaticBody2D" parent="."]
-position = Vector2(104, 440)
+position = Vector2(104, 516)
 
 [node name="Sprite" type="Sprite2D" parent="Prop34"]
 position = Vector2(0, -33.5)
@@ -1885,29 +1867,47 @@ position = Vector2(0, -6.0)
 shape = SubResource("R34x12")
 
 [node name="Prop35" type="StaticBody2D" parent="."]
-position = Vector2(-104, 516)
+position = Vector2(-148, 316)
 
 [node name="Sprite" type="Sprite2D" parent="Prop35"]
-position = Vector2(0, -33.5)
-texture = ExtResource("r16_parasol_table")
+position = Vector2(0, -37.5)
+texture = ExtResource("r20_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="Prop35"]
-position = Vector2(0, -6.0)
-shape = SubResource("R34x12")
+position = Vector2(0, -4.0)
+shape = SubResource("R10x8")
+
+[node name="PropLight35" type="PointLight2D" parent="."]
+position = Vector2(-148, 296)
+texture_scale = 1.2
+script = ExtResource("8_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(1.0, 0.85, 0.6, 1)
+flicker = 0.03
 
 [node name="Prop36" type="StaticBody2D" parent="."]
-position = Vector2(104, 516)
+position = Vector2(148, 366)
 
 [node name="Sprite" type="Sprite2D" parent="Prop36"]
-position = Vector2(0, -33.5)
-texture = ExtResource("r16_parasol_table")
+position = Vector2(0, -37.5)
+texture = ExtResource("r20_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="Prop36"]
-position = Vector2(0, -6.0)
-shape = SubResource("R34x12")
+position = Vector2(0, -4.0)
+shape = SubResource("R10x8")
+
+[node name="PropLight36" type="PointLight2D" parent="."]
+position = Vector2(148, 346)
+texture_scale = 1.2
+script = ExtResource("8_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(1.0, 0.85, 0.6, 1)
+flicker = 0.03
 
 [node name="Prop37" type="StaticBody2D" parent="."]
-position = Vector2(-148, 316)
+position = Vector2(-148, 534)
 
 [node name="Sprite" type="Sprite2D" parent="Prop37"]
 position = Vector2(0, -37.5)
@@ -1918,7 +1918,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight37" type="PointLight2D" parent="."]
-position = Vector2(-148, 296)
+position = Vector2(-148, 514)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 always_on = true
@@ -1927,7 +1927,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop38" type="StaticBody2D" parent="."]
-position = Vector2(148, 366)
+position = Vector2(148, 534)
 
 [node name="Sprite" type="Sprite2D" parent="Prop38"]
 position = Vector2(0, -37.5)
@@ -1938,46 +1938,6 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight38" type="PointLight2D" parent="."]
-position = Vector2(148, 346)
-texture_scale = 1.2
-script = ExtResource("8_lamp")
-always_on = true
-max_energy = 0.9
-tint = Color(1.0, 0.85, 0.6, 1)
-flicker = 0.03
-
-[node name="Prop39" type="StaticBody2D" parent="."]
-position = Vector2(-148, 534)
-
-[node name="Sprite" type="Sprite2D" parent="Prop39"]
-position = Vector2(0, -37.5)
-texture = ExtResource("r20_lamp_post")
-
-[node name="Base" type="CollisionShape2D" parent="Prop39"]
-position = Vector2(0, -4.0)
-shape = SubResource("R10x8")
-
-[node name="PropLight39" type="PointLight2D" parent="."]
-position = Vector2(-148, 514)
-texture_scale = 1.2
-script = ExtResource("8_lamp")
-always_on = true
-max_energy = 0.9
-tint = Color(1.0, 0.85, 0.6, 1)
-flicker = 0.03
-
-[node name="Prop40" type="StaticBody2D" parent="."]
-position = Vector2(148, 534)
-
-[node name="Sprite" type="Sprite2D" parent="Prop40"]
-position = Vector2(0, -37.5)
-texture = ExtResource("r20_lamp_post")
-
-[node name="Base" type="CollisionShape2D" parent="Prop40"]
-position = Vector2(0, -4.0)
-shape = SubResource("R10x8")
-
-[node name="PropLight40" type="PointLight2D" parent="."]
 position = Vector2(148, 514)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
@@ -1986,63 +1946,103 @@ max_energy = 0.9
 tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
-[node name="Prop41" type="StaticBody2D" parent="."]
+[node name="Prop39" type="StaticBody2D" parent="."]
 position = Vector2(-30, 316)
 
-[node name="Sprite" type="Sprite2D" parent="Prop41"]
+[node name="Sprite" type="Sprite2D" parent="Prop39"]
 position = Vector2(0, -36.5)
 texture = ExtResource("r21_potted_palm")
 
-[node name="Base" type="CollisionShape2D" parent="Prop41"]
+[node name="Base" type="CollisionShape2D" parent="Prop39"]
 position = Vector2(0, -4.0)
 shape = SubResource("R16x8")
 
-[node name="Prop42" type="StaticBody2D" parent="."]
+[node name="Prop40" type="StaticBody2D" parent="."]
 position = Vector2(30, 316)
 
-[node name="Sprite" type="Sprite2D" parent="Prop42"]
+[node name="Sprite" type="Sprite2D" parent="Prop40"]
 position = Vector2(0, -36.5)
 texture = ExtResource("r21_potted_palm")
+
+[node name="Base" type="CollisionShape2D" parent="Prop40"]
+position = Vector2(0, -4.0)
+shape = SubResource("R16x8")
+
+[node name="Prop41" type="StaticBody2D" parent="."]
+position = Vector2(-640, 412)
+
+[node name="Sprite" type="Sprite2D" parent="Prop41"]
+position = Vector2(0, -29.5)
+texture = ExtResource("r25_fish_crates")
+
+[node name="Base" type="CollisionShape2D" parent="Prop41"]
+position = Vector2(0, -4.0)
+shape = SubResource("R26x8")
+
+[node name="Prop42" type="StaticBody2D" parent="."]
+position = Vector2(600, 34)
+
+[node name="Sprite" type="Sprite2D" parent="Prop42"]
+position = Vector2(0, -30.0)
+texture = ExtResource("r26_telescope")
 
 [node name="Base" type="CollisionShape2D" parent="Prop42"]
 position = Vector2(0, -4.0)
 shape = SubResource("R16x8")
 
 [node name="Prop43" type="StaticBody2D" parent="."]
-position = Vector2(-640, 412)
+position = Vector2(650, 60)
 
 [node name="Sprite" type="Sprite2D" parent="Prop43"]
 position = Vector2(0, -29.5)
-texture = ExtResource("r25_fish_crates")
+texture = ExtResource("r19_bench")
 
 [node name="Base" type="CollisionShape2D" parent="Prop43"]
 position = Vector2(0, -4.0)
-shape = SubResource("R26x8")
+shape = SubResource("R36x8")
 
 [node name="Prop44" type="StaticBody2D" parent="."]
-position = Vector2(600, 34)
+position = Vector2(-210, -206)
 
 [node name="Sprite" type="Sprite2D" parent="Prop44"]
-position = Vector2(0, -30.0)
-texture = ExtResource("r26_telescope")
+position = Vector2(0, -37.5)
+texture = ExtResource("r20_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="Prop44"]
 position = Vector2(0, -4.0)
-shape = SubResource("R16x8")
+shape = SubResource("R10x8")
+
+[node name="PropLight44" type="PointLight2D" parent="."]
+position = Vector2(-210, -226)
+texture_scale = 1.3
+script = ExtResource("8_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(1.0, 0.85, 0.6, 1)
+flicker = 0.03
 
 [node name="Prop45" type="StaticBody2D" parent="."]
-position = Vector2(650, 60)
+position = Vector2(176, -206)
 
 [node name="Sprite" type="Sprite2D" parent="Prop45"]
-position = Vector2(0, -29.5)
-texture = ExtResource("r19_bench")
+position = Vector2(0, -37.5)
+texture = ExtResource("r20_lamp_post")
 
 [node name="Base" type="CollisionShape2D" parent="Prop45"]
 position = Vector2(0, -4.0)
-shape = SubResource("R36x8")
+shape = SubResource("R10x8")
+
+[node name="PropLight45" type="PointLight2D" parent="."]
+position = Vector2(176, -226)
+texture_scale = 1.3
+script = ExtResource("8_lamp")
+always_on = true
+max_energy = 0.9
+tint = Color(1.0, 0.85, 0.6, 1)
+flicker = 0.03
 
 [node name="Prop46" type="StaticBody2D" parent="."]
-position = Vector2(-284, -130)
+position = Vector2(-284, -214)
 
 [node name="Sprite" type="Sprite2D" parent="Prop46"]
 position = Vector2(0, -37.5)
@@ -2053,7 +2053,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight46" type="PointLight2D" parent="."]
-position = Vector2(-284, -150)
+position = Vector2(-284, -234)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2062,7 +2062,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop47" type="StaticBody2D" parent="."]
-position = Vector2(284, -130)
+position = Vector2(284, -214)
 
 [node name="Sprite" type="Sprite2D" parent="Prop47"]
 position = Vector2(0, -37.5)
@@ -2073,7 +2073,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight47" type="PointLight2D" parent="."]
-position = Vector2(284, -150)
+position = Vector2(284, -234)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2082,7 +2082,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop48" type="StaticBody2D" parent="."]
-position = Vector2(-210, -206)
+position = Vector2(-30, 0)
 
 [node name="Sprite" type="Sprite2D" parent="Prop48"]
 position = Vector2(0, -37.5)
@@ -2093,7 +2093,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight48" type="PointLight2D" parent="."]
-position = Vector2(-210, -226)
+position = Vector2(-30, -20)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2102,7 +2102,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop49" type="StaticBody2D" parent="."]
-position = Vector2(176, -206)
+position = Vector2(30, 100)
 
 [node name="Sprite" type="Sprite2D" parent="Prop49"]
 position = Vector2(0, -37.5)
@@ -2113,7 +2113,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight49" type="PointLight2D" parent="."]
-position = Vector2(176, -226)
+position = Vector2(30, 80)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2122,7 +2122,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop50" type="StaticBody2D" parent="."]
-position = Vector2(-284, -214)
+position = Vector2(-30, 200)
 
 [node name="Sprite" type="Sprite2D" parent="Prop50"]
 position = Vector2(0, -37.5)
@@ -2133,7 +2133,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight50" type="PointLight2D" parent="."]
-position = Vector2(-284, -234)
+position = Vector2(-30, 180)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2142,7 +2142,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop51" type="StaticBody2D" parent="."]
-position = Vector2(284, -214)
+position = Vector2(-340, 428)
 
 [node name="Sprite" type="Sprite2D" parent="Prop51"]
 position = Vector2(0, -37.5)
@@ -2153,7 +2153,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight51" type="PointLight2D" parent="."]
-position = Vector2(284, -234)
+position = Vector2(-340, 408)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2162,7 +2162,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop52" type="StaticBody2D" parent="."]
-position = Vector2(-30, 0)
+position = Vector2(-500, 428)
 
 [node name="Sprite" type="Sprite2D" parent="Prop52"]
 position = Vector2(0, -37.5)
@@ -2173,7 +2173,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight52" type="PointLight2D" parent="."]
-position = Vector2(-30, -20)
+position = Vector2(-500, 408)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2182,7 +2182,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop53" type="StaticBody2D" parent="."]
-position = Vector2(30, 100)
+position = Vector2(-700, 428)
 
 [node name="Sprite" type="Sprite2D" parent="Prop53"]
 position = Vector2(0, -37.5)
@@ -2193,7 +2193,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight53" type="PointLight2D" parent="."]
-position = Vector2(30, 80)
+position = Vector2(-700, 408)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2202,7 +2202,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop54" type="StaticBody2D" parent="."]
-position = Vector2(-30, 200)
+position = Vector2(340, 428)
 
 [node name="Sprite" type="Sprite2D" parent="Prop54"]
 position = Vector2(0, -37.5)
@@ -2213,7 +2213,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight54" type="PointLight2D" parent="."]
-position = Vector2(-30, 180)
+position = Vector2(340, 408)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2222,7 +2222,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop55" type="StaticBody2D" parent="."]
-position = Vector2(-340, 428)
+position = Vector2(500, 428)
 
 [node name="Sprite" type="Sprite2D" parent="Prop55"]
 position = Vector2(0, -37.5)
@@ -2233,7 +2233,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight55" type="PointLight2D" parent="."]
-position = Vector2(-340, 408)
+position = Vector2(500, 408)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2242,7 +2242,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop56" type="StaticBody2D" parent="."]
-position = Vector2(-500, 428)
+position = Vector2(700, 428)
 
 [node name="Sprite" type="Sprite2D" parent="Prop56"]
 position = Vector2(0, -37.5)
@@ -2253,7 +2253,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight56" type="PointLight2D" parent="."]
-position = Vector2(-500, 408)
+position = Vector2(700, 408)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2262,7 +2262,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop57" type="StaticBody2D" parent="."]
-position = Vector2(-700, 428)
+position = Vector2(-190, -300)
 
 [node name="Sprite" type="Sprite2D" parent="Prop57"]
 position = Vector2(0, -37.5)
@@ -2273,7 +2273,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight57" type="PointLight2D" parent="."]
-position = Vector2(-700, 408)
+position = Vector2(-190, -320)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2282,7 +2282,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop58" type="StaticBody2D" parent="."]
-position = Vector2(340, 428)
+position = Vector2(190, -300)
 
 [node name="Sprite" type="Sprite2D" parent="Prop58"]
 position = Vector2(0, -37.5)
@@ -2293,7 +2293,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight58" type="PointLight2D" parent="."]
-position = Vector2(340, 408)
+position = Vector2(190, -320)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2302,7 +2302,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop59" type="StaticBody2D" parent="."]
-position = Vector2(500, 428)
+position = Vector2(430, -272)
 
 [node name="Sprite" type="Sprite2D" parent="Prop59"]
 position = Vector2(0, -37.5)
@@ -2313,7 +2313,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight59" type="PointLight2D" parent="."]
-position = Vector2(500, 408)
+position = Vector2(430, -292)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
 always_on = true
@@ -2322,7 +2322,7 @@ tint = Color(1.0, 0.85, 0.6, 1)
 flicker = 0.03
 
 [node name="Prop60" type="StaticBody2D" parent="."]
-position = Vector2(700, 428)
+position = Vector2(500, -108)
 
 [node name="Sprite" type="Sprite2D" parent="Prop60"]
 position = Vector2(0, -37.5)
@@ -2333,86 +2333,6 @@ position = Vector2(0, -4.0)
 shape = SubResource("R10x8")
 
 [node name="PropLight60" type="PointLight2D" parent="."]
-position = Vector2(700, 408)
-texture_scale = 1.3
-script = ExtResource("8_lamp")
-always_on = true
-max_energy = 0.9
-tint = Color(1.0, 0.85, 0.6, 1)
-flicker = 0.03
-
-[node name="Prop61" type="StaticBody2D" parent="."]
-position = Vector2(-190, -300)
-
-[node name="Sprite" type="Sprite2D" parent="Prop61"]
-position = Vector2(0, -37.5)
-texture = ExtResource("r20_lamp_post")
-
-[node name="Base" type="CollisionShape2D" parent="Prop61"]
-position = Vector2(0, -4.0)
-shape = SubResource("R10x8")
-
-[node name="PropLight61" type="PointLight2D" parent="."]
-position = Vector2(-190, -320)
-texture_scale = 1.3
-script = ExtResource("8_lamp")
-always_on = true
-max_energy = 0.9
-tint = Color(1.0, 0.85, 0.6, 1)
-flicker = 0.03
-
-[node name="Prop62" type="StaticBody2D" parent="."]
-position = Vector2(190, -300)
-
-[node name="Sprite" type="Sprite2D" parent="Prop62"]
-position = Vector2(0, -37.5)
-texture = ExtResource("r20_lamp_post")
-
-[node name="Base" type="CollisionShape2D" parent="Prop62"]
-position = Vector2(0, -4.0)
-shape = SubResource("R10x8")
-
-[node name="PropLight62" type="PointLight2D" parent="."]
-position = Vector2(190, -320)
-texture_scale = 1.3
-script = ExtResource("8_lamp")
-always_on = true
-max_energy = 0.9
-tint = Color(1.0, 0.85, 0.6, 1)
-flicker = 0.03
-
-[node name="Prop63" type="StaticBody2D" parent="."]
-position = Vector2(430, -272)
-
-[node name="Sprite" type="Sprite2D" parent="Prop63"]
-position = Vector2(0, -37.5)
-texture = ExtResource("r20_lamp_post")
-
-[node name="Base" type="CollisionShape2D" parent="Prop63"]
-position = Vector2(0, -4.0)
-shape = SubResource("R10x8")
-
-[node name="PropLight63" type="PointLight2D" parent="."]
-position = Vector2(430, -292)
-texture_scale = 1.3
-script = ExtResource("8_lamp")
-always_on = true
-max_energy = 0.9
-tint = Color(1.0, 0.85, 0.6, 1)
-flicker = 0.03
-
-[node name="Prop64" type="StaticBody2D" parent="."]
-position = Vector2(500, -108)
-
-[node name="Sprite" type="Sprite2D" parent="Prop64"]
-position = Vector2(0, -37.5)
-texture = ExtResource("r20_lamp_post")
-
-[node name="Base" type="CollisionShape2D" parent="Prop64"]
-position = Vector2(0, -4.0)
-shape = SubResource("R10x8")
-
-[node name="PropLight64" type="PointLight2D" parent="."]
 position = Vector2(500, -128)
 texture_scale = 1.3
 script = ExtResource("8_lamp")
