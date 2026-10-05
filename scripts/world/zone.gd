@@ -62,6 +62,8 @@ func _ready() -> void:
 	if player:
 		SaveGame.place_player(player)
 	_limit_camera(player)
+	_wall_edges()
+	_see_through()
 	# Every zone can talk: residents, signs and readables need the dialogue box.
 	if get_tree().get_first_node_in_group(&"dialogue_box") == null:
 		add_child(preload("res://scenes/ui/dialogue_box.tscn").instantiate())
@@ -79,6 +81,83 @@ func _ready() -> void:
 			spawn_rival(id)
 	if display_name != "":
 		EventBus.area_entered.emit(display_name, interior)
+
+
+## Tall things the player can walk behind (buildings, big trees: a body with a sprite
+## taller than SEE_THROUGH_HEIGHT) fade while they do (SeeThrough).
+const SEE_THROUGH_HEIGHT := 80.0
+
+
+func _see_through() -> void:
+	if interior:
+		return
+	for body in get_children():
+		if not body is StaticBody2D:
+			continue
+		for child in body.get_children():
+			var tall := false
+			if child is Sprite2D and (child as Sprite2D).texture:
+				tall = (child as Sprite2D).get_rect().size.y * absf((child as Sprite2D).scale.y) > SEE_THROUGH_HEIGHT
+			elif child is AnimatedSprite2D and (child as AnimatedSprite2D).sprite_frames:
+				var a := child as AnimatedSprite2D
+				var tex := a.sprite_frames.get_frame_texture(a.animation, 0)
+				tall = tex != null and tex.get_height() * absf(a.scale.y * (body as Node2D).scale.y) > SEE_THROUGH_HEIGHT
+			if tall:
+				child.add_child(SeeThrough.new())
+				break
+
+
+## Walls the zone in just outside its painted ground, leaving openings only where
+## an edge exit is (each as wide as the exit's band, ZoneExit.EDGE_SPAN), so nobody
+## wanders off the map and every way out is the exit itself.
+func _wall_edges() -> void:
+	var rect := ground_rect()
+	if interior or not rect.has_area():
+		return
+	const THICK := 64.0
+	var gaps := { Vector2.LEFT: [], Vector2.RIGHT: [], Vector2.UP: [], Vector2.DOWN: [] }
+	for node in get_children():
+		var exit := node as ZoneExit
+		if exit and exit.edge_side != Vector2.ZERO:
+			var along := exit.position.y if exit.edge_side.x != 0 else exit.position.x
+			gaps[exit.edge_side].append(Vector2(along - ZoneExit.EDGE_SPAN / 2.0, along + ZoneExit.EDGE_SPAN / 2.0))
+	var body := StaticBody2D.new()
+	body.name = "EdgeWalls"
+	for side: Vector2 in gaps:
+		var horizontal := side.y != 0
+		var lo := (rect.position.x if horizontal else rect.position.y) - THICK
+		var hi := (rect.end.x if horizontal else rect.end.y) + THICK
+		var spans: Array = gaps[side]
+		spans.sort_custom(func(a: Vector2, b: Vector2) -> bool: return a.x < b.x)
+		var pieces: Array[Vector2] = []
+		var at := lo
+		for gap: Vector2 in spans:
+			if gap.x > at:
+				pieces.append(Vector2(at, gap.x))
+			at = maxf(at, gap.y)
+		if at < hi:
+			pieces.append(Vector2(at, hi))
+		for piece in pieces:
+			var box := RectangleShape2D.new()
+			var shape := CollisionShape2D.new()
+			var across: float
+			match side:
+				Vector2.LEFT: across = rect.position.x - THICK / 2.0
+				Vector2.RIGHT: across = rect.end.x + THICK / 2.0
+				Vector2.UP: across = rect.position.y - THICK / 2.0
+				_: across = rect.end.y + THICK / 2.0
+			var mid := (piece.x + piece.y) / 2.0
+			box.size = Vector2(piece.y - piece.x, THICK) if horizontal else Vector2(THICK, piece.y - piece.x)
+			shape.position = Vector2(mid, across) if horizontal else Vector2(across, mid)
+			shape.shape = box
+			body.add_child(shape)
+	add_child(body)
+
+
+## The painted ground's area in zone coordinates (empty if there's none).
+func ground_rect() -> Rect2:
+	var ground := _ground_sprite()
+	return _ground_rect(ground) if ground else Rect2()
 
 
 ## Keeps the player's camera over the painted ground (no grey void past the edges).
