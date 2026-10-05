@@ -18,7 +18,7 @@ const LONG_BAR := preload("res://assets/ui/bar_long.png")
 const COIN := preload("res://assets/ui/medal_star.png")
 const SLOT := preload("res://assets/ui/slot.png")
 const BAR_FILL := Rect2(15, 5, 37, 4)        # inside bar_heart.png
-const HINT := "J Sword   K Pistol   Space Dash   Q Pickpocket   E Talk/Steal   H Heal   B Binder   I Items"
+const HINT := "J Sword   K Pistol   Space Dash   Q Pickpocket   E Talk/Steal   H Heal   B Menu, Tab to turn pages"
 
 var health_label: Label
 var currency_label: Label

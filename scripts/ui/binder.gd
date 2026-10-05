@@ -8,8 +8,8 @@ extends CanvasLayer
 ## take out, lock or use it. Binding is instant in towns and slower in the field.
 ## The character menu has three pages, picked by the tabs along its top: the Binder,
 ## Items (the satchel: bread, tonics and the like, used here to heal) and the Journal
-## (every quest and favour, running and finished; pick the one the HUD shows). B opens
-## the binder page, I the items page, J the journal, Tab cycles.
+## (every quest and favour, running and finished; pick the one the HUD shows). One key
+## (B) opens it, Tab cycles the pages.
 
 const BINDER := preload("res://assets/ui/binder.png")
 const SLOT := preload("res://assets/ui/slot.png")
@@ -100,20 +100,14 @@ func close() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_open:
-		if GameState.menus_open == 0 and (event.is_action_pressed(&"binder") or event.is_action_pressed(&"items") or _is_key(event, KEY_J)):
-			open(1 if event.is_action_pressed(&"items") else (2 if _is_key(event, KEY_J) else 0))
+		if GameState.menus_open == 0 and event.is_action_pressed(&"binder"):
+			open(page)
 			get_viewport().set_input_as_handled()
 		return
 	get_viewport().set_input_as_handled()
-	# Tab cycles the pages; I jumps to the satchel, J to the journal.
+	# Tab cycles the pages (it opens on the page you left it on).
 	if _is_key(event, KEY_TAB):
 		_set_page((page + 1) % 3)
-		return
-	if page != 1 and event.is_action_pressed(&"items"):
-		_set_page(1)
-		return
-	if page != 2 and _is_key(event, KEY_J):
-		_set_page(2)
 		return
 	if page == 1:
 		_items_input(event)
@@ -728,8 +722,7 @@ func _use_selected() -> void:
 
 
 func _items_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"pause") or event.is_action_pressed(&"binder") or event.is_action_pressed(&"items") \
-			or event.is_action_pressed(&"ui_cancel"):
+	if event.is_action_pressed(&"pause") or event.is_action_pressed(&"binder") or event.is_action_pressed(&"ui_cancel"):
 		close()
 	elif event.is_action_pressed(&"ui_accept") or event.is_action_pressed(&"interact"):
 		_use_selected()
