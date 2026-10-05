@@ -597,18 +597,19 @@ NPCS = [
     ("nonna", "Nonna Vess", "nonna", (744, 424), 0, [
         "I've danced in this square every night for sixty years. Tonight I'm sitting. Tomorrow, who knows.",
     ]),
-    ("wen", "Wen", "wen", (796, 548), 22, [
+    ("wen", "Wen", "wen", (1316, 586), 22, [
         "Mama says I can stay up till the lanterns go blue. They never go blue. I checked.",
     ]),
-    ("ilse", "Ilse", "ilse", (838, 492), 10, [
+    ("ilse", "Ilse", "ilse", (900, 446), 10, [
         "I map the island by day and the gossip by night. The gossip's more accurate.",
     ]),
-    ("brannoc", "Brannoc", "brannoc", (706, 530), 8, [
+    ("brannoc", "Brannoc", "brannoc", (962, 446), 8, [
         "Coals are banked, anvil's cold. One cider. Then another one. Then home.",
     ]),
 ]
-# Kalmora's Lantern Night: every night the town comes out to the fountain square under
-# the strings of lanterns and stays out till the small hours.
+# Kalmora's Lantern Night: every night the town comes out and stays out till the small
+# hours, all over: a fish fry on the quay, dancing on the beach, the market lane under
+# its lanterns, the tavern terrace, Nonna by the fountain.
 PARTY_HOURS = (20.0, 2.0)
 GUEST_HOURS = {"nonna": (20.0, 23.0), "wen": (20.0, 22.5), "ilse": PARTY_HOURS, "brannoc": PARTY_HOURS}
 NIGHT_LINES = {
@@ -620,6 +621,8 @@ NIGHT_LINES = {
             "My cousin used to dance on the fountain rim. Before Duskara. He was the best of us."],
     "baker": ["Honey buns, still warm. The dough rises while we dance. Bakers' secret.",
               "Rosa's rule: nobody goes home hungry and nobody goes home before the song about the gull."],
+    "rook": ["Going out the north road? At this hour? The forest's savage after dark. Red-eyed hounds, twice as tough.",
+             "Night watch. The town parties, I stand here. Somebody has to keep what's out there, out there."],
     "mirela": ["Somebody has to keep one eye on the quay. I keep the other one on the cider.",
                "Party all you like. Anything that lands tonight still gets a stamp. Tomorrow."],
 }
@@ -643,11 +646,11 @@ CHATTER = {
 OUT_HOURS = {"bram": (6.5, 2.0), "sailor": (6.5, 2.0), "pip": (6.0, 2.0), "baker": (5.0, 2.0), "tomas": (6.0, 19.5),
              **GUEST_HOURS}
 NIGHT_SPOTS = {
-    "bram": ((726, 466), 14),      # round the fountain, under the lanterns
-    "sailor": ((812, 520), 26),    # dancing
-    "pip": ((744, 526), 12),       # with a grill of fish on sticks
-    "baker": ((822, 444), 8),      # honey buns from a basket
-    "mirela": ((700, 492), 10),    # at the edge, one eye on the quay
+    "bram": ((610, 716), 16),      # a fish fry on the quay with the dockhands
+    "sailor": ((1290, 650), 24),   # dancing on the beach
+    "pip": ((1250, 650), 10),      # grilling fish on sticks by the beach shrine's candles
+    "baker": ((980, 606), 8),      # honey buns from her stall in the lantern-lit market lane
+    "mirela": ((530, 722), 10),    # one eye on the quay, the other on Bram's fish
     "rook": ((780, 108), 20),      # the guard walks the north gate under its lamp
 }
 # The unmarked shipment: three crates piled on the quay, where Bram works.

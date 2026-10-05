@@ -3058,8 +3058,8 @@ out_to = 2.0
 night_lines = PackedStringArray("No crates tonight. Tonight the crates can carry themselves. Another round!", "Night tide's coming in. Don't look at the pier. Look at the lanterns. Lanterns are nice.")
 chatter = PackedStringArray("To Kalmora!", "Another round!", "Otto! The good cider!")
 has_night_spot = true
-night_spot = Vector2(-72, -84)
-night_wander = 14.0
+night_spot = Vector2(-234, 266)
+night_wander = 16.0
 
 [node name="Npc_mirela" parent="." instance=ExtResource("19_npc")]
 position = Vector2(-402, 261)
@@ -3071,7 +3071,7 @@ wander_radius = 0.0
 night_lines = PackedStringArray("Somebody has to keep one eye on the quay. I keep the other one on the cider.", "Party all you like. Anything that lands tonight still gets a stamp. Tomorrow.")
 chatter = PackedStringArray("Not on the fountain, Luca.", "Hmph.", "One more song, then bed.")
 has_night_spot = true
-night_spot = Vector2(-108, -47)
+night_spot = Vector2(-346, 275)
 night_wander = 10.0
 
 [node name="Npc_pip" parent="." instance=ExtResource("19_npc")]
@@ -3086,8 +3086,8 @@ out_to = 2.0
 night_lines = PackedStringArray("Grilled fish on a stick! Fresh-ish! Half price after midnight because I want to dance!", "My cousin used to dance on the fountain rim. Before Duskara. He was the best of us.")
 chatter = PackedStringArray("Fish on a stick!", "Half price!", "~ la la la ~")
 has_night_spot = true
-night_spot = Vector2(-46, 0)
-night_wander = 12.0
+night_spot = Vector2(662, 174)
+night_wander = 10.0
 
 [node name="Npc_sailor" parent="." instance=ExtResource("19_npc")]
 position = Vector2(4, 300)
@@ -3102,8 +3102,8 @@ out_to = 2.0
 night_lines = PackedStringArray("Dance with me, racer! No? Coward. Come back when you've had a cider.", "Lantern Night, every night! The only port on the island that knows how to end a day.")
 chatter = PackedStringArray("~ Oh the gull, the gull ~", "Who's dancing?", "Faster, faster!")
 has_night_spot = true
-night_spot = Vector2(49, -8)
-night_wander = 26.0
+night_spot = Vector2(718, 174)
+night_wander = 24.0
 
 [node name="Npc_baker" parent="." instance=ExtResource("19_npc")]
 position = Vector2(376, 196)
@@ -3118,7 +3118,7 @@ out_to = 2.0
 night_lines = PackedStringArray("Honey buns, still warm. The dough rises while we dance. Bakers' secret.", "Rosa's rule: nobody goes home hungry and nobody goes home before the song about the gull.")
 chatter = PackedStringArray("Honey buns!", "Mind the crumbs!", "Who wants the last one?")
 has_night_spot = true
-night_spot = Vector2(63, -114)
+night_spot = Vector2(284, 112)
 night_wander = 8.0
 
 [node name="Npc_tomas" parent="." instance=ExtResource("19_npc")]
@@ -3138,6 +3138,7 @@ display_name = "Guard Rook"
 sprite_frames = ExtResource("n_rook")
 lines = PackedStringArray("North road's sealed. A Salt Compass opens it. Old rule, nobody remembers why.", "Thornveil's no place to wander with loose cards. The hounds don't care, but the Raider does.")
 wander_radius = 0.0
+night_lines = PackedStringArray("Going out the north road? At this hour? The forest's savage after dark. Red-eyed hounds, twice as tough.", "Night watch. The town parties, I stand here. Somebody has to keep what's out there, out there.")
 has_night_spot = true
 night_spot = Vector2(4, -585)
 night_wander = 20.0
@@ -3154,7 +3155,7 @@ out_to = 23.0
 chatter = PackedStringArray("In my day we danced till dawn!", "Lovely lanterns.", "Mind your feet, dear.")
 
 [node name="Npc_wen" parent="." instance=ExtResource("19_npc")]
-position = Vector2(26, 31)
+position = Vector2(754, 84)
 npc_id = &"wen"
 display_name = "Wen"
 sprite_frames = ExtResource("n_wen")
@@ -3165,7 +3166,7 @@ out_to = 22.5
 chatter = PackedStringArray("I'm not tired!", "Look, a shooting star!", "~ the gull, the gull ~")
 
 [node name="Npc_ilse" parent="." instance=ExtResource("19_npc")]
-position = Vector2(85, -47)
+position = Vector2(172, -112)
 npc_id = &"ilse"
 display_name = "Ilse"
 sprite_frames = ExtResource("n_ilse")
@@ -3176,7 +3177,7 @@ out_to = 2.0
 chatter = PackedStringArray("Did you hear about the Duke?", "Don't tell anyone I said so.", "Another cider?")
 
 [node name="Npc_brannoc" parent="." instance=ExtResource("19_npc")]
-position = Vector2(-100, 6)
+position = Vector2(259, -112)
 npc_id = &"brannoc"
 display_name = "Brannoc"
 sprite_frames = ExtResource("n_brannoc")
@@ -5050,7 +5051,7 @@ position = Vector2(0, -4.0)
 shape = SubResource("R12x8")
 
 [node name="P16_banner" type="StaticBody2D" parent="."]
-position = Vector2(-102, 26)
+position = Vector2(-108, 20)
 
 [node name="Sprite" type="Sprite2D" parent="P16_banner"]
 position = Vector2(0, -39.5)
