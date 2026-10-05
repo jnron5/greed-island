@@ -136,7 +136,7 @@ AUREWIND = {
         + fence_row(820, 1100, 190, gap_at=(900,)) + fence_row(820, 1100, 630, gap_at=(1000,))
         # The dune road, closed: a rockfall across it and a broken ore cart.
         + [{"sprite": BOULDER, "pos": p, "foot": (40, 18), "scale": 1.4} for p in [(-1180, 104), (-1170, 146), (-1186, 190), (-1140, 124)]]
-        + [{"sprite": KP + "cart.png", "pos": (-1080, 206), "foot": (44, 14), "flip": True}]
+        + [{"sprite": KP + "cart.png", "pos": (-1080, 206), "foot": (28, 12), "flip": True}]
         # Tilly's sheepfold: a dry-stone pen by the road, open to the south.
         + wall_row(-270, -30, -260) + wall_row(-270, -30, -50, gap_at=(-150,)) + wall_col(-270, -260, -50) + wall_col(-30, -260, -50)
         # The old watchtower on Kestrel Rise.

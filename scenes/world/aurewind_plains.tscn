@@ -215,8 +215,8 @@ size = Vector2(16, 6)
 [sub_resource type="RectangleShape2D" id="R40x18"]
 size = Vector2(40, 18)
 
-[sub_resource type="RectangleShape2D" id="R44x14"]
-size = Vector2(44, 14)
+[sub_resource type="RectangleShape2D" id="R28x12"]
+size = Vector2(28, 12)
 
 [sub_resource type="RectangleShape2D" id="R46x10"]
 size = Vector2(46, 10)
@@ -1370,8 +1370,8 @@ position = Vector2(0, -13.0)
 texture = ExtResource("r16_cart")
 
 [node name="Base" type="CollisionShape2D" parent="Prop49"]
-position = Vector2(0, -7.0)
-shape = SubResource("R44x14")
+position = Vector2(0, -6.0)
+shape = SubResource("R28x12")
 
 [node name="Prop50" type="StaticBody2D" parent="."]
 position = Vector2(-247, -260)
