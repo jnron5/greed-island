@@ -2095,7 +2095,7 @@ texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern1" type="StaticBody2D" parent="."]
-position = Vector2(-150, -10)
+position = Vector2(-150, -100)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern1"]
 position = Vector2(0, -28.0)
@@ -2106,7 +2106,7 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight1" type="PointLight2D" parent="."]
-position = Vector2(-144, -54)
+position = Vector2(-144, -144)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
@@ -2175,7 +2175,7 @@ texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern6" type="StaticBody2D" parent="."]
-position = Vector2(-236, 280)
+position = Vector2(-200, 350)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern6"]
 position = Vector2(0, -28.0)
@@ -2186,12 +2186,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight6" type="PointLight2D" parent="."]
-position = Vector2(-230, 236)
+position = Vector2(-194, 306)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern7" type="StaticBody2D" parent="."]
-position = Vector2(460, 320)
+position = Vector2(460, 350)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern7"]
 position = Vector2(0, -28.0)
@@ -2202,7 +2202,7 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight7" type="PointLight2D" parent="."]
-position = Vector2(466, 276)
+position = Vector2(466, 306)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
@@ -3107,7 +3107,8 @@ offset = Vector2(0, -12.5)
 texture = ExtResource("r51_grass_clump")
 
 [node name="Under46" type="Sprite2D" parent="."]
-position = Vector2(-202, 336)
+position = Vector2(-203, 326)
+flip_h = true
 offset = Vector2(0, -11.0)
 texture = ExtResource("r50_flowers")
 
@@ -3483,557 +3484,579 @@ offset = Vector2(0, -11.0)
 texture = ExtResource("r52_clover")
 
 [node name="Under114" type="Sprite2D" parent="."]
+position = Vector2(-488, 8)
+offset = Vector2(0, -12.5)
+texture = ExtResource("r51_grass_clump")
+
+[node name="Under115" type="Sprite2D" parent="."]
 position = Vector2(498, 1)
 flip_h = true
 offset = Vector2(0, -11.0)
 texture = ExtResource("r50_flowers")
 
-[node name="Under115" type="Sprite2D" parent="."]
+[node name="Under116" type="Sprite2D" parent="."]
 position = Vector2(426, 413)
 flip_h = true
 offset = Vector2(0, -12.5)
 texture = ExtResource("r51_grass_clump")
 
-[node name="Under116" type="Sprite2D" parent="."]
+[node name="Under117" type="Sprite2D" parent="."]
 position = Vector2(620, -215)
 flip_h = true
 offset = Vector2(0, -11.0)
 texture = ExtResource("r52_clover")
 
-[node name="Under117" type="Sprite2D" parent="."]
+[node name="Under118" type="Sprite2D" parent="."]
 position = Vector2(-163, 197)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r52_clover")
 
-[node name="Under118" type="Sprite2D" parent="."]
+[node name="Under119" type="Sprite2D" parent="."]
 position = Vector2(-821, 7)
 offset = Vector2(0, -11.0)
 texture = ExtResource("r50_flowers")
 
-[node name="Under119" type="Sprite2D" parent="."]
+[node name="Under120" type="Sprite2D" parent="."]
 position = Vector2(-167, -538)
 flip_h = true
 offset = Vector2(0, -11.0)
 texture = ExtResource("r50_flowers")
 
-[node name="Under120" type="Sprite2D" parent="."]
+[node name="Under121" type="Sprite2D" parent="."]
 position = Vector2(-574, 526)
 offset = Vector2(0, -11.5)
 texture = ExtResource("r53_berry_bush")
 
-[node name="Under121" type="Sprite2D" parent="."]
+[node name="Under122" type="Sprite2D" parent="."]
 position = Vector2(-679, 255)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under122" type="Sprite2D" parent="."]
+[node name="Under123" type="Sprite2D" parent="."]
 position = Vector2(-727, 279)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under123" type="Sprite2D" parent="."]
+[node name="Under124" type="Sprite2D" parent="."]
 position = Vector2(-743, 281)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under124" type="Sprite2D" parent="."]
+[node name="Under125" type="Sprite2D" parent="."]
 position = Vector2(-760, 211)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under125" type="Sprite2D" parent="."]
+[node name="Under126" type="Sprite2D" parent="."]
 position = Vector2(-746, 212)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under126" type="Sprite2D" parent="."]
+[node name="Under127" type="Sprite2D" parent="."]
 position = Vector2(-634, 273)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under127" type="Sprite2D" parent="."]
+[node name="Under128" type="Sprite2D" parent="."]
 position = Vector2(-715, 270)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under128" type="Sprite2D" parent="."]
+[node name="Under129" type="Sprite2D" parent="."]
 position = Vector2(-735, 267)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under129" type="Sprite2D" parent="."]
+[node name="Under130" type="Sprite2D" parent="."]
 position = Vector2(-732, 203)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under130" type="Sprite2D" parent="."]
+[node name="Under131" type="Sprite2D" parent="."]
 position = Vector2(-718, 201)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under131" type="Sprite2D" parent="."]
+[node name="Under132" type="Sprite2D" parent="."]
 position = Vector2(-610, 196)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under132" type="Sprite2D" parent="."]
+[node name="Under133" type="Sprite2D" parent="."]
 position = Vector2(-596, 198)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under133" type="Sprite2D" parent="."]
+[node name="Under134" type="Sprite2D" parent="."]
 position = Vector2(-580, 202)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under134" type="Sprite2D" parent="."]
+[node name="Under135" type="Sprite2D" parent="."]
 position = Vector2(-565, 206)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under135" type="Sprite2D" parent="."]
+[node name="Under136" type="Sprite2D" parent="."]
 position = Vector2(-383, 237)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under136" type="Sprite2D" parent="."]
+[node name="Under137" type="Sprite2D" parent="."]
 position = Vector2(-423, 258)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under137" type="Sprite2D" parent="."]
+[node name="Under138" type="Sprite2D" parent="."]
 position = Vector2(-437, 260)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under138" type="Sprite2D" parent="."]
+[node name="Under139" type="Sprite2D" parent="."]
 position = Vector2(-451, 261)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under139" type="Sprite2D" parent="."]
+[node name="Under140" type="Sprite2D" parent="."]
 position = Vector2(-469, 263)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under140" type="Sprite2D" parent="."]
+[node name="Under141" type="Sprite2D" parent="."]
 position = Vector2(-483, 265)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under141" type="Sprite2D" parent="."]
+[node name="Under142" type="Sprite2D" parent="."]
 position = Vector2(-554, 261)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under142" type="Sprite2D" parent="."]
+[node name="Under143" type="Sprite2D" parent="."]
 position = Vector2(-571, 189)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under143" type="Sprite2D" parent="."]
+[node name="Under144" type="Sprite2D" parent="."]
 position = Vector2(-555, 189)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under144" type="Sprite2D" parent="."]
+[node name="Under145" type="Sprite2D" parent="."]
 position = Vector2(-539, 190)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under145" type="Sprite2D" parent="."]
+[node name="Under146" type="Sprite2D" parent="."]
 position = Vector2(-466, 191)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under146" type="Sprite2D" parent="."]
+[node name="Under147" type="Sprite2D" parent="."]
 position = Vector2(-451, 190)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under147" type="Sprite2D" parent="."]
+[node name="Under148" type="Sprite2D" parent="."]
 position = Vector2(-433, 192)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under148" type="Sprite2D" parent="."]
+[node name="Under149" type="Sprite2D" parent="."]
 position = Vector2(-276, 254)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under149" type="Sprite2D" parent="."]
+[node name="Under150" type="Sprite2D" parent="."]
 position = Vector2(-316, 260)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under150" type="Sprite2D" parent="."]
+[node name="Under151" type="Sprite2D" parent="."]
 position = Vector2(-330, 262)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under151" type="Sprite2D" parent="."]
+[node name="Under152" type="Sprite2D" parent="."]
 position = Vector2(-406, 263)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under152" type="Sprite2D" parent="."]
+[node name="Under153" type="Sprite2D" parent="."]
 position = Vector2(-308, 188)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under153" type="Sprite2D" parent="."]
+[node name="Under154" type="Sprite2D" parent="."]
 position = Vector2(-294, 190)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under154" type="Sprite2D" parent="."]
-position = Vector2(-262, 267)
-flip_h = true
-offset = Vector2(0, -13.0)
-texture = ExtResource("r54_cattails")
-
 [node name="Under155" type="Sprite2D" parent="."]
-position = Vector2(27, 276)
+position = Vector2(-254, 267)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
 [node name="Under156" type="Sprite2D" parent="."]
+position = Vector2(-270, 268)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r54_cattails")
+
+[node name="Under157" type="Sprite2D" parent="."]
+position = Vector2(27, 276)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r54_cattails")
+
+[node name="Under158" type="Sprite2D" parent="."]
 position = Vector2(11, 276)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under157" type="Sprite2D" parent="."]
+[node name="Under159" type="Sprite2D" parent="."]
 position = Vector2(-5, 279)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under158" type="Sprite2D" parent="."]
+[node name="Under160" type="Sprite2D" parent="."]
 position = Vector2(-23, 281)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under159" type="Sprite2D" parent="."]
+[node name="Under161" type="Sprite2D" parent="."]
 position = Vector2(-37, 284)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under160" type="Sprite2D" parent="."]
+[node name="Under162" type="Sprite2D" parent="."]
 position = Vector2(-144, 277)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under161" type="Sprite2D" parent="."]
+[node name="Under163" type="Sprite2D" parent="."]
 position = Vector2(-86, 207)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under162" type="Sprite2D" parent="."]
+[node name="Under164" type="Sprite2D" parent="."]
 position = Vector2(-15, 206)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under163" type="Sprite2D" parent="."]
+[node name="Under165" type="Sprite2D" parent="."]
 position = Vector2(147, 296)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under164" type="Sprite2D" parent="."]
+[node name="Under166" type="Sprite2D" parent="."]
 position = Vector2(133, 299)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under165" type="Sprite2D" parent="."]
+[node name="Under167" type="Sprite2D" parent="."]
 position = Vector2(119, 295)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under166" type="Sprite2D" parent="."]
+[node name="Under168" type="Sprite2D" parent="."]
 position = Vector2(46, 294)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under167" type="Sprite2D" parent="."]
+[node name="Under169" type="Sprite2D" parent="."]
 position = Vector2(30, 295)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under168" type="Sprite2D" parent="."]
+[node name="Under170" type="Sprite2D" parent="."]
 position = Vector2(13, 293)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under169" type="Sprite2D" parent="."]
+[node name="Under171" type="Sprite2D" parent="."]
 position = Vector2(67, 219)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under170" type="Sprite2D" parent="."]
+[node name="Under172" type="Sprite2D" parent="."]
 position = Vector2(161, 223)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under171" type="Sprite2D" parent="."]
+[node name="Under173" type="Sprite2D" parent="."]
 position = Vector2(177, 226)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under172" type="Sprite2D" parent="."]
+[node name="Under174" type="Sprite2D" parent="."]
 position = Vector2(191, 233)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under173" type="Sprite2D" parent="."]
+[node name="Under175" type="Sprite2D" parent="."]
 position = Vector2(219, 252)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under174" type="Sprite2D" parent="."]
+[node name="Under176" type="Sprite2D" parent="."]
 position = Vector2(327, 303)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under175" type="Sprite2D" parent="."]
+[node name="Under177" type="Sprite2D" parent="."]
 position = Vector2(312, 304)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under176" type="Sprite2D" parent="."]
+[node name="Under178" type="Sprite2D" parent="."]
 position = Vector2(296, 307)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under177" type="Sprite2D" parent="."]
+[node name="Under179" type="Sprite2D" parent="."]
 position = Vector2(282, 310)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under178" type="Sprite2D" parent="."]
+[node name="Under180" type="Sprite2D" parent="."]
 position = Vector2(267, 312)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under179" type="Sprite2D" parent="."]
+[node name="Under181" type="Sprite2D" parent="."]
 position = Vector2(194, 309)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under180" type="Sprite2D" parent="."]
+[node name="Under182" type="Sprite2D" parent="."]
 position = Vector2(177, 306)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under181" type="Sprite2D" parent="."]
+[node name="Under183" type="Sprite2D" parent="."]
 position = Vector2(161, 303)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under182" type="Sprite2D" parent="."]
+[node name="Under184" type="Sprite2D" parent="."]
 position = Vector2(206, 233)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under183" type="Sprite2D" parent="."]
+[node name="Under185" type="Sprite2D" parent="."]
 position = Vector2(284, 235)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under184" type="Sprite2D" parent="."]
+[node name="Under186" type="Sprite2D" parent="."]
 position = Vector2(298, 237)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under185" type="Sprite2D" parent="."]
+[node name="Under187" type="Sprite2D" parent="."]
 position = Vector2(313, 237)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under186" type="Sprite2D" parent="."]
-position = Vector2(344, 314)
-offset = Vector2(0, -13.0)
-texture = ExtResource("r54_cattails")
-
-[node name="Under187" type="Sprite2D" parent="."]
-position = Vector2(340, 238)
-offset = Vector2(0, -13.0)
-texture = ExtResource("r54_cattails")
-
 [node name="Under188" type="Sprite2D" parent="."]
-position = Vector2(356, 238)
+position = Vector2(476, 307)
+flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
 [node name="Under189" type="Sprite2D" parent="."]
-position = Vector2(625, 304)
+position = Vector2(461, 312)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
 [node name="Under190" type="Sprite2D" parent="."]
-position = Vector2(610, 308)
+position = Vector2(344, 314)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
 [node name="Under191" type="Sprite2D" parent="."]
+position = Vector2(340, 238)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r54_cattails")
+
+[node name="Under192" type="Sprite2D" parent="."]
+position = Vector2(356, 238)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r54_cattails")
+
+[node name="Under193" type="Sprite2D" parent="."]
+position = Vector2(625, 304)
+flip_h = true
+offset = Vector2(0, -13.0)
+texture = ExtResource("r54_cattails")
+
+[node name="Under194" type="Sprite2D" parent="."]
+position = Vector2(610, 308)
+offset = Vector2(0, -13.0)
+texture = ExtResource("r54_cattails")
+
+[node name="Under195" type="Sprite2D" parent="."]
 position = Vector2(596, 309)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under192" type="Sprite2D" parent="."]
+[node name="Under196" type="Sprite2D" parent="."]
 position = Vector2(495, 311)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under193" type="Sprite2D" parent="."]
+[node name="Under197" type="Sprite2D" parent="."]
 position = Vector2(467, 239)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under194" type="Sprite2D" parent="."]
+[node name="Under198" type="Sprite2D" parent="."]
 position = Vector2(481, 238)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under195" type="Sprite2D" parent="."]
+[node name="Under199" type="Sprite2D" parent="."]
 position = Vector2(498, 234)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under196" type="Sprite2D" parent="."]
+[node name="Under200" type="Sprite2D" parent="."]
 position = Vector2(514, 235)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under197" type="Sprite2D" parent="."]
+[node name="Under201" type="Sprite2D" parent="."]
 position = Vector2(585, 236)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under198" type="Sprite2D" parent="."]
+[node name="Under202" type="Sprite2D" parent="."]
 position = Vector2(599, 238)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under199" type="Sprite2D" parent="."]
+[node name="Under203" type="Sprite2D" parent="."]
 position = Vector2(615, 237)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under200" type="Sprite2D" parent="."]
+[node name="Under204" type="Sprite2D" parent="."]
 position = Vector2(629, 242)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under201" type="Sprite2D" parent="."]
+[node name="Under205" type="Sprite2D" parent="."]
 position = Vector2(774, 292)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under202" type="Sprite2D" parent="."]
+[node name="Under206" type="Sprite2D" parent="."]
 position = Vector2(757, 294)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under203" type="Sprite2D" parent="."]
+[node name="Under207" type="Sprite2D" parent="."]
 position = Vector2(741, 297)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under204" type="Sprite2D" parent="."]
+[node name="Under208" type="Sprite2D" parent="."]
 position = Vector2(727, 298)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under205" type="Sprite2D" parent="."]
+[node name="Under209" type="Sprite2D" parent="."]
 position = Vector2(713, 300)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under206" type="Sprite2D" parent="."]
+[node name="Under210" type="Sprite2D" parent="."]
 position = Vector2(644, 302)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under207" type="Sprite2D" parent="."]
+[node name="Under211" type="Sprite2D" parent="."]
 position = Vector2(555, 256)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under208" type="Sprite2D" parent="."]
+[node name="Under212" type="Sprite2D" parent="."]
 position = Vector2(626, 225)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under209" type="Sprite2D" parent="."]
+[node name="Under213" type="Sprite2D" parent="."]
 position = Vector2(796, 283)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under210" type="Sprite2D" parent="."]
+[node name="Under214" type="Sprite2D" parent="."]
 position = Vector2(765, 280)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under211" type="Sprite2D" parent="."]
+[node name="Under215" type="Sprite2D" parent="."]
 position = Vector2(750, 276)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under212" type="Sprite2D" parent="."]
+[node name="Under216" type="Sprite2D" parent="."]
 position = Vector2(758, 216)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under213" type="Sprite2D" parent="."]
+[node name="Under217" type="Sprite2D" parent="."]
 position = Vector2(783, 210)
 flip_h = true
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")
 
-[node name="Under214" type="Sprite2D" parent="."]
+[node name="Under218" type="Sprite2D" parent="."]
 position = Vector2(803, 211)
 offset = Vector2(0, -13.0)
 texture = ExtResource("r54_cattails")

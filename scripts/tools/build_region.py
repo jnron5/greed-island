@@ -797,10 +797,12 @@ class Zone:
         # (then up and down) until clear.
         lanterns = []
         for x, y in c.get("lanterns", []):
-            for dx, dy in [(d, 0) for d in (0, 30, -30, 48, -48, 66, -66)] + [(0, d) for d in (-40, 40, -64, 64)]:
+            for dx, dy in [(d, 0) for d in (0, 30, -30, 48, -48, 66, -66)] + [(0, d) for d in (-40, 40, -64, 64, -90, 90, -120, 120)]:
                 if not self.on_path(x + dx, y + dy, 8) and not self.wet(x + dx, y + dy, 14):
                     x, y = x + dx, y + dy
                     break
+            else:
+                print(f"  warning: {self.key}: lantern at ({x}, {y}) found no dry spot off the paths")
             lanterns.append((x, y))
         self.lanterns = lanterns
         for x, y in lanterns:
