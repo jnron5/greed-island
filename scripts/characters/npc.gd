@@ -31,6 +31,11 @@ const TALK_RANGE := 34.0
 ## walks in from one when its hours start and out to the nearest when they end, rather
 ## than appearing or vanishing.
 @export var exit_points: PackedVector2Array = []
+## Something handed over the first time you talk (a traveller's welcome): satchel
+## item id, how many, and what they say. Once per game (quest flag "met_gift:<id>").
+@export var gift_item: StringName = &""
+@export var gift_count := 1
+@export var gift_line := ""
 ## Seconds between chatter bubbles (min, max).
 @export var chatter_every := Vector2(7.0, 15.0)
 @export var patrol_pause := 3.0
@@ -333,6 +338,8 @@ func talk(player: Node2D) -> void:
 	facing = global_position.direction_to(player.global_position)
 	var said: PackedStringArray = Quests.dialogue_for(npc_id)
 	if said.is_empty():
+		said = take_gift()
+	if said.is_empty():
 		said = Errands.dialogue_for(npc_id)
 	if said.is_empty():
 		said = _meal_talk()
@@ -341,6 +348,19 @@ func talk(player: Node2D) -> void:
 	if said.is_empty() and not lines.is_empty():
 		said = PackedStringArray([next_line(lines)])
 	DialogueBox.say(get_tree(), display_name, said, _done_talking, DialogueBox.portrait_from(sprite.sprite_frames))
+
+
+## The first time you talk: hands over `gift_item` and returns what they say with it
+## (empty if there's no gift, or it's been given).
+func take_gift() -> PackedStringArray:
+	var key := StringName("met_gift:%s" % npc_id)
+	if gift_item == &"" or GameState.quest_flags.get(key, false):
+		return PackedStringArray()
+	GameState.quest_flags[key] = true
+	GameState.add_item(gift_item, gift_count)
+	var item := Items.get_item(gift_item)
+	EventBus.notify.emit("Received %s%s" % [item.display_name if item else String(gift_item), " x%d" % gift_count if gift_count > 1 else ""])
+	return PackedStringArray([gift_line])
 
 
 ## The player has just come round in this keeper's inn: they turn to them and say
@@ -493,6 +513,8 @@ func _draw() -> void:
 	var marker := Quests.marker_for(npc_id)
 	if marker == "":
 		marker = Errands.marker_for(npc_id)
+	if marker == "" and gift_item != &"" and not GameState.quest_flags.get(StringName("met_gift:%s" % npc_id), false):
+		marker = "!"
 	if marker != "":
 		WorldPrompt.marker(self, Vector2(0, sprite_offset_y * 2 - 8), marker, Color(1, 0.85, 0.3))
 	if player and not _talking and player.global_position.distance_to(global_position) <= TALK_RANGE:

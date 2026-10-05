@@ -33,6 +33,8 @@ func _run() -> void:
 	TimeOfDay.day = 4
 	var tomorrow := Travellers.todays(WorldMap.KALMORA).map(func(t: Dictionary) -> String: return t.id)
 	_check("they move on the next day", today != tomorrow)
+	_check("a few sell things and a few have something for you", Travellers.ROSTER.filter(func(t: Dictionary) -> bool: return t.has("shop")).size() >= 3
+		and Travellers.ROSTER.filter(func(t: Dictionary) -> bool: return t.has("gift")).size() >= 3)
 
 	TimeOfDay.set_hour(12.0)
 	var town := await _load(WorldMap.KALMORA)
@@ -58,6 +60,14 @@ func _run() -> void:
 	var at_night := town.get_children().filter(func(n: Node) -> bool: return n is Npc and String(n.name).begins_with("Traveller_") and n.visible)
 	_check("at night every traveller is back in Kalmora", at_night.size() == Travellers.ROSTER.size())
 	_check("with something to say about the night", at_night.all(func(n: Npc) -> bool: return not n.night_lines.is_empty()))
+	var giver := at_night.filter(func(n: Npc) -> bool: return n.gift_item != &"")
+	if not giver.is_empty():
+		var g := giver[0] as Npc
+		var had := GameState.item_count(g.gift_item)
+		var first := g.take_gift()
+		var second := g.take_gift()
+		_check("a traveller hands you something the first time you meet, once", not first.is_empty() and second.is_empty()
+			and GameState.item_count(g.gift_item) == had + g.gift_count)
 	# Dusk while you watch: a visitor walks off down the road rather than vanishing,
 	# and Kalmora's night crowd walks in from its roads.
 	TimeOfDay.set_hour(19.0)

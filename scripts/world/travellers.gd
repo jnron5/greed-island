@@ -77,19 +77,22 @@ const ROSTER := [
 		"Pots mended, locks oiled, gates squeaked. I mean de-squeaked.",
 		"I fixed a lock in the Duke's own bungalow once. Strangest thing: it locked from the outside.",
 	] },
-	{ "id": "ivy", "name": "Ivy the Botanist", "sprite": "traveller_botanist", "lines": [
+	{ "id": "ivy", "name": "Ivy the Botanist", "sprite": "traveller_botanist",
+		"gift": [&"healers_tonic", 1, "Oh, a racer! You look like you collect bruises. Here, a tonic. Feverfew and something blue I won't name."], "lines": [
 		"I'm pressing one of every flower on the island. The snow ones are the hardest. They melt on the page.",
 		"Glowcaps, frostbells, harvest clover. The island grows everything except an honest answer.",
 	] },
-	{ "id": "corm", "name": "Corm, on Shore Leave", "sprite": "traveller_sailor", "lines": [
+	{ "id": "corm", "name": "Corm, on Shore Leave", "sprite": "traveller_sailor",
+		"gift": [&"sea_salt_elixir", 1, "Racer! Take this, the ship's surgeon swears by it. Salt and something stronger. You'll need it more than me, I'm on holiday."], "lines": [
 		"Three weeks ashore and I already miss the sea. Don't tell the sea.",
 		"Our ship carries 'mineral ore' from the south cape. Ore doesn't cry in the hold at night.",
 	] },
-	{ "id": "dell", "name": "Fishwife Dell", "sprite": "traveller_drover", "lines": [
+	{ "id": "dell", "name": "Fishwife Dell", "sprite": "traveller_drover", "shop": [&"smoked_fish", &"bread"], "lines": [
 		"I walk the catch inland to the farms. They pay double for fish up there and complain triple.",
 		"Smell? That's the smell of honest work. Mostly herring.",
 	] },
-	{ "id": "bess", "name": "Drover Bess", "sprite": "traveller_drover", "lines": [
+	{ "id": "bess", "name": "Drover Bess", "sprite": "traveller_drover",
+		"gift": [&"bread", 2, "You've the look of someone who forgets to eat. Two loaves. Don't argue, I've a crook and I'm not afraid to use it."], "lines": [
 		"Lost a ram somewhere between here and the plains. If you see a ram looking smug, that's him.",
 		"Rams are the island's toughest racers. They've never once stopped for a gate.",
 	] },
@@ -105,7 +108,7 @@ const ROSTER := [
 		"Eggs! Eggs for sale! I mean, they would be, if the hens had laid any. They're on strike.",
 		"My hens can smell a storm a day off. And a racer. They don't like either.",
 	] },
-	{ "id": "rye", "name": "Rye the Journeyman Baker", "sprite": "traveller_pedlar", "lines": [
+	{ "id": "rye", "name": "Rye the Journeyman Baker", "sprite": "traveller_pedlar", "shop": [&"bread"], "lines": [
 		"Walking the island, learning every town's loaf. Kalmora's is the best. I'm from Kalmora.",
 		"Frisalle bakes bread you could build a chalet with. I mean that kindly.",
 	] },
@@ -133,7 +136,7 @@ const ROSTER := [
 		"Ran the ferry across Lake Serin till the bridge-tax ate me. Now I walk, like everyone.",
 		"Something big moves in the lake at night. Neri says it's a fish. Neri says everything's a fish.",
 	] },
-	{ "id": "mags", "name": "Mags the Card Sharp", "sprite": "traveller_bard", "lines": [
+	{ "id": "mags", "name": "Mags the Card Sharp", "sprite": "traveller_bard", "shop": [&"lockbox_seal", &"pickpockets_whisper"], "lines": [
 		"Fancy a game? No? Wise. I've never lost. Except to a quiet fellow by the fire on the plains. Never again.",
 		"Cards are just paper till somebody wants them. Then they're worth a life. Funny island.",
 	] },
@@ -254,6 +257,10 @@ static func populate(zone: Zone) -> void:
 			npc.shop_stock = stock
 			npc.shop_buys_cards = false
 			npc.shop_title = t.name
+		if t.has("gift"):
+			npc.gift_item = t.gift[0]
+			npc.gift_count = t.gift[1]
+			npc.gift_line = t.gift[2]
 		# Start at one of the points, not on top of the player.
 		var start := points[rng.randi() % points.size()]
 		for _i in 6:
