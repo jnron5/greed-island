@@ -603,7 +603,7 @@ NPCS = [
     ("ilse", "Ilse", "ilse", (838, 492), 10, [
         "I map the island by day and the gossip by night. The gossip's more accurate.",
     ]),
-    ("brannoc", "Brannoc", "brannoc", (706, 530), 8, [
+    ("brannoc", "Brannoc", "brannoc", (744, 500), 8, [
         "Coals are banked, anvil's cold. One cider. Then another one. Then home.",
     ]),
 ]

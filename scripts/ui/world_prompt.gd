@@ -79,6 +79,9 @@ static func star(ci: CanvasItem, at: Vector2, radius: float, colour: Color, wais
 ## A bobbing marker ("!" for news, "?" for suspicion) above a character.
 static func marker(ci: CanvasItem, at: Vector2, mark: String, color: Color) -> void:
 	var bob := roundf(sin(Time.get_ticks_msec() / 220.0) * 1.5)
+	if mark == "!" or mark == "?":
+		_glyph_mark(ci, (at + Vector2(0, bob - 10)).round(), mark, color)
+		return
 	var pos := (at + Vector2(-3, bob)).round()
 	ci.draw_string_outline(TITLE_FONT, pos, mark, HORIZONTAL_ALIGNMENT_LEFT, -1, NATIVE, 4, Color(0.08, 0.05, 0.03))
 	ci.draw_string(TITLE_FONT, pos, mark, HORIZONTAL_ALIGNMENT_LEFT, -1, NATIVE, color)
@@ -87,3 +90,20 @@ static func marker(ci: CanvasItem, at: Vector2, mark: String, color: Color) -> v
 static func _font() -> Font:
 	var theme := ThemeDB.get_project_theme()
 	return theme.default_font if theme and theme.default_font else ThemeDB.fallback_font
+
+
+## A drawn "!" or "?" (the pixel font's own read as a plain bar at this size): a
+## tapered stroke and a dot in `color`, outlined dark, `top` its top middle.
+static func _glyph_mark(ci: CanvasItem, top: Vector2, mark: String, color: Color) -> void:
+	var dark := Color(0.08, 0.05, 0.03)
+	var rects: Array[Rect2] = []
+	if mark == "!":
+		rects = [Rect2(-2, 0, 5, 3), Rect2(-2, 3, 5, 3), Rect2(-1, 6, 3, 3), Rect2(-1, 11, 3, 3)]
+	else:
+		rects = [Rect2(-3, 0, 7, 2), Rect2(-4, 1, 2, 4), Rect2(3, 1, 2, 4), Rect2(1, 4, 3, 2), Rect2(-1, 6, 3, 3), Rect2(-1, 11, 3, 3)]
+	for r in rects:
+		ci.draw_rect(Rect2(top + r.position - Vector2(1, 1), r.size + Vector2(2, 2)), dark)
+	for r in rects:
+		ci.draw_rect(Rect2(top + r.position, r.size), color)
+	# a highlight on the stroke
+	ci.draw_rect(Rect2(top + Vector2(-1, 1), Vector2(1, 4)), Color(1, 1, 0.85, 0.8))
