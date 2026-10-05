@@ -38,6 +38,7 @@ const FRISALLE_GUIDE := "res://scenes/world/interiors/frisalle_guide.tscn"
 const FRISALLE_WEIGH := "res://scenes/world/interiors/frisalle_weighmaster.tscn"
 const SERIN_FISHER_HUT := "res://scenes/world/interiors/serin_fisher_hut.tscn"
 const STARFALL_GROTTO := "res://scenes/world/starfall_grotto.tscn"
+const AUREWIND_BARROW := "res://scenes/world/aurewind_barrow.tscn"
 const STARFALL_CABIN := "res://scenes/world/interiors/starfall_cabin.tscn"
 const SORENDA_LONGHOUSE := "res://scenes/world/interiors/sorenda_longhouse.tscn"
 const SORENDA_SCRIBE := "res://scenes/world/interiors/sorenda_scribe_house.tscn"
@@ -87,6 +88,9 @@ const ZONES := {
 		"monster_drops": [&"hollow_acorn", &"moss_lantern", &"thorn_sprig"] },
 	STARFALL: { "name": "Starfall Range", "origin": Vector2(-3194, -3201),
 		"monster_drops": [&"iron_wolf_collar", &"owl_quill", &"briar_wren"] },
+	# Under the Stonewatch Downs: the first king's barrow.
+	AUREWIND_BARROW: { "name": "The Old Barrow", "origin": Vector2(-2724, -681),
+		"monster_drops": [&"bristle_fleece", &"thorn_sprig"] },
 	STARFALL_GROTTO: { "name": "The Frost Grotto", "origin": Vector2(-1886, -3880),
 		"monster_drops": [&"iron_wolf_collar", &"owl_quill", &"briar_wren"] },
 	# Interiors sit where their buildings stand in town. They have no EDGES, so
@@ -187,6 +191,10 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(-448, 400), "gate": &"" },
 	{ "from": STARFALL_GROTTO, "to": STARFALL, "exit": Vector2(-448, 476), "spawn": &"from_grotto",
 		"entry": Vector2(860, -150), "gate": &"" },
+	{ "from": AUREWIND, "to": AUREWIND_BARROW, "exit": Vector2(-380, -772), "spawn": &"from_aurewind",
+		"entry": Vector2(0, 400), "gate": &"" },
+	{ "from": AUREWIND_BARROW, "to": AUREWIND, "exit": Vector2(0, 476), "spawn": &"from_barrow",
+		"entry": Vector2(-380, -712), "gate": &"" },
 	# Over the pass: Frisalle's toll gate (an Iron Wolf Collar).
 	{ "from": STARFALL, "to": FRISALLE, "exit": Vector2(-100, -892), "spawn": &"from_starfall",
 		"entry": Vector2(0, 580), "gate": &"starfall_pass" },

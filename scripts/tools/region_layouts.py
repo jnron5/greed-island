@@ -101,6 +101,8 @@ AUREWIND = {
         ([(200, 0), (160, -400), (150, -920)], 24),                         # north, to Lake Serin
         ([(-200, 60), (-350, 400), (-500, 890)], 24),                       # south-west, to Verdana
         ([(-400, 90), (-600, -250), (-640, -400), (-640, -560)], 18),       # up to the stone circle
+        ([(-640, -600), (-520, -690), (-380, -716)], 14),                  # across the downs to the barrow
+        ([(-760, 100), (-900, -120), (-980, -270)], 14),                   # the old track to the Ashby place
         ([(700, 40), (900, -250), (992, -400), (992, -580), (930, -650)], 18),  # up Kestrel Rise
         ([(600, 20), (700, 300), (760, 560)], 16),                          # the farm lane
     ],
@@ -121,12 +123,19 @@ AUREWIND = {
         {"name": "ToLakeSerin", "pos": (150, -916), "side": "n", "target": "res://scenes/world/lake_serin.tscn", "spawn": "from_aurewind"},
         {"name": "ToVerdana", "pos": (-500, 884), "side": "s", "target": "res://scenes/world/verdana.tscn", "spawn": "from_aurewind"},
     ],
-    "spawns": {"from_kalmora": (1160, 40), "from_lake_serin": (150, -840), "from_verdana": (-500, 820)},
+    "spawns": {"from_kalmora": (1160, 40), "from_lake_serin": (150, -840), "from_verdana": (-500, 820), "from_barrow": (-380, -712)},
+    # The Old Barrow, the first king's grave (build_barrow.py), dug into the downs.
+    "portals": [{"name": "ToBarrow", "pos": (-380, -772), "target": "res://scenes/world/aurewind_barrow.tscn", "spawn": "from_aurewind"}],
     "rival_spots": {"runner": (1100, 0), "raider": (1100, 80), "hoarder": (1060, 40)},
     "buildings": [
         {"node": "WorkingBarn", "sprite": VD + "barn.png", "pos": (1000, -110), "foot": 130},
     ],
     "props": (
+        # The Old Barrow's door on the downs: a mound with a stone doorway (the way in
+        # is a portal between the door stones), and the Ashby farmstead in ruins.
+        [{"sprite": AW + "barrow_mound.png", "pos": (-380, -760), "feet": [(-38, -14, 36, 26), (38, -14, 36, 26), (0, -40, 32, 14)]},
+         {"sprite": AW + "ruined_cottage.png", "pos": (-980, -300), "foot": (88, 26)}]
+        +
         # The stone circle on the Stonewatch Downs, the altar in the middle.
         ring(CIRCLE[0], CIRCLE[1], 120, 8, STONE, (26, 12))
         + [{"sprite": ALTAR, "pos": (CIRCLE[0], CIRCLE[1] + 10), "foot": (56, 16), "light": ((0.7, 0.85, 1.0, 1), 0.35, 1.2)}]
@@ -176,6 +185,14 @@ AUREWIND = {
         ]},
     ],
     "readables": [
+        ("The barrow mound", (-450, -716), [
+            "A long grassy mound on the downs, too regular to be a hill. Its door is two standing stones and a lintel carved with a crown.",
+            "The turf by the door has been cut and laid back. Somebody comes and goes, and doesn't want it seen.",
+        ]),
+        ("The Ashby place", (-930, -262), [
+            "A farmstead gone to ruin: no roof, the hearth cold for years. A plaque by the door: 'ASHBY. Five generations on this land.'",
+            "Nailed to the doorframe, curled with rain: 'NOTICE OF DEBT. Land and tenants assigned to the Duskara Mining Company in settlement.' Tenants.",
+        ]),
         ("The Aurewind circle", (CIRCLE[0], CIRCLE[1] + 40), [
             "Eight standing stones round a flat altar, older than any road on the island. The altar's face is carved with a crown and, under it, a long line of small figures, each one smaller than the last.",
             "Someone has laid fresh wheat on the altar. Someone else has scratched a tally beside the figures. The scratches are new.",
@@ -206,6 +223,7 @@ AUREWIND = {
         {"id": "kestrel_cache", "pos": (980, -640), "gold": 40, "card": "crown_stone_rubbing"},
         {"id": "circle_offering", "pos": (-560, -600), "gold": 25, "item": "healers_tonic"},
         {"id": "hay_loft", "pos": (1150, -30), "gold": 10, "item": "bread"},
+        {"id": "ashby_hearth", "pos": (-1060, -296), "gold": 30, "item": "smoked_fish"},
     ],
     # The Cairn Colossus sleeps on Kestrel Rise, west of the watchtower.
     "boss": {"node": "CairnColossus", "scene": "res://scenes/characters/cairn_colossus.tscn", "pos": (720, -730), "arena": 160},
@@ -450,6 +468,8 @@ LAKE_SERIN = {
          "back": "from_houseneri"},
     ],
     "props": (
+        [{"sprite": "assets/sprites/tiles/lake_serin/wreck.png", "pos": (-170, 284), "foot": (64, 16), "flip": True}]
+        +
         [{"sprite": STONE, "pos": (60, -300), "foot": (26, 12), "scale": 1.2, "light": ((0.7, 0.85, 1.0, 1), 0.35, 1.0)}]
         + [{"sprite": KP + "barrel.png", "pos": (610, -100), "foot": (14, 8)}]
         + [{"sprite": KP + "net_crate.png", "pos": (740, -60), "foot": (24, 10)},
@@ -464,6 +484,10 @@ LAKE_SERIN = {
         ]},
     ],
     "readables": [
+        ("A wreck on the shore", (-120, 300), [
+            "An old fishing boat on its side in the reeds, ribs showing through the planks. Fresh rope tied to the mast stump, trailing into the water.",
+            "Pull the rope and something heavy shifts out in the deep. Pull harder and the rope comes up cut.",
+        ]),
         ("The stone on Stone Point", (60, -260), [
             "A lone standing stone at the tip of the point, the water all round it. The carving is the one from the circle: a crown, and a line of figures under it.",
             "Here the line goes on round the back of the stone. The last figures are no bigger than a thumbnail, and there are more of them than you can count.",
@@ -547,6 +571,10 @@ STARFALL = {
          "back": "from_househald"},
     ],
     "props": (
+        # A frozen climbers' camp on the high west terrace; an old adit in the east valley.
+        [{"sprite": SF + "climbers_camp.png", "pos": (-830, -560), "foot": (62, 20)},
+         {"sprite": SF + "old_adit.png", "pos": (780, 440), "foot": (90, 30)}]
+        +
         # The pass to Frisalle: an avalanche across it, boulders and drifts twice your height,
         # dug through in the middle to a toll gate; a solid bank of boulders either side
         # of the gate, so the only way north is through it.
@@ -585,6 +613,14 @@ STARFALL = {
             "Snow and boulders to twice your height, packed hard, dug through in the middle to a stout gate. A sign hammered into the drift: 'FRISALLE. Toll: one Iron Wolf Collar. The wolves took our goats; bring us one of theirs.'",
             "Drill holes in the rock above the slide. Somebody brought it down on purpose.",
         ]),
+        ("A frozen camp", (-830, -520), [
+            "A tent half buried in the drift, its canvas split by the wind. A rope, an ice axe, a pack frozen to the snow.",
+            "In the pack, a journal: 'Three of us. The pass is down, so we'll go over the top. Hald says we're fools. Day four: Brin's feet. Day five:' Nothing after day five.",
+        ]),
+        ("An old adit", (780, 470), [
+            "A mine entrance boarded shut, a rusted ore cart on a stub of rail. A painted sign: 'D.M.C. NORTH WORKINGS. CLOSED.'",
+            "The boards are new. The nails are new. The snow in front of it has been trodden flat by a lot of small boots.",
+        ]),
         ("Frozen cart tracks", (-200, 380), [
             "Wagon ruts frozen into the old road, heading north. Deep ones: a heavy load, or a lot of people.",
         ]),
@@ -593,6 +629,7 @@ STARFALL = {
         {"id": "tarn_cache", "pos": (-700, -80), "gold": 30, "item": "healers_tonic"},
         {"id": "pass_cairn", "pos": (330, -700), "gold": 50, "card": "fallen_star_shard"},
         {"id": "valley_pack", "pos": (700, 520), "item": "bread", "count": 2},
+        {"id": "climbers_pack", "pos": (-770, -540), "gold": 45, "item": "healers_tonic"},
     ],
     "monsters": [(WOLF, (-400, 420)), (WOLF, (420, 450)), (WOLF, (-620, -200)), (WOLF, (240, -560)), (WOLF, (-700, -450))],
     # The Rime Stag keeps the high snowfield east of the pass.

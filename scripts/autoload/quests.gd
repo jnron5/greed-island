@@ -201,6 +201,12 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 						"Take this. It was my teacher's, and hers before that. It hums when you're near the stones, and keeps you on your feet a little longer than you'd manage alone.",
 					])
 				DONE:
+					if flag(&"read_kings_tomb"):
+						return PackedStringArray([
+							"You went down into the barrow? Under the downs? Forty years I've walked over that mound.",
+							"'What the set costs is carved below', and below, the stone chiselled smooth. Somebody didn't want the cost read. Not lately: the chisel marks are fresh.",
+							"Every king since has taken the set and the isle with it. I always thought the figures were a story. I think now they were a receipt.",
+						])
 					return PackedStringArray(["A ledger in stone. I've read it forty years and never once added it up."])
 		&"sparkle":
 			if Errands.state(&"sparkle_dare") != Errands.DONE:
@@ -498,6 +504,8 @@ func read(title: String, at_night := false) -> void:
 			else:
 				quest_changed.emit(&"millstream", 1)
 				EventBus.notify.emit("What the Millstream Carries: %d of 3 found" % _millstream_found())
+	if title == "The first king's tomb":
+		GameState.quest_flags[&"read_kings_tomb"] = true
 	if LEDGER_CLUES.has(title) and not flag(StringName("ledger:%s" % title)):
 		GameState.quest_flags[StringName("ledger:%s" % title)] = true
 		if stage(&"merchants_ledger") == 1:

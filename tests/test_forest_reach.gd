@@ -8,7 +8,7 @@ extends Node
 ## Run: godot --headless --path . res://tests/test_forest_reach.tscn
 
 const ZONES := ["res://scenes/world/thornveil.tscn", "res://scenes/world/sorenda.tscn", "res://scenes/world/sorenda_hollow.tscn", "res://scenes/world/wardens_grove.tscn", "res://scenes/world/lake_veyra.tscn",
-	"res://scenes/world/aurewind_plains.tscn", "res://scenes/world/verdana.tscn", "res://scenes/world/lake_serin.tscn", "res://scenes/world/starfall_range.tscn", "res://scenes/world/starfall_grotto.tscn", "res://scenes/world/seabright_quay.tscn", "res://scenes/world/frisalle.tscn"]
+	"res://scenes/world/aurewind_plains.tscn", "res://scenes/world/verdana.tscn", "res://scenes/world/lake_serin.tscn", "res://scenes/world/starfall_range.tscn", "res://scenes/world/starfall_grotto.tscn", "res://scenes/world/seabright_quay.tscn", "res://scenes/world/frisalle.tscn", "res://scenes/world/aurewind_barrow.tscn"]
 const STEP := 8.0
 
 var _failures := 0
@@ -39,7 +39,9 @@ func _run() -> void:
 		var start := (zone.get_node("Spawns").get_child(0) as Node2D).global_position
 		var reach := _flood(space, start)
 		var label := String(zone.name)
-		_check("%s: the flood covers the zone (%d points)" % [label, reach.size()], reach.size() > 3000)
+		# A real share of the ground is walkable (caves are mostly rock, so a tenth).
+		var cells := _bounds.get_area() / (STEP * STEP)
+		_check("%s: the flood covers the zone (%d points of %d)" % [label, reach.size(), cells], reach.size() > mini(3000, int(cells * 0.1)))
 		for node in zone.get_children():
 			var target := ""
 			if node is CardPickup:

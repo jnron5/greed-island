@@ -1,0 +1,537 @@
+[gd_scene load_steps=50 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/barrow/barrow_ground.png" id="8_ground"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/barrow/barrow_levels.png" id="9_levels"]
+[ext_resource type="PackedScene" path="res://scenes/characters/briar_hound.tscn" id="10_wolf"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="11_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="12_chest_shut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="13_chest_open"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="14_read"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="15_lamp"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/aurewind/stone_pillar.png" id="16_ice"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="17_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/barrow/sarcophagus.png" id="p_0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/barrow/bone_nest.png" id="p_1"]
+
+[sub_resource type="RectangleShape2D" id="R1216x96"]
+size = Vector2(1216, 96)
+
+[sub_resource type="RectangleShape2D" id="R928x32"]
+size = Vector2(928, 32)
+
+[sub_resource type="RectangleShape2D" id="R224x32"]
+size = Vector2(224, 32)
+
+[sub_resource type="RectangleShape2D" id="R896x32"]
+size = Vector2(896, 32)
+
+[sub_resource type="RectangleShape2D" id="R128x128"]
+size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="R832x128"]
+size = Vector2(832, 128)
+
+[sub_resource type="RectangleShape2D" id="R160x32"]
+size = Vector2(160, 32)
+
+[sub_resource type="RectangleShape2D" id="R640x32"]
+size = Vector2(640, 32)
+
+[sub_resource type="RectangleShape2D" id="R96x32"]
+size = Vector2(96, 32)
+
+[sub_resource type="RectangleShape2D" id="R64x32"]
+size = Vector2(64, 32)
+
+[sub_resource type="RectangleShape2D" id="R256x32"]
+size = Vector2(256, 32)
+
+[sub_resource type="RectangleShape2D" id="R512x32"]
+size = Vector2(512, 32)
+
+[sub_resource type="RectangleShape2D" id="R416x32"]
+size = Vector2(416, 32)
+
+[sub_resource type="RectangleShape2D" id="R128x32"]
+size = Vector2(128, 32)
+
+[sub_resource type="RectangleShape2D" id="R96x96"]
+size = Vector2(96, 96)
+
+[sub_resource type="RectangleShape2D" id="R448x32"]
+size = Vector2(448, 32)
+
+[sub_resource type="RectangleShape2D" id="R448x192"]
+size = Vector2(448, 192)
+
+[sub_resource type="RectangleShape2D" id="R480x32"]
+size = Vector2(480, 32)
+
+[sub_resource type="RectangleShape2D" id="R576x128"]
+size = Vector2(576, 128)
+
+[sub_resource type="RectangleShape2D" id="R544x32"]
+size = Vector2(544, 32)
+
+[sub_resource type="RectangleShape2D" id="R544x192"]
+size = Vector2(544, 192)
+
+[sub_resource type="RectangleShape2D" id="R512x64"]
+size = Vector2(512, 64)
+
+[sub_resource type="RectangleShape2D" id="R576x96"]
+size = Vector2(576, 96)
+
+[sub_resource type="RectangleShape2D" id="R1296x40"]
+size = Vector2(1296, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x960"]
+size = Vector2(40, 960)
+
+[sub_resource type="RectangleShape2D" id="R608x40"]
+size = Vector2(608, 40)
+
+[sub_resource type="RectangleShape2D" id="R30x10"]
+size = Vector2(30, 10)
+
+[sub_resource type="RectangleShape2D" id="R28x10"]
+size = Vector2(28, 10)
+
+[sub_resource type="RectangleShape2D" id="R80x30"]
+size = Vector2(80, 30)
+
+[sub_resource type="RectangleShape2D" id="R34x12"]
+size = Vector2(34, 12)
+
+[node name="AurewindBarrow" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Old Barrow, under the Stonewatch Downs"
+underground = true
+water_shimmer = false
+level_map = ExtResource("9_levels")
+level_cell = 32
+level_origin = Vector2(-608, -480)
+
+[node name="Dark" type="CanvasModulate" parent="."]
+color = Color(0.52, 0.5, 0.48, 1)
+
+[node name="GroundTiles" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(0.0, 0.0)
+texture = ExtResource("8_ground")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0.0, -432.0)
+shape = SubResource("R1216x96")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-144.0, -368.0)
+shape = SubResource("R928x32")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(496.0, -368.0)
+shape = SubResource("R224x32")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-160.0, -336.0)
+shape = SubResource("R896x32")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(544.0, -288.0)
+shape = SubResource("R128x128")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-192.0, -256.0)
+shape = SubResource("R832x128")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(528.0, -208.0)
+shape = SubResource("R160x32")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-288.0, -176.0)
+shape = SubResource("R640x32")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(112.0, -176.0)
+shape = SubResource("R96x32")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(288.0, -176.0)
+shape = SubResource("R64x32")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(480.0, -176.0)
+shape = SubResource("R256x32")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-352.0, -144.0)
+shape = SubResource("R512x32")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(400.0, -144.0)
+shape = SubResource("R416x32")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-528.0, -112.0)
+shape = SubResource("R160x32")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-256.0, -112.0)
+shape = SubResource("R256x32")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-240.0, -80.0)
+shape = SubResource("R160x32")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-224.0, -48.0)
+shape = SubResource("R128x32")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-560.0, -48.0)
+shape = SubResource("R96x96")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-528.0, 16.0)
+shape = SubResource("R160x32")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-272.0, 16.0)
+shape = SubResource("R160x32")
+
+[node name="W20" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-384.0, 48.0)
+shape = SubResource("R448x32")
+
+[node name="W21" type="CollisionShape2D" parent="Walls"]
+position = Vector2(384.0, -32.0)
+shape = SubResource("R448x192")
+
+[node name="W22" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-368.0, 80.0)
+shape = SubResource("R480x32")
+
+[node name="W23" type="CollisionShape2D" parent="Walls"]
+position = Vector2(352.0, 80.0)
+shape = SubResource("R512x32")
+
+[node name="W24" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-352.0, 112.0)
+shape = SubResource("R512x32")
+
+[node name="W25" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-320.0, 192.0)
+shape = SubResource("R576x128")
+
+[node name="W26" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-336.0, 272.0)
+shape = SubResource("R544x32")
+
+[node name="W27" type="CollisionShape2D" parent="Walls"]
+position = Vector2(336.0, 192.0)
+shape = SubResource("R544x192")
+
+[node name="W28" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-352.0, 304.0)
+shape = SubResource("R512x32")
+
+[node name="W29" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-336.0, 336.0)
+shape = SubResource("R544x32")
+
+[node name="W30" type="CollisionShape2D" parent="Walls"]
+position = Vector2(352.0, 320.0)
+shape = SubResource("R512x64")
+
+[node name="W31" type="CollisionShape2D" parent="Walls"]
+position = Vector2(336.0, 368.0)
+shape = SubResource("R544x32")
+
+[node name="W32" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-320.0, 416.0)
+shape = SubResource("R576x128")
+
+[node name="W33" type="CollisionShape2D" parent="Walls"]
+position = Vector2(320.0, 432.0)
+shape = SubResource("R576x96")
+
+[node name="W34" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0.0, -500.0)
+shape = SubResource("R1296x40")
+
+[node name="W35" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-628.0, 0.0)
+shape = SubResource("R40x960")
+
+[node name="W36" type="CollisionShape2D" parent="Walls"]
+position = Vector2(628.0, 0.0)
+shape = SubResource("R40x960")
+
+[node name="W37" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-344.0, 500.0)
+shape = SubResource("R608x40")
+
+[node name="W38" type="CollisionShape2D" parent="Walls"]
+position = Vector2(344.0, 500.0)
+shape = SubResource("R608x40")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="from_aurewind" type="Marker2D" parent="Spawns"]
+position = Vector2(0, 400.0)
+
+[node name="RivalSpots" type="Node2D" parent="."]
+
+[node name="ToAurewind" parent="." instance=ExtResource("7_exit")]
+position = Vector2(0, 476)
+target_scene = "res://scenes/world/aurewind_plains.tscn"
+target_spawn = &"from_barrow"
+exit_hint = true
+
+[node name="runner" type="Marker2D" parent="RivalSpots"]
+position = Vector2(0, 380.0)
+
+[node name="raider" type="Marker2D" parent="RivalSpots"]
+position = Vector2(0, 380.0)
+
+[node name="hoarder" type="Marker2D" parent="RivalSpots"]
+position = Vector2(0, 380.0)
+
+[node name="FrostWolf0" parent="." instance=ExtResource("10_wolf")]
+position = Vector2(-448, -96)
+
+[node name="FrostWolf1" parent="." instance=ExtResource("10_wolf")]
+position = Vector2(-368.0, 0)
+
+[node name="Chest_niche_bones" type="StaticBody2D" parent="."]
+position = Vector2(-464.0, -16.0)
+script = ExtResource("11_chest")
+chest_id = &"grotto_niche_bones"
+card_id = &""
+gold = 20
+item_id = &"bread"
+item_count = 2
+closed_texture = ExtResource("12_chest_shut")
+open_texture = ExtResource("13_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_niche_bones"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Chest_grave_goods" type="StaticBody2D" parent="."]
+position = Vector2(352, -217.60000000000002)
+script = ExtResource("11_chest")
+chest_id = &"grotto_grave_goods"
+card_id = &""
+gold = 80
+item_id = &"healers_tonic"
+item_count = 2
+closed_texture = ExtResource("12_chest_shut")
+open_texture = ExtResource("13_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_grave_goods"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Read0" type="Node2D" parent="."]
+position = Vector2(0, 364.79999999999995)
+script = ExtResource("14_read")
+title = "The barrow door"
+lines = PackedStringArray("A passage of fitted stones going down into the mound. Over the door the lintel is carved with a crown, very worn, and nothing else.", "Fresh scuffs in the dirt of the steps. Somebody has been down here, more than once, and swept up after.")
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(0, -32)
+script = ExtResource("14_read")
+title = "The hall of pillars"
+lines = PackedStringArray("Six carved stones stand in a ring, the same as the circle on the downs above, but whole and sharp-edged down here where no rain falls.", "On every one: the crown, and under it the line of figures, each one smaller than the one before. The runes in the cuts glow faintly, green, without any light to catch.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(-409.6, -121.60000000000002)
+script = ExtResource("14_read")
+title = "Gnawed bones"
+lines = PackedStringArray("The hounds have dragged old bones into the niche and made a nest of them. Small bones, mostly.", "A copper tag on a cord, green with age: a number, and the same crown as the lintel.")
+
+[node name="Read3" type="Node2D" parent="."]
+position = Vector2(396.79999999999995, -275.2)
+script = ExtResource("14_read")
+title = "The first king's tomb"
+lines = PackedStringArray("A long stone box under a carved lid: a king lying with his hands on a sword, a crown on his head. Round the sides of the box, a line of small figures carrying sacks walks all the way round and back to his feet.", "Cut into the lid at his feet, in letters older than the island's roads: 'HE WHO HOLDS THE SET HOLDS THE ISLE. WHAT THE SET COSTS IS CARVED BELOW.' Below, the stone has been chiselled smooth.")
+
+[node name="Crystal0" type="StaticBody2D" parent="."]
+position = Vector2(-112.0, -112.0)
+
+[node name="Sprite" type="Sprite2D" parent="Crystal0"]
+offset = Vector2(0, -28.0)
+flip_h = false
+texture = ExtResource("16_ice")
+
+[node name="Base" type="CollisionShape2D" parent="Crystal0"]
+position = Vector2(0, -5)
+shape = SubResource("R28x10")
+
+[node name="CrystalGlow0" type="PointLight2D" parent="."]
+position = Vector2(-112.0, -132.0)
+texture_scale = 1.2
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.5, 1.0, 0.7, 1)
+flicker = 0.06
+
+[node name="Crystal1" type="StaticBody2D" parent="."]
+position = Vector2(112.0, -112.0)
+
+[node name="Sprite" type="Sprite2D" parent="Crystal1"]
+offset = Vector2(0, -28.0)
+flip_h = true
+texture = ExtResource("16_ice")
+
+[node name="Base" type="CollisionShape2D" parent="Crystal1"]
+position = Vector2(0, -5)
+shape = SubResource("R28x10")
+
+[node name="CrystalGlow1" type="PointLight2D" parent="."]
+position = Vector2(112.0, -132.0)
+texture_scale = 1.2
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.5, 1.0, 0.7, 1)
+flicker = 0.06
+
+[node name="Crystal2" type="StaticBody2D" parent="."]
+position = Vector2(-112.0, 48.0)
+
+[node name="Sprite" type="Sprite2D" parent="Crystal2"]
+offset = Vector2(0, -28.0)
+flip_h = false
+texture = ExtResource("16_ice")
+
+[node name="Base" type="CollisionShape2D" parent="Crystal2"]
+position = Vector2(0, -5)
+shape = SubResource("R28x10")
+
+[node name="CrystalGlow2" type="PointLight2D" parent="."]
+position = Vector2(-112.0, 28.0)
+texture_scale = 1.2
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.5, 1.0, 0.7, 1)
+flicker = 0.06
+
+[node name="Crystal3" type="StaticBody2D" parent="."]
+position = Vector2(112.0, 48.0)
+
+[node name="Sprite" type="Sprite2D" parent="Crystal3"]
+offset = Vector2(0, -28.0)
+flip_h = true
+texture = ExtResource("16_ice")
+
+[node name="Base" type="CollisionShape2D" parent="Crystal3"]
+position = Vector2(0, -5)
+shape = SubResource("R28x10")
+
+[node name="CrystalGlow3" type="PointLight2D" parent="."]
+position = Vector2(112.0, 28.0)
+texture_scale = 1.2
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.5, 1.0, 0.7, 1)
+flicker = 0.06
+
+[node name="Crystal4" type="StaticBody2D" parent="."]
+position = Vector2(288, -320)
+
+[node name="Sprite" type="Sprite2D" parent="Crystal4"]
+offset = Vector2(0, -28.0)
+flip_h = false
+texture = ExtResource("16_ice")
+
+[node name="Base" type="CollisionShape2D" parent="Crystal4"]
+position = Vector2(0, -5)
+shape = SubResource("R28x10")
+
+[node name="CrystalGlow4" type="PointLight2D" parent="."]
+position = Vector2(288, -340)
+texture_scale = 1.2
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.5, 1.0, 0.7, 1)
+flicker = 0.06
+
+[node name="Crystal5" type="StaticBody2D" parent="."]
+position = Vector2(416, -320)
+
+[node name="Sprite" type="Sprite2D" parent="Crystal5"]
+offset = Vector2(0, -28.0)
+flip_h = true
+texture = ExtResource("16_ice")
+
+[node name="Base" type="CollisionShape2D" parent="Crystal5"]
+position = Vector2(0, -5)
+shape = SubResource("R28x10")
+
+[node name="CrystalGlow5" type="PointLight2D" parent="."]
+position = Vector2(416, -340)
+texture_scale = 1.2
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.5, 1.0, 0.7, 1)
+flicker = 0.06
+
+[node name="Prop0" type="StaticBody2D" parent="."]
+position = Vector2(352, -300.8)
+
+[node name="Sprite" type="Sprite2D" parent="Prop0"]
+offset = Vector2(0, -28.0)
+texture = ExtResource("p_0")
+
+[node name="Base" type="CollisionShape2D" parent="Prop0"]
+position = Vector2(0, -15.0)
+shape = SubResource("R80x30")
+
+[node name="Prop1" type="StaticBody2D" parent="."]
+position = Vector2(-400.0, -44.80000000000001)
+
+[node name="Sprite" type="Sprite2D" parent="Prop1"]
+offset = Vector2(0, -13.5)
+texture = ExtResource("p_1")
+
+[node name="Base" type="CollisionShape2D" parent="Prop1"]
+position = Vector2(0, -6.0)
+shape = SubResource("R34x12")
+
+[node name="DoorLight" type="PointLight2D" parent="."]
+position = Vector2(0, 384)
+texture_scale = 1.6
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.6
+tint = Color(0.9, 0.9, 0.85, 1)
+flicker = 0.0
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(0, 400.0)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]
