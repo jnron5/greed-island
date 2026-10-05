@@ -240,6 +240,12 @@ func _roam(delta: float) -> void:
 		if _wait > 0.0:
 			return
 		var target := roam_points[randi() % roam_points.size()] + Vector2(randf_range(-16.0, 16.0), randf_range(6.0, 20.0))
+		# Often somewhere along the way instead (a street, a corner), so a crowd spreads out.
+		var zone_here := get_tree().current_scene as Zone
+		if zone_here and randf() < 0.6:
+			var spot := zone_here.random_open_point(target, 220.0)
+			if spot != Vector2.INF:
+				target = spot
 		for door in avoid_points:
 			if door.distance_to(target) < Travellers.DOOR_CLEAR:
 				target = door + door.direction_to(target).normalized() * Travellers.DOOR_CLEAR if door != target else door + Vector2(0, Travellers.DOOR_CLEAR)
@@ -256,8 +262,17 @@ func _roam(delta: float) -> void:
 		if _roam_route.is_empty():
 			velocity = Vector2.ZERO
 			_wait = randf_range(3.0, 9.0)
-			# A look round while standing.
+			# A look round while standing, or, with another traveller close by, a chat:
+			# they turn to each other and stay a while.
 			facing = Vector2.from_angle(randi_range(0, 3) * PI / 2.0)
+			for other in get_tree().get_nodes_in_group(&"npcs"):
+				var o := other as Npc
+				if o != self and o._here and not o.roam_points.is_empty() and o._roam_route.is_empty() 						and o.global_position.distance_to(global_position) < 56.0:
+					facing = global_position.direction_to(o.global_position)
+					o.facing = -facing
+					_wait = randf_range(8.0, 14.0)
+					o._wait = maxf(o._wait, _wait)
+					break
 			# Ended up by a door anyway (a partial path): move on at once.
 			for door in avoid_points:
 				if door.distance_to(global_position) < Travellers.DOOR_CLEAR:

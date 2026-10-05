@@ -305,6 +305,19 @@ func _build_nav() -> void:
 	_nav_ready = true
 
 
+## A random open spot (global) within `radius` of `around`, for wanderers; INF if
+## none turned up (or the grid isn't built yet).
+func random_open_point(around: Vector2, radius: float) -> Vector2:
+	if not _nav_ready:
+		return Vector2.INF
+	for _i in 12:
+		var p := around + Vector2.from_angle(randf() * TAU) * randf_range(radius * 0.3, radius)
+		var cell := _nav_cell(p)
+		if _nav.is_in_boundsv(cell) and not _nav.is_point_solid(cell):
+			return p
+	return Vector2.INF
+
+
 ## The ground sprite's area in zone coordinates (interiors draw their room scaled up).
 func _ground_rect(ground: Sprite2D) -> Rect2:
 	var size := ground.texture.get_size() * ground.scale
