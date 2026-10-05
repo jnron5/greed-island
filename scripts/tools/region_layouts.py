@@ -410,11 +410,13 @@ VERDANA = {
 }
 
 # ---------------------------------------------------------------- Lake Serin
-HERON_BLUFFS = [(-1100, -900), (-560, -900), (-600, -400), (-700, -100), (-760, 300), (-1100, 320)]
+# (edges near vertical or horizontal, with only a little wobble: a slanting cliff line
+# breaks into a jagged staircase of cliff blocks)
+HERON_BLUFFS = [(-1100, -900), (-560, -900), (-570, -280), (-690, -250), (-700, 300), (-1100, 320)]
 
 
 def serin_level(x, y):
-    return 2 if in_poly(x + wob(x, y, 20), y + wob(y, x, 16), HERON_BLUFFS) else 1
+    return 2 if in_poly(x + wob(x, y, 8), y + wob(y, x, 8), HERON_BLUFFS) else 1
 
 
 LAKE_SERIN = {
@@ -433,8 +435,8 @@ LAKE_SERIN = {
         ([(700, 790), (650, 450), (720, 100), (650, -400), (200, -560), (-300, -790)], 26),   # round the east shore, north to the Range
         ([(40, -470), (60, -250)], 18),                                     # out onto Stone Point
         ([(720, 60), (660, -60), (560, -74)], 16),                          # to Neri's dock
-        ([(-300, -700), (-600, 0), (-960, 400), (-960, 250)], 18),          # the west trail to the bluffs
-        ([(-960, 270), (-880, -300)], 14),                                  # up on the bluffs
+        ([(-300, -700), (-600, 0), (-864, 400), (-864, 250)], 18),          # the west trail to the bluffs
+        ([(-864, 270), (-880, -300)], 14),                                  # up on the bluffs
     ],
     "lakes": [(80, -40, 520, 300)],
     "meadows": [(420, 480, 160, 90, [WHITE, YELLOW]), (-420, -560, 140, 80, [BLUE, WHITE])],
