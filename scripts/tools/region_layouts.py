@@ -1018,7 +1018,12 @@ FRISALLE = {
            [(-780, -30), (-722, -30), (-664, -30), (-780, 30), (-664, 30)]]
         # The top: the bell tower, the chalets of the better-off, the cave of the ice road.
         + [{"sprite": FR + "bell_tower.png", "pos": (-360, -250), "foot": (44, 18)}]
-        + [chalet("chalet_green.png", -600, -240), chalet("chalet_red.png", 40, -240, True)]
+        # The guides' graveyard beside the bell tower, fenced in iron: a row of stones,
+        # the newest (Anselm's) at the end with fresh flowers.
+        + [{"sprite": FRP + "grave_" + "abcab"[i] + ".png", "pos": (-740 + i * 40, -330 + (i % 2) * 6), "foot": (22, 8)} for i in range(5)]
+        + [{"sprite": FRP + "grave_c.png", "pos": (-740 + 5 * 40, -330), "foot": (22, 8)}]
+        + [{"sprite": FRP + "iron_fence.png", "pos": (x, -380), "foot": (56, 8)} for x in (-750, -690, -630, -570, -510)]
+        + [chalet("chalet_green.png", -150, -250), chalet("chalet_red.png", 40, -240, True)]
         + [{"sprite": SF + "ice_cave_mouth.png", "pos": (620, -552), "feet": [(-56, -20, 50, 40), (56, -20, 50, 40), (0, -52, 64, 22)],
             "light": ((0.55, 0.85, 1.0, 1), 0.5, 1.0)}]
         # The valley: the skating pond and its snowman, the signpost at the stairs.
@@ -1032,7 +1037,7 @@ FRISALLE = {
     # Smoke from every chimney in the village.
     "decor": [d for args in [("inn.png", 80, 240), ("chalet_red.png", 340, 240), ("chalet_brown.png", -80, 20),
                              ("chalet_green.png", 330, 20), ("chalet_green.png", -640, 240, True), ("chalet_brown.png", 560, 240),
-                             ("chalet_red.png", -440, 20), ("chalet_brown.png", 560, 20, True), ("chalet_green.png", -600, -240),
+                             ("chalet_red.png", -440, 20), ("chalet_brown.png", 560, 20, True), ("chalet_green.png", -150, -250),
                              ("chalet_red.png", 40, -240, True)] for d in smoke(*args)],
     # The card merchant keeps the toy stall on the upper lane (scenes/systems/merchant.tscn).
     "merchant": ((-240, 32), FRP + "stall_toys.png"),
@@ -1070,6 +1075,10 @@ FRISALLE = {
         ("The weigh house tally board", (-300, 268), [
             "Chalk on slate, columns ruled straight: date, cart, weight, sealed by. Bodo's square hand.",
             "Since the slide: 'nil, nil, nil' all down the 'over the pass' column. And then a second column, unheaded, that isn't nil at all. Forty carts this winter, heavy ones, all 'sealed by' the same little crossed-pick mark.",
+        ]),
+        ("The guides' graves", (-540, -300), [
+            "Six stones in a row, each carved with an ice axe and a name: guides of the Starfall pass, lost to the mountain over a hundred winters.",
+            "The last is new, the snow brushed off it every morning: 'ANSELM. He knew the way.' Ottilie's handwriting on the tag of the wreath.",
         ]),
         ("The bell tower", (-410, -226), [
             "A carved gold star on the spire, and a bronze bell green with age. Carved round the door: the names of every guide lost on the pass.",
