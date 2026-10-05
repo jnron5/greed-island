@@ -204,6 +204,18 @@ func _run() -> void:
 	_check("all three: back to Oda", Quests.stage(&"millstream") == 2 and Quests.marker_for(&"oda") == "?")
 	Quests.talked_to(&"oda")
 	_check("Oda's thanks", Quests.stage(&"millstream") == Quests.DONE)
+	# "Glowcaps for the Fever" (Juniper, after her tonic): three clumps in the Hollow.
+	GameState.quest_flags[&"errand:juniper_tonic"] = Errands.DONE
+	_check("Juniper has something more", Quests.marker_for(&"juniper") == "!")
+	Quests.talked_to(&"juniper")
+	var hollow: Node = load(WorldMap.SORENDA_HOLLOW).instantiate()
+	for title in Quests.GLOWCAPS:
+		_check("'%s' grows in the Hollow" % title, hollow.get_children().any(func(n: Node) -> bool: return n is Readable and n.title == title))
+		Quests.read(title)
+	hollow.free()
+	_check("all three: back to Juniper", Quests.stage(&"glowcaps") == 2 and Quests.marker_for(&"juniper") == "?")
+	Quests.talked_to(&"juniper")
+	_check("Juniper's thanks", Quests.stage(&"glowcaps") == Quests.DONE)
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)
 

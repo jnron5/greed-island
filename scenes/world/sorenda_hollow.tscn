@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3]
+[gd_scene load_steps=61 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -21,7 +21,6 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/log.png" id="19_log"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/branch.png" id="19_branch"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/rock.png" id="19_rock"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/stump.png" id="19_stump"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/pale_mushrooms.png" id="19_pale_mushrooms"]
 
 [sub_resource type="RectangleShape2D" id="R1472x224"]
@@ -455,6 +454,24 @@ title = "A torn sleeve"
 lines = PackedStringArray("A strip of rough cloth caught on the rock where the passage narrows. It's stamped, like a sack: 'D.M. - issue'.", "Someone small squeezed through here. Something much bigger has been rubbing the rock smooth trying to follow.")
 
 [node name="Read2" type="Node2D" parent="."]
+position = Vector2(-464.0, -128)
+script = ExtResource("14_read")
+title = "Glowcaps by the grotto wall"
+lines = PackedStringArray("A clump of mushrooms glowing a cold blue against the rock, not the green of the rest. You cut a few and wrap them in a leaf.")
+
+[node name="Read3" type="Node2D" parent="."]
+position = Vector2(560.0, 320)
+script = ExtResource("14_read")
+title = "Glowcaps by the still pool"
+lines = PackedStringArray("Blue glowcaps crowd the edge of the black pool, their light doubled in the water. You take a handful from the dry side.")
+
+[node name="Read4" type="Node2D" parent="."]
+position = Vector2(576, -208.0)
+script = ExtResource("14_read")
+title = "Glowcaps in the alcove"
+lines = PackedStringArray("Behind where the satchel lay, a last clump of blue glowcaps. Something small sat here long enough to wear a hollow in the moss beside them.")
+
+[node name="Read5" type="Node2D" parent="."]
 position = Vector2(496.0, -272.0)
 script = ExtResource("14_read")
 title = "A satchel in the moss"
@@ -735,37 +752,37 @@ position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
 [node name="Litter1" type="Sprite2D" parent="."]
-position = Vector2(-429, -78)
+position = Vector2(258, 202)
 modulate = Color(0.62, 0.7, 0.8, 1)
 offset = Vector2(0, -13.0)
 texture = ExtResource("19_branch")
 
 [node name="Litter2" type="StaticBody2D" parent="."]
-position = Vector2(304, -16)
+position = Vector2(301, -2)
 
 [node name="Sprite" type="Sprite2D" parent="Litter2"]
 modulate = Color(0.62, 0.7, 0.8, 1)
-offset = Vector2(0, -10.0)
-texture = ExtResource("19_rock")
+offset = Vector2(0, -9.5)
+texture = ExtResource("19_log")
 
 [node name="Base" type="CollisionShape2D" parent="Litter2"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
 [node name="Litter3" type="StaticBody2D" parent="."]
-position = Vector2(-426, 301)
+position = Vector2(457, 347)
 
 [node name="Sprite" type="Sprite2D" parent="Litter3"]
 modulate = Color(0.62, 0.7, 0.8, 1)
-offset = Vector2(0, -10.5)
-texture = ExtResource("19_stump")
+offset = Vector2(0, -10.0)
+texture = ExtResource("19_rock")
 
 [node name="Base" type="CollisionShape2D" parent="Litter3"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
 [node name="Litter4" type="StaticBody2D" parent="."]
-position = Vector2(247, 251)
+position = Vector2(236, 133)
 
 [node name="Sprite" type="Sprite2D" parent="Litter4"]
 modulate = Color(0.62, 0.7, 0.8, 1)
@@ -777,7 +794,7 @@ position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
 [node name="Litter5" type="StaticBody2D" parent="."]
-position = Vector2(247, 145)
+position = Vector2(-482, -52)
 
 [node name="Sprite" type="Sprite2D" parent="Litter5"]
 modulate = Color(0.62, 0.7, 0.8, 1)
@@ -788,17 +805,11 @@ texture = ExtResource("19_log")
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Litter6" type="StaticBody2D" parent="."]
-position = Vector2(451, 383)
-
-[node name="Sprite" type="Sprite2D" parent="Litter6"]
+[node name="Litter6" type="Sprite2D" parent="."]
+position = Vector2(-431, 303)
 modulate = Color(0.62, 0.7, 0.8, 1)
-offset = Vector2(0, -10.0)
-texture = ExtResource("19_rock")
-
-[node name="Base" type="CollisionShape2D" parent="Litter6"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
+offset = Vector2(0, -11.5)
+texture = ExtResource("19_pale_mushrooms")
 
 [node name="Litter7" type="StaticBody2D" parent="."]
 position = Vector2(333, 74)
@@ -843,10 +854,52 @@ position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
 [node name="Litter11" type="Sprite2D" parent="."]
-position = Vector2(-442, 40)
+position = Vector2(-392, -112)
 modulate = Color(0.62, 0.7, 0.8, 1)
 offset = Vector2(0, -13.0)
 texture = ExtResource("19_branch")
+
+[node name="Litter12" type="StaticBody2D" parent="."]
+position = Vector2(192, 242)
+
+[node name="Sprite" type="Sprite2D" parent="Litter12"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -10.0)
+texture = ExtResource("19_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Litter12"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter13" type="StaticBody2D" parent="."]
+position = Vector2(-354, 51)
+
+[node name="Sprite" type="Sprite2D" parent="Litter13"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -9.5)
+texture = ExtResource("19_log")
+
+[node name="Base" type="CollisionShape2D" parent="Litter13"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Litter14" type="Sprite2D" parent="."]
+position = Vector2(-518, 381)
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -11.5)
+texture = ExtResource("19_pale_mushrooms")
+
+[node name="Litter15" type="StaticBody2D" parent="."]
+position = Vector2(-448, 47)
+
+[node name="Sprite" type="Sprite2D" parent="Litter15"]
+modulate = Color(0.62, 0.7, 0.8, 1)
+offset = Vector2(0, -10.0)
+texture = ExtResource("19_rock")
+
+[node name="Base" type="CollisionShape2D" parent="Litter15"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
 [node name="Fireflies0" type="Node2D" parent="."]
 position = Vector2(-384, -64)

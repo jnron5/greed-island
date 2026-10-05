@@ -118,6 +118,16 @@ READABLES = [
         "A strip of rough cloth caught on the rock where the passage narrows. It's stamped, like a sack: 'D.M. - issue'.",
         "Someone small squeezed through here. Something much bigger has been rubbing the rock smooth trying to follow.",
     ]),
+    # Glowcaps for the Fever (Juniper): the blue ones, in three places.
+    ("Glowcaps by the grotto wall", (8.5, 13), [
+        "A clump of mushrooms glowing a cold blue against the rock, not the green of the rest. You cut a few and wrap them in a leaf.",
+    ]),
+    ("Glowcaps by the still pool", (40.5, 27), [
+        "Blue glowcaps crowd the edge of the black pool, their light doubled in the water. You take a handful from the dry side.",
+    ]),
+    ("Glowcaps in the alcove", (41, 10.5), [
+        "Behind where the satchel lay, a last clump of blue glowcaps. Something small sat here long enough to wear a hollow in the moss beside them.",
+    ]),
     ("A satchel in the moss", (38.5, 8.5), [
         "A canvas satchel, stiff with old rain, tucked into the driest corner of the cave. Inside: a heel of bread gone to stone, a little carved wooden bird, and a tin work tag stamped 'D.M. - No. 117'.",
         "Scratched into the rock above it, low down, where a small hand could reach: 'I ran. Tell mama I ran.'",

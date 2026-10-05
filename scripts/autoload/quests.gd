@@ -17,7 +17,12 @@ const TITLES := {
 	&"merchants_ledger": "The Merchant's Ledger",
 	&"light_on_water": "The Light on the Water",
 	&"millstream": "What the Millstream Carries",
+	&"glowcaps": "Glowcaps for the Fever",
 }
+## Sorenda (Juniper, after her tonic): three clumps of glowcaps in the Hollow, one in
+## the grotto, one by the pool past the bear's den, one in the alcove.
+const GLOWCAPS: Array[String] = ["Glowcaps by the grotto wall", "Glowcaps by the still pool", "Glowcaps in the alcove"]
+const GLOWCAPS_REWARD_GOLD := 40
 ## Seabright (Sparkle, after her dare): watch the sea from the lookout after dark,
 ## then the bungalow the light answers from (Readables with night_lines).
 const LIGHT_LOOKOUT := "A lookout on the headland"
@@ -230,6 +235,25 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					])
 				DONE:
 					return PackedStringArray(["Next time the light blinks, I'm swimming out after the rope. Don't tell the lifeguard."])
+		&"juniper":
+			if Errands.state(&"juniper_tonic") != Errands.DONE:
+				return PackedStringArray()
+			match stage(&"glowcaps"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"Harl's youngest has the fever. Feverfew won't touch it. Glowcaps will, the blue ones that only grow in the dark.",
+						"They grow in the Hollow, past the moss gate. One clump in the mushroom grotto, one by the still pool past the bear's den, one right at the back in the alcove.",
+						"I'd go myself, but I've seen what's living in the den. You've a sword. I've a mortar and pestle.",
+					])
+				1:
+					return PackedStringArray(["The grotto, the pool past the den, the alcove at the back. Blue ones. The green ones will make him worse. (%d/3 gathered)" % _glowcaps_found()])
+				2:
+					return PackedStringArray([
+						"Blue, all three. And you came back with all your fingers. I'll have the draught brewed by moonrise.",
+						"Here. For the risk, and for Harl's girl. And take a tonic or two; you look like you went through the den, not round it.",
+					])
+				DONE:
+					return PackedStringArray(["She's sitting up and eating. Harl hasn't stopped crying. Nor have I, if I'm honest."])
 		&"oda":
 			if Errands.state(&"oda_news") != Errands.DONE:
 				return PackedStringArray()
@@ -326,6 +350,12 @@ func marker_for(npc_id: StringName) -> String:
 				return "!"
 			3:
 				return "?"
+	if npc_id == &"juniper" and Errands.state(&"juniper_tonic") == Errands.DONE:
+		match stage(&"glowcaps"):
+			NOT_STARTED:
+				return "!"
+			2:
+				return "?"
 	if npc_id == &"oda" and Errands.state(&"oda_news") == Errands.DONE:
 		match stage(&"millstream"):
 			NOT_STARTED:
@@ -383,6 +413,17 @@ func talked_to(npc_id: StringName) -> void:
 				GameState.quest_flags[&"knows_bungalow_3"] = true
 				set_stage(&"light_on_water", DONE)
 				EventBus.notify.emit("Quest complete: The Light on the Water (+%d gold, Lockbox Seal)" % LIGHT_REWARD_GOLD)
+		return
+	if npc_id == &"juniper" and Errands.state(&"juniper_tonic") == Errands.DONE:
+		match stage(&"glowcaps"):
+			NOT_STARTED:
+				set_stage(&"glowcaps", 2 if _glowcaps_found() == GLOWCAPS.size() else 1)
+				EventBus.notify.emit("Quest started: Glowcaps for the Fever")
+			2:
+				GameState.add_currency(GLOWCAPS_REWARD_GOLD)
+				GameState.add_item(&"healers_tonic", 2)
+				set_stage(&"glowcaps", DONE)
+				EventBus.notify.emit("Quest complete: Glowcaps for the Fever (+%d gold, 2 Healer's Tonics)" % GLOWCAPS_REWARD_GOLD)
 		return
 	if npc_id == &"oda" and Errands.state(&"oda_news") == Errands.DONE:
 		match stage(&"millstream"):
@@ -495,6 +536,15 @@ func read(title: String, at_night := false) -> void:
 	if title == LIGHT_DOOR and at_night and stage(&"light_on_water") == 2:
 		set_stage(&"light_on_water", 3)
 		EventBus.notify.emit("Tell Sparkle what you found at Bungalow 3")
+	if title in GLOWCAPS and not flag(StringName("glowcap:%s" % title)):
+		GameState.quest_flags[StringName("glowcap:%s" % title)] = true
+		if stage(&"glowcaps") == 1:
+			if _glowcaps_found() == GLOWCAPS.size():
+				set_stage(&"glowcaps", 2)
+				EventBus.notify.emit("All three gathered. Take the glowcaps to Juniper")
+			else:
+				quest_changed.emit(&"glowcaps", 1)
+				EventBus.notify.emit("Glowcaps for the Fever: %d of 3 gathered" % _glowcaps_found())
 	if title in MILLSTREAM_FINDS and not flag(StringName("stream:%s" % title)):
 		GameState.quest_flags[StringName("stream:%s" % title)] = true
 		if stage(&"millstream") == 1:
@@ -559,6 +609,11 @@ func tracker_text() -> String:
 			lines.append("%s: find the bungalow that answered the light, after dark" % TITLES[&"light_on_water"])
 		3:
 			lines.append("%s: tell Sparkle what you found" % TITLES[&"light_on_water"])
+	match stage(&"glowcaps"):
+		1:
+			lines.append("%s: gather the blue glowcaps in the Hollow (%d/3)" % [TITLES[&"glowcaps"], _glowcaps_found()])
+		2:
+			lines.append("%s: bring the glowcaps to Juniper in Sorenda" % TITLES[&"glowcaps"])
 	match stage(&"millstream"):
 		1:
 			lines.append("%s: search the reeds along Verdana's millstream (%d/3)" % [TITLES[&"millstream"], _millstream_found()])
@@ -599,6 +654,11 @@ func map_goals() -> Array[String]:
 		add.call(WorldMap.SEABRIGHT)
 	if stage(&"millstream") in [1, 2]:
 		add.call(WorldMap.VERDANA)
+	match stage(&"glowcaps"):
+		1:
+			add.call(WorldMap.SORENDA_HOLLOW)
+		2:
+			add.call(WorldMap.SORENDA)
 	match stage(&"merchants_ledger"):
 		1:
 			for title: String in LEDGER_CLUES:
@@ -623,6 +683,10 @@ func map_goals() -> Array[String]:
 
 func _stones_read() -> int:
 	return STONES.keys().filter(func(t: String) -> bool: return flag(StringName("stone:%s" % t))).size()
+
+
+func _glowcaps_found() -> int:
+	return GLOWCAPS.filter(func(t: String) -> bool: return flag(StringName("glowcap:%s" % t))).size()
 
 
 func _millstream_found() -> int:
