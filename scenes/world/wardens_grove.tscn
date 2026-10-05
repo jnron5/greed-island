@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" path="res://scenes/systems/card_gate.tscn" id="10_gate"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/elder_shrine.tscn" id="12_shrine"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/wardens_grove_ground.png" id="90_ground"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/berry_bush.png" id="60_hedge_berry"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/fern.png" id="60_hedge_fern"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/forest_fir.tscn" id="80_fir"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/forest_oak.tscn" id="80_oak"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/flowers.png" id="81_flowers"]
@@ -113,11 +115,401 @@ shape = SubResource("Sanctum_top")
 position = Vector2(20, 152)
 shape = SubResource("Sanctum_top")
 
-[node name="Roots" type="Line2D" parent="Sanctum"]
-z_index = -7
-points = PackedVector2Array(-40, -22, -40, -152, 80, -152, 80, 152, -40, 152, -40, 22)
-width = 8.0
-default_color = Color(0.3, 0.22, 0.14, 1)
+[node name="Hedge1" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -16)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge2" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -29)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge3" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -42)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge4" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -55)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge5" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -68)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge6" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -81)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge7" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -94)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge8" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -107)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge9" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -120)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge10" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -133)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge11" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, -146)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge12" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-28, -146)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge13" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-16, -146)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge14" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-4, -146)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge15" type="Sprite2D" parent="Sanctum"]
+position = Vector2(8, -146)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge16" type="Sprite2D" parent="Sanctum"]
+position = Vector2(20, -146)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge17" type="Sprite2D" parent="Sanctum"]
+position = Vector2(32, -146)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge18" type="Sprite2D" parent="Sanctum"]
+position = Vector2(44, -146)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge19" type="Sprite2D" parent="Sanctum"]
+position = Vector2(56, -146)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge20" type="Sprite2D" parent="Sanctum"]
+position = Vector2(68, -146)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge21" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -146)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge22" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -134)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge23" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -122)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge24" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -110)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge25" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -97)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge26" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -85)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge27" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -73)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge28" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -61)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge29" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -49)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge30" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -37)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge31" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -24)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge32" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -12)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge33" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, -0)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge34" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 12)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge35" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 24)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge36" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 36)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge37" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 49)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge38" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 61)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge39" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 73)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge40" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 85)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge41" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 97)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge42" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 109)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge43" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 122)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge44" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 134)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge45" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 146)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge46" type="Sprite2D" parent="Sanctum"]
+position = Vector2(80, 158)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge47" type="Sprite2D" parent="Sanctum"]
+position = Vector2(68, 158)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge48" type="Sprite2D" parent="Sanctum"]
+position = Vector2(56, 158)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge49" type="Sprite2D" parent="Sanctum"]
+position = Vector2(44, 158)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge50" type="Sprite2D" parent="Sanctum"]
+position = Vector2(32, 158)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge51" type="Sprite2D" parent="Sanctum"]
+position = Vector2(20, 158)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge52" type="Sprite2D" parent="Sanctum"]
+position = Vector2(8, 158)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge53" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-4, 158)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge54" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-16, 158)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge55" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-28, 158)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge56" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 158)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge57" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 145)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge58" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 132)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge59" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 119)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge60" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 106)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge61" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 93)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_fern")
+
+[node name="Hedge62" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 80)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge63" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 67)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge64" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 54)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge65" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 41)
+offset = Vector2(0, -12)
+flip_h = true
+texture = ExtResource("60_hedge_berry")
+
+[node name="Hedge66" type="Sprite2D" parent="Sanctum"]
+position = Vector2(-40, 28)
+offset = Vector2(0, -12)
+flip_h = false
+texture = ExtResource("60_hedge_fern")
 
 [node name="SanctumGate" parent="." instance=ExtResource("10_gate")]
 position = Vector2(380, 0)

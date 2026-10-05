@@ -178,7 +178,7 @@ title = "Postcards on the desk"
 lines = PackedStringArray("A stack of postcards of the Saltglass Terrace, all addressed to the same school in Vetrassa. 'We saw a dolphin. We saw Lady Sparkle jump off the pier. Papa said not to tell anyone that.'")
 
 [node name="Read2" type="Node2D" parent="."]
-position = Vector2(160, 210)
+position = Vector2(108, 214)
 script = ExtResource("12_read")
 title = "A child's drawing"
 lines = PackedStringArray("Crayon on hotel paper: the jetty, the bungalows, a round yellow moon. Out on the water, a long black boat with no windows, and a little light on it, coloured in very hard.", "Underneath, carefully: 'THE GOST BOAT. It comes when evryone is asleep. Not me.'")

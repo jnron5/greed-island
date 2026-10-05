@@ -46,8 +46,8 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/frisalle/anim/chimney_smoke.png" id="r35_chimney_smoke"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/snow_pine.tscn" id="r36_snow_pine"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/frost_grass.png" id="r37_frost_grass"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/snow_rocks.png" id="r38_snow_rocks"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/snow_shrub.png" id="r39_snow_shrub"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/snow_shrub.png" id="r38_snow_shrub"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/snow_rocks.png" id="r39_snow_rocks"]
 [ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="r40_npc"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/bodo/bodo_frames.tres" id="r41_bodo_frames"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/liesl/liesl_frames.tres" id="r42_liesl_frames"]
@@ -1239,7 +1239,7 @@ tint = Color(0.55, 0.85, 1.0, 1)
 flicker = 0.03
 
 [node name="Lantern0" type="StaticBody2D" parent="."]
-position = Vector2(-420, 292)
+position = Vector2(-420, 332)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern0"]
 position = Vector2(0, -28.0)
@@ -1250,12 +1250,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight0" type="PointLight2D" parent="."]
-position = Vector2(-414, 248)
+position = Vector2(-414, 288)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern1" type="StaticBody2D" parent="."]
-position = Vector2(-100, 292)
+position = Vector2(-100, 332)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern1"]
 position = Vector2(0, -28.0)
@@ -1266,12 +1266,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight1" type="PointLight2D" parent="."]
-position = Vector2(-94, 248)
+position = Vector2(-94, 288)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern2" type="StaticBody2D" parent="."]
-position = Vector2(220, 292)
+position = Vector2(220, 332)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern2"]
 position = Vector2(0, -28.0)
@@ -1282,12 +1282,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight2" type="PointLight2D" parent="."]
-position = Vector2(226, 248)
+position = Vector2(226, 288)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern3" type="StaticBody2D" parent="."]
-position = Vector2(480, 292)
+position = Vector2(480, 332)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern3"]
 position = Vector2(0, -28.0)
@@ -1298,12 +1298,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight3" type="PointLight2D" parent="."]
-position = Vector2(486, 248)
+position = Vector2(486, 288)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern4" type="StaticBody2D" parent="."]
-position = Vector2(-560, 66)
+position = Vector2(-560, 106)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern4"]
 position = Vector2(0, -28.0)
@@ -1314,12 +1314,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight4" type="PointLight2D" parent="."]
-position = Vector2(-554, 22)
+position = Vector2(-554, 62)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern5" type="StaticBody2D" parent="."]
-position = Vector2(-180, 66)
+position = Vector2(-180, 106)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern5"]
 position = Vector2(0, -28.0)
@@ -1330,12 +1330,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight5" type="PointLight2D" parent="."]
-position = Vector2(-174, 22)
+position = Vector2(-174, 62)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern6" type="StaticBody2D" parent="."]
-position = Vector2(180, 66)
+position = Vector2(180, 106)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern6"]
 position = Vector2(0, -28.0)
@@ -1346,12 +1346,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight6" type="PointLight2D" parent="."]
-position = Vector2(186, 22)
+position = Vector2(186, 62)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern7" type="StaticBody2D" parent="."]
-position = Vector2(460, 66)
+position = Vector2(460, 106)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern7"]
 position = Vector2(0, -28.0)
@@ -1362,12 +1362,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight7" type="PointLight2D" parent="."]
-position = Vector2(466, 22)
+position = Vector2(466, 62)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern8" type="StaticBody2D" parent="."]
-position = Vector2(-200, -168)
+position = Vector2(-200, -128)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern8"]
 position = Vector2(0, -28.0)
@@ -1378,12 +1378,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight8" type="PointLight2D" parent="."]
-position = Vector2(-194, -212)
+position = Vector2(-194, -172)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern9" type="StaticBody2D" parent="."]
-position = Vector2(120, -168)
+position = Vector2(120, -128)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern9"]
 position = Vector2(0, -28.0)
@@ -1394,12 +1394,12 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight9" type="PointLight2D" parent="."]
-position = Vector2(126, -212)
+position = Vector2(126, -172)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
 [node name="Lantern10" type="StaticBody2D" parent="."]
-position = Vector2(-460, 520)
+position = Vector2(-460, 560)
 
 [node name="Sprite" type="Sprite2D" parent="Lantern10"]
 position = Vector2(0, -28.0)
@@ -1410,7 +1410,7 @@ position = Vector2(0, -4)
 shape = SubResource("R10x8")
 
 [node name="LanternLight10" type="PointLight2D" parent="."]
-position = Vector2(-454, 476)
+position = Vector2(-454, 516)
 texture_scale = 1.2
 script = ExtResource("8_lamp")
 
@@ -2071,680 +2071,736 @@ position = Vector2(742, 2)
 [node name="Tree175" parent="." instance=ExtResource("r36_snow_pine")]
 position = Vector2(708, 3)
 
+[node name="Tree176" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(654, -430)
+
+[node name="Tree177" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(525, -414)
+
+[node name="Tree178" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(510, -482)
+
+[node name="Tree179" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(466, -430)
+
+[node name="Tree180" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(-473, -449)
+
+[node name="Tree181" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(-519, -435)
+
+[node name="Tree182" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(-410, -462)
+
+[node name="Tree183" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(-502, -459)
+
+[node name="Tree184" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(744, 243)
+
+[node name="Tree185" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(682, 206)
+
+[node name="Tree186" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(709, 238)
+
+[node name="Tree187" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(425, 548)
+
+[node name="Tree188" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(391, 504)
+
+[node name="Tree189" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(360, 507)
+
+[node name="Tree190" parent="." instance=ExtResource("r36_snow_pine")]
+position = Vector2(468, 549)
+
 [node name="Under0" type="Sprite2D" parent="."]
-position = Vector2(-700, -571)
-flip_h = true
+position = Vector2(-536, -566)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under1" type="StaticBody2D" parent="."]
-position = Vector2(-648, -558)
-
-[node name="Sprite" type="Sprite2D" parent="Under1"]
+[node name="Under1" type="Sprite2D" parent="."]
+position = Vector2(-231, -568)
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
+texture = ExtResource("r38_snow_shrub")
 
-[node name="Base" type="CollisionShape2D" parent="Under1"]
+[node name="Under2" type="Sprite2D" parent="."]
+position = Vector2(-161, 633)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r37_frost_grass")
+
+[node name="Under3" type="StaticBody2D" parent="."]
+position = Vector2(82, -566)
+
+[node name="Sprite" type="Sprite2D" parent="Under3"]
+offset = Vector2(0, -14.0)
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under3"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Under2" type="Sprite2D" parent="."]
-position = Vector2(-435, -565)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+[node name="Under4" type="StaticBody2D" parent="."]
+position = Vector2(173, -566)
 
-[node name="Under3" type="Sprite2D" parent="."]
-position = Vector2(-357, -578)
+[node name="Sprite" type="Sprite2D" parent="Under4"]
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r39_snow_rocks")
 
-[node name="Under4" type="Sprite2D" parent="."]
-position = Vector2(-371, 638)
-flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+[node name="Base" type="CollisionShape2D" parent="Under4"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
-[node name="Under5" type="Sprite2D" parent="."]
-position = Vector2(-295, -566)
-flip_h = true
+[node name="Under5" type="StaticBody2D" parent="."]
+position = Vector2(219, 633)
+
+[node name="Sprite" type="Sprite2D" parent="Under5"]
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under5"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
 [node name="Under6" type="Sprite2D" parent="."]
-position = Vector2(-198, -563)
+position = Vector2(210, -575)
 flip_h = true
+offset = Vector2(0, -14.0)
+texture = ExtResource("r38_snow_shrub")
+
+[node name="Under7" type="Sprite2D" parent="."]
+position = Vector2(252, 638)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under7" type="Sprite2D" parent="."]
-position = Vector2(-192, 636)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
 [node name="Under8" type="StaticBody2D" parent="."]
-position = Vector2(-153, -565)
+position = Vector2(386, -567)
 
 [node name="Sprite" type="Sprite2D" parent="Under8"]
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
+texture = ExtResource("r39_snow_rocks")
 
 [node name="Base" type="CollisionShape2D" parent="Under8"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
 [node name="Under9" type="Sprite2D" parent="."]
-position = Vector2(-126, 639)
-flip_h = true
+position = Vector2(450, -572)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
-[node name="Under10" type="Sprite2D" parent="."]
-position = Vector2(41, -566)
-flip_h = true
+[node name="Under10" type="StaticBody2D" parent="."]
+position = Vector2(527, -561)
+
+[node name="Sprite" type="Sprite2D" parent="Under10"]
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under10"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
 [node name="Under11" type="Sprite2D" parent="."]
-position = Vector2(147, -577)
+position = Vector2(760, -570)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under12" type="Sprite2D" parent="."]
-position = Vector2(148, 639)
-flip_h = true
+position = Vector2(-798, -408)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under13" type="Sprite2D" parent="."]
-position = Vector2(211, -571)
+position = Vector2(-796, -360)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under14" type="Sprite2D" parent="."]
-position = Vector2(764, -576)
+position = Vector2(796, -370)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under15" type="Sprite2D" parent="."]
-position = Vector2(726, 637)
+position = Vector2(795, -346)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under16" type="Sprite2D" parent="."]
-position = Vector2(760, 633)
+position = Vector2(801, -296)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r38_snow_shrub")
 
-[node name="Under17" type="StaticBody2D" parent="."]
-position = Vector2(-789, -442)
-
-[node name="Sprite" type="Sprite2D" parent="Under17"]
+[node name="Under17" type="Sprite2D" parent="."]
+position = Vector2(790, -29)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
-
-[node name="Base" type="CollisionShape2D" parent="Under17"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under18" type="Sprite2D" parent="."]
-position = Vector2(-801, -310)
-flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under19" type="Sprite2D" parent="."]
-position = Vector2(830, -195)
-flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under20" type="Sprite2D" parent="."]
-position = Vector2(-795, -167)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under21" type="Sprite2D" parent="."]
-position = Vector2(790, -28)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under22" type="Sprite2D" parent="."]
-position = Vector2(786, 35)
-flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under23" type="Sprite2D" parent="."]
-position = Vector2(-790, 205)
-flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under24" type="Sprite2D" parent="."]
-position = Vector2(831, 213)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under25" type="Sprite2D" parent="."]
-position = Vector2(789, 446)
+position = Vector2(804, 5)
 flip_h = true
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
+[node name="Under19" type="Sprite2D" parent="."]
+position = Vector2(797, 283)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r37_frost_grass")
+
+[node name="Under20" type="Sprite2D" parent="."]
+position = Vector2(-802, 309)
+flip_h = true
+offset = Vector2(0, -14.0)
+texture = ExtResource("r38_snow_shrub")
+
+[node name="Under21" type="Sprite2D" parent="."]
+position = Vector2(797, 449)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r37_frost_grass")
+
+[node name="Under22" type="Sprite2D" parent="."]
+position = Vector2(-599, 598)
+flip_h = true
+offset = Vector2(0, -14.0)
+texture = ExtResource("r37_frost_grass")
+
+[node name="Under23" type="Sprite2D" parent="."]
+position = Vector2(-568, -526)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r38_snow_shrub")
+
+[node name="Under24" type="Sprite2D" parent="."]
+position = Vector2(-335, -531)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r38_snow_shrub")
+
+[node name="Under25" type="Sprite2D" parent="."]
+position = Vector2(-155, 610)
+flip_h = true
+offset = Vector2(0, -14.0)
+texture = ExtResource("r38_snow_shrub")
+
 [node name="Under26" type="Sprite2D" parent="."]
-position = Vector2(-802, 477)
+position = Vector2(-79, -540)
 flip_h = true
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under27" type="Sprite2D" parent="."]
-position = Vector2(804, 485)
+position = Vector2(160, -539)
 flip_h = true
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under28" type="Sprite2D" parent="."]
-position = Vector2(-797, 579)
+position = Vector2(151, 598)
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under29" type="Sprite2D" parent="."]
-position = Vector2(-634, 603)
+position = Vector2(201, -530)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under30" type="Sprite2D" parent="."]
-position = Vector2(-519, -527)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
-
-[node name="Under31" type="Sprite2D" parent="."]
-position = Vector2(-488, -541)
+position = Vector2(273, -538)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
+
+[node name="Under31" type="StaticBody2D" parent="."]
+position = Vector2(366, -525)
+
+[node name="Sprite" type="Sprite2D" parent="Under31"]
+flip_h = true
+offset = Vector2(0, -14.0)
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under31"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
 [node name="Under32" type="Sprite2D" parent="."]
-position = Vector2(-441, -535)
+position = Vector2(397, 603)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r38_snow_shrub")
+
+[node name="Under33" type="Sprite2D" parent="."]
+position = Vector2(466, -533)
+flip_h = true
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under33" type="StaticBody2D" parent="."]
-position = Vector2(-199, 602)
-
-[node name="Sprite" type="Sprite2D" parent="Under33"]
+[node name="Under34" type="Sprite2D" parent="."]
+position = Vector2(487, 602)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
+texture = ExtResource("r38_snow_shrub")
 
-[node name="Base" type="CollisionShape2D" parent="Under33"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
-
-[node name="Under34" type="StaticBody2D" parent="."]
-position = Vector2(-161, -525)
-
-[node name="Sprite" type="Sprite2D" parent="Under34"]
+[node name="Under35" type="Sprite2D" parent="."]
+position = Vector2(507, -541)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
-
-[node name="Base" type="CollisionShape2D" parent="Under34"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
-
-[node name="Under35" type="StaticBody2D" parent="."]
-position = Vector2(-116, 603)
-
-[node name="Sprite" type="Sprite2D" parent="Under35"]
-flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
-
-[node name="Base" type="CollisionShape2D" parent="Under35"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under36" type="Sprite2D" parent="."]
-position = Vector2(-75, -547)
+position = Vector2(802, -522)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under37" type="Sprite2D" parent="."]
-position = Vector2(-40, -545)
+position = Vector2(-772, -491)
 flip_h = true
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under38" type="StaticBody2D" parent="."]
-position = Vector2(40, -543)
+position = Vector2(-796, -448)
 
 [node name="Sprite" type="Sprite2D" parent="Under38"]
-flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
+texture = ExtResource("r39_snow_rocks")
 
 [node name="Base" type="CollisionShape2D" parent="Under38"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Under39" type="Sprite2D" parent="."]
-position = Vector2(75, -537)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+[node name="Under39" type="StaticBody2D" parent="."]
+position = Vector2(-813, -332)
 
-[node name="Under40" type="Sprite2D" parent="."]
-position = Vector2(121, -534)
+[node name="Sprite" type="Sprite2D" parent="Under39"]
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r39_snow_rocks")
 
-[node name="Under41" type="Sprite2D" parent="."]
-position = Vector2(160, 599)
-flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under42" type="StaticBody2D" parent="."]
-position = Vector2(207, -527)
-
-[node name="Sprite" type="Sprite2D" parent="Under42"]
-offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
-
-[node name="Base" type="CollisionShape2D" parent="Under42"]
+[node name="Base" type="CollisionShape2D" parent="Under39"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
+[node name="Under40" type="Sprite2D" parent="."]
+position = Vector2(-796, -292)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r37_frost_grass")
+
+[node name="Under41" type="Sprite2D" parent="."]
+position = Vector2(-759, -227)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r37_frost_grass")
+
+[node name="Under42" type="Sprite2D" parent="."]
+position = Vector2(756, -50)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r38_snow_shrub")
+
 [node name="Under43" type="Sprite2D" parent="."]
-position = Vector2(246, 614)
+position = Vector2(-810, 228)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under44" type="Sprite2D" parent="."]
-position = Vector2(324, -534)
+position = Vector2(750, 230)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under45" type="Sprite2D" parent="."]
-position = Vector2(401, -528)
-flip_h = true
+position = Vector2(-564, -466)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under46" type="Sprite2D" parent="."]
-position = Vector2(429, -543)
+position = Vector2(-791, -605)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under47" type="StaticBody2D" parent="."]
-position = Vector2(484, 612)
-
-[node name="Sprite" type="Sprite2D" parent="Under47"]
-offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
-
-[node name="Base" type="CollisionShape2D" parent="Under47"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
-
-[node name="Under48" type="Sprite2D" parent="."]
-position = Vector2(554, -535)
+[node name="Under47" type="Sprite2D" parent="."]
+position = Vector2(-700, -489)
 flip_h = true
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
+[node name="Under48" type="Sprite2D" parent="."]
+position = Vector2(725, 6)
+flip_h = true
+offset = Vector2(0, -14.0)
+texture = ExtResource("r38_snow_shrub")
+
 [node name="Under49" type="Sprite2D" parent="."]
-position = Vector2(518, 606)
+position = Vector2(638, -426)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under50" type="Sprite2D" parent="."]
-position = Vector2(711, -536)
+position = Vector2(690, 247)
 flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under51" type="Sprite2D" parent="."]
-position = Vector2(-814, -532)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under52" type="Sprite2D" parent="."]
-position = Vector2(761, -525)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
+[node name="Under51" type="Sprite2D" parent="."]
+position = Vector2(409, 553)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r37_frost_grass")
+
+[node name="Under52" type="Sprite2D" parent="."]
+position = Vector2(375, 513)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r38_snow_shrub")
+
 [node name="Under53" type="Sprite2D" parent="."]
-position = Vector2(803, -455)
+position = Vector2(487, 555)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under54" type="Sprite2D" parent="."]
-position = Vector2(763, -415)
+position = Vector2(16, -302)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under55" type="Sprite2D" parent="."]
-position = Vector2(768, -216)
+position = Vector2(-5, -311)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under56" type="Sprite2D" parent="."]
-position = Vector2(-774, -176)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+[node name="Under56" type="StaticBody2D" parent="."]
+position = Vector2(310, 542)
 
-[node name="Under57" type="Sprite2D" parent="."]
-position = Vector2(764, -49)
+[node name="Sprite" type="Sprite2D" parent="Under56"]
+offset = Vector2(0, -14.0)
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under56"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under57" type="StaticBody2D" parent="."]
+position = Vector2(273, 526)
+
+[node name="Sprite" type="Sprite2D" parent="Under57"]
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r39_snow_rocks")
 
-[node name="Under58" type="Sprite2D" parent="."]
-position = Vector2(-766, 312)
+[node name="Base" type="CollisionShape2D" parent="Under57"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under58" type="StaticBody2D" parent="."]
+position = Vector2(322, 520)
+
+[node name="Sprite" type="Sprite2D" parent="Under58"]
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under58"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
 [node name="Under59" type="Sprite2D" parent="."]
-position = Vector2(-775, 556)
+position = Vector2(407, -488)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under60" type="Sprite2D" parent="."]
-position = Vector2(763, 584)
-flip_h = true
+position = Vector2(439, -469)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under61" type="Sprite2D" parent="."]
-position = Vector2(758, 12)
+position = Vector2(383, -479)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under62" type="Sprite2D" parent="."]
-position = Vector2(684, 7)
-flip_h = true
+position = Vector2(454, -30)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under63" type="Sprite2D" parent="."]
-position = Vector2(60, -343)
+position = Vector2(463, -48)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under64" type="Sprite2D" parent="."]
-position = Vector2(43, -331)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under65" type="Sprite2D" parent="."]
-position = Vector2(35, -354)
+position = Vector2(74, -425)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
 
-[node name="Under66" type="Sprite2D" parent="."]
-position = Vector2(-378, -531)
+[node name="Under65" type="StaticBody2D" parent="."]
+position = Vector2(-181, 178)
+
+[node name="Sprite" type="Sprite2D" parent="Under65"]
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under65"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under66" type="StaticBody2D" parent="."]
+position = Vector2(-144, 163)
+
+[node name="Sprite" type="Sprite2D" parent="Under66"]
+flip_h = true
+offset = Vector2(0, -14.0)
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under66"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
 [node name="Under67" type="Sprite2D" parent="."]
-position = Vector2(-343, -515)
+position = Vector2(-233, -514)
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under68" type="Sprite2D" parent="."]
-position = Vector2(-358, -504)
+position = Vector2(-257, -518)
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under69" type="Sprite2D" parent="."]
-position = Vector2(-498, 206)
+position = Vector2(761, -475)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under70" type="Sprite2D" parent="."]
-position = Vector2(-529, 205)
+position = Vector2(722, -483)
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
-[node name="Under71" type="Sprite2D" parent="."]
-position = Vector2(493, 527)
+[node name="Under71" type="StaticBody2D" parent="."]
+position = Vector2(251, 463)
+
+[node name="Sprite" type="Sprite2D" parent="Under71"]
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under71"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
 [node name="Under72" type="Sprite2D" parent="."]
-position = Vector2(-614, 527)
-flip_h = true
+position = Vector2(700, 408)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under73" type="Sprite2D" parent="."]
-position = Vector2(-581, 544)
+position = Vector2(692, 391)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under74" type="Sprite2D" parent="."]
-position = Vector2(-593, 559)
+position = Vector2(208, -319)
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under75" type="Sprite2D" parent="."]
-position = Vector2(-297, -258)
+position = Vector2(247, -328)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under76" type="Sprite2D" parent="."]
-position = Vector2(-306, -280)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under77" type="StaticBody2D" parent="."]
-position = Vector2(-29, -63)
-
-[node name="Sprite" type="Sprite2D" parent="Under77"]
-offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
-
-[node name="Base" type="CollisionShape2D" parent="Under77"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
-
-[node name="Under78" type="Sprite2D" parent="."]
-position = Vector2(427, 583)
+position = Vector2(245, -309)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under79" type="Sprite2D" parent="."]
-position = Vector2(450, 582)
+[node name="Under77" type="Sprite2D" parent="."]
+position = Vector2(228, -320)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under80" type="StaticBody2D" parent="."]
-position = Vector2(794, 182)
+[node name="Under78" type="StaticBody2D" parent="."]
+position = Vector2(732, -201)
 
-[node name="Sprite" type="Sprite2D" parent="Under80"]
+[node name="Sprite" type="Sprite2D" parent="Under78"]
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
+texture = ExtResource("r39_snow_rocks")
 
-[node name="Base" type="CollisionShape2D" parent="Under80"]
+[node name="Base" type="CollisionShape2D" parent="Under78"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Under81" type="StaticBody2D" parent="."]
-position = Vector2(772, 176)
+[node name="Under79" type="StaticBody2D" parent="."]
+position = Vector2(702, -184)
 
-[node name="Sprite" type="Sprite2D" parent="Under81"]
+[node name="Sprite" type="Sprite2D" parent="Under79"]
 offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
+texture = ExtResource("r39_snow_rocks")
 
-[node name="Base" type="CollisionShape2D" parent="Under81"]
+[node name="Base" type="CollisionShape2D" parent="Under79"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
+
+[node name="Under80" type="Sprite2D" parent="."]
+position = Vector2(-608, 532)
+offset = Vector2(0, -14.0)
+texture = ExtResource("r37_frost_grass")
+
+[node name="Under81" type="Sprite2D" parent="."]
+position = Vector2(-590, 523)
+flip_h = true
+offset = Vector2(0, -14.0)
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under82" type="Sprite2D" parent="."]
-position = Vector2(69, 302)
-flip_h = true
+position = Vector2(-589, -217)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under83" type="Sprite2D" parent="."]
-position = Vector2(-529, -425)
+position = Vector2(-574, -233)
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under84" type="Sprite2D" parent="."]
-position = Vector2(-551, -424)
+position = Vector2(-534, -219)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under85" type="Sprite2D" parent="."]
-position = Vector2(-567, -437)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under86" type="Sprite2D" parent="."]
-position = Vector2(449, 509)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under87" type="Sprite2D" parent="."]
-position = Vector2(255, 488)
+position = Vector2(-546, -239)
 flip_h = true
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under88" type="Sprite2D" parent="."]
-position = Vector2(228, 484)
+[node name="Under86" type="StaticBody2D" parent="."]
+position = Vector2(621, 169)
+
+[node name="Sprite" type="Sprite2D" parent="Under86"]
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under86"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under87" type="StaticBody2D" parent="."]
+position = Vector2(651, 172)
+
+[node name="Sprite" type="Sprite2D" parent="Under87"]
+flip_h = true
+offset = Vector2(0, -14.0)
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under87"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
+
+[node name="Under88" type="Sprite2D" parent="."]
+position = Vector2(-165, 460)
+flip_h = true
+offset = Vector2(0, -14.0)
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under89" type="Sprite2D" parent="."]
-position = Vector2(685, -319)
+position = Vector2(-161, 478)
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under90" type="Sprite2D" parent="."]
-position = Vector2(661, -323)
+position = Vector2(-305, 622)
+flip_h = true
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under91" type="Sprite2D" parent="."]
-position = Vector2(89, -288)
+position = Vector2(-689, 452)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under92" type="Sprite2D" parent="."]
-position = Vector2(91, -267)
+position = Vector2(531, -371)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under93" type="Sprite2D" parent="."]
-position = Vector2(674, -420)
+[node name="Under93" type="StaticBody2D" parent="."]
+position = Vector2(533, -269)
+
+[node name="Sprite" type="Sprite2D" parent="Under93"]
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under93"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
 [node name="Under94" type="Sprite2D" parent="."]
-position = Vector2(108, -243)
-flip_h = true
+position = Vector2(-498, 436)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under95" type="Sprite2D" parent="."]
-position = Vector2(-100, 408)
+position = Vector2(-332, 479)
+flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under96" type="Sprite2D" parent="."]
-position = Vector2(-111, 392)
-flip_h = true
+position = Vector2(-41, 589)
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
 
 [node name="Under97" type="Sprite2D" parent="."]
-position = Vector2(377, -229)
+position = Vector2(429, 313)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under98" type="Sprite2D" parent="."]
-position = Vector2(-581, 520)
+[node name="Under98" type="StaticBody2D" parent="."]
+position = Vector2(-107, 226)
+
+[node name="Sprite" type="Sprite2D" parent="Under98"]
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r39_snow_rocks")
+
+[node name="Base" type="CollisionShape2D" parent="Under98"]
+position = Vector2(0, -3)
+shape = SubResource("R22x8")
 
 [node name="Under99" type="Sprite2D" parent="."]
-position = Vector2(429, -252)
+position = Vector2(-196, 577)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r37_frost_grass")
 
 [node name="Under100" type="Sprite2D" parent="."]
-position = Vector2(-270, 483)
+position = Vector2(-639, 86)
 flip_h = true
 offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
+texture = ExtResource("r38_snow_shrub")
 
-[node name="Under101" type="Sprite2D" parent="."]
-position = Vector2(-401, 463)
+[node name="Under101" type="StaticBody2D" parent="."]
+position = Vector2(560, -318)
+
+[node name="Sprite" type="Sprite2D" parent="Under101"]
 offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
+texture = ExtResource("r39_snow_rocks")
 
-[node name="Under102" type="Sprite2D" parent="."]
-position = Vector2(419, -233)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
-
-[node name="Under103" type="StaticBody2D" parent="."]
-position = Vector2(-554, 244)
-
-[node name="Sprite" type="Sprite2D" parent="Under103"]
-offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
-
-[node name="Base" type="CollisionShape2D" parent="Under103"]
+[node name="Base" type="CollisionShape2D" parent="Under101"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
-
-[node name="Under104" type="StaticBody2D" parent="."]
-position = Vector2(-194, 231)
-
-[node name="Sprite" type="Sprite2D" parent="Under104"]
-flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r38_snow_rocks")
-
-[node name="Base" type="CollisionShape2D" parent="Under104"]
-position = Vector2(0, -3)
-shape = SubResource("R22x8")
-
-[node name="Under105" type="Sprite2D" parent="."]
-position = Vector2(-60, -229)
-flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under106" type="Sprite2D" parent="."]
-position = Vector2(250, 301)
-flip_h = true
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
-
-[node name="Under107" type="Sprite2D" parent="."]
-position = Vector2(628, -456)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r39_snow_shrub")
 
 [node name="Npc_bodo" parent="." instance=ExtResource("r40_npc")]
 position = Vector2(-190, 272)

@@ -154,7 +154,7 @@ title = "A tonnage ledger"
 lines = PackedStringArray("Columns of dates and weights, no names. 'Reef drop, the Gannet, 4 crates. Lamp: 3 short, 1 long. Received by hand, Bungalow 3.' The same line, every week, back two years.", "In the margin of the last page: 'Halmeer route cleared through the cape. D. says no more drops off the Quay once the cousins start asking questions.'")
 
 [node name="Read2" type="Node2D" parent="."]
-position = Vector2(202, 180)
+position = Vector2(190, 198)
 script = ExtResource("12_read")
 title = "A chart with pins"
 lines = PackedStringArray("A sea chart of the south coast. Red pins: the old reef off Seabright, a cove past the southern cape marked HALMEER, and a dotted line from there up the west coast to Vetrassa.", "Duskara is not on the chart. Somebody has drawn a small pick in the empty sand where it should be.")
@@ -166,7 +166,7 @@ title = "A crate stencilled D.M.C."
 lines = PackedStringArray("Packed in straw: stacks of blank cards, uncut, still in sheets. Gritty with red sand. Each sheet has a stamp in the corner, a pick and a crown, and a number.")
 
 [node name="Read4" type="Node2D" parent="."]
-position = Vector2(200, 156)
+position = Vector2(204, 152)
 script = ExtResource("12_read")
 title = "A hatch in the floor"
 lines = PackedStringArray("A square hatch over the water with a ladder going down. The rungs are wet and there's rope burn on the frame. Below, black water and the slap of the tide on the pilings.")

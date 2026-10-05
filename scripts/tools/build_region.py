@@ -437,8 +437,26 @@ class Zone:
                     if ((x + self.x0) if horizontal else (y + self.y0)) % 24 < 4:
                         a[y - 3:y + 2, x - 1:x + 2, :3] = (110, 80, 54)
             else:
+                # A lake dock with depth: the bottom of the deck is its front beam
+                # (lit top edge, dark foot), and a wooden rail with posts runs along
+                # every edge over the water.
                 for dx0, dy0, dx1, dy1 in c.get("docks", []):
-                    a[dy1 - self.y0 - 3:dy1 - self.y0, dx0 - self.x0:dx1 - self.x0, :3] *= 0.55
+                    x0p, x1p, y1p = dx0 - self.x0, dx1 - self.x0, dy1 - self.y0
+                    a[y1p - 6:y1p, x0p:x1p, :3] = (84, 54, 32)
+                    a[y1p - 6, x0p:x1p, :3] = (122, 84, 50)
+                    a[y1p - 1, x0p:x1p, :3] = (46, 28, 16)
+                    for x in range(x0p + 3, x1p - 3, 22):
+                        a[y1p - 6:y1p, x:x + 3, :3] = (64, 40, 22)
+                for x, y, horizontal in self.dock_edges(docks, self.water):
+                    if horizontal and y > 0 and docks[min(H - 1, y + 4), x]:
+                        continue                                  # (the front: its beam is enough)
+                    if horizontal:
+                        a[y - 1:y + 1, x, :3] = (150, 104, 62)
+                        a[y + 1, x, :3] *= 0.75
+                    else:
+                        a[y, x - 1:x + 1, :3] = (150, 104, 62)
+                    if ((x + self.x0) if horizontal else (y + self.y0)) % 16 < 3:
+                        a[y - 3:y + 2, x - 1:x + 2, :3] = (64, 38, 20)
         # Soft shadows under trees, buildings and props.
         mask = Image.new("L", (W, H), 0)
         d = ImageDraw.Draw(mask)
@@ -460,12 +478,13 @@ class Zone:
             m[dy0 - self.y0:dy1 - self.y0, dx0 - self.x0:dx1 - self.x0] = True
         return m
 
-    def dock_edges(self, docks):
-        """(x, y, horizontal) pixels just inside each deck's edge where the sea lies
-        beyond it: where a boardwalk's rail runs."""
+    def dock_edges(self, docks, water=None):
+        """(x, y, horizontal) pixels just inside each deck's edge where the sea (or
+        `water`) lies beyond it: where a boardwalk's rail runs."""
         out = []
         H, W = self.H, self.W
-        sea = lambda x, y: 0 <= x < W and 0 <= y < H and self.sea[y, x] and not docks[y, x]
+        wet = self.sea if water is None else water
+        sea = lambda x, y: 0 <= x < W and 0 <= y < H and wet[y, x] and not docks[y, x]
         for dx0, dy0, dx1, dy1 in self.cfg.get("docks", []):
             x0, y0, x1, y1 = dx0 - self.x0, dy0 - self.y0, dx1 - self.x0, dy1 - self.y0
             for x in range(x0 + 1, x1 - 1):
@@ -774,12 +793,13 @@ class Zone:
             fw = p.get("foot", (22, 8))[0]
             keep.append((x, y, 26 + fw / 2))
             shadows.append((x, y - 2, max(10, fw * 0.55), 5, 0.35))
-        # Lanterns stand beside a path, never on it: nudge sideways until clear.
+        # Lanterns stand beside a path, never on it or in the water: nudge sideways
+        # (then up and down) until clear.
         lanterns = []
         for x, y in c.get("lanterns", []):
-            for dx in (0, 30, -30, 48, -48, 66, -66):
-                if not self.on_path(x + dx, y, 8):
-                    x += dx
+            for dx, dy in [(d, 0) for d in (0, 30, -30, 48, -48, 66, -66)] + [(0, d) for d in (-40, 40, -64, 64)]:
+                if not self.on_path(x + dx, y + dy, 8) and not self.wet(x + dx, y + dy, 14):
+                    x, y = x + dx, y + dy
                     break
             lanterns.append((x, y))
         self.lanterns = lanterns

@@ -626,7 +626,7 @@ INTERIORS = {
             ("Postcards on the desk", (244, 176), [
                 "A stack of postcards of the Saltglass Terrace, all addressed to the same school in Vetrassa. 'We saw a dolphin. We saw Lady Sparkle jump off the pier. Papa said not to tell anyone that.'",
             ]),
-            ("A child's drawing", (160, 210), [
+            ("A child's drawing", (108, 214), [
                 "Crayon on hotel paper: the jetty, the bungalows, a round yellow moon. Out on the water, a long black boat with no windows, and a little light on it, coloured in very hard.",
                 "Underneath, carefully: 'THE GOST BOAT. It comes when evryone is asleep. Not me.'",
             ]),
@@ -645,14 +645,14 @@ INTERIORS = {
                 "Columns of dates and weights, no names. 'Reef drop, the Gannet, 4 crates. Lamp: 3 short, 1 long. Received by hand, Bungalow 3.' The same line, every week, back two years.",
                 "In the margin of the last page: 'Halmeer route cleared through the cape. D. says no more drops off the Quay once the cousins start asking questions.'",
             ]),
-            ("A chart with pins", (202, 180), [
+            ("A chart with pins", (190, 198), [
                 "A sea chart of the south coast. Red pins: the old reef off Seabright, a cove past the southern cape marked HALMEER, and a dotted line from there up the west coast to Vetrassa.",
                 "Duskara is not on the chart. Somebody has drawn a small pick in the empty sand where it should be.",
             ]),
             ("A crate stencilled D.M.C.", (128, 130), [
                 "Packed in straw: stacks of blank cards, uncut, still in sheets. Gritty with red sand. Each sheet has a stamp in the corner, a pick and a crown, and a number.",
             ]),
-            ("A hatch in the floor", (200, 156), [
+            ("A hatch in the floor", (204, 152), [
                 "A square hatch over the water with a ladder going down. The rungs are wet and there's rope burn on the frame. Below, black water and the slap of the tide on the pilings.",
             ]),
         ],
