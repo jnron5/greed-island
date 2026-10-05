@@ -44,7 +44,6 @@ func _draw() -> void:
 		draw_texture(texture, Vector2(-texture.get_width() / 2.0, -bottom + 2))
 	var fresh := Quests.stage(quest_id) == 1 and not Quests.clue_found(clue_id)
 	if fresh:
-		var t := Time.get_ticks_msec() / 300.0
-		draw_circle(Vector2(0, -28 + sin(t) * 2.0), 2.0 + sin(t * 1.7), Color(1, 0.95, 0.6, 0.9))
+		WorldPrompt.interest(self, Vector2.ZERO, -30.0, Time.get_ticks_msec() / 1000.0, true)
 	if _player_near():
 		WorldPrompt.draw(self, Vector2(0, -40), "E", "Look")

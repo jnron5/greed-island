@@ -48,6 +48,34 @@ static func bubble(ci: CanvasItem, center: Vector2, text: String, alpha := 1.0) 
 	ci.draw_string(font, origin + Vector2(5, 10), text, HORIZONTAL_ALIGNMENT_LEFT, -1, SIZE, Color(INK, alpha))
 
 
+## Something worth a look (a readable, a quest clue): a pool of warm light on the
+## ground at `ground` and a bobbing gold four-point star `height` above it, orange
+## with a "!" beside it when a running quest wants it. `time` drives the pulse.
+const INTEREST := Color(1.0, 0.86, 0.42)
+const INTEREST_QUEST := Color(1.0, 0.62, 0.22)
+
+
+static func interest(ci: CanvasItem, ground: Vector2, height: float, time: float, quest := false) -> void:
+	var colour := INTEREST_QUEST if quest else INTEREST
+	var pulse := 0.5 + 0.5 * sin(time * 3.0)
+	ci.draw_circle(ground + Vector2(0, 2), 12.0, Color(colour, 0.12 + 0.08 * pulse))
+	ci.draw_circle(ground + Vector2(0, 2), 6.0, Color(colour, 0.2 + 0.12 * pulse))
+	var at := ground + Vector2(0, height + roundf(sin(time * 2.2) * 1.5))
+	star(ci, at, 8.5 + pulse, Color(0.12, 0.07, 0.03), 2.6)
+	star(ci, at, 7.0 + pulse, colour, 1.8)
+	ci.draw_rect(Rect2(at - Vector2(1, 1), Vector2(2, 2)), Color(1, 1, 0.9))
+	if quest:
+		marker(ci, at + Vector2(9, -2), "!", colour)
+
+
+## A four-point star of `radius` centred on `at` (`waist`: how thin between points).
+static func star(ci: CanvasItem, at: Vector2, radius: float, colour: Color, waist: float) -> void:
+	var points := PackedVector2Array()
+	for i in 8:
+		points.append(at + Vector2.from_angle(i * PI / 4.0 - PI / 2.0) * (radius if i % 2 == 0 else waist))
+	ci.draw_colored_polygon(points, colour)
+
+
 ## A bobbing marker ("!" for news, "?" for suspicion) above a character.
 static func marker(ci: CanvasItem, at: Vector2, mark: String, color: Color) -> void:
 	var bob := roundf(sin(Time.get_ticks_msec() / 220.0) * 1.5)

@@ -20,6 +20,24 @@ const TITLES := {
 	&"glowcaps": "Glowcaps for the Fever",
 	&"over_the_top": "The Three Who Went Over",
 }
+## Who gave each quest, and what it came to, for the journal.
+const GIVERS := {
+	&"unmarked_cargo": "Bram, Kalmora", &"trees_remember": "Pell, Sorenda", &"wens_boat": "Wen, Kalmora",
+	&"stones_remember": "Aldous, Verdana", &"merchants_ledger": "Mirren, Frisalle",
+	&"light_on_water": "Sparkle, Seabright Quay", &"millstream": "Oda, Verdana", &"glowcaps": "Juniper, Sorenda",
+	&"over_the_top": "Sven, Frisalle",
+}
+const ABOUT := {
+	&"unmarked_cargo": "Sand-caked crates with no marks, a child's glove, a ledger page: Bram knows whose cargo it is and won't say it aloud.",
+	&"trees_remember": "A laborer's satchel in the Hollow's moss. Whoever carried it was running, and young.",
+	&"wens_boat": "A sail, oars and rope, and Wen's little boat is back on the water.",
+	&"stones_remember": "The three standing stones tell the same story: every king paid for the crown the same way.",
+	&"merchants_ledger": "Forty carts a winter through an ice road, weighed at night under the factors' second seal, for 'D.'",
+	&"light_on_water": "A light on the water after dark, and Bungalow 3 answering it. The Duke's men guard that door.",
+	&"millstream": "Red wool, a scrap of paper and a carved bird: Oda's grandson went north by the water.",
+	&"glowcaps": "Blue glowcaps from the Hollow, and Harl's daughter is sitting up and eating.",
+	&"over_the_top": "A frozen camp and new boards on an old mine. Small boots. The climbers didn't all freeze.",
+}
 ## Frisalle (Sven, after his welcome gift): three climbers went over the top of the
 ## range when the pass came down; find what became of them (the frozen camp and the
 ## old adit in the Starfall Range).
@@ -103,6 +121,8 @@ func stage(id: StringName) -> int:
 
 
 func set_stage(id: StringName, value: int) -> void:
+	if stage(id) == NOT_STARTED and value != NOT_STARTED:
+		noted_start(id)
 	GameState.quest_flags[StringName("quest:%s" % id)] = value
 	quest_changed.emit(id, value)
 
@@ -620,6 +640,27 @@ func read(title: String, at_night := false) -> void:
 		EventBus.notify.emit("Take what you found to Elder Moss")
 
 
+## A running quest still needs this readable read (its marker says so).
+func wants(title: String, at_night := false) -> bool:
+	if STONES.has(title):
+		return stage(&"stones_remember") == 1 and not flag(StringName("stone:%s" % title))
+	if title == LIGHT_LOOKOUT:
+		return stage(&"light_on_water") == 1 and at_night
+	if title == LIGHT_DOOR:
+		return stage(&"light_on_water") == 2 and at_night
+	if title in CLIMBER_CLUES:
+		return stage(&"over_the_top") == 1 and not flag(StringName("climbers:%s" % title))
+	if title in GLOWCAPS:
+		return stage(&"glowcaps") == 1 and not flag(StringName("glowcap:%s" % title))
+	if title in MILLSTREAM_FINDS:
+		return stage(&"millstream") == 1 and not flag(StringName("stream:%s" % title))
+	if LEDGER_CLUES.has(title):
+		return stage(&"merchants_ledger") == 1 and not flag(StringName("ledger:%s" % title))
+	if title == SATCHEL_TITLE:
+		return stage(&"trees_remember") == 1
+	return false
+
+
 ## This resident still has your free return card.
 func gift_waiting(npc_id: StringName) -> bool:
 	return WELCOME_GIFTS.has(npc_id) and not flag(StringName("gift:%s" % npc_id))
@@ -630,57 +671,149 @@ func clue_found(clue_id: StringName) -> bool:
 
 
 ## The HUD's quest lines, one per active quest ("" when nothing is active).
+## Every line of the old tracker (all running quests and favours); tests read it.
 func tracker_text() -> String:
 	var lines: PackedStringArray = []
-	match stage(&"unmarked_cargo"):
-		1:
-			lines.append("%s: inspect the unmarked crates on the quay, west dock and pier (%d/3)" % [TITLES[&"unmarked_cargo"], _clues_found()])
-		2:
-			lines.append("%s: report back to Bram" % TITLES[&"unmarked_cargo"])
-	match stage(&"wens_boat"):
-		1:
-			lines.append("%s: find a sail, oars and rope (%d/3)" % [TITLES[&"wens_boat"], _parts_found()])
-		2:
-			lines.append("%s: bring the parts to Wen" % TITLES[&"wens_boat"])
-	match stage(&"trees_remember"):
-		1:
-			lines.append("%s: search the Hollow, the cave past Sorenda's moss gate" % TITLES[&"trees_remember"])
-		2:
-			lines.append("%s: bring the satchel to Elder Moss" % TITLES[&"trees_remember"])
-	match stage(&"stones_remember"):
-		1:
-			lines.append("%s: read the three standing stones (%d/3)" % [TITLES[&"stones_remember"], _stones_read()])
-		2:
-			lines.append("%s: tell Aldous in Verdana what you read" % TITLES[&"stones_remember"])
-	match stage(&"light_on_water"):
-		1:
-			lines.append("%s: look through the headland telescope at Seabright after dark" % TITLES[&"light_on_water"])
-		2:
-			lines.append("%s: find the bungalow that answered the light, after dark" % TITLES[&"light_on_water"])
-		3:
-			lines.append("%s: tell Sparkle what you found" % TITLES[&"light_on_water"])
-	match stage(&"over_the_top"):
-		1:
-			lines.append("%s: search the Starfall Range for the climbers (%d/2)" % [TITLES[&"over_the_top"], _climbers_found()])
-		2:
-			lines.append("%s: tell Sven in Frisalle" % TITLES[&"over_the_top"])
-	match stage(&"glowcaps"):
-		1:
-			lines.append("%s: gather the blue glowcaps in the Hollow (%d/3)" % [TITLES[&"glowcaps"], _glowcaps_found()])
-		2:
-			lines.append("%s: bring the glowcaps to Juniper in Sorenda" % TITLES[&"glowcaps"])
-	match stage(&"millstream"):
-		1:
-			lines.append("%s: search the reeds along Verdana's millstream (%d/3)" % [TITLES[&"millstream"], _millstream_found()])
-		2:
-			lines.append("%s: bring what you found to Oda" % TITLES[&"millstream"])
-	match stage(&"merchants_ledger"):
-		1:
-			lines.append("%s: read the weigh house board, the great ledger and Bodo's papers (%d/3)" % [TITLES[&"merchants_ledger"], _ledger_read()])
-		2:
-			lines.append("%s: tell Mirren at the counting house what you found" % TITLES[&"merchants_ledger"])
-	lines.append_array(Errands.tracker_lines())
-	return "\n".join(lines)
+	for entry in journal():
+		if not entry.done:
+			lines.append("%s: %s" % [entry.title, entry.step])
+	return "
+".join(lines)
+
+
+## The one quest or favour the HUD shows: the one picked in the journal
+## (GameState.quest_flags "tracked"), else the newest running one; "" for none.
+func tracked_text() -> String:
+	var tracked: StringName = GameState.quest_flags.get(&"tracked", &"")
+	if tracked == &"none":
+		return ""
+	var running := journal().filter(func(e: Dictionary) -> bool: return not e.done)
+	for entry: Dictionary in running:
+		if entry.id == tracked:
+			return "%s
+%s" % [entry.title, entry.step]
+	if running.is_empty():
+		return ""
+	return "%s
+%s" % [running[0].title, running[0].step]
+
+
+## Picks the quest the HUD shows (`&"none"` shows nothing).
+func track(id: StringName) -> void:
+	GameState.quest_flags[&"tracked"] = id
+	quest_changed.emit(id, stage(id))
+
+
+func tracked_id() -> StringName:
+	var tracked: StringName = GameState.quest_flags.get(&"tracked", &"")
+	if tracked == &"none":
+		return tracked
+	var running := journal().filter(func(e: Dictionary) -> bool: return not e.done)
+	for entry: Dictionary in running:
+		if entry.id == tracked:
+			return tracked
+	return running[0].id if not running.is_empty() else &""
+
+
+## The journal: every quest and favour you've taken on, newest first, as
+## { "id", "title", "giver", "step", "done" }.
+func journal() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var order: Array = GameState.quest_flags.get(&"journal_order", [])
+	var all: Array[Dictionary] = []
+	for id: StringName in TITLES:
+		var st := stage(id)
+		if st == NOT_STARTED:
+			continue
+		all.append({ "id": id, "title": TITLES[id], "giver": GIVERS.get(id, ""), "done": st == DONE,
+			"step": ABOUT.get(id, "") if st == DONE else _step(id) })
+	for id: StringName in Errands.ERRANDS:
+		var st := Errands.state(id)
+		if st != Errands.ASKED and st != Errands.DONE:
+			continue
+		var who := Errands.npc_name(Errands.ERRANDS[id].npc)
+		var key := StringName("errand:%s" % id)
+		var step := ("ready to hand in to %s" % who) if Errands.is_met(id) else Errands.summary(id)
+		all.append({ "id": key, "title": "A favour for %s" % who, "giver": who, "done": st == Errands.DONE,
+			"step": ("Done: %s" % Errands.summary(id)) if st == Errands.DONE else step })
+	# Newest first, in the order you took them on.
+	all.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return order.find(a.id) > order.find(b.id))
+	out.assign(all)
+	return out
+
+
+## Remembers when a quest or favour was taken on (journal order) and shows it.
+func noted_start(id: StringName) -> void:
+	var order: Array = GameState.quest_flags.get(&"journal_order", [])
+	if not order.has(id):
+		order.append(id)
+		GameState.quest_flags[&"journal_order"] = order
+	var tracked: StringName = GameState.quest_flags.get(&"tracked", &"")
+	if tracked != &"none":
+		GameState.quest_flags[&"tracked"] = id
+
+
+## What a quest asks of you next ("" when it isn't running).
+func _step(id: StringName) -> String:
+	match id:
+		&"unmarked_cargo":
+			match stage(&"unmarked_cargo"):
+				1:
+					return "inspect the unmarked crates on the quay, west dock and pier (%d/3)" % _clues_found()
+				2:
+					return "report back to Bram"
+		&"wens_boat":
+			match stage(&"wens_boat"):
+				1:
+					return "find a sail, oars and rope (%d/3)" % _parts_found()
+				2:
+					return "bring the parts to Wen"
+		&"trees_remember":
+			match stage(&"trees_remember"):
+				1:
+					return "search the Hollow, the cave past Sorenda's moss gate"
+				2:
+					return "bring the satchel to Elder Moss"
+		&"stones_remember":
+			match stage(&"stones_remember"):
+				1:
+					return "read the three standing stones (%d/3)" % _stones_read()
+				2:
+					return "tell Aldous in Verdana what you read"
+		&"light_on_water":
+			match stage(&"light_on_water"):
+				1:
+					return "look through the headland telescope at Seabright after dark"
+				2:
+					return "find the bungalow that answered the light, after dark"
+				3:
+					return "tell Sparkle what you found"
+		&"over_the_top":
+			match stage(&"over_the_top"):
+				1:
+					return "search the Starfall Range for the climbers (%d/2)" % _climbers_found()
+				2:
+					return "tell Sven in Frisalle"
+		&"glowcaps":
+			match stage(&"glowcaps"):
+				1:
+					return "gather the blue glowcaps in the Hollow (%d/3)" % _glowcaps_found()
+				2:
+					return "bring the glowcaps to Juniper in Sorenda"
+		&"millstream":
+			match stage(&"millstream"):
+				1:
+					return "search the reeds along Verdana's millstream (%d/3)" % _millstream_found()
+				2:
+					return "bring what you found to Oda"
+		&"merchants_ledger":
+			match stage(&"merchants_ledger"):
+				1:
+					return "read the weigh house board, the great ledger and Bodo's papers (%d/3)" % _ledger_read()
+				2:
+					return "tell Mirren at the counting house what you found"
+	return ""
 
 
 ## For the island map: the areas where an active quest or favour needs you next.

@@ -1,8 +1,10 @@
 class_name Readable
 extends Node2D
 ## Something in a room worth a closer look (a letter, a ledger, a portrait): press
-## interact nearby to read it in the dialogue box. Invisible itself (the room art
-## draws it); a small sparkle marks it until it's been read once this game.
+## interact nearby to read it in the dialogue box. Invisible itself (the art draws
+## it); until it's been read once this game a gold four-point star bobs over it with
+## a soft glow on the ground, brighter and with a "!" when a running quest wants it
+## (`Quests.wants`). Once read, a small faint star stays so it can be found again.
 
 const RANGE := 26.0
 
@@ -47,10 +49,11 @@ func _player_near() -> bool:
 
 
 func _draw() -> void:
-	if not GameState.quest_flags.get(_read_key(), false):
-		var glow := 0.6 + 0.4 * sin(_time * 3.0)
-		draw_rect(Rect2(-1, -1, 2, 2), Color(1, 0.95, 0.65, glow))
-		draw_rect(Rect2(-3, 0, 1, 1), Color(1, 0.95, 0.65, glow * 0.6))
-		draw_rect(Rect2(2, -2, 1, 1), Color(1, 0.95, 0.65, glow * 0.6))
+	var unread: bool = not GameState.quest_flags.get(_read_key(), false)
+	var wanted := Quests.wants(title, Npc.is_night())
+	if unread or wanted:
+		WorldPrompt.interest(self, Vector2.ZERO, -14.0, _time, wanted)
+	else:
+		WorldPrompt.star(self, Vector2(0, -8), 3.0, Color(WorldPrompt.INTEREST, 0.35), 0.8)
 	if _player_near():
-		WorldPrompt.draw(self, Vector2(0, -14), "E", "Read")
+		WorldPrompt.draw(self, Vector2(0, -28), "E", "Read")

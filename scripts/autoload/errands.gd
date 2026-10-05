@@ -338,13 +338,18 @@ func talked_to(npc_id: StringName) -> void:
 	if id == &"" or state(id) == DONE:
 		return
 	if state(id) != ASKED and _costly(id):
-		GameState.quest_flags[StringName("errand:%s" % id)] = ASKED
-		EventBus.notify.emit("Favour: %s" % summary(id))
+		_ask(id)
 	elif is_met(id):
 		_complete(id)
 	elif state(id) != ASKED:
-		GameState.quest_flags[StringName("errand:%s" % id)] = ASKED
-		EventBus.notify.emit("Favour: %s" % summary(id))
+		_ask(id)
+
+
+func _ask(id: StringName) -> void:
+	GameState.quest_flags[StringName("errand:%s" % id)] = ASKED
+	EventBus.notify.emit("Favour: %s" % summary(id))
+	Quests.noted_start(StringName("errand:%s" % id))
+	Quests.quest_changed.emit(StringName("errand:%s" % id), ASKED)
 
 
 ## "!" before you've spoken, "?" when you can hand it in.
@@ -383,7 +388,7 @@ func is_met(id: StringName) -> bool:
 ## One line for the HUD's tracker.
 func summary(id: StringName) -> String:
 	var e: Dictionary = ERRANDS[id]
-	var who := _npc_name(e.npc)
+	var who := npc_name(e.npc)
 	match e.need:
 		"item":
 			var item := Items.get_item(e.item)
@@ -404,7 +409,7 @@ func tracker_lines() -> PackedStringArray:
 	var out := PackedStringArray()
 	for id: StringName in ERRANDS:
 		if state(id) == ASKED:
-			out.append(("%s: ready to hand in" % _npc_name(ERRANDS[id].npc)) if is_met(id) else summary(id))
+			out.append(("%s: ready to hand in" % npc_name(ERRANDS[id].npc)) if is_met(id) else summary(id))
 	return out
 
 
@@ -426,6 +431,7 @@ func _complete(id: StringName) -> void:
 			GameState.add_currency(-e.gold)
 	GameState.quest_flags[StringName("errand:%s" % id)] = DONE
 	GameState.collected_pickups["errand:%s" % id] = true
+	Quests.quest_changed.emit(StringName("errand:%s" % id), DONE)
 	GameState.add_loose_card(GameState.PLAYER, e.card)
 	var card := CardDatabase.get_card(e.card)
 	EventBus.notify.emit("Received %s" % (card.display_name if card else String(e.card)))
@@ -471,7 +477,7 @@ func _note_visit() -> void:
 		GameState.quest_flags[StringName("visited:%s" % zone.scene_file_path)] = true
 
 
-func _npc_name(npc_id: StringName) -> String:
+func npc_name(npc_id: StringName) -> String:
 	const NAMES := {
 		&"sailor": "Luca", &"pip": "Pip", &"baker": "Rosa", &"tomas": "Keeper Tomas", &"mirela": "Mirela",
 		&"otto": "Otto", &"nonna": "Nonna Vess", &"brannoc": "Brannoc", &"ilse": "Ilse",

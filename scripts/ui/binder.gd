@@ -6,9 +6,10 @@ extends CanvasLayer
 ## is loose or exposed (stealable); missing ones show their set number. A second tab
 ## holds charms and spells. Open a card to see it large, turn it over (E) and bind,
 ## take out, lock or use it. Binding is instant in towns and slower in the field.
-## The character menu has two pages, picked by the tabs along its top: the Binder,
-## and Items (the satchel: bread, tonics and the like, used here to heal). B opens
-## the binder page, I the items page, Tab switches.
+## The character menu has three pages, picked by the tabs along its top: the Binder,
+## Items (the satchel: bread, tonics and the like, used here to heal) and the Journal
+## (every quest and favour, running and finished; pick the one the HUD shows). B opens
+## the binder page, I the items page, J the journal, Tab cycles.
 
 const BINDER := preload("res://assets/ui/binder.png")
 const SLOT := preload("res://assets/ui/slot.png")
@@ -24,7 +25,7 @@ const SAFE := Color(0.95, 0.75, 0.3)
 const DANGER := Color(0.85, 0.22, 0.2)
 
 var is_open := false
-var page := 0                    # 0 the binder, 1 items
+var page := 0                    # 0 the binder, 1 items, 2 the journal
 
 var _tab := 0                    # 0 set cards, 1 charms and spells
 var _spread := 0
@@ -56,6 +57,13 @@ var _item_text: Label
 var _item_icon: TextureRect
 var _item_use: Button
 var _item_selected := 0
+var _journal_page: Control
+var _journal_list: VBoxContainer
+var _journal_title: Label
+var _journal_giver: Label
+var _journal_text: Label
+var _journal_track: Button
+var _journal_selected := 0
 
 func _ready() -> void:
 	layer = 10
@@ -92,18 +100,26 @@ func close() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_open:
-		if GameState.menus_open == 0 and (event.is_action_pressed(&"binder") or event.is_action_pressed(&"items")):
-			open(1 if event.is_action_pressed(&"items") else 0)
+		if GameState.menus_open == 0 and (event.is_action_pressed(&"binder") or event.is_action_pressed(&"items") or _is_key(event, KEY_J)):
+			open(1 if event.is_action_pressed(&"items") else (2 if _is_key(event, KEY_J) else 0))
 			get_viewport().set_input_as_handled()
 		return
 	get_viewport().set_input_as_handled()
-	# Tab flips between the binder and the satchel; I jumps to the satchel.
-	if (event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_TAB) \
-			or (page == 0 and event.is_action_pressed(&"items")):
-		_set_page(1 - page if event is InputEventKey and event.physical_keycode == KEY_TAB else 1)
+	# Tab cycles the pages; I jumps to the satchel, J to the journal.
+	if _is_key(event, KEY_TAB):
+		_set_page((page + 1) % 3)
+		return
+	if page != 1 and event.is_action_pressed(&"items"):
+		_set_page(1)
+		return
+	if page != 2 and _is_key(event, KEY_J):
+		_set_page(2)
 		return
 	if page == 1:
 		_items_input(event)
+		return
+	if page == 2:
+		_journal_input(event)
 		return
 	if _detail.visible:
 		if event.is_action_pressed(&"interact"):
@@ -184,10 +200,14 @@ func _refresh() -> void:
 	_book.visible = page == 0
 	_binder_bits.visible = page == 0
 	_items_page.visible = page == 1
+	_journal_page.visible = page == 2
 	for i in _pages.size():
 		_pages[i].button_pressed = i == page
 	if page == 1:
 		_fill_items()
+		return
+	if page == 2:
+		_fill_journal()
 		return
 	var col := GameState.collection(GameState.PLAYER)
 	var cards := _cards()
@@ -444,9 +464,9 @@ func _build() -> void:
 	page_box.position = Vector2(4, -6)
 	page_box.add_theme_constant_override(&"separation", 4)
 	holder.add_child(page_box)
-	for i in 2:
+	for i in 3:
 		var tab := Button.new()
-		tab.text = ["Binder", "Items"][i]
+		tab.text = ["Binder", "Items", "Journal"][i]
 		tab.toggle_mode = true
 		tab.focus_mode = Control.FOCUS_NONE
 		tab.custom_minimum_size.x = 70
@@ -526,6 +546,7 @@ func _build() -> void:
 	hint.position = Vector2(8, 340)
 	_binder_bits.add_child(hint)
 	_build_items(holder)
+	_build_journal(holder)
 
 	# One card, large, over the binder.
 	_detail = Control.new()
@@ -575,9 +596,14 @@ func _on_pocket_input(event: InputEvent, index: int) -> void:
 
 # ---------------------------------------------------------------- items page
 
+static func _is_key(event: InputEvent, key: Key) -> bool:
+	return event is InputEventKey and event.pressed and not event.echo and (event as InputEventKey).physical_keycode == key
+
+
 func _set_page(p: int) -> void:
 	page = p
 	_item_selected = 0
+	_journal_selected = 0
 	_refresh()
 
 
@@ -637,7 +663,7 @@ func _build_items(holder: Control) -> void:
 	_item_use.pressed.connect(_use_selected)
 	col.add_child(_item_use)
 	var hint := Label.new()
-	hint.text = "Up/Down: choose   E: use   H: quick heal   Tab: binder   Esc: close"
+	hint.text = "Up/Down: choose   E: use   H: quick heal   Tab: next page   Esc: close"
 	hint.modulate = Color(1, 1, 1, 0.7)
 	hint.position = Vector2(-12, 318)
 	_items_page.add_child(hint)
@@ -716,3 +742,142 @@ func _items_input(event: InputEvent) -> void:
 	elif event.is_action_pressed(&"quick_heal"):
 		Items.quick_heal()
 		_refresh()
+
+
+# ---------------------------------------------------------------- journal
+
+## The journal: running quests and favours on the left (the one shown on screen
+## starred), finished ones below them; the chosen one on a parchment page on the
+## right, with a button to show it on screen (only one shows at a time).
+func _build_journal(holder: Control) -> void:
+	_journal_page = Control.new()
+	_journal_page.position = Vector2(20, 22)
+	_journal_page.size = Vector2(536, 310)
+	_journal_page.visible = false
+	holder.add_child(_journal_page)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override(&"separation", 10)
+	row.size = _journal_page.size
+	_journal_page.add_child(row)
+	var left := PanelContainer.new()
+	left.custom_minimum_size = Vector2(250, 300)
+	row.add_child(left)
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	left.add_child(scroll)
+	_journal_list = VBoxContainer.new()
+	_journal_list.add_theme_constant_override(&"separation", 2)
+	_journal_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(_journal_list)
+	var page_panel := PanelContainer.new()
+	page_panel.theme_type_variation = &"DialoguePanel"
+	page_panel.custom_minimum_size = Vector2(270, 300)
+	row.add_child(page_panel)
+	var margin := MarginContainer.new()
+	for side in ["left", "right", "top", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 12)
+	page_panel.add_child(margin)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override(&"separation", 8)
+	margin.add_child(col)
+	_journal_title = Label.new()
+	_journal_title.theme_type_variation = &"InkLabel"
+	_journal_title.add_theme_font_override(&"font", preload("res://assets/fonts/virelia_title.tres"))
+	_journal_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_journal_title.custom_minimum_size.x = 240
+	col.add_child(_journal_title)
+	_journal_giver = Label.new()
+	_journal_giver.theme_type_variation = &"InkLabel"
+	_journal_giver.modulate = Color(1, 1, 1, 0.7)
+	col.add_child(_journal_giver)
+	_journal_text = Label.new()
+	_journal_text.theme_type_variation = &"InkLabel"
+	_journal_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_journal_text.custom_minimum_size.x = 240
+	_journal_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	col.add_child(_journal_text)
+	_journal_track = Button.new()
+	_journal_track.focus_mode = Control.FOCUS_NONE
+	_journal_track.pressed.connect(_toggle_tracked)
+	col.add_child(_journal_track)
+	var hint := Label.new()
+	hint.text = "Up/Down: choose   E: show on screen   Tab: next page   Esc: close"
+	hint.modulate = Color(1, 1, 1, 0.7)
+	hint.position = Vector2(-12, 318)
+	_journal_page.add_child(hint)
+	Quests.quest_changed.connect(func(_id: StringName, _s: int) -> void: _refresh())
+
+
+## Running entries first, then finished ones.
+func _journal_entries() -> Array:
+	var entries := Quests.journal()
+	return entries.filter(func(e: Dictionary) -> bool: return not e.done) \
+		+ entries.filter(func(e: Dictionary) -> bool: return e.done)
+
+
+func _fill_journal() -> void:
+	_title.text = ""
+	var ordered := _journal_entries()
+	var running := ordered.filter(func(e: Dictionary) -> bool: return not e.done).size()
+	_status.text = "%d running   %d finished" % [running, ordered.size() - running]
+	for child in _journal_list.get_children():
+		child.queue_free()
+	_journal_selected = clampi(_journal_selected, 0, maxi(0, ordered.size() - 1))
+	var tracked := Quests.tracked_id()
+	for i in ordered.size():
+		if i == 0 or i == running:
+			var heading := Label.new()
+			heading.theme_type_variation = &"TitleLabel"
+			heading.text = "Running" if i < running else "Finished"
+			_journal_list.add_child(heading)
+		var entry: Dictionary = ordered[i]
+		var line := Button.new()
+		line.toggle_mode = true
+		line.button_pressed = i == _journal_selected
+		line.focus_mode = Control.FOCUS_NONE
+		line.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		line.text = ("* " if entry.id == tracked else "   ") + String(entry.title)
+		if entry.done:
+			line.modulate = Color(1, 1, 1, 0.6)
+		line.pressed.connect(func() -> void:
+			_journal_selected = i
+			_fill_journal())
+		_journal_list.add_child(line)
+	if ordered.is_empty():
+		var none := Label.new()
+		none.text = "Nothing yet.\nTalk to people: most of them\nwant something."
+		_journal_list.add_child(none)
+		_journal_title.text = "Journal"
+		_journal_giver.text = ""
+		_journal_text.text = "Quests and favours you take on are written here. Pick one to show on screen while you travel."
+		_journal_track.visible = false
+		return
+	var chosen: Dictionary = ordered[_journal_selected]
+	_journal_title.text = chosen.title
+	_journal_giver.text = ("From " + String(chosen.giver)) if chosen.giver != "" else ""
+	_journal_text.text = ("Finished. " if chosen.done else "Next: ") + String(chosen.step)
+	_journal_track.visible = not chosen.done
+	_journal_track.text = "Hide from screen" if chosen.id == tracked else "Show on screen"
+
+
+func _toggle_tracked() -> void:
+	var ordered := _journal_entries()
+	if _journal_selected >= ordered.size() or ordered[_journal_selected].done:
+		return
+	var id: StringName = ordered[_journal_selected].id
+	Sfx.play(&"ui_click")
+	Quests.track(&"none" if Quests.tracked_id() == id else id)
+	_refresh()
+
+
+func _journal_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"pause") or event.is_action_pressed(&"binder") or event.is_action_pressed(&"ui_cancel"):
+		close()
+	elif event.is_action_pressed(&"ui_accept") or event.is_action_pressed(&"interact"):
+		_toggle_tracked()
+	elif event.is_action_pressed(&"ui_up") or event.is_action_pressed(&"move_up"):
+		_journal_selected = maxi(0, _journal_selected - 1)
+		_fill_journal()
+	elif event.is_action_pressed(&"ui_down") or event.is_action_pressed(&"move_down"):
+		_journal_selected += 1
+		_fill_journal()

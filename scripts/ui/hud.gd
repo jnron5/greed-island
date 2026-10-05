@@ -382,7 +382,7 @@ func _on_stealth_failed(thief: StringName, victim: StringName) -> void:
 
 
 func _update_quest() -> void:
-	var text := Quests.tracker_text()
+	var text := Quests.tracked_text()
 	quest_label.text = text
 	_quest_panel.visible = text != ""
 
