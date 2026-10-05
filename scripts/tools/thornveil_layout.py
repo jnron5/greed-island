@@ -65,8 +65,8 @@ STAIRS = [
 # Walkable decks over water (concept px rects): the dock and the plank bridges.
 # The dock: a narrow zigzag boardwalk (concept px polylines, half-width) from the foot of
 # the camp stairs to the plaza road, with a jetty for the rowboat.
-DOCKS = [([(258, 290), (258, 388), (320, 388), (320, 440), (368, 440), (368, 494), (412, 494)], 18),
-         ([(386, 494), (386, 560)], 16)]
+DOCKS = [([(258, 290), (258, 420), (368, 420), (368, 494), (412, 494)], 16),
+         ([(386, 494), (386, 560)], 14)]
 BRIDGES = [  # (x0, y0, x1, y1): a deck across a stream or out to the island
     (360, 176, 440, 200),                  # camp to the north terrace
     (196, 538, 384, 562),                  # the island out to the jetty

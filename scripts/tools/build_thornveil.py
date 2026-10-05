@@ -3,12 +3,14 @@
 Usage: python scripts/tools/build_thornveil.py
 
 The layout is traced from docs/reference/thornveil_concept.webp (thornveil_layout.py:
-terrace polygons, stairs, docks, bridges, falls, all in the concept's pixels) and mapped
+terrace polygons, stairs, docks, bridges, all in the concept's pixels) and mapped
 to the world at SCALE. Like Kalmora it is multilevel: the terraces are composed from
 PixelLab cliff tilesets (terrain.py) -- grey-brown rock columns between terraces, rock
 over the lake and down into the stream channels -- joined by stone stairs. On top:
 Kalmora's meadow grass, dirt paths read straight from the concept's path colour, darker
-forest floor where the concept is canopy, plank docks and footbridges, and all the water
+forest floor where the concept is canopy, plank boardwalks and footbridges with real depth
+(paint_boardwalk: a front beam, pilings, a shadow on the water, rails), streams that
+end in pools at a drop instead of falling down the cliffs, and all the water
 rolling with Kalmora's animated wave tile. Trees are the PixelLab-animated firs and oaks
 (build_forest.py's scenes), planted densely where the concept shows forest and sparsely
 in its lawns, never on a path, stairs or anything that matters.
@@ -51,7 +53,7 @@ GROUND_PNG = ART + "thornveil_ground.png"
 LEVEL_PNG = ART + "thornveil_levels.png"
 WATER_MASK = ART + "thornveil_water_mask.png"
 STREAM_MASK = ART + "thornveil_stream_mask.png"
-# Water frames (make_forest_water.py): the calm lake, the flowing streams, the falls.
+# Water frames (make_forest_water.py): the calm lake and the flowing streams.
 WATER_ART = ART + "water/"
 SCENE = "scenes/world/thornveil.tscn"
 
@@ -82,6 +84,7 @@ PATH_C = _nd.binary_closing(_nd.binary_dilation(PATH_C, iterations=2), iteration
 CANOPY_C = L.canopy()
 STREAM_C = L.stream_mask()
 STREAM_PX = None
+BEAM_PX = None
 
 
 def level_c(cx, cy):
@@ -228,35 +231,36 @@ def build_terrain():
     # Open lawns keep the meadow's own light, with a faint dapple too.
     a[..., :3] = np.where((land & ~floor & ~dirt_on)[..., None], a[..., :3] * (0.97 + dapple[..., None] * 0.06), a[..., :3])
 
-    # Docks: plank decks over the water, Wang-edged so their outline is clean.
-    boards = CornerSet(K2 + "wang/planks")
-    deck_px = np.zeros(a.shape[:2], bool)
-    for r, c in decks:
-        idx = 0
-        for bit, (dr, dc) in zip((8, 4, 2, 1), ((0, 0), (0, 1), (1, 0), (1, 1))):
-            # a corner is deck if all four cells around it are deck (or it's inside the rects)
-            around = [(r + dr - 1, c + dc - 1), (r + dr - 1, c + dc), (r + dr, c + dc - 1), (r + dr, c + dc)]
-            if sum(cell in decks for cell in around) >= 2:
-                idx |= bit
-        t = np.asarray(boards.tiles[15 if idx == 0 else idx].convert("RGBA")).astype(np.float32)
-        y, x = r * TILE, c * TILE
-        alpha = t[..., 3:4] / 255.0
-        a[y:y + TILE, x:x + TILE] = a[y:y + TILE, x:x + TILE] * (1 - alpha) + t * alpha
-        deck_px[y:y + TILE, x:x + TILE] = True
-    # Streams: ribbons of water painted across the terraces (and over the cliff faces
-    # where they fall), with a dark wet bank and paler shallows along the edge.
+    # Streams: ribbons of water painted across the terraces, with a dark wet bank and
+    # paler shallows along the edge. They never run down a cliff face (painted falls
+    # never looked like water falling): a stream that reaches a drop ends in a round
+    # pool at the top, and starts again from a spring pool at the foot.
     streams = soft_mask(lambda cx, cy: bool(STREAM_C[min(L.CH - 1, int(cy)), min(L.CW - 1, int(cx))]), size,
                         res=4, blur=4, jitter=0.25, seed=9)
     near = lambda m, px: np.asarray(Image.fromarray(m.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(px * 2 + 1))) > 0
-    bank = near(streams, 3) & ~streams
+    wall_px = np.kron(np.array([[1 if (v < 0 and (r, c) not in stairs) else 0 for c, v in enumerate(row)]
+                                for r, row in enumerate(stand)], np.uint8), np.ones((TILE, TILE), np.uint8)).astype(bool)
+    cut = streams & wall_px
+    streams &= ~wall_px
+    ends = near(cut, 3) & streams
+    blur = np.asarray(Image.fromarray(ends.astype(np.uint8) * 255).filter(ImageFilter.GaussianBlur(9))).astype(float)
+    streams |= (blur > 22) & ~near(wall_px, 2)
+    # Where a stream meets the lake it is the lake (no paler stream water laid over it).
+    lake_cells = np.kron(np.array([[1 if v == WATER else 0 for v in row] for row in stand], np.uint8),
+                         np.ones((TILE, TILE), np.uint8)).astype(bool)
+    streams &= ~lake_cells
+    bank = near(streams, 3) & ~streams & ~lake_cells
     shallow = streams & near(~streams, 3)
     a[..., :3] = np.where(bank[..., None], a[..., :3] * np.array([0.55, 0.52, 0.48]), a[..., :3])
     a[..., :3] = np.where(streams[..., None], np.array([30, 104, 204], np.float32), a[..., :3])
     a[..., :3] = np.where(shallow[..., None], np.array([70, 160, 214], np.float32), a[..., :3])
     a[..., 3] = np.where(streams | bank, 255, a[..., 3])
     out = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
-    rail_dock(out, decks, stand)
     out = grade(out, stand, decks)
+    water_px = np.kron(np.array([[1 if v == WATER else 0 for v in row] for row in stand], np.uint8),
+                       np.ones((TILE, TILE), np.uint8)).astype(bool) | streams
+    bridge_set = set(bridges)
+    paint_boardwalk(out, decks | bridge_set, water_px, across=bridge_set)
 
     cover = streams.reshape(ROWS, TILE, COLS, TILE).mean(axis=(1, 3))
     wet_cells = {(r, c) for r in range(ROWS) for c in range(COLS) if cover[r, c] > 0.35}
@@ -264,7 +268,11 @@ def build_terrain():
                   or (r, c) in bridges) for c in range(COLS)] for r in range(ROWS)]
     blocked = [[not walkable[r][c] for c in range(COLS)] for r in range(ROWS)]
     global STREAM_PX
-    STREAM_PX = streams
+    # (no stream water animates over a dock or bridge)
+    covered = np.zeros(streams.shape, bool)
+    for r, c in decks | set(bridges):
+        covered[r * TILE:(r + 1) * TILE, c * TILE:(c + 1) * TILE] = True
+    STREAM_PX = streams & ~covered
     # Level map: red = level * 40 (255 = cliff/stairs); green marks decks and bridges.
     lm = Image.new("RGB", (COLS, ROWS))
     bridge_level = {k: level_c(*((rect[0] + rect[2]) / 2 - 40, (rect[1] + rect[3]) / 2)) or MID
@@ -286,30 +294,107 @@ def build_terrain():
     return out, stand, blocked, stairs, decks, set(bridges), floor, dirt_on, water_cells
 
 
-def rail_dock(img, decks, stand):
-    """Wooden railings along every side of the dock that faces open water: a rail with
-    a highlight, posts every 16px, and a shadow on the planks inside."""
-    d = ImageDraw.Draw(img)
-    rail, light, post, shade = (92, 58, 34, 255), (168, 118, 70, 255), (70, 42, 24, 255), (0, 0, 0, 60)
-    for r, c in decks:
+def paint_boardwalk(img, cells, water_px, across=()):
+    """Plank boardwalks over the water, with depth: boards (laid across the way you
+    walk), a dark outline, a front beam where the deck's south edge stands over the
+    water, pilings below it every so often, the deck's shadow on the water, and a rail
+    with posts along every edge that faces water. `across`: cells whose boards run
+    north-south (bridges you cross east-west)."""
+    a = np.asarray(img).astype(np.float32)
+    H, W_ = a.shape[:2]
+    deck = np.zeros((H, W_), bool)
+    vertical = np.zeros((H, W_), bool)
+    for r, c in cells:
+        deck[r * TILE:(r + 1) * TILE, c * TILE:(c + 1) * TILE] = True
+        # boards run across the way you walk: east-west runs get north-south boards
+        ew = ((r, c - 1) in cells or (r, c + 1) in cells) and not ((r - 1, c) in cells or (r + 1, c) in cells)
+        if ew or (r, c) in across:
+            vertical[r * TILE:(r + 1) * TILE, c * TILE:(c + 1) * TILE] = True
+    ys, xs = np.mgrid[0:H, 0:W_]
+    wood = np.array([150, 104, 62], np.float32)
+    # Boards 6px wide, each its own shade, joints staggered.
+    along = np.where(vertical, xs, ys)
+    other = np.where(vertical, ys, xs)
+    board = along // 6
+    shade = 0.86 + ((board * 37) % 7) / 7.0 * 0.22
+    joint = ((other + (board % 3) * 23) % 64) == 0
+    seam = (along % 6) == 0
+    col = wood[None, None, :] * shade[..., None]
+    col = np.where(seam[..., None], np.array([92, 60, 36], np.float32), col)
+    col = np.where(joint[..., None], np.array([104, 68, 40], np.float32), col)
+    col = np.where(((along % 6) == 1)[..., None], col * 1.12, col)          # each board's lit edge
+    # Water below and around (for the beam, pilings, shadow and rails).
+    open_water = water_px & ~deck
+    # Shadow on the water: the deck shifted down and right.
+    shadow = np.zeros_like(deck)
+    shadow[10:, 4:] = deck[:-10, :-4]
+    shadow &= open_water
+    a[..., :3] = np.where(shadow[..., None], a[..., :3] * 0.62, a[..., :3])
+    a[..., :3] = np.where(deck[..., None], col, a[..., :3])
+    a[..., 3] = np.where(deck, 255, a[..., 3])
+    # Front beam: the 6px under every south edge that hangs over water.
+    beam = np.zeros_like(deck)
+    for k in range(1, 7):
+        step = np.zeros_like(deck)
+        step[k:, :] = deck[:-k, :]
+        beam |= step
+    # (a bridge stands up off its banks: its beam shows over land too)
+    bridge_px = np.zeros_like(deck)
+    for r, c in across:
+        bridge_px[r * TILE:(r + 1) * TILE, c * TILE:(c + 1) * TILE] = True
+    below_bridge = np.zeros_like(deck)
+    below_bridge[7:, :] = bridge_px[:-7, :]
+    beam &= ~deck & (open_water | below_bridge)
+    a[..., :3] = np.where(beam[..., None], np.array([84, 54, 32], np.float32), a[..., :3])
+    global BEAM_PX
+    BEAM_PX = beam & open_water           # the deck's face over water: water to walk on
+    edge_low = np.zeros_like(deck)
+    edge_low[6:, :] = deck[:-6, :]
+    edge_low &= beam
+    a[..., :3] = np.where(edge_low[..., None], np.array([52, 32, 18], np.float32), a[..., :3])
+    # Pilings: posts down into the water under the beam every 24px.
+    bottom = beam & ~np.vstack([beam[1:], np.zeros((1, W_), bool)])
+    for y, x in zip(*np.nonzero(bottom)):
+        if x % 24 in (2, 3, 4, 5):
+            y1 = min(H, y + 10)
+            seg = open_water[y:y1, x]
+            a[y:y1, x, :3] = np.where(seg[:, None], np.array([70, 44, 26], np.float32) * (0.9 if x % 24 == 2 else 1.0),
+                                      a[y:y1, x, :3])
+            BEAM_PX[y:y1, x] |= seg
+            if y1 < H and open_water[y1 - 1, x]:
+                a[y1 - 1, max(0, x - 2):x + 3, :3] = np.minimum(255, a[y1 - 1, max(0, x - 2):x + 3, :3] * 1.35)
+    # Outline round the deck.
+    grown = np.asarray(Image.fromarray(deck.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(3))) > 0
+    rim = grown & ~deck & ~beam
+    a[..., :3] = np.where(rim[..., None], np.array([60, 38, 22], np.float32), a[..., :3])
+    BEAM_PX |= rim & open_water
+    out = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
+    # Rails along every edge facing water: a rail with a highlight and posts every 16px.
+    d = ImageDraw.Draw(out)
+    rail, light, post = (96, 60, 34, 255), (184, 134, 82, 255), (64, 38, 20, 255)
+    for r, c in cells:
         x, y = c * TILE, r * TILE
         for dr, dc in ((-1, 0), (1, 0), (0, -1), (0, 1)):
             nr, nc = r + dr, c + dc
-            if (nr, nc) in decks or not (0 <= nr < ROWS and 0 <= nc < COLS) or stand[nr][nc] != WATER:
+            if (nr, nc) in cells:
                 continue
-            if dr:                                               # a rail along the top or bottom edge
-                ry = y + (1 if dr < 0 else TILE - 5)
-                d.rectangle((x, ry + 4, x + TILE - 1, ry + 5), fill=shade if dr < 0 else (0, 0, 0, 0))
-                d.rectangle((x, ry, x + TILE - 1, ry + 2), fill=rail)
-                d.line((x, ry, x + TILE - 1, ry), fill=light)
-                for px in (x + 2, x + 18):
-                    d.rectangle((px, ry - 3, px + 2, ry + 4), fill=post)
-            else:                                                # along the left or right edge
-                rx = x + (1 if dc < 0 else TILE - 4)
-                d.rectangle((rx, y, rx + 2, y + TILE - 1), fill=rail)
+            probe = (min(H - 1, max(0, y + TILE // 2 + dr * (TILE // 2 + 3))), min(W_ - 1, max(0, x + TILE // 2 + dc * (TILE // 2 + 3))))
+            # a bridge has rails along both long sides; the dock wherever it meets water
+            if not water_px[probe] and not ((r, c) in across and dr):
+                continue
+            if dr:
+                ry = y + (2 if dr < 0 else TILE - 4)
+                for px in range(x + 2, x + TILE, 16):
+                    d.rectangle((px, ry - 6, px + 2, ry + 1), fill=post)
+                d.rectangle((x, ry - 6, x + TILE - 1, ry - 5), fill=rail)
+                d.line((x, ry - 6, x + TILE - 1, ry - 6), fill=light)
+            else:
+                rx = x + (2 if dc < 0 else TILE - 4)
+                d.rectangle((rx, y, rx + 1, y + TILE - 1), fill=rail)
                 d.line((rx, y, rx, y + TILE - 1), fill=light)
-                for py in (y + 4, y + 20):
-                    d.rectangle((rx - 1, py, rx + 3, py + 4), fill=post)
+                for py in range(y + 6, y + TILE, 16):
+                    d.rectangle((rx - 1, py - 4, rx + 2, py + 1), fill=post)
+    img.paste(out)
 
 
 def grade(img, stand, decks):
@@ -352,42 +437,6 @@ def build_stairs():
         paths[rows] = f"{ART}stairs_{rows}.png"
         out.save(paths[rows])
     return paths
-
-
-def build_bridge(length, deck_px=2 * TILE):
-    """A plank footbridge `length` px long whose deck spans `deck_px`: the PixelLab
-    footbridge's back and front rails (stretched by repeating their middle posts) with
-    a deck of Kalmora's planks laid across between them, and its end boards."""
-    src = Image.open(PROPS + "footbridge.png").convert("RGBA")
-    src = src.crop(src.getbbox())
-    w, h = src.size
-    end = 8
-
-    def stretch(strip):
-        """Repeat a strip's middle to `length` px, keeping its two ends."""
-        mid = strip.crop((end, 0, w - end, strip.height))
-        out = Image.new("RGBA", (length, strip.height))
-        out.paste(strip.crop((0, 0, end, strip.height)), (0, 0))
-        for x in range(end, length - end, mid.width):
-            out.paste(mid.crop((0, 0, min(mid.width, length - end - x), strip.height)), (x, 0))
-        out.paste(strip.crop((w - end, 0, w, strip.height)), (length - end, 0))
-        return out
-    back, front = stretch(src.crop((0, 0, w, 8))), stretch(src.crop((0, 17, w, h)))
-    planks = CornerSet(K2 + "wang/planks").tiles[15].convert("RGBA").rotate(90)
-    deck = Image.new("RGBA", (length, deck_px))
-    for x in range(0, length, planks.width):
-        for y in range(0, deck_px, planks.height):
-            deck.paste(planks, (x, y))
-    # darker boards at each end, and a shadow under the back rail
-    dd = ImageDraw.Draw(deck)
-    for x0 in (0, length - 4):
-        dd.rectangle((x0, 0, x0 + 3, deck_px - 1), fill=(96, 62, 38, 255))
-    dd.rectangle((0, 0, length - 1, 3), fill=(70, 44, 28, 120))
-    out = Image.new("RGBA", (length, 4 + deck_px + front.height))
-    out.paste(deck, (0, 4))
-    out.alpha_composite(back, (0, 0))
-    out.alpha_composite(front, (0, 4 + deck_px - 6))
-    return out
 
 
 # ------------------------------------------------------------------ content (concept px)
@@ -548,17 +597,7 @@ texture = ExtResource("10_ground")
         x, top = LEFT + c0 * TILE, TOP + r0 * TILE
         n.append(f'[node name="Stairs{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\n'
                  f'position = Vector2({x + TILE}, {top + rows * TILE / 2})\ntexture = ExtResource("st_{rows}")\n')
-    for k, rect in enumerate(L.BRIDGES):
-        cells = bridge_span(rect)
-        c0, c1 = min(c for _, c in cells), max(c for _, c in cells)
-        r0 = min(r for r, _ in cells)
-        wx0, wx1 = LEFT + c0 * TILE, LEFT + (c1 + 1) * TILE
-        span = build_bridge(wx1 - wx0 + 16)
-        path = f"{ART}bridge_{k + 1}.png"
-        span.save(path)
-        top = TOP + r0 * TILE - 6                     # the back rail sits just above the deck rows
-        n.append(f'[node name="Bridge{k + 1}" type="Sprite2D" parent="."]\nz_index = -8\ncentered = false\n'
-                 f'position = Vector2({wx0 - 8}, {top})\ntexture = ExtResource("{texture(path)}")\n')
+    # (Bridges and the dock are painted into the ground by paint_boardwalk.)
 
     cliff = [[blocked[r][c] and (r, c) not in water_cells for c in range(COLS)] for r in range(ROWS)]
     walls = merge_rects(cliff, LEFT, TOP, TILE)
@@ -566,7 +605,7 @@ texture = ExtResource("10_ground")
     # the bridges and the dock.
     open_decks = [(LEFT + c * TILE, TOP + r * TILE, LEFT + (c + 1) * TILE, TOP + (r + 1) * TILE)
                   for r, c in decks | bridge_cells]
-    walls += mask_rects(water_pixels(ground, stand, decks), LEFT, TOP, step=8, erode=2, clear=open_decks)
+    walls += mask_rects(water_pixels(ground, stand, decks) | BEAM_PX, LEFT, TOP, step=8, erode=2, clear=open_decks)
     # The map's edges; exits leave gaps in them.
     walls += [(LEFT - 40, TOP - 40, RIGHT + 40, TOP), (LEFT - 40, BOTTOM, RIGHT + 40, BOTTOM + 40),
               (LEFT - 40, TOP, LEFT, BOTTOM), (RIGHT, TOP, RIGHT + 40, BOTTOM)]
@@ -748,25 +787,6 @@ shape = SubResource("{shape(32, 10)}")
         x, y = W(*pos)
         if walk_ok(x, y) and not any((x - a) ** 2 + (y - b) ** 2 < 50 ** 2 for a, b in exits.values()):
             n.append(solid(f"Fence{k + 1}", fence, x, y, 24, 8))
-    # Falls: wherever a stream crosses a cliff face, an animated fall drawn exactly over
-    # that stretch of the stream, in the stream's own blues.
-    falls, fall_px = find_falls(stand, stairs, decks | bridge_cells)
-    for k, (x0, y0, shape_mask) in enumerate(falls):
-        path = f"{ART}falls/fall_{k + 1}.png"
-        make_fall_strip(shape_mask, k).save(path)
-        fh, fw = shape_mask.shape
-        key = f"frames_fall{k + 1}"
-        atlas = texture(path)
-        refs = []
-        for f in range(FALL_FRAMES):
-            subs[f"{key}_{f}"] = (f'[sub_resource type="AtlasTexture" id="{key}_{f}"]\natlas = ExtResource("{atlas}")\n'
-                                  f'region = Rect2({f * (fw + 8)}, 0, {fw + 8}, {fh + 10})\n')
-            refs.append(f'{{\n"duration": 1.0,\n"texture": SubResource("{key}_{f}")\n}}')
-        subs[key] = (f'[sub_resource type="SpriteFrames" id="{key}"]\nanimations = [{{\n"frames": [{", ".join(refs)}],\n'
-                     f'"loop": true,\n"name": &"default",\n"speed": 12\n}}]\n')
-        n.append(f'[node name="Falls{k + 1}" type="AnimatedSprite2D" parent="."]\nz_index = -7\ncentered = false\n'
-                 f'position = Vector2({LEFT + x0 - 4}, {TOP + y0})\nsprite_frames = SubResource("{key}")\n'
-                 f'autoplay = "default"\nframe = {k * 3 % FALL_FRAMES}\n')
     bx, by = W(302, 472)
     n.append(f'[node name="Rowboat" type="Sprite2D" parent="."]\nz_index = -7\nposition = Vector2({bx}, {by})\n'
              f'rotation = -0.5\ntexture = ExtResource("{texture(K2 + "props/rowboat.png")}")\n')
@@ -779,7 +799,8 @@ shape = SubResource("{shape(32, 10)}")
         if not (0 <= r < ROWS and 0 <= c < COLS) or stand[r][c] != WATER or (r, c) in decks or (r, c) in bridge_cells:
             continue
         if not all(0 <= r + dr < ROWS and 0 <= c + dc < COLS and stand[r + dr][c + dc] == WATER
-                   for dr in (-1, 0, 1) for dc in (-1, 0, 1)):
+                   and (r + dr, c + dc) not in decks and (r + dr, c + dc) not in bridge_cells
+                   for dr in (-2, -1, 0, 1, 2) for dc in (-2, -1, 0, 1, 2)):
             continue
         if lily < 26 and (pcx < 420 or rng.random() < 0.35):
             lily += 1
@@ -901,7 +922,7 @@ shape = SubResource("{shape(32, 10)}")
             n.append(solid(f"Landmark{rocks}", FOREST + name + ".png", x, y, 22, 8))
 
     # Water: the animated wave tile clipped to every water pixel of the ground.
-    wet = water_pixels(ground, stand, decks) & ~fall_px    # falls animate on their own
+    wet = water_pixels(ground, stand, decks)
     lake_px = wet & ~STREAM_PX
     stream_px = wet & STREAM_PX
     for px, path in ((lake_px, WATER_MASK), (stream_px, STREAM_MASK)):
@@ -997,103 +1018,6 @@ position = Vector2({sx}, {sy})
     open(SCENE, "w", encoding="utf-8", newline="\n").write(head + "\n".join(subs.values()) + "\n" + "\n".join(n))
     print(f"thornveil: {COLS}x{ROWS} cells, {len(walls)} wall rects, {len(trees)} trees, {len(props)} undergrowth, "
           f"{len(STAIR_SPOTS)} stairs")
-
-
-FALL_FRAMES = 8
-
-
-def find_falls(stand, stairs, open_cells):
-    """Every stretch of stream that runs down a cliff face: stream pixels over wall
-    cells, grouped into blobs; the tall ones are falls (a stream merely running along
-    the foot of a cliff makes a wide, flat blob and is left as water). Returns
-    [(x0, y0, mask)] in ground px, and the pixel mask of all of them."""
-    wall = np.kron(np.array([[1 if (v < 0 and (r, c) not in stairs and (r, c) not in open_cells) else 0
-                              for c, v in enumerate(row)] for r, row in enumerate(stand)], np.uint8),
-                   np.ones((TILE, TILE), np.uint8)).astype(bool)
-    over = STREAM_PX & wall
-    step = 4
-    h, w = over.shape[0] // step, over.shape[1] // step
-    grid = over[:h * step, :w * step].reshape(h, step, w, step).mean(axis=(1, 3)) > 0.3
-    seen = np.zeros_like(grid)
-    falls = []
-    all_px = np.zeros(over.shape, bool)
-    for y in range(h):
-        for x in range(w):
-            if not grid[y, x] or seen[y, x]:
-                continue
-            blob, stack = [(y, x)], [(y, x)]
-            seen[y, x] = True
-            while stack:
-                cy, cx = stack.pop()
-                for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-                    ny, nx = cy + dy, cx + dx
-                    if 0 <= ny < h and 0 <= nx < w and grid[ny, nx] and not seen[ny, nx]:
-                        seen[ny, nx] = True
-                        blob.append((ny, nx))
-                        stack.append((ny, nx))
-            ys, xs = [b[0] for b in blob], [b[1] for b in blob]
-            y0, y1, x0, x1 = min(ys) * step, (max(ys) + 1) * step, min(xs) * step, (max(xs) + 1) * step
-            if y1 - y0 < 40 or (y1 - y0) < 0.7 * (x1 - x0):
-                continue
-            # The fall covers the stream's full width through that drop.
-            shape_mask = STREAM_PX[y0:y1, x0:x1].copy()
-            falls.append((x0, y0, shape_mask))
-            all_px[y0:y1, x0:x1] |= shape_mask
-    return falls, all_px
-
-
-def make_fall_strip(shape_mask, seed):
-    """An 8-frame falling-water strip shaped to `shape_mask` (the stream's pixels down
-    the cliff): the PixelLab falling-water tile (make_forest_water.py, water/fall_flow.png,
-    ribbons dropping a quarter tile a frame) poured through the fall's shape, shaded
-    darker toward its sides, a bright lip where the water tips over, and churning foam
-    spilling past its foot. Frames are 8px wider and 10px taller than the mask for the
-    spray."""
-    flow = np.asarray(Image.open(WATER_ART + "fall_flow.png").convert("RGB")).astype(np.float32)
-    tw = flow.shape[1] // FALL_FRAMES
-    th = flow.shape[0]
-    h, w = shape_mask.shape
-    W_, H_ = w + 8, h + 10
-    foam = np.array((236, 248, 248), np.float32)
-    rng = np.random.default_rng(seed + 3)
-    ox = int(rng.integers(0, tw))                       # each fall starts at its own spot in the tile
-    frames = []
-    for f in range(FALL_FRAMES):
-        tile = flow[:, f * tw:(f + 1) * tw]
-        img = np.zeros((H_, W_, 4), np.uint8)
-        for y in range(h):
-            inside = np.nonzero(shape_mask[y])[0]
-            if not len(inside):
-                continue
-            left, right = inside.min(), inside.max()
-            span = max(1, right - left)
-            for x in inside:
-                c = tile[y % th, (x + ox) % tw].copy()
-                t = (x - left) / span
-                c *= 0.72 + 0.28 * min(1.0, min(t, 1 - t) * 5)     # rounder: darker at the sides
-                if y < 3:
-                    c = c * 0.35 + foam * 0.65                    # the lip, where it tips over
-                img[y, x + 4, :3] = np.clip(c, 0, 255).astype(np.uint8)
-                img[y, x + 4, 3] = 255
-        # Foam at the foot: blobs that bubble up and fade, different each frame.
-        bottom = [x for x in range(w) if shape_mask[max(0, h - 6):, x].any()]
-        if bottom:
-            x_lo, x_hi = min(bottom), max(bottom)
-            frng = np.random.default_rng(seed * 31 + f)
-            for _ in range(10 + (x_hi - x_lo) // 3):
-                bx = int(frng.integers(x_lo - 3, x_hi + 4)) + 4
-                by = h - 3 + int(frng.integers(0, 9))
-                r = int(frng.integers(1, 4))
-                for dy in range(-r, r + 1):
-                    for dx in range(-r, r + 1):
-                        if dx * dx + dy * dy <= r * r and 0 <= by + dy < H_ and 0 <= bx + dx < W_:
-                            a = 230 if by + dy < h + 3 else 170
-                            img[by + dy, bx + dx] = (*foam.astype(np.uint8), a)
-        frames.append(Image.fromarray(img, "RGBA"))
-    strip = Image.new("RGBA", (W_ * FALL_FRAMES, H_))
-    for f, im in enumerate(frames):
-        strip.paste(im, (f * W_, 0))
-    return strip
 
 
 def water_pixels(ground, stand, decks):
