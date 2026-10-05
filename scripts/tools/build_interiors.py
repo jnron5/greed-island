@@ -349,7 +349,10 @@ INTERIORS = {
             (0, 0, 10, 224), (278, 0, 288, 224),
             (0, 198, 118, 224), (166, 198, 288, 224),
         ],
-        "npcs": [],
+        "npcs": [("wren", "Wren", "wren", (160, 146), [
+            "I write by candle when the village is asleep. The names come easier when nobody's watching me write them.",
+            "Mind the stacks. That one's the last ten winters. That one's the seven children.",
+        ], [], {"out": (19.0, 8.0)})],
         "readables": [
             ("Wren's book of names", (86, 96), [
                 "A thick book, bound in bark. Every page is a list of names, and beside each, a year and a place.",
@@ -391,7 +394,10 @@ INTERIORS = {
             (110, 112, 178, 155), (135, 146, 158, 170), (205, 110, 272, 185),  # table, stool, bed
             (0, 196, 118, 224), (166, 196, 288, 224),
         ],
-        "npcs": [],
+        "npcs": [("harl", "Harl", "harl", (90, 172), [
+            "Axe is sharp, fire's low, door's barred. That's how a woodcutter sleeps easy in Thornveil.",
+            "Sit, sit. There's stew in the pot. It's not Mate's. Don't tell her it's better.",
+        ], [], {"out": (20.0, 6.0)})],
         "readables": [
             ("A timber order", (92, 100), [
                 "'Forty lengths of oak, cut and planed, for pens. Small pens, four foot by four. Deliver to the red-sun crates at Kalmora. D.M.'",

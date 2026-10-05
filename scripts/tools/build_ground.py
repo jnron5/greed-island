@@ -45,16 +45,20 @@ ZONES = {
         "remove": ["Ground", "Clearing", "Path", "GroveFloor"],
         "extra_trees": 20,
         "paths": [
-            ("ellipse", 0, 10, 170, 100),               # the dirt square round the well and fire (the rest of the green is grass)
-            ("line", [(0, 60), (0, 300)], 44),          # south road
-            ("line", [(0, -60), (0, -246)], 30),        # to the elder's longhouse
-            ("line", [(-100, -40), (-270, -170), (-336, -200)], 26),    # to the scribe's
-            ("line", [(100, -40), (290, -150), (350, -176)], 26),       # to the herbalist's
-            ("line", [(-150, 0), (-330, -10), (-444, 34)], 26),         # to the woodcutter's
-            ("line", [(-120, 60), (-200, 120), (-244, 186)], 26),       # to the family home
-            ("line", [(140, 50), (250, 52), (330, 84), (380, 130)], 26),   # to the tree house (round the inn's roof)
+            # Sorenda is a hamlet of glades in the deep wood, not a square: the Kettle
+            # glade where the road comes in (the inn, the fire, the well), the elder's
+            # glade to the north, the woodcutters' glade west, the root glade east under
+            # the great tree; trails wind between them through the trees.
+            ("ellipse", 30, 160, 120, 56),              # the Kettle glade's trodden ground round the fire
+            ("line", [(0, 300), (0, 200), (10, 160)], 40),              # the south road in
             ("line", [(0, 236), (110, 244), (215, 252)], 26),           # to the Copper Kettle
-            ("line", [(120, -60), (420, -300), (560, -400), (600, -440)], 30),  # to the moss gate
+            ("line", [(-60, 140), (-180, 110), (-300, 50), (-494, 34)], 24),    # west to the woodcutters' glade
+            ("line", [(-300, 60), (-380, 150), (-424, 214)], 22),       # to the family home
+            ("line", [(10, 110), (-50, 20), (40, -110), (-20, -220), (0, -306)], 24),  # north, winding up to the elder's glade
+            ("line", [(-40, -260), (-200, -290), (-306, -276)], 22),    # to the scribe's
+            ("line", [(100, 150), (250, 120), (360, 100), (430, 84)], 24),   # east to the root glade and the tree house
+            ("line", [(330, 96), (370, -40), (450, -186)], 22),         # up to the herbalist's
+            ("line", [(460, -200), (540, -330), (600, -440)], 28),      # on to the moss gate
             ("rect", 540, -560, 670, -440),             # the Hollow's pocket
         ],
     },

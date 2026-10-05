@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3]
+[gd_scene load_steps=32 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/sorenda/interiors/scribe_room.png" id="10_room"]
 [ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/wren/wren_frames.tres" id="n_wren"]
 
 [sub_resource type="RectangleShape2D" id="R288x62"]
 size = Vector2(288, 62)
@@ -188,6 +189,15 @@ position = Vector2(142, 222)
 target_scene = "res://scenes/world/sorenda.tscn"
 target_spawn = &"from_housescribe"
 exit_hint = true
+
+[node name="Npc_wren" parent="." instance=ExtResource("9_npc")]
+position = Vector2(160, 146)
+npc_id = &"wren"
+display_name = "Wren"
+sprite_frames = ExtResource("n_wren")
+lines = PackedStringArray("I write by candle when the village is asleep. The names come easier when nobody's watching me write them.", "Mind the stacks. That one's the last ten winters. That one's the seven children.")
+out_from = 19.0
+out_to = 8.0
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(86, 96)

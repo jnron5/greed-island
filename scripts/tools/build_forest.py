@@ -101,40 +101,45 @@ LIFE = {
         # The homes, the inn, lanterns and campfire are placed by build_sorenda.py; these
         # are the things round them: the woodcutter's pile and the herbalist's drying rack.
         "props": [
-            ('res://assets/sprites/tiles/sorenda/woodpile.png', (-540, 30), True, (50, 16)),
-            ('res://assets/sprites/tiles/sorenda/drying_rack.png', (470, -170), True, (40, 10)),
+            ('res://assets/sprites/tiles/sorenda/woodpile.png', (-610, 20), True, (50, 16)),
+            ('res://assets/sprites/tiles/sorenda/drying_rack.png', (560, -190), True, (40, 10)),
         ],
         # Extra open ground (x, y, radius): the Copper Kettle is wider than a home, so
         # its front corners and doorstep stay clear of trees.
-        "clear": [(110, 236, 64), (320, 236, 64), (215, 280, 56), (110, 280, 40)],
-        "butterflies": [((90, 140), 3), ((120, -60), 2), ((-420, -200), 2)],
+        "clear": [(110, 236, 64), (320, 236, 64), (215, 280, 56), (110, 280, 40),
+                  # the glades
+                  (30, 160, 100), (-60, -300, 130), (-470, 100, 90), (430, 60, 80)],
+        "butterflies": [((40, 160), 3), ((-80, -300), 2), ((-470, 90), 2), ((440, -80), 2)],
+        # The woods between the glades: (x, y, rx, ry, trees).
+        "thickets": [(-170, -110, 110, 90, 9), (190, -100, 100, 110, 9), (-240, 120, 70, 50, 4), (240, 10, 90, 60, 6),
+                     (-460, -160, 120, 60, 7), (130, -380, 90, 60, 5)],
         "npcs": [
-            ("moss", "Elder Moss", (40, -226), 0, [
+            ("moss", "Elder Moss", (60, -290), 0, [
                 "Sorenda sits where the old roads cross. Every race, the racers come through. Some are running to something. Some from it.",
                 "The trees here remember everyone who passes. That's not a story, dear. Put your hand on the bark by the Hollow and you'll see.",
                 "We carve a notch in the longhouse post for every one of ours who goes east for the Duskara work. We haven't had to carve a homecoming in years.",
-            ]),
-            ("harl", "Harl", (-420, 70), 20, [
+            ], {"night": (0, 200), "night_wander": 10}),
+            ("harl", "Harl", (-430, 60), 20, [
                 "Cut timber for the Duskara road three winters running. Good coin. Then they wanted timber for pens. Small pens. I came home.",
                 "Hounds are bolder this year. Something out east has them spooked, or hungry. Keep your cards bound on the road.",
                 "The Runner came through last week, fast as ever. Stopped at the Hollow, though. Stood there a long time. Didn't say why.",
-            ]),
-            ("pell", "Pell", (-190, 214), 30, [
+            ], {"out": (6.0, 20.0)}),
+            ("pell", "Pell", (-350, 230), 30, [
                 "Mushrooms by the well are fine to eat. The glowing ones down in the Hollow aren't. Trust me.",
                 "I found a little boot in the moss by the Hollow. Too small to be a racer's. Too far from any house to be one of ours.",
                 "The Hollow gate wants a card to open. Elder Moss says it's to keep the forest's secrets. I think it's to keep us from finding them.",
-            ]),
-            ("wren", "Wren", (-300, -176), 12, [
+            ], {"night": (100, 196), "night_wander": 16}),
+            ("wren", "Wren", (-250, -260), 12, [
                 "I copy the village's stories out every winter, so they don't fade. Some of them I'd rather let fade.",
                 "Seven children went east last spring. I wrote their names in the book. I write a lot of names in the book.",
-            ]),
-            ("juniper", "Juniper", (390, -150), 12, [
+            ], {"out": (8.0, 19.0)}),
+            ("juniper", "Juniper", (500, -160), 12, [
                 "Mind the drying rack. That's feverfew, and it doesn't like being walked through.",
                 "Something in the Hollow has been clawing at the roots. The whole hill smells of bear.",
-            ]),
+            ], {"night": (520, -330), "night_wander": 30}),
         ],
         "readables": [
-            ("The longhouse post", (-70, -236), [
+            ("The longhouse post", (-80, -300), [
                 "A carved post by the longhouse door, covered in names. Beside each name, a notch.",
                 "The oldest notches are wide and deep. The newest ones are small, low down, and there are a great many of them.",
             ]),
@@ -324,6 +329,16 @@ def layout(cfg, keep, fronts=()):
             t = kind if kind != "mixed" else rng.choice(["fir", "oak"])
             if free(px, py, 28, 34 if t == "fir" else 58):             # oak crowns are wide
                 trees.append((t, px, py))
+    # Thickets: woods planted on purpose (between a village's glades), filled densely.
+    for tx, ty, rx, ry, count in cfg.get("thickets", []):
+        for _ in range(count * 6):
+            if sum(1 for _, a, b in trees if ((a - tx) / rx) ** 2 + ((b - ty) / ry) ** 2 < 1.0) >= count:
+                break
+            a, r = rng.uniform(0, math.tau), math.sqrt(rng.random())
+            px, py = round(tx + math.cos(a) * r * rx), round(ty + math.sin(a) * r * ry)
+            t = rng.choice(["fir", "fir", "oak"])
+            if free(px, py, 30, 30 if t == "fir" else 50):
+                trees.append((t, px, py))
     # Undergrowth: at tree feet and along the path edges.
     props = []
     weights = [w for _, w, _ in UNDER]
@@ -410,8 +425,12 @@ def build(zone):
         for m in re.finditer(r'\[node name="[^"]+" type="Marker2D" parent="%s"\]\nposition = Vector2\((-?[\d.]+), (-?[\d.]+)\)' % block, scene):
             keep.append((float(m.group(1)), float(m.group(2)), 50))
     life = LIFE.get(zone, {"npcs": [], "readables": []})
-    for _, _, (x, y), wander, _ in life["npcs"]:
+    for entry in life["npcs"]:
+        (x, y), wander = entry[2], entry[3]
         keep.append((x, y, 40 + wander))
+        hours = entry[5] if len(entry) > 5 else {}
+        if hours.get("night"):
+            keep.append((*hours["night"], 30 + hours.get("night_wander", 0)))
     for _, (x, y), _ in life["readables"]:
         keep.append((x, y, 30))
     for prop in life.get("props", []):
@@ -426,7 +445,7 @@ def build(zone):
     fronts = [(x, y) for name, (x, y) in scene_nodes(scene).items()
               if any(k in name for k in ("Hut", "Longhouse", "House", "Shrine", "Merchant"))]
     fronts += [prop[1] for prop in life.get("props", []) if len(prop) > 3 and prop[3][0] >= 60]   # new buildings
-    trees, props, landmarks = layout(cfg, keep, fronts)
+    trees, props, landmarks = layout({**cfg, "thickets": life.get("thickets", [])}, keep, fronts)
     paint_ground(cfg, trees, props + landmarks, life.get("garden"))
 
     ids = {}
@@ -479,11 +498,17 @@ def build(zone):
     npc_ref = re.search(r'path="res://scenes/characters/npc.tscn" id="([^"]+)"', scene)
     read_ref = re.search(r'path="res://scripts/systems/readable.gd" id="([^"]+)"', scene)
     quote = lambda lines: ", ".join('"' + line.replace('"', '\\"') + '"' for line in lines)
-    for npc_id, display, (x, y), wander, lines in life["npcs"]:
+    for entry in life["npcs"]:
+        npc_id, display, (x, y), wander, lines = entry[:5]
+        hours = entry[5] if len(entry) > 5 else {}
         frames = re.search(r'path="res://assets/sprites/npcs/%s/%s_frames.tres" id="([^"]+)"' % (npc_id, npc_id), scene).group(1)
         nodes.append(f'[node name="Npc_{npc_id}" parent="." instance=ExtResource("{npc_ref.group(1)}")]\nposition = Vector2({x}, {y})\n'
                      f'npc_id = &"{npc_id}"\ndisplay_name = "{display}"\nsprite_frames = ExtResource("{frames}")\n'
-                     f'lines = PackedStringArray({quote(lines)})\nwander_radius = {float(wander)}\n')
+                     f'lines = PackedStringArray({quote(lines)})\nwander_radius = {float(wander)}\n'
+                     # Day and night (npc.gd): hours out here, and a night spot.
+                     + (f'out_from = {float(hours["out"][0])}\nout_to = {float(hours["out"][1])}\n' if hours.get("out") else "")
+                     + (f'has_night_spot = true\nnight_spot = Vector2{tuple(hours["night"])}\nnight_wander = {float(hours.get("night_wander", 0))}\n'
+                        if hours.get("night") else ""))
     for k, prop in enumerate(life.get("props", [])):
         res, (x, y), collides = prop[:3]
         fw, fh = prop[3] if len(prop) > 3 else (22, 8)

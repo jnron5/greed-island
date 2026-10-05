@@ -119,12 +119,12 @@ const ZONES := {
 	FRISALLE_WEIGH: { "name": "The Weigh Master's House", "origin": Vector2(-3374, -4713), "monster_drops": [] },
 	SERIN_FISHER_HUT: { "name": "Neri's Hut", "origin": Vector2(-2074, -1735), "monster_drops": [] },
 	STARFALL_CABIN: { "name": "Hald's Cabin", "origin": Vector2(-2574, -3311), "monster_drops": [] },
-	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2518), "monster_drops": [] },
-	SORENDA_SCRIBE: { "name": "Wren's House", "origin": Vector2(-370, -2482), "monster_drops": [] },
-	SORENDA_HERBALIST: { "name": "Juniper's Cottage", "origin": Vector2(320, -2454), "monster_drops": [] },
-	SORENDA_WOODCUTTER: { "name": "Harl's Cottage", "origin": Vector2(-480, -2244), "monster_drops": [] },
-	SORENDA_FAMILY: { "name": "Pell's Home", "origin": Vector2(-270, -2092), "monster_drops": [] },
-	SORENDA_TREE_HOUSE: { "name": "The Old Tree House", "origin": Vector2(350, -2148), "monster_drops": [] },
+	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2598), "monster_drops": [] },
+	SORENDA_SCRIBE: { "name": "Wren's House", "origin": Vector2(-340, -2568), "monster_drops": [] },
+	SORENDA_HERBALIST: { "name": "Juniper's Cottage", "origin": Vector2(420, -2478), "monster_drops": [] },
+	SORENDA_WOODCUTTER: { "name": "Harl's Cottage", "origin": Vector2(-530, -2258), "monster_drops": [] },
+	SORENDA_FAMILY: { "name": "Pell's Home", "origin": Vector2(-450, -2078), "monster_drops": [] },
+	SORENDA_TREE_HOUSE: { "name": "The Old Tree House", "origin": Vector2(400, -2208), "monster_drops": [] },
 	SORENDA_INN: { "name": "The Copper Kettle", "origin": Vector2(185, -2020), "monster_drops": [] },
 }
 

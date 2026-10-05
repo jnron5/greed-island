@@ -31,12 +31,12 @@ GROUND = "assets/sprites/tiles/thornveil/sorenda_ground.png"
 # Homes: (node, sprite, base position (the foot of the front wall), footprint width,
 # door x offset, interior scene, spawn name for coming back out).
 HOMES = [
-    ("HouseLonghouse", "longhouse", (0, -250), 220, 0, "res://scenes/world/interiors/sorenda_longhouse.tscn", "from_houselonghouse"),
-    ("HouseScribe", "scribe_house", (-340, -214), 132, 4, "res://scenes/world/interiors/sorenda_scribe_house.tscn", "from_housescribe"),
-    ("HouseHerbalist", "herbalist_house", (350, -186), 176, 0, "res://scenes/world/interiors/sorenda_herbalist_house.tscn", "from_househerbalist"),
-    ("HouseWoodcutter", "woodcutter_cottage", (-450, 24), 132, 6, "res://scenes/world/interiors/sorenda_woodcutter.tscn", "from_housewoodcutter"),
-    ("HouseFamily", "round_cottage", (-240, 176), 128, -4, "res://scenes/world/interiors/sorenda_family_home.tscn", "from_housefamily"),
-    ("HouseTree", "tree_house", (380, 120), 120, 0, "res://scenes/world/interiors/sorenda_tree_house.tscn", "from_housetree"),
+    ("HouseLonghouse", "longhouse", (0, -330), 220, 0, "res://scenes/world/interiors/sorenda_longhouse.tscn", "from_houselonghouse"),
+    ("HouseScribe", "scribe_house", (-310, -300), 132, 4, "res://scenes/world/interiors/sorenda_scribe_house.tscn", "from_housescribe"),
+    ("HouseHerbalist", "herbalist_house", (450, -210), 176, 0, "res://scenes/world/interiors/sorenda_herbalist_house.tscn", "from_househerbalist"),
+    ("HouseWoodcutter", "woodcutter_cottage", (-500, 10), 132, 6, "res://scenes/world/interiors/sorenda_woodcutter.tscn", "from_housewoodcutter"),
+    ("HouseFamily", "round_cottage", (-420, 190), 128, -4, "res://scenes/world/interiors/sorenda_family_home.tscn", "from_housefamily"),
+    ("HouseTree", "tree_house", (430, 60), 120, 0, "res://scenes/world/interiors/sorenda_tree_house.tscn", "from_housetree"),
     # The Copper Kettle, Mate's inn: the first roof you reach coming up the forest road.
     ("HouseInn", "kettle_inn", (215, 248), 180, 0, "res://scenes/world/interiors/sorenda_inn.tscn", "from_houseinn"),
 ]
@@ -46,16 +46,16 @@ GATE = (600, -430)
 MOUTH = (604, -520)                       # base of the cave-mouth sprite
 TO_HOLLOW = (604, -532)
 FROM_HOLLOW = (604, -498)
-SPAWNS = {"town": (0, -40), "from_thornveil": (0, 236), "from_hollow": FROM_HOLLOW}
+SPAWNS = {"town": (0, 120), "from_thornveil": (0, 236), "from_hollow": FROM_HOLLOW}
 EXIT_SOUTH = (0, 282)
-RIVALS = {"runner": (-120, 70), "raider": (200, 40), "hoarder": (-40, -120)}
-WELL = (96, -20)
-MERCHANT = (-110, 40)
+RIVALS = {"runner": (-60, 110), "raider": (120, 130), "hoarder": (10, -200)}
+WELL = (-80, 170)
+MERCHANT = (-130, 110)
 # Lanterns on posts along the paths (each a real light after dark), the campfire on
 # the green (animated, always burning), and benches round it.
-LANTERNS = [(-200, -110), (190, -128), (-150, 118), (40, 200), (470, -330), (-300, -16), (-40, -170), (120, -150)]
-CAMPFIRE = (60, 64)
-BENCHES = [(10, 96), (112, 96)]
+LANTERNS = [(-170, 100), (-340, 60), (-70, -40), (70, -200), (260, 140), (370, -60), (500, -340), (-180, -270), (100, 230), (-330, 170)]
+CAMPFIRE = (40, 150)
+BENCHES = [(-20, 196), (100, 196)]
 LANTERN_PNG = "assets/sprites/tiles/thornveil/props/trail_lantern.png"
 CAMPFIRE_STRIP = "assets/sprites/tiles/thornveil/props/campfire_anim.png"
 BENCH_PNG = "assets/sprites/tiles/kalmora/props/bench_wood.png"
