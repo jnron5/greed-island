@@ -27,6 +27,12 @@ const TALK_RANGE := 34.0
 @export var roam_points: PackedVector2Array = []
 ## Places a roamer never stops near (doors), Travellers.DOOR_CLEAR px.
 @export var avoid_points: PackedVector2Array = []
+## Where a roamer comes in from and leaves by (just inside the zone's edge exits): it
+## walks in from one when its hours start and out to the nearest when they end, rather
+## than appearing or vanishing.
+@export var exit_points: PackedVector2Array = []
+## Seconds between chatter bubbles (min, max).
+@export var chatter_every := Vector2(7.0, 15.0)
 @export var patrol_pause := 3.0
 ## Shopkeepers: after talking, open the shop with this stock.
 @export var shop_stock: Array[StringName] = []
@@ -91,6 +97,7 @@ var _route_time := 0.0
 var _here := true
 var _clock := 0.0
 var _roam_route := PackedVector2Array()
+var _leaving := false
 var _bubble := ""
 var _bubble_time := 0.0
 var _chatter_wait := randf_range(2.0, 9.0)
@@ -141,11 +148,36 @@ func _settle_at(spot: Vector2, radius: float) -> void:
 func _set_here(here: bool, force := false) -> void:
 	if here == _here and not force:
 		return
-	if not force and _on_screen():
+	var arriving := here and not _here and not force and not exit_points.is_empty()
+	if arriving:
+		# Coming in for the day (or the night): from the edge of the zone, on foot
+		# (the map's edge, so walking in from it is fine even in view).
+		global_position = exit_points[randi() % exit_points.size()]
+		_roam_route = PackedVector2Array()
+		_wait = 0.0
+	elif not force and _on_screen():
+		# A roamer whose hours are over walks off by the nearest way out instead.
+		if not here and not exit_points.is_empty() and not _leaving:
+			_leave()
 		return
 	_here = here
+	_leaving = false
 	visible = here
 	$CollisionShape2D.set_deferred(&"disabled", not here)
+
+
+## Off to the nearest way out of the zone; gone when it gets there.
+func _leave() -> void:
+	_leaving = true
+	var best := exit_points[0]
+	for point in exit_points:
+		if point.distance_squared_to(global_position) < best.distance_squared_to(global_position):
+			best = point
+	var zone := get_tree().current_scene as Zone
+	_roam_route = zone.find_path(global_position, best) if zone else PackedVector2Array([best])
+	if _roam_route.is_empty():
+		_roam_route = PackedVector2Array([best])
+	_route_time = 0.0
 
 
 func _on_screen() -> bool:
@@ -193,6 +225,10 @@ func _follow_route(delta: float) -> void:
 ## A traveller's day: walk to one of `roam_points` (a little off it, never on a
 ## doorstep), stand a while, pick another.
 func _roam(delta: float) -> void:
+	if _leaving and _roam_route.is_empty():
+		velocity = Vector2.ZERO
+		_set_here(false, true)
+		return
 	if _roam_route.is_empty():
 		velocity = Vector2.ZERO
 		_wait -= delta
@@ -215,6 +251,8 @@ func _roam(delta: float) -> void:
 		if _roam_route.is_empty():
 			velocity = Vector2.ZERO
 			_wait = randf_range(3.0, 9.0)
+			# A look round while standing.
+			facing = Vector2.from_angle(randi_range(0, 3) * PI / 2.0)
 			# Ended up by a door anyway (a partial path): move on at once.
 			for door in avoid_points:
 				if door.distance_to(global_position) < Travellers.DOOR_CLEAR:
@@ -224,6 +262,8 @@ func _roam(delta: float) -> void:
 	if _route_time > 40.0:                      # stuck: stand here a moment, then go elsewhere
 		_roam_route = PackedVector2Array()
 		_wait = 1.0
+		if _leaving and not _on_screen():
+			_set_here(false, true)
 
 
 func _arrive() -> void:
@@ -280,6 +320,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
 	if player == null or player.global_position.distance_to(global_position) > TALK_RANGE:
 		return
+	# Standing at a door, E is for the door, not for someone walking past it.
+	for door in avoid_points:
+		if door.distance_to(player.global_position) <= ZoneExit.DOOR_RANGE + 4.0:
+			return
 	get_viewport().set_input_as_handled()
 	talk(player)
 
@@ -433,7 +477,7 @@ func _chatter(delta: float) -> void:
 	_chatter_wait -= delta
 	if _chatter_wait > 0.0:
 		return
-	_chatter_wait = randf_range(7.0, 15.0)
+	_chatter_wait = randf_range(chatter_every.x, chatter_every.y)
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
 	if _talking or (not chatter_by_day and not is_night()) or player == null \
 			or player.global_position.distance_to(global_position) > 260.0:

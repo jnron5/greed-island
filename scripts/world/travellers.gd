@@ -7,9 +7,13 @@ extends RefCounted
 ## they all leave for Kalmora and spend the night in its streets (till the small
 ## hours), out of the wild before the beasts turn savage (Monster night strength).
 ## Eight PixelLab traveller sprites (assets/sprites/npcs/traveller_*) are shared by
-## the twenty of them. What they say: their own couple of lines plus what anyone
-## passing through says about the place they're in (CITY_LINES), or about the road
-## (WILD_LINES) in the wild.
+## the twenty of them. They come and go on foot: in from the edge of the zone when
+## their hours start, out by the nearest road when they end (Npc.exit_points). What
+## they say: their own couple of lines, where they've come from and where they're off
+## to next (from the same daily deal, so it's true), what anyone passing through says
+## about the place they're in (CITY_LINES) or the road (WILD_LINES), and in Kalmora at
+## night what they get up to there (KALMORA_NIGHT_LINES); now and then a greeting for
+## the time of day in a speech bubble (GREETINGS).
 
 const NPC_SCENE := preload("res://scenes/characters/npc.tscn")
 ## Travellers keep this far from any door, and never block anyone's way: you walk
@@ -170,6 +174,24 @@ const CITY_LINES := {
 		"Don't go down the valley after dark. The wolves come up off the snowfield in packs.",
 	],
 }
+## What they say in Kalmora after dark, back from the road.
+const KALMORA_NIGHT_LINES := [
+	"Every road on this island ends in Kalmora at night. Lanterns, fish on sticks, somebody singing badly. Worth the walk.",
+	"I sleep in the Salted Lantern's loft with half the island's pedlars. Jobelle charges us in stories.",
+	"Safer here than out there tonight. The beasts out on the roads turn savage after dark. In here the worst you'll meet is Otto's cider.",
+	"We swap news on the quay at night: who's selling, who's buying, which racer's carrying what. Mind what you carry, racer.",
+	"The beach dancing goes on till the lanterns gutter. Luca never stops. I think he can't.",
+]
+## Greetings for a bubble now and then, by the time of day.
+const GREETINGS := {
+	"Dawn": ["Up early, racer?", "Cold start.", "Morning, almost."],
+	"Morning": ["Morning!", "Fine day for the road.", "Mind your cards."],
+	"Midday": ["Hot one.", "Lunch somewhere?", "Afternoon soon."],
+	"Afternoon": ["Afternoon.", "Long way still.", "Nice day for it."],
+	"Dusk": ["Getting late.", "Kalmora by dark.", "Sun's going."],
+	"Night": ["Evening!", "Lovely lanterns.", "Another round?"],
+}
+
 ## What they say on the road.
 const WILD_LINES := [
 	"Out here on the road between towns, you meet everybody sooner or later. Racers, pedlars, worse.",
@@ -207,9 +229,23 @@ static func populate(zone: Zone) -> void:
 		npc.sprite_offset_y = FEET.get(t.sprite, -26.0)
 		var pool := PackedStringArray(t.lines)
 		pool.append_array(CITY_LINES.get(CITY.get(path, ""), WILD_LINES))
+		var travel := travel_line(t.id, path)
+		if travel != "":
+			pool.append(travel)
 		npc.lines = pool
+		if path == KALMORA:
+			var nights := PackedStringArray(KALMORA_NIGHT_LINES)
+			var day_spot := where(t.id, TimeOfDay.day)
+			if day_spot != "" and day_spot != KALMORA:
+				nights.append("Spent the day in %s. Back for the night, like everyone. Kalmora's the only place on the island still awake." % zone_name(day_spot))
+			npc.night_lines = nights
+		npc.chatter = PackedStringArray(GREETINGS.get(TimeOfDay.part_of_day(), []))
+		npc.chatter_by_day = true
+		npc.chatter_every = Vector2(25.0, 60.0)
 		npc.roam_points = points
-		npc.walk_speed = 26.0
+		npc.exit_points = _exits(zone)
+		# Everyone has their own pace.
+		npc.walk_speed = 22.0 + float(absi(hash(t.id)) % 9)
 		npc.out_from = hours.x
 		npc.out_to = hours.y
 		if t.has("shop"):
@@ -231,12 +267,40 @@ static func populate(zone: Zone) -> void:
 		npc.sprite.scale = Vector2(SPRITE_SCALE, SPRITE_SCALE)
 
 
+## Where traveller `id` spends day `day` (a zone path), "" if nowhere in particular.
+static func where(id: String, day: int) -> String:
+	for zone: String in QUOTA:
+		if todays(zone, day).any(func(t: Dictionary) -> bool: return t.id == id):
+			return zone
+	return ""
+
+
+## "Came up from X this morning; Y tomorrow." from the daily deal.
+static func travel_line(id: String, path: String) -> String:
+	var before := where(id, TimeOfDay.day - 1)
+	var after := where(id, TimeOfDay.day + 1)
+	var parts: Array[String] = []
+	if before != "" and before != path:
+		parts.append("I was in %s yesterday." % zone_name(before))
+	if after != "" and after != path:
+		parts.append("Tomorrow it's %s, if my feet hold out." % zone_name(after))
+	elif after == path:
+		parts.append("I'm staying on here tomorrow. I like it.")
+	return " ".join(parts)
+
+
+static func zone_name(path: String) -> String:
+	return String(WorldMap.ZONES.get(path, {}).get("name", "somewhere"))
+
+
 ## Today's travellers in the zone at `path`: the roster shuffled by the day and dealt
 ## out to the zones in QUOTA order.
-static func todays(path: String) -> Array:
+static func todays(path: String, day := -1) -> Array:
+	if day < 0:
+		day = TimeOfDay.day
 	var order := range(ROSTER.size())
 	var rng := RandomNumberGenerator.new()
-	rng.seed = 7919 + TimeOfDay.day * 104729
+	rng.seed = 7919 + day * 104729
 	for i in range(order.size() - 1, 0, -1):
 		var j := rng.randi_range(0, i)
 		var tmp: int = order[i]
@@ -270,6 +334,16 @@ static func _points(zone: Zone) -> PackedVector2Array:
 			var p := (marker as Node2D).global_position
 			if not doors.any(func(d: Vector2) -> bool: return d.distance_to(p) < DOOR_CLEAR):
 				out.append(p)
+	return out
+
+
+## Just inside each of the zone's edge exits: where travellers come in and go out.
+static func _exits(zone: Zone) -> PackedVector2Array:
+	var out := PackedVector2Array()
+	for node in zone.get_children():
+		var exit := node as ZoneExit
+		if exit and exit.edge_side != Vector2.ZERO:
+			out.append(exit.global_position - exit.edge_side * 48.0)
 	return out
 
 
