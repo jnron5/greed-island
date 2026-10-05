@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3]
+[gd_scene load_steps=28 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/frisalle/interiors/carver_room.png" id="10_room"]
 [ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/liesl/liesl_frames.tres" id="n_liesl"]
 
 [sub_resource type="RectangleShape2D" id="R320x64"]
 size = Vector2(320, 64)
@@ -156,6 +157,15 @@ position = Vector2(142, 248)
 target_scene = "res://scenes/world/frisalle.tscn"
 target_spawn = &"from_housecarver"
 exit_hint = true
+
+[node name="Npc_liesl" parent="." instance=ExtResource("9_npc")]
+position = Vector2(150, 172)
+npc_id = &"liesl"
+display_name = "Liesl"
+sprite_frames = ExtResource("n_liesl")
+lines = PackedStringArray("Evenings are for the fine work. Eyes, whiskers, the little claws. The frost can't do those.", "Sit if you can find a chair that isn't half a bear.")
+out_from = 20.0
+out_to = 7.0
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(150, 136)

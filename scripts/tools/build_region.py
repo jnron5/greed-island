@@ -766,6 +766,9 @@ class Zone:
             targets["exit " + ex["name"]] = ex["pos"]
         for name, (x, y) in c.get("spawns", {}).items():
             keep.append((x, y, 50))
+            targets["spawn " + name] = (x, y)
+        for name, (x, y) in c.get("rival_spots", {}).items():
+            targets["rival spot " + name] = (x, y)
         for p in c.get("props", []):
             x, y = p["pos"]
             fw = p.get("foot", (22, 8))[0]

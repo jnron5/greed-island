@@ -575,7 +575,11 @@ INTERIORS = {
             (190, 204, 232, 240), (0, 200, 40, 256), (284, 200, 320, 256),                # coat rack, the corners
             (0, 244, 136, 256), (184, 244, 320, 256),                                     # the front wall round the door
         ],
-        "npcs": [("ottilie", "Ottilie", "ottilie", (204, 194), [
+        "npcs": [("mirren", "Mirren", "mirren", (172, 214), [
+            "Oh. Hello. I'm not working. I'm eating. Ottilie makes me eat.",
+            "The factors never come in here. That's why I do.",
+        ], [], {"out": (19.0, 23.0)}),
+                 ("ottilie", "Ottilie", "ottilie", (204, 194), [
             "Come in, come in, shake the snow off! Boots by the fire, coat on the rack, and you'll have something hot before you've said your name.",
             "The toll was my idea. One wolf collar a head. The wolves took every goat on the upper meadow; let the wolves pay to get in, I said.",
             "My Anselm guided folk over the pass for thirty years. They carved his name on the bell tower the winter the slide came down. Last name on it. I mean to keep it the last.",
@@ -616,7 +620,7 @@ INTERIORS = {
             "Please don't touch the strongbox. Please don't look at the strongbox. Thank you.",
             "Before the slide we sealed perhaps a cart a week over the pass. Since the slide, the pass is closed, and somehow I'm busier than ever.",
             "The factors live in Vetrassa. They come up once a year, eat at the Hearth & Horn, and go home. They've a friend who keeps an eye on things. A dachshund. Very charming. Very interested in carts.",
-        ], [])],
+        ], [], {"out": (7.0, 19.0)})],
         "readables": [
             ("The great ledger", (238, 160), [
                 "The factors' book, in Mirren's tidy hand. 'Over the pass: nil. Through the town: nil. Sealed and weighed: flour, salt, firewood.'",
@@ -639,7 +643,10 @@ INTERIORS = {
             (238, 40, 300, 186), (178, 188, 230, 228),                                 # stove, stacked logs
             (0, 214, 112, 256), (230, 214, 320, 256), (176, 230, 320, 256),            # the floor's lower edges
         ],
-        "npcs": [],
+        "npcs": [("liesl", "Liesl", "liesl", (150, 172), [
+            "Evenings are for the fine work. Eyes, whiskers, the little claws. The frost can't do those.",
+            "Sit if you can find a chair that isn't half a bear.",
+        ], [], {"out": (20.0, 7.0)})],
         "readables": [
             ("A half-carved figure", (150, 136), [
                 "A little wolf, half out of the block. Round its neck Liesl has carved a collar, and on the collar a tiny red sun.",
@@ -661,7 +668,10 @@ INTERIORS = {
             (220, 166, 296, 212), (0, 0, 20, 256), (300, 0, 320, 256),                        # bed, side walls
             (0, 220, 136, 256), (180, 220, 320, 256),                                         # the front wall round the door
         ],
-        "npcs": [],
+        "npcs": [("bodo", "Bodo", "bodo", (160, 160), [
+            "This is a private house! I mean. Welcome. Wipe your feet. Don't touch the cups.",
+            "Lovely chair, isn't it? Walnut. Carved locally. I paid a fair price. A very fair price.",
+        ], [], {"out": (21.0, 6.0)})],
         "readables": [
             ("A letter in the desk drawer", (124, 124), [
                 "The drawer isn't locked. It's the false bottom of the box inside it that's locked, and Bodo has left the key in it.",

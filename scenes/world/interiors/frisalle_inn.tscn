@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3]
+[gd_scene load_steps=31 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/frisalle/interiors/inn_room.png" id="10_room"]
 [ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/mirren/mirren_frames.tres" id="n_mirren"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/ottilie/ottilie_frames.tres" id="n_ottilie"]
 
 [sub_resource type="RectangleShape2D" id="R320x112"]
@@ -175,6 +176,15 @@ position = Vector2(160, 250)
 target_scene = "res://scenes/world/frisalle.tscn"
 target_spawn = &"from_houseinn"
 exit_hint = true
+
+[node name="Npc_mirren" parent="." instance=ExtResource("9_npc")]
+position = Vector2(172, 214)
+npc_id = &"mirren"
+display_name = "Mirren"
+sprite_frames = ExtResource("n_mirren")
+lines = PackedStringArray("Oh. Hello. I'm not working. I'm eating. Ottilie makes me eat.", "The factors never come in here. That's why I do.")
+out_from = 19.0
+out_to = 23.0
 
 [node name="Npc_ottilie" parent="." instance=ExtResource("9_npc")]
 position = Vector2(204, 194)

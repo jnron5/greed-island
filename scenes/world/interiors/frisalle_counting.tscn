@@ -175,6 +175,8 @@ npc_id = &"mirren"
 display_name = "Mirren"
 sprite_frames = ExtResource("n_mirren")
 lines = PackedStringArray("Oh! A customer. Nobody comes in. Well, the factors come in. They don't count as customers. They count everything else.", "I'm the clerk. I keep the books. I keep them very carefully. Somebody else keeps the other books.", "Please don't touch the strongbox. Please don't look at the strongbox. Thank you.", "Before the slide we sealed perhaps a cart a week over the pass. Since the slide, the pass is closed, and somehow I'm busier than ever.", "The factors live in Vetrassa. They come up once a year, eat at the Hearth & Horn, and go home. They've a friend who keeps an eye on things. A dachshund. Very charming. Very interested in carts.")
+out_from = 7.0
+out_to = 19.0
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(238, 160)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3]
+[gd_scene load_steps=29 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/frisalle/interiors/weigh_room.png" id="10_room"]
 [ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
 [ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/bodo/bodo_frames.tres" id="n_bodo"]
 
 [sub_resource type="RectangleShape2D" id="R320x100"]
 size = Vector2(320, 100)
@@ -167,6 +168,15 @@ position = Vector2(157, 236)
 target_scene = "res://scenes/world/frisalle.tscn"
 target_spawn = &"from_houseweigh"
 exit_hint = true
+
+[node name="Npc_bodo" parent="." instance=ExtResource("9_npc")]
+position = Vector2(160, 160)
+npc_id = &"bodo"
+display_name = "Bodo"
+sprite_frames = ExtResource("n_bodo")
+lines = PackedStringArray("This is a private house! I mean. Welcome. Wipe your feet. Don't touch the cups.", "Lovely chair, isn't it? Walnut. Carved locally. I paid a fair price. A very fair price.")
+out_from = 21.0
+out_to = 6.0
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(124, 124)
