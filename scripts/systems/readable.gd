@@ -8,6 +8,8 @@ const RANGE := 26.0
 
 @export var title := "Note"
 @export_multiline var lines: PackedStringArray = []
+## What it reads after dark instead (a telescope on the sea, a window), if anything.
+@export_multiline var night_lines: PackedStringArray = []
 
 var _time := randf() * TAU
 
@@ -27,10 +29,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	get_viewport().set_input_as_handled()
 	GameState.quest_flags[_read_key()] = true
+	var at_night := not night_lines.is_empty() and Npc.is_night()
+	var text := night_lines if at_night else lines
 	var zone := Zone.current(get_tree())
-	GameState.note(title, zone.display_name if zone else "", lines)
-	Quests.read(title)
-	DialogueBox.say(get_tree(), title, lines)
+	GameState.note(title, zone.display_name if zone else "", text)
+	Quests.read(title, at_night)
+	DialogueBox.say(get_tree(), title, text)
 
 
 func _read_key() -> StringName:

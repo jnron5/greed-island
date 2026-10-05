@@ -173,6 +173,37 @@ func _run() -> void:
 	GameState.add_item(&"seabright_stew", 1)
 	Errands.talked_to(&"ottilie")
 	_check("the stew for the hearthstone", col.count(&"frisalle_hearthstone") == 1 and GameState.item_count(&"seabright_stew") == 0)
+	# "The Light on the Water" (Sparkle, once her dare's done): the lookout and Bungalow 3
+	# only tell you anything after dark.
+	_check("no Sparkle quest before her dare", Quests.marker_for(&"sparkle") != "!" or Errands.state(&"sparkle_dare") == Errands.DONE)
+	GameState.quest_flags[&"errand:sparkle_dare"] = Errands.DONE
+	_check("then Sparkle has something", Quests.marker_for(&"sparkle") == "!")
+	Quests.talked_to(&"sparkle")
+	_check("watch from the lookout", Quests.stage(&"light_on_water") == 1)
+	Quests.read(Quests.LIGHT_LOOKOUT, false)
+	_check("by day the telescope shows nothing", Quests.stage(&"light_on_water") == 1)
+	Quests.read(Quests.LIGHT_LOOKOUT, true)
+	Quests.read(Quests.LIGHT_DOOR, true)
+	_check("at night: the light, then Bungalow 3", Quests.stage(&"light_on_water") == 3 and Quests.marker_for(&"sparkle") == "?")
+	gold = GameState.currency
+	Quests.talked_to(&"sparkle")
+	_check("Sparkle's thanks", Quests.stage(&"light_on_water") == Quests.DONE and GameState.currency == gold + Quests.LIGHT_REWARD_GOLD)
+	var seabright: Node = load(WorldMap.SEABRIGHT).instantiate()
+	_check("the lookout and the door read differently at night", seabright.get_children().filter(func(n: Node) -> bool:
+		return n is Readable and n.title in [Quests.LIGHT_LOOKOUT, Quests.LIGHT_DOOR] and not n.night_lines.is_empty()).size() == 2)
+	seabright.free()
+	# "What the Millstream Carries" (Oda, once she has her news from the lake).
+	GameState.quest_flags[&"errand:oda_news"] = Errands.DONE
+	_check("Oda has something more", Quests.marker_for(&"oda") == "!")
+	Quests.talked_to(&"oda")
+	var verdana: Node = load(WorldMap.VERDANA).instantiate()
+	for title in Quests.MILLSTREAM_FINDS:
+		_check("'%s' is in the reeds" % title, verdana.get_children().any(func(n: Node) -> bool: return n is Readable and n.title == title))
+		Quests.read(title)
+	verdana.free()
+	_check("all three: back to Oda", Quests.stage(&"millstream") == 2 and Quests.marker_for(&"oda") == "?")
+	Quests.talked_to(&"oda")
+	_check("Oda's thanks", Quests.stage(&"millstream") == Quests.DONE)
 	print("PASS" if _failures == 0 else "FAILED: %d check(s)" % _failures)
 	get_tree().quit(1 if _failures else 0)
 

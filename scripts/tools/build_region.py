@@ -742,7 +742,7 @@ class Zone:
             if npc.get("night"):
                 keep.append((*npc["night"], 30 + npc.get("night_wander", 0)))
                 targets["resident " + npc.get("node", npc["id"]) + " at night"] = (npc["night"][0], npc["night"][1] + 10)
-        for title, (x, y), _ in c.get("readables", []):
+        for title, (x, y), *_ in c.get("readables", []):
             keep.append((x, y, 30))
             targets["readable " + title] = (x, y + 14)
         for ch in c.get("chests", []):
@@ -1131,10 +1131,14 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
                      f'sprite_frames = ExtResource("{res("SpriteFrames", frames)}")\n'
                      f'lines = PackedStringArray({quote(npc["lines"])})\nwander_radius = {float(npc.get("wander", 0))}\n{shop}'
                      + (f'sprite_offset_y = {npc["offset"]}\n' if "offset" in npc else "") + schedule_props(npc))
-        for k, (title, (x, y), lines) in enumerate(c.get("readables", [])):
+        for k, entry in enumerate(c.get("readables", [])):
+            # (title, pos, lines[, night lines]): some things read differently after dark.
+            title, (x, y), lines = entry[:3]
+            night = entry[3] if len(entry) > 3 else []
             n.append(f'[node name="Read{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                      f'script = ExtResource("{res("Script", "res://scripts/systems/readable.gd")}")\ntitle = "{title}"\n'
-                     f'lines = PackedStringArray({quote(lines)})\n')
+                     f'lines = PackedStringArray({quote(lines)})\n'
+                     + (f'night_lines = PackedStringArray({quote(night)})\n' if night else ""))
         for ch in c.get("chests", []):
             x, y = ch["pos"]
             solids.append((x - 15, y - 10, x + 15, y))

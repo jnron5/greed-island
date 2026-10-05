@@ -15,7 +15,18 @@ const TITLES := {
 	&"wens_boat": "A Boat for Wen",
 	&"stones_remember": "Stones That Remember",
 	&"merchants_ledger": "The Merchant's Ledger",
+	&"light_on_water": "The Light on the Water",
+	&"millstream": "What the Millstream Carries",
 }
+## Seabright (Sparkle, after her dare): watch the sea from the lookout after dark,
+## then the bungalow the light answers from (Readables with night_lines).
+const LIGHT_LOOKOUT := "A lookout on the headland"
+const LIGHT_DOOR := "A bungalow door"
+const LIGHT_REWARD_GOLD := 50
+## Verdana (Oda, after her news from Lake Serin): three things caught in the reeds
+## along the millstream (Readables with these titles).
+const MILLSTREAM_FINDS: Array[String] = ["A snag of red wool", "A scrap of paper in the reeds", "A little carved bird"]
+const MILLSTREAM_REWARD_GOLD := 45
 ## Kalmora: Wen is building a boat to fetch her papa home from the Duskara work.
 const BOAT_PARTS: Array[StringName] = [&"boat_sail", &"boat_oars", &"boat_rope"]
 const BOAT_REWARD_GOLD := 35
@@ -191,6 +202,48 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					])
 				DONE:
 					return PackedStringArray(["A ledger in stone. I've read it forty years and never once added it up."])
+		&"sparkle":
+			if Errands.state(&"sparkle_dare") != Errands.DONE:
+				return PackedStringArray()
+			match stage(&"light_on_water"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"You went all the way into the Grotto. That means you're the only person on this island I trust. Listen.",
+						"Some nights there's a light out on the water, past the yachts. Low down. No ship I can see, and nobody here will say what it is.",
+						"Go up to the lookout on the headland after dark and look through the telescope. Then tell me I'm not making it up.",
+					])
+				1:
+					return PackedStringArray(["After dark! The telescope on the headland. Daylight's no good, it only shows up at night."])
+				2:
+					return PackedStringArray(["It blinked, and something here blinked back? From the jetty? Which bungalow? Go and look. At night. I'll keep watch from the pier."])
+				3:
+					return PackedStringArray([
+						"Bungalow 3. The Duke's 'business guests'. Rope and sea water on the step and the Company's stencil on a crate. In MY resort.",
+						"Sassy's going to say it's none of our business. It's literally our business. We own it.",
+						"Here. For keeping watch with me. Don't tell Sassy where you got it. Don't tell anyone anything. Yet.",
+					])
+				DONE:
+					return PackedStringArray(["Next time the light blinks, I'm swimming out after the rope. Don't tell the lifeguard."])
+		&"oda":
+			if Errands.state(&"oda_news") != Errands.DONE:
+				return PackedStringArray()
+			match stage(&"millstream"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"You went all the way to the lake for me. Will you do one more thing? It's only a little walk.",
+						"The millstream comes down from Lake Serin, past the mill and through the town. Things catch in the reeds along it. Things from upstream.",
+						"Walk the bank for me, from the barn to the bridges. If anything of his has come down that water, I want it home.",
+					])
+				1:
+					return PackedStringArray(["Along the millstream, in the reeds: from the barn end, past the bridges. (%d/3 found)" % _millstream_found()])
+				2:
+					return PackedStringArray([
+						"...That's my wool. That's the scarf. I'd know my own red anywhere; I dyed it with madder off the hedge.",
+						"And Company scrip, and a bird carved the way they carve them in Sorenda. He passed through the forest, then. And north, by the water.",
+						"He's alive. Nobody sends a ration chit after a dead boy. Take this, and thank you, and don't tell me how far north the water goes. Not yet.",
+					])
+				DONE:
+					return PackedStringArray(["I've unpicked the rest of the scarf and started another. Longer, this time. It's a long way north."])
 		&"mirren":
 			match stage(&"merchants_ledger"):
 				NOT_STARTED:
@@ -261,6 +314,18 @@ func marker_for(npc_id: StringName) -> String:
 				return "?"
 	if npc_id == &"mirela" and not flag(&"met_mirela"):
 		return "!"
+	if npc_id == &"sparkle" and Errands.state(&"sparkle_dare") == Errands.DONE:
+		match stage(&"light_on_water"):
+			NOT_STARTED:
+				return "!"
+			3:
+				return "?"
+	if npc_id == &"oda" and Errands.state(&"oda_news") == Errands.DONE:
+		match stage(&"millstream"):
+			NOT_STARTED:
+				return "!"
+			2:
+				return "?"
 	if npc_id == &"mirren":
 		match stage(&"merchants_ledger"):
 			NOT_STARTED:
@@ -300,6 +365,30 @@ func talked_to(npc_id: StringName) -> void:
 				GameState.add_loose_card(GameState.PLAYER, STONES_REWARD_CARD)
 				set_stage(&"stones_remember", DONE)
 				EventBus.notify.emit("Quest complete: Stones That Remember (+%d gold, Stonesong Charm)" % STONES_REWARD_GOLD)
+		return
+	if npc_id == &"sparkle" and Errands.state(&"sparkle_dare") == Errands.DONE:
+		match stage(&"light_on_water"):
+			NOT_STARTED:
+				set_stage(&"light_on_water", 1)
+				EventBus.notify.emit("Quest started: The Light on the Water")
+			3:
+				GameState.add_currency(LIGHT_REWARD_GOLD)
+				GameState.add_loose_card(GameState.PLAYER, &"lockbox_seal")
+				GameState.quest_flags[&"knows_bungalow_3"] = true
+				set_stage(&"light_on_water", DONE)
+				EventBus.notify.emit("Quest complete: The Light on the Water (+%d gold, Lockbox Seal)" % LIGHT_REWARD_GOLD)
+		return
+	if npc_id == &"oda" and Errands.state(&"oda_news") == Errands.DONE:
+		match stage(&"millstream"):
+			NOT_STARTED:
+				set_stage(&"millstream", 2 if _millstream_found() == MILLSTREAM_FINDS.size() else 1)
+				EventBus.notify.emit("Quest started: What the Millstream Carries")
+			2:
+				GameState.add_currency(MILLSTREAM_REWARD_GOLD)
+				GameState.add_item(&"healers_tonic", 2)
+				GameState.quest_flags[&"knows_grandson_north"] = true
+				set_stage(&"millstream", DONE)
+				EventBus.notify.emit("Quest complete: What the Millstream Carries (+%d gold, 2 Healer's Tonics)" % MILLSTREAM_REWARD_GOLD)
 		return
 	if npc_id == &"mirren":
 		match stage(&"merchants_ledger"):
@@ -384,7 +473,7 @@ func inspect(clue_id: StringName) -> PackedStringArray:
 
 
 ## Something was read (Readable): quests that hinge on a letter or an object hear it here.
-func read(title: String) -> void:
+func read(title: String, at_night := false) -> void:
 	if STONES.has(title) and not flag(StringName("stone:%s" % title)):
 		GameState.quest_flags[StringName("stone:%s" % title)] = true
 		if stage(&"stones_remember") == 1:
@@ -394,6 +483,21 @@ func read(title: String) -> void:
 			else:
 				quest_changed.emit(&"stones_remember", 1)
 				EventBus.notify.emit("Stones That Remember: %d of 3 stones read" % _stones_read())
+	if title == LIGHT_LOOKOUT and at_night and stage(&"light_on_water") == 1:
+		set_stage(&"light_on_water", 2)
+		EventBus.notify.emit("Something on the jetty answered the light. Find which bungalow, after dark")
+	if title == LIGHT_DOOR and at_night and stage(&"light_on_water") == 2:
+		set_stage(&"light_on_water", 3)
+		EventBus.notify.emit("Tell Sparkle what you found at Bungalow 3")
+	if title in MILLSTREAM_FINDS and not flag(StringName("stream:%s" % title)):
+		GameState.quest_flags[StringName("stream:%s" % title)] = true
+		if stage(&"millstream") == 1:
+			if _millstream_found() == MILLSTREAM_FINDS.size():
+				set_stage(&"millstream", 2)
+				EventBus.notify.emit("All three found. Take them to Oda")
+			else:
+				quest_changed.emit(&"millstream", 1)
+				EventBus.notify.emit("What the Millstream Carries: %d of 3 found" % _millstream_found())
 	if LEDGER_CLUES.has(title) and not flag(StringName("ledger:%s" % title)):
 		GameState.quest_flags[StringName("ledger:%s" % title)] = true
 		if stage(&"merchants_ledger") == 1:
@@ -440,6 +544,18 @@ func tracker_text() -> String:
 			lines.append("%s: read the three standing stones (%d/3)" % [TITLES[&"stones_remember"], _stones_read()])
 		2:
 			lines.append("%s: tell Aldous in Verdana what you read" % TITLES[&"stones_remember"])
+	match stage(&"light_on_water"):
+		1:
+			lines.append("%s: look through the headland telescope at Seabright after dark" % TITLES[&"light_on_water"])
+		2:
+			lines.append("%s: find the bungalow that answered the light, after dark" % TITLES[&"light_on_water"])
+		3:
+			lines.append("%s: tell Sparkle what you found" % TITLES[&"light_on_water"])
+	match stage(&"millstream"):
+		1:
+			lines.append("%s: search the reeds along Verdana's millstream (%d/3)" % [TITLES[&"millstream"], _millstream_found()])
+		2:
+			lines.append("%s: bring what you found to Oda" % TITLES[&"millstream"])
 	match stage(&"merchants_ledger"):
 		1:
 			lines.append("%s: read the weigh house board, the great ledger and Bodo's papers (%d/3)" % [TITLES[&"merchants_ledger"], _ledger_read()])
@@ -471,6 +587,10 @@ func map_goals() -> Array[String]:
 					add.call(STONES[title])
 		2:
 			add.call(WorldMap.VERDANA)
+	if stage(&"light_on_water") in [1, 2, 3]:
+		add.call(WorldMap.SEABRIGHT)
+	if stage(&"millstream") in [1, 2]:
+		add.call(WorldMap.VERDANA)
 	match stage(&"merchants_ledger"):
 		1:
 			for title: String in LEDGER_CLUES:
@@ -495,6 +615,10 @@ func map_goals() -> Array[String]:
 
 func _stones_read() -> int:
 	return STONES.keys().filter(func(t: String) -> bool: return flag(StringName("stone:%s" % t))).size()
+
+
+func _millstream_found() -> int:
+	return MILLSTREAM_FINDS.filter(func(t: String) -> bool: return flag(StringName("stream:%s" % t))).size()
 
 
 func _ledger_read() -> int:

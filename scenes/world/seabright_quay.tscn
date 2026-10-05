@@ -3893,12 +3893,14 @@ position = Vector2(-260, 384)
 script = ExtResource("r45_readable")
 title = "A bungalow door"
 lines = PackedStringArray("A brass number plate: 'Bungalow 3. Do not disturb.' A tray of untouched breakfast outside. Someone inside is talking quietly about tonnage.")
+night_lines = PackedStringArray("The window's dark now, but the step is wet: sea water, and boot prints leading off to the end of the jetty.", "A coil of wet rope under the bench. A crate lid propped against the wall, stencilled D.M.C. The lamp in the window is still warm.")
 
 [node name="Read4" type="Node2D" parent="."]
 position = Vector2(600, 40)
 script = ExtResource("r45_readable")
 title = "A lookout on the headland"
 lines = PackedStringArray("A brass telescope on a post, pointed east along the coast. Through it: open sea, and very far off, a barge with no lights, riding low.")
+night_lines = PackedStringArray("Through the telescope, out past the yachts: a barge with no lights, riding low. Then a lantern on it opens and shuts. Three short. One long.", "Behind you, down on the west jetty, a bungalow window answers: three short, one long. Then everything is dark again.")
 
 [node name="Read5" type="Node2D" parent="."]
 position = Vector2(-470, -112)

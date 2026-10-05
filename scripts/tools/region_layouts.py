@@ -366,6 +366,16 @@ VERDANA = {
             "WANTED: HANDS FOR THE DUSKARA WORKS. Small hands preferred for close work. Room, board and a trade. Apply to the Company agent, first of the month.",
             "Somebody has written underneath, in pencil: 'none of ours'. Somebody else has crossed it out.",
         ]),
+        # What the Millstream Carries (Oda): things caught in the reeds along the stream.
+        ("A snag of red wool", (-640, 196), [
+            "Caught on a reed stem at the water's edge: a long tail of knitted wool, red as madder, unravelling in the current.",
+        ]),
+        ("A scrap of paper in the reeds", (130, 214), [
+            "A soaked chit, the ink run but readable: 'D.M.C. North depot. Pay to bearer: one ration.' On the back, in a child's hand, a name scratched out.",
+        ]),
+        ("A little carved bird", (660, 220), [
+            "Wedged between two stones where the stream bends: a small wooden bird, carved the way they carve them in Sorenda, worn smooth by the water.",
+        ]),
         ("The mill ledger", (446, 500), [
             "A ledger nailed up by the mill door. 'Flour to D.M.C.: 200 sacks. Rate: one third market, by agreement.'",
             "'By agreement' is underlined twice, hard enough to tear the page.",
@@ -809,9 +819,15 @@ RESORT = {
         ]),
         ("A bungalow door", (-260, 384), [
             "A brass number plate: 'Bungalow 3. Do not disturb.' A tray of untouched breakfast outside. Someone inside is talking quietly about tonnage.",
+        ], [
+            "The window's dark now, but the step is wet: sea water, and boot prints leading off to the end of the jetty.",
+            "A coil of wet rope under the bench. A crate lid propped against the wall, stencilled D.M.C. The lamp in the window is still warm.",
         ]),
         ("A lookout on the headland", (600, 40), [
             "A brass telescope on a post, pointed east along the coast. Through it: open sea, and very far off, a barge with no lights, riding low.",
+        ], [
+            "Through the telescope, out past the yachts: a barge with no lights, riding low. Then a lantern on it opens and shuts. Three short. One long.",
+            "Behind you, down on the west jetty, a bungalow window answers: three short, one long. Then everything is dark again.",
         ]),
         ("The bar's chalkboard", (-470, -112), [
             "'TODAY: the Seabright Blue. Ask for it by name. Do not ask what is in it.' Under it, smaller: 'Racers: cash only.'",
