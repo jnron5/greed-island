@@ -524,12 +524,14 @@ LAKE_SERIN = {
 
 # ---------------------------------------------------------------- Starfall Range
 def starfall_level(x, y):
-    w = 44 * math.sin(x / 190.0) + 14 * math.sin(x / 70.0 + 1.0)
+    # Long gentle swells only: short, steep wiggles in a cliff line break into a
+    # jagged staircase of cliff blocks.
+    w = 40 * math.sin(x / 240.0)
     spur = lambda at, width: math.exp(-((x - at) / width) ** 2)
     # Rock spurs where a terrace juts out over the one below, and a bay where the
-    # snow runs back into the mountain (kept clear of the stairs).
-    lower = w - 80 * spur(-860, 80) - 70 * spur(600, 90) + 60 * spur(80, 70)
-    upper = w * 0.8 + 70 * spur(-640, 100) - 80 * spur(720, 80) - 50 * spur(-60, 70)
+    # snow runs back into the mountain (kept clear of the stairs), broad and shallow.
+    lower = w - 64 * spur(-860, 160) - 56 * spur(600, 170) + 48 * spur(80, 150)
+    upper = w * 0.8 + 56 * spur(-640, 180) - 64 * spur(720, 170) - 40 * spur(-60, 150)
     if y + lower > 150:
         return 0
     if y + upper > -350:
