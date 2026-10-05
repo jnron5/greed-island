@@ -41,6 +41,10 @@ func _run() -> void:
 	_check("Kalmora has its day's visitors out by day", out_by_day.size() == Travellers.QUOTA[WorldMap.KALMORA])
 	var npc := out_by_day[0] as Npc if not out_by_day.is_empty() else null
 	_check("they roam the town", npc != null and npc.roam_points.size() > 4)
+	var doors := Travellers.doors_of(town)
+	_check("never to a doorstep", walkers.all(func(n: Npc) -> bool: return Array(n.roam_points).all(func(p: Vector2) -> bool:
+		return doors.all(func(d: Vector2) -> bool: return d.distance_to(p) >= Travellers.DOOR_CLEAR))))
+	_check("and you can walk through them", walkers.all(func(n: Npc) -> bool: return n.collision_layer == 0))
 	_check("and talk about Kalmora", npc != null and Array(npc.lines).any(func(l: String) -> bool: return l in Travellers.CITY_LINES.kalmora))
 	await get_tree().create_timer(4.0).timeout
 	_check("and actually walk", out_by_day.any(func(n: Npc) -> bool: return n.velocity.length() > 1.0))

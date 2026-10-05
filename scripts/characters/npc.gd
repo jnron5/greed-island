@@ -25,6 +25,8 @@ const TALK_RANGE := 34.0
 ## Roaming (travellers, Travellers): global points to walk between along the zone's
 ## paths (Zone.find_path), pausing a few seconds at each.
 @export var roam_points: PackedVector2Array = []
+## Places a roamer never stops near (doors), Travellers.DOOR_CLEAR px.
+@export var avoid_points: PackedVector2Array = []
 @export var patrol_pause := 3.0
 ## Shopkeepers: after talking, open the shop with this stock.
 @export var shop_stock: Array[StringName] = []
@@ -197,6 +199,9 @@ func _roam(delta: float) -> void:
 		if _wait > 0.0:
 			return
 		var target := roam_points[randi() % roam_points.size()] + Vector2(randf_range(-16.0, 16.0), randf_range(6.0, 20.0))
+		for door in avoid_points:
+			if door.distance_to(target) < Travellers.DOOR_CLEAR:
+				target = door + door.direction_to(target).normalized() * Travellers.DOOR_CLEAR if door != target else door + Vector2(0, Travellers.DOOR_CLEAR)
 		var zone := get_tree().current_scene as Zone
 		_roam_route = zone.find_path(global_position, target) if zone else PackedVector2Array([target])
 		_route_time = 0.0
@@ -210,6 +215,10 @@ func _roam(delta: float) -> void:
 		if _roam_route.is_empty():
 			velocity = Vector2.ZERO
 			_wait = randf_range(3.0, 9.0)
+			# Ended up by a door anyway (a partial path): move on at once.
+			for door in avoid_points:
+				if door.distance_to(global_position) < Travellers.DOOR_CLEAR:
+					_wait = 0.0
 		return
 	velocity = global_position.direction_to(next) * walk_speed
 	if _route_time > 40.0:                      # stuck: stand here a moment, then go elsewhere

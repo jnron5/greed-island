@@ -12,6 +12,9 @@ extends RefCounted
 ## (WILD_LINES) in the wild.
 
 const NPC_SCENE := preload("res://scenes/characters/npc.tscn")
+## Travellers keep this far from any door, and never block anyone's way: you walk
+## through them (they're on no collision layer), and they stand aside from doors.
+const DOOR_CLEAR := 64.0
 ## The traveller sprites came out a little taller than the residents (hats, staffs):
 ## drawn at this scale, with each one's feet offset (from import_pixellab_character.py).
 const SPRITE_SCALE := 0.8
@@ -222,6 +225,8 @@ static func populate(zone: Zone) -> void:
 				break
 			start = points[rng.randi() % points.size()]
 		npc.position = zone.to_local(start)
+		npc.collision_layer = 0
+		npc.avoid_points = PackedVector2Array(doors_of(zone))
 		zone.add_child(npc)
 		npc.sprite.scale = Vector2(SPRITE_SCALE, SPRITE_SCALE)
 
@@ -252,13 +257,26 @@ static func todays(path: String) -> Array:
 	return []
 
 
-## Where travellers walk: every spawn marker and rival spot (all reachable on foot).
+## Where travellers walk: every spawn marker and rival spot (all reachable on foot),
+## except doorsteps: nobody loiters in front of a door.
 static func _points(zone: Zone) -> PackedVector2Array:
+	var doors := doors_of(zone)
 	var out := PackedVector2Array()
 	for group in ["Spawns", "RivalSpots"]:
 		var holder := zone.get_node_or_null(group)
 		if holder == null:
 			continue
 		for marker in holder.get_children():
-			out.append((marker as Node2D).global_position)
+			var p := (marker as Node2D).global_position
+			if not doors.any(func(d: Vector2) -> bool: return d.distance_to(p) < DOOR_CLEAR):
+				out.append(p)
+	return out
+
+
+## Every door (an exit you go through with the interact key) in the zone.
+static func doors_of(zone: Zone) -> Array[Vector2]:
+	var out: Array[Vector2] = []
+	for node in zone.get_children():
+		if node is ZoneExit and (node as ZoneExit).needs_interact:
+			out.append((node as Node2D).global_position)
 	return out
