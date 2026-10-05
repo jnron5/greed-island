@@ -4,10 +4,18 @@ extends CharacterBody2D
 ## (player or rival) that comes close, telegraphs and lunges, drops a common
 ## card on death, and respawns after a cooldown. 4-directional animations:
 ## "idle_<dir>", "walk_<dir>", "attack_<dir>" with dir in south/east/north/west.
+## After dark (TimeOfDay.is_night(), outdoors) every monster turns savage: tougher
+## (NIGHT_HEALTH), harder-hitting, faster and keener-eyed, with a red glow about it;
+## and it carries more: more gold, often food, sometimes a second card.
 
 enum State { WANDER, CHASE, WINDUP, LUNGE, RECOVER, STAGGER, DEAD }
 
 const DIRECTIONS_4: Array[String] = ["east", "south", "west", "north"]
+const NIGHT_HEALTH := 1.6
+const NIGHT_SPEED := 1.15
+const NIGHT_AGGRO := 1.35
+const NIGHT_TINT := Color(1.18, 0.82, 0.86)
+const NIGHT_FOOD: Array[StringName] = [&"bread", &"smoked_fish", &"healers_tonic"]
 
 @export var sprite_frames: SpriteFrames
 @export var max_health := 5
@@ -44,6 +52,10 @@ var _wander_target := Vector2.ZERO
 var _target: Node2D
 var _lunge_dir := Vector2.ZERO
 var _flash := 0.0
+## Savage after dark (outdoors only; caves keep their own dark).
+var night := false
+var _base := {}
+var _night_check := 0.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var body_shape: CollisionShape2D = $CollisionShape2D
@@ -63,11 +75,38 @@ func _ready() -> void:
 	attack_hitbox.source_id = Combat.MONSTER
 	attack_hitbox.damage = attack_damage
 	attack_shape.disabled = true
+	_base = { "health": max_health, "damage": attack_damage, "chase": chase_speed, "aggro": aggro_radius }
 	health = max_health
+	_update_night()
+
+
+## Turns savage at dusk and back at dawn (health scaled with it, so a wounded beast
+## stays wounded).
+func _update_night() -> void:
+	var zone := Zone.current(get_tree()) if is_inside_tree() else null
+	var want := TimeOfDay.is_night() and not (zone != null and zone.underground)
+	if want == night or _base.is_empty():
+		return
+	night = want
+	var old_max := max_health
+	max_health = ceili(_base.health * NIGHT_HEALTH) if night else int(_base.health)
+	attack_damage = int(_base.damage) + (1 if night else 0)
+	chase_speed = float(_base.chase) * (NIGHT_SPEED if night else 1.0)
+	aggro_radius = float(_base.aggro) * (NIGHT_AGGRO if night else 1.0)
+	attack_hitbox.damage = attack_damage
+	if health > 0:
+		health = clampi(ceili(float(health) * max_health / old_max), 1, max_health)
+	sprite.self_modulate = NIGHT_TINT if night else Color.WHITE
 
 
 func _physics_process(delta: float) -> void:
 	_state_time += delta
+	_night_check -= delta
+	if _night_check <= 0.0:
+		_night_check = 2.0
+		_update_night()
+	if night:
+		queue_redraw()
 	if _flash > 0.0:
 		_flash -= delta
 		sprite.modulate = Color(3, 3, 3) if _flash > 0.0 else Color.WHITE
@@ -204,6 +243,13 @@ func _die() -> void:
 	var card: StringName = drop_card_ids.pick_random() if not drop_card_ids.is_empty() else &""
 	var gold := randi_range(1, 4) if randf() < 0.6 else 0
 	var item: StringName = &"bread" if randf() < 0.08 else &""
+	if night:
+		# A night beast carries more: a fuller purse, often food, now and then a
+		# second card.
+		gold = randi_range(4, 10) if randf() < 0.9 else 0
+		item = NIGHT_FOOD.pick_random() if randf() < 0.3 else &""
+		if randf() < 0.3 and not drop_card_ids.is_empty():
+			Combat.drop_loot(get_tree(), position, drop_card_ids.pick_random())
 	Combat.drop_loot(get_tree(), position, card, gold, item)
 	# Down it goes: a white flash, knocked over, a beat on the ground, then it fades.
 	var headless := DisplayServer.get_name() == "headless"
@@ -265,6 +311,12 @@ func _update_animation() -> void:
 func _draw() -> void:
 	if _state == State.DEAD:
 		return
+	if night:
+		# A savage red glow about its feet.
+		var pulse := 0.5 + 0.5 * sin(Time.get_ticks_msec() / 260.0)
+		draw_set_transform(Vector2(0, 2), 0.0, Vector2(1.0, 0.45))
+		draw_circle(Vector2.ZERO, 16.0, Color(0.9, 0.12, 0.08, 0.16 + 0.1 * pulse))
+		draw_set_transform(Vector2.ZERO)
 	if _state == State.WINDUP:
 		# Red warning ring where the lunge will land.
 		draw_arc(_lunge_dir * attack_range * 0.8, 10.0, 0, TAU, 16, Color(1, 0.3, 0.2, 0.7), 1.5)

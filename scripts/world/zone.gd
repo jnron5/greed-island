@@ -79,8 +79,30 @@ func _ready() -> void:
 	for id in GameState.active_rivals:
 		if GameState.rival_locations.get(id, {}).get("zone") == scene_file_path:
 			spawn_rival(id)
+	if not interior and not underground:
+		Travellers.populate(self)
 	if display_name != "":
 		EventBus.area_entered.emit(display_name, interior)
+
+
+## Night in the wild: the first time each night you're outdoors somewhere with
+## monsters (at dusk, or arriving after dark), a warning that they're savage now.
+static var _warned_night := -1
+var _night_clock := 0.0
+
+
+func _process(delta: float) -> void:
+	_night_clock -= delta
+	if _night_clock > 0.0:
+		return
+	_night_clock = 2.0
+	if interior or underground or not TimeOfDay.is_night():
+		return
+	var night_id := TimeOfDay.day - (1 if TimeOfDay.hour < 12.0 else 0)
+	if night_id == _warned_night or get_tree().get_first_node_in_group(&"monsters") == null:
+		return
+	_warned_night = night_id
+	EventBus.notify.emit("Night has fallen. The beasts are savage after dark: tougher, faster, and carrying richer loot.")
 
 
 ## Tall things the player can walk behind (buildings, big trees: a body with a sprite

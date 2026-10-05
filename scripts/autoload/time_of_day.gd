@@ -23,6 +23,8 @@ const KEYS := [
 ]
 
 var hour := START_HOUR
+## Days gone by since the race began (travellers move on each day).
+var day := 0
 ## Tests and screenshots freeze the clock.
 var paused := false
 
@@ -30,7 +32,10 @@ var paused := false
 func _process(delta: float) -> void:
 	if paused:
 		return
-	hour = fmod(hour + delta * 24.0 / DAY_SECONDS, 24.0)
+	var next := hour + delta * 24.0 / DAY_SECONDS
+	if next >= 24.0:
+		day += 1
+	hour = fmod(next, 24.0)
 	hour_changed.emit(hour)
 
 
@@ -69,6 +74,12 @@ func part_of_day() -> String:
 	return "Night"
 
 
+## Night, when the wild is more dangerous (and residents keep their night spots).
+func is_night() -> bool:
+	return hour >= 20.0 or hour < 6.5
+
+
 func set_hour(value: float) -> void:
+	day += int(floorf(value / 24.0)) if value >= 24.0 else 0
 	hour = fmod(value, 24.0)
 	hour_changed.emit(hour)

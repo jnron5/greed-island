@@ -51,6 +51,7 @@ func save(force := false) -> void:
 		"position": player.global_position,
 		"health": player.get(&"health"),
 		"hour": TimeOfDay.hour,
+		"day": TimeOfDay.day,
 		"rivals": GameState.active_rivals,
 		"cards": cards,
 		"currency": GameState.currency,
@@ -109,6 +110,7 @@ func continue_game() -> bool:
 	GameState.equipped.assign(data.get("equipped", []))
 	GameState.spent_on_gates.assign(data.get("spent_on_gates", {}))
 	TimeOfDay.set_hour(data.hour)
+	TimeOfDay.day = int(data.get("day", 0))
 	GameState.pending_spawn = &""
 	pending_position = data.position
 	pending_health = data.get("health", null)

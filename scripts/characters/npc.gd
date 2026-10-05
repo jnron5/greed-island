@@ -22,6 +22,9 @@ const TALK_RANGE := 34.0
 ## A daily round: points (relative to home) walked in order, pausing at each.
 ## Overrides wandering.
 @export var patrol: PackedVector2Array = []
+## Roaming (travellers, Travellers): global points to walk between along the zone's
+## paths (Zone.find_path), pausing a few seconds at each.
+@export var roam_points: PackedVector2Array = []
 @export var patrol_pause := 3.0
 ## Shopkeepers: after talking, open the shop with this stock.
 @export var shop_stock: Array[StringName] = []
@@ -85,6 +88,7 @@ var _route := PackedVector2Array()
 var _route_time := 0.0
 var _here := true
 var _clock := 0.0
+var _roam_route := PackedVector2Array()
 var _bubble := ""
 var _bubble_time := 0.0
 var _chatter_wait := randf_range(2.0, 9.0)
@@ -184,6 +188,35 @@ func _follow_route(delta: float) -> void:
 		_arrive()
 
 
+## A traveller's day: walk to one of `roam_points` (a little off it, never on a
+## doorstep), stand a while, pick another.
+func _roam(delta: float) -> void:
+	if _roam_route.is_empty():
+		velocity = Vector2.ZERO
+		_wait -= delta
+		if _wait > 0.0:
+			return
+		var target := roam_points[randi() % roam_points.size()] + Vector2(randf_range(-16.0, 16.0), randf_range(6.0, 20.0))
+		var zone := get_tree().current_scene as Zone
+		_roam_route = zone.find_path(global_position, target) if zone else PackedVector2Array([target])
+		_route_time = 0.0
+		if _roam_route.is_empty():
+			_wait = 2.0
+		return
+	_route_time += delta
+	var next := _roam_route[0]
+	if global_position.distance_to(next) < 4.0:
+		_roam_route.remove_at(0)
+		if _roam_route.is_empty():
+			velocity = Vector2.ZERO
+			_wait = randf_range(3.0, 9.0)
+		return
+	velocity = global_position.direction_to(next) * walk_speed
+	if _route_time > 40.0:                      # stuck: stand here a moment, then go elsewhere
+		_roam_route = PackedVector2Array()
+		_wait = 1.0
+
+
 func _arrive() -> void:
 	velocity = Vector2.ZERO
 	_settle_at(night_spot if _night else _day_home, night_wander if _night else _day_wander)
@@ -199,6 +232,8 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 	elif not _route.is_empty():
 		_follow_route(delta)
+	elif not roam_points.is_empty():
+		_roam(delta)
 	elif not patrol.is_empty() and not _night:
 		_wait -= delta
 		var target := _home + patrol[_patrol_index]

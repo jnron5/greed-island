@@ -87,6 +87,7 @@ func _ready() -> void:
 func new_game(rivals: Array[StringName]) -> void:
 	assert(rivals.size() == 2, "Pick exactly 2 of the 3 rivals")
 	active_rivals = rivals.duplicate()
+	TimeOfDay.day = 0
 	collections.clear()
 	for id in collectors():
 		collections[id] = CardCollection.new(id)

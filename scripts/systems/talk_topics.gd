@@ -40,6 +40,12 @@ const TOPICS := {
 			"The gate takes a Verdant Crest. Only one creature on this side of the island carries those: the Canopy Warden, east of the forest.",
 			"So yes. To go west, you'll have to go and bother the Warden after all.",
 		]],
+		["Is it safe out there at night?", [
+			"Safe? No. Out past the gates, the beasts turn savage after dark. Bigger, meaner, faster, and they'll smell you from twice as far.",
+			"You'll know them by the red about them. Hit harder than by day, take a lot more killing.",
+			"They carry more, mind. A night hound's got a fuller purse than any hound by day, and now and then a card besides. Some racers hunt at night for it. Some racers don't come back.",
+			"In a town you're safe as houses. Out there, keep your hearts up and your eyes open, or be in by dark.",
+		]],
 	],
 	&"sailor": [
 		["How do I keep my cards safe?", [
@@ -129,6 +135,10 @@ const TOPICS := {
 		["What should I watch for in the forest?", [
 			"Briar hounds run in packs and lunge. Moss boars charge in a straight line and can't turn to save their lives.",
 			"Keep an eye on your hearts, top left. Eat before you're empty, not after.",
+		]],
+		["And at night?", [
+			"At night the forest belongs to them. The hounds go red-eyed and savage, twice as hard to put down, and they hit like a falling branch.",
+			"They've more on them, true enough: coin, food, a card now and then. I still bar my door.",
 		]],
 	],
 	&"pell": [
