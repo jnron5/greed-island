@@ -274,6 +274,45 @@ static func populate(zone: Zone) -> void:
 		npc.sprite.scale = Vector2(SPRITE_SCALE, SPRITE_SCALE)
 
 
+## A rumour worth chasing, true for this player right now: a chest with a card still
+## in it somewhere, a resident looking for help, or a word about the night. The same
+## traveller tells the same one all day.
+static func rumour(id: String) -> PackedStringArray:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(id) + TimeOfDay.day * 31
+	var options: Array[PackedStringArray] = []
+	for zone: String in WorldMap.ZONES:
+		if "interiors/" in zone:
+			continue
+		for pickup: Dictionary in WorldMap.remaining_pickups(zone):
+			var key: String = pickup.key
+			if key.begins_with("errand:"):
+				continue
+			var node := key.get_slice(":", key.get_slice_count(":") - 1)
+			var where_in := ""
+			if node.begins_with("Chest_"):
+				where_in = ", somewhere about the %s" % node.trim_prefix("Chest_").replace("_", " ")
+			var card := CardDatabase.get_card(pickup.card_id)
+			var what := "a %s" % card.display_name if card else "a card"
+			options.append(PackedStringArray([
+				"Folk on the road say there's %s still lying in a chest in %s%s. Nobody's owned up to finding it." % [what, zone_name(zone), where_in],
+				"If I were racing, I'd be there before the other two hear about it.",
+			]))
+	for errand: StringName in Errands.ERRANDS:
+		if Errands.state(errand) != 0:
+			continue
+		var e: Dictionary = Errands.ERRANDS[errand]
+		options.append(PackedStringArray([
+			"%s in %s has been asking racers for a favour. Pays in cards, I hear, and honest ones." % [Errands.npc_name(e.npc), zone_name(e.zone)],
+		]))
+	if options.is_empty():
+		return PackedStringArray([
+			"Nothing you haven't heard, by the look of you. You've been everywhere.",
+			"Only this: the beasts out on the roads carry more after dark. More coin, more cards. More teeth, too.",
+		])
+	return options[rng.randi() % options.size()]
+
+
 ## Where traveller `id` spends day `day` (a zone path), "" if nowhere in particular.
 static func where(id: String, day: int) -> String:
 	for zone: String in QUOTA:

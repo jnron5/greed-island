@@ -33,6 +33,10 @@ func _run() -> void:
 	TimeOfDay.day = 4
 	var tomorrow := Travellers.todays(WorldMap.KALMORA).map(func(t: Dictionary) -> String: return t.id)
 	_check("they move on the next day", today != tomorrow)
+	var rumour := Travellers.rumour("hob")
+	_check("travellers trade a true rumour", not rumour.is_empty() and rumour == Travellers.rumour("hob")
+		and not TalkTopics.for_npc(&"traveller_hob").is_empty())
+	_check("about a chest or a favour still waiting", rumour[0].contains("chest") or rumour[0].contains("favour"))
 	_check("a few sell things and a few have something for you", Travellers.ROSTER.filter(func(t: Dictionary) -> bool: return t.has("shop")).size() >= 3
 		and Travellers.ROSTER.filter(func(t: Dictionary) -> bool: return t.has("gift")).size() >= 3)
 

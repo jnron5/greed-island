@@ -274,4 +274,7 @@ const TOPICS := {
 
 
 static func for_npc(npc_id: StringName) -> Array:
+	# Travellers trade rumours: something real you haven't found or done yet.
+	if String(npc_id).begins_with("traveller_"):
+		return [["Heard anything worth chasing?", Travellers.rumour(String(npc_id).trim_prefix("traveller_"))]]
 	return TOPICS.get(npc_id, [])
