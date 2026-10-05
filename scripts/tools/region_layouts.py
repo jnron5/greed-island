@@ -917,7 +917,7 @@ def frisalle_level(x, y):
     """0 the valley (the pass road), 1 the lower lane, 2 the upper lane, 3 the top
     terrace: the village climbs the mountain in steps, each lane backed by the cliff
     of the one above."""
-    w = 18 * math.sin(x / 150.0) + 8 * math.sin(x / 53.0 + 1.0)
+    w = 18 * math.sin(x / 150.0)
     if y > 360 + w:
         return 0
     if y > 120 + w * 0.8:
@@ -974,8 +974,8 @@ FRISALLE = {
         ([(-544, 326), (-520, 268), (620, 268)], 22),                            # the lower lane
         ([(520, 268), (520, 40)], 18),                                          # up the east stairs
         ([(560, 44), (-640, 44)], 22),                                         # the upper lane
-        ([(-300, 44), (-300, -190)], 18),                                        # up the west stairs
-        ([(-300, -190), (420, -190)], 20),                                       # along the top
+        ([(-256, 44), (-256, -190)], 18),                                        # up the west stairs
+        ([(-256, -190), (420, -190)], 20),                                       # along the top
         ([(420, -190), (560, -360), (620, -520)], 14),                           # the cart ruts to the ice road
     ],
     "plazas": [(220, -182, 100, 22), (-280, 268, 70, 20)],
@@ -1053,8 +1053,9 @@ FRISALLE = {
     # The card merchant keeps the toy stall on the upper lane (scenes/systems/merchant.tscn).
     "merchant": ((-240, 32), FRP + "stall_toys.png"),
     "campfires": [(220, 540)],
-    "lanterns": [(-420, 292), (-100, 292), (220, 292), (480, 292), (-560, 66), (-180, 66), (180, 66), (460, 66),
-                 (-200, -168), (120, -168), (-460, 520), (100, 600)],
+    # Lanterns stand between the houses on the cliff side of each lane, never on the lip.
+    "lanterns": [(-420, 250), (-100, 250), (220, 250), (480, 250), (-560, 30), (-180, 30), (180, 30), (460, 30),
+                 (-53, -230), (120, -200), (-460, 520), (100, 600)],
     "string_lights": [((-200, 222), (200, 222), 16), ((-180, 0), (240, 0), 16), ((120, -232), (320, -232), 12)],
     "npcs": [
         {"id": "bodo", "name": "Bodo", "pos": (-190, 272), "wander": 0, "out": (6.0, 21.0), "lines": [
