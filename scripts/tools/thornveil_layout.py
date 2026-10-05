@@ -39,8 +39,10 @@ ISLANDS = [
 ]
 
 # The lake: the one body of water deep enough to sit below every terrace (rock cliffs
-# drop into it). Streams elsewhere are painted over the ground (stream_mask()).
-LAKE = [(0, 226), (372, 232), (418, 320), (418, 420), (386, 470), (376, 560), (330, 620), (262, 662),
+# drop into it). Streams elsewhere are painted over the ground (stream_mask()). Its east
+# shore follows the terraces' cliff foot: no narrow channel up between the cliffs (that
+# was a waterfall's gully, and there are no waterfalls now).
+LAKE = [(0, 226), (372, 232), (376, 300), (392, 420), (380, 470), (376, 560), (330, 620), (262, 662),
         (200, 700), (160, 690), (0, 684)]
 
 # Ground that stays dry however wide the streams are drawn (painted after the water):
@@ -68,7 +70,6 @@ STAIRS = [
 DOCKS = [([(258, 290), (258, 420), (368, 420), (368, 494), (412, 494)], 16),
          ([(386, 494), (386, 560)], 14)]
 BRIDGES = [  # (x0, y0, x1, y1): a deck across a stream or out to the island
-    (360, 176, 440, 200),                  # camp to the north terrace
     (196, 538, 384, 562),                  # the island out to the jetty
     (620, 790, 690, 814),                  # the south-west meadow over the stream
     (1176, 596, 1240, 620),                # east road over the falls

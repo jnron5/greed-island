@@ -52,7 +52,6 @@ K2 = "assets/sprites/tiles/kalmora2/"
 GROUND_PNG = ART + "thornveil_ground.png"
 LEVEL_PNG = ART + "thornveil_levels.png"
 WATER_MASK = ART + "thornveil_water_mask.png"
-STREAM_MASK = ART + "thornveil_stream_mask.png"
 # Water frames (make_forest_water.py): the calm lake and the flowing streams.
 WATER_ART = ART + "water/"
 SCENE = "scenes/world/thornveil.tscn"
@@ -249,6 +248,19 @@ def build_terrain():
     lake_cells = np.kron(np.array([[1 if v == WATER else 0 for v in row] for row in stand], np.uint8),
                          np.ones((TILE, TILE), np.uint8)).astype(bool)
     streams &= ~lake_cells
+    # No slivers (a thin line of stream down the side of a cliff) and no stubs: a
+    # stretch of stream too small to read as one goes, unless a bridge crosses it or it
+    # runs into the lake.
+    streams = _nd.binary_opening(streams, structure=np.ones((9, 9), bool))
+    keep_near = np.zeros(streams.shape, bool)
+    for r, c in set(bridges):
+        keep_near[r * TILE:(r + 1) * TILE, c * TILE:(c + 1) * TILE] = True
+    keep_near |= near(lake_cells, 6)
+    labels, count = _nd.label(streams)
+    for i in range(1, count + 1):
+        blob = labels == i
+        if blob.sum() < 4000 and not (blob & keep_near).any():
+            streams &= ~blob
     bank = near(streams, 3) & ~streams & ~lake_cells
     shallow = streams & near(~streams, 3)
     a[..., :3] = np.where(bank[..., None], a[..., :3] * np.array([0.55, 0.52, 0.48]), a[..., :3])
@@ -548,8 +560,6 @@ def main():
         ('Texture2D', "res://" + WATER_MASK, "17_watermask"),
         ('Script', "res://scripts/world/tiled_animation.gd", "18_tiled"),
         ('Texture2D', "res://" + WATER_ART + "lake.png", "19_waves"),
-        ('Texture2D', "res://" + STREAM_MASK, "17_streammask"),
-        ('Texture2D', "res://" + WATER_ART + "stream_flow.png", "19_flow"),
         ('Script', "res://scripts/systems/chest.gd", "20_chest"),
         ('Script', "res://scripts/systems/healing_spring.gd", "21_spring"),
         ('PackedScene', "res://scenes/world/props/great_tree.tscn", "22_great"),
@@ -923,12 +933,11 @@ shape = SubResource("{shape(32, 10)}")
 
     # Water: the animated wave tile clipped to every water pixel of the ground.
     wet = water_pixels(ground, stand, decks)
-    lake_px = wet & ~STREAM_PX
-    stream_px = wet & STREAM_PX
-    for px, path in ((lake_px, WATER_MASK), (stream_px, STREAM_MASK)):
-        mask = np.zeros(wet.shape + (4,), np.uint8)
-        mask[px] = 255
-        Image.fromarray(mask, "RGBA").save(path)
+    # All of Thornveil's water rolls with the calm lake waves, streams included (a
+    # downstream flow animation never read well).
+    mask = np.zeros(wet.shape + (4,), np.uint8)
+    mask[wet] = 255
+    Image.fromarray(mask, "RGBA").save(WATER_MASK)
     w, h = ground.size
     n.append(f'''[node name="Lake" type="Sprite2D" parent="."]
 z_index = -9
@@ -941,19 +950,6 @@ script = ExtResource("18_tiled")
 strip = ExtResource("19_waves")
 frame_count = 8
 fps = 3.0
-region_rect = Rect2(0, 0, {w}, {h})
-
-[node name="Streams" type="Sprite2D" parent="."]
-z_index = -9
-clip_children = 1
-position = Vector2({cx}, {cy})
-texture = ExtResource("17_streammask")
-
-[node name="Flow" type="Sprite2D" parent="Streams"]
-script = ExtResource("18_tiled")
-strip = ExtResource("19_flow")
-frame_count = 8
-fps = 8.0
 region_rect = Rect2(0, 0, {w}, {h})
 ''')
 
@@ -1021,9 +1017,11 @@ position = Vector2({sx}, {sy})
 
 
 def water_pixels(ground, stand, decks):
-    """Every pixel of open water in the ground: the lake's blue and the streams."""
+    """Every pixel of open water in the ground: the lake's blue (in the lake's cells and
+    at the foot of the cliffs that drop into it, so all of it rolls alike) and the
+    streams."""
     a = np.asarray(ground).astype(int)
-    lake = np.kron(np.array([[1 if (v == WATER and (r, c) not in decks) else 0 for c, v in enumerate(row)]
+    lake = np.kron(np.array([[1 if ((v == WATER or v < 0) and (r, c) not in decks) else 0 for c, v in enumerate(row)]
                              for r, row in enumerate(stand)], np.uint8), np.ones((TILE, TILE), np.uint8)).astype(bool)
     return (lake & (a[..., 2] > a[..., 0] + 50)) | STREAM_PX
 
