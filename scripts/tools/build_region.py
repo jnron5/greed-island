@@ -751,7 +751,7 @@ class Zone:
             targets["chest " + ch["id"]] = (x, y + 16)
         for scene_path, (x, y) in c.get("monsters", []):
             keep.append((x, y, 80))
-        for k, (x, y) in enumerate(c.get("fishing", [])):
+        for k, (x, y, *_) in enumerate(c.get("fishing", [])):
             keep.append((x, y, 30))
             targets[f"fishing spot {k}"] = (x, y)
         if c.get("boss"):
@@ -1154,7 +1154,13 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
             name = os.path.basename(scene_path)[:-5].title().replace("_", "")
             n.append(f'[node name="{name}{k}" parent="." instance=ExtResource("{res("PackedScene", scene_path)}")]\n'
                      f'position = Vector2({x}, {y})\n')
-        for k, (x, y) in enumerate(c.get("fishing", [])):
+        for k, (x, y, *cast) in enumerate(c.get("fishing", [])):
+            # (x, y[, cast dx, cast dy]): where the float lands, from the spot (default west).
+            if cast:
+                n.append(f'[node name="FishingSpot{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                         f'cast_to = Vector2({cast[0]}, {cast[1]})\n'
+                         f'script = ExtResource("{res("Script", "res://scripts/systems/fishing_spot.gd")}")\n')
+                continue
             n.append(f'[node name="FishingSpot{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
                      f'script = ExtResource("{res("Script", "res://scripts/systems/fishing_spot.gd")}")\n')
         if c.get("boss"):

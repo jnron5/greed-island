@@ -440,7 +440,8 @@ LAKE_SERIN = {
     "land": [(60, -330, 90, 150)],
     "docks": [(470, -90, 640, -58)],
     # Cast off the end of Neri's dock (scripts/systems/fishing_spot.gd).
-    "fishing": [(490, -74)],
+    # Off Neri's dock, and off the wreck on the south shore (casting north, into the lake).
+    "fishing": [(490, -74), (-80, 290, 4, -50)],
     # Lily pads in the shallows and Neri's boats tied up at his dock.
     "afloat": [(LS + "barge.png", (-330, 95), False)] + [(TV + "lily_pads.png", p, f) for p, f in [((-250, 180), False), ((-200, -200), True), ((-250, -250), False),
                                                          ((300, 200), True), ((380, 150), False), ((-100, 200), True),
@@ -468,6 +469,8 @@ LAKE_SERIN = {
          "back": "from_houseneri"},
     ],
     "props": (
+        [{"sprite": KP + "candle_shrine.png", "pos": (-520, 60), "foot": (20, 8), "light": ((1.0, 0.75, 0.45, 1), 0.7, 1.0)}]
+        +
         [{"sprite": "assets/sprites/tiles/lake_serin/wreck.png", "pos": (-170, 284), "foot": (64, 16), "flip": True}]
         +
         [{"sprite": STONE, "pos": (60, -300), "foot": (26, 12), "scale": 1.2, "light": ((0.7, 0.85, 1.0, 1), 0.35, 1.0)}]
@@ -484,6 +487,12 @@ LAKE_SERIN = {
         ]},
     ],
     "readables": [
+        ("A lakeside shrine", (-520, 70), [
+            "A little shrine of stacked stones on the west bank, candles in jars, ribbons tied to a stick. A board: 'For the ones the barges took north. The water remembers them.'",
+            "Fresh candles. Somebody comes from Verdana every week to light them.",
+        ], [
+            "At night the candles are lit, a dozen small flames on the bank. Across the water, on the north shore, one light answers, then goes out.",
+        ]),
         ("A wreck on the shore", (-120, 300), [
             "An old fishing boat on its side in the reeds, ribs showing through the planks. Fresh rope tied to the mast stump, trailing into the water.",
             "Pull the rope and something heavy shifts out in the deep. Pull harder and the rope comes up cut.",
@@ -503,6 +512,7 @@ LAKE_SERIN = {
     "chests": [
         {"id": "bluff_nest", "pos": (-850, -300), "gold": 35, "card": "barge_bell"},
         {"id": "reed_bed", "pos": (-470, 380), "item": "smoked_fish", "count": 2},
+        {"id": "pilgrims_shrine", "pos": (-560, 60), "gold": 20, "item": "bread"},
         {"id": "point_cache", "pos": (110, -420), "gold": 25, "card": "serin_lily"},
     ],
     "monsters": [(BOAR, (-300, 330)), (BOAR, (320, 470)), (HOUND, (-200, -560)), (HOUND, (620, -600)), (RAM, (-40, 600))],

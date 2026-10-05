@@ -70,7 +70,7 @@ func _run() -> void:
 		GameState.item_count(&"lake_trout") == trout + 1 or GameState.currency == gold + 5)
 	_check("a lake trout mends two hearts", Items.get_item(&"lake_trout") != null and Items.get_item(&"lake_trout").heal == 2)
 	var lake: Node = load("res://scenes/world/lake_serin.tscn").instantiate()
-	_check("Lake Serin has a fishing spot", lake.find_children("FishingSpot*", "", false, false).size() == 1)
+	_check("Lake Serin has fishing spots (the dock and the wreck)", lake.find_children("FishingSpot*", "", false, false).size() == 2)
 	lake.free()
 	fisher.queue_free()
 	spot.queue_free()
