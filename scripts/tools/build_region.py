@@ -575,6 +575,9 @@ class Zone:
         rng = self.rng
         trees = []
         kinds = c.get("tree_kinds", ["oak", "fir"])
+        # The treeline along the edges can mix in other kinds (a resort's palms backed by
+        # broadleaf woods, so the edge isn't one tree repeated).
+        edge_kinds = c.get("treeline_kinds", kinds)
 
         def ground_ok(x, y):
             r, cc = self.cell(x, y)
@@ -599,12 +602,12 @@ class Zone:
                 for y in (y0 + inset + 50, y1 - inset + 6):
                     px, py = x + rng.randint(-jitter, jitter), y + rng.randint(-jitter, jitter)
                     if free(px, py, 26, 30):
-                        trees.append((rng.choice(kinds), px, py))
+                        trees.append((rng.choice(edge_kinds), px, py))
             for y in range(y0 + 60, y1, step):
                 for x in (x0 + inset, x1 - inset):
                     px, py = x + rng.randint(-jitter, jitter), y + rng.randint(-jitter, jitter)
                     if free(px, py, 26, 30):
-                        trees.append((rng.choice(kinds), px, py))
+                        trees.append((rng.choice(edge_kinds), px, py))
         for gx, gy, count, spread in c.get("groves", []):
             for _ in range(count * 4):
                 if sum(1 for _, a, b in trees if math.hypot(a - gx, b - gy) < spread * 1.6) >= count:
