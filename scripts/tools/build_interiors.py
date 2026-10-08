@@ -86,12 +86,12 @@ INTERIORS = {
             "Long day hauling crates nobody's allowed to ask about. Long night forgetting them.",
             "Otto waters the cider. Don't tell him I know. It's the only thing in this town that's honest about being thin.",
             "Night tide brings the unmarked ones. I'm in here so I don't have to see them come in.",
-        ], [], {"out": (2.0, 6.5)}),
+        ], [], {"out": (5.0, 6.5)}),
                  ("sailor", "Deckhand Luca", "sailor", (232, 204), [
             "Pull up a stool! I'm telling the one about the sea serpent off Halmeer. It gets bigger every time.",
             "A sailor's day ends when the lamps come on. A sailor's night ends when Jobelle throws him out.",
             "You racers never sleep, do you? Bind your cards before you go out there. The night's when the thieves work.",
-        ], [], {"out": (2.0, 6.5)})],
+        ], [], {"out": (5.0, 6.5)})],
         "inn": "jobelle",
         "keeper": {"wake_lines": ["Oh, love. Oh, look at you. Somebody carried you in off the road and I've sat with you all night. Rest a minute before you go anywhere.", "There you are. You gave me such a fright. Drink this, it's only tea. Whatever you lost out there, it isn't worth losing you.", "Welcome back, sweetheart. Otto carried you up the stairs himself. Don't tell him I told you; he likes people to think he's grumpy."],
                    "room_prompt": "Of course, love! Fresh sheets, a warm brick in the bed. Half a day, or a whole one?",
@@ -194,7 +194,7 @@ INTERIORS = {
             "Mind the anvil. Mind the coals. Mind your fingers, mostly.",
             "Forty pickaxe heads a month, every month, for a hole out east. Must be a very big hole.",
             "They asked me for shackles. Small ones. I told them I don't make those. They found someone who does.",
-        ], [], {"out": (2.0, 20.0)})],
+        ], [], {"out": (5.0, 20.0)})],
         "readables": [
             ("An order nailed to the bench", (80, 184), [
                 "'Forty pick heads. Twelve lamp brackets. Deliver to the red-sun crates at the warehouse.'",
@@ -312,7 +312,7 @@ INTERIORS = {
             "Ilse Marrow, cartographer. Mind the ink, it never comes out.",
             "Every map of Virelia has a blank spot in the dunes east of Duskara. Every one. Mine too. I was paid to leave it blank.",
             "Heading north? Take the forest road. The coast path is prettier, but the Raider likes it.",
-        ], [], {"out": (2.0, 20.0)})],
+        ], [], {"out": (5.0, 20.0)})],
         "readables": [
             ("Ilse's working chart", (140, 162), [
                 "The whole isle in fine ink. The Siroth Dunes are drawn dune by dune, except one patch east of Duskara, left blank.",
@@ -867,6 +867,14 @@ INTERIORS = {
             "Racers are always in a hurry. I respect that! You'll still sit down at five like everybody else.",
             "The Company man in the corner wanted his supper at seven. Seven! I gave him a crust and a lecture. He's still here. Still hungry.",
             "Oh, I love a busy day! Fifty pints, twelve beds, one dinner, at FIVE, and not a single man telling me anything I didn't already know!",
+            # Chef (the royal son, in Vetrassa): the one man she'd let tell her how to cook.
+            "Men are useless. All of them. Except... no. All of them. Mostly. Don't look at me like that.",
+            "Have you eaten at Chef's place in Vetrassa? No? Me neither. Not yet. I've a dress picked out for when I do. Not that it matters. It's just a dress.",
+            "Chef once said my gravy was 'honest'. Honest! In a letter! To Tilly! Who told me! I've read it eleven times. It's on the wall behind the bar. Don't touch it.",
+            "If Chef ever came to Verdana, I'd serve him dinner at whatever time he liked. Six, seven, midnight. Don't you DARE tell Bruno I said that.",
+            "Mate says Chef's sauces are all show and no supper. Mate is wrong. Mate is jealous. Mate has never seen him fold a pastry. Neither have I. But I've imagined it.",
+            "A German Shepherd who cooks. Do you know how rare that is? I don't hate ALL men. I hate the ones who aren't Chef.",
+            "I wrote to Chef asking for his stew recipe. Strictly professional. I signed it 'yours'. Strictly professionally yours. I've been sick with it for a month.",
         ], [])],
         "inn": "tally",
         "keeper": {"wake_lines": ["WELCOME BACK! You've been out cold for hours! You missed DINNER!", "Up you get! A shepherd found you face down in the barley. Lucky for you it wasn't five o'clock or I'd never have come out!", 'There she wakes! Or he. Or whatever you are under that hood! Some man tried to carry you in and I did it myself!'],

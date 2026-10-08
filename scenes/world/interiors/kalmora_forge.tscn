@@ -168,7 +168,7 @@ npc_id = &"brannoc"
 display_name = "Brannoc"
 sprite_frames = ExtResource("n_brannoc")
 lines = PackedStringArray("Mind the anvil. Mind the coals. Mind your fingers, mostly.", "Forty pickaxe heads a month, every month, for a hole out east. Must be a very big hole.", "They asked me for shackles. Small ones. I told them I don't make those. They found someone who does.")
-out_from = 2.0
+out_from = 5.0
 out_to = 20.0
 
 [node name="Read1" type="Node2D" parent="."]

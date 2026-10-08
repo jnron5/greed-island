@@ -140,7 +140,7 @@ npc_id = &"ilse"
 display_name = "Ilse"
 sprite_frames = ExtResource("n_ilse")
 lines = PackedStringArray("Ilse Marrow, cartographer. Mind the ink, it never comes out.", "Every map of Virelia has a blank spot in the dunes east of Duskara. Every one. Mine too. I was paid to leave it blank.", "Heading north? Take the forest road. The coast path is prettier, but the Raider likes it.")
-out_from = 2.0
+out_from = 5.0
 out_to = 20.0
 
 [node name="Read1" type="Node2D" parent="."]

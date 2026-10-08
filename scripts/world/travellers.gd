@@ -31,8 +31,8 @@ const KALMORA := "res://scenes/world/kalmora.tscn"
 const DAY_HOURS := Vector2(7.0, 19.5)
 const WILD_HOURS := Vector2(7.5, 18.5)
 ## In Kalmora: the ones visiting it today from morning, everyone from dusk, till late.
-const KALMORA_DAY_HOURS := Vector2(7.0, 1.5)
-const KALMORA_NIGHT_HOURS := Vector2(19.5, 1.5)
+const KALMORA_DAY_HOURS := Vector2(7.0, 6.0)
+const KALMORA_NIGHT_HOURS := Vector2(19.5, 6.0)
 
 ## How many travellers each zone has on any day (dealt in this order).
 const QUOTA := {

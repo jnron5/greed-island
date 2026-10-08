@@ -608,10 +608,10 @@ NPCS = [
     ]),
 ]
 # Kalmora's Lantern Night: every night the town comes out and stays out till the small
-# hours, all over: a fish fry on the quay, dancing on the beach, the market lane under
+# hours (till five, nearly dawn), all over: a fish fry on the quay, dancing on the beach, the market lane under
 # its lanterns, and round the fountain (Nonna, Ilse, Brannoc); the travellers come back
 # from the road at dusk and fill the streets (scripts/world/travellers.gd).
-PARTY_HOURS = (20.0, 2.0)
+PARTY_HOURS = (20.0, 5.0)
 GUEST_HOURS = {"nonna": (20.0, 23.0), "wen": (20.0, 22.5), "ilse": PARTY_HOURS, "brannoc": PARTY_HOURS}
 NIGHT_LINES = {
     "bram": ["No crates tonight. Tonight the crates can carry themselves. Another round!",
@@ -643,8 +643,9 @@ CHATTER = {
 # indoor copies in the Salted Lantern for the night, build_interiors.py). NIGHT_SPOTS:
 # where someone who stays out spends the night (concept position, wander radius).
 # After dark the town is at the party in the fountain square (Lantern Night, above)
-# till two, then home to bed; the lighthouse keeper and the gate guard stay on duty.
-OUT_HOURS = {"bram": (6.5, 2.0), "sailor": (6.5, 2.0), "pip": (6.0, 2.0), "baker": (5.0, 2.0), "tomas": (6.0, 19.5),
+# till five, then home to bed (Rosa, who bakes, straight back out); the lighthouse keeper
+# and the gate guard stay on duty.
+OUT_HOURS = {"bram": (6.5, 5.0), "sailor": (6.5, 5.0), "pip": (6.0, 5.0), "baker": (5.0, 4.9), "tomas": (6.0, 19.5),
              **GUEST_HOURS}
 NIGHT_SPOTS = {
     "bram": ((610, 716), 16),      # a fish fry on the quay with the dockhands

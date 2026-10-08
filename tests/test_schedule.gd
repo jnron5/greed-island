@@ -1,6 +1,6 @@
 extends Node
 ## Residents keep hours: Kalmora comes out to its Lantern Night party in the fountain
-## square after dark (folk who keep to their houses by day too) till two, when Bram
+## square after dark (folk who keep to their houses by day too) till five, when Bram
 ## takes a last drink in the Salted Lantern; others spend the night somewhere else
 ## (Aldous watches the sky from the green); arriving at any time finds them in the
 ## right place, and at dusk they walk there.
@@ -45,9 +45,9 @@ func _run() -> void:
 	_check("the tavern's quiet while the square's busy", not (tavern.get_node("Npc_bram") as Npc).visible)
 	var nonna_home := await _load("res://scenes/world/interiors/kalmora_nonna_house.tscn")
 	_check("and Nonna's not home", not (nonna_home.get_node("Npc_nonna") as Npc).visible)
-	TimeOfDay.set_hour(3.0)
+	TimeOfDay.set_hour(5.5)
 	town = await _load(WorldMap.KALMORA)
-	_check("after two the square empties", not (town.get_node("Npc_bram") as Npc).visible)
+	_check("after five the square empties", not (town.get_node("Npc_bram") as Npc).visible)
 	tavern = await _load(WorldMap.KALMORA_TAVERN)
 	var drinking := tavern.get_node("Npc_bram") as Npc
 	_check("and Bram has one last drink in the Salted Lantern", drinking.visible and not drinking.get_node("CollisionShape2D").disabled)

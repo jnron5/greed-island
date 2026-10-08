@@ -177,6 +177,11 @@ const TOPICS := {
 			"Half a day or a full day, paid up front. I don't run tabs for racers. Only the Company gets a tab, and look how that's gone.",
 			"You'll wake with every heart back. The road between here and anywhere won't do that for you.",
 		]],
+		["What do you think of Chef?", [
+			"Chef? The Chef? In Vetrassa? Who? Never heard of him. Well. Once or twice. In passing.",
+			"He's a man, so he's useless, obviously. Except he isn't. He folds butter into pastry like it owes him money. And his eyes. Not that I've seen his eyes. Tilly described them.",
+			"If you're going to Vetrassa, would you... no. Never mind. Unless you'd tell him the Sheaf & Sickle serves the best dinner in the Aurewind. At five. Every day. And the innkeeper's not married.",
+		]],
 	],
 	# ---------------- The plains ----------------
 	&"loki": [
