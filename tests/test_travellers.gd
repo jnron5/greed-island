@@ -72,6 +72,29 @@ func _run() -> void:
 		var second := g.take_gift()
 		_check("a traveller hands you something the first time you meet, once", not first.is_empty() and second.is_empty()
 			and GameState.item_count(g.gift_item) == had + g.gift_count)
+	# Nobody keeps marching into a wall: a minute of the night crowd walking, and
+	# none of them spends more than a few seconds of it pushing against anything.
+	var crowd := town.get_children().filter(func(n: Node) -> bool: return n is Npc and n.visible)
+	for n: Npc in crowd:
+		n.stalled = 0.0
+	Engine.time_scale = 4.0
+	var start := crowd.map(func(n: Npc) -> Vector2: return n.global_position)
+	await get_tree().create_timer(60.0).timeout
+	Engine.time_scale = 1.0
+	var moved := 0
+	for i in crowd.size():
+		if (crowd[i] as Npc).global_position.distance_to(start[i]) > 24.0:
+			moved += 1
+	print("  %d of %d walked somewhere" % [moved, crowd.size()])
+	_check("while they get about", moved >= crowd.size() / 2)
+	var worst := 0.0
+	var worst_name := ""
+	for n: Npc in crowd:
+		if n.stalled > worst:
+			worst = n.stalled
+			worst_name = n.name
+	print("  most time stuck: %s %.1fs; %s" % [worst_name, worst, ", ".join(crowd.filter(func(n: Npc) -> bool: return n.stalled > 1.0).map(func(n: Npc) -> String: return "%s %.1f at %s" % [n.name, n.stalled, n.global_position.round()]))])
+	_check("nobody keeps walking into walls", worst < 4.0)
 	# Dusk while you watch: a visitor walks off down the road rather than vanishing,
 	# and Kalmora's night crowd walks in from its roads.
 	TimeOfDay.set_hour(19.0)

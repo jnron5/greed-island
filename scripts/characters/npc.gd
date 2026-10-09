@@ -103,6 +103,13 @@ var _here := true
 var _clock := 0.0
 var _roam_route := PackedVector2Array()
 var _leaving := false
+## Seconds spent pushing against something without getting anywhere, and how many
+## times in a row the way there has been looked up again.
+var _stuck := 0.0
+var _repaths := 0
+var _route_rest := 0.0
+## Total seconds spent walking without getting anywhere (tests read it).
+var stalled := 0.0
 var _bubble := ""
 var _bubble_time := 0.0
 var _chatter_wait := randf_range(2.0, 9.0)
@@ -215,9 +222,16 @@ func _keep_hours(delta: float) -> void:
 
 func _follow_route(delta: float) -> void:
 	_route_time += delta
+	if _route_rest > 0.0:
+		_route_rest -= delta
+		velocity = Vector2.ZERO
+		if _route_time > 45.0 and not _on_screen():
+			_arrive()
+		return
 	var target := _route[0]
-	if global_position.distance_to(target) < 4.0:
+	if global_position.distance_to(target) < 6.0:
 		_route.remove_at(0)
+		_repaths = 0
 		if _route.is_empty():
 			_arrive()
 		return
@@ -257,8 +271,9 @@ func _roam(delta: float) -> void:
 		return
 	_route_time += delta
 	var next := _roam_route[0]
-	if global_position.distance_to(next) < 4.0:
+	if global_position.distance_to(next) < 6.0:
 		_roam_route.remove_at(0)
+		_repaths = 0
 		if _roam_route.is_empty():
 			velocity = Vector2.ZERO
 			_wait = randf_range(3.0, 9.0)
@@ -323,15 +338,91 @@ func _physics_process(delta: float) -> void:
 		if position.distance_to(_goal) < 3.0:
 			velocity = Vector2.ZERO
 			if _wait <= 0.0:
-				_goal = _home + Vector2.from_angle(randf() * TAU) * randf_range(8.0, wander_radius)
+				_goal = _wander_goal()
 				_wait = randf_range(2.0, 5.0)
 		else:
 			velocity = position.direction_to(_goal) * walk_speed
 			if _wait < -6.0:
 				_goal = position  # Stuck against something: give up on this spot.
+	var wanted := velocity * delta
+	var before := global_position
 	move_and_slide()
+	_check_stuck(delta, wanted, global_position - before)
 	_update_animation()
 	queue_redraw()
+
+
+## Walking into a wall, a tree or a crate and not getting anywhere: after a moment,
+## look the way up again from here; if that doesn't help either, give up on that spot
+## and pick another (never keep marching on the spot).
+func _check_stuck(delta: float, wanted: Vector2, moved: Vector2) -> void:
+	if wanted.length() < 0.01 or moved.length() > wanted.length() * 0.35:
+		_stuck = maxf(0.0, _stuck - delta)
+		return
+	# Bumped into another resident: townsfolk step round each other rather than
+	# shoving, so from now on these two pass through one another.
+	for i in get_slide_collision_count():
+		var other := get_slide_collision(i).get_collider() as Npc
+		if other:
+			add_collision_exception_with(other)
+			return
+	_stuck += delta
+	stalled += delta
+	if _stuck < 0.5:
+		return
+	_stuck = 0.0
+	_repaths += 1
+	velocity = Vector2.ZERO
+	var zone := get_tree().current_scene as Zone
+	# First try the next step along instead of this one (pushing straight into the
+	# corner of something, the next one is usually round it).
+	if _repaths == 1:
+		if _route.size() > 1:
+			_route.remove_at(0)
+			return
+		if _route.is_empty() and _roam_route.size() > 1:
+			_roam_route.remove_at(0)
+			return
+	if not _route.is_empty():
+		var end := _route[_route.size() - 1]
+		if _repaths > 3 and not _on_screen():
+			_arrive()
+			return
+		if _repaths > 3:
+			_route_rest = randf_range(2.0, 4.0)  # stand a moment, then try again
+		var again := zone.find_path(global_position, end) if zone else PackedVector2Array()
+		if not again.is_empty():
+			_route = again
+	elif not roam_points.is_empty():
+		if _leaving and _repaths > 3 and not _on_screen():
+			_set_here(false, true)
+			return
+		if _repaths <= 3 and not _roam_route.is_empty():
+			var again := zone.find_path(global_position, _roam_route[_roam_route.size() - 1]) if zone else PackedVector2Array()
+			if not again.is_empty():
+				_roam_route = again
+				return
+		# Somewhere else, then.
+		_roam_route = PackedVector2Array()
+		_wait = randf_range(1.0, 3.0)
+	elif not patrol.is_empty():
+		_pausing = true
+		_wait = patrol_pause
+	else:
+		_goal = position
+		_wait = randf_range(1.0, 3.0)
+
+
+## A spot within wander_radius of home that's open and in a clear straight line from
+## here (wanderers walk straight, so they'd only push into whatever's in the way).
+func _wander_goal() -> Vector2:
+	for _i in 8:
+		var goal := _home + Vector2.from_angle(randf() * TAU) * randf_range(8.0, wander_radius)
+		# The body itself, swept all the way there (a ray from the middle misses what
+		# the edges of the feet would catch on).
+		if not test_move(global_transform, (goal - position) * get_global_transform().get_scale()):
+			return goal
+	return position
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -264,15 +264,33 @@ static func same_level(tree: SceneTree, a: Vector2, b: Vector2) -> bool:
 func find_path(from: Vector2, to: Vector2) -> PackedVector2Array:
 	if not _nav_ready:
 		return PackedVector2Array()
-	var a := _nav_cell(from)
-	var b := _nav_cell(to)
+	var a := _open_cell(_nav_cell(from))
+	var b := _open_cell(_nav_cell(to))
 	if not _nav.is_in_boundsv(a) or not _nav.is_in_boundsv(b):
 		return PackedVector2Array()
 	var points := _nav.get_point_path(a, b, true)
 	var out := PackedVector2Array()
 	for p in points:
 		out.append(to_global(p))
+	# The first point is the middle of the cell the walker is already in: walking back
+	# to it is a step the wrong way, and often into whatever they're standing against.
+	if out.size() > 1 and from.distance_to(out[0]) < NAV_CELL:
+		out.remove_at(0)
 	return out
+
+
+## `cell`, or the nearest open cell round it when it's solid (someone standing with
+## their middle over the edge of a wall still gets a way out).
+func _open_cell(cell: Vector2i) -> Vector2i:
+	if not _nav.is_in_boundsv(cell) or not _nav.is_point_solid(cell):
+		return cell
+	for ring in range(1, 3):
+		for dy in range(-ring, ring + 1):
+			for dx in range(-ring, ring + 1):
+				var c := cell + Vector2i(dx, dy)
+				if _nav.is_in_boundsv(c) and not _nav.is_point_solid(c):
+					return c
+	return cell
 
 
 func _nav_cell(global_pos: Vector2) -> Vector2i:
@@ -297,11 +315,35 @@ func _build_nav() -> void:
 	var space := get_world_2d().direct_space_state
 	var query := PhysicsPointQueryParameters2D.new()
 	query.collision_mask = 1
+	# Residents stand on the World layer too, but they move: they're no wall.
+	var people: Array[RID] = []
+	for npc in get_tree().get_nodes_in_group(&"npcs"):
+		if npc is CollisionObject2D:
+			people.append((npc as CollisionObject2D).get_rid())
+	query.exclude = people
 	for y in range(cells.position.y, cells.end.y):
 		for x in range(cells.position.x, cells.end.x):
 			query.position = to_global(Vector2(x + 0.5, y + 0.5) * NAV_CELL)
 			if not space.intersect_point(query, 1).is_empty():
 				_nav.set_point_solid(Vector2i(x, y))
+	# Cells whose middle is open but where a walker's feet would touch something cost
+	# far more, so routes keep to the middle of a street instead of grazing crates and
+	# corners (a body wider than a point catches on them and stalls); they stay open,
+	# so a narrow way through is still a way through.
+	var feet := PhysicsShapeQueryParameters2D.new()
+	var ring := CircleShape2D.new()
+	ring.radius = NAV_CELL * 0.5
+	feet.shape = ring
+	feet.collision_mask = 1
+	feet.exclude = people
+	for y in range(cells.position.y, cells.end.y):
+		for x in range(cells.position.x, cells.end.x):
+			var c := Vector2i(x, y)
+			if _nav.is_point_solid(c):
+				continue
+			feet.transform = Transform2D(0.0, to_global(Vector2(x + 0.5, y + 0.5) * NAV_CELL))
+			if not space.intersect_shape(feet, 1).is_empty():
+				_nav.set_point_weight_scale(c, 6.0)
 	_nav_ready = true
 
 
