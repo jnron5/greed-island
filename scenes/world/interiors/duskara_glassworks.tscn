@@ -1,0 +1,222 @@
+[gd_scene load_steps=33 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/interiors/glass_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/oren/oren_frames.tres" id="n_oren"]
+
+[sub_resource type="RectangleShape2D" id="R320x96"]
+size = Vector2(320, 96)
+
+[sub_resource type="RectangleShape2D" id="R80x142"]
+size = Vector2(80, 142)
+
+[sub_resource type="RectangleShape2D" id="R50x60"]
+size = Vector2(50, 60)
+
+[sub_resource type="RectangleShape2D" id="R78x108"]
+size = Vector2(78, 108)
+
+[sub_resource type="RectangleShape2D" id="R56x38"]
+size = Vector2(56, 38)
+
+[sub_resource type="RectangleShape2D" id="R30x130"]
+size = Vector2(30, 130)
+
+[sub_resource type="RectangleShape2D" id="R38x30"]
+size = Vector2(38, 30)
+
+[sub_resource type="RectangleShape2D" id="R64x55"]
+size = Vector2(64, 55)
+
+[sub_resource type="RectangleShape2D" id="R20x31"]
+size = Vector2(20, 31)
+
+[sub_resource type="RectangleShape2D" id="R45x50"]
+size = Vector2(45, 50)
+
+[sub_resource type="RectangleShape2D" id="R20x25"]
+size = Vector2(20, 25)
+
+[sub_resource type="RectangleShape2D" id="R7x64"]
+size = Vector2(7, 64)
+
+[sub_resource type="RectangleShape2D" id="R40x76"]
+size = Vector2(40, 76)
+
+[sub_resource type="RectangleShape2D" id="R38x76"]
+size = Vector2(38, 76)
+
+[sub_resource type="RectangleShape2D" id="R134x10"]
+size = Vector2(134, 10)
+
+[sub_resource type="RectangleShape2D" id="R138x10"]
+size = Vector2(138, 10)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="duskara_glassworks" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Oren's Glassworks"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 48.0)
+shape = SubResource("R320x96")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(40.0, 111.0)
+shape = SubResource("R80x142")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(95.0, 145.0)
+shape = SubResource("R50x60")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(261.0, 74.0)
+shape = SubResource("R78x108")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(254.0, 159.0)
+shape = SubResource("R56x38")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(305.0, 125.0)
+shape = SubResource("R30x130")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(301.0, 185.0)
+shape = SubResource("R38x30")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(72.0, 222.5)
+shape = SubResource("R64x55")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(114.0, 229.5)
+shape = SubResource("R20x31")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(247.5, 220.0)
+shape = SubResource("R45x50")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(218.0, 227.5)
+shape = SubResource("R20x25")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(137.5, 224.0)
+shape = SubResource("R7x64")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(180.5, 224.0)
+shape = SubResource("R7x64")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(20.0, 218.0)
+shape = SubResource("R40x76")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(301.0, 218.0)
+shape = SubResource("R38x76")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(67.0, 251.0)
+shape = SubResource("R134x10")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(251.0, 251.0)
+shape = SubResource("R138x10")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W20" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(158, 222)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(158, 250)
+target_scene = "res://scenes/world/duskara.tscn"
+target_spawn = &"from_houseglass"
+exit_hint = true
+
+[node name="Npc_oren" parent="." instance=ExtResource("9_npc")]
+position = Vector2(180, 150)
+npc_id = &"oren"
+display_name = "Oren"
+sprite_frames = ExtResource("n_oren")
+lines = PackedStringArray("Mind the furnace. It's been lit for nine years. If it goes out, so do I.", "Duskara sand makes the clearest glass on the island. The Company wants it for lamps. Lamps for the shaft. I make them. I don't like making them.", "Every bottle on that shelf has a little air trapped in it from the day I blew it. My breath, nine years of it. Sentimental, for a dog who works with fire.", "The old temple on the mesa has sun-glass in its sand, where lightning struck it. Green as a lizard's eye. I'd go up and gather it, if I could leave the furnace.", "Nib comes in to warm his hands in the cold nights. Don't let the heat fool you; the desert freezes after dark. He sits by the furnace and says nothing at all.")
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(254, 188)
+script = ExtResource("12_read")
+title = "A cooling rack of glass"
+lines = PackedStringArray("Lamps, dozens of them, with heavy bases and wire cages: miner's lamps. Each base is stamped D.M.C. One, at the end, has a tiny sun scratched inside its glass where nobody would see it.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(158, 222)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

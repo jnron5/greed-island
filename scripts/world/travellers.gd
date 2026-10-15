@@ -41,7 +41,9 @@ const QUOTA := {
 	"res://scenes/world/sorenda.tscn": 2,
 	"res://scenes/world/seabright_quay.tscn": 2,
 	"res://scenes/world/frisalle.tscn": 2,
+	"res://scenes/world/duskara.tscn": 2,
 	"res://scenes/world/aurewind_plains.tscn": 1,
+	"res://scenes/world/siroth_dunes.tscn": 1,
 	"res://scenes/world/thornveil.tscn": 1,
 	"res://scenes/world/lake_serin.tscn": 1,
 	"res://scenes/world/starfall_range.tscn": 1,
@@ -53,6 +55,7 @@ const CITY := {
 	"res://scenes/world/sorenda.tscn": "sorenda",
 	"res://scenes/world/seabright_quay.tscn": "seabright",
 	"res://scenes/world/frisalle.tscn": "frisalle",
+	"res://scenes/world/duskara.tscn": "duskara",
 }
 ## id, name, sprite (one of the eight traveller sprites), their own lines, and for one
 ## or two a little stock to sell.
@@ -175,6 +178,13 @@ const CITY_LINES := {
 		"The pass was closed by a slide. Funny slide. Very tidy edges.",
 		"Ottilie at the Hearth & Horn will feed you till you can't move. Don't argue with her.",
 		"Don't go down the valley after dark. The wolves come up off the snowfield in packs.",
+	],
+	"duskara": [
+		"Duskara. Hot as an oven by day, cold as a well by night. Sleep through the noon, like they do.",
+		"Water's free at the Cistern and dear everywhere else. Hesper's the only one in town who doesn't sell it.",
+		"Don't go up the stairs to the terrace. The Company men don't say no twice.",
+		"Everybody in Duskara owes the Company something. Rent, water, bread. The kids owe it the most and nobody can tell me why.",
+		"Glass from Oren's furnace is the clearest on the island. He makes lamps for the mine and hates every one of them.",
 	],
 }
 ## What they say in Kalmora after dark, back from the road.

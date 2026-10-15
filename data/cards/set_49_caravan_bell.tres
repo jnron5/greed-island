@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/caravan_bell.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"caravan_bell"
+display_name = "Caravan Bell"
+description = "A dented brass bell on a braided cord."
+lore = "Zahra's lead camel wore it across Siroth for twenty years. It rings the old caravan signal: water ahead, road clear. Some nights it rings a different signal."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 14
+icon = ExtResource("2_art")
+copies_in_world = 3

@@ -1,0 +1,213 @@
+[gd_scene load_steps=30 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/interiors/home_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/rafi/rafi_frames.tres" id="n_rafi"]
+
+[sub_resource type="RectangleShape2D" id="R320x105"]
+size = Vector2(320, 105)
+
+[sub_resource type="RectangleShape2D" id="R78x57"]
+size = Vector2(78, 57)
+
+[sub_resource type="RectangleShape2D" id="R44x22"]
+size = Vector2(44, 22)
+
+[sub_resource type="RectangleShape2D" id="R60x55"]
+size = Vector2(60, 55)
+
+[sub_resource type="RectangleShape2D" id="R32x28"]
+size = Vector2(32, 28)
+
+[sub_resource type="RectangleShape2D" id="R22x26"]
+size = Vector2(22, 26)
+
+[sub_resource type="RectangleShape2D" id="R60x57"]
+size = Vector2(60, 57)
+
+[sub_resource type="RectangleShape2D" id="R40x60"]
+size = Vector2(40, 60)
+
+[sub_resource type="RectangleShape2D" id="R28x44"]
+size = Vector2(28, 44)
+
+[sub_resource type="RectangleShape2D" id="R58x24"]
+size = Vector2(58, 24)
+
+[sub_resource type="RectangleShape2D" id="R69x32"]
+size = Vector2(69, 32)
+
+[sub_resource type="RectangleShape2D" id="R30x66"]
+size = Vector2(30, 66)
+
+[sub_resource type="RectangleShape2D" id="R138x10"]
+size = Vector2(138, 10)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="duskara_rafi" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Rafi's House"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 52.5)
+shape = SubResource("R320x105")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(53.0, 146.5)
+shape = SubResource("R78x57")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(74.0, 107.0)
+shape = SubResource("R44x22")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(90.0, 202.5)
+shape = SubResource("R60x55")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(24.0, 182.0)
+shape = SubResource("R32x28")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(49.0, 209.0)
+shape = SubResource("R22x26")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(260.0, 116.5)
+shape = SubResource("R60x57")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(290.0, 160.0)
+shape = SubResource("R40x60")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(298.0, 170.0)
+shape = SubResource("R28x44")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(211.0, 150.0)
+shape = SubResource("R58x24")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(220.5, 234.0)
+shape = SubResource("R69x32")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(15.0, 223.0)
+shape = SubResource("R30x66")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(305.0, 223.0)
+shape = SubResource("R30x66")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(69.0, 251.0)
+shape = SubResource("R138x10")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(251.0, 251.0)
+shape = SubResource("R138x10")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(160, 220)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(160, 250)
+target_scene = "res://scenes/world/duskara.tscn"
+target_spawn = &"from_houserafi"
+exit_hint = true
+
+[node name="Npc_rafi" parent="." instance=ExtResource("9_npc")]
+position = Vector2(150, 170)
+npc_id = &"rafi"
+display_name = "Rafi"
+sprite_frames = ExtResource("n_rafi")
+lines = PackedStringArray("Ah! A visitor. Sit, sit. Tea? It's mostly sand, but it's hot.", "Two bedrolls? My cousin visits. Often. She has a lot of cousins.", "If anyone from the terrace asks, I sell water and I go to bed early. Both true. Mostly true.")
+out_from = 21.0
+out_to = 6.0
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(112, 112)
+script = ExtResource("12_read")
+title = "The roof hatch"
+lines = PackedStringArray("A rope ladder up to a hatch in the roof. On the ledge beside it: a lamp with a green-tinted glass, the wick trimmed, a box of matches. From the roof, a green light would be seen a long way across the dunes.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(250, 150)
+script = ExtResource("12_read")
+title = "Bedrolls behind the jars"
+lines = PackedStringArray("Behind the big water jars, rolled tight and tied: four small bedrolls, each about the length of a child. Clean, and recently used.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(160, 220)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

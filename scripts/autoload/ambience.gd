@@ -3,7 +3,7 @@ extends Node
 ## place gets a looping bed, crossfaded as you arrive: the harbor's surf and gulls in
 ## Kalmora, wind and birds in the forest (crickets after dark), a hum and drips in
 ## caves, a hearth's crackle indoors; wind and larks on the plains, lapping water at Lake
-## Serin, wind moaning over the Starfall Range.
+## Serin, wind moaning over the Starfall Range, sand hissing over the Siroth Dunes.
 
 const DIR := "res://assets/audio/ambience/"
 const FADE := 1.5
@@ -50,6 +50,8 @@ func _pick() -> void:
 		_play(&"lake")
 	elif zone.scene_file_path in [WorldMap.STARFALL, WorldMap.FRISALLE]:
 		_play(&"mountain")
+	elif zone.scene_file_path in [WorldMap.SIROTH, WorldMap.DUSKARA]:
+		_play(&"desert")
 	else:
 		_outdoor_forest = true
 		_play(&"forest_night" if TimeOfDay.night_factor() > 0.6 else &"forest_day")

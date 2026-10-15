@@ -41,6 +41,14 @@ const FRISALLE_COUNTING := "res://scenes/world/interiors/frisalle_counting.tscn"
 const FRISALLE_CARVER := "res://scenes/world/interiors/frisalle_carver.tscn"
 const FRISALLE_GUIDE := "res://scenes/world/interiors/frisalle_guide.tscn"
 const FRISALLE_WEIGH := "res://scenes/world/interiors/frisalle_weighmaster.tscn"
+## West of the plains, through the rockfall on the dune road: the Siroth Dunes, and
+## Duskara in its red canyon at the end of the Company's haul road.
+const SIROTH := "res://scenes/world/siroth_dunes.tscn"
+const DUSKARA := "res://scenes/world/duskara.tscn"
+const DUSKARA_INN := "res://scenes/world/interiors/duskara_inn.tscn"
+const DUSKARA_OFFICE := "res://scenes/world/interiors/duskara_office.tscn"
+const DUSKARA_GLASSWORKS := "res://scenes/world/interiors/duskara_glassworks.tscn"
+const DUSKARA_RAFI := "res://scenes/world/interiors/duskara_rafi.tscn"
 const SERIN_FISHER_HUT := "res://scenes/world/interiors/serin_fisher_hut.tscn"
 const STARFALL_GROTTO := "res://scenes/world/starfall_grotto.tscn"
 const AUREWIND_BARROW := "res://scenes/world/aurewind_barrow.tscn"
@@ -89,6 +97,9 @@ const ZONES := {
 	# Over the Starfall pass, through Frisalle's toll gate.
 	FRISALLE: { "name": "Frisalle", "origin": Vector2(-3294, -4733),
 		"monster_drops": [&"iron_wolf_collar", &"owl_quill", &"briar_wren"] },
+	SIROTH: { "name": "Siroth Dunes", "origin": Vector2(-4856, 219),
+		"monster_drops": [&"sunbleached_fang", &"briar_wren", &"owl_quill", &"hollow_acorn", &"thorn_sprig"] },
+	DUSKARA: { "name": "Duskara", "origin": Vector2(-6928, 189), "monster_drops": [] },
 	LAKE_SERIN: { "name": "Lake Serin", "origin": Vector2(-2894, -1625),
 		"monster_drops": [&"hollow_acorn", &"moss_lantern", &"thorn_sprig"] },
 	STARFALL: { "name": "Starfall Range", "origin": Vector2(-3194, -3201),
@@ -131,6 +142,10 @@ const ZONES := {
 	FRISALLE_CARVER: { "name": "Liesl's Workshop", "origin": Vector2(-2954, -4493), "monster_drops": [] },
 	FRISALLE_GUIDE: { "name": "The Guide's Lodge", "origin": Vector2(-2964, -4713), "monster_drops": [] },
 	FRISALLE_WEIGH: { "name": "The Weigh Master's House", "origin": Vector2(-3374, -4713), "monster_drops": [] },
+	DUSKARA_INN: { "name": "The Cistern", "origin": Vector2(-6868, 129), "monster_drops": [] },
+	DUSKARA_OFFICE: { "name": "The Company Office", "origin": Vector2(-7228, -271), "monster_drops": [] },
+	DUSKARA_GLASSWORKS: { "name": "Oren's Glassworks", "origin": Vector2(-6888, 589), "monster_drops": [] },
+	DUSKARA_RAFI: { "name": "Rafi's House", "origin": Vector2(-7488, 129), "monster_drops": [] },
 	SERIN_FISHER_HUT: { "name": "Neri's Hut", "origin": Vector2(-2074, -1735), "monster_drops": [] },
 	STARFALL_CABIN: { "name": "Hald's Cabin", "origin": Vector2(-2574, -3311), "monster_drops": [] },
 	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2598), "monster_drops": [] },
@@ -150,6 +165,7 @@ const TOWNS := {
 	VERDANA: { "spawn": &"town", "position": Vector2(-200, -600) },
 	SEABRIGHT: { "spawn": &"town", "position": Vector2(-300, -510) },
 	FRISALLE: { "spawn": &"town", "position": Vector2(0, 580) },
+	DUSKARA: { "spawn": &"town", "position": Vector2(290, 150) },
 }
 
 ## Walkable connections. `exit` is where you leave `from` (local position of its
@@ -215,6 +231,15 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(384, -400), "gate": &"" },
 	{ "from": FRISALLE, "to": STARFALL, "exit": Vector2(0, 636), "spawn": &"from_frisalle",
 		"entry": Vector2(-100, -826), "gate": &"starfall_pass" },
+	# West along the dune road, past the rockfall, to the dunes and Duskara.
+	{ "from": AUREWIND, "to": SIROTH, "exit": Vector2(-1236, 140), "spawn": &"from_aurewind",
+		"entry": Vector2(1200, 0), "gate": &"" },
+	{ "from": SIROTH, "to": AUREWIND, "exit": Vector2(1276, 0), "spawn": &"from_dunes",
+		"entry": Vector2(-1160, 140), "gate": &"" },
+	{ "from": SIROTH, "to": DUSKARA, "exit": Vector2(-1276, 100), "spawn": &"from_dunes",
+		"entry": Vector2(740, 130), "gate": &"" },
+	{ "from": DUSKARA, "to": SIROTH, "exit": Vector2(796, 130), "spawn": &"from_duskara",
+		"entry": Vector2(-1200, 100), "gate": &"" },
 ]
 
 static var _pickup_cache: Dictionary = {}
@@ -257,6 +282,7 @@ const TOWN_INNS := {
 	VERDANA: VERDANA_INN,
 	SEABRIGHT: SEABRIGHT_HOTEL,
 	FRISALLE: FRISALLE_INN,
+	DUSKARA: DUSKARA_INN,
 }
 
 

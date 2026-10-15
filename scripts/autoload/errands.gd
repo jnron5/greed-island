@@ -291,6 +291,65 @@ const ERRANDS := {
 		"give": ["Quiet out there at last. Take the flower. Carry it somewhere warmer than here."],
 		"after": "Snow's coming. Snow's always coming.",
 	},
+	# ---- The Siroth Dunes and Duskara ----
+	&"zahra_lions": {
+		"npc": &"zahra", "zone": "res://scenes/world/siroth_dunes.tscn", "card": &"caravan_bell", "need": "kills",
+		"monster": &"sand_lion", "count": 3, "hunt": "res://scenes/world/siroth_dunes.tscn",
+		"ask": [
+			"Three of my drovers came in last week with claw marks across their backs. The sand lions have learned the carts mean food, and they've stopped being afraid of fire.",
+			"They charge in a straight line and swipe when they're close. Dash aside and hit them while they turn. Don't stand and trade blows; you'll lose.",
+			"Drive off three and I'll give you my lead camel's bell. Every caravan on Siroth knows its ring.",
+		],
+		"waiting": "%d of 3 sand lions. They lie up under the mesas and hunt along the haul road.",
+		"give": [
+			"The road's yours again. Here, the bell. Ring it twice, then once, and anyone who knows will know a friend is coming.",
+			"If you ring it in Duskara, ring it near Rafi. Not near the terrace.",
+		],
+		"after": "The Sunwell's sweet today. Drink before you go on.",
+	},
+	&"oren_bread": {
+		"npc": &"oren", "zone": "res://scenes/world/duskara.tscn", "card": &"desert_glass_rose", "need": "item",
+		"item": &"bread", "count": 2,
+		"ask": [
+			"The Company store only takes scrip, and the Company pays me in scrip, and the scrip buys sand-flour bread that breaks your teeth.",
+			"Bring me two loaves of real bread from somewhere green. Verdana, Kalmora, I don't care. I'll give you the rose.",
+			"It's the first thing I ever blew from Duskara sand. Glass remembers the hand that made it. I'd like it to go somewhere I'll never see.",
+		],
+		"waiting": "Two loaves of real bread. Rafi sells them, or anyone from the green country.",
+		"give": [
+			"...Oh, that's wheat. Real wheat. Nib! Come here, there's bread!",
+			"The rose, as promised. Hold it up to a lamp some night; the light comes out green at the heart.",
+		],
+		"after": "Mind the furnace. Nine years and counting.",
+	},
+	&"nib_debt": {
+		"npc": &"nib", "zone": "res://scenes/world/duskara.tscn", "card": &"brass_tally_tag", "need": "gold",
+		"gold": 30,
+		"ask": [
+			"Everybody who comes up from the shaft owes the Company for their bed and their board. I owe thirty. I've owed thirty for two years. Runners get paid in scrip.",
+			"If somebody paid it, the foreman would take my tag off. She'd have to. Count true, she says. Thirty gold, and I'm nobody's number.",
+		],
+		"waiting": "Thirty gold for the foreman's book. Then I'm not a number any more.",
+		"give": [
+			"She took it off. She looked at me a long time, and she took it off, and she wrote 'discharged' in the book. She said it like it hurt her.",
+			"Here. You have the tag. I don't ever want to see it again.",
+		],
+		"after": "I'm still a runner. But now I run because I want to. That's different. That's very different.",
+	},
+	&"rafi_tonic": {
+		"npc": &"rafi", "zone": "res://scenes/world/duskara.tscn", "card": &"water_sellers_token", "need": "item",
+		"item": &"healers_tonic", "count": 1,
+		"ask": [
+			"A friend of mine is sick. A young friend. The Company doctor would want to know her number, and she doesn't have one any more, if you take my meaning.",
+			"A Healer's Tonic. Just one. I'll give you one of my water tokens, and believe me, friend, in this town that's worth more than gold.",
+		],
+		"waiting": "One Healer's Tonic. Quietly. Bring it to me, not to the Cistern.",
+		"give": [
+			"Thank you. She'll be on her feet by the time the bell rings. And then she'll be walking north.",
+			"The token. Turn it over: see the little sun? If you ever see a green lamp on a roof at night, show it. Somebody will open a door.",
+		],
+		"after": "Water! Sweet water! A copper a cup, and no names asked!",
+	},
 }
 
 
@@ -483,5 +542,6 @@ func npc_name(npc_id: StringName) -> String:
 		&"otto": "Otto", &"nonna": "Nonna Vess", &"brannoc": "Brannoc", &"ilse": "Ilse",
 		&"harl": "Harl", &"wren": "Wren", &"juniper": "Juniper", &"tobin": "Tobin",
 		&"tilly": "Tilly", &"sully": "Sully", &"sparkle": "Sparkle", &"sassy": "Sassy", &"ottilie": "Ottilie", &"mirren": "Mirren", &"marta": "Marta", &"neri": "Neri", &"hald": "Hald", &"oda": "Oda",
+		&"zahra": "Zahra", &"oren": "Oren", &"nib": "Nib", &"rafi": "Rafi", &"hesper": "Hesper", &"xena": "Xena",
 	}
 	return NAMES.get(npc_id, String(npc_id).capitalize())

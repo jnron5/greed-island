@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/desert_glass_rose.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"desert_glass_rose"
+display_name = "Desert Glass Rose"
+description = "A rose blown from clear amber glass."
+lore = "Oren blew it from the first sand of Duskara he ever melted, the year before the Company's lamp order came. He has never made another one. He says he couldn't now."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 14
+icon = ExtResource("2_art")
+copies_in_world = 3

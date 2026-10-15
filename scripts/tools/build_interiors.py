@@ -1060,6 +1060,134 @@ INTERIORS = {
             ]),
         ],
     },
+    # ---- Duskara (outdoors: build_region.py) ----
+    "duskara_inn": {
+        "town": "res://scenes/world/duskara.tscn",
+        "name": "The Cistern",
+        "image": "assets/sprites/tiles/duskara/interiors/inn_room.png",
+        "size": (320, 256),
+        "exit": (158, 250), "back_to": "from_houseinn", "spawn": (158, 222),
+        "blocks": [
+            (0, 0, 320, 92), (0, 56, 88, 128), (126, 94, 194, 176),                      # back wall, the stair, the well and its table
+            (220, 96, 290, 182), (262, 0, 320, 190),                                     # the counter, the shelves behind it
+            (40, 140, 108, 172), (8, 138, 40, 190),                                      # cushions round the left table, a palm
+            (72, 202, 98, 244), (222, 204, 244, 244), (246, 206, 266, 226),             # palms by the door (their pots), the little table
+            (116, 198, 134, 236), (184, 198, 202, 236),                                  # the door's lantern posts
+            (0, 186, 56, 256), (268, 186, 320, 256),                                     # the corners
+            (0, 246, 134, 256), (182, 246, 320, 256),                                    # the front wall round the door
+        ],
+        "npcs": [("hesper", "Hesper", "hesper", (236, 192), [
+            "Come out of the sun. Sit. The Cistern stays cool all day; the old well under the floor breathes for us.",
+            "Water's free in my house. It always was in Duskara, before the meters. I'm old-fashioned.",
+            "Racers, Company clerks, caravan folk, the odd lost poet. Everyone ends up at the Cistern. There's nowhere else.",
+            "The foreman eats here on the first of the month. Alone, at that table, with her ledger. Nobody sits near her. I always bring her an extra cup.",
+            "Listen at the well some nights and you'll hear water moving far below. My grandmother said the whole town floats on a lake underground. The Company says that's their lake now.",
+            "Rafi brings me sweet water from the Sunwell. I don't ask how he gets it past the Company tank, and he doesn't ask what I do with the extra beds.",
+            "Sleep in the heat of the day, walk in the cool of the night. That's how Duskara has always lived. The shaft doesn't care what hour it is.",
+            "My rooms are up the stair, under the dome. Cool as a cellar. Lie still and you can hear the town breathing.",
+        ], [])],
+        "inn": "hesper",
+        "keeper": {"wake_lines": [
+                       "Shh, easy. Zahra's people found you face down in the dunes. You're in the Cistern. Drink first, then talk.",
+                       "You're awake. Good. The sand nearly had you. Lie still a while; the dome keeps the heat off.",
+                       "Welcome back to the living. Nib ran all the way to fetch me. Thank him, he won't ask you to.",
+                   ],
+                   "room_prompt": "A cool bed under the dome. Half a day, or sleep through the heat to tomorrow?",
+                   "room_broke": "That's %d gold, friend. Sit by the well a while instead; that's free, and so is the water."},
+        "readables": [
+            ("The old cistern", (160, 182), [
+                "A round stone well in the middle of the floor, its rim worn smooth by four hundred years of ropes. The water far down is black and cold.",
+                "Scratched inside the rim, just below where a hand would rest: little marks in rows, like a tally. And beside them, a sun.",
+            ]),
+            ("The guest ledger", (210, 146), [
+                "Names, dates, rooms. Racers. A caravan. Then, every few nights, the same entry in Hesper's neat hand: 'Two guests. No names. Paid.'",
+            ]),
+        ],
+    },
+    "duskara_office": {
+        "town": "res://scenes/world/duskara.tscn",
+        "name": "The Company Office",
+        "image": "assets/sprites/tiles/duskara/interiors/office_room.png",
+        "size": (320, 256),
+        "exit": (158, 250), "back_to": "from_houseoffice", "spawn": (158, 222),
+        "blocks": [
+            (0, 0, 320, 100), (0, 0, 56, 192), (40, 120, 82, 176), (62, 84, 110, 118),   # back wall, the tool rack, the bench, crates
+            (180, 110, 232, 192), (230, 116, 256, 162), (226, 66, 264, 116),             # the desk, its chair, the safe
+            (266, 56, 320, 182),                                                          # the ledger shelves
+            (24, 180, 116, 250), (200, 180, 320, 250),                                   # crates by the door
+            (132, 192, 141, 256), (176, 192, 185, 256),                                  # the door posts
+            (0, 246, 134, 256), (182, 246, 320, 256),                                    # the front wall round the door
+        ],
+        "npcs": [],
+        "readables": [
+            ("The tunnel chart", (100, 108), [
+                "A chart of the workings under Duskara: the North Shaft, then tunnels branching east under the dunes, further than seems possible, each one marked with a date and a number of heads.",
+                "The oldest tunnel is labelled in a different, older hand: 'THE KING'S SEAM.' Someone has written beside it, in the foreman's: 'Still producing.'",
+            ]),
+            ("The tag board", (184, 108), [
+                "Rows of brass tags on hooks, each stamped with a number and a red sun, like the one on the frost wolves' collars. Hundreds of them.",
+                "Some hooks are empty, with a chalk cross under them. Some crosses have been rubbed out and redrawn as a circle. Nobody has written what a circle means.",
+            ]),
+            ("The foreman's desk", (166, 184), [
+                "A day ledger, open: 'Down 212. Up 209. Three in the infirmary. Count true.' Signed with an X in black ink, firm.",
+                "Under the ledger, a letter on heavy paper: 'Production must rise before the race is run. Your husband's indulgence of the old custom cannot be allowed to cost us the season. D.' The seal is a dachshund's head over a crossed pick.",
+            ]),
+        ],
+    },
+    "duskara_glassworks": {
+        "town": "res://scenes/world/duskara.tscn",
+        "name": "Oren's Glassworks",
+        "image": "assets/sprites/tiles/duskara/interiors/glass_room.png",
+        "size": (320, 256),
+        "exit": (158, 250), "back_to": "from_houseglass", "spawn": (158, 222),
+        "blocks": [
+            (0, 0, 320, 96), (0, 40, 80, 182), (70, 115, 120, 175),                     # back wall, the workbench, the sand bin
+            (222, 20, 300, 128), (226, 140, 282, 178), (290, 60, 320, 190),             # the furnace, the cooling rack, shelves
+            (282, 170, 320, 200), (40, 195, 104, 250), (104, 214, 124, 245),            # barrels, the bottle tables, buckets
+            (225, 195, 270, 245), (208, 215, 228, 240),
+            (134, 192, 141, 256), (177, 192, 184, 256),                                  # the door posts
+            (0, 180, 40, 256), (282, 180, 320, 256), (0, 246, 134, 256), (182, 246, 320, 256),
+        ],
+        "npcs": [("oren", "Oren", "oren", (180, 150), [
+            "Mind the furnace. It's been lit for nine years. If it goes out, so do I.",
+            "Duskara sand makes the clearest glass on the island. The Company wants it for lamps. Lamps for the shaft. I make them. I don't like making them.",
+            "Every bottle on that shelf has a little air trapped in it from the day I blew it. My breath, nine years of it. Sentimental, for a dog who works with fire.",
+            "The old temple on the mesa has sun-glass in its sand, where lightning struck it. Green as a lizard's eye. I'd go up and gather it, if I could leave the furnace.",
+            "Nib comes in to warm his hands in the cold nights. Don't let the heat fool you; the desert freezes after dark. He sits by the furnace and says nothing at all.",
+        ], [])],
+        "readables": [
+            ("A cooling rack of glass", (254, 188), [
+                "Lamps, dozens of them, with heavy bases and wire cages: miner's lamps. Each base is stamped D.M.C. One, at the end, has a tiny sun scratched inside its glass where nobody would see it.",
+            ]),
+        ],
+    },
+    "duskara_rafi": {
+        "town": "res://scenes/world/duskara.tscn",
+        "name": "Rafi's House",
+        "image": "assets/sprites/tiles/duskara/interiors/home_room.png",
+        "size": (320, 256),
+        "exit": (160, 250), "back_to": "from_houserafi", "spawn": (160, 220),
+        "blocks": [
+            (0, 0, 320, 105), (14, 118, 92, 175), (52, 96, 96, 118), (60, 175, 120, 230),  # back wall, the bed, baskets, the loom
+            (8, 168, 40, 196), (38, 196, 60, 222),                                         # baskets
+            (230, 88, 290, 145), (270, 130, 310, 190), (284, 148, 312, 192),              # water jars, the urn
+            (182, 138, 240, 162), (186, 218, 255, 250),                                    # the tea table, sacks by the door
+            (0, 190, 30, 256), (290, 190, 320, 256), (0, 246, 138, 256), (182, 246, 320, 256),
+        ],
+        "npcs": [("rafi", "Rafi", "rafi", (150, 170), [
+            "Ah! A visitor. Sit, sit. Tea? It's mostly sand, but it's hot.",
+            "Two bedrolls? My cousin visits. Often. She has a lot of cousins.",
+            "If anyone from the terrace asks, I sell water and I go to bed early. Both true. Mostly true.",
+        ], [], {"out": (21.0, 6.0)})],
+        "readables": [
+            ("The roof hatch", (112, 112), [
+                "A rope ladder up to a hatch in the roof. On the ledge beside it: a lamp with a green-tinted glass, the wick trimmed, a box of matches. From the roof, a green light would be seen a long way across the dunes.",
+            ]),
+            ("Bedrolls behind the jars", (250, 150), [
+                "Behind the big water jars, rolled tight and tied: four small bedrolls, each about the length of a child. Clean, and recently used.",
+            ]),
+        ],
+    },
 }
 
 

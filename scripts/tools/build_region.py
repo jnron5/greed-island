@@ -203,7 +203,7 @@ class Zone:
                        np.ones((TILE, TILE), np.uint8)).astype(bool)
         # Break the grass tile's repetition: flip each open flat cell at random (only
         # cells whose neighbours are flat too, so cliff edges stay as drawn).
-        if c.get("palette") and not c.get("snow"):
+        if (c.get("palette") or c.get("desert")) and not c.get("snow"):
             rng = np.random.default_rng(len(self.key) * 13)
             for r in range(1, self.rows - 1):
                 for cc in range(1, self.cols - 1):
@@ -245,6 +245,45 @@ class Zone:
             snow = np.where(glint[..., None], np.array([255, 255, 255], np.float32), snow)
             inner = np.asarray(Image.fromarray(flat.astype(np.uint8) * 255).filter(ImageFilter.MinFilter(3))) > 0
             a[..., :3] = np.where(inner[..., None], snow, a[..., :3])
+        # Desert: the low ground is repainted as dunes. Each dune has a long lit windward
+        # slope and a short steep lee in shadow, the crests wandering across the sand;
+        # fine wind ripples run over them (fainter in the lee), with grain and the odd
+        # pebble. Mesa tops keep the cliff set's rock, flipped about so it doesn't tile.
+        if c.get("desert"):
+            yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+            low = min(v for row in self.stand for v in row if v >= 0)
+            lowpx = np.kron(np.array([[1 if v == low else 0 for v in row] for row in self.stand], np.uint8),
+                            np.ones((TILE, TILE), np.uint8)).astype(bool)[:H, :W]
+            inner = np.asarray(Image.fromarray(lowpx.astype(np.uint8) * 255).filter(ImageFilter.MinFilter(3))) > 0
+            # Crests run roughly north-south across the wind (from the west), bent by
+            # broad noise so each one curves and forks a little.
+            bend = (self.noise(300) - 0.5) * 2.6 + (self.noise(120) - 0.5) * 0.9
+            phase = xx / 180.0 + yy / 1400.0 + bend
+            t = phase - np.floor(phase)
+            lee = t > 0.8
+            lit = np.where(lee, 0.80 + (1.0 - t) * 0.5, 0.93 + t / 0.8 * 0.13)
+            crest = np.abs(t - 0.8) < 0.012
+            if c["desert"] == "town":
+                # A town's ground: packed sand swept flat, no dunes, faint ripples only.
+                lee = np.zeros((H, W), bool)
+                lit = 0.96 + 0.08 * self.noise(80)
+                crest = lee
+            wig = (self.noise(60) - 0.5) * 9.0
+            ripple = (np.sin((xx * 0.95 - yy * 0.32) / 3.6 + wig) * 0.5 + 0.5) ** 3
+            ripple *= np.where(lee, 0.35, 1.0) * np.clip(self.noise(36) * 1.6 - 0.2, 0, 1)
+            grain = self.nprng.random((H, W)).astype(np.float32)
+            sand = np.array(c.get("sand", (230, 192, 128)), np.float32)
+            dune = sand * (lit * (0.97 + 0.04 * grain))[..., None]
+            dune -= ripple[..., None] * np.array([18, 16, 10], np.float32)
+            dune = np.where(crest[..., None], np.minimum(dune * 1.08 + 6, 255), dune)
+            pebble = (grain > 0.9991) & ~lee
+            dune = np.where(pebble[..., None], np.array([150, 112, 76], np.float32), dune)
+            a[..., :3] = np.where(inner[..., None], dune, a[..., :3])
+            # Mesa tops: the rock mottled in broad patches so it isn't one flat orange.
+            top = ~lowpx & np.kron(np.array([[1 if v >= 0 else 0 for v in row] for row in self.stand], np.uint8),
+                                   np.ones((TILE, TILE), np.uint8)).astype(bool)[:H, :W]
+            mott = 0.9 + 0.14 * self.noise(70) + 0.06 * self.noise(16)
+            a[..., :3] = np.where(top[..., None], a[..., :3] * mott[..., None], a[..., :3])
         # Broad soft light, so the ground never reads as tiles.
         dapple = (self.noise(90) * 0.6 + self.noise(30) * 0.4 - 0.5)
         a[..., :3] *= (1.0 + dapple * c.get("dapple", 0.14))[..., None]
@@ -376,8 +415,18 @@ class Zone:
                 water[dy0 - self.y0:dy1 - self.y0, dx0 - self.x0:dx1 - self.x0] = False
             near = np.asarray(Image.fromarray(water.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(11))) > 0
             shore = near & ~water
-            mud = tile(CornerSet(DIRT).tiles[15]) * np.array([0.7, 0.68, 0.64, 1.0], np.float32)
-            a = np.where(shore[..., None], mud, a)
+            if c.get("desert"):
+                # An oasis: damp dark sand at the water's edge, then a ragged ring of
+                # green grass where the water reaches the roots.
+                from_water = ndimage.distance_transform_edt(~water)
+                edge = 34 + 16 * (self.noise(30) - 0.5) * 2
+                green = (from_water < edge) & ~water
+                grass = np.array([104, 142, 62], np.float32) * (0.85 + 0.25 * self.noise(9)[..., None]) * (0.95 + 0.1 * broad[..., None])
+                a[..., :3] = np.where(green[..., None], grass, a[..., :3])
+                a[..., :3] = np.where(shore[..., None], a[..., :3] * 0.8, a[..., :3])
+            else:
+                mud = tile(CornerSet(DIRT).tiles[15]) * np.array([0.7, 0.68, 0.64, 1.0], np.float32)
+                a = np.where(shore[..., None], mud, a)
             a[..., :3] = np.where(water[..., None], np.array(c.get("deep", (28, 70, 90)), np.float32), a[..., :3])
             self.water = water
             m = np.zeros((H, W, 4), np.uint8)
@@ -563,6 +612,12 @@ class Zone:
                 arr = np.asarray(flight).astype(np.float32)
                 arr[..., :3] = arr[..., :3] * 0.8 + np.array([48, 52, 60])
                 flight = Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8), "RGBA")
+            if self.cfg.get("desert"):
+                # Cut sandstone: the steps warmed to the cliffs' orange.
+                arr = np.asarray(flight).astype(np.float32)
+                lum = arr[..., :3].mean(-1, keepdims=True) / 160.0
+                arr[..., :3] = np.array([214, 150, 96], np.float32) * lum
+                flight = Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8), "RGBA")
             out = Image.new("RGBA", (2 * TILE, target))
             out.paste(flight, ((2 * TILE - w) // 2, 0))
             paths[rows] = f"{self.art}stairs_{rows}.png"
@@ -597,7 +652,8 @@ class Zone:
             return all((x - a) ** 2 + (y - b) ** 2 >= gap ** 2 for _, a, b in trees)
 
         x0, y0, x1, y1 = self.x0, self.y0, self.x1, self.y1
-        for inset, step, jitter in ((14, 34, 6), (46, 40, 10)):
+        # (A desert's edges are its mesa cliffs and open sand, not a wall of trees.)
+        for inset, step, jitter in ((14, 34, 6), (46, 40, 10)) if c.get("treeline", True) else ():
             for x in range(x0 + 10, x1 - 5, step):
                 for y in (y0 + inset + 50, y1 - inset + 6):
                     px, py = x + rng.randint(-jitter, jitter), y + rng.randint(-jitter, jitter)
@@ -1112,7 +1168,7 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
         solid_under = set(c.get("solid_under", ["rock", "log", "stump"]))
         utint = f"modulate = Color{c['under_tint']}\n" if c.get("under_tint") else ""
         for k, (name, x, y) in enumerate(under):
-            path = FOREST + "props/" + name + ".png"
+            path = c.get("under_dir", FOREST + "props/") + name + ".png"
             h = Image.open(path).height
             flip = "flip_h = true\n" if (x * 7 + y) % 2 else ""
             if name in solid_under:

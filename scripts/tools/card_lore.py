@@ -53,6 +53,12 @@ LORE = {
     "frisalle_hearthstone": "Every Frisalle hearth keeps a stone from the river warming in the embers, to take to bed. Ottilie's has been in the Hearth & Horn's fire since before the inn had a name.",
     "factors_seal": "Every load that crosses Frisalle's scales is sealed with it. Mirren found two seals in the strongbox: one for the books, and one for the carts nobody was meant to count.",
     "snowglass_lantern": "Hung in the bell tower on the night the stars fall, so the guides on the pass can find their way down. Nobody has lit it since the slide. There have been no guides to light it for.",
+    "sunstone_shard": "Found in the sand of the Sun Temple, where lightning fuses the dunes into glass. The temple's builders set one in every column. Every column but one has been chiselled empty.",
+    "caravan_bell": "Zahra's lead camel wore it across Siroth for twenty years. It rings the old caravan signal: water ahead, road clear. Some nights it rings a different signal.",
+    "sunbleached_fang": "Shed by the desert's hunters. Sand lions and caracals lose their fangs on the haul road's carts; the Company men nail them over the waystation door for luck.",
+    "desert_glass_rose": "Oren blew it from the first sand of Duskara he ever melted, the year before the Company's lamp order came. He has never made another one. He says he couldn't now.",
+    "brass_tally_tag": "Every worker in the North Shaft wears one, and it's counted down at dawn and up at dusk. Nib's debt is paid, so his tag comes off. It is the first one he has seen come off.",
+    "water_sellers_token": "Rafi's tokens buy a cup of Sunwell water anywhere in Duskara. Turn one over and there's a tiny sun on the back. Show it on the right roof at night and a green lamp answers.",
 }
 
 

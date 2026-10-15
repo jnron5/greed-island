@@ -275,6 +275,46 @@ const TOPICS := {
 			"Now and then the lake gives up a coin instead. Barge folk dropped a lot of things, crossing at night.",
 		]],
 	],
+	# ---------------- The Siroth Dunes and Duskara ----------------
+	&"zahra": [
+		["How do I cross the dunes?", [
+			"Follow the haul road. The Company keeps it marked with stone cairns, a mile apart. Off the road the dunes move, and so do the things that live in them.",
+			"Water at the Sunwell, here. Shade under the mesas. Duskara's at the end of the canyon in the west, and the Cistern will give you a bed.",
+			"After dark the sand lions and the caracals turn savage, like the beasts everywhere. Cross by day, or cross fast.",
+		]],
+		["What's up on the mesas?", [
+			"The Sun Temple, on the north mesa: stairs cut up the cliff below it. Older than the King's Road. The stones carry the same crown as the circle on the downs.",
+			"There's a lookout butte west of the oasis, too. Somebody keeps a cache up there. I've never asked whose.",
+			"And in the south, the Bone Hollow. A serpent's bones, bigger than a ship. My grandmother said it isn't the only one, and the other one isn't dead.",
+		]],
+	],
+	&"hesper": [
+		["How do rooms work?", [
+			"A bed under the dome, cool as a cellar, for half a day or the whole of one. You'll wake mended, and with water by the bed. In my house the water's free.",
+			"Duskara sleeps through the noon heat and lives at night. Rest when the sun's highest; you'll walk the dunes the better for it.",
+		]],
+		["What is the Company?", [
+			"The Duskara Mining Company. It owns the shaft, the tank, the store, the water rights, and most of the people who drink the water.",
+			"They're paid in scrip, the scrip buys at the Company store, the store sells on credit, and the credit comes out of the next season. Nobody ever quite catches up.",
+			"The foreman runs it, up on the terrace. Fair, everyone says. She counts every head in and every head out. It's the counting that frightens me.",
+		]],
+	],
+	&"xena": [
+		["What's down the shaft?", [
+			"Work. Seams of card-stone under the dunes, older than the island's kings. Every card you carry started as a vein of it, somewhere.",
+			"It doesn't concern you, racer. The lower gate is closed to visitors. You'll find nothing up here to steal.",
+		]],
+		["Who are the workers?", [
+			"Debtors. Orphans. Families who sold their land to the Company in a bad year. People with nowhere else to be fed.",
+			"I keep them fed. I keep them counted. I know every name. That's more than anyone in Vetrassa can say.",
+		]],
+	],
+	&"oren": [
+		["What do you make?", [
+			"Glass. Bottles, bowls, beads for the bazaar. And lamps for the shaft, crate after crate, because the Company pays and nobody else does.",
+			"Duskara sand is fine and white under the red. Melt it right and it comes out clear as a cold morning. The best on the island.",
+		]],
+	],
 }
 
 

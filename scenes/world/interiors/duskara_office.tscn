@@ -1,0 +1,205 @@
+[gd_scene load_steps=29 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/interiors/office_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R320x100"]
+size = Vector2(320, 100)
+
+[sub_resource type="RectangleShape2D" id="R56x192"]
+size = Vector2(56, 192)
+
+[sub_resource type="RectangleShape2D" id="R42x56"]
+size = Vector2(42, 56)
+
+[sub_resource type="RectangleShape2D" id="R48x34"]
+size = Vector2(48, 34)
+
+[sub_resource type="RectangleShape2D" id="R52x82"]
+size = Vector2(52, 82)
+
+[sub_resource type="RectangleShape2D" id="R26x46"]
+size = Vector2(26, 46)
+
+[sub_resource type="RectangleShape2D" id="R38x50"]
+size = Vector2(38, 50)
+
+[sub_resource type="RectangleShape2D" id="R54x126"]
+size = Vector2(54, 126)
+
+[sub_resource type="RectangleShape2D" id="R92x70"]
+size = Vector2(92, 70)
+
+[sub_resource type="RectangleShape2D" id="R120x70"]
+size = Vector2(120, 70)
+
+[sub_resource type="RectangleShape2D" id="R9x64"]
+size = Vector2(9, 64)
+
+[sub_resource type="RectangleShape2D" id="R134x10"]
+size = Vector2(134, 10)
+
+[sub_resource type="RectangleShape2D" id="R138x10"]
+size = Vector2(138, 10)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="duskara_office" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Company Office"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 50.0)
+shape = SubResource("R320x100")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(28.0, 96.0)
+shape = SubResource("R56x192")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(61.0, 148.0)
+shape = SubResource("R42x56")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(86.0, 101.0)
+shape = SubResource("R48x34")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(206.0, 151.0)
+shape = SubResource("R52x82")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(243.0, 139.0)
+shape = SubResource("R26x46")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(245.0, 91.0)
+shape = SubResource("R38x50")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(293.0, 119.0)
+shape = SubResource("R54x126")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(70.0, 215.0)
+shape = SubResource("R92x70")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(260.0, 215.0)
+shape = SubResource("R120x70")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(136.5, 224.0)
+shape = SubResource("R9x64")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(180.5, 224.0)
+shape = SubResource("R9x64")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(67.0, 251.0)
+shape = SubResource("R134x10")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(251.0, 251.0)
+shape = SubResource("R138x10")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(158, 222)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(158, 250)
+target_scene = "res://scenes/world/duskara.tscn"
+target_spawn = &"from_houseoffice"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(100, 108)
+script = ExtResource("12_read")
+title = "The tunnel chart"
+lines = PackedStringArray("A chart of the workings under Duskara: the North Shaft, then tunnels branching east under the dunes, further than seems possible, each one marked with a date and a number of heads.", "The oldest tunnel is labelled in a different, older hand: 'THE KING'S SEAM.' Someone has written beside it, in the foreman's: 'Still producing.'")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(184, 108)
+script = ExtResource("12_read")
+title = "The tag board"
+lines = PackedStringArray("Rows of brass tags on hooks, each stamped with a number and a red sun, like the one on the frost wolves' collars. Hundreds of them.", "Some hooks are empty, with a chalk cross under them. Some crosses have been rubbed out and redrawn as a circle. Nobody has written what a circle means.")
+
+[node name="Read3" type="Node2D" parent="."]
+position = Vector2(166, 184)
+script = ExtResource("12_read")
+title = "The foreman's desk"
+lines = PackedStringArray("A day ledger, open: 'Down 212. Up 209. Three in the infirmary. Count true.' Signed with an X in black ink, firm.", "Under the ledger, a letter on heavy paper: 'Production must rise before the race is run. Your husband's indulgence of the old custom cannot be allowed to cost us the season. D.' The seal is a dachshund's head over a crossed pick.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(158, 222)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

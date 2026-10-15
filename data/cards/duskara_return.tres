@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/duskara_return.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"duskara_return"
+display_name = "Duskara Return"
+description = "Use it anywhere to return to Duskara's bazaar at once. Used up."
+lore = "Sold at the bazaar's card stall. The caravan folk keep one sewn into a cloak hem; the dunes move the road every week, and Duskara is the only water at the end of it."
+category = 1
+source = 3
+sell_value = 40
+icon = ExtResource("2_art")
+shop_price = 150

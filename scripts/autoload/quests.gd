@@ -89,6 +89,7 @@ const WELCOME_GIFTS := {
 	&"tally": &"verdana_return",
 	&"fennick": &"seabright_return",
 	&"sven": &"frisalle_return",
+	&"hesper": &"duskara_return",
 }
 const WELCOME_LINES := {
 	&"jobelle": [
@@ -110,6 +111,10 @@ const WELCOME_LINES := {
 	&"sven": [
 		"Here. Every guide carries one of these up the mountain: a Frisalle Return. Anselm had one in his pocket the night of the slide. He never got to use it.",
 		"Use it from your binder and you're back in the square, wherever the mountain's put you. Don't be proud about it. Use it.",
+	],
+	&"hesper": [
+		"Before you go back out into that oven: a Duskara Return. The dunes swallow the road every week. Use it from your binder and you'll wake up by my well.",
+		"No charge. I give one to everyone who sits at my well the first time. The Company would charge you for the water in your eyes.",
 	],
 }
 const CARGO_CLUES: Array[StringName] = [&"crate_sand", &"crate_glove", &"crate_ledger"]

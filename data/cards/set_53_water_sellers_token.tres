@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/water_sellers_token.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"water_sellers_token"
+display_name = "Water Seller's Token"
+description = "A copper token stamped with a water drop."
+lore = "Rafi's tokens buy a cup of Sunwell water anywhere in Duskara. Turn one over and there's a tiny sun on the back. Show it on the right roof at night and a green lamp answers."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 14
+icon = ExtResource("2_art")
+copies_in_world = 3

@@ -119,6 +119,20 @@ def main():
     gust = np.clip(slow(8.0) * 0.5 + slow(3.4, 2.0) * 0.3 + 0.5, 0, 1)
     moan = np.sin(2 * math.pi * np.cumsum(420 + 90 * slow(8.0)) / RATE) * gust ** 2 * 0.06
     save("mountain", looped_noise(0.06) * (0.3 + 0.7 * gust) + moan, 0.3)
+    # Desert (the Siroth Dunes, Duskara): dry sand hissing in long slow gusts over a low
+    # warm drone, and now and then a caravan bell far off.
+    sand = looped_noise(0.22) * (0.25 + 0.75 * np.clip(slow(10.0) * 0.6 + slow(4.3, 0.7) * 0.4 + 0.3, 0, 1) ** 2)
+    drone = looped_noise(0.012) * 0.5
+    bells = np.zeros(N)
+    for t0 in (5.3, 17.9):
+        for k in range(3):
+            at = t0 + k * 0.42
+            i0 = int(at * RATE)
+            ln = int(1.6 * RATE)
+            env = np.exp(-np.arange(min(ln, N - i0)) / (0.35 * RATE))
+            tt = np.arange(len(env)) / RATE
+            bells[i0:i0 + len(env)] += (np.sin(2 * math.pi * 1180 * tt) + 0.4 * np.sin(2 * math.pi * 2950 * tt)) * env * 0.035
+    save("desert", sand * 0.6 + drone + bells, 0.3)
     print("ambience:", sorted(os.listdir(OUT)))
 
 

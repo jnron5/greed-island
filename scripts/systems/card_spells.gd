@@ -79,6 +79,7 @@ const RETURN_CARDS := {
 	&"verdana_return": WorldMap.VERDANA,
 	&"seabright_return": WorldMap.SEABRIGHT,
 	&"frisalle_return": WorldMap.FRISALLE,
+	&"duskara_return": WorldMap.DUSKARA,
 }
 
 

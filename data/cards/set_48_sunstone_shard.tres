@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/sunstone_shard.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"sunstone_shard"
+display_name = "Sunstone Shard"
+description = "A sliver of sun-coloured crystal, warm to the touch."
+lore = "Found in the sand of the Sun Temple, where lightning fuses the dunes into glass. The temple's builders set one in every column. Every column but one has been chiselled empty."
+rarity = 1
+source = 0
+is_final_set_member = true
+sell_value = 60
+icon = ExtResource("2_art")
+copies_in_world = 3
