@@ -9,3 +9,4 @@ display_name = "Frisalle Pass Toll Gate"
 zone = &"starfall"
 cost_card_id = &"iron_wolf_collar"
 cost_amount = 1
+respawns_boss = &"sand_serpent"

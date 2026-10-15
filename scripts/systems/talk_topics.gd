@@ -287,6 +287,11 @@ const TOPICS := {
 			"There's a lookout butte west of the oasis, too. Somebody keeps a cache up there. I've never asked whose.",
 			"And in the south, the Bone Hollow. A serpent's bones, bigger than a ship. My grandmother said it isn't the only one, and the other one isn't dead.",
 		]],
+		["How do I fight the thing under the Hollow?", [
+			"Hollowmaw. You don't fight it, you survive it until it shows itself. Under the sand nothing touches it; watch for the mound and the sand it throws, and keep moving.",
+			"When the sand caves in under your feet, in a ring, get out of the ring. It comes up there, and it comes up hard.",
+			"Up out of the sand it bites what's close and spits sand at what isn't: step through the gaps in the spray. And when it slumps, jaw in the sand, winded: that's when every blow counts double. Then it goes under again.",
+		]],
 	],
 	&"hesper": [
 		["How do rooms work?", [

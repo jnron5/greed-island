@@ -12,6 +12,8 @@ var explosive := false
 var burst_damage := 3
 ## An ice shard (the Rime Stag's stamp) rather than a bullet: drawn pale blue.
 var ice := false
+## A gob of spat sand (the sand serpent's): drawn as a tan clot with a dusty tail.
+var sand := false
 
 var _done := false
 
@@ -54,6 +56,11 @@ func _physics_process(delta: float) -> void:
 
 
 func _draw() -> void:
+	if sand:
+		draw_circle(Vector2(-6, 0), 2.5, Color(0.85, 0.7, 0.45, 0.4))
+		draw_circle(Vector2.ZERO, 3.5, Color(0.86, 0.68, 0.4))
+		draw_circle(Vector2(1, -1), 1.5, Color(1.0, 0.9, 0.7))
+		return
 	if ice:
 		draw_colored_polygon(PackedVector2Array([Vector2(6, 0), Vector2(-2, -3), Vector2(-6, 0), Vector2(-2, 3)]), Color(0.75, 0.92, 1.0))
 		draw_line(Vector2(-5, 0), Vector2(5, 0), Color(1, 1, 1, 0.9), 1.0)

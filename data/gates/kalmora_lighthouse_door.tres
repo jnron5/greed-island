@@ -9,3 +9,4 @@ display_name = "Lighthouse Door"
 zone = &"kalmora"
 cost_card_id = &"lighthouse_wick"
 cost_amount = 1
+respawns_boss = &"sand_serpent"

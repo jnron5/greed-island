@@ -1125,7 +1125,8 @@ FRISALLE = {
 # Duskara; Zahra keeps a caravan camp at the Sunwell oasis in the middle; up on the
 # north mesa, the Sun Temple's columns (the fourth carving of the crown and the
 # small figures); in the south the Bone Hollow, where a sand serpent's skeleton lies
-# half buried (the serpent itself, Siroth's boss, is to come); and below the south
+# half buried, and under the sand beside it, Hollowmaw, the living one (Siroth's
+# boss, scripts/characters/sand_serpent.gd); and below the south
 # mesa the D.M.C. waystation, where the carts stop to water and to count.
 SR = "assets/sprites/tiles/siroth/"
 SRP = SR + "props/"
@@ -1206,8 +1207,8 @@ SIROTH = {
            {"sprite": SRP + "amphora.png", "pos": (320, -136), "foot": (12, 6)},
            {"sprite": KP + "cart.png", "pos": (340, -80), "foot": (28, 12)}]
         # The Bone Hollow: the serpent's skeleton half sunk in the sand, skulls, rubble.
-        + [{"sprite": SR + "serpent_bones.png", "pos": (-660, 600), "feet": [(-50, -10, 40, 14), (10, -20, 50, 12), (56, -4, 40, 14)], "scale": 1.5},
-           {"sprite": SRP + "skull_bones.png", "pos": (-430, 560), "foot": (20, 8)},
+        + [{"sprite": SR + "serpent_bones.png", "pos": (-880, 590), "feet": [(-50, -10, 40, 14), (10, -20, 50, 12), (56, -4, 40, 14)], "scale": 1.5},
+           {"sprite": SRP + "skull_bones.png", "pos": (-360, 420), "foot": (20, 8)},
            {"sprite": SRP + "skull_bones.png", "pos": (-880, 520), "foot": (20, 8), "flip": True}]
         # The D.M.C. waystation: ore carts lined up, water jars, crates, a cairn.
         + [{"sprite": KP + "cart.png", "pos": p, "foot": (28, 12), "scale": 1.2} for p in [(700, 470), (760, 500), (820, 530)]]
@@ -1237,7 +1238,7 @@ SIROTH = {
             "An altar on the mesa, ringed with broken columns, each one carved with a rising sun. On the altar's face, worn almost smooth: a crown, and under it a long line of small figures, each one smaller than the last, walking down into the ground.",
             "Someone has cut a new line into the stone, crisp and recent: a little figure walking back up.",
         ]),
-        ("The serpent's skull", (-560, 650), [
+        ("The serpent's skull", (-780, 640), [
             "A skull the size of a cart, horned, its jaw sunk in the sand. Whatever this was, it was longer than the Kalmora quay.",
             "The sand around the bones is ridged in long curves, as though something heavy has been through it. Recently.",
         ]),
@@ -1255,11 +1256,13 @@ SIROTH = {
     "chests": [
         {"id": "sun_temple", "pos": (TEMPLE[0] + 90, TEMPLE[1] - 30), "card": "sunstone_shard", "gold": 30},
         {"id": "lookout_cache", "pos": (-600, -320), "gold": 45, "item": "healers_tonic"},
-        {"id": "bone_hollow", "pos": (-780, 640), "gold": 35, "item": "bread", "count": 2},
+        {"id": "bone_hollow", "pos": (-990, 670), "gold": 35, "item": "bread", "count": 2},
         {"id": "oasis_pack", "pos": (330, -30), "gold": 15, "item": "bread"},
     ],
+    # Hollowmaw, the sand serpent, hunts under the Bone Hollow beside its mate's bones.
+    "boss": {"node": "SandSerpent", "scene": "res://scenes/characters/sand_serpent.tscn", "pos": (-560, 540), "arena": 170},
     "monsters": [(CARACAL, (700, -150)), (CARACAL, (-300, 420)), (CARACAL, (-800, -60)), (CARACAL, (300, 500)),
-                 (LION, (-660, 470)), (LION, (900, 380)), (LION, (-850, -420))],
+                 (LION, (-180, 560)), (LION, (900, 380)), (LION, (-850, -420))],
     "butterflies": [],
 }
 

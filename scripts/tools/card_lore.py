@@ -59,6 +59,7 @@ LORE = {
     "desert_glass_rose": "Oren blew it from the first sand of Duskara he ever melted, the year before the Company's lamp order came. He has never made another one. He says he couldn't now.",
     "brass_tally_tag": "Every worker in the North Shaft wears one, and it's counted down at dawn and up at dusk. Nib's debt is paid, so his tag comes off. It is the first one he has seen come off.",
     "water_sellers_token": "Rafi's tokens buy a cup of Sunwell water anywhere in Duskara. Turn one over and there's a tiny sun on the back. Show it on the right roof at night and a green lamp answers.",
+    "hollowmaw_scale": "Hollowmaw hunts under the Bone Hollow, beside the bones of its mate. Zahra's people say it was there before the mine, and that it hates the sound of picks.",
 }
 
 
