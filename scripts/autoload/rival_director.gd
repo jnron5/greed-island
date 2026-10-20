@@ -34,7 +34,7 @@ var _sim: Dictionary[StringName, Dictionary] = {}
 
 
 func _process(delta: float) -> void:
-	if not enabled:
+	if not enabled or Ending.is_over():
 		return
 	_timer += delta
 	if _timer < TICK:
@@ -60,6 +60,10 @@ func tick_rival(id: StringName, dt: float) -> void:
 			_arrive(id, sim.travel)
 		return
 	var zone: String = GameState.rival_locations[id].zone
+	# The whole set, in Vetrassa: up the palace steps, and the race is theirs.
+	if zone == WorldMap.VETRASSA and Ending.has_set(id):
+		Ending.rival_wins(get_tree(), id)
+		return
 	if zone == "" or zone == player_zone():
 		return  # In transit elsewhere, or the Rival node is in charge.
 	sim.busy -= dt
@@ -95,6 +99,10 @@ func choose_destination(id: StringName, zone: String) -> String:
 	var carrying := 0
 	for card in col.card_ids():
 		carrying += col.count(card, CardCollection.State.LOOSE)
+
+	# The whole set: straight to Vetrassa to hand it in (every style).
+	if Ending.has_set(id) and (zone == WorldMap.VETRASSA or not WorldMap.next_hop(zone, WorldMap.VETRASSA, id, pays).is_empty()):
+		return WorldMap.VETRASSA
 
 	# Full hands: get to a town to bind (every style).
 	if carrying >= profile.carry_limit and not WorldMap.is_town(zone):

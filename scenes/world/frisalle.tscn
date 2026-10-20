@@ -1,4 +1,4 @@
-[gd_scene load_steps=124 format=3]
+[gd_scene load_steps=126 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -120,6 +120,12 @@ size = Vector2(828, 40)
 
 [sub_resource type="RectangleShape2D" id="R40x40"]
 size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x640"]
+size = Vector2(40, 640)
+
+[sub_resource type="RectangleShape2D" id="R40x552"]
+size = Vector2(40, 552)
 
 [sub_resource type="RectangleShape2D" id="R40x1280"]
 size = Vector2(40, 1280)
@@ -460,10 +466,22 @@ position = Vector2(64.0, 700.0)
 shape = SubResource("R40x40")
 
 [node name="W25" type="CollisionShape2D" parent="Walls"]
-position = Vector2(-852.0, 0.0)
-shape = SubResource("R40x1280")
+position = Vector2(-852.0, -320.0)
+shape = SubResource("R40x640")
 
 [node name="W26" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-852.0, 364.0)
+shape = SubResource("R40x552")
+
+[node name="W27" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-892.0, -20.0)
+shape = SubResource("R40x40")
+
+[node name="W28" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-892.0, 108.0)
+shape = SubResource("R40x40")
+
+[node name="W29" type="CollisionShape2D" parent="Walls"]
 position = Vector2(852.0, 0.0)
 shape = SubResource("R40x1280")
 
@@ -487,6 +505,9 @@ position = Vector2(-60, 272)
 
 [node name="from_grotto" type="Marker2D" parent="Spawns"]
 position = Vector2(620, -500)
+
+[node name="from_vetrassa" type="Marker2D" parent="Spawns"]
+position = Vector2(-760, 44)
 
 [node name="from_houseinn" type="Marker2D" parent="Spawns"]
 position = Vector2(80, 266)
@@ -517,6 +538,11 @@ position = Vector2(-20, 278)
 [node name="ToStarfall" parent="." instance=ExtResource("7_exit")]
 position = Vector2(0, 636)
 target_scene = "res://scenes/world/starfall_range.tscn"
+target_spawn = &"from_frisalle"
+
+[node name="ToVetrassa" parent="." instance=ExtResource("7_exit")]
+position = Vector2(-828, 44)
+target_scene = "res://scenes/world/vetrassa.tscn"
 target_spawn = &"from_frisalle"
 
 [node name="ToGrotto" parent="." instance=ExtResource("7_exit")]
@@ -2635,49 +2661,44 @@ offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
 [node name="Under86" type="Sprite2D" parent="."]
-position = Vector2(-724, 66)
-offset = Vector2(0, -14.0)
-texture = ExtResource("r37_frost_grass")
-
-[node name="Under87" type="Sprite2D" parent="."]
 position = Vector2(531, -371)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under88" type="StaticBody2D" parent="."]
+[node name="Under87" type="StaticBody2D" parent="."]
 position = Vector2(533, -269)
 
-[node name="Sprite" type="Sprite2D" parent="Under88"]
+[node name="Sprite" type="Sprite2D" parent="Under87"]
 offset = Vector2(0, -14.0)
 texture = ExtResource("r39_snow_rocks")
 
-[node name="Base" type="CollisionShape2D" parent="Under88"]
+[node name="Base" type="CollisionShape2D" parent="Under87"]
 position = Vector2(0, -3)
 shape = SubResource("R22x8")
 
-[node name="Under89" type="Sprite2D" parent="."]
+[node name="Under88" type="Sprite2D" parent="."]
 position = Vector2(-498, 436)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under90" type="Sprite2D" parent="."]
+[node name="Under89" type="Sprite2D" parent="."]
 position = Vector2(-332, 479)
 flip_h = true
 offset = Vector2(0, -14.0)
 texture = ExtResource("r38_snow_shrub")
 
-[node name="Under91" type="Sprite2D" parent="."]
+[node name="Under90" type="Sprite2D" parent="."]
 position = Vector2(214, 88)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under92" type="Sprite2D" parent="."]
+[node name="Under91" type="Sprite2D" parent="."]
 position = Vector2(-196, 577)
 flip_h = true
 offset = Vector2(0, -14.0)
 texture = ExtResource("r37_frost_grass")
 
-[node name="Under93" type="Sprite2D" parent="."]
+[node name="Under92" type="Sprite2D" parent="."]
 position = Vector2(-41, 307)
 offset = Vector2(0, -14.0)
 texture = ExtResource("r38_snow_shrub")

@@ -21,6 +21,7 @@ const TITLES := {
 	&"over_the_top": "The Three Who Went Over",
 	&"beneath_dunes": "Beneath the Dunes",
 	&"foremans_names": "The Foreman's Names",
+	&"audience_throne": "An Audience Before the Throne",
 }
 ## Who gave each quest, and what it came to, for the journal.
 const GIVERS := {
@@ -29,6 +30,7 @@ const GIVERS := {
 	&"light_on_water": "Sparkle, Seabright Quay", &"millstream": "Oda, Verdana", &"glowcaps": "Juniper, Sorenda",
 	&"over_the_top": "Sven, Frisalle",
 	&"beneath_dunes": "Rafi, Duskara", &"foremans_names": "Hesper, Duskara",
+	&"audience_throne": "Freya, Vetrassa",
 }
 const ABOUT := {
 	&"unmarked_cargo": "Sand-caked crates with no marks, a child's glove, a ledger page: Bram knows whose cargo it is and won't say it aloud.",
@@ -42,6 +44,7 @@ const ABOUT := {
 	&"over_the_top": "A frozen camp and new boards on an old mine. Small boots. The climbers didn't all freeze.",
 	&"beneath_dunes": "Down the North Shaft for Ada, out the escape line's crawl, and into Zahra's caravan, walking north.",
 	&"foremans_names": "The foreman's ledger of names: two years of children down the shaft, and very few up. Corin of Verdana among them.",
+	&"audience_throne": "The Throne Ledger, in the King's own hand: every king since the first has signed for the seam. The Captain of the Guard has been waiting for someone to read it.",
 }
 ## Frisalle (Sven, after his welcome gift): three climbers went over the top of the
 ## range when the pass came down; find what became of them (the frozen camp and the
@@ -49,6 +52,12 @@ const ABOUT := {
 ## Duskara (Rafi, after his tonic): down the North Shaft for Ada, a sick child, and
 ## out the escape line's crawl to Zahra's caravan at the Sunwell. She follows you
 ## (Npc.follow_player) in the mine and the dunes; she won't go up the shaft.
+## Vetrassa (Freya, once you've seen enough: two of the quests that follow the
+## carts): read the Throne Ledger by the empty throne, and tell her. Done, it opens
+## the ending that closes the North Shaft (Ending.choices).
+const THRONE_LEDGER := "The Throne Ledger"
+const AUDIENCE_NEEDS: Array[StringName] = [&"merchants_ledger", &"light_on_water", &"foremans_names"]
+const AUDIENCE_REWARD_GOLD := 100
 const ADA_REWARD_GOLD := 80
 const ADA_REWARD_CARD := &"green_lamp"
 const ESCORT_ZONES: Array[String] = ["res://scenes/world/duskara_mine.tscn", "res://scenes/world/siroth_dunes.tscn"]
@@ -105,6 +114,7 @@ const WELCOME_GIFTS := {
 	&"fennick": &"seabright_return",
 	&"sven": &"frisalle_return",
 	&"hesper": &"duskara_return",
+	&"brigid": &"vetrassa_return",
 }
 const WELCOME_LINES := {
 	&"jobelle": [
@@ -130,6 +140,10 @@ const WELCOME_LINES := {
 	&"hesper": [
 		"Before you go back out into that oven: a Duskara Return. The dunes swallow the road every week. Use it from your binder and you'll wake up by my well.",
 		"No charge. I give one to everyone who sits at my well the first time. The Company would charge you for the water in your eyes.",
+	],
+	&"brigid": [
+		"Wait, love, before you go up those stairs: a Vetrassa Return. If the Steward finds a card missing you'll be sent back over the mountains for it, and you'll want a quick way home.",
+		"No charge. Every racer who makes it this far gets one from me. Most of them need it.",
 	],
 }
 const CARGO_CLUES: Array[StringName] = [&"crate_sand", &"crate_glove", &"crate_ledger"]
@@ -358,6 +372,42 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					"You brought her out the crawl? Then the line still holds. Good. Good.",
 					"She'll ride north with the caravan tonight, hidden in the water casks; my cousin's people meet us past the plains. Tell Rafi the bell rang. He'll know.",
 				])
+		&"freya":
+			match stage(&"audience_throne"):
+				NOT_STARTED:
+					if not audience_ready():
+						return PackedStringArray()
+					return PackedStringArray([
+						"You've been following the carts. Frisalle's ice road, the light off Seabright, the names under Duskara. Don't look surprised; the Guard reads the reports nobody else does.",
+						"There's a book in the throne room, by the empty chair. The Throne Ledger. Only the King may read it. Go and read it.",
+						"Then come and tell me what it says. I've read it. I need to hear somebody else say it out loud.",
+					])
+				1:
+					return PackedStringArray(["The Throne Ledger. On the lectern by the throne. Read the last pages, the ones in my father's hand."])
+				2:
+					return PackedStringArray([
+						"'Seam worked. Count true.' Every king. Every race. My grandfather's hand, and his, and then my father's.",
+						"So now you know what I know. The island's kings have always signed for the mine. My mother runs it. My brother cooks for the men who buy from it. And I guard the chair.",
+						"Whoever wins this race will sit in that chair and hold that pen. If it's you... you could write something else on the next page. Nobody ever has.",
+						"Take this. Guard pay; I've had nothing to spend it on. And come up those steps with the whole set, if you can.",
+					])
+				DONE:
+					return PackedStringArray(["I'll be on the steps. Bring the set. And when he asks you what you'll do with it, don't answer quickly."])
+		&"steward":
+			if Ending.has_set(GameState.PLAYER) and not Ending.is_over():
+				return PackedStringArray([
+					"Ah. Let me see them. Slowly, if you please; I've waited a long time for this part.",
+					"...Fifty-two. Fifty-three. Fifty-four. Every one, and not a corner bent.",
+					"Wait here, racer. There is someone who has been waiting to meet you. He's been waiting the whole race.",
+				])
+			if Ending.is_over():
+				return PackedStringArray(["Your Majesty. The ledger is on the lectern, whenever you're ready to write in it."])
+			# Every other visit he counts what you hold; the rest of the time, his own lines.
+			GameState.quest_flags[&"steward_counted"] = not flag(&"steward_counted")
+			if not flag(&"steward_counted"):
+				return PackedStringArray()
+			var held := GameState.collection(GameState.PLAYER).set_progress(CardDatabase.final_set())
+			return PackedStringArray(["You hold %d of the %d cards of the set. Come back with all of them, and I'll count them with you." % [held, CardDatabase.final_set().size()]])
 		&"hesper":
 			match stage(&"foremans_names"):
 				NOT_STARTED:
@@ -552,6 +602,14 @@ func marker_for(npc_id: StringName) -> String:
 				return "!"
 			2:
 				return "?"
+	if npc_id == &"freya":
+		match stage(&"audience_throne"):
+			NOT_STARTED:
+				return "!" if audience_ready() else ""
+			2:
+				return "?"
+	if npc_id == &"steward" and Ending.has_set(GameState.PLAYER) and not Ending.is_over():
+		return "?"
 	if npc_id == &"mirren":
 		match stage(&"merchants_ledger"):
 			NOT_STARTED:
@@ -570,6 +628,20 @@ func talked_to(npc_id: StringName) -> void:
 		return
 	if npc_id == &"mirela":
 		GameState.quest_flags[&"met_mirela"] = true
+	if npc_id == &"steward" and Ending.has_set(GameState.PLAYER) and not Ending.is_over() 			and not flag(&"crowned"):
+		Ending.crown(get_tree())
+		return
+	if npc_id == &"freya":
+		match stage(&"audience_throne"):
+			NOT_STARTED:
+				if audience_ready():
+					set_stage(&"audience_throne", 2 if flag(&"read_throne_ledger") else 1)
+					EventBus.notify.emit("Quest started: An Audience Before the Throne")
+			2:
+				GameState.add_currency(AUDIENCE_REWARD_GOLD)
+				set_stage(&"audience_throne", DONE)
+				EventBus.notify.emit("Quest complete: An Audience Before the Throne (+%d gold)" % AUDIENCE_REWARD_GOLD)
+		return
 	if npc_id == &"oda" and stage(&"millstream") == DONE and flag(&"knows_corin"):
 		GameState.quest_flags[&"told_oda_corin"] = true
 	if npc_id == &"wen":
@@ -812,6 +884,11 @@ func read(title: String, at_night := false) -> void:
 		if stage(&"foremans_names") == 1:
 			set_stage(&"foremans_names", 2)
 			EventBus.notify.emit("Take the names to Hesper at the Cistern")
+	if title == THRONE_LEDGER:
+		GameState.quest_flags[&"read_throne_ledger"] = true
+		if stage(&"audience_throne") == 1:
+			set_stage(&"audience_throne", 2)
+			EventBus.notify.emit("Tell Freya on the palace steps what the ledger says")
 	if title == "The first king's tomb":
 		GameState.quest_flags[&"read_kings_tomb"] = true
 	if LEDGER_CLUES.has(title) and not flag(StringName("ledger:%s" % title)):
@@ -848,6 +925,8 @@ func wants(title: String, at_night := false) -> bool:
 		return stage(&"trees_remember") == 1
 	if title == NAMES_LEDGER:
 		return stage(&"foremans_names") == 1
+	if title == THRONE_LEDGER:
+		return stage(&"audience_throne") == 1
 	return false
 
 
@@ -1011,6 +1090,12 @@ func _step(id: StringName) -> String:
 					return "read the foreman's ledger of names in the North Shaft's lower office"
 				2:
 					return "bring the names to Hesper at the Cistern"
+		&"audience_throne":
+			match stage(&"audience_throne"):
+				1:
+					return "read the Throne Ledger in Vetrassa's throne room"
+				2:
+					return "tell Freya on the palace steps what it says"
 		&"merchants_ledger":
 			match stage(&"merchants_ledger"):
 				1:
@@ -1063,6 +1148,11 @@ func map_goals() -> Array[String]:
 			add.call(WorldMap.DUSKARA_MINE)
 		2:
 			add.call(WorldMap.DUSKARA)
+	match stage(&"audience_throne"):
+		1:
+			add.call(WorldMap.VETRASSA)
+		2:
+			add.call(WorldMap.VETRASSA)
 	match stage(&"glowcaps"):
 		1:
 			add.call(WorldMap.SORENDA_HOLLOW)
@@ -1088,6 +1178,12 @@ func map_goals() -> Array[String]:
 		else:
 			add.call(e.zone)
 	return out
+
+
+## Freya will tell you about the Throne Ledger once you've followed the carts far
+## enough: two of the quests that trace them.
+func audience_ready() -> bool:
+	return AUDIENCE_NEEDS.filter(func(q: StringName) -> bool: return stage(q) == DONE).size() >= 2
 
 
 func _stones_read() -> int:

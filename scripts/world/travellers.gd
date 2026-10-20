@@ -42,6 +42,7 @@ const QUOTA := {
 	"res://scenes/world/seabright_quay.tscn": 2,
 	"res://scenes/world/frisalle.tscn": 2,
 	"res://scenes/world/duskara.tscn": 2,
+	"res://scenes/world/vetrassa.tscn": 2,
 	"res://scenes/world/aurewind_plains.tscn": 1,
 	"res://scenes/world/siroth_dunes.tscn": 1,
 	"res://scenes/world/thornveil.tscn": 1,
@@ -56,6 +57,7 @@ const CITY := {
 	"res://scenes/world/seabright_quay.tscn": "seabright",
 	"res://scenes/world/frisalle.tscn": "frisalle",
 	"res://scenes/world/duskara.tscn": "duskara",
+	"res://scenes/world/vetrassa.tscn": "vetrassa",
 }
 ## id, name, sprite (one of the eight traveller sprites), their own lines, and for one
 ## or two a little stock to sell.
@@ -143,6 +145,14 @@ const ROSTER := [
 		"Fancy a game? No? Wise. I've never lost. Except to a quiet fellow by the fire on the plains. Never again.",
 		"Cards are just paper till somebody wants them. Then they're worth a life. Funny island.",
 	] },
+	{ "id": "orla", "name": "Orla the Cartwright", "sprite": "traveller_pilgrim", "lines": [
+		"I mend cart wheels on the mountain road. Forty carts a winter come down it at night. Funny: none of them ever needs a wheel.",
+		"Vetrassa's stone is grey and its people are greyer. Lovely town. Don't tell them I said so.",
+	] },
+	{ "id": "pim", "name": "Pim the Page", "sprite": "traveller_courier", "lines": [
+		"I carry messages from the palace. Mostly to the Captain. Mostly 'no news'. The King's been gone a long time.",
+		"The Steward lets me polish the lectern. Never the book. He says the book polishes itself.",
+	] },
 ]
 
 ## What anyone passing through says about a town.
@@ -185,6 +195,13 @@ const CITY_LINES := {
 		"Don't go up the stairs to the terrace. The Company men don't say no twice.",
 		"Everybody in Duskara owes the Company something. Rent, water, bread. The kids owe it the most and nobody can tell me why.",
 		"Glass from Oren's furnace is the clearest on the island. He makes lamps for the mine and hates every one of them.",
+	],
+	"vetrassa": [
+		"Vetrassa. Where every road on the island ends, and every racer finally finds out what they've been racing for.",
+		"Chef's restaurant is booked a year ahead. Unless you're the Duke. The Duke is never booked; the Duke simply arrives.",
+		"The Captain stands on the palace steps all day. They say she's the King's daughter. They say she's never smiled. One of those is true.",
+		"Mind the customs house on the quay. Everything that comes into Vetrassa gets taxed, except whatever comes in for the Company.",
+		"Brigid at the Crown & Anchor will mend you, feed you and tell you everyone's business. All three for the price of a room.",
 	],
 }
 ## What they say in Kalmora after dark, back from the road.

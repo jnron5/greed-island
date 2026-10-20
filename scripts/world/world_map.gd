@@ -51,6 +51,11 @@ const DUSKARA_INN := "res://scenes/world/interiors/duskara_inn.tscn"
 const DUSKARA_OFFICE := "res://scenes/world/interiors/duskara_office.tscn"
 const DUSKARA_GLASSWORKS := "res://scenes/world/interiors/duskara_glassworks.tscn"
 const DUSKARA_RAFI := "res://scenes/world/interiors/duskara_rafi.tscn"
+## Down the mountain road west of Frisalle: Vetrassa, the royal port, where the race ends.
+const VETRASSA := "res://scenes/world/vetrassa.tscn"
+const VETRASSA_PALACE := "res://scenes/world/interiors/vetrassa_palace.tscn"
+const VETRASSA_RESTAURANT := "res://scenes/world/interiors/vetrassa_restaurant.tscn"
+const VETRASSA_INN := "res://scenes/world/interiors/vetrassa_inn.tscn"
 const SERIN_FISHER_HUT := "res://scenes/world/interiors/serin_fisher_hut.tscn"
 const STARFALL_GROTTO := "res://scenes/world/starfall_grotto.tscn"
 const AUREWIND_BARROW := "res://scenes/world/aurewind_barrow.tscn"
@@ -103,6 +108,7 @@ const ZONES := {
 		"monster_drops": [&"sunbleached_fang", &"briar_wren", &"owl_quill", &"hollow_acorn", &"thorn_sprig"] },
 	DUSKARA: { "name": "Duskara", "origin": Vector2(-6928, 189), "monster_drops": [] },
 	DUSKARA_MINE: { "name": "The North Shaft", "origin": Vector2(-6678, -900), "monster_drops": [] },
+	VETRASSA: { "name": "Vetrassa", "origin": Vector2(-5078, -4689), "monster_drops": [] },
 	LAKE_SERIN: { "name": "Lake Serin", "origin": Vector2(-2894, -1625),
 		"monster_drops": [&"hollow_acorn", &"moss_lantern", &"thorn_sprig"] },
 	STARFALL: { "name": "Starfall Range", "origin": Vector2(-3194, -3201),
@@ -149,6 +155,9 @@ const ZONES := {
 	DUSKARA_OFFICE: { "name": "The Company Office", "origin": Vector2(-7228, -271), "monster_drops": [] },
 	DUSKARA_GLASSWORKS: { "name": "Oren's Glassworks", "origin": Vector2(-6888, 589), "monster_drops": [] },
 	DUSKARA_RAFI: { "name": "Rafi's House", "origin": Vector2(-7488, 129), "monster_drops": [] },
+	VETRASSA_PALACE: { "name": "The Throne Room", "origin": Vector2(-5078, -5099), "monster_drops": [] },
+	VETRASSA_RESTAURANT: { "name": "Chef's", "origin": Vector2(-5598, -4799), "monster_drops": [] },
+	VETRASSA_INN: { "name": "The Crown & Anchor", "origin": Vector2(-5638, -4289), "monster_drops": [] },
 	SERIN_FISHER_HUT: { "name": "Neri's Hut", "origin": Vector2(-2074, -1735), "monster_drops": [] },
 	STARFALL_CABIN: { "name": "Hald's Cabin", "origin": Vector2(-2574, -3311), "monster_drops": [] },
 	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2598), "monster_drops": [] },
@@ -169,6 +178,7 @@ const TOWNS := {
 	SEABRIGHT: { "spawn": &"town", "position": Vector2(-300, -510) },
 	FRISALLE: { "spawn": &"town", "position": Vector2(0, 580) },
 	DUSKARA: { "spawn": &"town", "position": Vector2(290, 150) },
+	VETRASSA: { "spawn": &"town", "position": Vector2(120, 100) },
 }
 
 ## Walkable connections. `exit` is where you leave `from` (local position of its
@@ -251,6 +261,11 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(250, -460), "gate": &"duskara_tally_gate" },
 	{ "from": DUSKARA_MINE, "to": SIROTH, "exit": Vector2(-672, 572), "spawn": &"from_mine",
 		"entry": Vector2(-960, 495), "gate": &"" },
+	# West of Frisalle, down the mountain road to Vetrassa (no toll: the King's road).
+	{ "from": FRISALLE, "to": VETRASSA, "exit": Vector2(-828, 44), "spawn": &"from_frisalle",
+		"entry": Vector2(900, 0), "gate": &"" },
+	{ "from": VETRASSA, "to": FRISALLE, "exit": Vector2(956, 0), "spawn": &"from_vetrassa",
+		"entry": Vector2(-760, 44), "gate": &"" },
 ]
 
 static var _pickup_cache: Dictionary = {}
@@ -294,6 +309,7 @@ const TOWN_INNS := {
 	SEABRIGHT: SEABRIGHT_HOTEL,
 	FRISALLE: FRISALLE_INN,
 	DUSKARA: DUSKARA_INN,
+	VETRASSA: VETRASSA_INN,
 }
 
 

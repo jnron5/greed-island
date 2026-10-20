@@ -1,0 +1,242 @@
+[gd_scene load_steps=31 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/vetrassa/interiors/throne_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/steward/steward_frames.tres" id="n_steward"]
+
+[sub_resource type="RectangleShape2D" id="R320x82"]
+size = Vector2(320, 82)
+
+[sub_resource type="RectangleShape2D" id="R28x108"]
+size = Vector2(28, 108)
+
+[sub_resource type="RectangleShape2D" id="R26x46"]
+size = Vector2(26, 46)
+
+[sub_resource type="RectangleShape2D" id="R18x32"]
+size = Vector2(18, 32)
+
+[sub_resource type="RectangleShape2D" id="R24x128"]
+size = Vector2(24, 128)
+
+[sub_resource type="RectangleShape2D" id="R16x20"]
+size = Vector2(16, 20)
+
+[sub_resource type="RectangleShape2D" id="R17x28"]
+size = Vector2(17, 28)
+
+[sub_resource type="RectangleShape2D" id="R17x22"]
+size = Vector2(17, 22)
+
+[sub_resource type="RectangleShape2D" id="R50x120"]
+size = Vector2(50, 120)
+
+[sub_resource type="RectangleShape2D" id="R60x66"]
+size = Vector2(60, 66)
+
+[sub_resource type="RectangleShape2D" id="R58x66"]
+size = Vector2(58, 66)
+
+[sub_resource type="RectangleShape2D" id="R16x24"]
+size = Vector2(16, 24)
+
+[sub_resource type="RectangleShape2D" id="R7x42"]
+size = Vector2(7, 42)
+
+[sub_resource type="RectangleShape2D" id="R140x10"]
+size = Vector2(140, 10)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="vetrassa_palace" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Throne Room"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 41.0)
+shape = SubResource("R320x82")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(78.0, 54.0)
+shape = SubResource("R28x108")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(242.0, 54.0)
+shape = SubResource("R28x108")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(159.0, 81.0)
+shape = SubResource("R26x46")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(189.0, 92.0)
+shape = SubResource("R18x32")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(64.0, 168.0)
+shape = SubResource("R24x128")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(256.0, 168.0)
+shape = SubResource("R24x128")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(105.0, 102.0)
+shape = SubResource("R16x20")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(217.0, 102.0)
+shape = SubResource("R16x20")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.5, 166.0)
+shape = SubResource("R17x28")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(233.5, 166.0)
+shape = SubResource("R17x28")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(88.5, 211.0)
+shape = SubResource("R17x22")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(233.5, 211.0)
+shape = SubResource("R17x22")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(25.0, 140.0)
+shape = SubResource("R50x120")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(295.0, 140.0)
+shape = SubResource("R50x120")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(30.0, 223.0)
+shape = SubResource("R60x66")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(291.0, 223.0)
+shape = SubResource("R58x66")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(44.0, 202.0)
+shape = SubResource("R16x24")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(141.5, 235.0)
+shape = SubResource("R7x42")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(178.5, 235.0)
+shape = SubResource("R7x42")
+
+[node name="W20" type="CollisionShape2D" parent="Walls"]
+position = Vector2(70.0, 251.0)
+shape = SubResource("R140x10")
+
+[node name="W21" type="CollisionShape2D" parent="Walls"]
+position = Vector2(250.0, 251.0)
+shape = SubResource("R140x10")
+
+[node name="W22" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W23" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W24" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W25" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(160, 222)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(160, 250)
+target_scene = "res://scenes/world/vetrassa.tscn"
+target_spawn = &"from_housepalace"
+exit_hint = true
+
+[node name="Npc_steward" parent="." instance=ExtResource("9_npc")]
+position = Vector2(208, 126)
+npc_id = &"steward"
+display_name = "The Steward of the Set"
+sprite_frames = ExtResource("n_steward")
+lines = PackedStringArray("Welcome to the throne room. You have the look of a racer: tired, and certain.", "I keep the set. Every race, someone brings it up those steps, and every race I check it card by card. It is the only part of my work I enjoy.", "The throne has been empty for some time. His Majesty travels. He always has, in a race year.", "What is owed to the winner? Everything that was promised, and nothing that wasn't. I'm afraid that's all I'm permitted to say.")
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(159, 116)
+script = ExtResource("12_read")
+title = "The empty throne"
+lines = PackedStringArray("A high gold throne on a raised step, its blue cushion worn into the shape of whoever sat in it last. There's dust on the arms. Nobody has sat here in a long while.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(189, 118)
+script = ExtResource("12_read")
+title = "The Throne Ledger"
+lines = PackedStringArray("A great book on the lectern by the throne, chained to it. The King's own record: every race, every winner, every king. The first page is in a hand older than the island's roads.", "'The set is gathered from the land, and the land gives what is taken from it.' Then, every race since: 'Seam worked. Count true.' The last entry is in a familiar hand, signed L.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(160, 222)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

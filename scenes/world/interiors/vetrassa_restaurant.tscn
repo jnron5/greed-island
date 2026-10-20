@@ -1,0 +1,247 @@
+[gd_scene load_steps=34 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/vetrassa/interiors/dining_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/chef/chef_frames.tres" id="n_chef"]
+
+[sub_resource type="RectangleShape2D" id="R320x62"]
+size = Vector2(320, 62)
+
+[sub_resource type="RectangleShape2D" id="R52x82"]
+size = Vector2(52, 82)
+
+[sub_resource type="RectangleShape2D" id="R78x66"]
+size = Vector2(78, 66)
+
+[sub_resource type="RectangleShape2D" id="R160x60"]
+size = Vector2(160, 60)
+
+[sub_resource type="RectangleShape2D" id="R74x56"]
+size = Vector2(74, 56)
+
+[sub_resource type="RectangleShape2D" id="R24x84"]
+size = Vector2(24, 84)
+
+[sub_resource type="RectangleShape2D" id="R52x40"]
+size = Vector2(52, 40)
+
+[sub_resource type="RectangleShape2D" id="R48x40"]
+size = Vector2(48, 40)
+
+[sub_resource type="RectangleShape2D" id="R44x36"]
+size = Vector2(44, 36)
+
+[sub_resource type="RectangleShape2D" id="R22x50"]
+size = Vector2(22, 50)
+
+[sub_resource type="RectangleShape2D" id="R22x48"]
+size = Vector2(22, 48)
+
+[sub_resource type="RectangleShape2D" id="R24x48"]
+size = Vector2(24, 48)
+
+[sub_resource type="RectangleShape2D" id="R14x36"]
+size = Vector2(14, 36)
+
+[sub_resource type="RectangleShape2D" id="R18x32"]
+size = Vector2(18, 32)
+
+[sub_resource type="RectangleShape2D" id="R56x66"]
+size = Vector2(56, 66)
+
+[sub_resource type="RectangleShape2D" id="R136x10"]
+size = Vector2(136, 10)
+
+[sub_resource type="RectangleShape2D" id="R138x10"]
+size = Vector2(138, 10)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="vetrassa_restaurant" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "Chef's"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 31.0)
+shape = SubResource("R320x62")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(26.0, 99.0)
+shape = SubResource("R52x82")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(107.0, 93.0)
+shape = SubResource("R78x66")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(240.0, 86.0)
+shape = SubResource("R160x60")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(263.0, 144.0)
+shape = SubResource("R74x56")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(308.0, 158.0)
+shape = SubResource("R24x84")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(74.0, 156.0)
+shape = SubResource("R52x40")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(164.0, 160.0)
+shape = SubResource("R48x40")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(78.0, 202.0)
+shape = SubResource("R44x36")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(258.0, 202.0)
+shape = SubResource("R44x36")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(19.0, 165.0)
+shape = SubResource("R22x50")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(301.0, 165.0)
+shape = SubResource("R22x50")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(89.0, 216.0)
+shape = SubResource("R22x48")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(234.0, 216.0)
+shape = SubResource("R24x48")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(123.0, 214.0)
+shape = SubResource("R14x36")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(193.0, 214.0)
+shape = SubResource("R14x36")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(213.0, 224.0)
+shape = SubResource("R18x32")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(28.0, 223.0)
+shape = SubResource("R56x66")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(292.0, 223.0)
+shape = SubResource("R56x66")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(68.0, 251.0)
+shape = SubResource("R136x10")
+
+[node name="W20" type="CollisionShape2D" parent="Walls"]
+position = Vector2(251.0, 251.0)
+shape = SubResource("R138x10")
+
+[node name="W21" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W22" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W23" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W24" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(158, 222)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(158, 250)
+target_scene = "res://scenes/world/vetrassa.tscn"
+target_spawn = &"from_houserestaurant"
+exit_hint = true
+
+[node name="Npc_chef" parent="." instance=ExtResource("9_npc")]
+position = Vector2(204, 130)
+npc_id = &"chef"
+display_name = "Chef"
+sprite_frames = ExtResource("n_chef")
+lines = PackedStringArray("Welcome to Chef's. Yes, that's the name. When you're the best, you don't need another one.", "My stew? Pepper at Seabright makes it with my recipe and my saffron and somehow it's still not mine. A recipe is a map. Cooking is the walking.", "The Duke dines here every night he's in Vetrassa. Him and his 'Company' friends, in the alcove, behind the curtain. They tip extravagantly. I hear everything.", "My father taught me to cook. Then he taught me to keep secrets. I'm much better at the first one.", "Tally in Verdana keeps sending me letters about gravy. I wrote back once, to be polite. I said her gravy was honest. I meant it.", "My little brother hasn't come home in years. My mother says he's ungrateful. I say he's the only one of us who walked out of the kitchen when it got too hot.")
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(106, 134)
+script = ExtResource("12_read")
+title = "The private alcove"
+lines = PackedStringArray("A table for three behind a velvet curtain, laid with the best silver. A card on the cloth: 'Reserved. The Duke and guests. To the Company's account.'", "Under the table, a napkin with figures pencilled on it: tonnages, and a route through 'the shoulder', and a name crossed out: Halmeer.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(210, 244)
+script = ExtResource("12_read")
+title = "Tonight's menu"
+lines = PackedStringArray("'CHEF'S. Saffron stew of the north. Lemon tart. Roast of the King's own herd.' At the bottom, in Chef's hand: 'No substitutions. No exceptions. No Company tabs after the race.'")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(158, 222)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

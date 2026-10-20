@@ -152,6 +152,7 @@ const RETURN_CARDS := {
 	&"seabright_return": WorldMap.SEABRIGHT,
 	&"frisalle_return": WorldMap.FRISALLE,
 	&"duskara_return": WorldMap.DUSKARA,
+	&"vetrassa_return": WorldMap.VETRASSA,
 }
 
 

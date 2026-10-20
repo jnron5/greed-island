@@ -42,7 +42,7 @@ func _pick() -> void:
 		_play(&"room")
 	elif zone.underground:
 		_play(&"cave")
-	elif zone.scene_file_path in [WorldMap.KALMORA, WorldMap.SEABRIGHT]:
+	elif zone.scene_file_path in [WorldMap.KALMORA, WorldMap.SEABRIGHT, WorldMap.VETRASSA]:
 		_play(&"harbor")
 	elif zone.scene_file_path in [WorldMap.AUREWIND, WorldMap.VERDANA]:
 		_play(&"meadow")
@@ -86,3 +86,9 @@ func set_volume(db: float) -> void:
 	for p in [_a, _b]:
 		if p.playing and p.volume_db > -59.0:
 			p.volume_db = db
+
+
+## Fade the bed out (the ending, the title).
+func silence() -> void:
+	_outdoor_forest = false
+	_play(&"")

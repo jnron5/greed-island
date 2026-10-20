@@ -44,3 +44,7 @@ signal monster_defeated(kind: StringName, killer: StringName)
 signal boons_changed(collector: StringName)
 ## A menu opened or closed; the player ignores gameplay input while any is open.
 signal menus_changed(open_count: int)
+
+## The race is over: `winner` reached the end with the whole set; `ending` is how it
+## went (Ending.RULE / WAGES / CLOSE for the player, Ending.LOST for a rival).
+signal race_finished(winner: StringName, ending: StringName)

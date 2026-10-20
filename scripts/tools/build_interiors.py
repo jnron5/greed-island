@@ -1188,6 +1188,107 @@ INTERIORS = {
             ]),
         ],
     },
+    # ---- Vetrassa (outdoors: build_region.py) ----
+    "vetrassa_palace": {
+        "town": "res://scenes/world/vetrassa.tscn",
+        "name": "The Throne Room",
+        "image": "assets/sprites/tiles/vetrassa/interiors/throne_room.png",
+        "size": (320, 256),
+        "exit": (160, 250), "back_to": "from_housepalace", "spawn": (160, 222),
+        "blocks": [
+            (0, 0, 320, 82), (64, 0, 92, 108), (228, 0, 256, 108),                     # back wall, the inner pillars
+            (146, 58, 172, 104), (180, 76, 198, 108),                                   # the throne, the lectern with the set
+            (52, 104, 76, 232), (244, 104, 268, 232),                                   # the front pillars
+            (97, 92, 113, 112), (209, 92, 225, 112), (80, 152, 97, 180), (225, 152, 242, 180),
+            (80, 200, 97, 222), (225, 200, 242, 222),                                   # braziers
+            (0, 80, 50, 200), (270, 80, 320, 200),                                      # the side walls: vases, the chest, armour
+            (0, 190, 60, 256), (262, 190, 320, 256), (36, 190, 52, 214),
+            (138, 214, 145, 256), (175, 214, 182, 256),                                 # the door frame
+            (0, 246, 140, 256), (180, 246, 320, 256),
+        ],
+        "npcs": [("steward", "The Steward of the Set", "steward", (208, 126), [
+            "Welcome to the throne room. You have the look of a racer: tired, and certain.",
+            "I keep the set. Every race, someone brings it up those steps, and every race I check it card by card. It is the only part of my work I enjoy.",
+            "The throne has been empty for some time. His Majesty travels. He always has, in a race year.",
+            "What is owed to the winner? Everything that was promised, and nothing that wasn't. I'm afraid that's all I'm permitted to say.",
+        ], [])],
+        "readables": [
+            ("The empty throne", (159, 116), [
+                "A high gold throne on a raised step, its blue cushion worn into the shape of whoever sat in it last. There's dust on the arms. Nobody has sat here in a long while.",
+            ]),
+            ("The Throne Ledger", (189, 118), [
+                "A great book on the lectern by the throne, chained to it. The King's own record: every race, every winner, every king. The first page is in a hand older than the island's roads.",
+                "'The set is gathered from the land, and the land gives what is taken from it.' Then, every race since: 'Seam worked. Count true.' The last entry is in a familiar hand, signed L.",
+            ]),
+        ],
+    },
+    "vetrassa_restaurant": {
+        "town": "res://scenes/world/vetrassa.tscn",
+        "name": "Chef's",
+        "image": "assets/sprites/tiles/vetrassa/interiors/dining_room.png",
+        "size": (320, 256),
+        "exit": (158, 250), "back_to": "from_houserestaurant", "spawn": (158, 222),
+        "blocks": [
+            (0, 0, 320, 62), (0, 58, 52, 140), (68, 60, 146, 126),                      # back wall, the stair, the private alcove
+            (160, 56, 320, 116), (226, 116, 300, 172), (296, 116, 320, 200),            # the kitchen, the bar, the shelves
+            (48, 136, 100, 176), (140, 140, 188, 180), (56, 184, 100, 220), (236, 184, 280, 220),  # tables
+            (8, 140, 30, 190), (290, 140, 312, 190), (78, 192, 100, 240), (222, 192, 246, 240),    # bay trees
+            (116, 196, 130, 232), (186, 196, 200, 232), (204, 208, 222, 240),           # lanterns, the lectern
+            (0, 190, 56, 256), (264, 190, 320, 256), (0, 246, 136, 256), (182, 246, 320, 256),
+        ],
+        "npcs": [("chef", "Chef", "chef", (204, 130), [
+            "Welcome to Chef's. Yes, that's the name. When you're the best, you don't need another one.",
+            "My stew? Pepper at Seabright makes it with my recipe and my saffron and somehow it's still not mine. A recipe is a map. Cooking is the walking.",
+            "The Duke dines here every night he's in Vetrassa. Him and his 'Company' friends, in the alcove, behind the curtain. They tip extravagantly. I hear everything.",
+            "My father taught me to cook. Then he taught me to keep secrets. I'm much better at the first one.",
+            "Tally in Verdana keeps sending me letters about gravy. I wrote back once, to be polite. I said her gravy was honest. I meant it.",
+            "My little brother hasn't come home in years. My mother says he's ungrateful. I say he's the only one of us who walked out of the kitchen when it got too hot.",
+        ], [])],
+        "readables": [
+            ("The private alcove", (106, 134), [
+                "A table for three behind a velvet curtain, laid with the best silver. A card on the cloth: 'Reserved. The Duke and guests. To the Company's account.'",
+                "Under the table, a napkin with figures pencilled on it: tonnages, and a route through 'the shoulder', and a name crossed out: Halmeer.",
+            ]),
+            ("Tonight's menu", (210, 244), [
+                "'CHEF'S. Saffron stew of the north. Lemon tart. Roast of the King's own herd.' At the bottom, in Chef's hand: 'No substitutions. No exceptions. No Company tabs after the race.'",
+            ]),
+        ],
+    },
+    "vetrassa_inn": {
+        "town": "res://scenes/world/vetrassa.tscn",
+        "name": "The Crown & Anchor",
+        "image": "assets/sprites/tiles/vetrassa/interiors/inn_room.png",
+        "size": (320, 256),
+        "exit": (158, 250), "back_to": "from_houseinn", "spawn": (158, 222),
+        "blocks": [
+            (0, 0, 320, 92), (130, 40, 188, 108), (0, 58, 90, 128),                     # back wall, the hearth, the stair
+            (126, 132, 196, 166), (48, 136, 104, 172), (8, 140, 30, 190),               # tables, a plant
+            (226, 96, 300, 176), (290, 60, 320, 200),                                   # the bar, the shelves
+            (28, 192, 112, 250), (204, 200, 270, 250),                                  # barrels and crates, sacks and the tree
+            (116, 196, 130, 232), (186, 196, 200, 232),                                 # lanterns by the door
+            (0, 190, 30, 256), (290, 190, 320, 256), (0, 246, 136, 256), (182, 246, 320, 256),
+        ],
+        "npcs": [("brigid", "Brigid", "brigid", (210, 152), [
+            "In you come, out of the wind! Vetrassa's wind comes straight off the sea and goes straight through you. Sit by the fire.",
+            "Every racer ends up at the Crown & Anchor. The winners for one night, the losers for a week.",
+            "The palace? Up the grand stairs. The Steward checks every card. He once sent a racer away for a bent corner.",
+            "Freya drinks here when she's off the steps. Quiet as stone. She's waiting for something, that one, and it isn't a racer.",
+            "The Duke's men drink here too, on the Company's tab. I charge them double and the Company pays it without blinking. Makes you wonder how rich the ground is.",
+            "My rooms are warm and my beds are long. Half a day or a whole one, and you'll walk up those stairs mended.",
+        ], [])],
+        "inn": "brigid",
+        "keeper": {"wake_lines": [
+                       "Easy, easy. The guard carried you in off the square. The whole town saw. Don't worry, they've seen worse.",
+                       "There you are. You were out cold on the quay. I put you by the fire and told everyone you were resting your eyes.",
+                   ],
+                   "room_prompt": "A long bed and a warm stone. Half a day, or the whole day?",
+                   "room_broke": "It's %d gold, love. Sit by the fire as long as you like, though; that's free."},
+        "readables": [
+            ("The racers' wall", (212, 106), [
+                "Over the bar, names scratched into the stone: racers of past years. Next to some, a little crown. Every crowned name is a different hand. None of them is a name anyone in town remembers.",
+            ]),
+        ],
+    },
 }
 
 

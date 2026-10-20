@@ -977,7 +977,7 @@ FRISALLE = {
         ([(0, 650), (0, 560), (-260, 520), (-544, 500), (-544, 410)], 24),       # the pass road up the valley
         ([(-544, 326), (-520, 268), (620, 268)], 22),                            # the lower lane
         ([(520, 268), (520, 40)], 18),                                          # up the east stairs
-        ([(560, 44), (-640, 44)], 22),                                         # the upper lane
+        ([(560, 44), (-640, 44), (-850, 44)], 22),                             # the upper lane, on west as the road down to Vetrassa
         ([(-256, 44), (-256, -190)], 18),                                        # up the west stairs
         ([(-256, -190), (420, -190)], 20),                                       # along the top
         ([(420, -190), (560, -360), (620, -520)], 14),                           # the cart ruts to the ice road
@@ -998,10 +998,11 @@ FRISALLE = {
     "entry": (0, 580),
     "exits": [
         {"name": "ToStarfall", "pos": (0, 636), "side": "s", "target": "res://scenes/world/starfall_range.tscn", "spawn": "from_frisalle"},
+        {"name": "ToVetrassa", "pos": (-828, 44), "side": "w", "target": "res://scenes/world/vetrassa.tscn", "spawn": "from_frisalle"},
     ],
     # The ice road: the smugglers' tunnel out of the Frost Grotto, at the top of the village.
     "portals": [{"name": "ToGrotto", "pos": (620, -580), "target": "res://scenes/world/starfall_grotto.tscn", "spawn": "from_frisalle"}],
-    "spawns": {"from_starfall": (0, 580), "town": (-60, 272), "from_grotto": (620, -500)},
+    "spawns": {"from_starfall": (0, 580), "town": (-60, 272), "from_grotto": (620, -500), "from_vetrassa": (-760, 44)},
     "rival_spots": {"runner": (-40, 560), "raider": (40, 560), "hoarder": (-20, 278)},
     "buildings": [
         # The lower lane.
@@ -1456,7 +1457,7 @@ DUSKARA = {
             "Wear two charms at most. More than that and they argue among themselves, and you'll lose the argument.",
         ]},
         {"id": "tamsa", "name": "Tamsa", "pos": (SOUK_STALLS[3], SOUK_ROW + 24), "wander": 0, "out": (7.0, 22.0),
-         "shop": ["kalmora_return", "sorenda_return", "verdana_return", "seabright_return", "frisalle_return", "duskara_return"],
+         "shop": ["kalmora_return", "sorenda_return", "verdana_return", "seabright_return", "frisalle_return", "duskara_return", "vetrassa_return"],
          "shop_title": "Tamsa's Way-Cards", "lines": [
             "Way-cards for every town on Virelia! Every one I've been to, anyway, and I've been to all of them that'll have me.",
             "Kalmora, Sorenda, Verdana, Seabright, Frisalle, here. A return to any of them, at the same price the towns charge. Saves you the walk back.",
@@ -1505,4 +1506,184 @@ DUSKARA = {
     "butterflies": [],
 }
 
-ZONES = {"seabright_quay": RESORT, "aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL, "frisalle": FRISALLE, "siroth_dunes": SIROTH, "duskara": DUSKARA}
+# ---------------------------------------------------------------- Vetrassa
+# The royal port on the north-west coast, where the race ends: down the mountain road
+# from Frisalle into a cool grey stone town over a sheltered bay. Three heights: the
+# quay along the water (the Crown & Anchor inn, the customs house, three piers), the
+# Crown Square above it (the fountain, slate-roofed townhouses shoulder to shoulder
+# along its north side, Chef's restaurant the whole island talks about, the Duke's
+# townhouse with his crest), and up the grand stairs past the King's Guard, the palace
+# terrace: the royal palace, where the Steward of the Set waits by the empty throne for
+# whoever brings him the whole set. Kalmora's mirror image across the island.
+VT = "assets/sprites/tiles/vetrassa/"
+VTP = VT + "props/"
+CROWN = (0, 60)            # the Crown Square
+NROW = -110                # the north row's doorsteps
+QROW = 400                 # the quay buildings' doorsteps
+
+
+def vetrassa_coast(x):
+    return 520 + 26 * math.sin(x / 180.0) + 12 * math.sin(x / 61.0)
+
+
+def vetrassa_level(x, y):
+    """0 the bay, 1 the quay, 2 the Crown Square and its streets, 3 the palace terrace."""
+    if y > vetrassa_coast(x):
+        return 0
+    if y > 250 + 10 * math.sin(x / 230.0):
+        return 1
+    if y > -250 + 10 * math.sin(x / 210.0):
+        return 2
+    return 3
+
+
+def v_home(sprite, x, y=NROW):
+    w = Image_w(VT + sprite)
+    return {"sprite": VT + sprite, "pos": (x, y), "foot": (w - 8, 48), "glow": True}
+
+
+def Image_w(path):
+    from PIL import Image as _I
+    return _I.open(path).width
+
+
+VETRASSA = {
+    "scene": "scenes/world/vetrassa.tscn",
+    "root": "Vetrassa",
+    "display": "Vetrassa, the Crown of the North",
+    "art": VT,
+    "bounds": (-960, -832, 960, 800),
+    "level": vetrassa_level,
+    "cliffs": {(0, 1): K2C + "sea_quay", (1, 2): K2C + "quay_town", (2, 3): K2C + "quay_town", (0, 2): K2C + "sea_rock"},
+    "flats": {0: ((0, 1), "lower"), 1: ((0, 1), "upper"), 2: ((1, 2), "upper"), 3: ((2, 3), "upper")},
+    "tall_walls": {(2, 3): 1},
+    "sea_level": 0,
+    "sea_depth": True,
+    "sea_tint": (0.82, 0.92, 1.0, 1),
+    "turquoise": (70, 150, 170),
+    "stairs": [(-380, 250, 1, 2), (380, 250, 1, 2), (0, -250, 2, 3)],
+    "grade": (0.82, (0.94, 0.97, 1.04)),
+    "palette": ((70, 112, 76), (104, 130, 86)),
+    "dapple": 0.08,
+    "dress_levels": [3],
+    "tree_levels": [3],
+    "plaza_stone": (184, 188, 196),
+    "paved_levels": [1, 2],
+    "pave_stone": (150, 156, 166),
+    "paths": [
+        ([(980, 0), (700, 10), (CROWN[0] + 260, CROWN[1])], 28),                                  # the mountain road in from Frisalle
+        ([(CROWN[0] - 260, CROWN[1]), (-700, 40), (-880, 60)], 22),                               # west along the square
+        ([(-380, 120), (-380, 330)], 20), ([(380, 120), (380, 330)], 20),                         # down to the stairs to the quay
+        ([(-900, 330), (900, 330)], 24),                                                          # the quay promenade
+        ([(0, CROWN[1] - 60), (0, -200)], 30),                                                    # up to the grand stairs
+        ([(0, -320), (0, -410)], 34),                                                             # the palace approach
+    ],
+    "plazas": [(CROWN[0], CROWN[1], 290, 120), (0, -350, 210, 70), (-600, 40, 110, 50)],
+    "docks": [(-660, 470, -610, 760), (-25, 470, 25, 760), (610, 470, 660, 760), (-740, 700, -530, 740)],
+    "dock_rails": True,
+    "afloat": [(K2 + "props/rowboat.png", (-580, 600), False), (K2 + "props/rowboat.png", (-690, 560), True),
+               (K2 + "props/rowboat.png", (580, 620), True), (K2 + "props/rowboat.png", (60, 680), False)],
+    "fishing": [(-660, 740)],
+    "tree_kinds": ["oak", "fir"],
+    "treeline_kinds": ["fir", "oak"],
+    "groves": [(-600, -520, 4, 60), (600, -520, 4, 60), (-820, -380, 3, 40), (820, -380, 3, 40), (-300, -700, 3, 40), (300, -700, 3, 40)],
+    "under": [("flowers", 3), ("grass_clump", 3), ("berry_bush", 1)],
+    "patches": 16,
+    "tufts": 30,
+    "tuft_tint": (0.9, 1.0, 1.02, 1),
+    "safe_zone": (-960, -832, 960, 800),
+    "entry": (900, 0),
+    "exits": [
+        {"name": "ToFrisalle", "pos": (956, 0), "side": "e", "target": "res://scenes/world/frisalle.tscn", "spawn": "from_vetrassa"},
+    ],
+    "spawns": {"from_frisalle": (900, 0), "town": (CROWN[0] + 120, CROWN[1] + 40)},
+    "rival_spots": {"runner": (820, -30), "raider": (820, 40), "hoarder": (760, 0)},
+    "buildings": [
+        {"node": "HousePalace", "sprite": VT + "palace.png", "pos": (0, -410), "foot": 136,
+         "door": "res://scenes/world/interiors/vetrassa_palace.tscn", "back": "from_housepalace"},
+        {"node": "HouseRestaurant", "sprite": VT + "restaurant.png", "pos": (-520, NROW), "foot": 122,
+         "door": "res://scenes/world/interiors/vetrassa_restaurant.tscn", "back": "from_houserestaurant"},
+        {"node": "HouseInn", "sprite": VT + "inn.png", "pos": (-560, QROW), "foot": 130,
+         "door": "res://scenes/world/interiors/vetrassa_inn.tscn", "back": "from_houseinn"},
+    ],
+    "props": (
+        # The north row of the Crown Square, shoulder to shoulder (the grand stairs'
+        # street between them), the Duke's crested townhouse among them.
+        [v_home(s, x) for s, x in [("townhouse_c.png", -790), ("townhouse_a.png", -690), ("townhouse_d.png", -360),
+                                   ("townhouse_b.png", -255), ("townhouse_a.png", 410), ("townhouse_c.png", 505),
+                                   ("townhouse_d.png", 600), ("townhouse_b.png", 700), ("townhouse_c.png", 790)]]
+        + [{"sprite": VT + "duke_house.png", "pos": (270, NROW), "foot": (112, 50), "glow": True}]
+        # The quay: the customs house, crates and barrels by the piers, a crane.
+        + [{"sprite": VT + "customs_house.png", "pos": (560, QROW), "foot": (140, 50), "glow": True}]
+        + [v_home("townhouse_a.png", -320, QROW), v_home("townhouse_d.png", 300, QROW)]
+        + [{"sprite": KP + "crates.png", "pos": p, "foot": (26, 8), "scale": 1.1} for p in [(-700, 450), (120, 452), (700, 452)]]
+        + [{"sprite": KP + "barrels.png", "pos": p, "foot": (26, 8), "scale": 1.1} for p in [(-470, 450), (440, 452)]]
+        # The square: benches, flower beds, the notice board.
+        + [{"sprite": K2 + "props/bench.png", "pos": p, "foot": (36, 8)} for p in [(-160, CROWN[1] + 80), (160, CROWN[1] + 80)]]
+        + [{"sprite": K2 + "props/flower_bed.png", "pos": p, "foot": (30, 8)} for p in [(-230, CROWN[1] - 20), (230, CROWN[1] - 20)]]
+        + [{"sprite": K2 + "props/notice_board.png", "pos": (-200, CROWN[1] + 110), "foot": (30, 8)}]
+        # The south row along the top of the quay wall, backs to the drop, gaps left
+        # for the two stairs down and the view over the bay from the fountain.
+        + [v_home(s, x, 226) for s, x in [("townhouse_b.png", -840), ("townhouse_c.png", -745), ("townhouse_a.png", -650),
+                                          ("townhouse_d.png", -540), ("townhouse_c.png", -250), ("townhouse_b.png", 250),
+                                          ("townhouse_a.png", 530), ("townhouse_d.png", 640), ("townhouse_c.png", 745), ("townhouse_b.png", 840)]]
+        # The first king in stone, on his own little square on the west street.
+        + [{"sprite": VTP + "statue_king.png", "pos": (-600, 30), "foot": (36, 14)}]
+        + [{"sprite": VTP + "cypress_planter.png", "pos": p, "foot": (24, 12)} for p in
+           [(-680, 40), (-520, 40), (-170, -60), (170, -60), (-420, -50), (420, -50)]]
+        + [{"sprite": VTP + "topiary_planter.png", "pos": p, "foot": (24, 12)} for p in [(-300, -60), (300, -60), (-60, -200), (60, -200)]]
+        # Chef's terrace: tables out front of the restaurant.
+        + [{"sprite": VTP + ("cafe_table.png" if i % 2 else "cafe_table_b.png"), "pos": p, "foot": (34, 10)}
+           for i, p in enumerate([(-600, -55), (-520, -40), (-440, -55)])]
+        # The market where the mountain road comes in: three stalls along its north side.
+        + [{"sprite": VTP + s, "pos": p, "foot": (54, 14)} for s, p in [("stall_a.png", (470, -40)), ("stall_b.png", (560, -32)), ("stall_c.png", (650, -40))]]
+        + [{"sprite": VTP + "flower_cart.png", "pos": (240, -40), "foot": (36, 10)}]
+        # Fish off the boats, sold on the quay.
+        + [{"sprite": VTP + s, "pos": p, "foot": (54, 14)} for s, p in [("stall_c.png", (-100, 410)), ("stall_a.png", (40, 410))]]
+        # The palace terrace: royal banners either side of the approach, planters.
+        + [{"sprite": VTP + "royal_banner.png", "pos": p, "foot": (10, 6)} for p in [(-150, -300), (150, -300), (-90, -440), (90, -440)]]
+        + [{"sprite": K2 + "props/potted_palm.png", "pos": p, "foot": (14, 6)} for p in [(-110, -380), (110, -380)]]
+    ),
+    "instances": [("res://scenes/world/props/kalmora_fountain.tscn", (CROWN[0], CROWN[1] + 10), 1.0)],
+    "merchant": ((740, -36), "assets/sprites/tiles/kalmora/market_stall.png"),
+    "lanterns": [(-290, CROWN[1] + 110), (290, CROWN[1] + 110), (-110, -160), (110, -160), (-160, -420), (160, -420),
+                 (-760, 340), (-200, 340), (200, 340), (760, 340), (-860, 40), (860, 60)],
+    "string_lights": [((-260, CROWN[1] - 60), (260, CROWN[1] - 60), 16)],
+    "npcs": [
+        {"id": "freya", "name": "Freya", "pos": (60, -330), "wander": 30, "lines": [
+            "You've come a long way, racer. Everyone does, in the end. Vetrassa's where the roads stop.",
+            "Captain of the King's Guard. Which mostly means guarding an empty chair. My father hasn't sat in it in months. He travels.",
+            "My brother cooks. My other brother hides. My mother counts. I stand on these steps with a sword and wait for someone to bring the whole set up them.",
+            "The Steward will see you in the throne room if you hold all of it. Not before. He's very particular about 'all'.",
+            "There's a ledger in the throne room nobody's allowed to read but the King. I've read it. Don't ask me what's in it. Not yet.",
+        ]},
+        {"id": "kings_guard", "node": "Npc_guard0", "name": "King's Guard", "pos": (-64, -160), "wander": 0,
+         "lines": ["The palace terrace is open to racers. Mind the steps; they've been worn by a lot of hopeful feet."]},
+        {"id": "kings_guard", "node": "Npc_guard1", "name": "King's Guard", "pos": (64, -160), "wander": 0,
+         "lines": ["Only one of you ever goes up those steps with a full binder. The rest come back down."]},
+        {"id": "kings_guard", "node": "Npc_guard2", "name": "King's Guard", "pos": (-70, -390), "wander": 0,
+         "lines": ["The throne room. The Steward's inside."]},
+    ],
+    "readables": [
+        ("The Crown Square fountain", (CROWN[0] + 50, CROWN[1] + 40), [
+            "The same fountain as Kalmora's, stone for stone: the two ports were built by the same first king, at the two ends of his island.",
+            "Round the rim, in old letters: 'WHAT IS GATHERED AT ONE END IS CROWNED AT THE OTHER.'",
+        ]),
+        ("The race board", (-200, CROWN[1] + 140), [
+            "A board by the fountain, freshly painted: 'THE RACE. Present the complete set to the Steward of the Set in the throne room. The first to do so is owed what was promised.'",
+            "What was promised isn't written anywhere. Underneath, someone has chalked: 'riches beyond your wildest dreams'. Someone else has chalked: 'ask what they cost'.",
+        ]),
+        ("A crest over a door", (330, NROW + 20), [
+            "A coat of arms carved over the door of the grandest townhouse on the square: a dachshund's head over a crossed pick. The Duke's. The same mark as the seal on the Frisalle letters.",
+        ]),
+        ("The customs house ledger", (500, QROW + 20), [
+            "A ledger chained to a lectern by the cargo doors. 'Arrivals: cards, uncut, from D.M.C. (north road, by the shoulder). Duty: waived, by order.' By whose order isn't written.",
+        ]),
+    ],
+    "chests": [
+        {"id": "vetrassa_pier", "pos": (-720, 720), "gold": 60, "item": "healers_tonic"},
+    ],
+    "butterflies": [],
+}
+
+ZONES = {"seabright_quay": RESORT, "aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL, "frisalle": FRISALLE, "siroth_dunes": SIROTH, "duskara": DUSKARA, "vetrassa": VETRASSA}

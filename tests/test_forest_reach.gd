@@ -9,7 +9,8 @@ extends Node
 
 const ZONES := ["res://scenes/world/thornveil.tscn", "res://scenes/world/sorenda.tscn", "res://scenes/world/sorenda_hollow.tscn", "res://scenes/world/wardens_grove.tscn", "res://scenes/world/lake_veyra.tscn",
 	"res://scenes/world/aurewind_plains.tscn", "res://scenes/world/verdana.tscn", "res://scenes/world/lake_serin.tscn", "res://scenes/world/starfall_range.tscn", "res://scenes/world/starfall_grotto.tscn", "res://scenes/world/seabright_quay.tscn", "res://scenes/world/frisalle.tscn", "res://scenes/world/aurewind_barrow.tscn",
-	"res://scenes/world/siroth_dunes.tscn", "res://scenes/world/duskara.tscn"]
+	"res://scenes/world/siroth_dunes.tscn", "res://scenes/world/duskara.tscn",
+	"res://scenes/world/vetrassa.tscn"]
 const STEP := 8.0
 
 var _failures := 0

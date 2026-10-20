@@ -357,6 +357,33 @@ const TOPICS := {
 			"Duskara sand is fine and white under the red. Melt it right and it comes out clear as a cold morning. The best on the island.",
 		]],
 	],
+	# Vetrassa, where the race ends.
+	&"freya": [
+		["How does the race end?", [
+			"Bring the whole set up these stairs, into the throne room, to the Steward. Every card in the set, held by you, in your binder or in your hand. He counts them. If they're all there, you've won.",
+			"The first to do it wins. Not the first to arrive: the first to arrive with all of it. Your rivals know the way too.",
+		]],
+		["What does the winner get?", [
+			"What was promised. I'm not permitted to say more, and you wouldn't believe me if I did.",
+			"I'll tell you this: whoever wins this race will need to be better than whoever won the last one. Much better.",
+		]],
+	],
+	&"steward": [
+		["What do I need to win?", [
+			"The complete set, racer. Every card of it, at once, on your person. Bound or carried, I don't mind which; I mind only that none is missing.",
+			"Cards you've spent on gates are gone from your hand, I'm afraid. If you've spent one the set needs, the card merchants sell them back, at a price.",
+		]],
+	],
+	&"chef": [
+		["Who are you, really?", [
+			"A cook. The best on the island, which isn't boasting when it's simply true.",
+			"Also my father's son. Which in Vetrassa means everyone watches what you do with your knife. I chop onions with it. It drives them mad.",
+		]],
+		["What do the Duke's friends talk about?", [
+			"Tonnage. Seams. 'The shoulder'. A place called Halmeer, which they say quietly and then change the subject.",
+			"And the race. They always talk about the race. They want to know who's leading. They don't care who wins, I think; only that someone does, and soon.",
+		]],
+	],
 }
 
 

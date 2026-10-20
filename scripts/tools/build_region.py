@@ -366,6 +366,28 @@ class Zone:
             else:
                 a[..., :3] = np.where((on & near)[..., None], a[..., :3] * 0.86, a[..., :3])
                 a[..., :3] = np.where((~on & lip & flat)[..., None], a[..., :3] * 0.9, a[..., :3])
+        # Paved levels: a whole level laid with the town's paving (a stone town's
+        # streets and squares; Vetrassa), slightly darker than its plazas.
+        if c.get("paved_levels"):
+            pave = tile(CliffSet(PAVING).pick([[1] * 4 for _ in range(4)]))
+            pv = pave[..., 0] * 0.3 + pave[..., 1] * 0.59 + pave[..., 2] * 0.11
+            stone = np.array(c.get("pave_stone", c.get("plaza_stone", (196, 176, 140))), np.float32)
+            # Each 32 px tile flipped at random and the setts' contrast softened, so the
+            # paving doesn't read as one tile repeated across a whole town.
+            prng = np.random.default_rng(7)
+            for ty in range(0, H, 32):
+                for tx in range(0, W, 32):
+                    k = prng.integers(0, 4)
+                    blk = pave[ty:ty + 32, tx:tx + 32]
+                    if blk.shape[:2] == (32, 32) and k:
+                        blk = blk[:, ::-1] if k & 1 else blk
+                        blk = blk[::-1] if k & 2 else blk
+                        pave[ty:ty + 32, tx:tx + 32] = blk
+                        pv[ty:ty + 32, tx:tx + 32] = pave[ty:ty + 32, tx:tx + 32, 0] * 0.3 + pave[ty:ty + 32, tx:tx + 32, 1] * 0.59 + pave[ty:ty + 32, tx:tx + 32, 2] * 0.11
+            pave[..., :3] = stone * ((pv / pv.mean())[..., None] ** 0.5) * (0.9 + 0.16 * broad[..., None] + 0.05 * self.noise(18)[..., None])
+            on = np.kron(np.array([[1 if v in c["paved_levels"] else 0 for v in row] for row in self.stand], np.uint8),
+                         np.ones((TILE, TILE), np.uint8)).astype(bool)[:H, :W] & flat
+            a = np.where(on[..., None], pave, a)
         # Plazas: cobbled squares (Kalmora's paving, warmed to the town's stone), a
         # ring of darker setts at the edge.
         if c.get("plazas"):

@@ -11,6 +11,7 @@ const INNS := {
 	"res://scenes/world/interiors/seabright_hotel.tscn": &"fennick",
 	"res://scenes/world/interiors/frisalle_inn.tscn": &"ottilie",
 	"res://scenes/world/interiors/duskara_inn.tscn": &"hesper",
+	"res://scenes/world/interiors/vetrassa_inn.tscn": &"brigid",
 }
 
 var _failures := 0
