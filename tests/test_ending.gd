@@ -39,6 +39,28 @@ func _run() -> void:
 	Quests.talked_to(&"freya")
 	_check("and she pays you for it", Quests.stage(&"audience_throne") == Quests.DONE and GameState.currency == gold + Quests.AUDIENCE_REWARD_GOLD)
 
+	# The Guest List (Sassy): the royal family all decline; Sully writes back.
+	_check("Sassy waits until she's given you the card from her hat", Quests.marker_for(&"sassy") != "!")
+	GameState.quest_flags[&"errand:sassy_gift"] = Errands.DONE
+	_check("then she has invitations", Quests.marker_for(&"sassy") == "!" and Quests.dialogue_for(&"sassy").size() >= 3)
+	Quests.talked_to(&"sassy")
+	_check("the guest list starts", Quests.stage(&"guest_list") == 1)
+	_check("Sully can take the blank envelope", Quests.marker_for(&"sully") == "!")
+	Quests.talked_to(&"sully")
+	Quests.took_over = false
+	_check("and writes on the back of it", Quests.flag(&"invite:sully") and Quests.marker_for(&"sully") == "")
+	for guest: StringName in Quests.GUESTS:
+		_check("%s has an invitation coming, and declines it" % guest, Quests.marker_for(guest) == "!"
+			and Quests.dialogue_for(guest) == PackedStringArray(Quests.GUEST_DECLINES[guest]))
+		Quests.talked_to(guest)
+		Quests.took_over = false
+	_check("all four delivered sends you back to Sassy", Quests.stage(&"guest_list") == 2 and Quests.marker_for(&"sassy") == "?")
+	var purse := GameState.currency
+	Quests.talked_to(&"sassy")
+	_check("she pays you for the walking", Quests.stage(&"guest_list") == Quests.DONE and GameState.currency == purse + Quests.GUEST_REWARD_GOLD)
+	Quests.set_stage(&"guest_list", Quests.NOT_STARTED)
+	GameState.quest_flags.erase(&"errand:sassy_gift")
+
 	# Which endings are open.
 	_check("only ruling as kings always have, knowing nothing of the mine", _ids() == [Ending.RULE])
 	Quests.set_stage(&"foremans_names", Quests.DONE)

@@ -24,6 +24,7 @@ const TITLES := {
 	&"audience_throne": "An Audience Before the Throne",
 	&"smugglers_route": "The Smuggler's Route",
 	&"old_reef": "The Old Reef",
+	&"guest_list": "The Guest List",
 }
 ## Who gave each quest, and what it came to, for the journal.
 const GIVERS := {
@@ -35,6 +36,7 @@ const GIVERS := {
 	&"audience_throne": "Freya, Vetrassa",
 	&"smugglers_route": "Nessa, Halmeer",
 	&"old_reef": "Sparkle, Seabright Quay",
+	&"guest_list": "Sassy, Seabright Quay",
 }
 const ABOUT := {
 	&"unmarked_cargo": "Sand-caked crates with no marks, a child's glove, a ledger page: Bram knows whose cargo it is and won't say it aloud.",
@@ -51,6 +53,7 @@ const ABOUT := {
 	&"audience_throne": "The Throne Ledger, in the King's own hand: every king since the first has signed for the seam. The Captain of the Guard has been waiting for someone to read it.",
 	&"smugglers_route": "The dark nights at Halmeer: cards uncut from the North Shaft, over the mountain and down the coast, out of a sea cave under the cape by barge. Nessa's light is lit again.",
 	&"old_reef": "Down at the old reef off Seabright, crates chained for the mainland ship. The newest carry no pick: they carry the crown. Sparkle knows her uncle's seal.",
+	&"guest_list": "Sassy's Midsummer invitations to the royal family: her uncle, her aunt, her cousins. Nobody is coming. Nobody ever does.",
 }
 ## Frisalle (Sven, after his welcome gift): three climbers went over the top of the
 ## range when the pass came down; find what became of them (the frozen camp and the
@@ -66,6 +69,23 @@ const SMUGGLER_CLUES := {
 	"The salt house door": "res://scenes/world/halmeer.tscn",
 	"The barge's log": "res://scenes/world/interiors/halmeer_cave.tscn",
 }
+## Seabright (Sassy, after the card from her hat): deliver her Midsummer party
+## invitations to the royal family (Loki at the plains fire, Xena on Duskara's
+## terrace, Chef and Freya in Vetrassa); every one of them declines. The fifth
+## envelope has no name on it: give it to Sully in the Frost Grotto, if you like.
+const GUESTS := {
+	&"loki": "res://scenes/world/aurewind_plains.tscn",
+	&"xena": "res://scenes/world/duskara.tscn",
+	&"chef": "res://scenes/world/vetrassa.tscn",
+	&"freya": "res://scenes/world/vetrassa.tscn",
+}
+const GUEST_DECLINES := {
+	&"loki": ["An invitation? For an old card player? ...From Seabright. Ah.", "Tell the young lady that old Loki can't come. Tell her her uncle sends his love, and that he's sorry. He's always sorry. She'll know."],
+	&"xena": ["A party. On the Company's money, in the Company's resort.", "Tell my niece the foreman is working. The foreman is always working. She can send the bill to the office, as usual."],
+	&"chef": ["The Midsummer Party. Again.", "Tell Sassy I'll send a tart. I always send a tart. Who would cook for the Duke if I went? Exactly."],
+	&"freya": ["...I'm on duty. I'm always on duty.", "Tell her I kept the last three. They're in a drawer. Tell her I read them."],
+}
+const GUEST_REWARD_GOLD := 50
 ## Seabright (Sparkle, after The Light on the Water and The Smuggler's Route): dive
 ## with her off the end of the diving pier after dark, to the old reef where the
 ## barge lets its crates down; tell her what was on them.
@@ -239,6 +259,14 @@ func flag(name: StringName) -> bool:
 func dialogue_for(npc_id: StringName) -> PackedStringArray:
 	if gift_waiting(npc_id):
 		return PackedStringArray(WELCOME_LINES[npc_id])
+	if invitation_for(npc_id):
+		return PackedStringArray(GUEST_DECLINES[npc_id])
+	if npc_id == &"sully" and stage(&"guest_list") == 1 and not flag(&"invite:sully"):
+		return PackedStringArray([
+			"...A blank envelope. She still does that? Every year, one with no name on it.",
+			"I can't come. You know why. But give her this.",
+			"(He writes three words on the back and hands it back to you: 'I'll try. S.')",
+		])
 	match npc_id:
 		&"bram":
 			match stage(&"unmarked_cargo"):
@@ -422,6 +450,29 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					"You brought her out the crawl? Then the line still holds. Good. Good.",
 					"She'll ride north with the caravan tonight, hidden in the water casks; my cousin's people meet us past the plains. Tell Rafi the bell rang. He'll know.",
 				])
+		&"sassy":
+			if Errands.state(&"sassy_gift") != Errands.DONE:
+				return PackedStringArray()
+			match stage(&"guest_list"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"Oh, it's you! The card person! You travel, don't you? Everywhere? How useful.",
+						"It's nearly Midsummer and I've written the family invitations. Uncle Loki, Aunt Xena, cousin Chef, cousin Freya. And one more, but I never know whose name to put on it.",
+						"Uncle Loki's always at some campfire on the plains, playing cards. Aunt Xena's in Duskara doing something with ledgers. Chef and Freya are in Vetrassa. Would you? They'll come this year. I've got a feeling.",
+					])
+				1:
+					return PackedStringArray(["The invitations! Uncle Loki on the plains, Aunt Xena in Duskara, Chef and Freya in Vetrassa. (%d/4 delivered)" % _guests_told()])
+				2:
+					var lines := PackedStringArray([
+						"...Nobody, then. Again. That's all right. It's a very good party anyway; the yachts come.",
+						"Sparkle says they're busy being important. I think they're busy being sad. I'd invite sad people to a party. That's what parties are for.",
+					])
+					if flag(&"invite:sully"):
+						lines.append("Wait, what's on the back of the blank one? 'I'll try. S.' ...Oh. Oh! Sparkle! SPARKLE!")
+					lines.append("Here, for all that walking. Don't spend it on cards, spend it on something pretty.")
+					return lines
+				DONE:
+					return PackedStringArray(["I've started next year's invitations already. I'm putting glitter on Aunt Xena's. She'll hate it. She'll keep it."])
 		&"nessa":
 			match stage(&"smugglers_route"):
 				NOT_STARTED:
@@ -671,6 +722,14 @@ func marker_for(npc_id: StringName) -> String:
 				return "!"
 			2:
 				return "?"
+	if invitation_for(npc_id) or (npc_id == &"sully" and stage(&"guest_list") == 1 and not flag(&"invite:sully")):
+		return "!"
+	if npc_id == &"sassy" and Errands.state(&"sassy_gift") == Errands.DONE:
+		match stage(&"guest_list"):
+			NOT_STARTED:
+				return "!"
+			2:
+				return "?"
 	if npc_id == &"sparkle" and stage(&"light_on_water") == DONE and stage(&"smugglers_route") == DONE:
 		match stage(&"old_reef"):
 			NOT_STARTED:
@@ -712,6 +771,32 @@ func talked_to(npc_id: StringName) -> void:
 	if npc_id == &"steward" and Ending.has_set(GameState.PLAYER) and not Ending.is_over() 			and not flag(&"crowned"):
 		Ending.crown(get_tree())
 		return
+	if invitation_for(npc_id):
+		GameState.quest_flags[StringName("invite:%s" % npc_id)] = true
+		if _guests_told() == GUESTS.size():
+			set_stage(&"guest_list", 2)
+			EventBus.notify.emit("Every invitation delivered. Take the answers back to Sassy")
+		else:
+			quest_changed.emit(&"guest_list", 1)
+			EventBus.notify.emit("The Guest List: %d of 4 delivered" % _guests_told())
+		took_over = true
+		return
+	if npc_id == &"sully" and stage(&"guest_list") == 1 and not flag(&"invite:sully"):
+		GameState.quest_flags[&"invite:sully"] = true
+		EventBus.notify.emit("Sully wrote something on the back of the blank envelope")
+		took_over = true
+		return
+	if npc_id == &"sassy" and Errands.state(&"sassy_gift") == Errands.DONE:
+		match stage(&"guest_list"):
+			NOT_STARTED:
+				set_stage(&"guest_list", 1)
+				EventBus.notify.emit("Quest started: The Guest List")
+				return
+			2:
+				GameState.add_currency(GUEST_REWARD_GOLD)
+				set_stage(&"guest_list", DONE)
+				EventBus.notify.emit("Quest complete: The Guest List (+%d gold)" % GUEST_REWARD_GOLD)
+				return
 	if npc_id == &"sparkle" and stage(&"light_on_water") == DONE and stage(&"smugglers_route") == DONE:
 		match stage(&"old_reef"):
 			NOT_STARTED:
@@ -1210,6 +1295,12 @@ func _step(id: StringName) -> String:
 					return "read the foreman's ledger of names in the North Shaft's lower office"
 				2:
 					return "bring the names to Hesper at the Cistern"
+		&"guest_list":
+			match stage(&"guest_list"):
+				1:
+					return "deliver Sassy's invitations: Loki on the plains, Xena in Duskara, Chef and Freya in Vetrassa (%d/4)" % _guests_told()
+				2:
+					return "tell Sassy who's coming"
 		&"old_reef":
 			match stage(&"old_reef"):
 				1:
@@ -1285,6 +1376,13 @@ func map_goals() -> Array[String]:
 			add.call(WorldMap.HALMEER)
 	if stage(&"old_reef") in [1, 2]:
 		add.call(WorldMap.SEABRIGHT)
+	match stage(&"guest_list"):
+		1:
+			for guest: StringName in GUESTS:
+				if not flag(StringName("invite:%s" % guest)):
+					add.call(GUESTS[guest])
+		2:
+			add.call(WorldMap.SEABRIGHT)
 	match stage(&"audience_throne"):
 		1:
 			add.call(WorldMap.VETRASSA)
@@ -1321,6 +1419,15 @@ func map_goals() -> Array[String]:
 ## enough: two of the quests that trace them.
 func audience_ready() -> bool:
 	return AUDIENCE_NEEDS.filter(func(q: StringName) -> bool: return stage(q) == DONE).size() >= 2
+
+
+## This resident still has one of Sassy's invitations coming.
+func invitation_for(npc_id: StringName) -> bool:
+	return GUESTS.has(npc_id) and stage(&"guest_list") == 1 and not flag(StringName("invite:%s" % npc_id))
+
+
+func _guests_told() -> int:
+	return GUESTS.keys().filter(func(g: StringName) -> bool: return flag(StringName("invite:%s" % g))).size()
 
 
 func _smuggler_found() -> int:
