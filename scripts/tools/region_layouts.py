@@ -1849,6 +1849,8 @@ HALMEER = {
         + [{"sprite": K2 + "props/bench.png", "pos": (-660, 400), "foot": (36, 8)}]
     ),
     "merchant": ((250, -30), "assets/sprites/tiles/kalmora/market_stall.png"),
+    # Nessa's light: dark (paid to be) until "The Smuggler's Route" is done.
+    "beams": [(-760, 298, "smugglers_route")],
     "lanterns": [(-380, 0), (-140, 0), (150, 0), (380, 0), (-60, 120), (40, 200), (-680, 200), (620, -60)],
     "npcs": [
         {"id": "ferro", "name": "Ferro", "pos": (-60, 160), "wander": 50, "lines": [

@@ -1175,6 +1175,11 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
                      + f'offset = Vector2(0, {fh / 2 - bottom + 1})\nsprite_frames = SubResource("{sid}_frames")\nautoplay = "default"\n'
                      f'frame = {k * 3 % d["frames"]}\nspeed_scale = {0.8 + (k * 37 % 11) / 25:.2f}\n')
         # Scene instances placed by hand (a great tree in a square, ...).
+        # Lighthouse beams (a lamp room's sweeping light after dark; one can wait on a quest).
+        for k, (x, y, quest) in enumerate(c.get("beams", [])):
+            n.append(f'[node name="LighthouseBeam{k}" type="Node2D" parent="."]\nposition = Vector2({x}, {y})\n'
+                     f'script = ExtResource("{res("Script", "res://scripts/world/lighthouse_beam.gd")}")\n'
+                     + (f'lit_by_quest = &"{quest}"\n' if quest else ""))
         for k, (scene_res, (x, y), scale) in enumerate(c.get("instances", [])):
             n.append(f'[node name="Feature{k}" parent="." instance=ExtResource("{res("PackedScene", scene_res)}")]\n'
                      f'position = Vector2({x}, {y})\nscale = Vector2({scale}, {scale})\n')

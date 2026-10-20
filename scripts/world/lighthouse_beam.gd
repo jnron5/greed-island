@@ -10,6 +10,8 @@ extends Node2D
 @export var spread := 0.1          # half-width of the beam, radians
 @export var turn_seconds := 9.0    # one full sweep
 @export var slant := 0.42          # how flat the beam's circle looks from above
+## A light kept dark until a quest is done (Halmeer's, until "The Smuggler's Route").
+@export var lit_by_quest: StringName
 
 const WARM := Color(1.0, 0.9, 0.62)
 
@@ -27,6 +29,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_angle = fmod(_angle + delta * TAU / turn_seconds, TAU)
 	var night := TimeOfDay.night_factor()
+	if lit_by_quest != &"" and Quests.stage(lit_by_quest) != Quests.DONE:
+		night = 0.0
 	visible = night > 0.02
 	modulate.a = night
 	if visible:

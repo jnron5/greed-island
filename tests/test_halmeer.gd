@@ -60,6 +60,8 @@ func _run() -> void:
 
 	# The town, its people and its favours.
 	var town := await _load(WorldMap.HALMEER)
+	var beam := town.get_node_or_null(^"LighthouseBeam0") as LighthouseBeam
+	_check("Nessa's light waits on her quest", beam != null and beam.lit_by_quest == &"smugglers_route")
 	for node: String in ["Npc_ferro", "Npc_grisel"]:
 		_check("%s is on the quay" % node, town.get_node_or_null(NodePath(node)) != null)
 	_check("Ferro's favour is a lemon tart, for the Fisher's Float", Errands.ERRANDS[&"ferro_tart"].card == &"fishers_float")
