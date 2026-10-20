@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/keepers_lamp.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"keepers_lamp"
+display_name = "The Keeper's Lamp"
+description = "Passive: while worn, savage beasts at night see you no sooner than by day, and hit you no harder."
+lore = "Nessa's spare lamp from the Halmeer light, the one she kept lit in her window on the nights the Company paid her to keep the tower dark. Ships still found the harbour by it. So did she."
+category = 2
+source = 4
+sell_value = 50
+icon = ExtResource("2_art")

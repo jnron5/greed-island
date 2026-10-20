@@ -137,7 +137,7 @@ static func pages(ending: StringName, winner: StringName, rivals: Array[StringNa
 		return out
 
 	out.append({ "art": "throne", "title": "The Crown of Virelia",
-		"text": "The Steward counted fifty-four cards, twice. Then the old card player from the travellers' fire walked in from the back of the throne room, and sat down on the throne as if it had always been his. It had. Loki, King of Virelia Isle, had watched your whole race from the roadside." })
+		"text": "The Steward counted all %d cards of the set, twice. Then the old card player from the travellers' fire walked in from the back of the throne room, and sat down on the throne as if it had always been his. It had. Loki, King of Virelia Isle, had watched your whole race from the roadside." % CardDatabase.final_set().size() })
 	out.append({ "art": "throne", "title": "What was promised",
 		"text": "The race was never for riches. It was for the island: the King steps down for whoever can gather the whole set, whoever can take everything the island gives and keep it. Now it is yours. So is everything that pays for it." })
 	match ending:

@@ -22,6 +22,7 @@ const TITLES := {
 	&"beneath_dunes": "Beneath the Dunes",
 	&"foremans_names": "The Foreman's Names",
 	&"audience_throne": "An Audience Before the Throne",
+	&"smugglers_route": "The Smuggler's Route",
 }
 ## Who gave each quest, and what it came to, for the journal.
 const GIVERS := {
@@ -31,6 +32,7 @@ const GIVERS := {
 	&"over_the_top": "Sven, Frisalle",
 	&"beneath_dunes": "Rafi, Duskara", &"foremans_names": "Hesper, Duskara",
 	&"audience_throne": "Freya, Vetrassa",
+	&"smugglers_route": "Nessa, Halmeer",
 }
 const ABOUT := {
 	&"unmarked_cargo": "Sand-caked crates with no marks, a child's glove, a ledger page: Bram knows whose cargo it is and won't say it aloud.",
@@ -45,6 +47,7 @@ const ABOUT := {
 	&"beneath_dunes": "Down the North Shaft for Ada, out the escape line's crawl, and into Zahra's caravan, walking north.",
 	&"foremans_names": "The foreman's ledger of names: two years of children down the shaft, and very few up. Corin of Verdana among them.",
 	&"audience_throne": "The Throne Ledger, in the King's own hand: every king since the first has signed for the seam. The Captain of the Guard has been waiting for someone to read it.",
+	&"smugglers_route": "The dark nights at Halmeer: cards uncut from the North Shaft, over the mountain and down the coast, out of a sea cave under the cape by barge. Nessa's light is lit again.",
 }
 ## Frisalle (Sven, after his welcome gift): three climbers went over the top of the
 ## range when the pass came down; find what became of them (the frozen camp and the
@@ -52,11 +55,21 @@ const ABOUT := {
 ## Duskara (Rafi, after his tonic): down the North Shaft for Ada, a sick child, and
 ## out the escape line's crawl to Zahra's caravan at the Sunwell. She follows you
 ## (Npc.follow_player) in the mine and the dunes; she won't go up the shaft.
+## Halmeer (Nessa, at the cape light): the Company pays her to keep the light dark on
+## moonless nights. Read the tide board on the quay, the salt house door and the
+## barge's log in the sea cave under the cape, then tell her.
+const SMUGGLER_CLUES := {
+	"The tide board": "res://scenes/world/halmeer.tscn",
+	"The salt house door": "res://scenes/world/halmeer.tscn",
+	"The barge's log": "res://scenes/world/interiors/halmeer_cave.tscn",
+}
+const SMUGGLER_REWARD_GOLD := 60
+const SMUGGLER_REWARD_CARD := &"keepers_lamp"
 ## Vetrassa (Freya, once you've seen enough: two of the quests that follow the
 ## carts): read the Throne Ledger by the empty throne, and tell her. Done, it opens
 ## the ending that closes the North Shaft (Ending.choices).
 const THRONE_LEDGER := "The Throne Ledger"
-const AUDIENCE_NEEDS: Array[StringName] = [&"merchants_ledger", &"light_on_water", &"foremans_names"]
+const AUDIENCE_NEEDS: Array[StringName] = [&"merchants_ledger", &"light_on_water", &"foremans_names", &"smugglers_route"]
 const AUDIENCE_REWARD_GOLD := 100
 const ADA_REWARD_GOLD := 80
 const ADA_REWARD_CARD := &"green_lamp"
@@ -115,6 +128,7 @@ const WELCOME_GIFTS := {
 	&"sven": &"frisalle_return",
 	&"hesper": &"duskara_return",
 	&"brigid": &"vetrassa_return",
+	&"maudie": &"halmeer_return",
 }
 const WELCOME_LINES := {
 	&"jobelle": [
@@ -144,6 +158,10 @@ const WELCOME_LINES := {
 	&"brigid": [
 		"Wait, love, before you go up those stairs: a Vetrassa Return. If the Steward finds a card missing you'll be sent back over the mountains for it, and you'll want a quick way home.",
 		"No charge. Every racer who makes it this far gets one from me. Most of them need it.",
+	],
+	&"maudie": [
+		"Here, before you go: a Halmeer Return. The cliff road washes out every other winter, and then it's a week's walk round.",
+		"No charge. Anyone who comes all the way to the end of the coast deserves a quick way back to it.",
 	],
 }
 const CARGO_CLUES: Array[StringName] = [&"crate_sand", &"crate_glove", &"crate_ledger"]
@@ -372,6 +390,25 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					"You brought her out the crawl? Then the line still holds. Good. Good.",
 					"She'll ride north with the caravan tonight, hidden in the water casks; my cousin's people meet us past the plains. Tell Rafi the bell rang. He'll know.",
 				])
+		&"nessa":
+			match stage(&"smugglers_route"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"A racer. Nobody comes to Halmeer on purpose, you know. Sit, if you can find a chair under the oil cans.",
+						"Forty years I've kept this light. And for the last three, on the moonless nights, the Company pays me to keep it dark.",
+						"On those nights I hear oars under the cape, and I see nothing, because I'm paid not to look. I'm too old for the cut down to the sea cave. You aren't.",
+						"Look at the tide board on the quay, and the Company's salt house, and go down the cut to the cave. Then come and tell me what my dark has been for.",
+					])
+				1:
+					return PackedStringArray(["The tide board on the quay, the salt house door, and the cave down the cut on the heath. (%d/3)" % _smuggler_found()])
+				2:
+					return PackedStringArray([
+						"Cards. Uncut. From the mine under Duskara, over the mountain by the ice road, down the coast, and out of my cave on my dark nights.",
+						"Maudie's Tom rowed on that barge. Half the village has. And I sat up here with the lamp out and the money in a tin.",
+						"Well. The light's lit tonight, and every night, and they can find another keeper. Take this: the lamp I kept in my window on the dark nights anyway. The beasts on the cliff road don't like it.",
+					])
+				DONE:
+					return PackedStringArray(["The light's lit every night now. The Company sent a letter about it. I used the letter to light the lamp."])
 		&"freya":
 			match stage(&"audience_throne"):
 				NOT_STARTED:
@@ -397,7 +434,7 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 			if Ending.has_set(GameState.PLAYER) and not Ending.is_over():
 				return PackedStringArray([
 					"Ah. Let me see them. Slowly, if you please; I've waited a long time for this part.",
-					"...Fifty-two. Fifty-three. Fifty-four. Every one, and not a corner bent.",
+					"...%d. %d. %d. Every one, and not a corner bent." % [CardDatabase.final_set().size() - 2, CardDatabase.final_set().size() - 1, CardDatabase.final_set().size()],
 					"Wait here, racer. There is someone who has been waiting to meet you. He's been waiting the whole race.",
 				])
 			if Ending.is_over():
@@ -602,6 +639,12 @@ func marker_for(npc_id: StringName) -> String:
 				return "!"
 			2:
 				return "?"
+	if npc_id == &"nessa":
+		match stage(&"smugglers_route"):
+			NOT_STARTED:
+				return "!"
+			2:
+				return "?"
 	if npc_id == &"freya":
 		match stage(&"audience_throne"):
 			NOT_STARTED:
@@ -630,6 +673,17 @@ func talked_to(npc_id: StringName) -> void:
 		GameState.quest_flags[&"met_mirela"] = true
 	if npc_id == &"steward" and Ending.has_set(GameState.PLAYER) and not Ending.is_over() 			and not flag(&"crowned"):
 		Ending.crown(get_tree())
+		return
+	if npc_id == &"nessa":
+		match stage(&"smugglers_route"):
+			NOT_STARTED:
+				set_stage(&"smugglers_route", 2 if _smuggler_found() == SMUGGLER_CLUES.size() else 1)
+				EventBus.notify.emit("Quest started: The Smuggler's Route")
+			2:
+				GameState.add_currency(SMUGGLER_REWARD_GOLD)
+				GameState.add_loose_card(GameState.PLAYER, SMUGGLER_REWARD_CARD)
+				set_stage(&"smugglers_route", DONE)
+				EventBus.notify.emit("Quest complete: The Smuggler's Route (+%d gold, the Keeper's Lamp)" % SMUGGLER_REWARD_GOLD)
 		return
 	if npc_id == &"freya":
 		match stage(&"audience_throne"):
@@ -884,6 +938,15 @@ func read(title: String, at_night := false) -> void:
 		if stage(&"foremans_names") == 1:
 			set_stage(&"foremans_names", 2)
 			EventBus.notify.emit("Take the names to Hesper at the Cistern")
+	if SMUGGLER_CLUES.has(title) and not flag(StringName("smuggler:%s" % title)):
+		GameState.quest_flags[StringName("smuggler:%s" % title)] = true
+		if stage(&"smugglers_route") == 1:
+			if _smuggler_found() == SMUGGLER_CLUES.size():
+				set_stage(&"smugglers_route", 2)
+				EventBus.notify.emit("All three found. Tell Nessa at the cape light")
+			else:
+				quest_changed.emit(&"smugglers_route", 1)
+				EventBus.notify.emit("The Smuggler's Route: %d of 3 found" % _smuggler_found())
 	if title == THRONE_LEDGER:
 		GameState.quest_flags[&"read_throne_ledger"] = true
 		if stage(&"audience_throne") == 1:
@@ -927,6 +990,8 @@ func wants(title: String, at_night := false) -> bool:
 		return stage(&"foremans_names") == 1
 	if title == THRONE_LEDGER:
 		return stage(&"audience_throne") == 1
+	if SMUGGLER_CLUES.has(title):
+		return stage(&"smugglers_route") == 1 and not flag(StringName("smuggler:%s" % title))
 	return false
 
 
@@ -1090,6 +1155,12 @@ func _step(id: StringName) -> String:
 					return "read the foreman's ledger of names in the North Shaft's lower office"
 				2:
 					return "bring the names to Hesper at the Cistern"
+		&"smugglers_route":
+			match stage(&"smugglers_route"):
+				1:
+					return "read Halmeer's tide board, the salt house door and the barge's log in the sea cave (%d/3)" % _smuggler_found()
+				2:
+					return "tell Nessa at the cape light what you found"
 		&"audience_throne":
 			match stage(&"audience_throne"):
 				1:
@@ -1148,6 +1219,9 @@ func map_goals() -> Array[String]:
 			add.call(WorldMap.DUSKARA_MINE)
 		2:
 			add.call(WorldMap.DUSKARA)
+	match stage(&"smugglers_route"):
+		1, 2:
+			add.call(WorldMap.HALMEER)
 	match stage(&"audience_throne"):
 		1:
 			add.call(WorldMap.VETRASSA)
@@ -1184,6 +1258,10 @@ func map_goals() -> Array[String]:
 ## enough: two of the quests that trace them.
 func audience_ready() -> bool:
 	return AUDIENCE_NEEDS.filter(func(q: StringName) -> bool: return stage(q) == DONE).size() >= 2
+
+
+func _smuggler_found() -> int:
+	return SMUGGLER_CLUES.keys().filter(func(t: String) -> bool: return flag(StringName("smuggler:%s" % t))).size()
 
 
 func _stones_read() -> int:

@@ -321,10 +321,15 @@ func _on_hurt(hitbox: Hitbox) -> void:
 		await _set_invulnerable_for(0.25)
 		sprite.modulate = Color.WHITE
 		return
-	health = maxi(health - hitbox.damage, 0)
+	var damage := hitbox.damage
+	# The Keeper's Lamp: a savage beast hits no harder than by day.
+	var beast := hitbox.get_parent() as Monster
+	if beast and beast.night and GameState.is_equipped(CardSpells.KEEPERS_LAMP):
+		damage = maxi(damage - Monster.NIGHT_DAMAGE, 1)
+	health = maxi(health - damage, 0)
 	_calm_time = 0.0
 	health_changed.emit(health, max_health)
-	Combat.pop_number(get_parent(), global_position, hitbox.damage, Color(1, 0.45, 0.4))
+	Combat.pop_number(get_parent(), global_position, damage, Color(1, 0.45, 0.4))
 	velocity = hitbox.global_position.direction_to(global_position) * hitbox.knockback
 	if health == 0:
 		_die(hitbox.source_id)

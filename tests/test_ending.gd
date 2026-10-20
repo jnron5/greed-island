@@ -82,6 +82,7 @@ func _run() -> void:
 			GameState.add_loose_card(&"runner", card.id)
 	_check("a rival with the whole set heads for Vetrassa", RivalDirector.choose_destination(&"runner", WorldMap.FRISALLE) == WorldMap.VETRASSA
 		and RivalDirector.choose_destination(&"runner", WorldMap.VETRASSA) == WorldMap.VETRASSA)
+	_check("and the player hears of it", GameState.quest_flags.get(&"heading_home:runner", false))
 	GameState.move_rival(&"runner", WorldMap.VETRASSA, Vector2(900, 0))
 	RivalDirector.tick_rival(&"runner", 1.0)
 	_check("and reaching it, wins the race", Ending.is_over() and GameState.quest_flags.get(&"ending") == Ending.LOST

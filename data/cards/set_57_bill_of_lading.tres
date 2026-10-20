@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/bill_of_lading.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"bill_of_lading"
+display_name = "Bill of Lading"
+description = "A shipping bill under the Company's seal."
+lore = "'Salt and fish, forty tons, Halmeer to the mainland.' Salt doesn't weigh like that. Signed by a clerk who has started to wonder what he signs."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 14
+icon = ExtResource("2_art")
+copies_in_world = 3

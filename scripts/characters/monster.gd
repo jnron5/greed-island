@@ -207,10 +207,20 @@ func _find_target() -> Node2D:
 		if not _valid_target(n):
 			continue
 		var d := global_position.distance_to(n.global_position)
+		if d > _aggro_for(n):
+			continue
 		if d < best_dist:
 			best = n
 			best_dist = d
 	return best
+
+
+## How far off this beast notices `n`: by night, keener, except for whoever wears
+## the Keeper's Lamp.
+func _aggro_for(n: Node2D) -> float:
+	if night and n.is_in_group(&"player") and GameState.is_equipped(CardSpells.KEEPERS_LAMP):
+		return float(_base.aggro)
+	return aggro_radius
 
 
 ## Untyped on purpose: the target may have been freed (e.g. a rival that left the zone).

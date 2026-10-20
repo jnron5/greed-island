@@ -67,6 +67,9 @@ LORE = {
     "swiftsand_draught": "Couriers on the haul road drink it to make Duskara by nightfall. It tastes of nothing at all, which Hana says is the hardest flavour to brew.",
     "scarab_ward": "Old Ammar carves them from blue faience, one a week, and won't sell to anyone who haggles. 'The scarab rolls the sun across the sky,' he says. 'It can roll a blow aside.'",
     "prospectors_charm": "A tiny brass pick on a coin. Ammar says the first prospectors of Duskara wore them, before the Company bought the ground out from under them.",
+    "fishers_float": "Ferro's grandfather carved it the year the Company came to Halmeer. Three generations of fish, and once, Ferro swears, a crate of cards that came up off the reef on its own.",
+    "smugglers_knot": "Tied by someone who knew what they were doing, cut by someone in a hurry. The same knot holds every crate the barge lets down at the reef. Nobody in Halmeer can tie it, they say.",
+    "bill_of_lading": "'Salt and fish, forty tons, Halmeer to the mainland.' Salt doesn't weigh like that. Signed by a clerk who has started to wonder what he signs.",
 }
 
 

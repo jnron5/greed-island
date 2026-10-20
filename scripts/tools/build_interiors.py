@@ -1289,6 +1289,102 @@ INTERIORS = {
             ]),
         ],
     },
+    # ---- Halmeer (outdoors: build_region.py) ----
+    "halmeer_inn": {
+        "town": "res://scenes/world/halmeer.tscn",
+        "name": "The Gull's Rest",
+        "image": "assets/sprites/tiles/halmeer/interiors/inn_room.png",
+        "size": (320, 256),
+        "exit": (160, 250), "back_to": "from_houseinn", "spawn": (160, 220),
+        "blocks": [
+            (0, 0, 320, 78), (0, 0, 36, 256), (284, 0, 320, 256),                       # back wall, the side walls
+            (104, 20, 158, 100), (88, 70, 106, 94),                                      # the hearth, a barrel by it
+            (36, 60, 100, 146), (36, 130, 90, 160), (36, 166, 80, 208),                  # the stair, barrels
+            (120, 128, 154, 160), (100, 172, 138, 206),                                  # the two tables
+            (216, 96, 232, 152), (216, 140, 284, 162), (250, 86, 284, 140),              # the bar, the shelves behind it
+            (220, 186, 284, 208),                                                        # sacks and crates
+            (0, 208, 144, 256), (176, 208, 320, 256),                                    # the front wall round the door
+        ],
+        "npcs": [("maudie", "Maudie", "maudie", (196, 150), [
+            "Come in, shut the door, the wind's got teeth tonight. It's always got teeth. Welcome to the Gull's Rest.",
+            "Fish stew, fish pie, or bread with fish in it. We had a cook once who tried soup without fish. We don't talk about him.",
+            "My Tom went out on one of the dark nights, three winters back. Said the Company paid double for a hand on the barge. The barge came back. He didn't.",
+            "Nessa on the cape keeps the light. Mostly. You can tell the dark nights: the whole village goes to bed early and pulls the shutters.",
+            "Racers! We get one a year, maybe. Most of you come for the cape chest and leave before supper. Stay for supper.",
+            "The Company man, Grisel, eats in that corner every night with his ledger. Doesn't drink. Doesn't talk. Tips well. I don't trust any of it.",
+            "My rooms look out over the harbour. Half a day or the whole day; you'll sleep, the sea'll see to that.",
+        ], [])],
+        "inn": "maudie",
+        "keeper": {"wake_lines": [
+                       "There you are. Ferro carried you up off the quay like a wet net. You're in the Gull's Rest. Lie still.",
+                       "You gave us a turn. Out cold on the cliff road. Drink this, it's mostly fish.",
+                   ],
+                   "room_prompt": "A bed by the window and the sea to sing you down. Half a day, or the whole day?",
+                   "room_broke": "That's %d gold, love. Sit by the fire as long as you like, mind; the fire's free."},
+        "readables": [
+            ("The chalkboard behind the bar", (196, 104), [
+                "Today's catch, in chalk. Below it, a list of names with ticks: who owes for drink. And at the bottom, smaller: 'Dark night Thursday. Shutters.'",
+            ]),
+        ],
+    },
+    "halmeer_lighthouse": {
+        "town": "res://scenes/world/halmeer.tscn",
+        "name": "The Cape Light",
+        "image": "assets/sprites/tiles/halmeer/interiors/lighthouse_room.png",
+        "size": (320, 256),
+        "exit": (158, 250), "back_to": "from_houselighthouse", "spawn": (158, 220),
+        "blocks": [
+            (0, 0, 320, 64), (0, 0, 40, 256), (280, 0, 320, 256),                        # the round wall
+            (40, 0, 70, 90), (250, 0, 280, 90),
+            (0, 200, 60, 256), (60, 215, 140, 256), (176, 215, 260, 256), (260, 200, 320, 256),
+            (78, 48, 154, 100), (162, 20, 202, 140), (206, 72, 240, 104),                # the bed, the spiral stair, barrels
+            (238, 66, 286, 150), (270, 128, 290, 165),                                   # the shelves, the tools
+            (32, 84, 100, 148), (46, 152, 82, 196), (88, 170, 118, 214),                 # the desk, the rocking chair, the stove
+            (210, 170, 286, 214),                                                        # crates and barrels
+        ],
+        "npcs": [("nessa", "Nessa", "nessa", (140, 160), [
+            "Mind the stair, it's older than me and less forgiving. Forty years I've kept this light.",
+            "A light's a promise. Whoever's out there, whatever they're carrying, you tell them where the rocks are. That's the whole job.",
+            "My knees won't do the cut down to the sea cave any more. My ears still work. I hear oars under the cape on the dark nights.",
+            "The Company pays well. That's the trouble with them. They always pay well.",
+        ], [])],
+        "readables": [
+            ("The keeper's log", (108, 118), [
+                "Forty years of weather in a neat hand. 'Wind SW, light lit, all well.' Then, three winters back, every few weeks: 'Light dark. By order.' And once, underlined: 'Oars. Many.'",
+            ]),
+            ("The tide chart", (222, 112), [
+                "A chart of the cape's waters pinned to the wall. Someone has drawn a dotted line from the sea cave under the cape, round the reef, and off the edge of the chart, south. No harbour is marked at the end of it.",
+            ]),
+        ],
+    },
+    "halmeer_cave": {
+        "town": "res://scenes/world/halmeer.tscn",
+        "name": "The Sea Cave",
+        "image": "assets/sprites/tiles/halmeer/interiors/sea_cave.png",
+        "size": (320, 256),
+        "exit": (165, 206), "back_to": "from_housecave", "spawn": (165, 160),
+        "blocks": [
+            (0, 0, 320, 20), (0, 0, 50, 256), (272, 0, 320, 256), (248, 30, 272, 100),  # the rock walls
+            (40, 20, 190, 100), (40, 100, 104, 130),                                     # the water and the moored barge
+            (214, 52, 246, 100),                                                         # crates on the landing stage
+            (104, 112, 150, 150), (196, 116, 240, 148),                                  # crates, the chart table
+            (48, 146, 64, 180), (56, 176, 96, 214), (248, 190, 272, 210),               # barrels, crates, a bench
+            (0, 214, 124, 256), (206, 214, 320, 256), (124, 172, 146, 256), (186, 172, 206, 256),  # the rock arch
+        ],
+        "npcs": [],
+        "readables": [
+            ("The barge's log", (218, 158), [
+                "A logbook on the chart table, damp at the edges. 'Loaded at the Halmeer landing: uncut, D.M.C., 40 crates. Out on the dark tide, round the reef, to the mainland ship.'",
+                "Earlier pages trace the same crates back: 'Received from Vetrassa factors. Received at Frisalle by the ice road. Received from the North Shaft.' The whole island, crate by crate, out of this cave.",
+            ]),
+            ("D.M.C. crates", (124, 160), [
+                "Crates stamped like the ones on every quay of the island. Prised open: uncut cards in straw, thousands of them. A tally tag is caught in the straw of one. Small.",
+            ]),
+            ("The landing stage", (222, 112), [
+                "Planks laid out over the black water to the barge. A rope cleat with a cut rope end still tied to it, in a knot nobody in Halmeer will admit to knowing.",
+            ]),
+        ],
+    },
 }
 
 

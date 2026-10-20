@@ -350,6 +350,37 @@ const ERRANDS := {
 		],
 		"after": "Water! Sweet water! A copper a cup, and no names asked!",
 	},
+	# Halmeer.
+	&"ferro_tart": {
+		"npc": &"ferro", "zone": "res://scenes/world/halmeer.tscn", "card": &"fishers_float", "need": "item",
+		"item": &"chefs_tart", "count": 1,
+		"ask": [
+			"Sixty years I've fished off this cliff and I've never once eaten anything that wasn't fish, bread or more fish.",
+			"Up the road at Seabright they serve a lemon tart from the King's own son's recipe. Lemon! I've never even seen one.",
+			"Bring me one of those tarts and you can have my grandad's float. Best float on the south coast. Caught a crate once. Long story.",
+		],
+		"waiting": "A lemon tart from the Saltglass Terrace at Seabright. Pepper makes them. I've heard they're yellow.",
+		"give": [
+			"...So that's lemon. It's like the sun bit me. I'm going to sit down.",
+			"The float. Grandad carved it the year the Company came. Funny how everything round here's dated from that.",
+		],
+		"after": "I've told the whole quay about the tart. Nobody believes me. Nobody believes me about the crate either.",
+	},
+	&"grisel_elixir": {
+		"npc": &"grisel", "zone": "res://scenes/world/halmeer.tscn", "card": &"bill_of_lading", "need": "item",
+		"item": &"sea_salt_elixir", "count": 1,
+		"ask": [
+			"I'm a clerk from Vetrassa. Clerks from Vetrassa do not do sea air. I have been sick since the day they posted me here.",
+			"The sailors swear by a sea-salt elixir. I can't buy one here; the Company store only sells salt, and the salt, between us, isn't salt.",
+			"Bring me an elixir and I'll... I'll give you a copy of a bill. One I wasn't supposed to keep. I don't want it in my desk any more.",
+		],
+		"waiting": "A sea-salt elixir. Sailors carry them. I'd ask one myself, but they don't talk to Company men.",
+		"give": [
+			"Oh, that's foul. That's wonderful. The floor's stopped moving.",
+			"Here. A bill of lading. Forty tons of 'salt'. You can lift a crate of salt. You can't lift one of these. Read the weights, then don't tell anyone where you got it.",
+		],
+		"after": "I've asked for a transfer back to Vetrassa. They said the Duke wants me where I am. The Duke has never met me.",
+	},
 }
 
 

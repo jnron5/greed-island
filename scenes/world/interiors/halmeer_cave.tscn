@@ -1,0 +1,222 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/halmeer/interiors/sea_cave.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+
+[sub_resource type="RectangleShape2D" id="R320x20"]
+size = Vector2(320, 20)
+
+[sub_resource type="RectangleShape2D" id="R50x256"]
+size = Vector2(50, 256)
+
+[sub_resource type="RectangleShape2D" id="R48x256"]
+size = Vector2(48, 256)
+
+[sub_resource type="RectangleShape2D" id="R24x70"]
+size = Vector2(24, 70)
+
+[sub_resource type="RectangleShape2D" id="R150x80"]
+size = Vector2(150, 80)
+
+[sub_resource type="RectangleShape2D" id="R64x30"]
+size = Vector2(64, 30)
+
+[sub_resource type="RectangleShape2D" id="R32x48"]
+size = Vector2(32, 48)
+
+[sub_resource type="RectangleShape2D" id="R46x38"]
+size = Vector2(46, 38)
+
+[sub_resource type="RectangleShape2D" id="R44x32"]
+size = Vector2(44, 32)
+
+[sub_resource type="RectangleShape2D" id="R16x34"]
+size = Vector2(16, 34)
+
+[sub_resource type="RectangleShape2D" id="R40x38"]
+size = Vector2(40, 38)
+
+[sub_resource type="RectangleShape2D" id="R24x20"]
+size = Vector2(24, 20)
+
+[sub_resource type="RectangleShape2D" id="R124x42"]
+size = Vector2(124, 42)
+
+[sub_resource type="RectangleShape2D" id="R114x42"]
+size = Vector2(114, 42)
+
+[sub_resource type="RectangleShape2D" id="R22x84"]
+size = Vector2(22, 84)
+
+[sub_resource type="RectangleShape2D" id="R20x84"]
+size = Vector2(20, 84)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="halmeer_cave" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Sea Cave"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 10.0)
+shape = SubResource("R320x20")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(25.0, 128.0)
+shape = SubResource("R50x256")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(296.0, 128.0)
+shape = SubResource("R48x256")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(260.0, 65.0)
+shape = SubResource("R24x70")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(115.0, 60.0)
+shape = SubResource("R150x80")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(72.0, 115.0)
+shape = SubResource("R64x30")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(230.0, 76.0)
+shape = SubResource("R32x48")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(127.0, 131.0)
+shape = SubResource("R46x38")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(218.0, 132.0)
+shape = SubResource("R44x32")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(56.0, 163.0)
+shape = SubResource("R16x34")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(76.0, 195.0)
+shape = SubResource("R40x38")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(260.0, 200.0)
+shape = SubResource("R24x20")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(62.0, 235.0)
+shape = SubResource("R124x42")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(263.0, 235.0)
+shape = SubResource("R114x42")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(135.0, 214.0)
+shape = SubResource("R22x84")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(196.0, 214.0)
+shape = SubResource("R20x84")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(165, 160)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(165, 206)
+target_scene = "res://scenes/world/halmeer.tscn"
+target_spawn = &"from_housecave"
+exit_hint = true
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(218, 158)
+script = ExtResource("12_read")
+title = "The barge's log"
+lines = PackedStringArray("A logbook on the chart table, damp at the edges. 'Loaded at the Halmeer landing: uncut, D.M.C., 40 crates. Out on the dark tide, round the reef, to the mainland ship.'", "Earlier pages trace the same crates back: 'Received from Vetrassa factors. Received at Frisalle by the ice road. Received from the North Shaft.' The whole island, crate by crate, out of this cave.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(124, 160)
+script = ExtResource("12_read")
+title = "D.M.C. crates"
+lines = PackedStringArray("Crates stamped like the ones on every quay of the island. Prised open: uncut cards in straw, thousands of them. A tally tag is caught in the straw of one. Small.")
+
+[node name="Read3" type="Node2D" parent="."]
+position = Vector2(222, 112)
+script = ExtResource("12_read")
+title = "The landing stage"
+lines = PackedStringArray("Planks laid out over the black water to the barge. A rope cleat with a cut rope end still tied to it, in a knot nobody in Halmeer will admit to knowing.")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(165, 160)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

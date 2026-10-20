@@ -1,0 +1,219 @@
+[gd_scene load_steps=31 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Script" path="res://scripts/systems/safe_zone.gd" id="8_safe"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/halmeer/interiors/inn_room.png" id="10_room"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="11_lamp"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="12_read"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/maudie/maudie_frames.tres" id="n_maudie"]
+
+[sub_resource type="RectangleShape2D" id="R320x78"]
+size = Vector2(320, 78)
+
+[sub_resource type="RectangleShape2D" id="R36x256"]
+size = Vector2(36, 256)
+
+[sub_resource type="RectangleShape2D" id="R54x80"]
+size = Vector2(54, 80)
+
+[sub_resource type="RectangleShape2D" id="R18x24"]
+size = Vector2(18, 24)
+
+[sub_resource type="RectangleShape2D" id="R64x86"]
+size = Vector2(64, 86)
+
+[sub_resource type="RectangleShape2D" id="R54x30"]
+size = Vector2(54, 30)
+
+[sub_resource type="RectangleShape2D" id="R44x42"]
+size = Vector2(44, 42)
+
+[sub_resource type="RectangleShape2D" id="R34x32"]
+size = Vector2(34, 32)
+
+[sub_resource type="RectangleShape2D" id="R38x34"]
+size = Vector2(38, 34)
+
+[sub_resource type="RectangleShape2D" id="R16x56"]
+size = Vector2(16, 56)
+
+[sub_resource type="RectangleShape2D" id="R68x22"]
+size = Vector2(68, 22)
+
+[sub_resource type="RectangleShape2D" id="R34x54"]
+size = Vector2(34, 54)
+
+[sub_resource type="RectangleShape2D" id="R64x22"]
+size = Vector2(64, 22)
+
+[sub_resource type="RectangleShape2D" id="R144x48"]
+size = Vector2(144, 48)
+
+[sub_resource type="RectangleShape2D" id="R400x40"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x316"]
+size = Vector2(40, 316)
+
+[sub_resource type="RectangleShape2D" id="R320x276"]
+size = Vector2(320, 276)
+
+[node name="halmeer_inn" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The Gull's Rest"
+interior = true
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(160.0, 128.0)
+scale = Vector2(1, 1)
+texture = ExtResource("10_room")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(160.0, 128.0)
+texture_scale = 4.0
+script = ExtResource("11_lamp")
+always_on = true
+max_energy = 0.35
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 39.0)
+shape = SubResource("R320x78")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(18.0, 128.0)
+shape = SubResource("R36x256")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(302.0, 128.0)
+shape = SubResource("R36x256")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(131.0, 60.0)
+shape = SubResource("R54x80")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(97.0, 82.0)
+shape = SubResource("R18x24")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(68.0, 103.0)
+shape = SubResource("R64x86")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(63.0, 145.0)
+shape = SubResource("R54x30")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(58.0, 187.0)
+shape = SubResource("R44x42")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(137.0, 144.0)
+shape = SubResource("R34x32")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(119.0, 189.0)
+shape = SubResource("R38x34")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(224.0, 124.0)
+shape = SubResource("R16x56")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(250.0, 151.0)
+shape = SubResource("R68x22")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(267.0, 113.0)
+shape = SubResource("R34x54")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(252.0, 197.0)
+shape = SubResource("R64x22")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(72.0, 232.0)
+shape = SubResource("R144x48")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(248.0, 232.0)
+shape = SubResource("R144x48")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -20.0)
+shape = SubResource("R400x40")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-20.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(340.0, 158.0)
+shape = SubResource("R40x316")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, 296.0)
+shape = SubResource("R400x40")
+
+[node name="SafeZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+script = ExtResource("8_safe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeZone"]
+position = Vector2(160.0, 128.0)
+shape = SubResource("R320x276")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="door" type="Marker2D" parent="Spawns"]
+position = Vector2(160, 220)
+
+[node name="Out" parent="." instance=ExtResource("7_exit")]
+position = Vector2(160, 250)
+target_scene = "res://scenes/world/halmeer.tscn"
+target_spawn = &"from_houseinn"
+exit_hint = true
+
+[node name="Npc_maudie" parent="." instance=ExtResource("9_npc")]
+position = Vector2(196, 150)
+npc_id = &"maudie"
+display_name = "Maudie"
+sprite_frames = ExtResource("n_maudie")
+lines = PackedStringArray("Come in, shut the door, the wind's got teeth tonight. It's always got teeth. Welcome to the Gull's Rest.", "Fish stew, fish pie, or bread with fish in it. We had a cook once who tried soup without fish. We don't talk about him.", "My Tom went out on one of the dark nights, three winters back. Said the Company paid double for a hand on the barge. The barge came back. He didn't.", "Nessa on the cape keeps the light. Mostly. You can tell the dark nights: the whole village goes to bed early and pulls the shutters.", "Racers! We get one a year, maybe. Most of you come for the cape chest and leave before supper. Stay for supper.", "The Company man, Grisel, eats in that corner every night with his ledger. Doesn't drink. Doesn't talk. Tips well. I don't trust any of it.", "My rooms look out over the harbour. Half a day or the whole day; you'll sleep, the sea'll see to that.")
+inn_rooms = true
+shop_stock = Array[StringName]([&"bread", &"smoked_fish", &"healers_tonic"])
+shop_buys_cards = false
+shop_title = "The Gull's Rest"
+wake_lines = PackedStringArray("There you are. Ferro carried you up off the quay like a wet net. You're in the Gull's Rest. Lie still.", "You gave us a turn. Out cold on the cliff road. Drink this, it's mostly fish.")
+room_prompt = "A bed by the window and the sea to sing you down. Half a day, or the whole day?"
+room_broke = "That's %d gold, love. Sit by the fire as long as you like, mind; the fire's free."
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(196, 104)
+script = ExtResource("12_read")
+title = "The chalkboard behind the bar"
+lines = PackedStringArray("Today's catch, in chalk. Below it, a list of names with ticks: who owes for drink. And at the bottom, smaller: 'Dark night Thursday. Shutters.'")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(160, 220)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

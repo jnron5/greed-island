@@ -24,6 +24,9 @@ const PROSPECTOR := &"prospectors_charm" # monsters drop more gold
 ## half as fast, and your stealth steals are surer.
 const GREEN_LAMP := &"green_lamp"
 const GREEN_LAMP_STEAL := 0.15
+## Nessa's charm (Halmeer, "The Smuggler's Route"): after dark the savage beasts
+## see you no sooner than by day and hit you no harder.
+const KEEPERS_LAMP := &"keepers_lamp"
 const BOON_SECONDS := {MIRAGE: 20.0, SCARAB_FURY: 30.0, GLASS_SKIN: 6.0, SWIFTSAND: 30.0}
 const DUST_DEVIL_RANGE := 130.0
 const DUST_DEVIL_STUN := 2.5
@@ -153,6 +156,7 @@ const RETURN_CARDS := {
 	&"frisalle_return": WorldMap.FRISALLE,
 	&"duskara_return": WorldMap.DUSKARA,
 	&"vetrassa_return": WorldMap.VETRASSA,
+	&"halmeer_return": WorldMap.HALMEER,
 }
 
 

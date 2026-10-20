@@ -357,6 +357,22 @@ const TOPICS := {
 			"Duskara sand is fine and white under the red. Melt it right and it comes out clear as a cold morning. The best on the island.",
 		]],
 	],
+	# Halmeer.
+	&"nessa": [
+		["What are the dark nights?", [
+			"Moonless nights, marked on the tide board with a little pick. The Company pays me to keep the lamp out from dusk to dawn, and the whole village pulls its shutters.",
+			"Something comes in under the cape on those nights and goes out again before the light. Oars. Lots of them.",
+		]],
+		["Why keep a light at all?", [
+			"So nobody drowns. That's all a light's for. It's the simplest job on the island, and they found a way to pay me not to do it.",
+		]],
+	],
+	&"maudie": [
+		["What happened to Tom?", [
+			"He rowed for the Company on a dark night, three winters back. Double pay, they said. The barge came back on the morning tide. He didn't.",
+			"They sent me his wages and a letter that said 'lost at sea'. The sea had nothing to do with it. Ask Nessa what the barge carries.",
+		]],
+	],
 	# Vetrassa, where the race ends.
 	&"freya": [
 		["How does the race end?", [

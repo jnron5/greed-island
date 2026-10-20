@@ -749,8 +749,9 @@ RESORT = {
     "entry": (-300, -510),
     "exits": [
         {"name": "ToVerdana", "pos": (-300, -572), "side": "n", "target": "res://scenes/world/verdana.tscn", "spawn": "from_resort"},
+        {"name": "ToHalmeer", "pos": (-796, -380), "side": "w", "target": "res://scenes/world/halmeer.tscn", "spawn": "from_seabright"},
     ],
-    "spawns": {"from_verdana": (-300, -510), "town": (0, -260)},
+    "spawns": {"from_verdana": (-300, -510), "town": (0, -260), "from_halmeer": (-730, -380)},
     "rival_spots": {"runner": (-340, -470), "raider": (-260, -470), "hoarder": (-60, -120)},
     "buildings": [
         {"node": "HouseHotel", "sprite": RS + "pavilion.png", "pos": (560, -150), "foot": 200, "depth": 96,
@@ -1457,7 +1458,7 @@ DUSKARA = {
             "Wear two charms at most. More than that and they argue among themselves, and you'll lose the argument.",
         ]},
         {"id": "tamsa", "name": "Tamsa", "pos": (SOUK_STALLS[3], SOUK_ROW + 24), "wander": 0, "out": (7.0, 22.0),
-         "shop": ["kalmora_return", "sorenda_return", "verdana_return", "seabright_return", "frisalle_return", "duskara_return", "vetrassa_return"],
+         "shop": ["kalmora_return", "sorenda_return", "verdana_return", "seabright_return", "frisalle_return", "duskara_return", "vetrassa_return", "halmeer_return"],
          "shop_title": "Tamsa's Way-Cards", "lines": [
             "Way-cards for every town on Virelia! Every one I've been to, anyway, and I've been to all of them that'll have me.",
             "Kalmora, Sorenda, Verdana, Seabright, Frisalle, here. A return to any of them, at the same price the towns charge. Saves you the walk back.",
@@ -1686,4 +1687,155 @@ VETRASSA = {
     "butterflies": [],
 }
 
-ZONES = {"seabright_quay": RESORT, "aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL, "frisalle": FRISALLE, "siroth_dunes": SIROTH, "duskara": DUSKARA, "vetrassa": VETRASSA}
+# ---------------------------------------------------------------- Halmeer
+# The last port on the south coast, west of Seabright along the cliff road: a small
+# weathered fishing village clinging to the cliff over a rough sea. Three heights: a
+# cobbled quay inside a tight harbour cove (the smokehouse, the Company's 'salt house',
+# two plank piers), the village street above it (cottages shoulder to shoulder, the
+# Gull's Rest inn, the card stall), and the windswept heath on top where the
+# smugglers' cut runs down through the cliff to a sea cave. On the cape to the west,
+# Nessa's lighthouse, paid to keep dark on certain nights.
+HM = "assets/sprites/tiles/halmeer/"
+
+
+def halmeer_coast(x):
+    """Where the land meets the sea: a tight cove in the middle, the cape running out
+    south to the west."""
+    if -330 <= x <= 330:
+        return 240
+    base = 330 + 18 * math.sin(x / 140.0)
+    if x < -480:
+        base += min(250, (-480 - x) * 0.9)
+    return base
+
+
+def halmeer_level(x, y):
+    """0 the sea, 1 the harbour quay, 2 the village street and the cape, 3 the heath."""
+    if y > halmeer_coast(x):
+        return 0
+    if -330 <= x <= 330 and y > 40:
+        return 1
+    if y > -180 + 8 * math.sin(x / 120.0):
+        return 2
+    return 3
+
+
+def h_home(sprite, x, y):
+    w = Image_w(HM + sprite)
+    return {"sprite": HM + sprite, "pos": (x, y), "foot": (w - 8, 40), "glow": True}
+
+
+HALMEER = {
+    "scene": "scenes/world/halmeer.tscn",
+    "root": "Halmeer",
+    "display": "Halmeer, the End of the Coast",
+    "art": HM,
+    "bounds": (-960, -640, 960, 640),
+    "level": halmeer_level,
+    "cliffs": {(0, 1): K2C + "sea_quay", (1, 2): K2C + "quay_town", (2, 3): K2C + "quay_town", (0, 2): K2C + "sea_rock"},
+    "flats": {0: ((0, 1), "lower"), 1: ((0, 1), "upper"), 2: ((1, 2), "upper"), 3: ((2, 3), "upper")},
+    "sea_level": 0,
+    "sea_depth": True,
+    "sea_tint": (0.78, 0.88, 0.95, 1),
+    "turquoise": (60, 130, 140),
+    "stairs": [(-200, 40, 1, 2), (200, 40, 1, 2), (-420, -180, 2, 3), (380, -180, 2, 3)],
+    "grade": (0.8, (0.96, 0.98, 1.02)),
+    "palette": ((78, 110, 66), (124, 142, 86)),
+    "dapple": 0.1,
+    "dress_levels": [2, 3],
+    "tree_levels": [3],
+    "plaza_stone": (170, 166, 158),
+    "paved_levels": [1],
+    "pave_stone": (150, 148, 142),
+    "paths": [
+        ([(980, -100), (700, -90), (460, -40), (330, -20)], 26),                                  # the cliff road in from Seabright
+        ([(330, -20), (-620, -20)], 24),                                                          # the village street
+        ([(-620, -20), (-700, 120), (-740, 330)], 18),                                            # out to the lighthouse on the cape
+        ([(-200, -20), (-200, 30)], 18), ([(200, -20), (200, 30)], 18),                           # down to the quay stairs
+        ([(-420, -40), (-420, -170)], 16), ([(380, -40), (380, -170)], 16),                       # up to the heath
+        ([(-420, -200), (-640, -230)], 14),                                                       # along the heath to the cut
+    ],
+    "docks": [(-70, 240, -30, 490), (70, 240, 110, 450), (-130, 460, -30, 490)],
+    "dock_rails": True,
+    "afloat": [(K2 + "props/rowboat.png", (10, 360), False), (K2 + "props/rowboat.png", (150, 320), True),
+               (K2 + "props/rowboat.png", (-170, 410), True)],
+    "fishing": [(-110, 476)],
+    "tree_kinds": ["fir", "oak"],
+    "treeline_kinds": ["fir", "oak"],
+    "groves": [(-200, -420, 4, 70), (300, -460, 4, 70), (700, -380, 3, 60), (-720, -420, 3, 60), (720, 200, 3, 50)],
+    "under": [("grass_clump", 4), ("flowers", 2), ("berry_bush", 1)],
+    "patches": 18,
+    "tufts": 40,
+    "tuft_tint": (0.92, 0.98, 1.0, 1),
+    "gulls": [((0, 300), 5, (220, 90)), ((-700, 560), 3, (120, 60))],
+    "safe_zone": (-620, -180, 620, 240),
+    "entry": (900, -100),
+    "exits": [
+        {"name": "ToSeabright", "pos": (956, -100), "side": "e", "target": "res://scenes/world/seabright_quay.tscn", "spawn": "from_halmeer"},
+    ],
+    "spawns": {"from_seabright": (900, -100), "town": (60, -10)},
+    "rival_spots": {"runner": (820, -120), "raider": (820, -60), "hoarder": (760, -90)},
+    "buildings": [
+        {"node": "HouseInn", "sprite": HM + "inn.png", "pos": (-250, -70), "foot": 120,
+         "door": "res://scenes/world/interiors/halmeer_inn.tscn", "back": "from_houseinn"},
+        {"node": "HouseLighthouse", "sprite": HM + "lighthouse.png", "pos": (-760, 420), "foot": 86,
+         "door": "res://scenes/world/interiors/halmeer_lighthouse.tscn", "back": "from_houselighthouse"},
+        {"node": "HouseCave", "sprite": HM + "cave_mouth.png", "pos": (-680, -122), "foot": 90,
+         "door": "res://scenes/world/interiors/halmeer_cave.tscn", "back": "from_housecave"},
+    ],
+    "props": (
+        # The village street: cottages shoulder to shoulder on the north side, a few
+        # on the south side along the top of the quay wall.
+        [h_home(s, x, -70) for s, x in [("cottage_a.png", -560), ("cottage_b.png", -470), ("cottage_c.png", -90),
+                                        ("cottage_a.png", 0), ("cottage_b.png", 90), ("cottage_c.png", 450), ("cottage_a.png", 540)]]
+        + [h_home(s, x, 30) for s, x in [("cottage_c.png", -520), ("cottage_b.png", -420), ("cottage_a.png", 430), ("cottage_c.png", 520)]]
+        # The quay: the smokehouse and the Company's salt house, nets and crates.
+        + [{"sprite": HM + "smokehouse.png", "pos": (-210, 205), "foot": (76, 30)}]
+        + [{"sprite": HM + "warehouse.png", "pos": (190, 205), "foot": (114, 40), "glow": True}]
+        + [{"sprite": KP + "crates.png", "pos": p, "foot": (26, 8), "scale": 1.1} for p in [(285, 222), (95, 222)]]
+        + [{"sprite": KP + "barrels.png", "pos": p, "foot": (26, 8), "scale": 1.1} for p in [(-120, 222), (-295, 222)]]
+        + [{"sprite": K2 + "props/fish_crates.png", "pos": (-20, 190), "foot": (30, 8)}]
+        + [{"sprite": K2 + "props/bench.png", "pos": p, "foot": (36, 8)} for p in [(-330, 10), (330, 10)]]
+        # The cape: wind-bent bushes, boulders, a bench where Nessa watches the sea.
+        + [{"sprite": K2 + "props/boulder.png", "pos": p, "foot": (30, 12)} for p in [(-860, 260), (-580, 420), (-880, 470), (-540, 300)]]
+        + [{"sprite": K2 + "props/bush.png", "pos": p, "foot": (24, 8)} for p in [(-820, 120), (-640, 260), (-900, 360), (-760, 220)]]
+        + [{"sprite": K2 + "props/bush_flowers.png", "pos": p, "foot": (24, 8)} for p in [(-690, 330), (-830, 400)]]
+        + [{"sprite": K2 + "props/bench.png", "pos": (-660, 400), "foot": (36, 8)}]
+    ),
+    "merchant": ((250, -30), "assets/sprites/tiles/kalmora/market_stall.png"),
+    "lanterns": [(-380, 0), (-140, 0), (150, 0), (380, 0), (-60, 120), (40, 200), (-680, 200), (620, -60)],
+    "npcs": [
+        {"id": "ferro", "name": "Ferro", "pos": (-60, 160), "wander": 50, "lines": [
+            "Rough sea today. It's always rough. Halmeer's the end of the coast; the sea takes it personally.",
+            "The Company buys our catch for salt-fish. Never seen them salt a single fish. Never seen them eat one either.",
+            "Old Nessa up on the cape keeps the light. Most nights. Ask her about the other nights, if you're brave.",
+            "On a still night you can hear oars under the cape. Seals, the Company man says. Seals don't row.",
+            "Nobody comes to Halmeer unless they're lost, a racer, or the Company. You're not lost, are you?",
+        ]},
+        {"id": "grisel", "name": "Grisel", "pos": (255, 226), "wander": 0, "lines": [
+            "Duskara Mining Company, Halmeer office. Salt and fish. Mostly salt. Please don't lean on the crates.",
+            "I'm not permitted to discuss the salt house's contents. Salt. The contents are salt.",
+            "Vetrassa had theatres. Halmeer has gulls. I have been very patient with the gulls.",
+        ]},
+    ],
+    "readables": [
+        ("The tide board", (-80, 140), [
+            "A slate board on the quay with the month's tides chalked in neat columns. Beside some nights, a little mark: a pick. The same nights, every month: no moon.",
+            "Underneath, in a different hand: 'LIGHT DARK. By order. D.M.C.'",
+        ]),
+        ("The salt house door", (160, 224), [
+            "The Company's warehouse: 'D.M.C. SALT AND FISH'. The doors are barred and padlocked, and the padlock is new. There's no smell of fish at all.",
+            "Through a gap in the boards, crates stamped like the ones on Kalmora's quay. On one the lid's been prised up: no salt. Cards, uncut, packed in straw.",
+        ]),
+        ("A memorial on the cliff", (620, 200), [
+            "A stone on the cliff edge with the names of Halmeer's drowned, a century of them. The newest line is cut shallow, in a hurry: 'and the ones who rowed out on the dark nights'.",
+        ]),
+    ],
+    "chests": [
+        {"id": "halmeer_cape", "pos": (-720, 450), "card": "smugglers_knot", "gold": 20},
+        {"id": "halmeer_heath", "pos": (120, -300), "gold": 35, "item": "smoked_fish"},
+    ],
+    "butterflies": [],
+}
+
+ZONES = {"seabright_quay": RESORT, "aurewind_plains": AUREWIND, "verdana": VERDANA, "lake_serin": LAKE_SERIN, "starfall_range": STARFALL, "frisalle": FRISALLE, "siroth_dunes": SIROTH, "duskara": DUSKARA, "vetrassa": VETRASSA, "halmeer": HALMEER}

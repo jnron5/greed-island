@@ -100,8 +100,12 @@ func choose_destination(id: StringName, zone: String) -> String:
 	for card in col.card_ids():
 		carrying += col.count(card, CardCollection.State.LOOSE)
 
-	# The whole set: straight to Vetrassa to hand it in (every style).
+	# The whole set: straight to Vetrassa to hand it in (every style). Lose a card on
+	# the way and the warning can come again.
+	if not Ending.has_set(id):
+		GameState.quest_flags.erase(StringName("heading_home:%s" % id))
 	if Ending.has_set(id) and (zone == WorldMap.VETRASSA or not WorldMap.next_hop(zone, WorldMap.VETRASSA, id, pays).is_empty()):
+		_warn_heading_home(id)
 		return WorldMap.VETRASSA
 
 	# Full hands: get to a town to bind (every style).
@@ -144,6 +148,17 @@ func choose_destination(id: StringName, zone: String) -> String:
 				if not WorldMap.reachable_pickups(other, id, pays).is_empty():
 					return other
 			return zone
+
+
+## Once per run of a full set: tell the player a rival is making for Vetrassa with
+## it (there's still time to catch them on the road and knock a card loose).
+func _warn_heading_home(id: StringName) -> void:
+	var key := StringName("heading_home:%s" % id)
+	if GameState.quest_flags.get(key, false):
+		return
+	GameState.quest_flags[key] = true
+	var profile := GameState.rival_profile(id)
+	EventBus.notify.emit("Word on the road: the %s holds the whole set and is making for Vetrassa!" % (profile.display_name if profile else String(id)))
 
 
 ## A boss rival `id` should go after from `zone`: it hunts, the boss is alive,

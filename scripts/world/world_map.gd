@@ -56,6 +56,11 @@ const VETRASSA := "res://scenes/world/vetrassa.tscn"
 const VETRASSA_PALACE := "res://scenes/world/interiors/vetrassa_palace.tscn"
 const VETRASSA_RESTAURANT := "res://scenes/world/interiors/vetrassa_restaurant.tscn"
 const VETRASSA_INN := "res://scenes/world/interiors/vetrassa_inn.tscn"
+## West of Seabright along the cliff road: Halmeer, the last port on the south coast.
+const HALMEER := "res://scenes/world/halmeer.tscn"
+const HALMEER_INN := "res://scenes/world/interiors/halmeer_inn.tscn"
+const HALMEER_LIGHTHOUSE := "res://scenes/world/interiors/halmeer_lighthouse.tscn"
+const HALMEER_CAVE := "res://scenes/world/interiors/halmeer_cave.tscn"
 const SERIN_FISHER_HUT := "res://scenes/world/interiors/serin_fisher_hut.tscn"
 const STARFALL_GROTTO := "res://scenes/world/starfall_grotto.tscn"
 const AUREWIND_BARROW := "res://scenes/world/aurewind_barrow.tscn"
@@ -109,6 +114,7 @@ const ZONES := {
 	DUSKARA: { "name": "Duskara", "origin": Vector2(-6928, 189), "monster_drops": [] },
 	DUSKARA_MINE: { "name": "The North Shaft", "origin": Vector2(-6678, -900), "monster_drops": [] },
 	VETRASSA: { "name": "Vetrassa", "origin": Vector2(-5078, -4689), "monster_drops": [] },
+	HALMEER: { "name": "Halmeer", "origin": Vector2(-4196, 2491), "monster_drops": [] },
 	LAKE_SERIN: { "name": "Lake Serin", "origin": Vector2(-2894, -1625),
 		"monster_drops": [&"hollow_acorn", &"moss_lantern", &"thorn_sprig"] },
 	STARFALL: { "name": "Starfall Range", "origin": Vector2(-3194, -3201),
@@ -158,6 +164,9 @@ const ZONES := {
 	VETRASSA_PALACE: { "name": "The Throne Room", "origin": Vector2(-5078, -5099), "monster_drops": [] },
 	VETRASSA_RESTAURANT: { "name": "Chef's", "origin": Vector2(-5598, -4799), "monster_drops": [] },
 	VETRASSA_INN: { "name": "The Crown & Anchor", "origin": Vector2(-5638, -4289), "monster_drops": [] },
+	HALMEER_INN: { "name": "The Gull's Rest", "origin": Vector2(-4446, 2421), "monster_drops": [] },
+	HALMEER_LIGHTHOUSE: { "name": "The Cape Light", "origin": Vector2(-4956, 2911), "monster_drops": [] },
+	HALMEER_CAVE: { "name": "The Sea Cave", "origin": Vector2(-4876, 2313), "monster_drops": [] },
 	SERIN_FISHER_HUT: { "name": "Neri's Hut", "origin": Vector2(-2074, -1735), "monster_drops": [] },
 	STARFALL_CABIN: { "name": "Hald's Cabin", "origin": Vector2(-2574, -3311), "monster_drops": [] },
 	SORENDA_LONGHOUSE: { "name": "The Elder's Longhouse", "origin": Vector2(-30, -2598), "monster_drops": [] },
@@ -179,6 +188,7 @@ const TOWNS := {
 	FRISALLE: { "spawn": &"town", "position": Vector2(0, 580) },
 	DUSKARA: { "spawn": &"town", "position": Vector2(290, 150) },
 	VETRASSA: { "spawn": &"town", "position": Vector2(120, 100) },
+	HALMEER: { "spawn": &"town", "position": Vector2(60, -10) },
 }
 
 ## Walkable connections. `exit` is where you leave `from` (local position of its
@@ -266,6 +276,11 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(900, 0), "gate": &"" },
 	{ "from": VETRASSA, "to": FRISALLE, "exit": Vector2(956, 0), "spawn": &"from_vetrassa",
 		"entry": Vector2(-760, 44), "gate": &"" },
+	# West of Seabright along the cliff road to Halmeer.
+	{ "from": SEABRIGHT, "to": HALMEER, "exit": Vector2(-796, -380), "spawn": &"from_seabright",
+		"entry": Vector2(900, -100), "gate": &"" },
+	{ "from": HALMEER, "to": SEABRIGHT, "exit": Vector2(956, -100), "spawn": &"from_halmeer",
+		"entry": Vector2(-730, -380), "gate": &"" },
 ]
 
 static var _pickup_cache: Dictionary = {}
@@ -310,6 +325,7 @@ const TOWN_INNS := {
 	FRISALLE: FRISALLE_INN,
 	DUSKARA: DUSKARA_INN,
 	VETRASSA: VETRASSA_INN,
+	HALMEER: HALMEER_INN,
 }
 
 

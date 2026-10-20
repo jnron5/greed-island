@@ -43,6 +43,7 @@ const QUOTA := {
 	"res://scenes/world/frisalle.tscn": 2,
 	"res://scenes/world/duskara.tscn": 2,
 	"res://scenes/world/vetrassa.tscn": 2,
+	"res://scenes/world/halmeer.tscn": 2,
 	"res://scenes/world/aurewind_plains.tscn": 1,
 	"res://scenes/world/siroth_dunes.tscn": 1,
 	"res://scenes/world/thornveil.tscn": 1,
@@ -58,6 +59,7 @@ const CITY := {
 	"res://scenes/world/frisalle.tscn": "frisalle",
 	"res://scenes/world/duskara.tscn": "duskara",
 	"res://scenes/world/vetrassa.tscn": "vetrassa",
+	"res://scenes/world/halmeer.tscn": "halmeer",
 }
 ## id, name, sprite (one of the eight traveller sprites), their own lines, and for one
 ## or two a little stock to sell.
@@ -153,6 +155,14 @@ const ROSTER := [
 		"I carry messages from the palace. Mostly to the Captain. Mostly 'no news'. The King's been gone a long time.",
 		"The Steward lets me polish the lectern. Never the book. He says the book polishes itself.",
 	] },
+	{ "id": "gwen", "name": "Gwen the Net-Mender", "sprite": "traveller_sailor", "lines": [
+		"I mend nets up and down the south coast. Halmeer's nets are the worst. Something keeps cutting them, out by the reef.",
+		"Fisherfolk pay in fish. I have a great deal of fish. Would you like some fish? I'm not allowed to sell it.",
+	] },
+	{ "id": "abel", "name": "Abel the Surveyor", "sprite": "traveller_tinker", "lines": [
+		"I measure the coast for the King's charts. Every year the cape's in a slightly different place. The sea's eating it.",
+		"Funny thing: the Company's charts of Halmeer show a channel under the cape. Mine show rock. One of us is wrong, and they pay better.",
+	] },
 ]
 
 ## What anyone passing through says about a town.
@@ -202,6 +212,13 @@ const CITY_LINES := {
 		"The Captain stands on the palace steps all day. They say she's the King's daughter. They say she's never smiled. One of those is true.",
 		"Mind the customs house on the quay. Everything that comes into Vetrassa gets taxed, except whatever comes in for the Company.",
 		"Brigid at the Crown & Anchor will mend you, feed you and tell you everyone's business. All three for the price of a room.",
+	],
+	"halmeer": [
+		"Halmeer. The end of the coast, and it feels like it. Lovely people. Very tired of wind.",
+		"Maudie at the Gull's Rest does a fish pie that'll stop your heart, in the good way.",
+		"Don't stay out on the cape on the dark nights. The village pulls its shutters and nobody says why.",
+		"There's a Company salt house on the quay. Never seen a grain of salt come out of it.",
+		"The lighthouse keeper's been at it forty years. Ask her about the light, she'll talk for an hour. Ask her about the dark, she won't say a word.",
 	],
 }
 ## What they say in Kalmora after dark, back from the road.

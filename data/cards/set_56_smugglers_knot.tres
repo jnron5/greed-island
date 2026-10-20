@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/smugglers_knot.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"smugglers_knot"
+display_name = "Smuggler's Knot"
+description = "A sailor's knot in tarred rope, cut clean through."
+lore = "Tied by someone who knew what they were doing, cut by someone in a hurry. The same knot holds every crate the barge lets down at the reef. Nobody in Halmeer can tie it, they say."
+rarity = 1
+source = 0
+is_final_set_member = true
+sell_value = 40
+icon = ExtResource("2_art")
+copies_in_world = 3

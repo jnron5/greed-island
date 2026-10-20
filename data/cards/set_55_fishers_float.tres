@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/fishers_float.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"fishers_float"
+display_name = "Fisher's Float"
+description = "A red and white cork float, worn smooth."
+lore = "Ferro's grandfather carved it the year the Company came to Halmeer. Three generations of fish, and once, Ferro swears, a crate of cards that came up off the reef on its own."
+rarity = 0
+source = 0
+is_final_set_member = true
+sell_value = 14
+icon = ExtResource("2_art")
+copies_in_world = 3
