@@ -186,7 +186,7 @@ func _process_move() -> void:
 		velocity = Vector2.ZERO
 		return
 	var input := Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
-	velocity = input * move_speed
+	velocity = input * move_speed * (CardSpells.SWIFTSAND_SPEED if GameState.has_boon(collector_id, CardSpells.SWIFTSAND) else 1.0)
 	if _charge >= 0.0:
 		_process_charge(input)
 		return
@@ -203,6 +203,7 @@ func _process_move() -> void:
 		sword_pivot.rotation = facing.angle()
 		sword_shape.set_deferred(&"disabled", false)
 		_swing_side = -_swing_side   # alternate forehand and backhand cuts
+		sword_hitbox.damage = sword_damage + (CardSpells.SCARAB_FURY_BONUS if GameState.has_boon(collector_id, CardSpells.SCARAB_FURY) else 0)
 		_enter(State.SWORD)
 		Sfx.play(&"sword")
 	elif Input.is_action_just_pressed(&"pistol") and _pistol_cd <= 0.0:
@@ -310,6 +311,15 @@ func _enter(state: State) -> void:
 
 func _on_hurt(hitbox: Hitbox) -> void:
 	if _state == State.DEAD:
+		return
+	# Glass Skin: blows glance off. A Scarab Ward turns one blow in four aside.
+	if GameState.has_boon(collector_id, CardSpells.GLASS_SKIN) \
+			or (GameState.is_equipped(CardSpells.SCARAB_WARD) and randf() < CardSpells.SCARAB_WARD_CHANCE):
+		Combat.pop_number(get_parent(), global_position, 0, Color(0.75, 0.95, 1.0))
+		Sfx.play(&"glance")
+		sprite.modulate = Color(1.6, 1.8, 2.0)
+		await _set_invulnerable_for(0.25)
+		sprite.modulate = Color.WHITE
 		return
 	health = maxi(health - hitbox.damage, 0)
 	_calm_time = 0.0

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/scarab_fury.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"scarab_fury"
+display_name = "Scarab Fury"
+description = "Buff: your sword hits harder for 30 seconds. Used up."
+lore = "Hana brews it from the shells of fire scarabs and something she won't name. It tastes of hot copper, and for half a minute your arm doesn't feel like yours."
+category = 1
+source = 3
+sell_value = 15
+icon = ExtResource("2_art")
+shop_price = 30

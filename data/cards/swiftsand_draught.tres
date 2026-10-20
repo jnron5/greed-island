@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/swiftsand_draught.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"swiftsand_draught"
+display_name = "Swiftsand Draught"
+description = "Buff: you run faster for 30 seconds. Used up."
+lore = "Couriers on the haul road drink it to make Duskara by nightfall. It tastes of nothing at all, which Hana says is the hardest flavour to brew."
+category = 1
+source = 3
+sell_value = 12
+icon = ExtResource("2_art")
+shop_price = 25

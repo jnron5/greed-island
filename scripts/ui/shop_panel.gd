@@ -45,8 +45,9 @@ func _build_rows() -> void:
 		if card == null:
 			continue
 		var owned := GameState.collection(GameState.PLAYER).count(id)
-		add_row(card.display_name, card_color(card), "%dg   (have %d)" % [card.shop_price, owned], [
-			["Buy", func() -> void: GameState.buy_card(GameState.PLAYER, id), GameState.currency >= card.shop_price],
+		var price := GameState.card_price(card)
+		add_row(card.display_name, card_color(card), "%dg   (have %d)" % [price, owned], [
+			["Buy", func() -> void: GameState.buy_card(GameState.PLAYER, id), GameState.currency >= price],
 		])
 		add_note(card.description)
 

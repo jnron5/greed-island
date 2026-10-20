@@ -45,6 +45,9 @@ const TALK_RANGE := 34.0
 @export var shop_buys_cards := true
 ## The shop's name on its window (defaults to the shopkeeper's).
 @export var shop_title := ""
+## A card broker: besides shop_stock, a few of the island's common set cards for
+## sale, a fresh handful every day (the same all day; GameState.card_price).
+@export var shop_daily_cards := 0
 ## An inn keeper: offers a room for half a day or a full day (Inn).
 @export var inn_rooms := false
 ## What the keeper says when you ask for a room, and when you can't pay.
@@ -518,7 +521,7 @@ func _done_talking() -> void:
 ## The question list after a chat: this resident's topics, their shop, goodbye.
 func _offer_topics() -> void:
 	var topics := TalkTopics.for_npc(npc_id)
-	if topics.is_empty() and shop_stock.is_empty() and not inn_rooms:
+	if topics.is_empty() and not has_shop() and not inn_rooms:
 		_talking = false
 		return
 	var options := PackedStringArray()
@@ -526,7 +529,7 @@ func _offer_topics() -> void:
 		options.append(topic[0])
 	if inn_rooms:
 		options.append("I'd like a room")
-	if not shop_stock.is_empty():
+	if has_shop():
 		options.append("Let me see your wares")
 	options.append("Goodbye")
 	DialogueBox.ask(get_tree(), display_name, "Anything else?", options, _on_topic,
@@ -546,10 +549,33 @@ func _on_topic(index: int) -> void:
 			return
 		at += 1
 	_talking = false
-	if index == at and not shop_stock.is_empty():
+	if index == at and has_shop():
 		var shop := get_tree().get_first_node_in_group(&"shop_panel") as ShopPanel
 		if shop:
-			shop.open_with(shop_stock, shop_title if shop_title != "" else display_name, shop_buys_cards)
+			shop.open_with(current_stock(), shop_title if shop_title != "" else display_name, shop_buys_cards)
+
+
+func has_shop() -> bool:
+	return not shop_stock.is_empty() or shop_daily_cards > 0
+
+
+## What's on the counter today: the regular stock, and a broker's handful of the
+## island's common set cards (dealt by the day, so it's the same all day).
+func current_stock() -> Array[StringName]:
+	var stock: Array[StringName] = shop_stock.duplicate()
+	if shop_daily_cards <= 0:
+		return stock
+	var pool: Array[StringName] = []
+	for card in CardDatabase.all_cards():
+		if card.category == CardData.Category.SET and card.is_final_set_member \
+				and card.rarity == CardData.Rarity.COMMON and card.source != CardData.Source.BOSS:
+			pool.append(card.id)
+	pool.sort()
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(String(npc_id)) + TimeOfDay.day * 7919
+	for i in mini(shop_daily_cards, pool.size()):
+		stock.append(pool.pop_at(rng.randi_range(0, pool.size() - 1)))
+	return stock
 
 
 ## Half a day or a full day; pay, sleep, wake mended.

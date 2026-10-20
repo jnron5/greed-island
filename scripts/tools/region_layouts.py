@@ -1275,7 +1275,14 @@ SIROTH = {
 # A lane between the houses climbs the stairs, past two Company men, to the Company's
 # terrace under the north rim: the D.M.C. office and the mine shaft, chained shut,
 # where the foreman keeps her count. The mine itself is for "Beneath the Dunes" (to
-# come); its door is a prop for now.
+# come); its door is a prop for now. South-east of the bazaar, under the haul road,
+# the Card Souk: five stalls in a row behind a sandstone arch hung with card
+# bunting, each its own trade (spells, brews, charms, way-cards for every town, and
+# a broker who sells the island's own set cards, fresh from the seam).
+SOUK = (458, 290)                         # the souk's paving
+SOUK_STALLS = [290, 374, 458, 542, 626]   # stall x positions, along its north side
+SOUK_ROW = 244                            # the stalls' feet
+SKP = DK + "souk/"
 BOWL = [(-680, -620), (680, -620), (680, -40), (900, -40), (900, 300), (680, 300), (680, 540), (-680, 540)]
 TERRACE_Y = -300
 BAZAAR = (60, 130)
@@ -1321,10 +1328,11 @@ DUSKARA = {
         ([(-56, -420), (240, -450)], 20),                                                  # and to the mine
         ([(-640, SOUTH_ROW + 20), (640, SOUTH_ROW + 20)], 20),                             # the south lane
         ([(-250, 140), (-250, SOUTH_ROW + 20)], 18),                                       # down between the houses
-        ([(330, 150), (330, SOUTH_ROW + 20)], 18),
+        ([(230, 150), (230, SOUTH_ROW + 20)], 18),
+        ([(SOUK[0], SOUK[1] + 60), (SOUK[0], SOUTH_ROW + 20)], 20),                       # through the souk's arch
         ([(-560, NORTH_ROW + 10), (-560, 110)], 14),                                       # Rafi's door
     ],
-    "plazas": [(BAZAAR[0], BAZAAR[1], 200, 92)],
+    "plazas": [(BAZAAR[0], BAZAAR[1], 200, 92), (SOUK[0], SOUK[1], 210, 82)],
     "pools": [(BAZAAR[0] - 44, BAZAAR[1] - 20, BAZAAR[0] + 44, BAZAAR[1] + 16)],          # the town cistern
     "tree_kinds": ["palm"],
     "groves": [(-640, 260, 2, 30), (620, 230, 2, 30), (-120, 270, 1, 20)],
@@ -1358,8 +1366,7 @@ DUSKARA = {
                                                  ("house_b.png", 405), ("tower_b.png", 505), ("house_a.png", 610)]]
         # The south row along the south lane (gaps at the two lanes down from the bazaar).
         + [row_home(s, x, SOUTH_ROW) for s, x in [("tower_b.png", -620), ("house_c.png", -510), ("house_a.png", -395),
-                                                   ("house_b.png", -120), ("tower_a.png", 160), ("house_c.png", 465),
-                                                   ("tower_b.png", 565)]]
+                                                   ("house_b.png", -120), ("tower_a.png", 160)]]
         # The bazaar: spice stalls and a plain stall facing the cistern, amphorae, pots.
         + [{"sprite": DK + "stall_spice.png", "pos": p, "foot": (50, 14)} for p in [(BAZAAR[0] - 150, BAZAAR[1] - 30), (BAZAAR[0] + 150, BAZAAR[1] + 64)]]
         + [{"sprite": DK + "stall_plain.png", "pos": (BAZAAR[0] - 150, BAZAAR[1] + 70), "foot": (50, 14)}]
@@ -1369,7 +1376,15 @@ DUSKARA = {
            {"sprite": K2 + "props/notice_board.png", "pos": (BAZAAR[0] + 240, BAZAAR[1] - 20), "foot": (30, 8)}]
         # Pots and palms at the doors.
         + [{"sprite": K2 + "props/potted_palm.png", "pos": p, "foot": (14, 6)} for p in [(BAZAAR[0] - 84, NORTH_ROW + 14), (BAZAAR[0] + 84, NORTH_ROW + 14)]]
-        + [{"sprite": SRP + "pots_big.png", "pos": p, "foot": (30, 12)} for p in [(-470, NORTH_ROW + 18), (380, SOUTH_ROW + 46)]]
+        + [{"sprite": SRP + "pots_big.png", "pos": p, "foot": (30, 12)} for p in [(-470, NORTH_ROW + 18), (640, SOUTH_ROW + 30)]]
+        # The Card Souk: five stalls in a row, the arch at its south side, pots and
+        # amphorae round the edge.
+        + [{"sprite": SKP + f"stall_{k}.png", "pos": (x, SOUK_ROW), "foot": (60, 16)}
+           for k, x in zip(["spells", "brews", "charms", "ways", "broker"], SOUK_STALLS)]
+        + [{"sprite": SKP + "arch.png", "pos": (SOUK[0], SOUK[1] + 110), "scale": 0.8, "feet": [(-38, -5, 22, 12), (38, -5, 22, 12)]}]
+        + [{"sprite": SRP + "amphora.png", "pos": p, "foot": (12, 6)} for p in [(SOUK[0] - 190, SOUK[1] + 30), (SOUK[0] + 190, SOUK[1] + 30)]]
+        + [{"sprite": SRP + "pots_small.png", "pos": (SOUK[0] - 150, SOUK[1] + 60), "foot": (22, 8)},
+           {"sprite": SRP + "pots_cluster.png", "pos": (SOUK[0] + 150, SOUK[1] + 62), "foot": (26, 10)}]
         # The glassworks' yard: a spilled pot, the cart.
         + [{"sprite": SRP + "pot_spilled.png", "pos": (122, SOUTH_ROW + 34), "foot": (26, 10)},
            {"sprite": KP + "cart.png", "pos": (-30, SOUTH_ROW + 44), "foot": (28, 12)}]
@@ -1384,6 +1399,7 @@ DUSKARA = {
     "lanterns": [(BAZAAR[0] - 240, BAZAAR[1] - 60), (BAZAAR[0] + 240, BAZAAR[1] + 70), (-400, 150), (-250, 300), (330, 300),
                  (-100, TERRACE_Y + 30), (0, TERRACE_Y + 30), (-170, -420), (380, -420), (640, 180), (-460, SOUTH_ROW + 30), (250, SOUTH_ROW + 30)],
     "string_lights": [((BAZAAR[0] - 190, BAZAAR[1] - 80), (BAZAAR[0] + 190, BAZAAR[1] - 80), 14),
+                      ((SOUK_STALLS[0] - 30, SOUK_ROW + 6), (SOUK_STALLS[-1] + 30, SOUK_ROW + 6), 16),
                       ((-640, SOUTH_ROW + 50), (-260, SOUTH_ROW + 50), 10)],
     "npcs": [
         {"id": "rafi", "name": "Rafi", "pos": (BAZAAR[0] - 90, BAZAAR[1] + 40), "wander": 40, "out": (6.0, 21.0),
@@ -1409,11 +1425,53 @@ DUSKARA = {
             "My husband likes to travel. My son likes to hide. Somebody in this family has to stay and keep the books.",
             "The lower gate is closed to visitors. That isn't a request.",
         ]},
+        # The Card Souk's five dealers, each in front of their own stall.
+        {"id": "vash", "name": "Vash", "pos": (SOUK_STALLS[0], SOUK_ROW + 24), "wander": 0, "out": (7.0, 23.0),
+         "shop": ["pickpockets_whisper", "lockbox_seal", "mirage_veil", "dust_devil"], "shop_title": "Vash's Spellcards", "lines": [
+            "Spells! Spells for the bold and the sticky-fingered! Step up, step up, and keep one hand on your purse. Not because of me. Probably.",
+            "A Mirage Veil, my friend, and the rivals on your heels will see nothing but heat on the sand. Twenty seconds of being nobody. Priceless. Sixty gold.",
+            "Dust Devils come in from the dunes in the afternoon. I catch them in the cards. Cast one in a crowd and watch everybody close by rub their eyes.",
+            "The Company buys my Lockbox Seals by the crate. What a mining company needs with that many locks, I couldn't tell you. I could. I won't.",
+        ]},
+        {"id": "hana", "name": "Hana", "pos": (SOUK_STALLS[1], SOUK_ROW + 24), "wander": 0, "out": (7.0, 22.0),
+         "shop": ["second_wind", "scarab_fury", "glass_skin", "swiftsand_draught", "healers_tonic"], "shop_title": "Hana's Brews", "lines": [
+            "Brews! Fresh this morning! Well, this week. Brews don't go off, they just get more interesting.",
+            "Scarab Fury puts fire in your sword arm for half a minute. Glass Skin makes you hard as a bottle for a few breaths. Swiftsand makes you fast. Don't mix them. Or do, and tell me what happens.",
+            "My best customer is a courier who drinks a Swiftsand every morning to beat the carts to Duskara. He's very fast. He's also never once sat down.",
+            "Oren lends me his sand for the Glass Skin. Rafi lends me his water. I lend everyone my opinions. It's a good market.",
+        ]},
+        {"id": "ammar", "name": "Ammar", "pos": (SOUK_STALLS[2], SOUK_ROW + 24), "wander": 0, "out": (8.0, 21.0),
+         "shop": ["hollowpoint_charm", "tidewalker_anklet", "scarab_ward", "prospectors_charm"], "shop_title": "Ammar's Charms", "lines": [
+            "Sit, child, sit. A charm isn't bought, it's chosen. Well. It's chosen, then it's bought. I'm old, not foolish.",
+            "The Scarab Ward. The scarab rolls the sun across the sky every morning. It can roll a claw aside, if it likes you. One in four times, it likes you.",
+            "My grandfather was a prospector, before the Company. He wore a little brass pick on a coin and found gold in the dry wadis. Then the Company bought the wadis. Now I make the charms and he's in the ground.",
+            "Wear two charms at most. More than that and they argue among themselves, and you'll lose the argument.",
+        ]},
+        {"id": "tamsa", "name": "Tamsa", "pos": (SOUK_STALLS[3], SOUK_ROW + 24), "wander": 0, "out": (7.0, 22.0),
+         "shop": ["kalmora_return", "sorenda_return", "verdana_return", "seabright_return", "frisalle_return", "duskara_return"],
+         "shop_title": "Tamsa's Way-Cards", "lines": [
+            "Way-cards for every town on Virelia! Every one I've been to, anyway, and I've been to all of them that'll have me.",
+            "Kalmora, Sorenda, Verdana, Seabright, Frisalle, here. A return to any of them, at the same price the towns charge. Saves you the walk back.",
+            "There's Halmeer on the south cape and Vetrassa in the north-west, of course, but nobody sells a way to Vetrassa. You have to earn that road.",
+            "I've walked every road on this island twice. The roads to Duskara are the only ones with more carts coming back than going.",
+        ]},
+        {"id": "isra", "name": "Isra", "pos": (SOUK_STALLS[4], SOUK_ROW + 24), "wander": 0, "out": (9.0, 23.5),
+         "shop": ["lockbox_seal"], "daily_cards": 4, "buys_cards": True, "shop_title": "Isra's Rarities", "lines": [
+            "Rarities. Set cards, the real thing, the kind racers bleed for. Four a day, never the same four. I don't haggle and I don't explain.",
+            "Where do they come from? Out of the ground, darling. Where else does anything come from?",
+            "The Company counts every card that comes up the North Shaft. Nearly every card. The ones it doesn't count come to me, and then to you.",
+            "I'll buy too. I pay fair. Fairer than the merchants in the towns. They only resell to the Company anyway; I cut out the middle.",
+            "A racer's family from Vetrassa buys from me by the crate. Old money, older debts. Discreet people. I like discreet people.",
+        ]},
         *[{"id": "company_man", "node": f"Npc_company_man{k}", "name": "Company Man", "pos": p, "wander": 0, "lines": [line]}
           for k, (p, line) in enumerate([((-104, TERRACE_Y + 24), "Terrace is Company ground. Mind your business up there."),
                                          ((-8, TERRACE_Y + 24), "Foreman's busy. She's always busy.")])],
     ],
     "readables": [
+        ("The souk's arch", (SOUK[0] + 56, SOUK[1] + 122), [
+            "A sandstone arch hung with bunting made of real cards, faded and cracked: commons nobody wanted, strung up for luck. A painted sign: 'THE CARD SOUK. ALL CARDS. ALL PRICES. NO QUESTIONS.'",
+            "Someone has scratched underneath it, small: 'ask where they come from'.",
+        ]),
         ("The cistern plaque", (BAZAAR[0], BAZAAR[1] + 40), [
             "A bronze plaque on the cistern's rim, green with age: 'THE DEEP WELL OF DUSKARA. Free to all who thirst. By order of the first king.'",
             "Below it, a newer brass plate bolted over the old words: 'Water rights: Duskara Mining Company. Metered supply at the Company tank.'",

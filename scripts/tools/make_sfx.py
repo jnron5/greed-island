@@ -133,6 +133,13 @@ def main():
     # Charged: a quick rising hum that says the round is ready.
     s = sweep(330, 880, 0.18, "tri") * env(int(RATE * 0.18), 0.01, 0.12)
     save("charged", s + tone(1320, 0.18) * env(int(RATE * 0.18), 0.1, 0.06) * 0.3, 0.3)
+    # Glance: a blow turned aside (Glass Skin, a Scarab Ward): a bright glassy ping.
+    s = tone(1760, 0.18) * env(int(RATE * 0.18), 0.001, 0.07) + tone(2637, 0.18) * env(int(RATE * 0.18), 0.001, 0.04) * 0.5
+    save("glance", s, 0.35)
+    # Whirl: the Dust Devil's sand spinning up and out.
+    n = noise(0.7)
+    swell = np.sin(np.linspace(0, np.pi, len(n))) ** 1.5
+    save("whirl", lowpass(n, 0.3) * swell * (0.7 + 0.3 * np.sin(np.linspace(0, 40, len(n)))), 0.5)
     print("sfx:", sorted(f[:-4] for f in os.listdir(OUT) if f.endswith(".wav")))
 
 

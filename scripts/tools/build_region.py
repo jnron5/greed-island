@@ -1207,6 +1207,9 @@ texture = ExtResource("{texture(self.art + self.key + "_ground.png")}")
             if npc.get("shop"):
                 shop = (f'shop_stock = Array[StringName]([{", ".join("&" + chr(34) + s + chr(34) for s in npc["shop"])}])\n'
                         f'shop_buys_cards = {"true" if npc.get("buys_cards") else "false"}\nshop_title = "{npc.get("shop_title", "")}"\n')
+            if npc.get("daily_cards"):
+                # A card broker: a fresh handful of the island's set cards every day.
+                shop += f'shop_daily_cards = {npc["daily_cards"]}\n'
             n.append(f'[node name="{npc.get("node", "Npc_" + npc["id"])}" parent="." instance=ExtResource("{res("PackedScene", "res://scenes/characters/npc.tscn")}")]\n'
                      f'position = Vector2({x}, {y})\nnpc_id = &"{npc["id"]}"\ndisplay_name = "{npc["name"]}"\n'
                      f'sprite_frames = ExtResource("{res("SpriteFrames", frames)}")\n'

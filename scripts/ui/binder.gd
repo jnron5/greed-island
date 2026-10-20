@@ -365,10 +365,8 @@ func _fill_detail() -> void:
 		buttons.append(["Take out", func() -> void: GameState.expose_card(GameState.PLAYER, id), true])
 	if id == CardSpells.PICKPOCKET:
 		buttons.append(["Cast (Q)", _cast_pickpocket, true])
-	elif id == CardSpells.SECOND_WIND:
-		buttons.append(["Use", _use_second_wind, true])
-	elif CardSpells.is_return(id):
-		buttons.append(["Use", _use_return.bind(id), true])
+	elif CardSpells.is_usable(id):
+		buttons.append(["Use", _use_card.bind(id), true])
 	elif col.count(CardSpells.LOCKBOX) > 0 and id != CardSpells.LOCKBOX:
 		var can_lock := GameState.stealable_copies(GameState.PLAYER, id) > 0 and not GameState.is_locked(GameState.PLAYER, id)
 		buttons.append(["Lock", func() -> void: CardSpells.use_lockbox(GameState.PLAYER, id), can_lock])
@@ -420,17 +418,22 @@ func _cast_pickpocket() -> void:
 		CardSpells.cast_pickpocket(player)
 
 
-func _use_second_wind() -> void:
+## Spends a usable card (a buff, a spell on yourself, a return card). Ones that act
+## out in the world (a return, the Dust Devil) close the binder first.
+func _use_card(id: StringName) -> void:
 	var player := get_tree().get_first_node_in_group(&"player") as Player
-	if player and CardSpells.use_second_wind(player):
-		EventBus.notify.emit("Second Wind: +%d HP" % CardSpells.SECOND_WIND_HEAL)
-
-
-func _use_return(id: StringName) -> void:
-	var player := get_tree().get_first_node_in_group(&"player") as Player
-	if player:
+	if player == null:
+		return
+	if CardSpells.is_return(id) or id == CardSpells.DUST_DEVIL:
 		close()
-		CardSpells.use_return(player, id)
+	if id == CardSpells.SECOND_WIND:
+		if CardSpells.use_second_wind(player):
+			EventBus.notify.emit("Second Wind: +%d HP" % CardSpells.SECOND_WIND_HEAL)
+		_refresh()
+		return
+	CardSpells.use(player, id)
+	if not CardSpells.is_return(id) and id != CardSpells.DUST_DEVIL:
+		_refresh()
 
 
 # ---------------------------------------------------------------- layout

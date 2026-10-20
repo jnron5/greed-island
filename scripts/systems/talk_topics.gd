@@ -314,6 +314,43 @@ const TOPICS := {
 			"I keep them fed. I keep them counted. I know every name. That's more than anyone in Vetrassa can say.",
 		]],
 	],
+	# The Card Souk.
+	&"vash": [
+		["How do spells work?", [
+			"Buy one, keep it in your binder, and cast it when the moment comes: open the binder and Use it. A Pickpocket's Whisper you can throw with Q, quick as thought.",
+			"A spell's spent when it's cast. Like money. Like youth. Like the patience of the Company men watching my stall.",
+			"Mirage Veil when someone's hunting you. Dust Devil when they've already caught you. Lockbox Seal before either.",
+		]],
+	],
+	&"hana": [
+		["What do your brews do?", [
+			"Second Wind mends you on the spot. Scarab Fury makes your sword hit harder for half a minute. Glass Skin turns blows aside for a few breaths. Swiftsand makes you quick for half a minute.",
+			"Drink them from your binder when you need them, not before. They don't keep their kick once they're open.",
+		]],
+	],
+	&"ammar": [
+		["How do charms work?", [
+			"A charm works while you wear it: in your binder, choose it, and Wear. Two at a time, no more.",
+			"But a worn charm is out of your binder's keeping, child. A thief can lift it off you like any loose card. Wear what you can afford to lose.",
+		]],
+	],
+	&"tamsa": [
+		["Where can I go from here?", [
+			"East, back along the haul road to the Aurewind Plains: Verdana south of them, Seabright Quay below that on the coast, Lake Serin and the Starfall Range north, Frisalle over the pass. Kalmora past the plains' east gate.",
+			"A way-card takes you back to its town in a blink, from anywhere. Buy them here for every town, or at each town's own card stall.",
+			"Halmeer, on the south cape, I've never managed. The boats that go there don't take passengers. Vetrassa's for the end of the race, everyone says.",
+		]],
+	],
+	&"isra": [
+		["Where do your cards come from?", [
+			"You want the truth? From under your feet. The North Shaft cuts card-stone out of the old seams, and small hands sort it. The Company counts the good ones. I buy the ones that fall off the tally.",
+			"Don't look at me like that. You'll buy them anyway, or the next racer will. Every card on this island came out of somebody's hands, darling. Mine are just closer to the source.",
+		]],
+		["Why do the cards change?", [
+			"Four a day. What comes up the shaft, comes to me. Come back tomorrow for a different four.",
+			"And I'll buy what you've got, at a better price than any town stall. Where it goes after that isn't your concern.",
+		]],
+	],
 	&"oren": [
 		["What do you make?", [
 			"Glass. Bottles, bowls, beads for the bazaar. And lamps for the shaft, crate after crate, because the Company pays and nobody else does.",

@@ -75,6 +75,8 @@ var _mark: Node2D
 var _attack_cd := 0.0
 var _hunt_check := 0.0
 var _flash := 0.0
+## Seconds left blinded and staggered by sand (the Dust Devil card).
+var _stunned := 0.0
 var _sprite_offset_y := -26.0
 ## Set when this rival left for another zone, so leaving the tree doesn't
 ## overwrite its new location.
@@ -221,6 +223,15 @@ func _physics_process(delta: float) -> void:
 	if _flash > 0.0:
 		_flash -= delta
 		sprite.modulate = Color(3, 3, 3) if _flash > 0.0 else Color.WHITE
+	if _stunned > 0.0 and _state != State.DOWN:
+		# Sand in the eyes: stands rubbing them, can't strike or steal.
+		_stunned -= delta
+		velocity = Vector2.ZERO
+		attack_shape.set_deferred(&"disabled", true)
+		sprite.modulate = Color(1.25, 1.05, 0.7) if _stunned > 0.0 else Color.WHITE
+		move_and_slide()
+		queue_redraw()
+		return
 	var player := _player()
 	awareness.facing = facing
 	awareness.update(delta, player)
@@ -379,7 +390,7 @@ func _sneak_mark() -> Node2D:
 			continue
 		var id: StringName = n.get(&"collector_id")
 		var d := global_position.distance_to(n.global_position)
-		if d > best_dist or GameState.grace_left(id) > 0.0 \
+		if d > best_dist or GameState.grace_left(id) > 0.0 or GameState.is_veiled(id) \
 				or GameState.stealable_card_ids(id, CardCollection.LOOSE_ONLY).is_empty():
 			continue
 		best = n
@@ -443,6 +454,7 @@ func _huntable(n: Variant) -> bool:
 		return not n.is_dead()
 	var id: StringName = n.get(&"collector_id")
 	return global_position.distance_to(n.global_position) <= hunt_radius \
+		and not GameState.is_veiled(id) \
 		and Combat.can_damage(collector_id, id) \
 		and GameState.grace_left(id) <= 0.0 \
 		and GameState.collection(id) != null and not GameState.collection(id).card_ids().is_empty()
@@ -747,3 +759,12 @@ func _draw_steal_prompt() -> void:
 		WorldPrompt.draw(self, Vector2(0, -88), "E", "Steal %d%%" % roundi(Stealth.success_chance(player, self) * 100.0))
 	else:
 		WorldPrompt.draw(self, Vector2(0, -88), "!", text)
+
+
+## Blinded and staggered by sand (the Dust Devil card): it can't move, strike or steal.
+func stun(seconds: float) -> void:
+	if _state == State.DOWN:
+		return
+	_stunned = maxf(_stunned, seconds)
+	if _state in [State.WINDUP, State.STRIKE, State.SNEAK]:
+		_enter(State.SEEK)

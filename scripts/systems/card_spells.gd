@@ -10,6 +10,74 @@ const SECOND_WIND := &"second_wind"
 const PICKPOCKET_RANGE := 110.0
 const SECOND_WIND_HEAL := 3
 
+## Sold in Duskara's card souk. Spells:
+const MIRAGE := &"mirage_veil"          # rivals lose sight of you for a while
+const DUST_DEVIL := &"dust_devil"       # a whirl of sand stuns everyone close
+## Temporary buffs (boons):
+const SCARAB_FURY := &"scarab_fury"     # sword hits harder
+const GLASS_SKIN := &"glass_skin"       # nothing hurts you, briefly
+const SWIFTSAND := &"swiftsand_draught" # you run faster
+## Passive charms:
+const SCARAB_WARD := &"scarab_ward"     # a hit sometimes turns aside
+const PROSPECTOR := &"prospectors_charm" # monsters drop more gold
+const BOON_SECONDS := {MIRAGE: 20.0, SCARAB_FURY: 30.0, GLASS_SKIN: 6.0, SWIFTSAND: 30.0}
+const DUST_DEVIL_RANGE := 130.0
+const DUST_DEVIL_STUN := 2.5
+const SCARAB_FURY_BONUS := 2
+const SWIFTSAND_SPEED := 1.4
+const SCARAB_WARD_CHANCE := 0.25
+const PROSPECTOR_GOLD := 1.5
+
+
+## Whether a card is used from the binder with "Use" (a spell or a buff the
+## collector spends on themselves).
+static func is_usable(card_id: StringName) -> bool:
+	return card_id == SECOND_WIND or card_id == DUST_DEVIL or BOON_SECONDS.has(card_id) or is_return(card_id)
+
+
+## Uses a card from the binder: spends it and starts its effect. False (and the
+## card kept) when it can't be used right now.
+static func use(caster: Node2D, card_id: StringName) -> bool:
+	var caster_id: StringName = caster.get(&"collector_id")
+	if card_id == SECOND_WIND:
+		return use_second_wind(caster)
+	if is_return(card_id):
+		return use_return(caster, card_id)
+	if card_id == DUST_DEVIL:
+		return cast_dust_devil(caster)
+	if not BOON_SECONDS.has(card_id) or not GameState.consume_card(caster_id, card_id, &"buff"):
+		return false
+	GameState.add_boon(caster_id, card_id, BOON_SECONDS[card_id])
+	var card := CardDatabase.get_card(card_id)
+	_tell(caster_id, "%s: %ds" % [card.display_name if card else String(card_id), int(BOON_SECONDS[card_id])])
+	EventBus.spell_cast.emit(caster_id, card_id, &"")
+	return true
+
+
+## Dust Devil: a whirl of sand round the caster. Every rival and monster close by is
+## blinded and staggered for a moment (they can't move, strike or steal).
+static func cast_dust_devil(caster: Node2D) -> bool:
+	var caster_id: StringName = caster.get(&"collector_id")
+	if not GameState.consume_card(caster_id, DUST_DEVIL, &"spell"):
+		return false
+	var hit := 0
+	for group in [&"collectors", &"monsters"]:
+		for node in caster.get_tree().get_nodes_in_group(group):
+			var n := node as Node2D
+			if n == null or n == caster or not n.has_method(&"stun"):
+				continue
+			if n.global_position.distance_to(caster.global_position) <= DUST_DEVIL_RANGE \
+					and Zone.same_level(caster.get_tree(), caster.global_position, n.global_position):
+				n.stun(DUST_DEVIL_STUN)
+				hit += 1
+	Sfx.play(&"whirl")
+	var whirl := DustDevilFx.new()
+	whirl.position = caster.position
+	caster.get_parent().add_child(whirl)
+	EventBus.spell_cast.emit(caster_id, DUST_DEVIL, &"")
+	_tell(caster_id, "Dust Devil! %d caught in the sand" % hit if hit else "Dust Devil! Nobody close enough")
+	return true
+
 
 ## Pickpocket's Whisper: guaranteed steal of one random loose card from the
 ## nearest collector in range. Consumed on use. Returns the stolen card id,

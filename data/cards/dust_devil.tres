@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/dust_devil.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"dust_devil"
+display_name = "Dust Devil"
+description = "Spell: a whirl of sand blinds and staggers every rival and beast close by."
+lore = "The caravan folk call the little whirlwinds that chase across Siroth 'the dead looking for the road'. Vash bottles them. Nobody asks how."
+category = 3
+source = 3
+sell_value = 25
+icon = ExtResource("2_art")
+shop_price = 45

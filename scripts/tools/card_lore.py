@@ -60,6 +60,13 @@ LORE = {
     "brass_tally_tag": "Every worker in the North Shaft wears one, and it's counted down at dawn and up at dusk. Nib's debt is paid, so his tag comes off. It is the first one he has seen come off.",
     "water_sellers_token": "Rafi's tokens buy a cup of Sunwell water anywhere in Duskara. Turn one over and there's a tiny sun on the back. Show it on the right roof at night and a green lamp answers.",
     "hollowmaw_scale": "Hollowmaw hunts under the Bone Hollow, beside the bones of its mate. Zahra's people say it was there before the mine, and that it hates the sound of picks.",
+    "mirage_veil": "Vash weaves them from heat-shimmer he catches over the dunes at noon, he says. Hold one up to your eye and the far side of the souk ripples like water.",
+    "dust_devil": "The caravan folk call the little whirlwinds that chase across Siroth 'the dead looking for the road'. Vash bottles them. Nobody asks how.",
+    "scarab_fury": "Hana brews it from the shells of fire scarabs and something she won't name. It tastes of hot copper, and for half a minute your arm doesn't feel like yours.",
+    "glass_skin": "Oren's sand, Hana's recipe. Your skin goes cool and hard as a bottle for a few breaths. Hana swears it's quite safe. Hana has never tried it.",
+    "swiftsand_draught": "Couriers on the haul road drink it to make Duskara by nightfall. It tastes of nothing at all, which Hana says is the hardest flavour to brew.",
+    "scarab_ward": "Old Ammar carves them from blue faience, one a week, and won't sell to anyone who haggles. 'The scarab rolls the sun across the sky,' he says. 'It can roll a blow aside.'",
+    "prospectors_charm": "A tiny brass pick on a coin. Ammar says the first prospectors of Duskara wore them, before the Company bought the ground out from under them.",
 }
 
 

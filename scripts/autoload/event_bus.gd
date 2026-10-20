@@ -40,5 +40,7 @@ signal safe_zone_changed(collector: StringName, inside: bool)
 signal notify(text: String)
 ## A monster (not a boss) went down; `kind` is its scene's file name (briar_hound, moss_boar).
 signal monster_defeated(kind: StringName, killer: StringName)
+## A collector's boons (timed buff-card effects) started or ran out.
+signal boons_changed(collector: StringName)
 ## A menu opened or closed; the player ignores gameplay input while any is open.
 signal menus_changed(open_count: int)

@@ -50,6 +50,8 @@ var facing := Vector2.DOWN
 var _state := State.WANDER
 ## Seconds left frozen solid (a Frostfang sword hit): no moving, no attacking.
 var _frozen := 0.0
+## Frozen by the Frostfang (ice blue) or stunned by sand (the Dust Devil).
+var _frozen_tint := Color(0.6, 0.85, 1.4)
 var _state_time := 0.0
 var _spawn_point := Vector2.ZERO
 var _wander_target := Vector2.ZERO
@@ -132,7 +134,7 @@ func _physics_process(delta: float) -> void:
 	if _frozen > 0.0 and _state != State.DEAD:
 		_frozen -= delta
 		velocity = Vector2.ZERO
-		sprite.modulate = Color(0.6, 0.85, 1.4) if _frozen > 0.0 else Color.WHITE
+		sprite.modulate = _frozen_tint if _frozen > 0.0 else Color.WHITE
 		sprite.speed_scale = 0.0 if _frozen > 0.0 else 1.0
 		move_and_slide()
 		queue_redraw()
@@ -238,6 +240,7 @@ func _on_hurt(hitbox: Hitbox) -> void:
 			_target = node
 	if hitbox.freeze > 0.0 and health > 0:
 		_frozen = maxf(_frozen, hitbox.freeze)
+		_frozen_tint = Color(0.6, 0.85, 1.4)
 		attack_shape.set_deferred(&"disabled", true)
 		sprite.offset.x = 0.0
 		_enter(State.STAGGER)
@@ -271,6 +274,8 @@ func _die() -> void:
 		item = NIGHT_FOOD.pick_random() if randf() < 0.45 else &""
 		if randf() < 0.5 and not drop_card_ids.is_empty():
 			Combat.drop_loot(get_tree(), position, drop_card_ids.pick_random())
+	if gold > 0 and _last_hitter == GameState.PLAYER and GameState.is_equipped(CardSpells.PROSPECTOR):
+		gold = ceili(gold * CardSpells.PROSPECTOR_GOLD)
 	Combat.drop_loot(get_tree(), position, card, gold, item)
 	# Down it goes: a white flash, knocked over, a beat on the ground, then it fades.
 	var headless := DisplayServer.get_name() == "headless"
@@ -348,3 +353,11 @@ func _draw() -> void:
 	if health < max_health:
 		draw_rect(Rect2(-10, -40, 20, 3), Color(0, 0, 0, 0.6))
 		draw_rect(Rect2(-9, -39, 18.0 * health / max_health, 1), Color(0.9, 0.3, 0.25))
+
+
+## Blinded and staggered by sand (the Dust Devil card): it can't move or strike.
+func stun(seconds: float) -> void:
+	if _state == State.DEAD:
+		return
+	_frozen = maxf(_frozen, seconds)
+	_frozen_tint = Color(1.25, 1.05, 0.7)

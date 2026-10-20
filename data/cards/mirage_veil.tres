@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/mirage_veil.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"mirage_veil"
+display_name = "Mirage Veil"
+description = "Spell: for 20 seconds rivals can't see you, follow you or rob you."
+lore = "Vash weaves them from heat-shimmer he catches over the dunes at noon, he says. Hold one up to your eye and the far side of the souk ripples like water."
+category = 3
+source = 3
+sell_value = 30
+icon = ExtResource("2_art")
+shop_price = 60

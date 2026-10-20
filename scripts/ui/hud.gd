@@ -20,6 +20,8 @@ const SLOT := preload("res://assets/ui/slot.png")
 const BAR_FILL := Rect2(15, 5, 37, 4)        # inside bar_heart.png
 const HINT := "J Sword   K Pistol   Space Dash   Q Pickpocket   E Talk/Steal   H Heal   B Menu, Tab to turn pages"
 
+## The player's running boons (Glass Skin 4s, Swiftsand 22s...).
+var _boon_label: Label
 var health_label: Label
 var currency_label: Label
 var toast_label: Label
@@ -168,6 +170,15 @@ func _build() -> void:
 	spell_label = Label.new()
 	spell_label.add_theme_color_override(&"font_color", Color(0.6, 0.92, 0.96))
 	_spell_box.add_child(spell_label)
+	# Running boons (buff cards you've used), each with the seconds it has left.
+	_boon_label = Label.new()
+	_boon_label.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	_boon_label.offset_left = 8
+	_boon_label.offset_top = -62
+	_boon_label.add_theme_color_override(&"font_color", Color(1.0, 0.86, 0.5))
+	_boon_label.add_theme_color_override(&"font_outline_color", Color(0.1, 0.06, 0.04))
+	_boon_label.add_theme_constant_override(&"outline_size", 3)
+	_root.add_child(_boon_label)
 	# The controls, for the first minute and a half of play (the pause menu keeps them).
 	_hint = Label.new()
 	_hint.text = HINT
@@ -281,6 +292,12 @@ func _on_tracker_changed(counts: Dictionary) -> void:
 func _process(delta: float) -> void:
 	if _time_label:
 		_time_label.text = "  " + TimeOfDay.part_of_day()
+	if _boon_label:
+		var parts := PackedStringArray()
+		var mine: Dictionary = GameState.boons.get(GameState.PLAYER, {})
+		for id: StringName in mine:
+			parts.append("%s %ds" % [_card_name(id), ceili(mine[id])])
+		_boon_label.text = "   ".join(parts)
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
 	if player:
 		var at := player.get_global_transform_with_canvas().origin

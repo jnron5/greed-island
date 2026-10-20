@@ -70,8 +70,45 @@ var equipped: Array[StringName] = []
 ## Set cards the player spent on gates: card id -> copies. The card merchant sells
 ## them back (the rebuy safety net), at REBUY_MARKUP x the card's worth.
 var spent_on_gates: Dictionary[StringName, int] = {}
+## Boons: the timed effects of temporary buff cards (collector -> {card id: seconds
+## left}); they only run down while the game does (not with a menu open).
+var boons: Dictionary[StringName, Dictionary] = {}
 const REBUY_MARKUP := 5
+## A broker sells the island's set cards at this many times their worth.
+const BROKER_MARKUP := 6
 const EQUIP_SLOTS := 2
+
+
+func _process(delta: float) -> void:
+	for who: StringName in boons:
+		var mine: Dictionary = boons[who]
+		for id: StringName in mine.keys():
+			mine[id] -= delta
+			if mine[id] <= 0.0:
+				mine.erase(id)
+				EventBus.boons_changed.emit(who)
+
+
+## Starts (or tops up) a boon on a collector for `seconds`.
+func add_boon(collector: StringName, id: StringName, seconds: float) -> void:
+	if not boons.has(collector):
+		boons[collector] = {}
+	boons[collector][id] = maxf(boons[collector].get(id, 0.0), seconds)
+	EventBus.boons_changed.emit(collector)
+
+
+## Seconds left on a collector's boon (0 when it isn't running).
+func boon_left(collector: StringName, id: StringName) -> float:
+	return boons.get(collector, {}).get(id, 0.0)
+
+
+func has_boon(collector: StringName, id: StringName) -> bool:
+	return boon_left(collector, id) > 0.0
+
+
+## Under a Mirage Veil: rivals can't see, follow or rob this collector.
+func is_veiled(collector: StringName) -> bool:
+	return has_boon(collector, CardSpells.MIRAGE)
 
 
 func _ready() -> void:
@@ -102,6 +139,7 @@ func new_game(rivals: Array[StringName]) -> void:
 	journal.clear()
 	equipped.clear()
 	spent_on_gates.clear()
+	boons.clear()
 	pending_spawn = &""
 	player_health = -1
 	rival_locations.clear()
@@ -308,10 +346,23 @@ func clear_grace(collector: StringName) -> void:
 
 func buy_card(collector: StringName, card_id: StringName) -> bool:
 	var card := CardDatabase.get_card(card_id)
-	if card == null or card.shop_price <= 0 or currency < card.shop_price:
+	var price := card_price(card)
+	if card == null or price <= 0 or currency < price:
 		return false
-	add_currency(-card.shop_price)
+	add_currency(-price)
 	return add_loose_card(collector, card_id)
+
+
+## What a shop asks for a card: its shop price, or for a set card (only a broker
+## sells those) its worth times BROKER_MARKUP.
+func card_price(card: CardData) -> int:
+	if card == null:
+		return 0
+	if card.shop_price > 0:
+		return card.shop_price
+	if card.category == CardData.Category.SET:
+		return maxi(card.sell_value, 8) * BROKER_MARKUP
+	return 0
 
 
 ## What buying back a spent card costs.

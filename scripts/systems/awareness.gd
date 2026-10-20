@@ -48,6 +48,10 @@ func perceived_gain(target: Node2D) -> float:
 	var body := get_parent() as Node2D
 	if target == null or body == null:
 		return 0.0
+	# Under a Mirage Veil you're a shimmer in the heat: nothing to notice.
+	var target_id: Variant = target.get(&"collector_id")
+	if target_id is StringName and GameState.is_veiled(target_id):
+		return 0.0
 	var to := target.global_position - body.global_position
 	var dist := to.length()
 	var gain := 0.0
