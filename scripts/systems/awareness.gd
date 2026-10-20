@@ -52,6 +52,8 @@ func perceived_gain(target: Node2D) -> float:
 	var target_id: Variant = target.get(&"collector_id")
 	if target_id is StringName and GameState.is_veiled(target_id):
 		return 0.0
+	# The Green Lamp (the escape line's charm): you're half as easy to notice.
+	var lamp := 0.5 if target_id == GameState.PLAYER and GameState.is_equipped(CardSpells.GREEN_LAMP) else 1.0
 	var to := target.global_position - body.global_position
 	var dist := to.length()
 	var gain := 0.0
@@ -62,7 +64,7 @@ func perceived_gain(target: Node2D) -> float:
 	elif dist <= hearing_radius:
 		gain = hearing_gain
 	var noise: Variant = target.call(&"noise") if target.has_method(&"noise") else 1.0
-	return gain * float(noise)
+	return gain * float(noise) * lamp
 
 
 func can_see(to_target: Vector2) -> bool:

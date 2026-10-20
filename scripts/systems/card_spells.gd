@@ -20,6 +20,10 @@ const SWIFTSAND := &"swiftsand_draught" # you run faster
 ## Passive charms:
 const SCARAB_WARD := &"scarab_ward"     # a hit sometimes turns aside
 const PROSPECTOR := &"prospectors_charm" # monsters drop more gold
+## The escape line's charm (Rafi's reward for "Beneath the Dunes"): rivals notice you
+## half as fast, and your stealth steals are surer.
+const GREEN_LAMP := &"green_lamp"
+const GREEN_LAMP_STEAL := 0.15
 const BOON_SECONDS := {MIRAGE: 20.0, SCARAB_FURY: 30.0, GLASS_SKIN: 6.0, SWIFTSAND: 30.0}
 const DUST_DEVIL_RANGE := 130.0
 const DUST_DEVIL_STUN := 2.5

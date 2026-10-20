@@ -1193,7 +1193,7 @@ SIROTH = {
         {"name": "ToAurewind", "pos": (1276, 0), "side": "e", "target": "res://scenes/world/aurewind_plains.tscn", "spawn": "from_dunes"},
         {"name": "ToDuskara", "pos": (-1276, 100), "side": "w", "target": "res://scenes/world/duskara.tscn", "spawn": "from_dunes"},
     ],
-    "spawns": {"from_aurewind": (1200, 0), "from_duskara": (-1200, 100)},
+    "spawns": {"from_aurewind": (1200, 0), "from_duskara": (-1200, 100), "from_mine": (-960, 495)},
     "rival_spots": {"runner": (1100, -40), "raider": (1100, 60), "hoarder": (1060, 10)},
     "props": (
         # The Sun Temple on the north mesa: a ring of broken columns behind the altar.
@@ -1210,6 +1210,8 @@ SIROTH = {
         + [{"sprite": SR + "serpent_bones.png", "pos": (-880, 590), "feet": [(-50, -10, 40, 14), (10, -20, 50, 12), (56, -4, 40, 14)], "scale": 1.5},
            {"sprite": SRP + "skull_bones.png", "pos": (-360, 420), "foot": (20, 8)},
            {"sprite": SRP + "skull_bones.png", "pos": (-880, 520), "foot": (20, 8), "flip": True}]
+        # The escape line's hatch: where the crawl from the North Shaft comes up.
+        + [{"sprite": SR + "hatch.png", "pos": (-960, 470)}]
         # The D.M.C. waystation: ore carts lined up, water jars, crates, a cairn.
         + [{"sprite": KP + "cart.png", "pos": p, "foot": (28, 12), "scale": 1.2} for p in [(700, 470), (760, 500), (820, 530)]]
         + [{"sprite": SRP + "pots_big.png", "pos": (680, 580), "foot": (30, 12)},
@@ -1245,6 +1247,10 @@ SIROTH = {
         ("The waystation board", (620, 650), [
             "A tally board nailed to a post: 'D.M.C. WAYSTATION. CARTS WATER HERE. HEADS COUNTED HERE.' Columns of marks, a total at the bottom of each.",
             "The 'out' column is longer than the 'in' column. Every week.",
+        ]),
+        ("A hatch in the sand", (-920, 470), [
+            "A trapdoor of grey boards, half buried by drifting sand, with a green sun painted faintly on one board. It's nailed shut from below.",
+            "The sand round it is swept smooth, the way you'd sweep away footprints.",
         ]),
         ("The canyon signpost", (-1060, 70), [
             "'DUSKARA. Property of the Duskara Mining Company. Visitors welcome at the Cistern. Visitors do not go past the upper gate.'",
@@ -1346,7 +1352,9 @@ DUSKARA = {
     "exits": [
         {"name": "ToDunes", "pos": (796, 130), "side": "e", "target": "res://scenes/world/siroth_dunes.tscn", "spawn": "from_duskara"},
     ],
-    "spawns": {"town": (BAZAAR[0] + 230, BAZAAR[1] + 20), "from_dunes": (740, 130)},
+    "spawns": {"town": (BAZAAR[0] + 230, BAZAAR[1] + 20), "from_dunes": (740, 130), "from_mine": (250, -460)},
+    # Down the North Shaft (the tally gate is at the bottom, at the lift landing).
+    "portals": [{"name": "ToMine", "pos": (250, -500), "target": "res://scenes/world/duskara_mine.tscn", "spawn": "from_duskara"}],
     "rival_spots": {"runner": (520, 100), "raider": (520, 170), "hoarder": (580, 140)},
     "buildings": [
         {"node": "HouseInn", "sprite": DK + "inn.png", "pos": (BAZAAR[0], NORTH_ROW), "foot": 144,

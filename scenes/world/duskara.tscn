@@ -380,6 +380,9 @@ position = Vector2(290, 150)
 [node name="from_dunes" type="Marker2D" parent="Spawns"]
 position = Vector2(740, 130)
 
+[node name="from_mine" type="Marker2D" parent="Spawns"]
+position = Vector2(250, -460)
+
 [node name="from_houseinn" type="Marker2D" parent="Spawns"]
 position = Vector2(60, -34)
 
@@ -406,6 +409,11 @@ position = Vector2(580, 140)
 [node name="ToDunes" parent="." instance=ExtResource("7_exit")]
 position = Vector2(796, 130)
 target_scene = "res://scenes/world/siroth_dunes.tscn"
+target_spawn = &"from_duskara"
+
+[node name="ToMine" parent="." instance=ExtResource("7_exit")]
+position = Vector2(250, -500)
+target_scene = "res://scenes/world/duskara_mine.tscn"
 target_spawn = &"from_duskara"
 
 [node name="HouseInn" type="StaticBody2D" parent="."]

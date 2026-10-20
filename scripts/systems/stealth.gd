@@ -31,6 +31,8 @@ static func success_chance(thief: Node2D, victim: Node2D) -> float:
 			chance += BEHIND_BONUS
 		if awareness.is_wary():
 			chance *= WARY_MULTIPLIER
+		if thief.get(&"collector_id") == GameState.PLAYER and GameState.is_equipped(CardSpells.GREEN_LAMP):
+			chance += CardSpells.GREEN_LAMP_STEAL
 		return clampf(chance, 0.05, 0.95)
 	var dot := _facing_dot(thief, victim)
 	if dot < -0.3:

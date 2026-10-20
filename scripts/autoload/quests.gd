@@ -19,6 +19,8 @@ const TITLES := {
 	&"millstream": "What the Millstream Carries",
 	&"glowcaps": "Glowcaps for the Fever",
 	&"over_the_top": "The Three Who Went Over",
+	&"beneath_dunes": "Beneath the Dunes",
+	&"foremans_names": "The Foreman's Names",
 }
 ## Who gave each quest, and what it came to, for the journal.
 const GIVERS := {
@@ -26,6 +28,7 @@ const GIVERS := {
 	&"stones_remember": "Aldous, Verdana", &"merchants_ledger": "Mirren, Frisalle",
 	&"light_on_water": "Sparkle, Seabright Quay", &"millstream": "Oda, Verdana", &"glowcaps": "Juniper, Sorenda",
 	&"over_the_top": "Sven, Frisalle",
+	&"beneath_dunes": "Rafi, Duskara", &"foremans_names": "Hesper, Duskara",
 }
 const ABOUT := {
 	&"unmarked_cargo": "Sand-caked crates with no marks, a child's glove, a ledger page: Bram knows whose cargo it is and won't say it aloud.",
@@ -37,10 +40,22 @@ const ABOUT := {
 	&"millstream": "Red wool, a scrap of paper and a carved bird: Oda's grandson went north by the water.",
 	&"glowcaps": "Blue glowcaps from the Hollow, and Harl's daughter is sitting up and eating.",
 	&"over_the_top": "A frozen camp and new boards on an old mine. Small boots. The climbers didn't all freeze.",
+	&"beneath_dunes": "Down the North Shaft for Ada, out the escape line's crawl, and into Zahra's caravan, walking north.",
+	&"foremans_names": "The foreman's ledger of names: two years of children down the shaft, and very few up. Corin of Verdana among them.",
 }
 ## Frisalle (Sven, after his welcome gift): three climbers went over the top of the
 ## range when the pass came down; find what became of them (the frozen camp and the
 ## old adit in the Starfall Range).
+## Duskara (Rafi, after his tonic): down the North Shaft for Ada, a sick child, and
+## out the escape line's crawl to Zahra's caravan at the Sunwell. She follows you
+## (Npc.follow_player) in the mine and the dunes; she won't go up the shaft.
+const ADA_REWARD_GOLD := 80
+const ADA_REWARD_CARD := &"green_lamp"
+const ESCORT_ZONES: Array[String] = ["res://scenes/world/duskara_mine.tscn", "res://scenes/world/siroth_dunes.tscn"]
+## Duskara (Hesper, after her welcome gift): the foreman's ledger of names, read in
+## the mine's lower office.
+const NAMES_LEDGER := "The ledger of names"
+const NAMES_REWARD_GOLD := 70
 const CLIMBER_CLUES: Array[String] = ["A frozen camp", "An old adit"]
 const CLIMBERS_REWARD_GOLD := 50
 ## Sorenda (Juniper, after her tonic): three clumps of glowcaps in the Hollow, one in
@@ -119,6 +134,44 @@ const WELCOME_LINES := {
 }
 const CARGO_CLUES: Array[StringName] = [&"crate_sand", &"crate_glove", &"crate_ledger"]
 const CARGO_REWARD_GOLD := 40
+
+
+func _ready() -> void:
+	EventBus.area_entered.connect(func(_t: String, _i: bool) -> void: _place_escort.call_deferred())
+
+
+## Ada, out of the mine: in the North Shaft and the dunes she follows you while
+## "Beneath the Dunes" is at stage 2 (her bunk is empty once she's left it).
+func _place_escort() -> void:
+	var zone := get_tree().current_scene
+	if zone == null:
+		return
+	var here := zone.scene_file_path
+	var bunk := zone.get_node_or_null(^"Npc_ada")
+	if bunk and stage(&"beneath_dunes") >= 2:
+		bunk.queue_free()
+	if stage(&"beneath_dunes") != 2 or here not in ESCORT_ZONES or zone.get_node_or_null(^"Escort_ada"):
+		return
+	var player := get_tree().get_first_node_in_group(&"player") as Node2D
+	if player == null:
+		return
+	var ada: Npc = load("res://scenes/characters/npc.tscn").instantiate()
+	ada.name = "Escort_ada"
+	ada.npc_id = &"ada"
+	ada.display_name = "Ada"
+	ada.sprite_frames = load("res://assets/sprites/npcs/ada/ada_frames.tres")
+	ada.sprite_offset_y = -22.0
+	ada.lines = PackedStringArray(["I'm right behind you.", "Is it far? It's not far. It's not far.", "The air's different here. It moves."])
+	ada.follow_player = true
+	ada.walk_speed = 110.0
+	ada.collision_layer = 0
+	ada.position = player.position + Vector2(-24, 10)
+	zone.add_child(ada)
+
+
+func ada_following() -> bool:
+	var zone := get_tree().current_scene
+	return zone != null and zone.get_node_or_null(^"Escort_ada") != null
 
 
 func stage(id: StringName) -> int:
@@ -266,6 +319,66 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 					])
 				DONE:
 					return PackedStringArray(["Next time the light blinks, I'm swimming out after the rope. Don't tell the lifeguard."])
+		&"rafi":
+			if Errands.state(&"rafi_tonic") != Errands.DONE:
+				return PackedStringArray()
+			match stage(&"beneath_dunes"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"The girl you helped me with is on her way north. She has a sister. Ada. Seven years old, and sick, and still down the North Shaft.",
+						"Sick ones get moved to the infirmary. Nobody comes back up from the infirmary.",
+						"The tally gate at the bottom counts you in if you show it a tag. Nib's, if he's free of it. Old Gideon keeps the night watch; he'll be asleep, if you're the right sort.",
+						"Find Ada in the bunks. Bring her out the old way: past the flooded workings there's a crawl that comes up in the Bone Hollow. Zahra will be watching for her at the Sunwell.",
+					])
+				1:
+					return PackedStringArray(["Down the shaft on the terrace, through the tally gate. Ada's in the bunks, west of the sorting floor. Then out the crawl past the lake, never back up the shaft."])
+				2:
+					return PackedStringArray(["Not up the shaft! Out the old way, past the flooded workings, to the Bone Hollow, and Zahra at the Sunwell."])
+				3:
+					return PackedStringArray([
+						"Zahra's bell rang twice, then once, at dusk. That means she's safe, and walking north with the caravan, and the sister will be waiting.",
+						"You can't buy that and you can't sell it. Here: the lamp. Every friend of the line carries one. Light it where you need to not be seen.",
+					])
+				DONE:
+					return PackedStringArray(["Every bell that rings twice, then once: that's someone you'll never meet, thanking you."])
+		&"ada":
+			match stage(&"beneath_dunes"):
+				1:
+					return PackedStringArray([
+						"...Who are you? You're not the overseer. You've got sun on you.",
+						"Rafi sent you? Then the bell's real. My sister said the bell was real.",
+						"I can walk. I can. Just don't go fast. And not up the lift. They count you at the lift.",
+					])
+				2:
+					return PackedStringArray(["I'm right behind you."])
+		&"zahra":
+			if stage(&"beneath_dunes") == 2 and ada_following():
+				return PackedStringArray([
+					"...Ada. Oh, little one. Come here, come into the shade. Water first.",
+					"You brought her out the crawl? Then the line still holds. Good. Good.",
+					"She'll ride north with the caravan tonight, hidden in the water casks; my cousin's people meet us past the plains. Tell Rafi the bell rang. He'll know.",
+				])
+		&"hesper":
+			match stage(&"foremans_names"):
+				NOT_STARTED:
+					return PackedStringArray([
+						"Families come to my well asking after their children. A son who went down the shaft for a season, a daughter 'transferred'. I can't tell them anything.",
+						"The foreman keeps a ledger of names in the lower office, under the sorting floor. Every name in, every name out. Count true, she says.",
+						"If you ever go down there, read it for me. Bring me the names. Somebody should be able to answer when a mother asks.",
+					])
+				1:
+					return PackedStringArray(["The foreman's ledger of names, in the lower office under the sorting floor. Read it, and bring me what it says."])
+				2:
+					var lines := PackedStringArray([
+						"...So many with no 'up'. Two years of them. And pages of numbers with nobody's name at all.",
+						"Corin, of Verdana. A sheepdog with a red scarf. There's an old weaver in Verdana who asks every traveller about a red scarf. Now somebody can tell her.",
+					])
+					if &"raider" in GameState.active_rivals:
+						lines.append("And here, one number crossed out, and circled, years ago. The one who got out. They say that one's racing now, with a mask on.")
+					lines.append("Take this, for going where I couldn't. I'll copy the names onto the wall of my cistern, where the Company never looks.")
+					return lines
+				DONE:
+					return PackedStringArray(["The names are on the cistern wall now. Mothers come and read them. Some of them leave flowers. Some of them leave and go north."])
 		&"sven":
 			match stage(&"over_the_top"):
 				NOT_STARTED:
@@ -322,6 +435,12 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 						"He's alive. Nobody sends a ration chit after a dead boy. Take this, and thank you, and don't tell me how far north the water goes. Not yet.",
 					])
 				DONE:
+					if flag(&"knows_corin") and not flag(&"told_oda_corin"):
+						return PackedStringArray([
+							"...You've seen the foreman's book. I can tell by your face. Say it plainly. I've had two years of nobody saying anything.",
+							"'Transferred, North Workings.' Not 'up'. Not dead. Transferred. Then he went north under the mountain, with the rest of them, and some of them came out the other side.",
+							"Thank you. Now I know which way to knit.",
+						])
 					return PackedStringArray(["I've unpicked the rest of the scarf and started another. Longer, this time. It's a long way north."])
 		&"mirren":
 			match stage(&"merchants_ledger"):
@@ -405,6 +524,22 @@ func marker_for(npc_id: StringName) -> String:
 				return "!"
 			2:
 				return "?"
+	if npc_id == &"rafi" and Errands.state(&"rafi_tonic") == Errands.DONE:
+		match stage(&"beneath_dunes"):
+			NOT_STARTED:
+				return "!"
+			3:
+				return "?"
+	if npc_id == &"ada" and stage(&"beneath_dunes") == 1:
+		return "!"
+	if npc_id == &"zahra" and stage(&"beneath_dunes") == 2 and ada_following():
+		return "?"
+	if npc_id == &"hesper" and not gift_waiting(&"hesper"):
+		match stage(&"foremans_names"):
+			NOT_STARTED:
+				return "!"
+			2:
+				return "?"
 	if npc_id == &"juniper" and Errands.state(&"juniper_tonic") == Errands.DONE:
 		match stage(&"glowcaps"):
 			NOT_STARTED:
@@ -435,6 +570,8 @@ func talked_to(npc_id: StringName) -> void:
 		return
 	if npc_id == &"mirela":
 		GameState.quest_flags[&"met_mirela"] = true
+	if npc_id == &"oda" and stage(&"millstream") == DONE and flag(&"knows_corin"):
+		GameState.quest_flags[&"told_oda_corin"] = true
 	if npc_id == &"wen":
 		match stage(&"wens_boat"):
 			NOT_STARTED:
@@ -468,6 +605,47 @@ func talked_to(npc_id: StringName) -> void:
 				GameState.quest_flags[&"knows_bungalow_3"] = true
 				set_stage(&"light_on_water", DONE)
 				EventBus.notify.emit("Quest complete: The Light on the Water (+%d gold, Lockbox Seal)" % LIGHT_REWARD_GOLD)
+		return
+	if npc_id == &"rafi" and Errands.state(&"rafi_tonic") == Errands.DONE:
+		match stage(&"beneath_dunes"):
+			NOT_STARTED:
+				set_stage(&"beneath_dunes", 1)
+				EventBus.notify.emit("Quest started: Beneath the Dunes")
+			3:
+				GameState.add_currency(ADA_REWARD_GOLD)
+				GameState.add_loose_card(GameState.PLAYER, ADA_REWARD_CARD)
+				set_stage(&"beneath_dunes", DONE)
+				EventBus.notify.emit("Quest complete: Beneath the Dunes (+%d gold, the Green Lamp)" % ADA_REWARD_GOLD)
+		return
+	if npc_id == &"ada" and stage(&"beneath_dunes") == 1:
+		set_stage(&"beneath_dunes", 2)
+		EventBus.notify.emit("Ada will follow you. Take her out the crawl past the flooded workings, to Zahra at the Sunwell")
+		_place_escort()
+		var bunk := get_tree().current_scene.get_node_or_null(^"Npc_ada") if get_tree().current_scene else null
+		if bunk:
+			var escort := get_tree().current_scene.get_node_or_null(^"Escort_ada") as Node2D
+			if escort:
+				escort.global_position = (bunk as Node2D).global_position
+			bunk.queue_free()
+		return
+	if npc_id == &"zahra" and stage(&"beneath_dunes") == 2 and ada_following():
+		var escort := get_tree().current_scene.get_node_or_null(^"Escort_ada")
+		if escort:
+			escort.queue_free()
+		set_stage(&"beneath_dunes", 3)
+		EventBus.notify.emit("Ada is safe with Zahra's caravan. Tell Rafi in Duskara")
+		return
+	if npc_id == &"hesper" and not gift_waiting(&"hesper"):
+		match stage(&"foremans_names"):
+			NOT_STARTED:
+				set_stage(&"foremans_names", 2 if flag(&"read_names_ledger") else 1)
+				EventBus.notify.emit("Quest started: The Foreman's Names")
+			2:
+				GameState.add_currency(NAMES_REWARD_GOLD)
+				GameState.add_loose_card(GameState.PLAYER, &"lockbox_seal")
+				GameState.quest_flags[&"knows_corin"] = true
+				set_stage(&"foremans_names", DONE)
+				EventBus.notify.emit("Quest complete: The Foreman's Names (+%d gold, Lockbox Seal)" % NAMES_REWARD_GOLD)
 		return
 	if npc_id == &"sven":
 		match stage(&"over_the_top"):
@@ -629,6 +807,11 @@ func read(title: String, at_night := false) -> void:
 			else:
 				quest_changed.emit(&"millstream", 1)
 				EventBus.notify.emit("What the Millstream Carries: %d of 3 found" % _millstream_found())
+	if title == NAMES_LEDGER:
+		GameState.quest_flags[&"read_names_ledger"] = true
+		if stage(&"foremans_names") == 1:
+			set_stage(&"foremans_names", 2)
+			EventBus.notify.emit("Take the names to Hesper at the Cistern")
 	if title == "The first king's tomb":
 		GameState.quest_flags[&"read_kings_tomb"] = true
 	if LEDGER_CLUES.has(title) and not flag(StringName("ledger:%s" % title)):
@@ -663,6 +846,8 @@ func wants(title: String, at_night := false) -> bool:
 		return stage(&"merchants_ledger") == 1 and not flag(StringName("ledger:%s" % title))
 	if title == SATCHEL_TITLE:
 		return stage(&"trees_remember") == 1
+	if title == NAMES_LEDGER:
+		return stage(&"foremans_names") == 1
 	return false
 
 
@@ -812,6 +997,20 @@ func _step(id: StringName) -> String:
 					return "search the reeds along Verdana's millstream (%d/3)" % _millstream_found()
 				2:
 					return "bring what you found to Oda"
+		&"beneath_dunes":
+			match stage(&"beneath_dunes"):
+				1:
+					return "go down the North Shaft and find Ada in the bunks (the tally gate wants a Brass Tally Tag)"
+				2:
+					return "lead Ada out the crawl past the flooded workings, to Zahra at the Sunwell"
+				3:
+					return "tell Rafi in Duskara"
+		&"foremans_names":
+			match stage(&"foremans_names"):
+				1:
+					return "read the foreman's ledger of names in the North Shaft's lower office"
+				2:
+					return "bring the names to Hesper at the Cistern"
 		&"merchants_ledger":
 			match stage(&"merchants_ledger"):
 				1:
@@ -852,6 +1051,18 @@ func map_goals() -> Array[String]:
 			add.call(WorldMap.STARFALL)
 		2:
 			add.call(WorldMap.FRISALLE)
+	match stage(&"beneath_dunes"):
+		1:
+			add.call(WorldMap.DUSKARA_MINE)
+		2:
+			add.call(WorldMap.SIROTH)
+		3:
+			add.call(WorldMap.DUSKARA)
+	match stage(&"foremans_names"):
+		1:
+			add.call(WorldMap.DUSKARA_MINE)
+		2:
+			add.call(WorldMap.DUSKARA)
 	match stage(&"glowcaps"):
 		1:
 			add.call(WorldMap.SORENDA_HOLLOW)

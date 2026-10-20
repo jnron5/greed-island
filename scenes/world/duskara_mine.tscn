@@ -1,0 +1,1186 @@
+[gd_scene load_steps=100 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/binder.tscn" id="4_binder"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_panel.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/systems/zone_exit.tscn" id="7_exit"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/mine_ground.png" id="8_ground"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/mine_levels.png" id="9_levels"]
+[ext_resource type="PackedScene" path="res://scenes/systems/card_gate.tscn" id="10_gate"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="11_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="12_chest_shut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="13_chest_open"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="14_read"]
+[ext_resource type="Script" path="res://scripts/systems/lamp_light.gd" id="15_lamp"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="17_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/lift.png" id="t0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/lamp_post.png" id="t1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/support_lamp.png" id="t2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/sorting_table.png" id="t3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/baskets.png" id="t4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/sacks.png" id="t5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/cart_empty.png" id="t6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/crystal_cluster.png" id="t7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/crystal_tall.png" id="t8"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/crystal_small.png" id="t9"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/cart_teal.png" id="t10"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/cart_gold.png" id="t11"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/support.png" id="t12"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/bunks_a.png" id="t13"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/bunks_b.png" id="t14"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/duskara/mine/workbench.png" id="t15"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/gideon/gideon_frames.tres" id="n_gideon"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sorter_pup/sorter_pup_frames.tres" id="n_sorter_pup"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sorter_kit/sorter_kit_frames.tres" id="n_sorter_kit"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/company_man/company_man_frames.tres" id="n_company_man"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/ada/ada_frames.tres" id="n_ada"]
+
+[sub_resource type="RectangleShape2D" id="R1600x96"]
+size = Vector2(1600, 96)
+
+[sub_resource type="RectangleShape2D" id="R768x32"]
+size = Vector2(768, 32)
+
+[sub_resource type="RectangleShape2D" id="R800x32"]
+size = Vector2(800, 32)
+
+[sub_resource type="RectangleShape2D" id="R736x32"]
+size = Vector2(736, 32)
+
+[sub_resource type="RectangleShape2D" id="R704x64"]
+size = Vector2(704, 64)
+
+[sub_resource type="RectangleShape2D" id="R448x32"]
+size = Vector2(448, 32)
+
+[sub_resource type="RectangleShape2D" id="R256x32"]
+size = Vector2(256, 32)
+
+[sub_resource type="RectangleShape2D" id="R224x32"]
+size = Vector2(224, 32)
+
+[sub_resource type="RectangleShape2D" id="R512x32"]
+size = Vector2(512, 32)
+
+[sub_resource type="RectangleShape2D" id="R352x32"]
+size = Vector2(352, 32)
+
+[sub_resource type="RectangleShape2D" id="R192x32"]
+size = Vector2(192, 32)
+
+[sub_resource type="RectangleShape2D" id="R384x32"]
+size = Vector2(384, 32)
+
+[sub_resource type="RectangleShape2D" id="R288x32"]
+size = Vector2(288, 32)
+
+[sub_resource type="RectangleShape2D" id="R160x64"]
+size = Vector2(160, 64)
+
+[sub_resource type="RectangleShape2D" id="R320x32"]
+size = Vector2(320, 32)
+
+[sub_resource type="RectangleShape2D" id="R256x64"]
+size = Vector2(256, 64)
+
+[sub_resource type="RectangleShape2D" id="R160x96"]
+size = Vector2(160, 96)
+
+[sub_resource type="RectangleShape2D" id="R128x32"]
+size = Vector2(128, 32)
+
+[sub_resource type="RectangleShape2D" id="R160x32"]
+size = Vector2(160, 32)
+
+[sub_resource type="RectangleShape2D" id="R96x32"]
+size = Vector2(96, 32)
+
+[sub_resource type="RectangleShape2D" id="R128x96"]
+size = Vector2(128, 96)
+
+[sub_resource type="RectangleShape2D" id="R224x96"]
+size = Vector2(224, 96)
+
+[sub_resource type="RectangleShape2D" id="R576x32"]
+size = Vector2(576, 32)
+
+[sub_resource type="RectangleShape2D" id="R608x32"]
+size = Vector2(608, 32)
+
+[sub_resource type="RectangleShape2D" id="R288x64"]
+size = Vector2(288, 64)
+
+[sub_resource type="RectangleShape2D" id="R288x160"]
+size = Vector2(288, 160)
+
+[sub_resource type="RectangleShape2D" id="R640x64"]
+size = Vector2(640, 64)
+
+[sub_resource type="RectangleShape2D" id="R672x32"]
+size = Vector2(672, 32)
+
+[sub_resource type="RectangleShape2D" id="R768x160"]
+size = Vector2(768, 160)
+
+[sub_resource type="RectangleShape2D" id="R64x32"]
+size = Vector2(64, 32)
+
+[sub_resource type="RectangleShape2D" id="R672x64"]
+size = Vector2(672, 64)
+
+[sub_resource type="RectangleShape2D" id="R160x256"]
+size = Vector2(160, 256)
+
+[sub_resource type="RectangleShape2D" id="R480x32"]
+size = Vector2(480, 32)
+
+[sub_resource type="RectangleShape2D" id="R704x32"]
+size = Vector2(704, 32)
+
+[sub_resource type="RectangleShape2D" id="R768x64"]
+size = Vector2(768, 64)
+
+[sub_resource type="RectangleShape2D" id="R32x8"]
+size = Vector2(32, 8)
+
+[sub_resource type="RectangleShape2D" id="R104x8"]
+size = Vector2(104, 8)
+
+[sub_resource type="RectangleShape2D" id="R136x8"]
+size = Vector2(136, 8)
+
+[sub_resource type="RectangleShape2D" id="R152x8"]
+size = Vector2(152, 8)
+
+[sub_resource type="RectangleShape2D" id="R160x8"]
+size = Vector2(160, 8)
+
+[sub_resource type="RectangleShape2D" id="R176x8"]
+size = Vector2(176, 8)
+
+[sub_resource type="RectangleShape2D" id="R176x16"]
+size = Vector2(176, 16)
+
+[sub_resource type="RectangleShape2D" id="R128x8"]
+size = Vector2(128, 8)
+
+[sub_resource type="RectangleShape2D" id="R96x8"]
+size = Vector2(96, 8)
+
+[sub_resource type="RectangleShape2D" id="R40x8"]
+size = Vector2(40, 8)
+
+[sub_resource type="RectangleShape2D" id="R1680x40"]
+size = Vector2(1680, 40)
+
+[sub_resource type="RectangleShape2D" id="R40x1152"]
+size = Vector2(40, 1152)
+
+[sub_resource type="RectangleShape2D" id="R138x40"]
+size = Vector2(138, 40)
+
+[sub_resource type="RectangleShape2D" id="R592x40"]
+size = Vector2(592, 40)
+
+[sub_resource type="RectangleShape2D" id="R790x40"]
+size = Vector2(790, 40)
+
+[sub_resource type="RectangleShape2D" id="R56x18"]
+size = Vector2(56, 18)
+
+[sub_resource type="RectangleShape2D" id="R8x6"]
+size = Vector2(8, 6)
+
+[sub_resource type="RectangleShape2D" id="R36x8"]
+size = Vector2(36, 8)
+
+[sub_resource type="RectangleShape2D" id="R66x18"]
+size = Vector2(66, 18)
+
+[sub_resource type="RectangleShape2D" id="R30x12"]
+size = Vector2(30, 12)
+
+[sub_resource type="RectangleShape2D" id="R34x12"]
+size = Vector2(34, 12)
+
+[sub_resource type="RectangleShape2D" id="R28x12"]
+size = Vector2(28, 12)
+
+[sub_resource type="RectangleShape2D" id="R26x12"]
+size = Vector2(26, 12)
+
+[sub_resource type="RectangleShape2D" id="R24x12"]
+size = Vector2(24, 12)
+
+[sub_resource type="RectangleShape2D" id="R20x10"]
+size = Vector2(20, 10)
+
+[sub_resource type="RectangleShape2D" id="R30x8"]
+size = Vector2(30, 8)
+
+[sub_resource type="RectangleShape2D" id="R30x10"]
+size = Vector2(30, 10)
+
+[node name="DuskaraMine" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_zone")
+display_name = "The North Shaft, under Duskara"
+underground = true
+water_shimmer = false
+level_map = ExtResource("9_levels")
+level_cell = 32
+level_origin = Vector2(-800, -576)
+
+[node name="Dark" type="CanvasModulate" parent="."]
+color = Color(0.42, 0.36, 0.34, 1)
+
+[node name="GroundTiles" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(0.0, 0.0)
+texture = ExtResource("8_ground")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="W0" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0.0, -528.0)
+shape = SubResource("R1600x96")
+
+[node name="W1" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-416.0, -464.0)
+shape = SubResource("R768x32")
+
+[node name="W2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(400.0, -464.0)
+shape = SubResource("R800x32")
+
+[node name="W3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-432.0, -432.0)
+shape = SubResource("R736x32")
+
+[node name="W4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(432.0, -432.0)
+shape = SubResource("R736x32")
+
+[node name="W5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-448.0, -384.0)
+shape = SubResource("R704x64")
+
+[node name="W6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(448.0, -384.0)
+shape = SubResource("R704x64")
+
+[node name="W7" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-432.0, -336.0)
+shape = SubResource("R736x32")
+
+[node name="W8" type="CollisionShape2D" parent="Walls"]
+position = Vector2(288.0, -336.0)
+shape = SubResource("R448x32")
+
+[node name="W9" type="CollisionShape2D" parent="Walls"]
+position = Vector2(672.0, -336.0)
+shape = SubResource("R256x32")
+
+[node name="W10" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-688.0, -304.0)
+shape = SubResource("R224x32")
+
+[node name="W11" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-288.0, -304.0)
+shape = SubResource("R512x32")
+
+[node name="W12" type="CollisionShape2D" parent="Walls"]
+position = Vector2(208.0, -304.0)
+shape = SubResource("R352x32")
+
+[node name="W13" type="CollisionShape2D" parent="Walls"]
+position = Vector2(688.0, -304.0)
+shape = SubResource("R224x32")
+
+[node name="W14" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-704.0, -272.0)
+shape = SubResource("R192x32")
+
+[node name="W15" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-224.0, -272.0)
+shape = SubResource("R384x32")
+
+[node name="W16" type="CollisionShape2D" parent="Walls"]
+position = Vector2(176.0, -272.0)
+shape = SubResource("R288x32")
+
+[node name="W17" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-208.0, -240.0)
+shape = SubResource("R352x32")
+
+[node name="W18" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-720.0, -224.0)
+shape = SubResource("R160x64")
+
+[node name="W19" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-192.0, -208.0)
+shape = SubResource("R320x32")
+
+[node name="W20" type="CollisionShape2D" parent="Walls"]
+position = Vector2(160.0, -224.0)
+shape = SubResource("R256x64")
+
+[node name="W21" type="CollisionShape2D" parent="Walls"]
+position = Vector2(720.0, -240.0)
+shape = SubResource("R160x96")
+
+[node name="W22" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-736.0, -176.0)
+shape = SubResource("R128x32")
+
+[node name="W23" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-208.0, -176.0)
+shape = SubResource("R288x32")
+
+[node name="W24" type="CollisionShape2D" parent="Walls"]
+position = Vector2(208.0, -176.0)
+shape = SubResource("R160x32")
+
+[node name="W25" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-704.0, -144.0)
+shape = SubResource("R192x32")
+
+[node name="W26" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-256.0, -144.0)
+shape = SubResource("R128x32")
+
+[node name="W27" type="CollisionShape2D" parent="Walls"]
+position = Vector2(208.0, -144.0)
+shape = SubResource("R96x32")
+
+[node name="W28" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-688.0, -112.0)
+shape = SubResource("R224x32")
+
+[node name="W29" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-320.0, -112.0)
+shape = SubResource("R192x32")
+
+[node name="W30" type="CollisionShape2D" parent="Walls"]
+position = Vector2(736.0, -144.0)
+shape = SubResource("R128x96")
+
+[node name="W31" type="CollisionShape2D" parent="Walls"]
+position = Vector2(272.0, -80.0)
+shape = SubResource("R96x32")
+
+[node name="W32" type="CollisionShape2D" parent="Walls"]
+position = Vector2(704.0, -80.0)
+shape = SubResource("R192x32")
+
+[node name="W33" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-672.0, -64.0)
+shape = SubResource("R256x64")
+
+[node name="W34" type="CollisionShape2D" parent="Walls"]
+position = Vector2(304.0, -48.0)
+shape = SubResource("R160x32")
+
+[node name="W35" type="CollisionShape2D" parent="Walls"]
+position = Vector2(688.0, -48.0)
+shape = SubResource("R224x32")
+
+[node name="W36" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-368.0, -48.0)
+shape = SubResource("R224x96")
+
+[node name="W37" type="CollisionShape2D" parent="Walls"]
+position = Vector2(352.0, -16.0)
+shape = SubResource("R256x32")
+
+[node name="W38" type="CollisionShape2D" parent="Walls"]
+position = Vector2(656.0, -16.0)
+shape = SubResource("R288x32")
+
+[node name="W39" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-352.0, 16.0)
+shape = SubResource("R256x32")
+
+[node name="W40" type="CollisionShape2D" parent="Walls"]
+position = Vector2(512.0, 16.0)
+shape = SubResource("R576x32")
+
+[node name="W41" type="CollisionShape2D" parent="Walls"]
+position = Vector2(496.0, 48.0)
+shape = SubResource("R608x32")
+
+[node name="W42" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-336.0, 64.0)
+shape = SubResource("R288x64")
+
+[node name="W43" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-656.0, 48.0)
+shape = SubResource("R288x160")
+
+[node name="W44" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-304.0, 112.0)
+shape = SubResource("R352x32")
+
+[node name="W45" type="CollisionShape2D" parent="Walls"]
+position = Vector2(480.0, 96.0)
+shape = SubResource("R640x64")
+
+[node name="W46" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-672.0, 144.0)
+shape = SubResource("R256x32")
+
+[node name="W47" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-256.0, 144.0)
+shape = SubResource("R320x32")
+
+[node name="W48" type="CollisionShape2D" parent="Walls"]
+position = Vector2(464.0, 144.0)
+shape = SubResource("R672x32")
+
+[node name="W49" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-688.0, 176.0)
+shape = SubResource("R224x32")
+
+[node name="W50" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-192.0, 176.0)
+shape = SubResource("R320x32")
+
+[node name="W51" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-176.0, 224.0)
+shape = SubResource("R288x64")
+
+[node name="W52" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-160.0, 288.0)
+shape = SubResource("R256x64")
+
+[node name="W53" type="CollisionShape2D" parent="Walls"]
+position = Vector2(416.0, 240.0)
+shape = SubResource("R768x160")
+
+[node name="W54" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-176.0, 336.0)
+shape = SubResource("R288x32")
+
+[node name="W55" type="CollisionShape2D" parent="Walls"]
+position = Vector2(432.0, 336.0)
+shape = SubResource("R736x32")
+
+[node name="W56" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-208.0, 368.0)
+shape = SubResource("R288x32")
+
+[node name="W57" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-576.0, 400.0)
+shape = SubResource("R64x32")
+
+[node name="W58" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-272.0, 400.0)
+shape = SubResource("R352x32")
+
+[node name="W59" type="CollisionShape2D" parent="Walls"]
+position = Vector2(464.0, 384.0)
+shape = SubResource("R672x64")
+
+[node name="W60" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-720.0, 320.0)
+shape = SubResource("R160x256")
+
+[node name="W61" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-368.0, 432.0)
+shape = SubResource("R480x32")
+
+[node name="W62" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-448.0, 464.0)
+shape = SubResource("R704x32")
+
+[node name="W63" type="CollisionShape2D" parent="Walls"]
+position = Vector2(448.0, 448.0)
+shape = SubResource("R704x64")
+
+[node name="W64" type="CollisionShape2D" parent="Walls"]
+position = Vector2(432.0, 496.0)
+shape = SubResource("R736x32")
+
+[node name="W65" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-416.0, 512.0)
+shape = SubResource("R768x64")
+
+[node name="W66" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-736.0, 560.0)
+shape = SubResource("R128x32")
+
+[node name="W67" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-336.0, 560.0)
+shape = SubResource("R608x32")
+
+[node name="W68" type="CollisionShape2D" parent="Walls"]
+position = Vector2(416.0, 544.0)
+shape = SubResource("R768x64")
+
+[node name="W69" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-400.0, 244.0)
+shape = SubResource("R32x8")
+
+[node name="W70" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-404.0, 252.0)
+shape = SubResource("R104x8")
+
+[node name="W71" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-404.0, 260.0)
+shape = SubResource("R136x8")
+
+[node name="W72" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-404.0, 268.0)
+shape = SubResource("R152x8")
+
+[node name="W73" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-400.0, 276.0)
+shape = SubResource("R160x8")
+
+[node name="W74" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-400.0, 284.0)
+shape = SubResource("R176x8")
+
+[node name="W75" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-400.0, 304.0)
+shape = SubResource("R192x32")
+
+[node name="W76" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-400.0, 328.0)
+shape = SubResource("R176x16")
+
+[node name="W77" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-400.0, 340.0)
+shape = SubResource("R160x8")
+
+[node name="W78" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-400.0, 348.0)
+shape = SubResource("R128x8")
+
+[node name="W79" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-400.0, 356.0)
+shape = SubResource("R96x8")
+
+[node name="W80" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-396.0, 364.0)
+shape = SubResource("R40x8")
+
+[node name="W81" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0.0, -596.0)
+shape = SubResource("R1680x40")
+
+[node name="W82" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-820.0, 0.0)
+shape = SubResource("R40x1152")
+
+[node name="W83" type="CollisionShape2D" parent="Walls"]
+position = Vector2(820.0, 0.0)
+shape = SubResource("R40x1152")
+
+[node name="W84" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-771.0, 596.0)
+shape = SubResource("R138x40")
+
+[node name="W85" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-346.0, 596.0)
+shape = SubResource("R592x40")
+
+[node name="W86" type="CollisionShape2D" parent="Walls"]
+position = Vector2(445.0, 596.0)
+shape = SubResource("R790x40")
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="from_duskara" type="Marker2D" parent="Spawns"]
+position = Vector2(0, 480)
+
+[node name="RivalSpots" type="Node2D" parent="."]
+
+[node name="ToDuskara" parent="." instance=ExtResource("7_exit")]
+position = Vector2(0, 572)
+target_scene = "res://scenes/world/duskara.tscn"
+target_spawn = &"from_mine"
+exit_hint = true
+
+[node name="ToDunes" parent="." instance=ExtResource("7_exit")]
+position = Vector2(-672, 572)
+target_scene = "res://scenes/world/siroth_dunes.tscn"
+target_spawn = &"from_mine"
+exit_hint = true
+
+[node name="runner" type="Marker2D" parent="RivalSpots"]
+position = Vector2(0, 460)
+
+[node name="raider" type="Marker2D" parent="RivalSpots"]
+position = Vector2(0, 460)
+
+[node name="hoarder" type="Marker2D" parent="RivalSpots"]
+position = Vector2(0, 460)
+
+[node name="Gate_duskara_tally_gate" parent="." instance=ExtResource("10_gate")]
+position = Vector2(0, 230.39999999999998)
+gate_id = &"duskara_tally_gate"
+width = 96.0
+look = &"bars"
+
+[node name="Prop0" type="StaticBody2D" parent="."]
+position = Vector2(0, 371.20000000000005)
+
+[node name="Sprite" type="Sprite2D" parent="Prop0"]
+offset = Vector2(0, -36.0)
+texture = ExtResource("t0")
+
+[node name="Base" type="CollisionShape2D" parent="Prop0"]
+position = Vector2(0, -9.0)
+shape = SubResource("R56x18")
+
+[node name="Prop1" type="StaticBody2D" parent="."]
+position = Vector2(-89.60000000000002, 432.0)
+
+[node name="Sprite" type="Sprite2D" parent="Prop1"]
+offset = Vector2(0, -19.0)
+texture = ExtResource("t1")
+
+[node name="Base" type="CollisionShape2D" parent="Prop1"]
+position = Vector2(0, -3.0)
+shape = SubResource("R8x6")
+
+[node name="PropLight1" type="PointLight2D" parent="."]
+position = Vector2(-89.60000000000002, 406.8)
+texture_scale = 1.4
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.95
+tint = Color(1.0, 0.75, 0.42, 1)
+flicker = 0.1
+
+[node name="Prop2" type="StaticBody2D" parent="."]
+position = Vector2(89.60000000000002, 432.0)
+
+[node name="Sprite" type="Sprite2D" parent="Prop2"]
+offset = Vector2(0, -19.0)
+texture = ExtResource("t1")
+
+[node name="Base" type="CollisionShape2D" parent="Prop2"]
+position = Vector2(0, -3.0)
+shape = SubResource("R8x6")
+
+[node name="PropLight2" type="PointLight2D" parent="."]
+position = Vector2(89.60000000000002, 406.8)
+texture_scale = 1.4
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.95
+tint = Color(1.0, 0.75, 0.42, 1)
+flicker = 0.1
+
+[node name="Prop3" type="StaticBody2D" parent="."]
+position = Vector2(0, 172.79999999999995)
+
+[node name="Sprite" type="Sprite2D" parent="Prop3"]
+offset = Vector2(0, -16.5)
+texture = ExtResource("t2")
+
+[node name="Base" type="CollisionShape2D" parent="Prop3"]
+position = Vector2(0, -4.0)
+shape = SubResource("R36x8")
+
+[node name="PropLight3" type="PointLight2D" parent="."]
+position = Vector2(0, 150.59999999999997)
+texture_scale = 1.4
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.95
+tint = Color(1.0, 0.75, 0.42, 1)
+flicker = 0.1
+
+[node name="Prop4" type="StaticBody2D" parent="."]
+position = Vector2(-128, -83.19999999999999)
+
+[node name="Sprite" type="Sprite2D" parent="Prop4"]
+offset = Vector2(0, -28.0)
+texture = ExtResource("t3")
+
+[node name="Base" type="CollisionShape2D" parent="Prop4"]
+position = Vector2(0, -9.0)
+shape = SubResource("R66x18")
+
+[node name="PropLight4" type="PointLight2D" parent="."]
+position = Vector2(-128, -119.19999999999999)
+texture_scale = 1.4
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.95
+tint = Color(1.0, 0.75, 0.42, 1)
+flicker = 0.1
+
+[node name="Prop5" type="StaticBody2D" parent="."]
+position = Vector2(128, -83.19999999999999)
+
+[node name="Sprite" type="Sprite2D" parent="Prop5"]
+offset = Vector2(0, -28.0)
+texture = ExtResource("t3")
+
+[node name="Base" type="CollisionShape2D" parent="Prop5"]
+position = Vector2(0, -9.0)
+shape = SubResource("R66x18")
+
+[node name="PropLight5" type="PointLight2D" parent="."]
+position = Vector2(128, -119.19999999999999)
+texture_scale = 1.4
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.95
+tint = Color(1.0, 0.75, 0.42, 1)
+flicker = 0.1
+
+[node name="Prop6" type="StaticBody2D" parent="."]
+position = Vector2(0, 51.200000000000045)
+
+[node name="Sprite" type="Sprite2D" parent="Prop6"]
+offset = Vector2(0, -28.0)
+texture = ExtResource("t3")
+
+[node name="Base" type="CollisionShape2D" parent="Prop6"]
+position = Vector2(0, -9.0)
+shape = SubResource("R66x18")
+
+[node name="PropLight6" type="PointLight2D" parent="."]
+position = Vector2(0, 15.200000000000045)
+texture_scale = 1.4
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.95
+tint = Color(1.0, 0.75, 0.42, 1)
+flicker = 0.1
+
+[node name="Prop7" type="StaticBody2D" parent="."]
+position = Vector2(-192, 48.0)
+
+[node name="Sprite" type="Sprite2D" parent="Prop7"]
+offset = Vector2(0, -18.0)
+texture = ExtResource("t4")
+
+[node name="Base" type="CollisionShape2D" parent="Prop7"]
+position = Vector2(0, -6.0)
+shape = SubResource("R30x12")
+
+[node name="Prop8" type="StaticBody2D" parent="."]
+position = Vector2(172.79999999999995, 57.60000000000002)
+
+[node name="Sprite" type="Sprite2D" parent="Prop8"]
+offset = Vector2(0, -15.0)
+texture = ExtResource("t5")
+
+[node name="Base" type="CollisionShape2D" parent="Prop8"]
+position = Vector2(0, -6.0)
+shape = SubResource("R34x12")
+
+[node name="Prop9" type="StaticBody2D" parent="."]
+position = Vector2(144.0, -118.39999999999998)
+
+[node name="Sprite" type="Sprite2D" parent="Prop9"]
+offset = Vector2(0, -16.0)
+texture = ExtResource("t6")
+
+[node name="Base" type="CollisionShape2D" parent="Prop9"]
+position = Vector2(0, -6.0)
+shape = SubResource("R28x12")
+
+[node name="Prop10" type="StaticBody2D" parent="."]
+position = Vector2(438.4000000000001, -284.8)
+
+[node name="Sprite" type="Sprite2D" parent="Prop10"]
+offset = Vector2(0, -18.0)
+texture = ExtResource("t7")
+
+[node name="Base" type="CollisionShape2D" parent="Prop10"]
+position = Vector2(0, -6.0)
+shape = SubResource("R26x12")
+
+[node name="PropLight10" type="PointLight2D" parent="."]
+position = Vector2(438.4000000000001, -308.8)
+texture_scale = 1.1
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.45, 0.95, 0.9, 1)
+flicker = 0.03
+
+[node name="Prop11" type="StaticBody2D" parent="."]
+position = Vector2(598.4000000000001, -252.8)
+
+[node name="Sprite" type="Sprite2D" parent="Prop11"]
+offset = Vector2(0, -18.5)
+texture = ExtResource("t8")
+
+[node name="Base" type="CollisionShape2D" parent="Prop11"]
+position = Vector2(0, -6.0)
+shape = SubResource("R24x12")
+
+[node name="PropLight11" type="PointLight2D" parent="."]
+position = Vector2(598.4000000000001, -277.40000000000003)
+texture_scale = 1.1
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.45, 0.95, 0.9, 1)
+flicker = 0.03
+
+[node name="Prop12" type="StaticBody2D" parent="."]
+position = Vector2(345.5999999999999, -67.19999999999999)
+
+[node name="Sprite" type="Sprite2D" parent="Prop12"]
+offset = Vector2(0, -14.0)
+texture = ExtResource("t9")
+
+[node name="Base" type="CollisionShape2D" parent="Prop12"]
+position = Vector2(0, -5.0)
+shape = SubResource("R20x10")
+
+[node name="PropLight12" type="PointLight2D" parent="."]
+position = Vector2(345.5999999999999, -86.39999999999999)
+texture_scale = 1.1
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.45, 0.95, 0.9, 1)
+flicker = 0.03
+
+[node name="Prop13" type="StaticBody2D" parent="."]
+position = Vector2(627.2, -102.39999999999998)
+
+[node name="Sprite" type="Sprite2D" parent="Prop13"]
+offset = Vector2(0, -18.0)
+texture = ExtResource("t7")
+
+[node name="Base" type="CollisionShape2D" parent="Prop13"]
+position = Vector2(0, -6.0)
+shape = SubResource("R26x12")
+
+[node name="PropLight13" type="PointLight2D" parent="."]
+position = Vector2(627.2, -126.39999999999998)
+texture_scale = 1.1
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.45, 0.95, 0.9, 1)
+flicker = 0.03
+
+[node name="Prop14" type="StaticBody2D" parent="."]
+position = Vector2(486.4000000000001, -25.600000000000023)
+
+[node name="Sprite" type="Sprite2D" parent="Prop14"]
+offset = Vector2(0, -18.5)
+texture = ExtResource("t8")
+
+[node name="Base" type="CollisionShape2D" parent="Prop14"]
+position = Vector2(0, -6.0)
+shape = SubResource("R24x12")
+
+[node name="PropLight14" type="PointLight2D" parent="."]
+position = Vector2(486.4000000000001, -50.20000000000002)
+texture_scale = 1.1
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.45, 0.95, 0.9, 1)
+flicker = 0.03
+
+[node name="Prop15" type="StaticBody2D" parent="."]
+position = Vector2(531.2, -185.60000000000002)
+
+[node name="Sprite" type="Sprite2D" parent="Prop15"]
+offset = Vector2(0, -16.0)
+texture = ExtResource("t10")
+
+[node name="Base" type="CollisionShape2D" parent="Prop15"]
+position = Vector2(0, -6.0)
+shape = SubResource("R28x12")
+
+[node name="Prop16" type="StaticBody2D" parent="."]
+position = Vector2(377.5999999999999, -147.2)
+
+[node name="Sprite" type="Sprite2D" parent="Prop16"]
+offset = Vector2(0, -18.0)
+texture = ExtResource("t11")
+
+[node name="Base" type="CollisionShape2D" parent="Prop16"]
+position = Vector2(0, -6.0)
+shape = SubResource("R28x12")
+
+[node name="Prop17" type="StaticBody2D" parent="."]
+position = Vector2(288, -217.60000000000002)
+
+[node name="Sprite" type="Sprite2D" parent="Prop17"]
+offset = Vector2(0, -16.5)
+texture = ExtResource("t12")
+
+[node name="Base" type="CollisionShape2D" parent="Prop17"]
+position = Vector2(0, -4.0)
+shape = SubResource("R30x8")
+
+[node name="Prop18" type="StaticBody2D" parent="."]
+position = Vector2(659.2, -150.39999999999998)
+
+[node name="Sprite" type="Sprite2D" parent="Prop18"]
+offset = Vector2(0, -16.5)
+texture = ExtResource("t2")
+
+[node name="Base" type="CollisionShape2D" parent="Prop18"]
+position = Vector2(0, -4.0)
+shape = SubResource("R30x8")
+
+[node name="PropLight18" type="PointLight2D" parent="."]
+position = Vector2(659.2, -172.59999999999997)
+texture_scale = 1.4
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.95
+tint = Color(1.0, 0.75, 0.42, 1)
+flicker = 0.1
+
+[node name="Prop19" type="StaticBody2D" parent="."]
+position = Vector2(-576, -278.4)
+
+[node name="Sprite" type="Sprite2D" parent="Prop19"]
+offset = Vector2(0, -29.0)
+texture = ExtResource("t13")
+
+[node name="Base" type="CollisionShape2D" parent="Prop19"]
+position = Vector2(0, -9.0)
+shape = SubResource("R66x18")
+
+[node name="Prop20" type="StaticBody2D" parent="."]
+position = Vector2(-422.4, -249.60000000000002)
+
+[node name="Sprite" type="Sprite2D" parent="Prop20"]
+offset = Vector2(0, -28.5)
+texture = ExtResource("t14")
+
+[node name="Base" type="CollisionShape2D" parent="Prop20"]
+position = Vector2(0, -9.0)
+shape = SubResource("R66x18")
+
+[node name="Prop21" type="StaticBody2D" parent="."]
+position = Vector2(-371.2, -140.8)
+
+[node name="Sprite" type="Sprite2D" parent="Prop21"]
+offset = Vector2(0, -19.0)
+texture = ExtResource("t1")
+
+[node name="Base" type="CollisionShape2D" parent="Prop21"]
+position = Vector2(0, -3.0)
+shape = SubResource("R8x6")
+
+[node name="PropLight21" type="PointLight2D" parent="."]
+position = Vector2(-371.2, -166.0)
+texture_scale = 1.4
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.95
+tint = Color(1.0, 0.75, 0.42, 1)
+flicker = 0.1
+
+[node name="Prop22" type="StaticBody2D" parent="."]
+position = Vector2(-32.0, -438.4)
+
+[node name="Sprite" type="Sprite2D" parent="Prop22"]
+offset = Vector2(0, -16.5)
+texture = ExtResource("t15")
+
+[node name="Base" type="CollisionShape2D" parent="Prop22"]
+position = Vector2(0, -6.0)
+shape = SubResource("R34x12")
+
+[node name="PropLight22" type="PointLight2D" parent="."]
+position = Vector2(-32.0, -460.59999999999997)
+texture_scale = 1.4
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.95
+tint = Color(1.0, 0.75, 0.42, 1)
+flicker = 0.1
+
+[node name="Prop23" type="StaticBody2D" parent="."]
+position = Vector2(54.39999999999998, -400.0)
+
+[node name="Sprite" type="Sprite2D" parent="Prop23"]
+offset = Vector2(0, -15.0)
+texture = ExtResource("t5")
+
+[node name="Base" type="CollisionShape2D" parent="Prop23"]
+position = Vector2(0, -6.0)
+shape = SubResource("R34x12")
+
+[node name="Prop24" type="StaticBody2D" parent="."]
+position = Vector2(-540.8, 176.0)
+
+[node name="Sprite" type="Sprite2D" parent="Prop24"]
+offset = Vector2(0, -16.5)
+texture = ExtResource("t12")
+
+[node name="Base" type="CollisionShape2D" parent="Prop24"]
+position = Vector2(0, -4.0)
+shape = SubResource("R30x8")
+
+[node name="Prop25" type="StaticBody2D" parent="."]
+position = Vector2(-326.4, 243.20000000000005)
+
+[node name="Sprite" type="Sprite2D" parent="Prop25"]
+offset = Vector2(0, -14.0)
+texture = ExtResource("t9")
+
+[node name="Base" type="CollisionShape2D" parent="Prop25"]
+position = Vector2(0, -5.0)
+shape = SubResource("R20x10")
+
+[node name="PropLight25" type="PointLight2D" parent="."]
+position = Vector2(-326.4, 224.00000000000006)
+texture_scale = 1.1
+script = ExtResource("15_lamp")
+always_on = true
+max_energy = 0.85
+tint = Color(0.45, 0.95, 0.9, 1)
+flicker = 0.03
+
+[node name="Prop26" type="StaticBody2D" parent="."]
+position = Vector2(-595.2, 268.79999999999995)
+
+[node name="Sprite" type="Sprite2D" parent="Prop26"]
+offset = Vector2(0, -16.0)
+texture = ExtResource("t6")
+
+[node name="Base" type="CollisionShape2D" parent="Prop26"]
+position = Vector2(0, -6.0)
+shape = SubResource("R28x12")
+
+[node name="Chest_dorm_box" type="StaticBody2D" parent="."]
+position = Vector2(-598.4, -153.60000000000002)
+script = ExtResource("11_chest")
+chest_id = &"mine_dorm_box"
+card_id = &"brass_tally_tag"
+gold = 10
+closed_texture = ExtResource("12_chest_shut")
+open_texture = ExtResource("13_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_dorm_box"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Chest_seam_cache" type="StaticBody2D" parent="."]
+position = Vector2(636.8, -211.2)
+script = ExtResource("11_chest")
+chest_id = &"mine_seam_cache"
+card_id = &""
+gold = 45
+item_id = &"healers_tonic"
+item_count = 1
+closed_texture = ExtResource("12_chest_shut")
+open_texture = ExtResource("13_chest_open")
+
+[node name="Base" type="CollisionShape2D" parent="Chest_seam_cache"]
+position = Vector2(0, -5)
+shape = SubResource("R30x10")
+
+[node name="Read0" type="Node2D" parent="."]
+position = Vector2(28.799999999999955, 275.20000000000005)
+script = ExtResource("14_read")
+title = "The tally gate"
+lines = PackedStringArray("A turnstile of iron bars across the tunnel, a brass slot beside it for a tag, and a counter that clicks each time it turns. Painted over it: 'EVERY HEAD COUNTED. COUNT TRUE.'")
+
+[node name="Read1" type="Node2D" parent="."]
+position = Vector2(-185.60000000000002, -12.799999999999955)
+script = ExtResource("14_read")
+title = "The sorting floor"
+lines = PackedStringArray("Long tables, low enough for small arms. Trays of card-stone in teal and gold, sorted by size, by colour, by whether it will take a picture. Slates with tallies chalked on them. The chairs are crates.", "There's a song chalked under one table, a counting song. It counts down, not up.")
+
+[node name="Read2" type="Node2D" parent="."]
+position = Vector2(544, -217.60000000000002)
+script = ExtResource("14_read")
+title = "The King's Seam"
+lines = PackedStringArray("The oldest working: a vein of card-stone running through the rock like a river of glass, teal and gold, lit from inside. The walls are scored with tool marks centuries deep.", "A plaque bolted to the rock: 'THE KING'S SEAM. Opened by the first king. Worked without interruption ever since.' Without interruption.")
+
+[node name="Read3" type="Node2D" parent="."]
+position = Vector2(-480.0, -249.60000000000002)
+script = ExtResource("14_read")
+title = "The bunks"
+lines = PackedStringArray("Bunks in rows, too short for anyone grown. A tin cup on each. A rag doll on a pillow, its face sewn on twice.", "Scratched into the wood of the top bunk, in many hands: names. Then a line through each, and beside some of them, a little green sun.")
+
+[node name="Read4" type="Node2D" parent="."]
+position = Vector2(12.799999999999955, -377.6)
+script = ExtResource("14_read")
+title = "The ledger of names"
+lines = PackedStringArray("The foreman's own ledger, under a lamp in the lower office: names, ages, where from, the date down, the date up. Columns and columns. Most of the 'up' column is empty.", "'Corin, 14, Verdana. Sheepdog. Red scarf. Down: harvest, two years past. Up: --. Transferred: North Workings.' Further on, a page of numbers with no names at all.")
+
+[node name="Read5" type="Node2D" parent="."]
+position = Vector2(-400.0, 204.79999999999995)
+script = ExtResource("14_read")
+title = "The lake under the town"
+lines = PackedStringArray("Black water, perfectly still, stretching away under the rock. Hesper was right: Duskara floats on a lake. A bucket on a rope hangs from the ceiling far above; the Cistern's well comes down here.")
+
+[node name="Read6" type="Node2D" parent="."]
+position = Vector2(-614.4, 403.20000000000005)
+script = ExtResource("14_read")
+title = "A crawl behind the old workings"
+lines = PackedStringArray("A gap behind a fallen prop, just wide enough to crawl. The dust is swept. Someone has scratched a green sun on the timber, and an arrow: out.")
+
+[node name="Npc_gideon" parent="." instance=ExtResource("17_npc")]
+position = Vector2(-92.79999999999995, 422.4)
+npc_id = &"gideon"
+display_name = "Gideon"
+sprite_frames = ExtResource("n_gideon")
+lines = PackedStringArray("Halt there. ...Ah, you're not a runner. Nobody's checked who's coming down this shaft in years. I'm the night watch. I watch the dark.", "The tally gate counts you in. Show it a tag and it opens, and the book says one more head. The book's never wrong. The book's never right, either.", "Forty years I've watched this landing. I've seen them come down small and come up taller, and I've seen them not come up.", "If anyone asks, I was asleep. I'm old. I sleep a great deal. Especially when the right sort of visitor comes by.")
+
+[node name="Npc_sorter_pup" parent="." instance=ExtResource("17_npc")]
+position = Vector2(-80.0, -19.200000000000045)
+npc_id = &"sorter_pup"
+display_name = "Tag 212"
+sprite_frames = ExtResource("n_sorter_pup")
+lines = PackedStringArray("Can't talk. Count's at dawn. Teal ones in the left basket, gold in the right, cracked ones in the sack. Don't touch, they cut.", "My name? It's on the tag. Two-one-two. I had another one before. I'll remember it when I'm out.", "The foreman's fair. She says so. She counts us every night so nobody gets lost.")
+sprite_offset_y = -22.0
+
+[node name="Npc_sorter_kit" parent="." instance=ExtResource("17_npc")]
+position = Vector2(102.39999999999998, -19.200000000000045)
+npc_id = &"sorter_kit"
+display_name = "Tag 167"
+sprite_frames = ExtResource("n_sorter_kit")
+lines = PackedStringArray("You're not from here. You've got sun on you. What's it like up there today?", "I sort the King's Seam stone. It's the best. It goes to the racers, Gideon says. Maybe one of yours came through my hands.", "Ada's sick. She's in the bunks. Nobody's allowed to say she's sick or they'll move her to the infirmary, and nobody comes back from the infirmary.")
+sprite_offset_y = -22.0
+
+[node name="Npc_sorter_pup2" parent="." instance=ExtResource("17_npc")]
+position = Vector2(-44.799999999999955, 102.39999999999998)
+npc_id = &"sorter_pup"
+display_name = "Tag 98"
+sprite_frames = ExtResource("n_sorter_pup")
+lines = PackedStringArray("Shh. The overseer's looking.", "There's a light out in the dunes some nights. Green. Gideon says it's marsh-fire. There's no marsh in the dunes.")
+sprite_offset_y = -22.0
+
+[node name="Npc_company_man" parent="." instance=ExtResource("17_npc")]
+position = Vector2(448, -96)
+npc_id = &"company_man"
+display_name = "Overseer"
+sprite_frames = ExtResource("n_company_man")
+lines = PackedStringArray("Visitor? No visitors in the Seam. Back up to the sorting floor.")
+
+[node name="Npc_ada" parent="." instance=ExtResource("17_npc")]
+position = Vector2(-499.2, -172.8)
+npc_id = &"ada"
+display_name = "Ada"
+sprite_frames = ExtResource("n_ada")
+lines = PackedStringArray("...Is it morning? It always feels like morning down here. Or it never does.")
+sprite_offset_y = -22.0
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(0, 480)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Binder" parent="." instance=ExtResource("4_binder")]
+
+[node name="ShopPanel" parent="." instance=ExtResource("5_shop")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dialogue")]

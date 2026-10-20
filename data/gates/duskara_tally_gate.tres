@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="GateData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gate_data.gd" id="1_gate"]
+
+[resource]
+script = ExtResource("1_gate")
+id = &"duskara_tally_gate"
+display_name = "The Tally Gate"
+zone = &"duskara"
+cost_card_id = &"brass_tally_tag"
+cost_amount = 1

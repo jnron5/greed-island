@@ -36,6 +36,9 @@ const TALK_RANGE := 34.0
 @export var gift_item: StringName = &""
 @export var gift_count := 1
 @export var gift_line := ""
+## Follows the player about (an escort: Ada out of the mine), keeping a step behind,
+## walking round things by Zone.find_path. Walk through-able (no collision layer).
+@export var follow_player := false
 ## Seconds between chatter bubbles (min, max).
 @export var chatter_every := Vector2(7.0, 15.0)
 @export var patrol_pause := 3.0
@@ -317,6 +320,8 @@ func _physics_process(delta: float) -> void:
 	_chatter(delta)
 	if _talking:
 		velocity = Vector2.ZERO
+	elif follow_player:
+		_follow_player(delta)
 	elif not _route.is_empty():
 		_follow_route(delta)
 	elif not roam_points.is_empty():
@@ -651,3 +656,37 @@ func _draw() -> void:
 		WorldPrompt.marker(self, Vector2(0, sprite_offset_y * 2 - 8), marker, Color(1, 0.85, 0.3))
 	if player and not _talking and player.global_position.distance_to(global_position) <= TALK_RANGE:
 		WorldPrompt.draw(self, Vector2(0, sprite_offset_y * 2), "E", "Talk")
+
+
+var _follow_route_pts := PackedVector2Array()
+var _follow_replan := 0.0
+
+
+## An escort: stays a step or two behind the player, round walls and furniture; if
+## left far behind (a fall, a door), catches up out of sight.
+func _follow_player(delta: float) -> void:
+	var player := get_tree().get_first_node_in_group(&"player") as Node2D
+	if player == null:
+		velocity = Vector2.ZERO
+		return
+	var d := global_position.distance_to(player.global_position)
+	if d > 520.0:
+		global_position = player.global_position + Vector2(-20, 12)
+		_follow_route_pts = PackedVector2Array()
+		velocity = Vector2.ZERO
+		return
+	if d < 40.0:
+		velocity = Vector2.ZERO
+		facing = global_position.direction_to(player.global_position)
+		return
+	_follow_replan -= delta
+	if _follow_replan <= 0.0 or _follow_route_pts.is_empty():
+		_follow_replan = 0.5
+		var zone := get_tree().current_scene as Zone
+		_follow_route_pts = zone.find_path(global_position, player.global_position) if zone else PackedVector2Array()
+		if _follow_route_pts.is_empty():
+			_follow_route_pts = PackedVector2Array([player.global_position])
+	while not _follow_route_pts.is_empty() and global_position.distance_to(_follow_route_pts[0]) < 8.0:
+		_follow_route_pts.remove_at(0)
+	var next := _follow_route_pts[0] if not _follow_route_pts.is_empty() else player.global_position
+	velocity = global_position.direction_to(next) * walk_speed * (1.5 if d > 120.0 else 1.0)

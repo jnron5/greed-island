@@ -45,6 +45,8 @@ const FRISALLE_WEIGH := "res://scenes/world/interiors/frisalle_weighmaster.tscn"
 ## Duskara in its red canyon at the end of the Company's haul road.
 const SIROTH := "res://scenes/world/siroth_dunes.tscn"
 const DUSKARA := "res://scenes/world/duskara.tscn"
+## Under Duskara's Company terrace: the North Shaft (build_mine.py).
+const DUSKARA_MINE := "res://scenes/world/duskara_mine.tscn"
 const DUSKARA_INN := "res://scenes/world/interiors/duskara_inn.tscn"
 const DUSKARA_OFFICE := "res://scenes/world/interiors/duskara_office.tscn"
 const DUSKARA_GLASSWORKS := "res://scenes/world/interiors/duskara_glassworks.tscn"
@@ -100,6 +102,7 @@ const ZONES := {
 	SIROTH: { "name": "Siroth Dunes", "origin": Vector2(-4856, 219),
 		"monster_drops": [&"sunbleached_fang", &"briar_wren", &"owl_quill", &"hollow_acorn", &"thorn_sprig"] },
 	DUSKARA: { "name": "Duskara", "origin": Vector2(-6928, 189), "monster_drops": [] },
+	DUSKARA_MINE: { "name": "The North Shaft", "origin": Vector2(-6678, -900), "monster_drops": [] },
 	LAKE_SERIN: { "name": "Lake Serin", "origin": Vector2(-2894, -1625),
 		"monster_drops": [&"hollow_acorn", &"moss_lantern", &"thorn_sprig"] },
 	STARFALL: { "name": "Starfall Range", "origin": Vector2(-3194, -3201),
@@ -240,6 +243,14 @@ const EDGES: Array[Dictionary] = [
 		"entry": Vector2(740, 130), "gate": &"" },
 	{ "from": DUSKARA, "to": SIROTH, "exit": Vector2(796, 130), "spawn": &"from_duskara",
 		"entry": Vector2(-1200, 100), "gate": &"" },
+	# Down the North Shaft (the tally gate counts you in: a Brass Tally Tag), and out
+	# again the escape line's way, up into the Bone Hollow (one way: nailed shut above).
+	{ "from": DUSKARA, "to": DUSKARA_MINE, "exit": Vector2(250, -500), "spawn": &"from_duskara",
+		"entry": Vector2(0, 480), "gate": &"duskara_tally_gate" },
+	{ "from": DUSKARA_MINE, "to": DUSKARA, "exit": Vector2(0, 572), "spawn": &"from_mine",
+		"entry": Vector2(250, -460), "gate": &"duskara_tally_gate" },
+	{ "from": DUSKARA_MINE, "to": SIROTH, "exit": Vector2(-672, 572), "spawn": &"from_mine",
+		"entry": Vector2(-960, 495), "gate": &"" },
 ]
 
 static var _pickup_cache: Dictionary = {}
