@@ -177,6 +177,11 @@ const CARGO_CLUES: Array[StringName] = [&"crate_sand", &"crate_glove", &"crate_l
 const CARGO_REWARD_GOLD := 40
 
 
+## Set when talking to someone started a scene of its own (Ending.crown), so the
+## resident doesn't open their question list over it.
+var took_over := false
+
+
 func _ready() -> void:
 	EventBus.area_entered.connect(func(_t: String, _i: bool) -> void: _place_escort.call_deferred())
 

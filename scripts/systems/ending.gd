@@ -49,6 +49,7 @@ static func crown(tree: SceneTree) -> void:
 	if is_over():
 		return
 	GameState.quest_flags[&"crowned"] = true
+	Quests.took_over = true
 	var portrait: Texture2D = null
 	var frames := load(KING_FRAMES) as SpriteFrames
 	if frames:

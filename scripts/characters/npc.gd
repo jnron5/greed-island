@@ -519,6 +519,11 @@ func _meal_talk() -> PackedStringArray:
 
 func _done_talking() -> void:
 	Quests.talked_to(npc_id)
+	# Something took the conversation over (the King stepping out): no topics after.
+	if Quests.took_over:
+		Quests.took_over = false
+		_talking = false
+		return
 	Errands.talked_to(npc_id)
 	_offer_topics()
 
