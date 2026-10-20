@@ -23,6 +23,7 @@ const TITLES := {
 	&"foremans_names": "The Foreman's Names",
 	&"audience_throne": "An Audience Before the Throne",
 	&"smugglers_route": "The Smuggler's Route",
+	&"old_reef": "The Old Reef",
 }
 ## Who gave each quest, and what it came to, for the journal.
 const GIVERS := {
@@ -33,6 +34,7 @@ const GIVERS := {
 	&"beneath_dunes": "Rafi, Duskara", &"foremans_names": "Hesper, Duskara",
 	&"audience_throne": "Freya, Vetrassa",
 	&"smugglers_route": "Nessa, Halmeer",
+	&"old_reef": "Sparkle, Seabright Quay",
 }
 const ABOUT := {
 	&"unmarked_cargo": "Sand-caked crates with no marks, a child's glove, a ledger page: Bram knows whose cargo it is and won't say it aloud.",
@@ -48,6 +50,7 @@ const ABOUT := {
 	&"foremans_names": "The foreman's ledger of names: two years of children down the shaft, and very few up. Corin of Verdana among them.",
 	&"audience_throne": "The Throne Ledger, in the King's own hand: every king since the first has signed for the seam. The Captain of the Guard has been waiting for someone to read it.",
 	&"smugglers_route": "The dark nights at Halmeer: cards uncut from the North Shaft, over the mountain and down the coast, out of a sea cave under the cape by barge. Nessa's light is lit again.",
+	&"old_reef": "Down at the old reef off Seabright, crates chained for the mainland ship. The newest carry no pick: they carry the crown. Sparkle knows her uncle's seal.",
 }
 ## Frisalle (Sven, after his welcome gift): three climbers went over the top of the
 ## range when the pass came down; find what became of them (the frozen camp and the
@@ -63,6 +66,12 @@ const SMUGGLER_CLUES := {
 	"The salt house door": "res://scenes/world/halmeer.tscn",
 	"The barge's log": "res://scenes/world/interiors/halmeer_cave.tscn",
 }
+## Seabright (Sparkle, after The Light on the Water and The Smuggler's Route): dive
+## with her off the end of the diving pier after dark, to the old reef where the
+## barge lets its crates down; tell her what was on them.
+const REEF_DIVE := "The end of the diving pier"
+const REEF_REWARD_GOLD := 80
+const REEF_REWARD_CARD := &"seafoam_charm"
 const SMUGGLER_REWARD_GOLD := 60
 const SMUGGLER_REWARD_CARD := &"keepers_lamp"
 ## Vetrassa (Freya, once you've seen enough: two of the quests that follow the
@@ -350,7 +359,25 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 						"Here. For keeping watch with me. Don't tell Sassy where you got it. Don't tell anyone anything. Yet.",
 					])
 				DONE:
-					return PackedStringArray(["Next time the light blinks, I'm swimming out after the rope. Don't tell the lifeguard."])
+					if stage(&"smugglers_route") != DONE:
+						return PackedStringArray(["Next time the light blinks, I'm swimming out after the rope. Don't tell the lifeguard."])
+					match stage(&"old_reef"):
+						NOT_STARTED:
+							return PackedStringArray([
+								"You've been to Halmeer. Nessa's light is lit again; we saw it from here last night. So the barge comes past us now, the long way, and it still stops at the old reef.",
+								"I've dived that reef since I was four. Whatever they let down on that rope, it's sitting on my reef.",
+								"Tonight. Meet me at the end of the diving pier after dark. Bring your breath.",
+							])
+						1:
+							return PackedStringArray(["The end of the diving pier, after dark. I'll have the lanterns. Don't let Sassy see you, she'll want to come and she can't hold her breath for a sneeze."])
+						2:
+							return PackedStringArray([
+								"...You saw it too. I didn't want it to be the crown. I wanted it to be the Duke, or the Company, or anybody.",
+								"That's Uncle Loki's seal. The one on the deed to this place. On the crates going off the island.",
+								"Here. My charm, the one I dive with. It makes you quick in the water, and quicker out of it. I don't think I'll be diving for a while.",
+							])
+						DONE:
+							return PackedStringArray(["I've been reading the deed again. 'A gift from the Crown.' Everything here is a gift from the Crown. I used to think that was a nice thing to say."])
 		&"rafi":
 			if Errands.state(&"rafi_tonic") != Errands.DONE:
 				return PackedStringArray()
@@ -639,6 +666,12 @@ func marker_for(npc_id: StringName) -> String:
 				return "!"
 			2:
 				return "?"
+	if npc_id == &"sparkle" and stage(&"light_on_water") == DONE and stage(&"smugglers_route") == DONE:
+		match stage(&"old_reef"):
+			NOT_STARTED:
+				return "!"
+			2:
+				return "?"
 	if npc_id == &"nessa":
 		match stage(&"smugglers_route"):
 			NOT_STARTED:
@@ -674,6 +707,18 @@ func talked_to(npc_id: StringName) -> void:
 	if npc_id == &"steward" and Ending.has_set(GameState.PLAYER) and not Ending.is_over() 			and not flag(&"crowned"):
 		Ending.crown(get_tree())
 		return
+	if npc_id == &"sparkle" and stage(&"light_on_water") == DONE and stage(&"smugglers_route") == DONE:
+		match stage(&"old_reef"):
+			NOT_STARTED:
+				set_stage(&"old_reef", 1)
+				EventBus.notify.emit("Quest started: The Old Reef")
+				return
+			2:
+				GameState.add_currency(REEF_REWARD_GOLD)
+				GameState.add_loose_card(GameState.PLAYER, REEF_REWARD_CARD)
+				set_stage(&"old_reef", DONE)
+				EventBus.notify.emit("Quest complete: The Old Reef (+%d gold, the Seafoam Charm)" % REEF_REWARD_GOLD)
+				return
 	if npc_id == &"nessa":
 		match stage(&"smugglers_route"):
 			NOT_STARTED:
@@ -938,6 +983,9 @@ func read(title: String, at_night := false) -> void:
 		if stage(&"foremans_names") == 1:
 			set_stage(&"foremans_names", 2)
 			EventBus.notify.emit("Take the names to Hesper at the Cistern")
+	if title == REEF_DIVE and at_night and stage(&"old_reef") == 1:
+		set_stage(&"old_reef", 2)
+		EventBus.notify.emit("Tell Sparkle what you saw on the reef")
 	if SMUGGLER_CLUES.has(title) and not flag(StringName("smuggler:%s" % title)):
 		GameState.quest_flags[StringName("smuggler:%s" % title)] = true
 		if stage(&"smugglers_route") == 1:
@@ -990,6 +1038,8 @@ func wants(title: String, at_night := false) -> bool:
 		return stage(&"foremans_names") == 1
 	if title == THRONE_LEDGER:
 		return stage(&"audience_throne") == 1
+	if title == REEF_DIVE:
+		return stage(&"old_reef") == 1 and at_night
 	if SMUGGLER_CLUES.has(title):
 		return stage(&"smugglers_route") == 1 and not flag(StringName("smuggler:%s" % title))
 	return false
@@ -1155,6 +1205,12 @@ func _step(id: StringName) -> String:
 					return "read the foreman's ledger of names in the North Shaft's lower office"
 				2:
 					return "bring the names to Hesper at the Cistern"
+		&"old_reef":
+			match stage(&"old_reef"):
+				1:
+					return "dive with Sparkle off the end of Seabright's diving pier, after dark"
+				2:
+					return "tell Sparkle what you saw on the reef"
 		&"smugglers_route":
 			match stage(&"smugglers_route"):
 				1:
@@ -1222,6 +1278,8 @@ func map_goals() -> Array[String]:
 	match stage(&"smugglers_route"):
 		1, 2:
 			add.call(WorldMap.HALMEER)
+	if stage(&"old_reef") in [1, 2]:
+		add.call(WorldMap.SEABRIGHT)
 	match stage(&"audience_throne"):
 		1:
 			add.call(WorldMap.VETRASSA)

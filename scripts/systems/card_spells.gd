@@ -27,6 +27,9 @@ const GREEN_LAMP_STEAL := 0.15
 ## Nessa's charm (Halmeer, "The Smuggler's Route"): after dark the savage beasts
 ## see you no sooner than by day and hit you no harder.
 const KEEPERS_LAMP := &"keepers_lamp"
+## Sparkle's diving charm ("The Old Reef"): your dash carries a third further.
+const SEAFOAM := &"seafoam_charm"
+const SEAFOAM_DASH := 1.3
 const BOON_SECONDS := {MIRAGE: 20.0, SCARAB_FURY: 30.0, GLASS_SKIN: 6.0, SWIFTSAND: 30.0}
 const DUST_DEVIL_RANGE := 130.0
 const DUST_DEVIL_STUN := 2.5

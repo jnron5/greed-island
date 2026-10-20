@@ -874,6 +874,13 @@ RESORT = {
             "Seabright Stew: saffron, mussels, prawns, the morning's catch. Lemon Tart: Chef's own. Bread: from the oven, when the oven agrees.",
             "At the bottom, in a different hand: 'Private dining for the Company's guests by arrangement. Ask Fennick.'",
         ]),
+        ("The end of the diving pier", (0, 612), [
+            "The last plank of the diving pier, worn pale by bare feet. Below, the water drops from turquoise to a blue so dark it's nearly black: the old reef, a long swim out.",
+        ], [
+            "Sparkle is waiting with two lanterns in glass jars. 'Deep breath. Deeper than that.' You go down after her into the dark water, out over the old reef.",
+            "Crates on the reef, chained in rows, tagged for 'the mainland ship'. The old ones are stamped with the Company's pick. The new ones aren't. The new ones carry a little crown.",
+            "Sparkle's lantern shakes. She points at the crown, then at herself, then up toward the resort, and kicks for the surface.",
+        ]),
         ("The pier sign", (-34, 540), [
             "'NO DIVING FROM THE PIER.' Somebody has scratched a little crown under it, and the words 'except us'.",
         ]),

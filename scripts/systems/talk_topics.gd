@@ -367,6 +367,12 @@ const TOPICS := {
 			"So nobody drowns. That's all a light's for. It's the simplest job on the island, and they found a way to pay me not to do it.",
 		]],
 	],
+	&"sassy": [
+		["Has Sparkle told you about the reef?", [
+			"The reef? Oh, she's always on about the reef. And the light, and the Duke, and the bills. I keep the bills in a drawer. They're very well organised, in the drawer.",
+			"Uncle Loki gave us Seabright. Everything here's a gift from the Crown. That's what the deed says, so it must be nice.",
+		]],
+	],
 	&"maudie": [
 		["What happened to Tom?", [
 			"He rowed for the Company on a dark night, three winters back. Double pay, they said. The barge came back on the morning tide. He didn't.",

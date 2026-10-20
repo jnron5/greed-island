@@ -43,6 +43,21 @@ func _run() -> void:
 		and GameState.collection(P).count(CardSpells.KEEPERS_LAMP) == 1)
 	_check("the route counts toward Freya's audience", Quests.AUDIENCE_NEEDS.has(&"smugglers_route"))
 
+	# The Old Reef (Sparkle, once the light and the route are both known).
+	GameState.quest_flags[&"errand:sparkle_dare"] = Errands.DONE
+	_check("Sparkle has nothing new before The Light on the Water", Quests.marker_for(&"sparkle") != "!" or Quests.stage(&"light_on_water") != Quests.DONE)
+	Quests.set_stage(&"light_on_water", Quests.DONE)
+	_check("after it and the route, Sparkle has a '!'", Quests.marker_for(&"sparkle") == "!" and Quests.dialogue_for(&"sparkle").size() >= 3)
+	Quests.talked_to(&"sparkle")
+	_check("the dive starts", Quests.stage(&"old_reef") == 1 and Quests.wants(Quests.REEF_DIVE, true) and not Quests.wants(Quests.REEF_DIVE, false))
+	Quests.read(Quests.REEF_DIVE, false)
+	_check("by day the pier's just a pier", Quests.stage(&"old_reef") == 1)
+	Quests.read(Quests.REEF_DIVE, true)
+	_check("after dark you dive, and see the crown", Quests.stage(&"old_reef") == 2 and Quests.marker_for(&"sparkle") == "?")
+	Quests.talked_to(&"sparkle")
+	_check("Sparkle gives you her diving charm", Quests.stage(&"old_reef") == Quests.DONE
+		and GameState.collection(P).count(CardSpells.SEAFOAM) == 1)
+
 	# The town, its people and its favours.
 	var town := await _load(WorldMap.HALMEER)
 	for node: String in ["Npc_ferro", "Npc_grisel"]:

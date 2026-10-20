@@ -156,7 +156,7 @@ func _physics_process(delta: float) -> void:
 		State.MOVE:
 			_process_move()
 		State.DASH:
-			velocity = _dash_dir * dash_speed
+			velocity = _dash_dir * dash_speed * (CardSpells.SEAFOAM_DASH if GameState.is_equipped(CardSpells.SEAFOAM) else 1.0)
 			_leave_afterimage()
 			if _state_time >= dash_duration:
 				hurtbox.invulnerable = false

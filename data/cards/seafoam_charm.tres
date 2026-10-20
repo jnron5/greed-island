@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/card_data.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/cards/art/seafoam_charm.png" id="2_art"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"seafoam_charm"
+display_name = "The Seafoam Charm"
+description = "Passive: while worn, your dash carries a third further."
+lore = "A twist of white coral on a blue cord. Sparkle has dived the old reef with it round her wrist since she was four. She gave it away the night she saw what was sitting on her reef."
+category = 2
+source = 4
+sell_value = 50
+icon = ExtResource("2_art")

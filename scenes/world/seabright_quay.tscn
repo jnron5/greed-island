@@ -40,8 +40,8 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/sea_rocks.png" id="r29_sea_rocks"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/resort/anim/yacht_bob.png" id="r30_yacht_bob"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/kalmora_fountain.tscn" id="r31_kalmora_fountain"]
-[ext_resource type="PackedScene" path="res://scenes/world/props/kalmora_palm.tscn" id="r32_kalmora_palm"]
-[ext_resource type="PackedScene" path="res://scenes/world/props/forest_oak.tscn" id="r33_forest_oak"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/forest_oak.tscn" id="r32_forest_oak"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/kalmora_palm.tscn" id="r33_kalmora_palm"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/flowers.png" id="r34_flowers"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/grass_clump.png" id="r35_grass_clump"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/berry_bush.png" id="r36_berry_bush"]
@@ -2437,358 +2437,358 @@ speed_scale = 1.12
 position = Vector2(0, -330)
 scale = Vector2(1.0, 1.0)
 
-[node name="Tree0" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree0" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-796, -508)
 
-[node name="Tree1" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree1" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-753, -510)
 
-[node name="Tree2" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree2" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-718, -512)
 
-[node name="Tree3" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree3" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-684, -513)
 
-[node name="Tree4" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree4" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-650, -518)
 
-[node name="Tree5" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree5" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-618, -510)
 
-[node name="Tree6" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree6" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-583, -514)
 
-[node name="Tree7" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree7" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-556, -508)
 
-[node name="Tree8" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree8" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-520, -512)
 
-[node name="Tree9" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree9" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-483, -512)
 
-[node name="Tree10" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree10" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-446, -507)
 
-[node name="Tree11" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree11" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-417, -518)
 
-[node name="Tree12" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree12" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-378, -506)
 
-[node name="Tree13" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree13" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-214, -509)
 
-[node name="Tree14" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree14" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-178, -509)
 
-[node name="Tree15" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree15" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-145, -511)
 
-[node name="Tree16" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree16" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-110, -507)
 
-[node name="Tree17" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree17" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-74, -517)
 
-[node name="Tree18" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree18" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-46, -513)
 
-[node name="Tree19" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree19" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-4, -517)
 
-[node name="Tree20" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree20" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(61, -506)
 
-[node name="Tree21" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree21" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(98, -507)
 
-[node name="Tree22" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree22" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(127, -515)
 
-[node name="Tree23" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree23" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(168, -506)
 
-[node name="Tree24" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree24" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(224, -516)
 
-[node name="Tree25" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree25" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(263, -514)
 
-[node name="Tree26" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree26" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(302, -509)
 
-[node name="Tree27" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree27" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(338, -517)
 
-[node name="Tree28" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree28" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(367, -513)
 
-[node name="Tree29" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree29" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(395, -509)
 
-[node name="Tree30" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree30" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(428, -513)
 
-[node name="Tree31" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree31" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(466, -509)
 
-[node name="Tree32" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree32" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(507, -518)
 
-[node name="Tree33" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree33" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(540, -517)
 
-[node name="Tree34" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree34" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(566, -513)
 
-[node name="Tree35" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree35" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(604, -513)
 
-[node name="Tree36" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree36" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(639, -515)
 
-[node name="Tree37" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree37" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(669, -508)
 
-[node name="Tree38" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree38" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(707, -509)
 
-[node name="Tree39" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree39" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(734, -514)
 
-[node name="Tree40" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree40" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(772, -508)
 
-[node name="Tree41" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree41" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-782, -486)
 
-[node name="Tree42" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree42" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(792, -477)
 
-[node name="Tree43" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree43" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(787, -447)
 
-[node name="Tree44" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree44" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(783, -411)
 
-[node name="Tree45" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree45" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(788, -374)
 
-[node name="Tree46" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree46" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(792, -341)
 
-[node name="Tree47" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree47" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-791, -277)
 
-[node name="Tree48" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree48" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(780, -277)
 
-[node name="Tree49" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree49" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-783, -238)
 
-[node name="Tree50" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree50" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(780, -242)
 
-[node name="Tree51" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree51" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(792, -204)
 
-[node name="Tree52" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree52" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(781, -172)
 
-[node name="Tree53" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree53" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(781, -141)
 
-[node name="Tree54" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree54" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-790, -106)
 
-[node name="Tree55" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree55" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(792, -106)
 
-[node name="Tree56" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree56" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(783, -70)
 
-[node name="Tree57" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree57" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(784, -43)
 
-[node name="Tree58" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree58" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-790, -12)
 
-[node name="Tree59" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree59" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-751, -484)
 
-[node name="Tree60" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree60" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-710, -482)
 
-[node name="Tree61" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree61" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-664, -471)
 
-[node name="Tree62" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree62" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-636, -473)
 
-[node name="Tree63" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree63" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-592, -479)
 
-[node name="Tree64" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree64" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-540, -470)
 
-[node name="Tree65" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree65" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-464, -484)
 
-[node name="Tree66" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree66" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-435, -478)
 
-[node name="Tree67" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree67" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-395, -473)
 
-[node name="Tree68" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree68" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-222, -477)
 
-[node name="Tree69" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree69" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-113, -473)
 
-[node name="Tree70" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree70" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-76, -474)
 
-[node name="Tree71" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree71" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-34, -485)
 
-[node name="Tree72" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree72" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(12, -487)
 
-[node name="Tree73" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree73" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(140, -485)
 
-[node name="Tree74" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree74" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(177, -481)
 
-[node name="Tree75" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree75" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(212, -478)
 
-[node name="Tree76" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree76" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(294, -475)
 
-[node name="Tree77" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree77" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(340, -470)
 
-[node name="Tree78" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree78" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(362, -484)
 
-[node name="Tree79" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree79" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(402, -479)
 
-[node name="Tree80" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree80" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(455, -479)
 
-[node name="Tree81" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree81" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(496, -474)
 
-[node name="Tree82" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree82" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(522, -486)
 
-[node name="Tree83" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree83" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(574, -478)
 
-[node name="Tree84" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree84" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(613, -482)
 
-[node name="Tree85" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree85" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(656, -480)
 
-[node name="Tree86" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree86" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(696, -473)
 
-[node name="Tree87" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree87" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(731, -475)
 
-[node name="Tree88" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree88" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(762, -484)
 
-[node name="Tree89" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree89" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(757, -346)
 
-[node name="Tree90" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree90" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(759, -311)
 
-[node name="Tree91" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree91" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-754, -282)
 
-[node name="Tree92" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree92" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(746, -266)
 
-[node name="Tree93" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree93" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(755, -226)
 
-[node name="Tree94" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree94" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(757, -197)
 
-[node name="Tree95" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree95" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(754, -155)
 
-[node name="Tree96" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree96" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-761, -122)
 
-[node name="Tree97" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree97" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(750, -106)
 
-[node name="Tree98" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree98" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(752, -40)
 
-[node name="Tree99" parent="." instance=ExtResource("r33_forest_oak")]
+[node name="Tree99" parent="." instance=ExtResource("r32_forest_oak")]
 position = Vector2(-746, 11)
 
-[node name="Tree100" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree100" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-705, -436)
 
-[node name="Tree101" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree101" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-663, -431)
 
-[node name="Tree102" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree102" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-647, -404)
 
-[node name="Tree103" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree103" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-411, -336)
 
-[node name="Tree104" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree104" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-440, -334)
 
-[node name="Tree105" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree105" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-434, -298)
 
-[node name="Tree106" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree106" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-332, -329)
 
-[node name="Tree107" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree107" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-382, -320)
 
-[node name="Tree108" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree108" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(352, -410)
 
-[node name="Tree109" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree109" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(313, -377)
 
-[node name="Tree110" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree110" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(351, -381)
 
-[node name="Tree111" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree111" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(279, -428)
 
-[node name="Tree112" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree112" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(711, -316)
 
-[node name="Tree113" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree113" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(413, -45)
 
-[node name="Tree114" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree114" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(416, -99)
 
-[node name="Tree115" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree115" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-695, -124)
 
-[node name="Tree116" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree116" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(-731, -128)
 
-[node name="Tree117" parent="." instance=ExtResource("r32_kalmora_palm")]
+[node name="Tree117" parent="." instance=ExtResource("r33_kalmora_palm")]
 position = Vector2(705, -2)
 
 [node name="Under0" type="Sprite2D" parent="."]
@@ -3877,26 +3877,33 @@ title = "The Saltglass menu"
 lines = PackedStringArray("THE SALTGLASS TERRACE. 'The dishes of Chef, of Vetrassa, prepared by Pepper.'", "Seabright Stew: saffron, mussels, prawns, the morning's catch. Lemon Tart: Chef's own. Bread: from the oven, when the oven agrees.", "At the bottom, in a different hand: 'Private dining for the Company's guests by arrangement. Ask Fennick.'")
 
 [node name="Read2" type="Node2D" parent="."]
+position = Vector2(0, 612)
+script = ExtResource("r47_readable")
+title = "The end of the diving pier"
+lines = PackedStringArray("The last plank of the diving pier, worn pale by bare feet. Below, the water drops from turquoise to a blue so dark it's nearly black: the old reef, a long swim out.")
+night_lines = PackedStringArray("Sparkle is waiting with two lanterns in glass jars. 'Deep breath. Deeper than that.' You go down after her into the dark water, out over the old reef.", "Crates on the reef, chained in rows, tagged for 'the mainland ship'. The old ones are stamped with the Company's pick. The new ones aren't. The new ones carry a little crown.", "Sparkle's lantern shakes. She points at the crown, then at herself, then up toward the resort, and kicks for the surface.")
+
+[node name="Read3" type="Node2D" parent="."]
 position = Vector2(-34, 540)
 script = ExtResource("r47_readable")
 title = "The pier sign"
 lines = PackedStringArray("'NO DIVING FROM THE PIER.' Somebody has scratched a little crown under it, and the words 'except us'.")
 
-[node name="Read3" type="Node2D" parent="."]
+[node name="Read4" type="Node2D" parent="."]
 position = Vector2(-298, 388)
 script = ExtResource("r47_readable")
 title = "A bungalow door"
 lines = PackedStringArray("A brass number plate: 'Bungalow 3. Do not disturb.' A tray of untouched breakfast outside. Someone inside is talking quietly about tonnage.")
 night_lines = PackedStringArray("The window's dark now, but the step is wet: sea water, and boot prints leading off to the end of the jetty.", "A coil of wet rope under the bench. A crate lid propped against the wall, stencilled D.M.C. The lamp in the window is still warm.")
 
-[node name="Read4" type="Node2D" parent="."]
+[node name="Read5" type="Node2D" parent="."]
 position = Vector2(600, 48)
 script = ExtResource("r47_readable")
 title = "A lookout on the headland"
 lines = PackedStringArray("A brass telescope on a post, pointed east along the coast. Through it: open sea, and very far off, a barge with no lights, riding low.")
 night_lines = PackedStringArray("Through the telescope, out past the yachts: a barge with no lights, riding low. Then a lantern on it opens and shuts. Three short. One long.", "Behind you, down on the west jetty, a bungalow window answers: three short, one long. Then everything is dark again.")
 
-[node name="Read5" type="Node2D" parent="."]
+[node name="Read6" type="Node2D" parent="."]
 position = Vector2(-470, -112)
 script = ExtResource("r47_readable")
 title = "The bar's chalkboard"
