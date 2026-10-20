@@ -88,6 +88,11 @@ func _run() -> void:
 	_check("and reaching it, wins the race", Ending.is_over() and GameState.quest_flags.get(&"ending") == Ending.LOST
 		and GameState.quest_flags.get(&"winner") == &"runner")
 	_check("the Raider without the set doesn't", not Ending.has_set(&"raider"))
+	for r: StringName in GameState.RIVALS:
+		_check("the %s has words for the last road, Duskara and Vetrassa" % r,
+			RivalLines.greeting(r, WorldMap.KALMORA, true) == &"homeward" and RivalLines.pick(r, &"homeward") != ""
+			and RivalLines.pick(r, RivalLines.greeting(r, WorldMap.DUSKARA, false)) != ""
+			and RivalLines.pick(r, RivalLines.greeting(r, WorldMap.VETRASSA, false)) != "")
 	GameState.new_game(GameState.DEFAULT_RIVALS)
 	_check("a new game starts the race again", not Ending.is_over())
 

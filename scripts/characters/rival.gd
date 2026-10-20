@@ -158,7 +158,8 @@ func _greet_check(delta: float) -> void:
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
 	if player and player.global_position.distance_to(global_position) < 110.0:
 		_greeted = true
-		say(&"greet")
+		var zone := get_tree().current_scene
+		say(RivalLines.greeting(collector_id, zone.scene_file_path if zone else "", Ending.has_set(collector_id)))
 
 
 func _exit_tree() -> void:

@@ -18,6 +18,9 @@ const LINES := {
 		&"stole": ["Mine now.", "You'll live.", "Should've bound it."],
 		&"robbed": ["...Bold.", "I'll have that back.", "You'll regret that."],
 		&"chest": ["Every card counts.", "Not leaving this for them."],
+		&"greet_duskara": ["I know these streets. I know what's under them.", "Smell that? Card dust. I grew up breathing it.", "Don't drink the Company's water."],
+		&"greet_vetrassa": ["So this is where it all ends up.", "Pretty town. Built on the shaft, every stone.", "Don't get between me and those steps."],
+		&"homeward": ["It's done. I'm going up those steps.", "All of it. Try and take it.", "Got the lot. Now they'll have to listen."],
 	},
 	&"hoarder": {
 		&"boss_join": ["Very well, a temporary arrangement.", "Do try not to get in my way.", "Together, then. How common."],
@@ -29,6 +32,9 @@ const LINES := {
 		&"stole": ["Finders keepers, dear.", "It's only a card.", "You'll find another."],
 		&"robbed": ["How dare you!", "That was mine!", "Thief! Thief!"],
 		&"chest": ["Another for the collection.", "Mother will be pleased."],
+		&"greet_duskara": ["Dreadful heat. Grandfather built a house here once, for the view.", "The Company keeps a lovely office. Shame about the town.", "Don't stare at the children, dear. It only encourages them."],
+		&"greet_vetrassa": ["Home, more or less. Mother's townhouse is just off the square.", "We dine at Chef's. Everyone does, who matters.", "The Steward knows my family. He'll count my cards first."],
+		&"homeward": ["The full set! Mother will be beside herself.", "Do stand aside, I have an appointment with a throne.", "Four generations, and I'm the one who finished it."],
 	},
 	&"runner": {
 		&"boss_join": ["Okay. Okay. Together.", "Just this once.", "I'll keep it busy."],
@@ -40,9 +46,24 @@ const LINES := {
 		&"stole": ["Sorry. I need it more.", "Sorry.", "Keep running."],
 		&"robbed": ["Hey!", "Fine. Keep it.", "...I've lost worse."],
 		&"chest": ["Found one.", "One more step away."],
+		&"greet_duskara": ["I swore I'd never come back here.", "Don't look up at the terrace. Just walk.", "Keep your head down. They count heads here."],
+		&"greet_vetrassa": ["Almost there. Almost out.", "The ships leave from here. Did you know?", "I can see the sea from the steps. I can see away."],
+		&"homeward": ["I've got all of it. Don't stop me.", "Nearly out. Nearly.", "Last road. Please. Let me go."],
 	},
 }
 const SHOW_SECONDS := 2.8
+
+
+## The greeting for meeting the player in `zone`: carrying the whole set, it's the
+## last road; in Duskara and Vetrassa, each has their own thing to say.
+static func greeting(rival: StringName, zone: String, has_set: bool) -> StringName:
+	if has_set:
+		return &"homeward"
+	if zone == WorldMap.DUSKARA:
+		return &"greet_duskara"
+	if zone == WorldMap.VETRASSA:
+		return &"greet_vetrassa"
+	return &"greet"
 
 
 static func pick(rival: StringName, moment: StringName) -> String:
