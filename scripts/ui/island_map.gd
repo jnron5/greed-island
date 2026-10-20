@@ -56,6 +56,37 @@ func _at(zone: String, layout: Dictionary) -> Vector2:
 	return (WorldMap.ZONES[zone].origin as Vector2) * layout.k + layout.offset
 
 
+## Each area's name plaque, centred on it, then pushed apart a few times so no two
+## overlap (areas close together on the island keep readable names).
+func _plaques(layout: Dictionary) -> Dictionary:
+	var out := {}
+	for zone in _areas():
+		var p := _at(zone, layout)
+		var w := FONT.get_string_size(WorldMap.zone_name(zone), HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x + 12
+		out[zone] = Rect2(p - Vector2(w / 2.0, 9), Vector2(w, 16))
+	var zones := _areas()
+	for _pass in 24:
+		var moved := false
+		for i in zones.size():
+			for j in range(i + 1, zones.size()):
+				var a: Rect2 = out[zones[i]]
+				var b: Rect2 = out[zones[j]]
+				var gap := a.grow(1).intersection(b.grow(1))
+				if gap.size.x <= 0.0 or gap.size.y <= 0.0:
+					continue
+				# Push apart along whichever way overlaps less (mostly up and down).
+				var push := Vector2(0, gap.size.y / 2.0 + 0.5) if gap.size.y < gap.size.x * 1.5 else Vector2(gap.size.x / 2.0 + 0.5, 0)
+				var dir := 1.0 if a.get_center().y <= b.get_center().y else -1.0
+				if push.x > 0.0:
+					dir = 1.0 if a.get_center().x <= b.get_center().x else -1.0
+				out[zones[i]] = Rect2(a.position - push * dir, a.size)
+				out[zones[j]] = Rect2(b.position + push * dir, b.size)
+				moved = true
+		if not moved:
+			break
+	return out
+
+
 func _here() -> String:
 	var scene := get_tree().current_scene
 	var path := scene.scene_file_path if scene else ""
@@ -97,16 +128,17 @@ func _draw() -> void:
 			var mid := (a + b) / 2.0
 			draw_rect(Rect2(mid - Vector2(4, 2), Vector2(8, 7)), INK)
 			draw_arc(mid - Vector2(0, 2), 3.0, PI, TAU, 8, INK, 1.5)
-	# Plaques.
+	# Plaques (nudged apart where neighbouring areas would overlap).
 	var here := _here()
+	var plaques := _plaques(layout)
 	for zone in _areas():
 		var p := _at(zone, layout)
 		var text := WorldMap.zone_name(zone)
-		var w := FONT.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x + 12
-		var plaque := Rect2(p - Vector2(w / 2.0, 9), Vector2(w, 16))
+		var plaque: Rect2 = plaques[zone]
 		draw_rect(plaque.grow(1), INK)
 		draw_rect(plaque, PAPER if zone != here else GOLD)
 		draw_string(FONT, plaque.position + Vector2(6, 12), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, INK)
+		p = Vector2(plaque.get_center().x, plaque.position.y + 9)
 		if WorldMap.is_town(zone):
 			draw_rect(Rect2(p + Vector2(-3, 10), Vector2(6, 5)), INK)       # a little house for towns
 			draw_colored_polygon(PackedVector2Array([p + Vector2(-5, 10), p + Vector2(5, 10), p + Vector2(0, 5)]), INK)
