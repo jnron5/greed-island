@@ -390,6 +390,12 @@ const TOPICS := {
 			"I'll tell you this: whoever wins this race will need to be better than whoever won the last one. Much better.",
 		]],
 	],
+	&"harrow": [
+		["What comes through customs?", [
+			"Wine from the mainland, wool from Frisalle, fish from everywhere. Racers' baggage, which is mostly cards and regret.",
+			"And Company cargo, by order, under seal, unopened. It comes down the mountain road from the shoulder, and it goes out to the big ship that anchors off the point after dark.",
+		]],
+	],
 	&"steward": [
 		["What do I need to win?", [
 			"The complete set, racer. Every card of it, at once, on your person. Bound or carried, I don't mind which; I mind only that none is missing.",

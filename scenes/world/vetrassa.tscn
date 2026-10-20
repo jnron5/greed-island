@@ -1,4 +1,4 @@
-[gd_scene load_steps=156 format=3]
+[gd_scene load_steps=161 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -64,13 +64,18 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/tuft_flowers_sway.png" id="r53_tuft_flowers_swa"]
 [ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="r54_npc"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/freya/freya_frames.tres" id="r55_freya_frames"]
-[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/kings_guard/kings_guard_frames.tres" id="r56_kings_guard_fram"]
-[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="r57_readable"]
-[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="r58_chest"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="r59_chest"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="r60_chest_open"]
-[ext_resource type="Script" path="res://scripts/systems/fishing_spot.gd" id="r61_fishing_spot"]
-[ext_resource type="Script" path="res://scripts/world/string_lights.gd" id="r62_string_lights"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/odile/odile_frames.tres" id="r56_odile_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/harrow/harrow_frames.tres" id="r57_harrow_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/bastien/bastien_frames.tres" id="r58_bastien_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/tibby/tibby_frames.tres" id="r59_tibby_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/marguerite/marguerite_frames.tres" id="r60_marguerite_frame"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/kings_guard/kings_guard_frames.tres" id="r61_kings_guard_fram"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="r62_readable"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="r63_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="r64_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="r65_chest_open"]
+[ext_resource type="Script" path="res://scripts/systems/fishing_spot.gd" id="r66_fishing_spot"]
+[ext_resource type="Script" path="res://scripts/world/string_lights.gd" id="r67_string_lights"]
 
 [sub_resource type="RectangleShape2D" id="R416x32"]
 size = Vector2(416, 32)
@@ -3410,11 +3415,62 @@ sprite_frames = ExtResource("r55_freya_frames")
 lines = PackedStringArray("You've come a long way, racer. Everyone does, in the end. Vetrassa's where the roads stop.", "Captain of the King's Guard. Which mostly means guarding an empty chair. My father hasn't sat in it in months. He travels.", "My brother cooks. My other brother hides. My mother counts. I stand on these steps with a sword and wait for someone to bring the whole set up them.", "The Steward will see you in the throne room if you hold all of it. Not before. He's very particular about 'all'.", "There's a ledger in the throne room nobody's allowed to read but the King. I've read it. Don't ask me what's in it. Not yet.")
 wander_radius = 30.0
 
+[node name="Npc_odile" parent="." instance=ExtResource("r54_npc")]
+position = Vector2(276, -28)
+npc_id = &"odile"
+display_name = "Odile"
+sprite_frames = ExtResource("r56_odile_frames")
+lines = PackedStringArray("Flowers! Flowers for the winner, flowers for the loser, flowers for the Steward, who never buys any.", "Blue for the sea, white for the palace, yellow for luck. Racers always buy yellow. It never helps.", "I sell a bunch to the Duke's man every evening, for the Duke's table at Chef's. Always lilies. Lilies are for funerals where I'm from.", "Captain Freya bought a single white rose once. Stood on the steps all day with it. Nobody came.")
+wander_radius = 0.0
+out_from = 7.0
+out_to = 20.0
+
+[node name="Npc_harrow" parent="." instance=ExtResource("r54_npc")]
+position = Vector2(630, 428)
+npc_id = &"harrow"
+display_name = "Harrow"
+sprite_frames = ExtResource("r57_harrow_frames")
+lines = PackedStringArray("Customs. Everything that comes into Vetrassa by sea or by road goes through my book. Everything.", "Well. Nearly everything. Company cargo comes through by order, duty waived. I'm told it's salt.", "Thirty years in this coat. I've stamped every cargo on the north coast, and I've never once been allowed to open a Company crate.", "The carts from the mountain road come down after midnight. I'm told to be asleep. I'm a very good sleeper.")
+wander_radius = 0.0
+out_from = 6.0
+out_to = 21.0
+
+[node name="Npc_bastien" parent="." instance=ExtResource("r54_npc")]
+position = Vector2(-470, -22)
+npc_id = &"bastien"
+display_name = "Bastien"
+sprite_frames = ExtResource("r58_bastien_frames")
+lines = PackedStringArray("A table outside? Monsieur Chef doesn't serve outside. These tables are for looking at. Very elegant looking.", "The Duke's party in the alcove again tonight. Three Company gentlemen, the lilies, and nobody pays. It goes on 'the account'.", "Chef shouts at me in four languages. I only speak two of them. It's very efficient.", "Racers come to Chef's to celebrate. They usually can't afford the bread. I give them the bread anyway, don't tell him.")
+wander_radius = 30.0
+out_from = 10.0
+out_to = 23.5
+
+[node name="Npc_tibby" parent="." instance=ExtResource("r54_npc")]
+position = Vector2(-540, 64)
+npc_id = &"tibby"
+display_name = "Tibby"
+sprite_frames = ExtResource("r59_tibby_frames")
+lines = PackedStringArray("That's the first king. Mama says he gathered the whole island in his paws. I think he's got cards in them.", "Are you a racer? Are you going to be king? Can I come?", "My paper boat goes all the way to the mainland. That's where the big ship goes too. It goes at night.", "I'm not allowed on the palace steps. The Captain says I can when I'm bigger. She says it every day.")
+wander_radius = 30.0
+sprite_offset_y = 8
+out_from = 8.0
+out_to = 19.0
+
+[node name="Npc_marguerite" parent="." instance=ExtResource("r54_npc")]
+position = Vector2(-100, 438)
+npc_id = &"marguerite"
+display_name = "Marguerite"
+sprite_frames = ExtResource("r60_marguerite_frame")
+lines = PackedStringArray("Fresh off the boats! Herring, mackerel, crab with all its legs! Mostly all its legs!", "The north sea's cold and the fish are angry. Makes 'em taste better. Ask Chef, he buys from me.", "Halmeer fish is all salt-fish now, they say. Funny: I've never seen a salt-fish come up the coast.", "Racers! Always running, never eating. Have a crab. Go on, it won't bite. Much.")
+wander_radius = 0.0
+out_from = 5.0
+out_to = 18.0
+
 [node name="Npc_guard0" parent="." instance=ExtResource("r54_npc")]
 position = Vector2(-64, -160)
 npc_id = &"kings_guard"
 display_name = "King's Guard"
-sprite_frames = ExtResource("r56_kings_guard_fram")
+sprite_frames = ExtResource("r61_kings_guard_fram")
 lines = PackedStringArray("The palace terrace is open to racers. Mind the steps; they've been worn by a lot of hopeful feet.")
 wander_radius = 0.0
 
@@ -3422,7 +3478,7 @@ wander_radius = 0.0
 position = Vector2(64, -160)
 npc_id = &"kings_guard"
 display_name = "King's Guard"
-sprite_frames = ExtResource("r56_kings_guard_fram")
+sprite_frames = ExtResource("r61_kings_guard_fram")
 lines = PackedStringArray("Only one of you ever goes up those steps with a full binder. The rest come back down.")
 wander_radius = 0.0
 
@@ -3430,50 +3486,50 @@ wander_radius = 0.0
 position = Vector2(-70, -390)
 npc_id = &"kings_guard"
 display_name = "King's Guard"
-sprite_frames = ExtResource("r56_kings_guard_fram")
+sprite_frames = ExtResource("r61_kings_guard_fram")
 lines = PackedStringArray("The throne room. The Steward's inside.")
 wander_radius = 0.0
 
 [node name="Read0" type="Node2D" parent="."]
 position = Vector2(50, 100)
-script = ExtResource("r57_readable")
+script = ExtResource("r62_readable")
 title = "The Crown Square fountain"
 lines = PackedStringArray("The same fountain as Kalmora's, stone for stone: the two ports were built by the same first king, at the two ends of his island.", "Round the rim, in old letters: 'WHAT IS GATHERED AT ONE END IS CROWNED AT THE OTHER.'")
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(-200, 200)
-script = ExtResource("r57_readable")
+script = ExtResource("r62_readable")
 title = "The race board"
 lines = PackedStringArray("A board by the fountain, freshly painted: 'THE RACE. Present the complete set to the Steward of the Set in the throne room. The first to do so is owed what was promised.'", "What was promised isn't written anywhere. Underneath, someone has chalked: 'riches beyond your wildest dreams'. Someone else has chalked: 'ask what they cost'.")
 
 [node name="Read2" type="Node2D" parent="."]
 position = Vector2(-360, -90)
-script = ExtResource("r57_readable")
+script = ExtResource("r62_readable")
 title = "A brass plate by a door"
 lines = PackedStringArray("A polished brass plate: 'ASHCOMBE & SONS. Factors to the Duskara Mining Company. By appointment of the Crown.' Four generations of names engraved beneath it.", "In the window, a family portrait: a stern old matriarch, and beside her a small round figure in a layered plum cloak, clutching a pack stuffed so full of cards it won't close.")
 
 [node name="Read3" type="Node2D" parent="."]
 position = Vector2(330, -90)
-script = ExtResource("r57_readable")
+script = ExtResource("r62_readable")
 title = "A crest over a door"
 lines = PackedStringArray("A coat of arms carved over the door of the grandest townhouse on the square: a dachshund's head over a crossed pick. The Duke's. The same mark as the seal on the Frisalle letters.")
 
 [node name="Read4" type="Node2D" parent="."]
 position = Vector2(500, 420)
-script = ExtResource("r57_readable")
+script = ExtResource("r62_readable")
 title = "The customs house ledger"
 lines = PackedStringArray("A ledger chained to a lectern by the cargo doors. 'Arrivals: cards, uncut, from D.M.C. (north road, by the shoulder). Duty: waived, by order.' By whose order isn't written.")
 
 [node name="Chest_vetrassa_pier" type="StaticBody2D" parent="."]
 position = Vector2(-720, 720)
-script = ExtResource("r58_chest")
+script = ExtResource("r63_chest")
 chest_id = &"vetrassa_vetrassa_pier"
 card_id = &""
 gold = 60
 item_id = &"healers_tonic"
 item_count = 1
-closed_texture = ExtResource("r59_chest")
-open_texture = ExtResource("r60_chest_open")
+closed_texture = ExtResource("r64_chest")
+open_texture = ExtResource("r65_chest_open")
 
 [node name="Base" type="CollisionShape2D" parent="Chest_vetrassa_pier"]
 position = Vector2(0, -5)
@@ -3481,11 +3537,11 @@ shape = SubResource("R30x10")
 
 [node name="FishingSpot0" type="Node2D" parent="."]
 position = Vector2(-660, 740)
-script = ExtResource("r61_fishing_spot")
+script = ExtResource("r66_fishing_spot")
 
 [node name="StringLights0" type="Node2D" parent="."]
 position = Vector2(-260, -44)
-script = ExtResource("r62_string_lights")
+script = ExtResource("r67_string_lights")
 to = Vector2(520, 0)
 sag = 16
 count = 23
