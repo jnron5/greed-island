@@ -1586,7 +1586,7 @@ VETRASSA = {
         ([(0, CROWN[1] - 60), (0, -200)], 30),                                                    # up to the grand stairs
         ([(0, -320), (0, -410)], 34),                                                             # the palace approach
     ],
-    "plazas": [(CROWN[0], CROWN[1], 290, 120), (0, -350, 210, 70), (-600, 40, 110, 50)],
+    "plazas": [(CROWN[0], CROWN[1], 290, 120), (0, -350, 260, 72), (-600, 40, 110, 50), (-380, -470, 110, 80), (380, -470, 110, 80)],
     "docks": [(-660, 470, -610, 760), (-25, 470, 25, 760), (610, 470, 660, 760), (-740, 700, -530, 740)],
     "dock_rails": True,
     "afloat": [(K2 + "props/rowboat.png", (-580, 600), False), (K2 + "props/rowboat.png", (-690, 560), True),
@@ -1607,7 +1607,7 @@ VETRASSA = {
     "spawns": {"from_frisalle": (900, 0), "town": (CROWN[0] + 120, CROWN[1] + 40)},
     "rival_spots": {"runner": (820, -30), "raider": (820, 40), "hoarder": (760, 0)},
     "buildings": [
-        {"node": "HousePalace", "sprite": VT + "palace.png", "pos": (0, -410), "foot": 136,
+        {"node": "HousePalace", "sprite": VT + "palace.png", "pos": (0, -410), "foot": 240,
          "door": "res://scenes/world/interiors/vetrassa_palace.tscn", "back": "from_housepalace"},
         {"node": "HouseRestaurant", "sprite": VT + "restaurant.png", "pos": (-520, NROW), "foot": 122,
          "door": "res://scenes/world/interiors/vetrassa_restaurant.tscn", "back": "from_houserestaurant"},
@@ -1648,9 +1648,14 @@ VETRASSA = {
         + [{"sprite": VTP + "flower_cart.png", "pos": (240, -40), "foot": (36, 10)}]
         # Fish off the boats, sold on the quay.
         + [{"sprite": VTP + s, "pos": p, "foot": (54, 14)} for s, p in [("stall_c.png", (-100, 410)), ("stall_a.png", (40, 410))]]
-        # The palace terrace: royal banners either side of the approach, planters.
-        + [{"sprite": VTP + "royal_banner.png", "pos": p, "foot": (10, 6)} for p in [(-150, -300), (150, -300), (-90, -440), (90, -440)]]
-        + [{"sprite": K2 + "props/potted_palm.png", "pos": p, "foot": (14, 6)} for p in [(-110, -380), (110, -380)]]
+        # The palace terrace: royal banners either side of the approach, and the
+        # palace gardens either side of it: a fountain in each, box hedges round
+        # them, cypress planters in rows.
+        + [{"sprite": VTP + "royal_banner.png", "pos": p, "foot": (10, 6)} for p in [(-150, -300), (150, -300), (-200, -400), (200, -400)]]
+        + [{"sprite": VTP + "palace_fountain.png", "pos": p, "foot": (60, 26)} for p in [(-380, -460), (380, -460)]]
+        + [{"sprite": VTP + "box_hedge.png", "pos": (gx + dx, gy), "foot": (70, 14)} for gx in (-380, 380)
+           for dx, gy in [(-60, -540), (60, -540), (-60, -390), (60, -390)]]
+        + [{"sprite": VTP + "cypress_planter.png", "pos": (x, -300), "foot": (24, 12)} for x in (-560, -480, -400, 400, 480, 560)]
     ),
     "instances": [("res://scenes/world/props/kalmora_fountain.tscn", (CROWN[0], CROWN[1] + 10), 1.0)],
     "merchant": ((740, -36), "assets/sprites/tiles/kalmora/market_stall.png"),
@@ -1760,7 +1765,7 @@ HALMEER = {
         ([(-620, -20), (-700, 120), (-740, 330)], 18),                                            # out to the lighthouse on the cape
         ([(-200, -20), (-200, 30)], 18), ([(200, -20), (200, 30)], 18),                           # down to the quay stairs
         ([(-420, -40), (-420, -170)], 16), ([(380, -40), (380, -170)], 16),                       # up to the heath
-        ([(-420, -200), (-640, -230)], 14),                                                       # along the heath to the cut
+        ([(-560, -20), (-680, -96)], 14),                                                         # to the smugglers' cut at the cliff foot
     ],
     "docks": [(-70, 240, -30, 490), (70, 240, 110, 450), (-130, 460, -30, 490)],
     "dock_rails": True,
