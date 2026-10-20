@@ -146,6 +146,8 @@ static func pages(ending: StringName, winner: StringName, rivals: Array[StringNa
 				"text": "Your first order was read out on the Company terrace in Duskara: the North Shaft closed, the ledgers of names opened, every debt in the Company store forgiven. The foreman read it twice. Then she unlocked the gate herself." })
 			out.append({ "art": "dawn", "title": "What it cost",
 				"text": "The card trade collapsed within a season. Seabright's lamps went dark, the Duke left for the mainland with the Grand's top floor packed in crates, and every town complained that it was poorer. Nobody new went down the shaft. The ones who came up went home, or north, or to a well in Duskara where their names are written on the wall." })
+			out.append({ "art": "vetrassa", "title": "The son who hid",
+				"text": "That spring the escape line's way-station in the Frost Grotto was packed up and left empty, a moss lantern still burning on the crate. A week later a tall black shepherd walked up the palace steps in Vetrassa for the first time in twenty years. Freya let him past without a word." })
 			out.append({ "art": "throne", "title": "The last race",
 				"text": "There was no next race. The set was broken up and given away, a card to every town. The Throne Ledger ends with a page in your hand: 'Seam closed. Count kept.'" })
 		Ending.WAGES:
@@ -153,6 +155,8 @@ static func pages(ending: StringName, winner: StringName, rivals: Array[StringNa
 				"text": "You kept the mine. The island needs its cards, you told the court, and the laborers need their bread. But the Company would pay wages now, in coin, not scrip, and no child would go down the shaft. You signed it, and you meant it." })
 			out.append({ "art": "new_shaft", "title": "And yet",
 				"text": "The Company paid the wages, and raised the price of water. The children stopped going down the North Shaft; a new shaft opened far out in the dunes, where nobody had thought to write an order about it. Every season your inspectors' reports came back clean. You learned to read them quickly." })
+			out.append({ "art": "shaft", "title": "The foreman",
+				"text": "The foreman paid the wages to the copper, and counted every head in and every head out, as she always had. She sent the King one letter that year. It said only: 'You see? They are fed. They are counted. I did protect them.'" })
 			out.append({ "art": "throne", "title": "The Throne Ledger",
 				"text": "'Seam worked. Count better.' It was the truest thing any king had written there, and it was still not enough." })
 		_:
