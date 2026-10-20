@@ -1858,6 +1858,18 @@ HALMEER = {
             "On a still night you can hear oars under the cape. Seals, the Company man says. Seals don't row.",
             "Nobody comes to Halmeer unless they're lost, a racer, or the Company. You're not lost, are you?",
         ]},
+        {"id": "sorrel", "name": "Old Sorrel", "pos": (580, 215), "wander": 0, "out": (6.0, 21.0), "lines": [
+            "Seventy years on this cliff. I've buried more fishermen than I've caught fish. That stone there's got all their names.",
+            "The newest line on the stone, I cut myself. 'And the ones who rowed out on the dark nights.' Nobody told me to. Nobody told me not to.",
+            "My boy rowed for the Company once. Came back with his pockets full and never said a word about it. Never went out again, either.",
+            "Wind's from the south-west. It's always from the south-west. The day it isn't, I'll know I'm dead.",
+        ]},
+        {"id": "pella", "name": "Pella", "pos": (40, 228), "wander": 0, "out": (7.0, 19.0), "lines": [
+            "Mind the nets, they're drying. Everything in Halmeer is either drying or getting wet again.",
+            "Mum keeps the Gull's Rest. Dad rowed on the barge. Now it's just us and the fish pie.",
+            "Somebody keeps cutting the nets out by the reef. Clean cuts, like a knife. The Company man says it's sharks.",
+            "Ferro says there's a lemon tart at Seabright. A whole tart, just for eating. I don't believe him.",
+        ]},
         {"id": "grisel", "name": "Grisel", "pos": (255, 226), "wander": 0, "lines": [
             "Duskara Mining Company, Halmeer office. Salt and fish. Mostly salt. Please don't lean on the crates.",
             "I'm not permitted to discuss the salt house's contents. Salt. The contents are salt.",

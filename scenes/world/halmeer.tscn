@@ -1,4 +1,4 @@
-[gd_scene load_steps=139 format=3]
+[gd_scene load_steps=141 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/zone.gd" id="1_zone"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="2_player"]
@@ -48,14 +48,16 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/tuft_flowers_sway.png" id="r37_tuft_flowers_swa"]
 [ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="r38_npc"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/ferro/ferro_frames.tres" id="r39_ferro_frames"]
-[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/grisel/grisel_frames.tres" id="r40_grisel_frames"]
-[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="r41_readable"]
-[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="r42_chest"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="r43_chest"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="r44_chest_open"]
-[ext_resource type="Script" path="res://scripts/systems/fishing_spot.gd" id="r45_fishing_spot"]
-[ext_resource type="Script" path="res://scripts/world/gull_flock.gd" id="r46_gull_flock"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/gull_flap.png" id="r47_gull_flap"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/sorrel/sorrel_frames.tres" id="r40_sorrel_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/pella/pella_frames.tres" id="r41_pella_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/npcs/grisel/grisel_frames.tres" id="r42_grisel_frames"]
+[ext_resource type="Script" path="res://scripts/systems/readable.gd" id="r43_readable"]
+[ext_resource type="Script" path="res://scripts/systems/chest.gd" id="r44_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest.png" id="r45_chest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/thornveil/props/chest_open.png" id="r46_chest_open"]
+[ext_resource type="Script" path="res://scripts/systems/fishing_spot.gd" id="r47_fishing_spot"]
+[ext_resource type="Script" path="res://scripts/world/gull_flock.gd" id="r48_gull_flock"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/anim/gull_flap.png" id="r49_gull_flap"]
 
 [sub_resource type="RectangleShape2D" id="R480x64"]
 size = Vector2(480, 64)
@@ -2790,40 +2792,60 @@ sprite_frames = ExtResource("r39_ferro_frames")
 lines = PackedStringArray("Rough sea today. It's always rough. Halmeer's the end of the coast; the sea takes it personally.", "The Company buys our catch for salt-fish. Never seen them salt a single fish. Never seen them eat one either.", "Old Nessa up on the cape keeps the light. Most nights. Ask her about the other nights, if you're brave.", "On a still night you can hear oars under the cape. Seals, the Company man says. Seals don't row.", "Nobody comes to Halmeer unless they're lost, a racer, or the Company. You're not lost, are you?")
 wander_radius = 50.0
 
+[node name="Npc_sorrel" parent="." instance=ExtResource("r38_npc")]
+position = Vector2(580, 215)
+npc_id = &"sorrel"
+display_name = "Old Sorrel"
+sprite_frames = ExtResource("r40_sorrel_frames")
+lines = PackedStringArray("Seventy years on this cliff. I've buried more fishermen than I've caught fish. That stone there's got all their names.", "The newest line on the stone, I cut myself. 'And the ones who rowed out on the dark nights.' Nobody told me to. Nobody told me not to.", "My boy rowed for the Company once. Came back with his pockets full and never said a word about it. Never went out again, either.", "Wind's from the south-west. It's always from the south-west. The day it isn't, I'll know I'm dead.")
+wander_radius = 0.0
+out_from = 6.0
+out_to = 21.0
+
+[node name="Npc_pella" parent="." instance=ExtResource("r38_npc")]
+position = Vector2(40, 228)
+npc_id = &"pella"
+display_name = "Pella"
+sprite_frames = ExtResource("r41_pella_frames")
+lines = PackedStringArray("Mind the nets, they're drying. Everything in Halmeer is either drying or getting wet again.", "Mum keeps the Gull's Rest. Dad rowed on the barge. Now it's just us and the fish pie.", "Somebody keeps cutting the nets out by the reef. Clean cuts, like a knife. The Company man says it's sharks.", "Ferro says there's a lemon tart at Seabright. A whole tart, just for eating. I don't believe him.")
+wander_radius = 0.0
+out_from = 7.0
+out_to = 19.0
+
 [node name="Npc_grisel" parent="." instance=ExtResource("r38_npc")]
 position = Vector2(255, 226)
 npc_id = &"grisel"
 display_name = "Grisel"
-sprite_frames = ExtResource("r40_grisel_frames")
+sprite_frames = ExtResource("r42_grisel_frames")
 lines = PackedStringArray("Duskara Mining Company, Halmeer office. Salt and fish. Mostly salt. Please don't lean on the crates.", "I'm not permitted to discuss the salt house's contents. Salt. The contents are salt.", "Vetrassa had theatres. Halmeer has gulls. I have been very patient with the gulls.")
 wander_radius = 0.0
 
 [node name="Read0" type="Node2D" parent="."]
 position = Vector2(-80, 140)
-script = ExtResource("r41_readable")
+script = ExtResource("r43_readable")
 title = "The tide board"
 lines = PackedStringArray("A slate board on the quay with the month's tides chalked in neat columns. Beside some nights, a little mark: a pick. The same nights, every month: no moon.", "Underneath, in a different hand: 'LIGHT DARK. By order. D.M.C.'")
 
 [node name="Read1" type="Node2D" parent="."]
 position = Vector2(160, 224)
-script = ExtResource("r41_readable")
+script = ExtResource("r43_readable")
 title = "The salt house door"
 lines = PackedStringArray("The Company's warehouse: 'D.M.C. SALT AND FISH'. The doors are barred and padlocked, and the padlock is new. There's no smell of fish at all.", "Through a gap in the boards, crates stamped like the ones on Kalmora's quay. On one the lid's been prised up: no salt. Cards, uncut, packed in straw.")
 
 [node name="Read2" type="Node2D" parent="."]
 position = Vector2(620, 200)
-script = ExtResource("r41_readable")
+script = ExtResource("r43_readable")
 title = "A memorial on the cliff"
 lines = PackedStringArray("A stone on the cliff edge with the names of Halmeer's drowned, a century of them. The newest line is cut shallow, in a hurry: 'and the ones who rowed out on the dark nights'.")
 
 [node name="Chest_halmeer_cape" type="StaticBody2D" parent="."]
 position = Vector2(-720, 450)
-script = ExtResource("r42_chest")
+script = ExtResource("r44_chest")
 chest_id = &"halmeer_halmeer_cape"
 card_id = &"smugglers_knot"
 gold = 20
-closed_texture = ExtResource("r43_chest")
-open_texture = ExtResource("r44_chest_open")
+closed_texture = ExtResource("r45_chest")
+open_texture = ExtResource("r46_chest_open")
 
 [node name="Base" type="CollisionShape2D" parent="Chest_halmeer_cape"]
 position = Vector2(0, -5)
@@ -2831,14 +2853,14 @@ shape = SubResource("R30x10")
 
 [node name="Chest_halmeer_heath" type="StaticBody2D" parent="."]
 position = Vector2(120, -300)
-script = ExtResource("r42_chest")
+script = ExtResource("r44_chest")
 chest_id = &"halmeer_halmeer_heath"
 card_id = &""
 gold = 35
 item_id = &"smoked_fish"
 item_count = 1
-closed_texture = ExtResource("r43_chest")
-open_texture = ExtResource("r44_chest_open")
+closed_texture = ExtResource("r45_chest")
+open_texture = ExtResource("r46_chest_open")
 
 [node name="Base" type="CollisionShape2D" parent="Chest_halmeer_heath"]
 position = Vector2(0, -5)
@@ -2846,20 +2868,20 @@ shape = SubResource("R30x10")
 
 [node name="FishingSpot0" type="Node2D" parent="."]
 position = Vector2(-110, 476)
-script = ExtResource("r45_fishing_spot")
+script = ExtResource("r47_fishing_spot")
 
 [node name="Gulls0" type="Node2D" parent="."]
 position = Vector2(0, 300)
-script = ExtResource("r46_gull_flock")
-strip = ExtResource("r47_gull_flap")
+script = ExtResource("r48_gull_flock")
+strip = ExtResource("r49_gull_flap")
 count = 5
 radius = Vector2(220, 90)
 seed = 3
 
 [node name="Gulls1" type="Node2D" parent="."]
 position = Vector2(-700, 560)
-script = ExtResource("r46_gull_flock")
-strip = ExtResource("r47_gull_flap")
+script = ExtResource("r48_gull_flock")
+strip = ExtResource("r49_gull_flap")
 count = 3
 radius = Vector2(120, 60)
 seed = 4
