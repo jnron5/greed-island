@@ -55,8 +55,8 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora/market_stall.png" id="r44_market_stall"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/kalmora2/props/rowboat.png" id="r45_rowboat"]
 [ext_resource type="PackedScene" path="res://scenes/world/props/kalmora_fountain.tscn" id="r46_kalmora_fountain"]
-[ext_resource type="PackedScene" path="res://scenes/world/props/forest_fir.tscn" id="r47_forest_fir"]
-[ext_resource type="PackedScene" path="res://scenes/world/props/forest_oak.tscn" id="r48_forest_oak"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/forest_oak.tscn" id="r47_forest_oak"]
+[ext_resource type="PackedScene" path="res://scenes/world/props/forest_fir.tscn" id="r48_forest_fir"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/flowers.png" id="r49_flowers"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/grass_clump.png" id="r50_grass_clump"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/forest/props/berry_bush.png" id="r51_berry_bush"]
@@ -2146,478 +2146,478 @@ texture = ExtResource("r45_rowboat")
 position = Vector2(0, 70)
 scale = Vector2(1.0, 1.0)
 
-[node name="Tree0" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree0" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-945, -763)
 
-[node name="Tree1" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree1" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-912, -769)
 
-[node name="Tree2" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree2" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-884, -768)
 
-[node name="Tree3" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree3" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-846, -770)
 
-[node name="Tree4" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree4" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-820, -768)
 
-[node name="Tree5" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree5" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-775, -765)
 
-[node name="Tree6" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree6" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-749, -774)
 
-[node name="Tree7" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree7" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-711, -771)
 
-[node name="Tree8" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree8" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-683, -774)
 
-[node name="Tree9" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree9" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-638, -770)
 
-[node name="Tree10" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree10" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-607, -772)
 
-[node name="Tree11" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree11" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-576, -762)
 
-[node name="Tree12" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree12" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-547, -768)
 
-[node name="Tree13" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree13" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-507, -764)
 
-[node name="Tree14" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree14" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-475, -771)
 
-[node name="Tree15" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree15" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-445, -774)
 
-[node name="Tree16" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree16" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-407, -772)
 
-[node name="Tree17" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree17" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-369, -767)
 
-[node name="Tree18" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree18" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-307, -764)
 
-[node name="Tree19" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree19" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-268, -766)
 
-[node name="Tree20" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree20" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-235, -763)
 
-[node name="Tree21" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree21" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-208, -773)
 
-[node name="Tree22" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree22" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-172, -767)
 
-[node name="Tree23" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree23" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-133, -766)
 
-[node name="Tree24" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree24" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-101, -770)
 
-[node name="Tree25" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree25" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-62, -765)
 
-[node name="Tree26" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree26" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-35, -773)
 
-[node name="Tree27" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree27" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-3, -767)
 
-[node name="Tree28" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree28" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(37, -764)
 
-[node name="Tree29" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree29" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(68, -763)
 
-[node name="Tree30" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree30" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(100, -773)
 
-[node name="Tree31" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree31" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(138, -763)
 
-[node name="Tree32" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree32" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(175, -768)
 
-[node name="Tree33" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree33" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(207, -768)
 
-[node name="Tree34" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree34" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(246, -765)
 
-[node name="Tree35" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree35" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(280, -764)
 
-[node name="Tree36" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree36" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(313, -769)
 
-[node name="Tree37" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree37" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(340, -763)
 
-[node name="Tree38" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree38" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(371, -770)
 
-[node name="Tree39" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree39" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(406, -773)
 
-[node name="Tree40" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree40" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(440, -772)
 
-[node name="Tree41" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree41" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(478, -769)
 
-[node name="Tree42" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree42" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(512, -773)
 
-[node name="Tree43" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree43" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(551, -774)
 
-[node name="Tree44" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree44" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(578, -765)
 
-[node name="Tree45" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree45" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(616, -770)
 
-[node name="Tree46" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree46" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(645, -770)
 
-[node name="Tree47" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree47" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(678, -764)
 
-[node name="Tree48" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree48" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(718, -770)
 
-[node name="Tree49" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree49" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(753, -773)
 
-[node name="Tree50" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree50" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(789, -772)
 
-[node name="Tree51" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree51" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(822, -771)
 
-[node name="Tree52" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree52" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(853, -762)
 
-[node name="Tree53" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree53" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(886, -768)
 
-[node name="Tree54" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree54" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(925, -768)
 
-[node name="Tree55" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree55" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(958, -763)
 
-[node name="Tree56" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree56" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-942, -734)
 
-[node name="Tree57" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree57" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-943, -707)
 
-[node name="Tree58" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree58" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(948, -704)
 
-[node name="Tree59" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree59" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-946, -669)
 
-[node name="Tree60" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree60" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(943, -666)
 
-[node name="Tree61" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree61" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-948, -642)
 
-[node name="Tree62" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree62" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(946, -630)
 
-[node name="Tree63" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree63" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-949, -599)
 
-[node name="Tree64" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree64" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(952, -572)
 
-[node name="Tree65" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree65" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-952, -539)
 
-[node name="Tree66" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree66" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(943, -534)
 
-[node name="Tree67" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree67" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-942, -497)
 
-[node name="Tree68" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree68" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(947, -495)
 
-[node name="Tree69" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree69" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-944, -471)
 
-[node name="Tree70" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree70" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(949, -462)
 
-[node name="Tree71" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree71" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-941, -435)
 
-[node name="Tree72" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree72" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(947, -430)
 
-[node name="Tree73" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree73" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-947, -396)
 
-[node name="Tree74" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree74" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(946, -404)
 
-[node name="Tree75" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree75" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-940, -370)
 
-[node name="Tree76" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree76" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(950, -366)
 
-[node name="Tree77" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree77" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-940, -332)
 
-[node name="Tree78" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree78" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(940, -330)
 
-[node name="Tree79" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree79" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-940, -297)
 
-[node name="Tree80" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree80" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-865, -731)
 
-[node name="Tree81" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree81" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-828, -728)
 
-[node name="Tree82" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree82" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-795, -746)
 
-[node name="Tree83" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree83" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-745, -743)
 
-[node name="Tree84" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree84" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-703, -745)
 
-[node name="Tree85" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree85" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-662, -728)
 
-[node name="Tree86" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree86" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-640, -744)
 
-[node name="Tree87" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree87" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-594, -726)
 
-[node name="Tree88" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree88" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-547, -738)
 
-[node name="Tree89" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree89" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-514, -727)
 
-[node name="Tree90" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree90" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-461, -727)
 
-[node name="Tree91" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree91" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-432, -746)
 
-[node name="Tree92" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree92" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-382, -736)
 
-[node name="Tree93" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree93" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-315, -727)
 
-[node name="Tree94" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree94" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-262, -728)
 
-[node name="Tree95" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree95" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-188, -739)
 
-[node name="Tree96" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree96" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-147, -730)
 
-[node name="Tree97" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree97" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-118, -726)
 
-[node name="Tree98" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree98" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-69, -727)
 
-[node name="Tree99" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree99" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-37, -738)
 
-[node name="Tree100" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree100" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(1, -728)
 
-[node name="Tree101" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree101" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(89, -732)
 
-[node name="Tree102" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree102" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(176, -734)
 
-[node name="Tree103" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree103" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(212, -732)
 
-[node name="Tree104" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree104" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(255, -735)
 
-[node name="Tree105" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree105" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(297, -742)
 
-[node name="Tree106" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree106" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(325, -732)
 
-[node name="Tree107" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree107" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(372, -728)
 
-[node name="Tree108" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree108" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(400, -731)
 
-[node name="Tree109" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree109" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(449, -746)
 
-[node name="Tree110" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree110" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(539, -741)
 
-[node name="Tree111" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree111" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(569, -736)
 
-[node name="Tree112" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree112" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(616, -742)
 
-[node name="Tree113" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree113" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(648, -740)
 
-[node name="Tree114" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree114" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(686, -734)
 
-[node name="Tree115" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree115" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(736, -731)
 
-[node name="Tree116" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree116" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(771, -740)
 
-[node name="Tree117" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree117" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(804, -728)
 
-[node name="Tree118" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree118" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(847, -734)
 
-[node name="Tree119" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree119" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(898, -739)
 
-[node name="Tree120" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree120" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-911, -734)
 
-[node name="Tree121" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree121" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-918, -695)
 
-[node name="Tree122" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree122" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(914, -701)
 
-[node name="Tree123" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree123" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(906, -643)
 
-[node name="Tree124" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree124" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-915, -621)
 
-[node name="Tree125" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree125" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(920, -617)
 
-[node name="Tree126" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree126" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-907, -575)
 
-[node name="Tree127" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree127" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(913, -562)
 
-[node name="Tree128" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree128" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-922, -539)
 
-[node name="Tree129" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree129" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(907, -523)
 
-[node name="Tree130" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree130" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-905, -499)
 
-[node name="Tree131" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree131" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(909, -493)
 
-[node name="Tree132" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree132" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-916, -445)
 
-[node name="Tree133" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree133" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(905, -461)
 
-[node name="Tree134" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree134" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-924, -413)
 
-[node name="Tree135" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree135" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(905, -404)
 
-[node name="Tree136" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree136" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(920, -378)
 
-[node name="Tree137" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree137" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-914, -341)
 
-[node name="Tree138" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree138" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(912, -341)
 
-[node name="Tree139" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree139" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-808, -491)
 
-[node name="Tree140" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree140" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-707, -422)
 
-[node name="Tree141" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree141" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-592, -538)
 
-[node name="Tree142" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree142" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-605, -507)
 
-[node name="Tree143" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree143" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-625, -530)
 
-[node name="Tree144" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree144" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-642, -604)
 
-[node name="Tree145" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree145" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(626, -495)
 
-[node name="Tree146" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree146" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(584, -501)
 
-[node name="Tree147" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree147" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(624, -550)
 
-[node name="Tree148" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree148" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(794, -565)
 
-[node name="Tree149" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree149" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(596, -531)
 
-[node name="Tree150" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree150" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-788, -392)
 
-[node name="Tree151" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree151" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-816, -378)
 
-[node name="Tree152" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree152" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(-842, -339)
 
-[node name="Tree153" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree153" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(816, -387)
 
-[node name="Tree154" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree154" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(780, -455)
 
-[node name="Tree155" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree155" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(769, -363)
 
-[node name="Tree156" parent="." instance=ExtResource("r47_forest_fir")]
+[node name="Tree156" parent="." instance=ExtResource("r48_forest_fir")]
 position = Vector2(860, -397)
 
-[node name="Tree157" parent="." instance=ExtResource("r48_forest_oak")]
+[node name="Tree157" parent="." instance=ExtResource("r47_forest_oak")]
 position = Vector2(-295, -706)
 
 [node name="Under0" type="Sprite2D" parent="."]
@@ -3447,12 +3447,18 @@ title = "The race board"
 lines = PackedStringArray("A board by the fountain, freshly painted: 'THE RACE. Present the complete set to the Steward of the Set in the throne room. The first to do so is owed what was promised.'", "What was promised isn't written anywhere. Underneath, someone has chalked: 'riches beyond your wildest dreams'. Someone else has chalked: 'ask what they cost'.")
 
 [node name="Read2" type="Node2D" parent="."]
+position = Vector2(-360, -90)
+script = ExtResource("r57_readable")
+title = "A brass plate by a door"
+lines = PackedStringArray("A polished brass plate: 'ASHCOMBE & SONS. Factors to the Duskara Mining Company. By appointment of the Crown.' Four generations of names engraved beneath it.", "In the window, a family portrait: a stern old matriarch, and beside her a small round figure in a layered plum cloak, clutching a pack stuffed so full of cards it won't close.")
+
+[node name="Read3" type="Node2D" parent="."]
 position = Vector2(330, -90)
 script = ExtResource("r57_readable")
 title = "A crest over a door"
 lines = PackedStringArray("A coat of arms carved over the door of the grandest townhouse on the square: a dachshund's head over a crossed pick. The Duke's. The same mark as the seal on the Frisalle letters.")
 
-[node name="Read3" type="Node2D" parent="."]
+[node name="Read4" type="Node2D" parent="."]
 position = Vector2(500, 420)
 script = ExtResource("r57_readable")
 title = "The customs house ledger"

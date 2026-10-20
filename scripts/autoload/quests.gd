@@ -573,7 +573,7 @@ func dialogue_for(npc_id: StringName) -> PackedStringArray:
 						"And signed 'D.', with a dachshund's head on the wax. The factors' charming friend. The Duke.",
 					])
 					if GameState.active_rivals.has(&"hoarder"):
-						lines.append("...And the Vetrassa factors are the Hoarder's family's people. The money your rival races on has been coming over my scales all winter.")
+						lines.append("...And the Vetrassa factors are the Hoarder's family's people. Ashcombe and Sons, on Vetrassa's square. The money your rival races on has been coming over my scales all winter.")
 					lines.append_array([
 						"Somebody brought the pass down so nobody would see the carts go by. Ottilie's Anselm was on the pass that night.",
 						"Take this. The second seal. If it's in your binder, it isn't in theirs. It's the only thing I can think to do.",

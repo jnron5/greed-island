@@ -1686,6 +1686,10 @@ VETRASSA = {
             "A board by the fountain, freshly painted: 'THE RACE. Present the complete set to the Steward of the Set in the throne room. The first to do so is owed what was promised.'",
             "What was promised isn't written anywhere. Underneath, someone has chalked: 'riches beyond your wildest dreams'. Someone else has chalked: 'ask what they cost'.",
         ]),
+        ("A brass plate by a door", (-360, NROW + 20), [
+            "A polished brass plate: 'ASHCOMBE & SONS. Factors to the Duskara Mining Company. By appointment of the Crown.' Four generations of names engraved beneath it.",
+            "In the window, a family portrait: a stern old matriarch, and beside her a small round figure in a layered plum cloak, clutching a pack stuffed so full of cards it won't close.",
+        ]),
         ("A crest over a door", (330, NROW + 20), [
             "A coat of arms carved over the door of the grandest townhouse on the square: a dachshund's head over a crossed pick. The Duke's. The same mark as the seal on the Frisalle letters.",
         ]),
